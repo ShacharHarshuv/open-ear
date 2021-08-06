@@ -1,0 +1,8 @@
+{
+  "name": "EarBot",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "2347bacf"
+}
