@@ -35,7 +35,8 @@
             "prefix": "app",
             "style": "camelCase"
           }
-        ]
+        ],
+        "@typescript-eslint/naming-convention": false
       }
     },
     {
