@@ -5,7 +5,7 @@
   "homepage": "https://ionicframework.com/",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ionic serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -27,6 +27,7 @@
     "@capacitor/status-bar": "1.0.2",
     "@ionic/angular": "^5.5.2",
     "rxjs": "~6.6.0",
+    "tone": "^14.7.77",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
   },
