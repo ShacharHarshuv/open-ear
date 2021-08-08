@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Inbox
+      EarBot
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -15,8 +15,8 @@
     </ion-toolbar>
   </ion-header>
 
-<!--  <ion-list>-->
-<!--    <app-message *ngFor="let message of getMessages()" [message]="message"></app-message>-->
-<!--  </ion-list>-->
+  <ion-list>
+    <app-exercise-summary *ngFor="let exercise of exerciseList" [exercise]="exercise"></app-exercise-summary>
+  </ion-list>
   <ion-button (click)="onPlayClicked()">Play!</ion-button>
 </ion-content>

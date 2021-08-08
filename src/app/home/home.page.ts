@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { PlayerService } from '../services/player.service';
+import { exerciseList } from '../exercise/exercise-list';
+import { IExercise } from '../exercise/IExercise';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +9,8 @@ import { PlayerService } from '../services/player.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  readonly exerciseList: IExercise[] = exerciseList;
+
   constructor(
     private _player: PlayerService,
   ) {
