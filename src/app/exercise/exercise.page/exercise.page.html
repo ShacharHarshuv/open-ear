@@ -4,11 +4,29 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>
-      {{exercise.name}}
+      {{state.name}}
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
+  <ion-button
+    *ngFor="let answer of state.answerList"
+    (click)="onAnswer(answer)"
+    [color]="wrongAnswers.includes(answer) ? 'danger' : answer === rightAnswer ? 'success' : 'light'"
+  >
+    {{answer}}
+  </ion-button>
+  <ion-button
+    (click)="state.playCurrentQuestion()"
+  >
+    Repeat
+  </ion-button>
+  <ion-button
+    [disabled]="!rightAnswer"
+    (click)="nextQuestion()"
+  >
+    Next
+  </ion-button>
+  <ion-button (click)="state.startAudio()">Start Audio</ion-button>
 </ion-content>

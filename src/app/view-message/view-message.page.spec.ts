@@ -5,7 +5,7 @@ import { ViewMessagePageRoutingModule } from './view-message-routing.module';
 
 import { ViewMessagePage } from './view-message.page';
 
-describe('ViewMessagePage', () => {
+xdescribe('ViewMessagePage', () => {
   let component: ViewMessagePage;
   let fixture: ComponentFixture<ViewMessagePage>;
 

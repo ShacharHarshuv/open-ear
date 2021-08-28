@@ -2,7 +2,8 @@ import {
   Component,
   Input
 } from '@angular/core';
-import { IExercise } from '../../../exercise/IExercise';
+import { Exercise } from '../../../exercise/Exercise';
+import IExercise = Exercise.IExercise;
 
 @Component({
   selector: 'app-exercise-summary',

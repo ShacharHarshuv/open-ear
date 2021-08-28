@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { PlayerService } from '../services/player.service';
-import { IExercise } from '../exercise/IExercise';
 import { ExerciseService } from '../exercise/services/exercise.service';
+import { Exercise } from '../exercise/Exercise';
+import IExercise = Exercise.IExercise;
 
 @Component({
   selector: 'app-home',

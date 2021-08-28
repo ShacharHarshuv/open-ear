@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { IExercise } from '../IExercise';
 import * as _ from 'lodash';
 import { IntervalExercise } from '../exercises/IntervalExercise';
+import IExercise = Exercise.IExercise;
+import { Exercise } from '../Exercise';
 
 @Injectable({
   providedIn: 'root'
