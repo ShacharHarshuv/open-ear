@@ -6,7 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 import { HomePageRoutingModule } from './home-routing.module';
 import { MessageComponentModule } from '../message/message.module';
-import { ExerciseSummaryComponent } from '../exercise-summary/exercise-summary.component';
+import { ExerciseSummaryComponent } from './components/exercise-summary/exercise-summary.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { ExerciseSummaryComponent } from '../exercise-summary/exercise-summary.c
     FormsModule,
     IonicModule,
     MessageComponentModule,
-    HomePageRoutingModule
+    HomePageRoutingModule,
+    SharedModule,
   ],
   declarations: [
     HomePage,

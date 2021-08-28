@@ -1,9 +1,8 @@
 import {
   Component,
-  OnInit,
   Input
 } from '@angular/core';
-import { IExercise } from '../exercise/IExercise';
+import { IExercise } from '../../../exercise/IExercise';
 
 @Component({
   selector: 'app-exercise-summary',
@@ -13,4 +12,8 @@ import { IExercise } from '../exercise/IExercise';
 export class ExerciseSummaryComponent {
   @Input()
   exercise: IExercise;
+
+  onClick(): void {
+    console.log('clicked!');
+  }
 }

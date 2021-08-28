@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
+/** TODO: delete, left for an example*/
 @Component({
   selector: 'app-message',
   templateUrl: './message.component.html',

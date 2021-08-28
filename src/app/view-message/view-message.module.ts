@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { ViewMessagePageRoutingModule } from './view-message-routing.module';
 
+/** TODO: delete: left for example*/
 @NgModule({
   imports: [
     CommonModule,
