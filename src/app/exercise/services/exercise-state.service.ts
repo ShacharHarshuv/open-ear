@@ -6,7 +6,7 @@ import { PlayerService } from '../../services/player.service';
 
 @Injectable()
 export class ExerciseStateService {
-  private readonly _exercise: Exercise.IExercise = this._exerciseService.getExercise(this._activatedRoute.snapshot.paramMap.get('id'));
+  private readonly _exercise: Exercise.IExercise = this._exerciseService.getExercise(this._activatedRoute.snapshot.paramMap.get('id')!);
   private _currentQuestion: Exercise.Question = this._exercise.getQuestion();
   readonly name: string = this._exercise.name;
   readonly answerList: string[] = this._exercise.getAnswerList();
