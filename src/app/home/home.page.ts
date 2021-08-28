@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { PlayerService } from '../services/player.service';
-import { exerciseList } from '../exercise/exercise-list';
 import { IExercise } from '../exercise/IExercise';
+import { ExerciseService } from '../exercise/services/exercise.service';
 
 @Component({
   selector: 'app-home',
@@ -9,10 +9,11 @@ import { IExercise } from '../exercise/IExercise';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  readonly exerciseList: IExercise[] = exerciseList;
+  readonly exerciseList: IExercise[] = this._exerciseService.getExerciseList();
 
   constructor(
     private _player: PlayerService,
+    private _exerciseService: ExerciseService,
   ) {
   }
 

@@ -19,7 +19,7 @@ const DEFAULT_VELOCITY: number = 0.7;
 
 export interface INoteEvent {
   notes: Frequency[] | Frequency,
-  duration: Time | Time[],
+  duration: Time,
   time: Time,
   velocity?: NormalRange,
 }
@@ -76,7 +76,7 @@ export class PlayerService {
       this._instrument.triggerAttackRelease(noteEvent.notes, noteEvent.duration, time, noteEvent.velocity || DEFAULT_VELOCITY);
     }), noteEventList).start(0);
 
-    const stoppingTime: Seconds = _.max(noteEventList, noteEvent => Tone.Time(noteEvent.time).toSeconds() + Tone.Time(noteEvent.duration).toSeconds());
+    const stoppingTime: Seconds = _.max(noteEventList.map(noteEvent => Tone.Time(noteEvent.time).toSeconds() + Tone.Time(noteEvent.duration).toSeconds()));
 
     this._currentlyPlayingPartFinishedSchedulerId = Tone.Transport.schedule(() => {
       this._stopCurrentlyPlaying();

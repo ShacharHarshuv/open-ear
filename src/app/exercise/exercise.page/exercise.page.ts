@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { IExercise } from '../IExercise';
+import { ExerciseService } from '../services/exercise.service';
 
 @Component({
   selector: 'app-exercise-page',
@@ -6,5 +9,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./exercise.page.scss'],
 })
 export class ExercisePage {
-  constructor() { }
+  readonly exercise: IExercise = this._exerciseService.getExercise(this._activatedRoute.snapshot.paramMap.get('id'));
+
+  constructor(
+    private _activatedRoute: ActivatedRoute,
+    private _exerciseService: ExerciseService,
+  ) {
+  }
 }
