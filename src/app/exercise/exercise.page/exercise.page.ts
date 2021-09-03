@@ -10,6 +10,7 @@ import { ExerciseStateService } from '../services/exercise-state.service';
   ]
 })
 export class ExercisePage {
+  readonly isAutoLayout: boolean = Array.isArray(this.state.answerList);
   wrongAnswers: string[] = [];
   rightAnswer: string | null = null;
 
@@ -20,6 +21,9 @@ export class ExercisePage {
   }
 
   onAnswer(answer: string): void {
+    if (!!this.rightAnswer) {
+      return; // todo: play what would be played if "answer" was the right answer.
+    }
     const isRight: boolean = this.state.answer(answer);
     if (isRight) {
       this.rightAnswer = answer;

@@ -6,12 +6,18 @@ export namespace Exercise {
     partToPlay: INoteEvent[];
   }
 
+  export interface AnswersLayout {
+    rows: string[][];
+  }
+
+  export type AnswerList = string[] | AnswersLayout;
+
   export interface IExercise {
     readonly id: string;
     readonly name: string;
     readonly description: string;
 
-    getAnswerList(): string[];
+    getAnswerList(): AnswerList;
 
     getQuestion(): Question;
   }

@@ -22,12 +22,23 @@ describe('noteNameToNoteNumber', function () {
   it('A0', () => {
     expect(toNoteNumber('A0')).toEqual(21);
   });
+
   it('C4', () => {
     expect(toNoteNumber('C4')).toEqual(60);
   });
+
   it('G9', () => {
     expect(toNoteNumber('G9')).toEqual(127);
-  })
+  });
+
+  it('Ab4', () => {
+    expect(toNoteNumber('Ab4')).toEqual(68);
+  });
+
+  it('G#4', () => {
+    expect(toNoteNumber('Ab4')).toEqual(68);
+  });
+
   it('Note number as input', () => {
     expect(toNoteNumber(60)).toEqual(60);
   })

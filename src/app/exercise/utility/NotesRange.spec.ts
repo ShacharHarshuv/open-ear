@@ -1,4 +1,6 @@
 import { NotesRange } from './NotesRange';
+import { toNoteNumber } from './toNoteName';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
 
 describe('Range', function () {
   it('range constructor', () => {
@@ -40,5 +42,21 @@ describe('Range', function () {
     it('not in range', () => {
       expect(range.isInRange('F3')).toBeFalse();
     });
-  })
+  });
+
+  describe('getAllNotes', () => {
+    it('without key', () => {
+      const range = new NotesRange('Bb3', 'G#4');
+      const expectedNotesInRange: Note[] = ['Bb3', 'B3', 'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4'];
+      const result: Note[] = range.getAllNotes();
+      console.log(result);
+      expect(result.map(toNoteNumber)).toEqual(expectedNotesInRange.map(toNoteNumber));
+    })
+
+    it('with key', () => {
+      const range = new NotesRange('Bb3', 'G#4');
+      const expectedNotesInRange: Note[] = ['Bb3', 'C4', 'D4', 'Eb4', 'F4', 'G4'];
+      expect(range.getAllNotes('Bb').map(toNoteNumber)).toEqual(expectedNotesInRange.map(toNoteNumber));
+    })
+  });
 });

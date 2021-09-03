@@ -28,6 +28,7 @@
     "@capacitor/status-bar": "1.0.2",
     "@ionic/angular": "^5.5.2",
     "lodash": "^4.17.21",
+    "lodash-decorators": "^6.0.1",
     "rxjs": "~6.6.0",
     "tone": "^14.7.77",
     "tslib": "^2.2.0",

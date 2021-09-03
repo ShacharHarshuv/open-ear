@@ -7,6 +7,9 @@ import {
   toNoteNumber,
   toNoteName
 } from './toNoteName';
+import { Key } from './Key';
+import { Memoize } from 'lodash-decorators';
+import { isInKey } from './isInKey';
 
 export class NotesRange {
   readonly lowestNoteNumber: NoteNumber;
@@ -45,9 +48,23 @@ export class NotesRange {
     this.highestNoteName = toNoteName(this.highestNoteNumber);
   }
 
+  @Memoize()
   isInRange(note: NoteNumberOrName): boolean {
     const noteNumber = toNoteNumber(note);
     return noteNumber >= this.lowestNoteNumber && noteNumber <= this.highestNoteNumber;
+  }
 
+  @Memoize()
+  getAllNotes(key?: Key): Note[] {
+    const notes: Note[] = [];
+    for (let i = this.lowestNoteNumber; i <= this.highestNoteNumber; i++) {
+      if (key) {
+        if (!isInKey(i, key)) {
+          continue;
+        }
+      }
+      notes.push(toNoteName(i));
+    }
+    return notes;
   }
 }

@@ -12,15 +12,42 @@
 <ion-content [fullscreen]="true">
   <div class="exercise__content-container">
     <div class="exercise__answers-container"></div>
-    <div class="exercise__answers-buttons-container">
-      <ion-button
+    <div
+      *ngIf="!isAutoLayout"
+      class="exercise__answers-rows-container"
+    >
+      <div
+        *ngFor="let row of state.answerList.rows"
+        class="exercise__answers-row"
+      >
+        <ng-container
+          *ngFor="let answer of row"
+          [ngTemplateOutlet]="answerButton"
+          [ngTemplateOutletContext]="{$implicit: answer}"
+        ></ng-container>
+      </div>
+    </div>
+    <div
+      *ngIf="isAutoLayout"
+      class="exercise__answers-buttons-auto-layout-container"
+    >
+      <ng-container
         *ngFor="let answer of state.answerList"
+        [ngTemplateOutlet]="answerButton"
+        [ngTemplateOutletContext]="{$implicit: answer}"
+      ></ng-container>
+    </div>
+    <ng-template
+      let-answer
+      #answerButton
+    >
+      <ion-button
         (click)="onAnswer(answer)"
         [color]="wrongAnswers.includes(answer) ? 'danger' : answer === rightAnswer ? 'success' : 'light'"
       >
         {{answer}}
       </ion-button>
-    </div>
+    </ng-template>
     <div class="exercise__actions-container">
       <ion-button
         (click)="state.playCurrentQuestion()"

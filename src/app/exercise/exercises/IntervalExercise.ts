@@ -1,11 +1,15 @@
 import * as _ from 'lodash';
-import { Exercise } from '../Exercise';
+import {
+  Exercise,
+} from '../Exercise';
 import {
   generateSteadyMonophonicMelody,
   randomFromList,
   NotesRange
 } from '../utility';
 import { NoteNumber } from '../utility/NoteNumberOrName';
+import { BaseExercise } from './BaseExercise';
+import AnswerList = Exercise.AnswerList;
 
 interface IInternalDescriptor {
   name: string;
@@ -63,13 +67,12 @@ const intervalDescriptorList: IInternalDescriptor[] = [
   },
 ]
 
-export class IntervalExercise implements Exercise.IExercise {
-  readonly id: string = _.uniqueId();
+export class IntervalExercise extends BaseExercise {
   readonly name: string = 'Interval Recognition';
   readonly description: string = 'Recognizing Intervals without context';
   readonly range = new NotesRange('C3', 'E5');
 
-  getAnswerList(): string[] {
+  getAnswerList(): AnswerList {
     return _.map(intervalDescriptorList, 'name');
   }
 

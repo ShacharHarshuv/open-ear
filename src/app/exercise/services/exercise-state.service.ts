@@ -3,19 +3,21 @@ import { ActivatedRoute } from '@angular/router';
 import { ExerciseService } from './exercise.service';
 import { Exercise } from '../Exercise';
 import { PlayerService } from '../../services/player.service';
+import AnswerList = Exercise.AnswerList;
 
 @Injectable()
 export class ExerciseStateService {
   private readonly _exercise: Exercise.IExercise = this._exerciseService.getExercise(this._activatedRoute.snapshot.paramMap.get('id')!);
   private _currentQuestion: Exercise.Question = this._exercise.getQuestion();
   readonly name: string = this._exercise.name;
-  readonly answerList: string[] = this._exercise.getAnswerList();
+  readonly answerList: AnswerList = this._exercise.getAnswerList();
 
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _exerciseService: ExerciseService,
     private _player: PlayerService,
-  ) { }
+  ) {
+  }
 
   answer(answer: string): boolean {
     return this._currentQuestion.rightAnswer === answer;

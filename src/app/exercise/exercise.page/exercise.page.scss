@@ -12,8 +12,21 @@
     min-height: 20 * $unit;
   }
 
-  &__answers-buttons-container {
+  &__answers-row {
+    display: flex;
+
+    ion-button {
+      min-width: 0;
+      flex: 1;
+    }
+  }
+
+  &__answers-rows-container,
+  &__answers-buttons-auto-layout-container {
     flex-grow: 1;
+  }
+
+  &__answers-buttons-auto-layout-container {
     display: flex;
     flex-wrap: wrap;
     align-content: flex-start;

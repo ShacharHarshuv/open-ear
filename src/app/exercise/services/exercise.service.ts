@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import { IntervalExercise } from '../exercises/IntervalExercise';
 import IExercise = Exercise.IExercise;
 import { Exercise } from '../Exercise';
+import { NotesInKeyExercise } from '../exercises/NotesInKeyExercise';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ import { Exercise } from '../Exercise';
 export class ExerciseService {
   private readonly _exerciseList: IExercise[] = [
     new IntervalExercise(),
+    new NotesInKeyExercise(),
   ];
   private readonly _exerciseIdToExercise = _.keyBy(this._exerciseList, 'id');
 
