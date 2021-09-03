@@ -1,36 +1,87 @@
 import * as _ from 'lodash';
 import { Exercise } from '../Exercise';
-import { generateSteadyMonophonicMelody } from '../utility';
+import {
+  generateSteadyMonophonicMelody,
+  randomFromList,
+  NotesRange
+} from '../utility';
+import { NoteNumber } from '../utility/NoteNumberOrName';
+
+interface IInternalDescriptor {
+  name: string;
+  semitones: number;
+}
+
+const intervalDescriptorList: IInternalDescriptor[] = [
+  {
+    name: 'Minor 2nd',
+    semitones: 1,
+  },
+  {
+    name: 'Major 2nd',
+    semitones: 2,
+  },
+  {
+    name: 'Minor 3rd',
+    semitones: 3,
+  },
+  {
+    name: 'Major 3rd',
+    semitones: 4,
+  },
+  {
+    name: 'Perfect 4th',
+    semitones: 5,
+  },
+  {
+    name: 'Aug 4th',
+    semitones: 6,
+  },
+  {
+    name: 'Perfect 5th',
+    semitones: 7,
+  },
+  {
+    name: 'Minor 6th',
+    semitones: 8,
+  },
+  {
+    name: 'Major 6th',
+    semitones: 9,
+  },
+  {
+    name: 'Minor 7th',
+    semitones: 10,
+  },
+  {
+    name: 'Major 7th',
+    semitones: 11,
+  },
+  {
+    name: 'Octave',
+    semitones: 12,
+  },
+]
 
 export class IntervalExercise implements Exercise.IExercise {
   readonly id: string = _.uniqueId();
   readonly name: string = 'Interval Recognition';
   readonly description: string = 'Recognizing Intervals without context';
+  readonly range = new NotesRange('C3', 'E5');
 
   getAnswerList(): string[] {
-    return [
-      'Minor 2nd',
-      'Major 2nd',
-      'Minor 3rd',
-      'Major 3rd',
-      'Perfect 4th',
-      'Aug 4th',
-      'Perfect 5th',
-      'Minor 6th',
-      'Major 6th',
-      'Minor 7th',
-      'Major 7th',
-      'Octave',
-    ];
+    return _.map(intervalDescriptorList, 'name');
   }
 
   getQuestion(): Exercise.Question {
+    const randomIntervalDescriptor: IInternalDescriptor = randomFromList(intervalDescriptorList);
+    const randomStartingNote: NoteNumber = _.random(this.range.lowestNoteNumber, this.range.highestNoteNumber - randomIntervalDescriptor.semitones);
     return {
-      rightAnswer: 'Major 3rd',
-      partToPlay: generateSteadyMonophonicMelody([
-        'C4',
-        'E4',
-      ])
+      rightAnswer: randomIntervalDescriptor.name,
+      partToPlay: generateSteadyMonophonicMelody(_.shuffle([
+        randomStartingNote,
+        randomStartingNote + randomIntervalDescriptor.semitones,
+      ])),
     }
   }
 }

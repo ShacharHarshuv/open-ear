@@ -2,9 +2,9 @@ import { INoteEvent } from '../../services/player.service';
 import { Frequency } from 'tone/Tone/core/type/Units';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import {
-  noteNumberToNoteName,
-  noteNameToNoteNumber
-} from './noteNumberToNoteName';
+  toNoteName,
+  toNoteNumber
+} from './toNoteName';
 import * as _ from 'lodash';
 
 export function transpose(partOrNotes: Note, semitones: number): Note;
@@ -14,11 +14,11 @@ export function transpose(partOrNotes: INoteEvent[], semitones: number): INoteEv
 export function transpose(partOrNotes: INoteEvent[] | Note[] | Note, semitones: number): INoteEvent[] | Frequency[] | Frequency {
   if (!Array.isArray(partOrNotes)) {
     const note: Note = partOrNotes;
-    try {
-      return noteNumberToNoteName(noteNameToNoteNumber(note) + semitones);
-    } catch {
+    const newNoteNumber: number = toNoteNumber(note) + semitones;
+    if (newNoteNumber > 127 || newNoteNumber < 21) {
       throw new Error(`Out of range. Cannot transpose ${partOrNotes} by ${semitones} semitones`);
     }
+    return toNoteName(newNoteNumber);
   }
 
   if (_.isEmpty(partOrNotes)) {
