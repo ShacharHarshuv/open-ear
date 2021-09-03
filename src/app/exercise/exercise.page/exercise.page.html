@@ -10,22 +10,29 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-button
-    *ngFor="let answer of state.answerList"
-    (click)="onAnswer(answer)"
-    [color]="wrongAnswers.includes(answer) ? 'danger' : answer === rightAnswer ? 'success' : 'light'"
-  >
-    {{answer}}
-  </ion-button>
-  <ion-button
-    (click)="state.playCurrentQuestion()"
-  >
-    Repeat
-  </ion-button>
-  <ion-button
-    [disabled]="!rightAnswer"
-    (click)="nextQuestion()"
-  >
-    Next
-  </ion-button>
+  <div class="exercise__content-container">
+    <div class="exercise__answers-container"></div>
+    <div class="exercise__answers-buttons-container">
+      <ion-button
+        *ngFor="let answer of state.answerList"
+        (click)="onAnswer(answer)"
+        [color]="wrongAnswers.includes(answer) ? 'danger' : answer === rightAnswer ? 'success' : 'light'"
+      >
+        {{answer}}
+      </ion-button>
+    </div>
+    <div class="exercise__actions-container">
+      <ion-button
+        (click)="state.playCurrentQuestion()"
+      >
+        Repeat
+      </ion-button>
+      <ion-button
+        [disabled]="!rightAnswer"
+        (click)="nextQuestion()"
+      >
+        Next
+      </ion-button>
+    </div>
+  </div>
 </ion-content>

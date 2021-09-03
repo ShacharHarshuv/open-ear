@@ -1,0 +1,34 @@
+@import 'main';
+
+.exercise {
+  &__content-container {
+    height: 100%;
+    padding: 2 * $unit;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__answers-container {
+    min-height: 20 * $unit;
+  }
+
+  &__answers-buttons-container {
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+
+    ion-button {
+      flex: 1;
+    }
+  }
+
+  &__actions-container {
+    display: flex;
+    min-height:  10 * $unit;
+
+    ion-button {
+      flex-grow: 1;
+    }
+  }
+}
