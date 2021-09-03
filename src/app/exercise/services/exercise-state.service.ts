@@ -17,10 +17,6 @@ export class ExerciseStateService {
     private _player: PlayerService,
   ) { }
 
-  startAudio(): Promise<void> {
-    return this._player.init();
-  }
-
   answer(answer: string): boolean {
     return this._currentQuestion.rightAnswer === answer;
   }
