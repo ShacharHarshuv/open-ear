@@ -1,4 +1,4 @@
-import { INoteEvent } from '../../services/player.service';
+import { NoteEvent } from '../../services/player.service';
 import { Frequency } from 'tone/Tone/core/type/Units';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import {
@@ -10,8 +10,8 @@ import * as _ from 'lodash';
 export function transpose(partOrNotes: Note, semitones: number): Note;
 export function transpose(partOrNotes: Note[], semitones: number): Note[];
 export function transpose(partOrNotes: Note | Note[], semitones: number): Note | Note[];
-export function transpose(partOrNotes: INoteEvent[], semitones: number): INoteEvent[];
-export function transpose(partOrNotes: INoteEvent[] | Note[] | Note, semitones: number): INoteEvent[] | Frequency[] | Frequency {
+export function transpose(partOrNotes: NoteEvent[], semitones: number): NoteEvent[];
+export function transpose(partOrNotes: NoteEvent[] | Note[] | Note, semitones: number): NoteEvent[] | Frequency[] | Frequency {
   if (!Array.isArray(partOrNotes)) {
     const note: Note = partOrNotes;
     const newNoteNumber: number = toNoteNumber(note) + semitones;
@@ -30,8 +30,8 @@ export function transpose(partOrNotes: INoteEvent[] | Note[] | Note, semitones: 
     return _.map(noteList, (note: Note) => transpose(note, semitones));
   }
 
-  const noteEventList: INoteEvent[] = partOrNotes as INoteEvent[];
-  return _.map(noteEventList, (noteEvent): INoteEvent => ({
+  const noteEventList: NoteEvent[] = partOrNotes as NoteEvent[];
+  return _.map(noteEventList, (noteEvent: NoteEvent): NoteEvent => ({
     ...noteEvent,
     notes: transpose(noteEvent.notes, semitones),
   }));

@@ -1,4 +1,4 @@
-export * from './generateSteadyMonophonicMelody';
+export * from './toSteadyMonophonicMelody';
 export * from './toNoteName';
 export * from './NotesRange';
 export * from './randomFromList';

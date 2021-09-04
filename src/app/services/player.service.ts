@@ -17,7 +17,7 @@ import { Note } from 'tone/Tone/core/type/NoteUnits';
 
 const DEFAULT_VELOCITY: number = 0.7;
 
-export interface INoteEvent {
+export interface NoteEvent {
   notes: Note[] | Note,
   duration: Time,
   time: Time,
@@ -69,10 +69,10 @@ export class PlayerService {
     }).toDestination();
   }
 
-  async playPart(noteEventList: INoteEvent[]): Promise<void> {
+  async playPart(noteEventList: NoteEvent[]): Promise<void> {
     this._stopCurrentlyPlaying();
 
-    this._currentlyPlaying = new Tone.Part<INoteEvent>(((time, noteEvent: INoteEvent) => {
+    this._currentlyPlaying = new Tone.Part<NoteEvent>(((time, noteEvent: NoteEvent) => {
       this._instrument.triggerAttackRelease(noteEvent.notes, noteEvent.duration, time, noteEvent.velocity || DEFAULT_VELOCITY);
     }), noteEventList).start(0);
 

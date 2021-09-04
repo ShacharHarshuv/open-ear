@@ -4,6 +4,7 @@ import { ExerciseService } from './exercise.service';
 import { Exercise } from '../Exercise';
 import { PlayerService } from '../../services/player.service';
 import AnswerList = Exercise.AnswerList;
+import { toSteadyMonophonicMelody } from '../utility';
 
 @Injectable()
 export class ExerciseStateService {
@@ -24,7 +25,7 @@ export class ExerciseStateService {
   }
 
   playCurrentQuestion(): Promise<void> {
-    return this._player.playPart(this._currentQuestion.partToPlay);
+    return this._player.playPart(toSteadyMonophonicMelody(this._currentQuestion.partToPlay));
   }
 
   nextQuestion(): void {

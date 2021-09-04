@@ -3,7 +3,6 @@ import {
   Exercise,
 } from '../Exercise';
 import {
-  generateSteadyMonophonicMelody,
   randomFromList,
   NotesRange
 } from '../utility';
@@ -81,10 +80,10 @@ export class IntervalExercise extends BaseExercise {
     const randomStartingNote: NoteNumber = _.random(this.range.lowestNoteNumber, this.range.highestNoteNumber - randomIntervalDescriptor.semitones);
     return {
       rightAnswer: randomIntervalDescriptor.name,
-      partToPlay: generateSteadyMonophonicMelody(_.shuffle([
+      partToPlay: _.shuffle([
         randomStartingNote,
         randomStartingNote + randomIntervalDescriptor.semitones,
-      ])),
+      ]),
     }
   }
 }
