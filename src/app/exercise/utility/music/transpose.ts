@@ -1,10 +1,10 @@
-import { NoteEvent } from '../../services/player.service';
+import { NoteEvent } from '../../../services/player.service';
 import { Frequency } from 'tone/Tone/core/type/Units';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import {
   toNoteName,
   toNoteNumber
-} from './toNoteName';
+} from './notes/toNoteName';
 import * as _ from 'lodash';
 
 export function transpose(partOrNotes: Note, semitones: number): Note;

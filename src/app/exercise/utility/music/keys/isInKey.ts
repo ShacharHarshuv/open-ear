@@ -1,11 +1,11 @@
-import { NoteNumberOrName } from './NoteNumberOrName';
+import { NoteNumberOrName } from '../notes/NoteNumberOrName';
 import { Key } from './Key';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import {
   toNoteName,
   toNoteNumber
-} from './toNoteName';
-import { transpose } from './transpose';
+} from '../notes/toNoteName';
+import { transpose } from '../transpose';
 import { getDistanceOfKeys } from './getDistanceOfKeys';
 
 const CMajorFirstOctave: Note[] =  ['C1', 'D1', 'E1', 'F1', 'G1', 'A1', 'B1'];

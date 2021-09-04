@@ -1,7 +1,7 @@
-import { toSteadyMonophonicMelody } from './toSteadyMonophonicMelody';
-import { NoteEvent } from '../../services/player.service';
-import { toArray } from './toArray';
-import { toNoteNumber } from './toNoteName';
+import { toSteadyPart } from './toSteadyPart';
+import { NoteEvent } from '../../../services/player.service';
+import { toArray } from '../js-utility/toArray';
+import { toNoteNumber } from './notes/toNoteName';
 import * as Tone from 'tone';
 
 function assertNoteEvent(actual: NoteEvent, expected: NoteEvent): void {
@@ -17,9 +17,9 @@ function assertNoteEventList(actual: NoteEvent[], expected: NoteEvent[]): void {
   }
 }
 
-describe('toSteadyMonophonicMelody', function () {
+describe('toSteadyPart', function () {
   it('Should work with a single note', () => {
-    assertNoteEventList(toSteadyMonophonicMelody('C4'), [
+    assertNoteEventList(toSteadyPart('C4'), [
       {
         notes: 'C4',
         time: 0,
@@ -29,7 +29,7 @@ describe('toSteadyMonophonicMelody', function () {
   });
 
   it('Should work with a single note number', () => {
-    assertNoteEventList(toSteadyMonophonicMelody(60), [
+    assertNoteEventList(toSteadyPart(60), [
       {
         notes: 'C4',
         time: 0,
@@ -39,7 +39,7 @@ describe('toSteadyMonophonicMelody', function () {
   });
 
   it('Should work with multiple notes', () => {
-    assertNoteEventList(toSteadyMonophonicMelody(['C4', 'D4']), [
+    assertNoteEventList(toSteadyPart(['C4', 'D4']), [
       {
         notes: 'C4',
         time: 0,
@@ -55,8 +55,25 @@ describe('toSteadyMonophonicMelody', function () {
     ]);
   });
 
+  it('Should work with multiple notes per beat', () => {
+    assertNoteEventList(toSteadyPart([['C4', 'E4'], ['D4', 'F4']]), [
+      {
+        notes: ['C4', 'E4'],
+        time: 0,
+        duration: '4n',
+      },
+      {
+        notes: ['D4', 'F4'],
+        time: {
+          '4n': 1,
+        },
+        duration: '4n',
+      }
+    ]);
+  })
+
   it('If got note events, it should return them without modification', () => {
-    assertNoteEventList(toSteadyMonophonicMelody({
+    assertNoteEventList(toSteadyPart({
       notes: 'C4',
       time: 0,
       duration: '4n',

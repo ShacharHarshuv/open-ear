@@ -6,10 +6,10 @@ import {
   randomFromList
 } from '../utility';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { transpose } from '../utility/transpose';
-import { getDistanceOfKeys } from '../utility/getDistanceOfKeys';
+import { transpose } from '../utility/music/transpose';
+import { getDistanceOfKeys } from '../utility/music/keys/getDistanceOfKeys';
 import AnswerList = Exercise.AnswerList;
-import { noteToNoteType } from '../utility/noteToNoteType';
+import { getNoteType } from '../utility/music/notes/getNoteType';
 
 export type NoteInKey = 'Do' | 'Re' | 'Mi' | 'Fa' | 'Sol' | 'La' | 'Ti';
 
@@ -58,7 +58,7 @@ export class NotesInKeyExercise extends BaseExercise<NoteInKey> {
           G: 'Sol',
           A: 'La',
           B: 'Ti',
-        }[noteToNoteType(note)],
+        }[getNoteType(note)],
       }
     });
   }

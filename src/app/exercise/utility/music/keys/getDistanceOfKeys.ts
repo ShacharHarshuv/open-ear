@@ -1,5 +1,5 @@
 import { Key } from './Key';
-import { toNoteNumber } from './toNoteName';
+import { toNoteNumber } from '../notes/toNoteName';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 
 export function getDistanceOfKeys(to: Key, from: Key): number {

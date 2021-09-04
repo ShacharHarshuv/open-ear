@@ -1,5 +1,5 @@
 import { NotesRange } from './NotesRange';
-import { toNoteNumber } from './toNoteName';
+import { toNoteNumber } from './notes/toNoteName';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 
 describe('Range', function () {

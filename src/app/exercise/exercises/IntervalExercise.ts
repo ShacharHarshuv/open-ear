@@ -6,7 +6,7 @@ import {
   randomFromList,
   NotesRange
 } from '../utility';
-import { NoteNumber } from '../utility/NoteNumberOrName';
+import { NoteNumber } from '../utility/music/notes/NoteNumberOrName';
 import { BaseExercise } from './BaseExercise';
 import AnswerList = Exercise.AnswerList;
 

@@ -1,15 +1,15 @@
 import {
   NoteNumberOrName,
   NoteNumber
-} from './NoteNumberOrName';
+} from './notes/NoteNumberOrName';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import {
   toNoteNumber,
   toNoteName
-} from './toNoteName';
-import { Key } from './Key';
+} from './notes/toNoteName';
+import { Key } from './keys/Key';
 import { Memoize } from 'lodash-decorators';
-import { isInKey } from './isInKey';
+import { isInKey } from './keys/isInKey';
 
 export class NotesRange {
   readonly lowestNoteNumber: NoteNumber;
