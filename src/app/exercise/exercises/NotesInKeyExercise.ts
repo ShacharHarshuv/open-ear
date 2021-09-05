@@ -11,15 +11,18 @@ import { getDistanceOfKeys } from '../utility/music/keys/getDistanceOfKeys';
 import { getNoteType } from '../utility/music/notes/getNoteType';
 import { IV_V_I_CADENCE_IN_C } from '../utility/music/chords';
 import AnswerList = Exercise.AnswerList;
+import {
+  BaseTonalExercise,
+} from './BaseTonalExercise';
+import { NoteEvent } from '../../services/player.service';
 
 export type NoteInKey = 'Do' | 'Re' | 'Mi' | 'Fa' | 'Sol' | 'La' | 'Ti';
 
-export class NotesInKeyExercise extends BaseExercise<NoteInKey> {
+export class NotesInKeyExercise extends BaseTonalExercise<NoteInKey> {
   readonly description: string = `Recognise notes based on their tonal context in a key`;
   readonly name: string = `Notes in Key`;
-  readonly key: Key = randomFromList(['C', 'G', 'D', 'A', 'E', 'B', 'F#', 'Db', 'Ab', 'Eb', 'Bb', 'F']);
   readonly rangeForKeyOfC = new NotesRange('G2', 'E4');
-  readonly questionOptionsInC: { answer: NoteInKey; question: Note }[] = this._getQuestionOptionsInC();
+  readonly questionOptionsInC: { answer: NoteInKey; question: NoteEvent }[] = this._getQuestionOptionsInC();
 
   getAnswerList(): AnswerList<NoteInKey> {
     return {
@@ -38,25 +41,21 @@ export class NotesInKeyExercise extends BaseExercise<NoteInKey> {
     }
   }
 
-  getQuestion(): Exercise.Question {
-    const randomQuestionInC: { answer: NoteInKey; question: Note } = randomFromList(this.questionOptionsInC);
-    const questionTransposedToKey = transpose(randomQuestionInC.question, getDistanceOfKeys(this.key, 'C'));
+  getQuestionInC(): Exclude<Exercise.Question, 'cadence'> {
+    const randomQuestionInC: { answer: NoteInKey; question: NoteEvent } = randomFromList(this.questionOptionsInC);
     return {
       rightAnswer: randomQuestionInC.answer,
-      partToPlay: [
-        {
-          notes: questionTransposedToKey,
-          duration: '2n',
-        }
-      ],
-      cadence: transpose(IV_V_I_CADENCE_IN_C, getDistanceOfKeys(this.key, 'C')),
+      partToPlay: [randomQuestionInC.question],
     }
   }
 
-  private _getQuestionOptionsInC(): { answer: NoteInKey; question: Note }[] {
-    return this.rangeForKeyOfC.getAllNotes('C').map((note: Note): { answer: NoteInKey; question: Note } => {
+  private _getQuestionOptionsInC(): { answer: NoteInKey; question: NoteEvent }[] {
+    return this.rangeForKeyOfC.getAllNotes('C').map((note: Note): { answer: NoteInKey; question: NoteEvent } => {
       return {
-        question: note,
+        question: {
+          notes: note,
+          duration: '2n',
+        },
         answer: {
           C: 'Do',
           D: 'Re',

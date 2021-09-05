@@ -1,16 +1,17 @@
 import { NoteEvent } from '../services/player.service';
 import { NoteNumberOrName } from './utility/music/notes/NoteNumberOrName';
 import { OneOrMany } from './utility/js-utility/toArray';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
 
 export namespace Exercise {
   export interface Question {
     rightAnswer: string;
-    partToPlay: NoteEvent[] | OneOrMany<NoteNumberOrName>;
+    partToPlay: NoteEvent[] | OneOrMany<Note>;
     /**
      * To be played to give the listener a context of the part,
      * Then the part can be played separately or with the cadence
      * */
-    cadence?: NoteEvent[] | OneOrMany<NoteNumberOrName>;
+    cadence?: NoteEvent[] | OneOrMany<Note>;
   }
 
   export interface AnswersLayout<GAnswer extends string = string> {

@@ -4,7 +4,8 @@ import {
 } from '../Exercise';
 import {
   randomFromList,
-  NotesRange
+  NotesRange,
+  toNoteName
 } from '../utility';
 import { NoteNumber } from '../utility/music/notes/NoteNumberOrName';
 import { BaseExercise } from './BaseExercise';
@@ -81,8 +82,8 @@ export class IntervalExercise extends BaseExercise {
     return {
       rightAnswer: randomIntervalDescriptor.name,
       partToPlay: _.shuffle([
-        randomStartingNote,
-        randomStartingNote + randomIntervalDescriptor.semitones,
+        toNoteName(randomStartingNote),
+        toNoteName(randomStartingNote + randomIntervalDescriptor.semitones),
       ]),
     }
   }
