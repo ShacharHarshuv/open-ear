@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
 import { ExerciseStateService } from '../services/exercise-state.service';
+import { ModalController } from '@ionic/angular';
+import {
+  ExerciseSettingsPage,
+  ExerciseSettingsData
+} from './components/exercise-settings.page/exercise-settings.page';
 
 @Component({
   selector: 'app-exercise-page',
@@ -16,6 +21,7 @@ export class ExercisePage {
 
   constructor(
     public state: ExerciseStateService,
+    private _modalController: ModalController,
   ) {
     state.playCurrentCadenceAndQuestion();
   }
@@ -37,5 +43,18 @@ export class ExercisePage {
     this.rightAnswer = null;
     this.state.nextQuestion();
     return this.state.playCurrentQuestion();
+  }
+
+  async editSettings(): Promise<void> {
+    const modal = await this._modalController.create({
+      component: ExerciseSettingsPage,
+      componentProps: {
+        exerciseName: this.state.name,
+        currentSettings: this.state.settings,
+      }
+    });
+    await modal.present();
+    const data: ExerciseSettingsData = (await modal.onDidDismiss()).data;
+    this.state.settings = data.settings;
   }
 }

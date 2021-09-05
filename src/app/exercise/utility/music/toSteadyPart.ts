@@ -6,7 +6,7 @@ import { toNoteName } from './notes/toNoteName';
 import {
   OneOrMany,
   toArray
-} from '../js-utility/toArray';
+} from '../../../shared/ts-utility/toArray';
 
 /*
 * If got NoteEvent for input it doesn't change it

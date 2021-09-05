@@ -1,6 +1,6 @@
 import { NoteEvent } from '../services/player.service';
 import { NoteNumberOrName } from './utility/music/notes/NoteNumberOrName';
-import { OneOrMany } from './utility/js-utility/toArray';
+import { OneOrMany } from '../shared/ts-utility/toArray';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 
 export namespace Exercise {

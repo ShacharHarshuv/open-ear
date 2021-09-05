@@ -9,12 +9,24 @@ import {
   timeoutAsPromise
 } from '../utility';
 
+export interface ExerciseSettings {
+  /**
+   * If received number it will play the cadence every n exercises
+   * */
+  playCadence: true | false | 'EVERY_NEW_KEY' | number;
+}
+
+const DEFAULT_EXERCISE_SETTINGS: ExerciseSettings = {
+  playCadence: true,
+}
+
 @Injectable()
 export class ExerciseStateService {
   private readonly _exercise: Exercise.IExercise = this._exerciseService.getExercise(this._activatedRoute.snapshot.paramMap.get('id')!);
   private _currentQuestion: Exercise.Question = this._exercise.getQuestion();
   readonly name: string = this._exercise.name;
   readonly answerList: AnswerList = this._exercise.getAnswerList();
+  settings: ExerciseSettings = DEFAULT_EXERCISE_SETTINGS;
 
   constructor(
     private _activatedRoute: ActivatedRoute,
@@ -28,7 +40,7 @@ export class ExerciseStateService {
   }
 
   async playCurrentCadenceAndQuestion(): Promise<void> {
-    if (this._currentQuestion.cadence) {
+    if (this._currentQuestion.cadence && this.settings.playCadence) {
       await this._player.playPart(toSteadyPart(this._currentQuestion.cadence))
       await timeoutAsPromise(100);
     }

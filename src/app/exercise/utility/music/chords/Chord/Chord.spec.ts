@@ -112,7 +112,7 @@ describe('Chord', () => {
       describe('voicing', function () {
         expectedResult.voicing.forEach(([inversion, expectedVoicing]) => {
           it(`should have the voicing of ${expectedVoicing.join(', ')} in ${inversion}th inversion`, () => {
-            expect(chord.getVoicing(inversion).map(toNoteNumber)).toEqual(expectedVoicing.map(toNoteNumber));
+            expect(chord.getVoicing(inversion, false).map(toNoteNumber)).toEqual(expectedVoicing.map(toNoteNumber));
           });
         })
       });

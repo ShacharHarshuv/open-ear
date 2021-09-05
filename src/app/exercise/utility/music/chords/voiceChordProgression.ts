@@ -11,7 +11,7 @@ import { noteTypeToNote } from '../notes/noteTypeToNote';
 function voiceNextChord(currentChordVoicing: Note[], nextChord: Chord): Note[] {
   const voicingOptionsForNextChord: Note[][] = [];
   for (let i = 0; i < nextChord.noteTypes.length; i++) {
-    voicingOptionsForNextChord.push(nextChord.getVoicing(i));
+    voicingOptionsForNextChord.push(nextChord.getVoicing(i, false));
   }
 
   // rank chord movement by the movement of each voice

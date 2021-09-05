@@ -1,0 +1,28 @@
+<ion-header [translucent]="true">
+  <ion-toolbar [color]="'primary'">
+    <ion-title>
+      {{exerciseName}} Settings
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-item>
+    <ion-label>Play Cadence</ion-label>
+    <ion-select
+      [interface]="'popover'"
+      [formControl]="formGroup.controls.playCadenceOptions"
+    >
+      <ion-select-option [value]="'ALWAYS'">Always</ion-select-option>
+      <!--TODO: add this option in the future-->
+      <!--<ion-select-option value="'EVERY'">Every...</ion-select-option>-->
+      <ion-select-option [value]="'EVERY_NEW_KEY'">Once for a new key</ion-select-option>
+      <ion-select-option [value]="'NEVER'">Never</ion-select-option>
+    </ion-select>
+  </ion-item>
+</ion-content>

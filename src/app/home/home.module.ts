@@ -7,7 +7,6 @@ import { HomePage } from './home.page';
 import { HomePageRoutingModule } from './home-routing.module';
 import { MessageComponentModule } from '../message/message.module';
 import { ExerciseSummaryComponent } from './components/exercise-summary/exercise-summary.component';
-import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -16,7 +15,6 @@ import { SharedModule } from '../shared/shared.module';
     IonicModule,
     MessageComponentModule,
     HomePageRoutingModule,
-    SharedModule,
   ],
   declarations: [
     HomePage,
