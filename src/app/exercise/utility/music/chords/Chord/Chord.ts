@@ -1,5 +1,6 @@
 import { NoteType } from '../../notes/NoteType';
 import { Interval } from '../../intervals/interval';
+import { transpose } from '../../transpose';
 
 export type ChordSymbol = `${NoteType}${'m' | ''}`;
 
@@ -9,6 +10,7 @@ export class Chord {
   readonly root: NoteType = this._getChordRoot();
   readonly type: ChordType = this._getChordType();
   readonly intervals: Interval[] = this._getChordIntervals();
+  readonly noteTypes: NoteType[] = this._getNoteTypes();
 
   constructor(public readonly symbol: ChordSymbol) {
   }
@@ -33,5 +35,9 @@ export class Chord {
     }
     intervals.push(Interval.PerfectFifth);
     return intervals;
+  }
+
+  private _getNoteTypes(): NoteType[] {
+    return this.intervals.map(interval => transpose(this.root, interval));
   }
 }

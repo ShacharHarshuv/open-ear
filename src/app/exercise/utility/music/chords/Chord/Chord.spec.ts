@@ -5,6 +5,7 @@ import {
 } from './Chord';
 import { NoteType } from '../../notes/NoteType';
 import { Interval } from '../../intervals/interval';
+import { toNoteTypeNumber } from '../../notes/toNoteTypeNumber';
 
 describe('Chord', () => {
   const testCases: [ChordSymbol, {
@@ -70,9 +71,10 @@ describe('Chord', () => {
         expect(chord.intervals).toEqual(expectedResult.intervals);
       });
 
-      // todo
-      // expect(chord.noteTypes.map(noteType => toNoteNumber(noteType + '1' as Note)).sort())
-      //   .toEqual(expectedResult.noteTypes.map(noteType => toNoteNumber(noteType + '1' as Note)).sort())
+      it(`should have the notes ${expectedResult.noteTypes.join(', ')}`, () => {
+        expect(chord.noteTypes.map(noteType => toNoteTypeNumber(noteType)))
+          .toEqual(expectedResult.noteTypes.map(noteType => toNoteTypeNumber(noteType)))
+      });
     });
   })
 })
