@@ -19,8 +19,14 @@ const DEFAULT_VELOCITY: number = 0.7;
 
 export interface NoteEvent {
   notes: Note[] | Note,
-  duration: Time,
-  time: Time,
+  /**
+   * 4n by default
+   * */
+  duration?: Time,
+  /**
+   * If not provided, the time will be taken from last even time + last event duration
+   * */
+  time?: Time,
   velocity?: NormalRange,
 }
 
@@ -70,13 +76,25 @@ export class PlayerService {
   }
 
   async playPart(noteEventList: NoteEvent[]): Promise<void> {
+    let lastTime: Time = 0;
+    const normalizedNoteEventList: Required<NoteEvent>[] = noteEventList.map((noteEvent: NoteEvent): Required<NoteEvent> => {
+      const normalizedNoteEvent: Required<NoteEvent> = {
+        time: lastTime,
+        velocity: DEFAULT_VELOCITY,
+        duration: '4n',
+        ...noteEvent,
+      }
+      lastTime = Tone.Time(normalizedNoteEvent.time).toSeconds() + Tone.Time(normalizedNoteEvent.duration).toSeconds();
+      return normalizedNoteEvent;
+    });
+
     this._stopCurrentlyPlaying();
 
-    this._currentlyPlaying = new Tone.Part<NoteEvent>(((time, noteEvent: NoteEvent) => {
-      this._instrument.triggerAttackRelease(noteEvent.notes, noteEvent.duration, time, noteEvent.velocity || DEFAULT_VELOCITY);
-    }), noteEventList).start(0);
+    this._currentlyPlaying = new Tone.Part<Required<NoteEvent>>(((time, noteEvent: Required<NoteEvent>) => {
+      this._instrument.triggerAttackRelease(noteEvent.notes, noteEvent.duration, time, noteEvent.velocity);
+    }), normalizedNoteEventList).start(0);
 
-    const stoppingTime: Seconds = _.max(noteEventList.map(noteEvent => Tone.Time(noteEvent.time).toSeconds() + Tone.Time(noteEvent.duration).toSeconds()))!;
+    const stoppingTime: Seconds = _.max(normalizedNoteEventList.map(noteEvent => Tone.Time(noteEvent.time).toSeconds() + Tone.Time(noteEvent.duration).toSeconds()))!;
 
     this._currentlyPlayingPartFinishedSchedulerId = Tone.Transport.schedule(() => {
       this._stopCurrentlyPlaying();

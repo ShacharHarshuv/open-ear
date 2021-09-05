@@ -8,8 +8,9 @@ import {
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { transpose } from '../utility/music/transpose';
 import { getDistanceOfKeys } from '../utility/music/keys/getDistanceOfKeys';
-import AnswerList = Exercise.AnswerList;
 import { getNoteType } from '../utility/music/notes/getNoteType';
+import { IV_V_I_CADENCE_IN_C } from '../utility/music/chords';
+import AnswerList = Exercise.AnswerList;
 
 export type NoteInKey = 'Do' | 'Re' | 'Mi' | 'Fa' | 'Sol' | 'La' | 'Ti';
 
@@ -42,7 +43,13 @@ export class NotesInKeyExercise extends BaseExercise<NoteInKey> {
     const questionTransposedToKey = transpose(randomQuestionInC.question, getDistanceOfKeys(this.key, 'C'));
     return {
       rightAnswer: randomQuestionInC.answer,
-      partToPlay: questionTransposedToKey,
+      partToPlay: [
+        {
+          notes: questionTransposedToKey,
+          duration: '2n',
+        }
+      ],
+      cadence: transpose(IV_V_I_CADENCE_IN_C, getDistanceOfKeys(this.key, 'C')),
     }
   }
 

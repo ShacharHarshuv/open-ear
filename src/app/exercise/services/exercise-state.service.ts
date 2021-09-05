@@ -4,7 +4,10 @@ import { ExerciseService } from './exercise.service';
 import { Exercise } from '../Exercise';
 import { PlayerService } from '../../services/player.service';
 import AnswerList = Exercise.AnswerList;
-import { toSteadyPart } from '../utility';
+import {
+  toSteadyPart,
+  timeoutAsPromise
+} from '../utility';
 
 @Injectable()
 export class ExerciseStateService {
@@ -24,7 +27,11 @@ export class ExerciseStateService {
     return this._currentQuestion.rightAnswer === answer;
   }
 
-  playCurrentQuestion(): Promise<void> {
+  async playCurrentQuestion(): Promise<void> {
+    if (this._currentQuestion.cadence) {
+      await this._player.playPart(toSteadyPart(this._currentQuestion.cadence))
+      await timeoutAsPromise(100);
+    }
     return this._player.playPart(toSteadyPart(this._currentQuestion.partToPlay));
   }
 

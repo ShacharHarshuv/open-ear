@@ -42,7 +42,7 @@ export function voiceChordProgression(chordOrChordSymbolList: (ChordSymbol | Cho
     }
     return new Chord(chordOrChordSymbol);
   })
-  const chordVoicingWithoutBass: Note[][] = [chordList[0].getVoicing(startingTopVoicesInversion)];
+  const chordVoicingWithoutBass: Note[][] = [chordList[0].getVoicing(startingTopVoicesInversion, false)];
   for (let i = 1; i < chordList.length; i++) {
     const nextChordVoicing: Note[] = voiceNextChord(chordVoicingWithoutBass[i - 1], chordList[i]);
     chordVoicingWithoutBass.push(nextChordVoicing);
