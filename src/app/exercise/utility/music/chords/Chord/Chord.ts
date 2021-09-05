@@ -6,7 +6,7 @@ export type ChordType = 'M' | 'm';
 
 export class Chord {
   readonly root: NoteType = this._getChordRoot();
-  // readonly type: ChordType = this._getChordType();
+  readonly type: ChordType = this._getChordType();
 
   constructor(public readonly symbol: ChordSymbol) {
   }
@@ -15,7 +15,7 @@ export class Chord {
     return this.symbol.match(/^[A-G](?:#|b|)/)?.[0] as NoteType;
   }
 
-  // private _getChordType(): ChordType {
-  //   throw new Error(`Not implemented`);
-  // }
+  private _getChordType(): ChordType {
+    return this.symbol.includes('m') ? 'm' : 'M';
+  }
 }
