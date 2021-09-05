@@ -1,6 +1,6 @@
 {
-	"appId": "io.ionic.starter",
-	"appName": "OpenEar",
+	"appId": "openear",
+	"appName": "Open Ear",
 	"webDir": "www",
 	"bundledWebRuntime": false
 }

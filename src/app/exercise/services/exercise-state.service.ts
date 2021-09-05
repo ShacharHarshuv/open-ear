@@ -27,11 +27,15 @@ export class ExerciseStateService {
     return this._currentQuestion.rightAnswer === answer;
   }
 
-  async playCurrentQuestion(): Promise<void> {
+  async playCurrentCadenceAndQuestion(): Promise<void> {
     if (this._currentQuestion.cadence) {
       await this._player.playPart(toSteadyPart(this._currentQuestion.cadence))
       await timeoutAsPromise(100);
     }
+    return this._player.playPart(toSteadyPart(this._currentQuestion.partToPlay));
+  }
+
+  async playCurrentQuestion(): Promise<void> {
     return this._player.playPart(toSteadyPart(this._currentQuestion.partToPlay));
   }
 

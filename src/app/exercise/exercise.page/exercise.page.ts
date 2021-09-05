@@ -17,7 +17,7 @@ export class ExercisePage {
   constructor(
     public state: ExerciseStateService,
   ) {
-    state.playCurrentQuestion();
+    state.playCurrentCadenceAndQuestion();
   }
 
   onAnswer(answer: string): void {

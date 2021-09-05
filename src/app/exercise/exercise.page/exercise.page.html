@@ -50,9 +50,15 @@
     </ng-template>
     <div class="exercise__actions-container">
       <ion-button
+        (click)="state.playCurrentCadenceAndQuestion()"
+      >
+        <ion-icon name="repeat"></ion-icon>
+        Repeat
+      </ion-button>
+      <ion-button
         (click)="state.playCurrentQuestion()"
       >
-        Repeat
+        <ion-icon name="musical-note"></ion-icon>
       </ion-button>
       <ion-button
         [disabled]="!rightAnswer"
