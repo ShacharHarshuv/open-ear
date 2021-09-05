@@ -6,15 +6,29 @@ import {
   toNoteNumber
 } from './notes/toNoteName';
 import * as _ from 'lodash';
+import {
+  NoteType,
+  ALL_NOTE_TYPES
+} from './notes/NoteType';
+import {
+  toNoteTypeName,
+  toNoteTypeNumber
+} from './notes/toNoteTypeNumber';
+import { Interval } from './intervals/interval';
 
 export function transpose(partOrNotes: Note, semitones: number): Note;
+export function transpose(partOrNotes: NoteType, semitones: number): NoteType;
 export function transpose(partOrNotes: Note[], semitones: number): Note[];
 export function transpose(partOrNotes: Note | Note[], semitones: number): Note | Note[];
 export function transpose(partOrNotes: NoteEvent[], semitones: number): NoteEvent[];
-export function transpose(partOrNotes: NoteEvent[] | Note[] | Note, semitones: number): NoteEvent[] | Frequency[] | Frequency {
+export function transpose(partOrNotes: NoteEvent[] | Note[] | Note | NoteType, semitones: number): NoteEvent[] | Frequency[] | Frequency | NoteType {
   if (!Array.isArray(partOrNotes)) {
-    const note: Note = partOrNotes;
-    const newNoteNumber: number = toNoteNumber(note) + semitones;
+    const note: Note | NoteType = partOrNotes;
+    if (ALL_NOTE_TYPES.includes(note as NoteType)) {
+      return toNoteTypeName((toNoteTypeNumber(note as NoteType) + semitones) % Interval.Octave)
+    }
+
+    const newNoteNumber: number = toNoteNumber(note as Note) + semitones;
     if (newNoteNumber > 127 || newNoteNumber < 21) {
       throw new Error(`Out of range. Cannot transpose ${partOrNotes} by ${semitones} semitones`);
     }

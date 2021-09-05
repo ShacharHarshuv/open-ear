@@ -1,6 +1,16 @@
 import { transpose } from './transpose';
 
 describe('transpose', function () {
+  describe('Single note type', function () {
+    it('C + 3', () => {
+      expect(transpose('C', 3)).toEqual('D#');
+    })
+
+    it('D - 4', () => {
+      expect(transpose('D', -4)).toEqual('A#');
+    })
+  });
+
   describe('single note', function () {
     it('C4 + 3', () => {
       expect(transpose('C4', 3)).toEqual('D#4');
