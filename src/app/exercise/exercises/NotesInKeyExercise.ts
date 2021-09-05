@@ -17,7 +17,7 @@ export type NoteInKey = 'Do' | 'Re' | 'Mi' | 'Fa' | 'Sol' | 'La' | 'Ti';
 export class NotesInKeyExercise extends BaseExercise<NoteInKey> {
   readonly description: string = `Recognise notes based on their tonal context in a key`;
   readonly name: string = `Notes in Key`;
-  readonly key: Key = 'C'; // todo: in the future we will randomize it
+  readonly key: Key = randomFromList(['C', 'G', 'D', 'A', 'E', 'B', 'F#', 'Db', 'Ab', 'Eb', 'Bb', 'F']);
   readonly rangeForKeyOfC = new NotesRange('G2', 'E4');
   readonly questionOptionsInC: { answer: NoteInKey; question: Note }[] = this._getQuestionOptionsInC();
 
