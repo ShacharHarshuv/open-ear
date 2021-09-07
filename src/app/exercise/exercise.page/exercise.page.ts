@@ -16,8 +16,12 @@ import {
 })
 export class ExercisePage {
   readonly isAutoLayout: boolean = Array.isArray(this.state.answerList);
-  wrongAnswers: string[] = [];
+  wrongAnswer: string | null = null;
   rightAnswer: string | null = null;
+
+  get isQuestionCompleted(): boolean {
+    return !!this.state.currentAnswers[this.state.currentAnswers.length - 1].answer;
+  }
 
   get correctAnswersPercentage(): number {
     if (!this.state.totalQuestions) {
@@ -34,20 +38,25 @@ export class ExercisePage {
   }
 
   onAnswer(answer: string): void {
-    if (!!this.rightAnswer) {
-      return; // todo: play what would be played if "answer" was the right answer.
+    if (this.isQuestionCompleted) {
+      // TODO(OE-14) - play the clicked answer
+      return;
     }
     const isRight: boolean = this.state.answer(answer);
     if (isRight) {
       this.rightAnswer = answer;
+      setTimeout(() => {
+        this.rightAnswer = null;
+      }, 0);
     } else {
-      this.wrongAnswers.push(answer);
+      this.wrongAnswer = answer;
+      setTimeout(() => {
+        this.wrongAnswer = null;
+      }, 0);
     }
   }
 
   nextQuestion(): Promise<void> {
-    this.wrongAnswers = [];
-    this.rightAnswer = null;
     this.state.nextQuestion();
     if (this.state.settings.playCadence === 'ONLY_ON_REPEAT') {
       return this.state.playCurrentQuestion();

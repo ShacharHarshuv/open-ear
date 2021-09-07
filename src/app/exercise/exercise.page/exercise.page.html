@@ -56,8 +56,11 @@
       #answerButton
     >
       <ion-button
+        [class.--right]="answer === rightAnswer"
         (click)="onAnswer(answer)"
-        [color]="wrongAnswers.includes(answer) ? 'danger' : answer === rightAnswer ? 'success' : 'light'"
+        [class.--wrong]="wrongAnswer === answer"
+        [color]="'light'"
+        class="exercise__answer-button"
       >
         {{answer}}
       </ion-button>
@@ -75,7 +78,7 @@
         <ion-icon name="musical-note"></ion-icon>
       </ion-button>
       <ion-button
-        [disabled]="!rightAnswer"
+        [disabled]="!isQuestionCompleted"
         (click)="nextQuestion()"
       >
         Next

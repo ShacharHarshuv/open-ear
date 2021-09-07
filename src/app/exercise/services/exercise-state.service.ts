@@ -34,6 +34,7 @@ export class ExerciseStateService {
   private _totalCorrectAnswers: number = 0;
   private _totalQuestions: number = 0;
   private _currentAnswers: CurrentAnswer[] = [];
+  private _currentSegmentToAnswer: number = 0;
   readonly name: string = this._exercise.name;
   readonly answerList: AnswerList = this._exercise.getAnswerList();
   settings: ExerciseSettings = DEFAULT_EXERCISE_SETTINGS;
@@ -63,15 +64,16 @@ export class ExerciseStateService {
   }
 
   answer(answer: string): boolean {
-    const isRight = this._currentQuestion.segments[0].rightAnswer === answer;
+    const isRight = this._currentQuestion.segments[this._currentSegmentToAnswer].rightAnswer === answer;
     if (!isRight) {
-      this._currentAnswers[0].wasWrong = true;
+      this._currentAnswers[this._currentSegmentToAnswer].wasWrong = true;
     } else {
       this._totalQuestions++;
       if (!this._answeredCurrentWrong) {
         this._totalCorrectAnswers++;
       }
-      this._currentAnswers[0].answer = answer;
+      this._currentAnswers[this._currentSegmentToAnswer].answer = answer;
+      this._currentSegmentToAnswer++;
     }
     return isRight;
   }
@@ -96,5 +98,6 @@ export class ExerciseStateService {
       wasWrong: false,
       answer: null,
     }));
+    this._currentSegmentToAnswer = 0;
   }
 }

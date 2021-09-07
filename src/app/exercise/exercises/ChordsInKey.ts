@@ -57,7 +57,7 @@ export class ChordsInKey extends BaseTonalExercise<RomanNumeralChord> {
             partToPlay: [{
               notes: voicing,
               velocity: 0.3,
-              duration: '1n',
+              duration: '2n',
             }],
           }
         }),

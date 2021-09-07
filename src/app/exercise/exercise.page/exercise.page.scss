@@ -24,6 +24,26 @@
     }
   }
 
+  &__answer-button {
+    &.--right {
+      &::part(native) {
+        background-color: #{var(--ion-color-success)};
+      }
+    }
+
+    &:not(.--right):not(.--wrong) {
+      &::part(native) {
+        transition: background-color 1s ease-in;
+      }
+    }
+
+    &.--wrong {
+      &::part(native) {
+        background-color: #{var(--ion-color-danger)};
+      }
+    }
+  }
+
   &__answers-rows-container,
   &__answers-buttons-auto-layout-container {
     flex-grow: 1;
