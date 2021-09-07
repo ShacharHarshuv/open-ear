@@ -9,6 +9,7 @@ import {
   timeoutAsPromise
 } from '../utility';
 import Answer = Exercise.Answer;
+import * as _ from 'lodash';
 
 export interface ExerciseSettings {
   /**
@@ -21,17 +22,26 @@ const DEFAULT_EXERCISE_SETTINGS: ExerciseSettings = {
   playCadence: true,
 }
 
+interface CurrentAnswer {
+  answer: Answer | null;
+  wasWrong: boolean;
+}
+
 @Injectable()
 export class ExerciseStateService {
   private readonly _exercise: Exercise.IExercise = this._exerciseService.getExercise(this._activatedRoute.snapshot.paramMap.get('id')!);
   private _currentQuestion: Exercise.Question = this._exercise.getQuestion();
   private _totalCorrectAnswers: number = 0;
   private _totalQuestions: number = 0;
-  private _answeredCurrentWrong: boolean = false;
-  private _currentAnswers: (Answer | null)[] = [];
+  private _currentAnswers: CurrentAnswer[] = [];
   readonly name: string = this._exercise.name;
   readonly answerList: AnswerList = this._exercise.getAnswerList();
   settings: ExerciseSettings = DEFAULT_EXERCISE_SETTINGS;
+
+  private get _answeredCurrentWrong(): boolean {
+    const answeredWrong = this._currentAnswers.filter(answer => answer.wasWrong);
+    return !_.isEmpty(answeredWrong);
+  }
 
   get totalCorrectAnswers(): number {
     return this._totalCorrectAnswers;
@@ -41,7 +51,7 @@ export class ExerciseStateService {
     return this._totalQuestions;
   }
 
-  get currentAnswers(): (Answer | null)[] {
+  get currentAnswers(): CurrentAnswer[] {
     return this._currentAnswers;
   }
 
@@ -55,13 +65,13 @@ export class ExerciseStateService {
   answer(answer: string): boolean {
     const isRight = this._currentQuestion.segments[0].rightAnswer === answer;
     if (!isRight) {
-      this._answeredCurrentWrong = true;
+      this._currentAnswers[0].wasWrong = true;
     } else {
       this._totalQuestions++;
       if (!this._answeredCurrentWrong) {
         this._totalCorrectAnswers++;
       }
-      this._currentAnswers[0] = answer;
+      this._currentAnswers[0].answer = answer;
     }
     return isRight;
   }
@@ -79,8 +89,10 @@ export class ExerciseStateService {
   }
 
   nextQuestion(): void {
-    this._answeredCurrentWrong = false;
     this._currentQuestion = this._exercise.getQuestion();
-    this._currentAnswers = this._currentQuestion.segments.map(() => null);
+    this._currentAnswers = this._currentQuestion.segments.map(() => ({
+      wasWrong: false,
+      answer: null,
+    }));
   }
 }

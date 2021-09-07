@@ -22,7 +22,8 @@
     <div class="exercise__answers-container">
       <app-answer-indication
         *ngFor="let answer of state.currentAnswers"
-        [answer]="answer"
+        [answer]="answer.answer"
+        [wasAnsweredWrong]="answer.wasWrong"
       ></app-answer-indication>
     </div>
     <div

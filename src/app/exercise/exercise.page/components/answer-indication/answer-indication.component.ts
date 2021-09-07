@@ -18,5 +18,9 @@ export class AnswerIndicationComponent {
   @Input()
   isFocused: boolean = false;
 
+  @HostBinding('class.--wrong')
+  @Input()
+  wasAnsweredWrong: boolean = false;
+
   constructor() { }
 }
