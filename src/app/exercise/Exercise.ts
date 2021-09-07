@@ -5,8 +5,14 @@ import { Note } from 'tone/Tone/core/type/NoteUnits';
 
 export namespace Exercise {
   export interface Question {
-    rightAnswer: string;
-    partToPlay: NoteEvent[] | OneOrMany<Note>;
+    /**
+     * Use more then one segment for serial exercises
+     * Example: in a melodic dictation each note is a segment, it has its own answer
+     * */
+    segments: {
+      rightAnswer: string;
+      partToPlay: NoteEvent[] | OneOrMany<Note>;
+    }[],
     /**
      * To be played to give the listener a context of the part,
      * Then the part can be played separately or with the cadence

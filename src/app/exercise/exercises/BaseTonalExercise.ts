@@ -11,10 +11,11 @@ export abstract class BaseTonalExercise<GAnswer extends string = string> extends
 
   getQuestion(): Exercise.Question {
     const randomQuestionInC: Exclude<Exercise.Question, 'cadence'> = this.getQuestionInC();
-    const questionTransposedToKey = transpose(randomQuestionInC.partToPlay, getDistanceOfKeys(this.key, 'C'));
     return {
-      rightAnswer: randomQuestionInC.rightAnswer,
-      partToPlay: questionTransposedToKey,
+      segments: randomQuestionInC.segments.map(segment => ({
+        rightAnswer: segment.rightAnswer,
+        partToPlay: transpose(segment.partToPlay, getDistanceOfKeys(this.key, 'C')),
+      })),
       cadence: transpose(IV_V_I_CADENCE_IN_C, getDistanceOfKeys(this.key, 'C')),
     }
   }

@@ -47,7 +47,7 @@ export class ExerciseStateService {
   }
 
   answer(answer: string): boolean {
-    const isRight = this._currentQuestion.rightAnswer === answer;
+    const isRight = this._currentQuestion.segments[0].rightAnswer === answer;
     if (!isRight) {
       this._answeredCurrentWrong = true;
     } else {
@@ -64,11 +64,11 @@ export class ExerciseStateService {
       await this._player.playPart(toSteadyPart(this._currentQuestion.cadence))
       await timeoutAsPromise(100);
     }
-    return this._player.playPart(toSteadyPart(this._currentQuestion.partToPlay));
+    return this._player.playPart(toSteadyPart(this._currentQuestion.segments[0].partToPlay));
   }
 
   async playCurrentQuestion(): Promise<void> {
-    return this._player.playPart(toSteadyPart(this._currentQuestion.partToPlay));
+    return this._player.playPart(toSteadyPart(this._currentQuestion.segments[0].partToPlay));
   }
 
   nextQuestion(): void {

@@ -34,14 +34,16 @@ export class ChordsInKey extends BaseTonalExercise<RomanNumeralChord> {
   getQuestionInC(): Exclude<Exercise.Question, "cadence"> {
     const randomChord = randomFromList(this.chordsInC);
     return {
-      rightAnswer: randomChord.romanNumeral,
-      partToPlay: [
-        {
-          notes: randomChord.chord.getVoicing(randomFromList([0, 1, 2])),
-          velocity: 0.3,
-          duration: '1n',
-        },
-      ],
+      segments: [{
+        rightAnswer: randomChord.romanNumeral,
+        partToPlay: [
+          {
+            notes: randomChord.chord.getVoicing(randomFromList([0, 1, 2])),
+            velocity: 0.3,
+            duration: '1n',
+          },
+        ],
+      }]
     }
   }
 }

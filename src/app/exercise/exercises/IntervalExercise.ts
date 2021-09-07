@@ -80,11 +80,13 @@ export class IntervalExercise extends BaseExercise {
     const randomIntervalDescriptor: IInternalDescriptor = randomFromList(intervalDescriptorList);
     const randomStartingNote: NoteNumber = _.random(this.range.lowestNoteNumber, this.range.highestNoteNumber - randomIntervalDescriptor.semitones);
     return {
-      rightAnswer: randomIntervalDescriptor.name,
-      partToPlay: _.shuffle([
-        toNoteName(randomStartingNote),
-        toNoteName(randomStartingNote + randomIntervalDescriptor.semitones),
-      ]),
+      segments: [{
+        rightAnswer: randomIntervalDescriptor.name,
+        partToPlay: _.shuffle([
+          toNoteName(randomStartingNote),
+          toNoteName(randomStartingNote + randomIntervalDescriptor.semitones),
+        ]),
+      }],
     }
   }
 }

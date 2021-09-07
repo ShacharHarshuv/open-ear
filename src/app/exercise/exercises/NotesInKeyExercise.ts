@@ -44,8 +44,12 @@ export class NotesInKeyExercise extends BaseTonalExercise<NoteInKey> {
   getQuestionInC(): Exclude<Exercise.Question, 'cadence'> {
     const randomQuestionInC: { answer: NoteInKey; question: NoteEvent } = randomFromList(this.questionOptionsInC);
     return {
-      rightAnswer: randomQuestionInC.answer,
-      partToPlay: [randomQuestionInC.question],
+      segments: [
+        {
+          rightAnswer: randomQuestionInC.answer,
+          partToPlay: [randomQuestionInC.question],
+        }
+      ]
     }
   }
 
