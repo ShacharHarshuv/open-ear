@@ -10,7 +10,7 @@ import {
 import { ExerciseSettings } from '../../../services/exercise-state.service';
 
 interface ExerciseSettingsControls {
-  playCadenceOptions: 'ALWAYS' | /*'EVERY_NEW_KEY' TODO(OE-12) |*/ 'NEVER' /*| 'EVERY TODO(OE-13)'*/
+  playCadenceOptions: 'ALWAYS' | 'ONLY_ON_REPEAT' | /*'EVERY_NEW_KEY' TODO(OE-12) |*/ 'NEVER' /*| 'EVERY TODO(OE-13)'*/
   ;
   // playCadenceEvery: number; // todo(OE-13)
 }
@@ -66,6 +66,7 @@ export class ExerciseSettingsPage {
           // EVERY_NEW_KEY: 'EVERY_NEW_KEY', // TODO(OE-12)
           ALWAYS: true,
           NEVER: false,
+          ONLY_ON_REPEAT: 'ONLY_ON_REPEAT',
         };
         return valueMapping[formGroupValue.playCadenceOptions];
       })(),

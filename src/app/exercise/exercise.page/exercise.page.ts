@@ -42,7 +42,11 @@ export class ExercisePage {
     this.wrongAnswers = [];
     this.rightAnswer = null;
     this.state.nextQuestion();
-    return this.state.playCurrentQuestion();
+    if (this.state.settings.playCadence === 'ONLY_ON_REPEAT') {
+      return this.state.playCurrentQuestion();
+    } else {
+      return this.state.playCurrentCadenceAndQuestion();
+    }
   }
 
   async editSettings(): Promise<void> {

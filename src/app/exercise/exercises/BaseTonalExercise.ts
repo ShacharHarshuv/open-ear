@@ -1,8 +1,5 @@
 import { BaseExercise } from './BaseExercise';
-import {
-  Key,
-  randomFromList
-} from '../utility';
+import { Key } from '../utility';
 import { Exercise } from '../Exercise';
 import { transpose } from '../utility/music/transpose';
 import { getDistanceOfKeys } from '../utility/music/keys/getDistanceOfKeys';
