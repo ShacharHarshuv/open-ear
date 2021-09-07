@@ -16,6 +16,9 @@
 
 <ion-content [fullscreen]="true">
   <div class="exercise__content-container">
+    <div class="exercise__stats-container">
+      Correct answers: {{state.correctAnswers}}/{{state.totalQuestions}} ({{correctAnswersPercentage}}%)
+    </div>
     <div class="exercise__answers-container"></div>
     <div
       *ngIf="!isAutoLayout"

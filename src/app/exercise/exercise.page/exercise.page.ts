@@ -19,6 +19,13 @@ export class ExercisePage {
   wrongAnswers: string[] = [];
   rightAnswer: string | null = null;
 
+  get correctAnswersPercentage(): number {
+    if (!this.state.totalQuestions) {
+      return 0;
+    }
+    return (this.state.correctAnswers / this.state.totalQuestions) * 100;
+  }
+
   constructor(
     public state: ExerciseStateService,
     private _modalController: ModalController,
