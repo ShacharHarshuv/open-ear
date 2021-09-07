@@ -10,6 +10,9 @@
 
   &__answers-container {
     min-height: 20 * $unit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   &__answers-row {

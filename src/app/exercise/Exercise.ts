@@ -20,11 +20,13 @@ export namespace Exercise {
     cadence?: NoteEvent[] | OneOrMany<Note>;
   }
 
+  export type Answer<GAnswer extends string = string> = GAnswer;
+
   export interface AnswersLayout<GAnswer extends string = string> {
-    rows: GAnswer[][];
+    rows: Answer<GAnswer>[][];
   }
 
-  export type AnswerList<GAnswer extends string = string> = GAnswer[] | AnswersLayout<GAnswer>;
+  export type AnswerList<GAnswer extends string = string> = Answer<GAnswer>[] | AnswersLayout<GAnswer>;
 
   export interface IExercise<GAnswer extends string = string> {
     readonly id: string;

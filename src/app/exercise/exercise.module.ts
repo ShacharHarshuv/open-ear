@@ -5,11 +5,13 @@ import { ExerciseRoutingModule } from './exercise-routing.module';
 import { IonicModule } from '@ionic/angular';
 import { ExerciseSettingsPage } from './exercise.page/components/exercise-settings.page/exercise-settings.page';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AnswerIndicationComponent } from './exercise.page/components/answer-indication/answer-indication.component';
 
 @NgModule({
   declarations: [
     ExercisePage,
     ExerciseSettingsPage,
+    AnswerIndicationComponent,
   ],
   imports: [
     CommonModule,

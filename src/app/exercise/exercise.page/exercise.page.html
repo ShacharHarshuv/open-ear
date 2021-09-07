@@ -17,9 +17,14 @@
 <ion-content [fullscreen]="true">
   <div class="exercise__content-container">
     <div class="exercise__stats-container">
-      Correct answers: {{state.correctAnswers}}/{{state.totalQuestions}} ({{correctAnswersPercentage | number: '1.0-2'}}%)
+      Correct answers: {{state.totalCorrectAnswers}}/{{state.totalQuestions}} ({{correctAnswersPercentage | number: '1.0-2'}}%)
     </div>
-    <div class="exercise__answers-container"></div>
+    <div class="exercise__answers-container">
+      <app-answer-indication
+        *ngFor="let answer of state.currentAnswers"
+        [answer]="answer"
+      ></app-answer-indication>
+    </div>
     <div
       *ngIf="!isAutoLayout"
       class="exercise__answers-rows-container"

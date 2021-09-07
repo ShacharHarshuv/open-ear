@@ -8,6 +8,7 @@ import {
   toSteadyPart,
   timeoutAsPromise
 } from '../utility';
+import Answer = Exercise.Answer;
 
 export interface ExerciseSettings {
   /**
@@ -24,19 +25,24 @@ const DEFAULT_EXERCISE_SETTINGS: ExerciseSettings = {
 export class ExerciseStateService {
   private readonly _exercise: Exercise.IExercise = this._exerciseService.getExercise(this._activatedRoute.snapshot.paramMap.get('id')!);
   private _currentQuestion: Exercise.Question = this._exercise.getQuestion();
-  private _correctAnswers: number = 0;
+  private _totalCorrectAnswers: number = 0;
   private _totalQuestions: number = 0;
   private _answeredCurrentWrong: boolean = false;
+  private _currentAnswers: (Answer | null)[] = [];
   readonly name: string = this._exercise.name;
   readonly answerList: AnswerList = this._exercise.getAnswerList();
   settings: ExerciseSettings = DEFAULT_EXERCISE_SETTINGS;
 
-  get correctAnswers(): number {
-    return this._correctAnswers;
+  get totalCorrectAnswers(): number {
+    return this._totalCorrectAnswers;
   }
 
   get totalQuestions(): number {
     return this._totalQuestions;
+  }
+
+  get currentAnswers(): (Answer | null)[] {
+    return this._currentAnswers;
   }
 
   constructor(
@@ -53,8 +59,9 @@ export class ExerciseStateService {
     } else {
       this._totalQuestions++;
       if (!this._answeredCurrentWrong) {
-        this._correctAnswers++;
+        this._totalCorrectAnswers++;
       }
+      this._currentAnswers[0] = answer;
     }
     return isRight;
   }
@@ -74,5 +81,6 @@ export class ExerciseStateService {
   nextQuestion(): void {
     this._answeredCurrentWrong = false;
     this._currentQuestion = this._exercise.getQuestion();
+    this._currentAnswers = this._currentQuestion.segments.map(() => null);
   }
 }

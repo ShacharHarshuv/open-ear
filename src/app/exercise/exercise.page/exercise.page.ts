@@ -23,14 +23,14 @@ export class ExercisePage {
     if (!this.state.totalQuestions) {
       return 0;
     }
-    return (this.state.correctAnswers / this.state.totalQuestions) * 100;
+    return (this.state.totalCorrectAnswers / this.state.totalQuestions) * 100;
   }
 
   constructor(
     public state: ExerciseStateService,
     private _modalController: ModalController,
   ) {
-    state.playCurrentCadenceAndQuestion();
+    state.nextQuestion();
   }
 
   onAnswer(answer: string): void {
