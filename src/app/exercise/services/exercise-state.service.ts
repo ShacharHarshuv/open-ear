@@ -24,9 +24,20 @@ const DEFAULT_EXERCISE_SETTINGS: ExerciseSettings = {
 export class ExerciseStateService {
   private readonly _exercise: Exercise.IExercise = this._exerciseService.getExercise(this._activatedRoute.snapshot.paramMap.get('id')!);
   private _currentQuestion: Exercise.Question = this._exercise.getQuestion();
+  private _correctAnswers: number = 0;
+  private _totalQuestions: number = 0;
+  private _answeredCurrentWrong: boolean = false;
   readonly name: string = this._exercise.name;
   readonly answerList: AnswerList = this._exercise.getAnswerList();
   settings: ExerciseSettings = DEFAULT_EXERCISE_SETTINGS;
+
+  get correctAnswers(): number {
+    return this._correctAnswers;
+  }
+
+  get totalQuestions(): number {
+    return this._totalQuestions;
+  }
 
   constructor(
     private _activatedRoute: ActivatedRoute,
@@ -36,7 +47,16 @@ export class ExerciseStateService {
   }
 
   answer(answer: string): boolean {
-    return this._currentQuestion.rightAnswer === answer;
+    const isRight = this._currentQuestion.rightAnswer === answer;
+    if (!isRight) {
+      this._answeredCurrentWrong = true;
+    } else {
+      this._totalQuestions++;
+      if (!this._answeredCurrentWrong) {
+        this._correctAnswers++;
+      }
+    }
+    return isRight;
   }
 
   async playCurrentCadenceAndQuestion(): Promise<void> {
@@ -52,6 +72,7 @@ export class ExerciseStateService {
   }
 
   nextQuestion(): void {
+    this._answeredCurrentWrong = false;
     this._currentQuestion = this._exercise.getQuestion();
   }
 }
