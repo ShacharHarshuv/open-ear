@@ -21,8 +21,9 @@
     </div>
     <div class="exercise__answers-container">
       <app-answer-indication
-        *ngFor="let answer of state.currentAnswers"
+        *ngFor="let answer of state.currentAnswers; let i = index"
         [answer]="answer.answer"
+        [isFocused]="state.currentlyPlayingSegment === i"
         [wasAnsweredWrong]="answer.wasWrong"
       ></app-answer-indication>
     </div>

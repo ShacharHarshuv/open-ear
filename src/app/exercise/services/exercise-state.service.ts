@@ -35,6 +35,7 @@ export class ExerciseStateService {
   private _totalQuestions: number = 0;
   private _currentAnswers: CurrentAnswer[] = [];
   private _currentSegmentToAnswer: number = 0;
+  private _currentlyPlayingSegment: number | null = null;
   readonly name: string = this._exercise.name;
   readonly answerList: AnswerList = this._exercise.getAnswerList();
   settings: ExerciseSettings = DEFAULT_EXERCISE_SETTINGS;
@@ -54,6 +55,10 @@ export class ExerciseStateService {
 
   get currentAnswers(): CurrentAnswer[] {
     return this._currentAnswers;
+  }
+
+  get currentlyPlayingSegment(): number | null {
+    return this._currentlyPlayingSegment;
   }
 
   constructor(
@@ -87,9 +92,11 @@ export class ExerciseStateService {
   }
 
   async playCurrentQuestion(): Promise<void> {
-    for (let segment of this._currentQuestion.segments) {
-      await this._player.playPart(toSteadyPart(segment.partToPlay));
+    for (let i = 0; i < this._currentQuestion.segments.length; i++) {
+      this._currentlyPlayingSegment = i;
+      await this._player.playPart(toSteadyPart(this._currentQuestion.segments[i].partToPlay));
     }
+    this._currentlyPlayingSegment = null;
   }
 
   nextQuestion(): void {
