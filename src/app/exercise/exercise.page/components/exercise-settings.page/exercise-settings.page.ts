@@ -10,8 +10,9 @@ import {
 import { ExerciseSettings } from '../../../services/exercise-state.service';
 
 interface ExerciseSettingsControls {
-  playCadenceOptions: 'ALWAYS' | 'EVERY_NEW_KEY' | 'NEVER' /*| 'EVERY'*/; // todo: add this option in the future
-  // playCadenceEvery: number; // todo: add this option in the future
+  playCadenceOptions: 'ALWAYS' | /*'EVERY_NEW_KEY' TODO(OE-12) |*/ 'NEVER' /*| 'EVERY TODO(OE-13)'*/
+  ;
+  // playCadenceEvery: number; // todo(OE-13)
 }
 
 export interface ExerciseSettingsData {
@@ -41,8 +42,9 @@ export class ExerciseSettingsPage {
             return 'ALWAYS';
           case false:
             return 'NEVER';
-          case 'EVERY_NEW_KEY':
-            return 'EVERY_NEW_KEY';
+          // TODO(OE-12)
+          // case 'EVERY_NEW_KEY':
+          //   return 'EVERY_NEW_KEY';
           default:
             return 'ALWAYS';
         }
@@ -60,8 +62,8 @@ export class ExerciseSettingsPage {
     const formGroupValue = this.formGroup.getRawValue();
     return {
       playCadence: ((): ExerciseSettings['playCadence'] => {
-        const valueMapping: {[key in ExerciseSettingsControls['playCadenceOptions']]: ExerciseSettings['playCadence']} = {
-          EVERY_NEW_KEY: 'EVERY_NEW_KEY',
+        const valueMapping: { [key in ExerciseSettingsControls['playCadenceOptions']]: ExerciseSettings['playCadence'] } = {
+          // EVERY_NEW_KEY: 'EVERY_NEW_KEY', // TODO(OE-12)
           ALWAYS: true,
           NEVER: false,
         };
