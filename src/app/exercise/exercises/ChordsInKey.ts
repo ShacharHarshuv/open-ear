@@ -1,9 +1,20 @@
 import { BaseTonalExercise } from './BaseTonalExercise';
 import { Exercise } from '../Exercise';
-import { Chord } from '../utility/music/chords';
+import {
+  Chord,
+  ChordSymbol,
+  voiceChordProgression
+} from '../utility/music/chords';
 import { randomFromList } from '../utility';
+import * as _ from 'lodash';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
 
 type RomanNumeralChord = 'I' | 'ii' | 'iii' | 'IV' | 'V' | 'vi' | 'viiᵒ';
+
+interface ChordOption {
+  chord: Chord;
+  romanNumeral: RomanNumeralChord;
+}
 
 export class ChordsInKey extends BaseTonalExercise<RomanNumeralChord> {
   readonly name: string = 'Chord in Key';
@@ -32,18 +43,24 @@ export class ChordsInKey extends BaseTonalExercise<RomanNumeralChord> {
   }
 
   getQuestionInC(): Exclude<Exercise.Question, "cadence"> {
-    const randomChord = randomFromList(this.chordsInC);
+    const numberOfSegments = 3;
+    const chordProgression: ChordOption[] = [randomFromList(this.chordsInC)];
+    while (chordProgression.length < numberOfSegments) {
+      chordProgression.push(randomFromList(this.chordsInC.filter(chord => chord !== _.last(chordProgression)!)));
+    }
+
     return {
-      segments: [{
-        rightAnswer: randomChord.romanNumeral,
-        partToPlay: [
-          {
-            notes: randomChord.chord.getVoicing(randomFromList([0, 1, 2])),
-            velocity: 0.3,
-            duration: '1n',
-          },
-        ],
-      }]
+      segments: voiceChordProgression(_.map(chordProgression, 'chord'), randomFromList([0, 1, 2]))
+        .map((voicing: Note[], index: number): Exercise.Question['segments'][0] => {
+          return {
+            rightAnswer: chordProgression[index].romanNumeral,
+            partToPlay: [{
+              notes: voicing,
+              velocity: 0.3,
+              duration: '1n',
+            }],
+          }
+        }),
     }
   }
 }
