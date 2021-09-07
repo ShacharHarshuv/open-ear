@@ -3,13 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { ExerciseService } from './exercise.service';
 import { Exercise } from '../Exercise';
 import { PlayerService } from '../../services/player.service';
-import AnswerList = Exercise.AnswerList;
 import {
   toSteadyPart,
   timeoutAsPromise
 } from '../utility';
-import Answer = Exercise.Answer;
 import * as _ from 'lodash';
+import AnswerList = Exercise.AnswerList;
+import Answer = Exercise.Answer;
 
 export interface ExerciseSettings {
   /**
@@ -81,11 +81,13 @@ export class ExerciseStateService {
       await this._player.playPart(toSteadyPart(this._currentQuestion.cadence))
       await timeoutAsPromise(100);
     }
-    return this._player.playPart(toSteadyPart(this._currentQuestion.segments[0].partToPlay));
+    await this.playCurrentQuestion();
   }
 
   async playCurrentQuestion(): Promise<void> {
-    return this._player.playPart(toSteadyPart(this._currentQuestion.segments[0].partToPlay));
+    for (let segment of this._currentQuestion.segments) {
+      await this._player.playPart(toSteadyPart(segment.partToPlay));
+    }
   }
 
   nextQuestion(): void {
