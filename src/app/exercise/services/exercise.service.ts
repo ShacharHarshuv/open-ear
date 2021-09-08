@@ -13,6 +13,7 @@ export class ExerciseService {
   private readonly _exerciseList: IExercise[] = [
     new IntervalExercise(),
     new NotesInKeyExercise(),
+    // @ts-ignore
     new ChordsInKey(),
   ];
   private readonly _exerciseIdToExercise = _.keyBy(this._exerciseList, 'id');

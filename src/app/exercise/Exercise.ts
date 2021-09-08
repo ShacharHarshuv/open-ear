@@ -28,13 +28,37 @@ export namespace Exercise {
 
   export type AnswerList<GAnswer extends string = string> = Answer<GAnswer>[] | AnswersLayout<GAnswer>;
 
-  export interface IExercise<GAnswer extends string = string> {
+  export interface BaseSettingsControlDescriptor {
+    controlType: string;
+    label: string;
+  }
+
+  export interface SettingsSliderControlDescriptor extends BaseSettingsControlDescriptor {
+    controlType: 'SLIDER';
+    min: number;
+    max: number;
+    step: number;
+  }
+
+  export type SettingValueType = number | string | boolean;
+
+  export type SettingsControlDescriptor<GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }> = {
+    key: keyof GSettings,
+    descriptor: SettingsSliderControlDescriptor
+  }
+
+  export interface IExercise<GAnswer extends string = string, GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }> {
     readonly id: string;
     readonly name: string;
     readonly description: string;
+    readonly settingsDescriptor?: SettingsControlDescriptor<GSettings>[];
 
     getAnswerList(): AnswerList<GAnswer>;
 
     getQuestion(): Question;
+
+    updateSettings?(settings: GSettings): void;
+
+    getCurrentSettings?(): GSettings;
   }
 }

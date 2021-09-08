@@ -1,8 +1,9 @@
 import { BaseTonalExercise } from './BaseTonalExercise';
-import { Exercise } from '../Exercise';
+import {
+  Exercise,
+} from '../Exercise';
 import {
   Chord,
-  ChordSymbol,
   voiceChordProgression
 } from '../utility/music/chords';
 import { randomFromList } from '../utility';
@@ -16,7 +17,12 @@ interface ChordOption {
   romanNumeral: RomanNumeralChord;
 }
 
-export class ChordsInKey extends BaseTonalExercise<RomanNumeralChord> {
+type ChordInKeySettings = {
+  numberOfSegments: number;
+}
+
+export class ChordsInKey extends BaseTonalExercise<RomanNumeralChord, ChordInKeySettings> {
+  readonly settingsDescriptor: Exercise.SettingsControlDescriptor<ChordInKeySettings>[] = ChordsInKey._getSettingsDescriptor();
   readonly name: string = 'Chord in Key';
   readonly description: string = 'Recognise chords based on their tonal context in a key';
   readonly chordsInC: { chord: Chord; romanNumeral: RomanNumeralChord }[] = [
@@ -32,7 +38,10 @@ export class ChordsInKey extends BaseTonalExercise<RomanNumeralChord> {
       chord: new Chord('G'),
       romanNumeral: 'V',
     },
-  ]
+  ];
+  private _settings: ChordInKeySettings = {
+    numberOfSegments: 3,
+  }
 
   getAnswerList(): Exercise.AnswerList<RomanNumeralChord> {
     return [
@@ -42,8 +51,21 @@ export class ChordsInKey extends BaseTonalExercise<RomanNumeralChord> {
     ];
   }
 
+  private static _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordInKeySettings>[] {
+    return [{
+      key: 'numberOfSegments',
+      descriptor: {
+        controlType: 'SLIDER',
+        label: 'Number of chords',
+        min: 1,
+        max: 8,
+        step: 1,
+      }
+    }]
+  }
+
   getQuestionInC(): Exclude<Exercise.Question, "cadence"> {
-    const numberOfSegments = 3;
+    const numberOfSegments = this._settings.numberOfSegments;
     const chordProgression: ChordOption[] = [randomFromList(this.chordsInC)];
     while (chordProgression.length < numberOfSegments) {
       chordProgression.push(randomFromList(this.chordsInC.filter(chord => chord !== _.last(chordProgression)!)));
@@ -62,5 +84,13 @@ export class ChordsInKey extends BaseTonalExercise<RomanNumeralChord> {
           }
         }),
     }
+  }
+
+  updateSettings(settings: ChordInKeySettings): void {
+    this._settings = settings;
+  }
+
+  getCurrentSettings(): ChordInKeySettings {
+    return this._settings;
   }
 }

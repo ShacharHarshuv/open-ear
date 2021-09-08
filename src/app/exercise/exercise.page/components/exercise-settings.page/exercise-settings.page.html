@@ -16,7 +16,7 @@
     <ion-label>Play Cadence</ion-label>
     <ion-select
       [interface]="'popover'"
-      [formControl]="formGroup.controls.playCadenceOptions"
+      [formControl]="generalFormGroup.controls.playCadenceOptions"
     >
       <ion-select-option [value]="'ALWAYS'">Always</ion-select-option>
       <!--TODO(OE-13)-->
@@ -27,4 +27,24 @@
       <ion-select-option [value]="'ONLY_ON_REPEAT'">Only on repeat</ion-select-option>
     </ion-select>
   </ion-item>
+
+  <ng-container *ngIf="exerciseFormGroup">
+    <ng-container *ngFor="let exerciseControlSettings of exerciseSettingsDescriptor">
+      <ion-item class="exercise-settings__item --label-above">
+        <ion-label>{{exerciseControlSettings.descriptor.label}}</ion-label>
+        <ng-container [ngSwitch]="exerciseControlSettings.descriptor.controlType">
+          <ion-range
+            *ngSwitchCase="'SLIDER'"
+            [formControl]="exerciseFormGroup.controls[exerciseControlSettings.key]"
+            [max]="exerciseControlSettings.descriptor.max"
+            [min]="exerciseControlSettings.descriptor.min"
+            [snaps]="true"
+            [step]="exerciseControlSettings.descriptor.step"
+            pin
+          >
+          </ion-range>
+        </ng-container>
+      </ion-item>
+    </ng-container>
+  </ng-container>
 </ion-content>

@@ -58,7 +58,7 @@ export class ExercisePage {
 
   nextQuestion(): Promise<void> {
     this.state.nextQuestion();
-    if (this.state.settings.playCadence === 'ONLY_ON_REPEAT') {
+    if (this.state.globalSettings.playCadence === 'ONLY_ON_REPEAT') {
       return this.state.playCurrentQuestion();
     } else {
       return this.state.playCurrentCadenceAndQuestion();
@@ -70,11 +70,14 @@ export class ExercisePage {
       component: ExerciseSettingsPage,
       componentProps: {
         exerciseName: this.state.name,
-        currentSettings: this.state.settings,
+        currentGlobalSettings: this.state.globalSettings,
+        exerciseSettingsDescriptorInput: this.state.exerciseSettingsDescriptor, // must be before currentExerciseSettings
+        currentExerciseSettings: this.state.exerciseSettings,
       }
     });
     await modal.present();
     const data: ExerciseSettingsData = (await modal.onDidDismiss()).data;
-    this.state.settings = data.settings;
+    this.state.globalSettings = data.globalSettings;
+    this.state.updateExerciseSettings(data.exerciseSettings);
   }
 }

@@ -10,15 +10,16 @@ import {
 import * as _ from 'lodash';
 import AnswerList = Exercise.AnswerList;
 import Answer = Exercise.Answer;
+import SettingValueType = Exercise.SettingValueType;
 
-export interface ExerciseSettings {
+export interface GlobalExerciseSettings {
   /**
    * If received number it will play the cadence every n exercises
    * */
   playCadence: true | false | 'ONLY_ON_REPEAT' /*| 'EVERY_NEW_KEY' | number*/; // TODO(OE-12, OE-13)
 }
 
-const DEFAULT_EXERCISE_SETTINGS: ExerciseSettings = {
+const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   playCadence: true,
 }
 
@@ -38,7 +39,7 @@ export class ExerciseStateService {
   private _currentlyPlayingSegment: number | null = null;
   readonly name: string = this._exercise.name;
   readonly answerList: AnswerList = this._exercise.getAnswerList();
-  settings: ExerciseSettings = DEFAULT_EXERCISE_SETTINGS;
+  globalSettings: GlobalExerciseSettings = DEFAULT_EXERCISE_SETTINGS;
 
   private get _answeredCurrentWrong(): boolean {
     const answeredWrong = this._currentAnswers.filter(answer => answer.wasWrong);
@@ -59,6 +60,15 @@ export class ExerciseStateService {
 
   get currentlyPlayingSegment(): number | null {
     return this._currentlyPlayingSegment;
+  }
+
+  get exerciseSettingsDescriptor(): Exercise.SettingsControlDescriptor[] {
+    const settingsDescriptor: Exercise.SettingsControlDescriptor[] | undefined = this._exercise.settingsDescriptor;
+    return settingsDescriptor || [];
+  }
+
+  get exerciseSettings(): { [key: string]: Exercise.SettingValueType } {
+    return this._exercise.getCurrentSettings?.() || {};
   }
 
   constructor(
@@ -84,7 +94,7 @@ export class ExerciseStateService {
   }
 
   async playCurrentCadenceAndQuestion(): Promise<void> {
-    if (this._currentQuestion.cadence && this.settings.playCadence) {
+    if (this._currentQuestion.cadence && this.globalSettings.playCadence) {
       await this._player.playPart(toSteadyPart(this._currentQuestion.cadence))
       await timeoutAsPromise(100);
     }
@@ -106,5 +116,10 @@ export class ExerciseStateService {
       answer: null,
     }));
     this._currentSegmentToAnswer = 0;
+  }
+
+  updateExerciseSettings(settings: { [key: string]: SettingValueType }): void {
+    this._exercise.updateSettings?.(settings);
+    this.nextQuestion();
   }
 }

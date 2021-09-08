@@ -5,9 +5,12 @@ import {
 import { ModalController } from '@ionic/angular';
 import {
   FormGroup,
-  FormControl
+  FormControl,
+  TAbstractControlsOf
 } from '../../../../shared/reactive-forms';
-import { ExerciseSettings } from '../../../services/exercise-state.service';
+import { GlobalExerciseSettings } from '../../../services/exercise-state.service';
+import { Exercise, } from '../../../Exercise';
+import SettingValueType = Exercise.SettingValueType;
 
 interface ExerciseSettingsControls {
   playCadenceOptions: 'ALWAYS' | 'ONLY_ON_REPEAT' | /*'EVERY_NEW_KEY' TODO(OE-12) |*/ 'NEVER' /*| 'EVERY TODO(OE-13)'*/
@@ -16,7 +19,8 @@ interface ExerciseSettingsControls {
 }
 
 export interface ExerciseSettingsData {
-  settings: ExerciseSettings,
+  globalSettings: GlobalExerciseSettings,
+  exerciseSettings: { [key: string]: SettingValueType },
 }
 
 @Component({
@@ -25,17 +29,20 @@ export interface ExerciseSettingsData {
   styleUrls: ['./exercise-settings.page.scss'],
 })
 export class ExerciseSettingsPage {
-  readonly formGroup = new FormGroup<ExerciseSettingsControls>({
+  readonly generalFormGroup = new FormGroup<ExerciseSettingsControls>({
     playCadenceOptions: new FormControl('ALWAYS'),
     // playCadenceEvery: new FormControl(5),
   });
+
+  exerciseSettingsDescriptor: Exercise.SettingsControlDescriptor[];
+  exerciseFormGroup: FormGroup<{[key: string]: FormControl}>;
 
   @Input()
   exerciseName: string;
 
   @Input()
-  set currentSettings(currentSettings: ExerciseSettings) {
-    this.formGroup.reset({
+  set currentGlobalSettings(currentSettings: GlobalExerciseSettings) {
+    this.generalFormGroup.reset({
       playCadenceOptions: ((): ExerciseSettingsControls['playCadenceOptions'] => {
         switch (currentSettings.playCadence) {
           case true:
@@ -52,17 +59,41 @@ export class ExerciseSettingsPage {
     })
   }
 
+  @Input()
+  set currentExerciseSettings(currentSettings: { [key: string]: SettingValueType }) {
+    this.exerciseFormGroup.reset(currentSettings);
+  }
+
+  @Input('exerciseSettingsDescriptor')
+  set exerciseSettingsDescriptorInput(settingsDescriptor: Exercise.SettingsControlDescriptor[]) {
+    this.exerciseSettingsDescriptor = settingsDescriptor;
+    const controls: TAbstractControlsOf<{[key: string]: any}, {}> = {};
+    for (let settingsControlDescriptor of settingsDescriptor) {
+      controls[settingsControlDescriptor.key] = new FormControl();
+    }
+    this.exerciseFormGroup = new FormGroup(controls);
+  }
+
   constructor(
     private _modalController: ModalController,
   ) {
 
   }
 
-  private _getNewSettings(): ExerciseSettings {
-    const formGroupValue = this.formGroup.getRawValue();
+  async close(): Promise<void> {
+    const newGlobalSettings: GlobalExerciseSettings = this._getNewSettings();
+    const exerciseSettingsData: ExerciseSettingsData = {
+      globalSettings: newGlobalSettings,
+      exerciseSettings: this.exerciseFormGroup.getRawValue(),
+    }
+    await this._modalController.dismiss(exerciseSettingsData);
+  }
+
+  private _getNewSettings(): GlobalExerciseSettings {
+    const formGroupValue = this.generalFormGroup.getRawValue();
     return {
-      playCadence: ((): ExerciseSettings['playCadence'] => {
-        const valueMapping: { [key in ExerciseSettingsControls['playCadenceOptions']]: ExerciseSettings['playCadence'] } = {
+      playCadence: ((): GlobalExerciseSettings['playCadence'] => {
+        const valueMapping: { [key in ExerciseSettingsControls['playCadenceOptions']]: GlobalExerciseSettings['playCadence'] } = {
           // EVERY_NEW_KEY: 'EVERY_NEW_KEY', // TODO(OE-12)
           ALWAYS: true,
           NEVER: false,
@@ -71,13 +102,5 @@ export class ExerciseSettingsPage {
         return valueMapping[formGroupValue.playCadenceOptions];
       })(),
     }
-  }
-
-  async close(): Promise<void> {
-    const newSettings: ExerciseSettings = this._getNewSettings();
-    const exerciseSettingsData: ExerciseSettingsData = {
-      settings: newSettings,
-    }
-    await this._modalController.dismiss(exerciseSettingsData);
   }
 }
