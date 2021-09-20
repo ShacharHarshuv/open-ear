@@ -30,13 +30,14 @@ interface CurrentAnswer {
 
 @Injectable()
 export class ExerciseStateService {
-  private readonly _exercise: Exercise.IExercise = this._exerciseService.getExercise(this._activatedRoute.snapshot.paramMap.get('id')!);
+  readonly _exercise: Exercise.IExercise = this._exerciseService.getExercise(this._activatedRoute.snapshot.paramMap.get('id')!);
   private _currentQuestion: Exercise.Question = this._exercise.getQuestion();
   private _totalCorrectAnswers: number = 0;
   private _totalQuestions: number = 0;
   private _currentAnswers: CurrentAnswer[] = [];
   private _currentSegmentToAnswer: number = 0;
   private _currentlyPlayingSegment: number | null = null;
+  private _highlightedAnswer: string | null = null;
   readonly name: string = this._exercise.name;
   readonly answerList: AnswerList = this._exercise.getAnswerList();
   globalSettings: GlobalExerciseSettings = DEFAULT_EXERCISE_SETTINGS;
@@ -71,6 +72,10 @@ export class ExerciseStateService {
     return this._exercise.getCurrentSettings?.() || {};
   }
 
+  get highlightedAnswer(): string | null {
+    return this._highlightedAnswer;
+  }
+
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _exerciseService: ExerciseService,
@@ -89,6 +94,10 @@ export class ExerciseStateService {
       }
       this._currentAnswers[this._currentSegmentToAnswer].answer = answer;
       this._currentSegmentToAnswer++;
+
+      if (this._currentSegmentToAnswer === this._currentQuestion.segments.length) {
+        this._afterCorrectAnswer();
+      }
     }
     return isRight;
   }
@@ -121,5 +130,17 @@ export class ExerciseStateService {
   updateExerciseSettings(settings: { [key: string]: SettingValueType }): void {
     this._exercise.updateSettings?.(settings);
     this.nextQuestion();
+  }
+
+  private async _afterCorrectAnswer(): Promise<void> {
+    if (!this._currentQuestion.afterCorrectAnswer) {
+      return;
+    }
+
+    for (let afterCorrectAnswerSegment of this._currentQuestion.afterCorrectAnswer) {
+      this._highlightedAnswer = afterCorrectAnswerSegment.answerToHighlight || null;
+      await this._player.playPart(afterCorrectAnswerSegment.partToPlay);
+    }
+    this._highlightedAnswer = null;
   }
 }

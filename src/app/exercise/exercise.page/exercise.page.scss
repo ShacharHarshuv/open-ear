@@ -31,15 +31,22 @@
       }
     }
 
-    &:not(.--right):not(.--wrong) {
+    &:not(.--right):not(.--wrong):not(.--highlighted) {
       &::part(native) {
-        transition: background-color 1s ease-in;
+        transition: background-color 700ms ease-in;
       }
     }
 
     &.--wrong {
       &::part(native) {
         background-color: #{var(--ion-color-danger)};
+      }
+    }
+
+    &.--highlighted {
+      &::part(native) {
+        background-color: #{var(--ion-color-dark)};
+        color: #{var(--ion-color-dark-contrast)};
       }
     }
   }

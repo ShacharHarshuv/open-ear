@@ -4,13 +4,13 @@ import { OneOrMany } from '../shared/ts-utility/toArray';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 
 export namespace Exercise {
-  export interface Question {
+  export interface Question<GAnswer extends string = string> {
     /**
      * Use more then one segment for serial exercises
      * Example: in a melodic dictation each note is a segment, it has its own answer
      * */
     segments: {
-      rightAnswer: string;
+      rightAnswer: GAnswer;
       partToPlay: NoteEvent[] | OneOrMany<Note>;
     }[],
     /**
@@ -18,6 +18,10 @@ export namespace Exercise {
      * Then the part can be played separately or with the cadence
      * */
     cadence?: NoteEvent[] | OneOrMany<Note>;
+    afterCorrectAnswer?: {
+      partToPlay: NoteEvent[],
+      answerToHighlight?: GAnswer,
+    }[];
   }
 
   export type Answer<GAnswer extends string = string> = GAnswer;
@@ -55,7 +59,7 @@ export namespace Exercise {
 
     getAnswerList(): AnswerList<GAnswer>;
 
-    getQuestion(): Question;
+    getQuestion(): Question<GAnswer>;
 
     updateSettings?(settings: GSettings): void;
 

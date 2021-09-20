@@ -39,7 +39,7 @@ export class ExercisePage {
 
   onAnswer(answer: string): void {
     if (this.isQuestionCompleted) {
-      // TODO(OE-14) - play the clicked answer
+      // TODO(OE-8) - play the clicked answer
       return;
     }
     const isRight: boolean = this.state.answer(answer);

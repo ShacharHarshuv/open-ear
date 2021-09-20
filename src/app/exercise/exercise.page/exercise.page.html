@@ -57,9 +57,10 @@
       #answerButton
     >
       <ion-button
-        [class.--right]="answer === rightAnswer"
         (click)="onAnswer(answer)"
-        [class.--wrong]="wrongAnswer === answer"
+        [class.--right]="answer === rightAnswer"
+        [class.--highlighted]="answer === state.highlightedAnswer"
+        [class.--wrong]="answer === wrongAnswer"
         [color]="'light'"
         class="exercise__answer-button"
       >

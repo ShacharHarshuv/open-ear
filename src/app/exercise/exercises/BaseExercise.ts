@@ -12,5 +12,5 @@ export abstract class BaseExercise<GAnswer extends string = string, GSettings ex
 
   abstract getAnswerList(): AnswerList<GAnswer>;
 
-  abstract getQuestion(): Exercise.Question;
+  abstract getQuestion(): Exercise.Question<GAnswer>;
 }

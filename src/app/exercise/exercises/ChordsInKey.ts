@@ -64,7 +64,7 @@ export class ChordsInKey extends BaseTonalExercise<RomanNumeralChord, ChordInKey
     }]
   }
 
-  getQuestionInC(): Exclude<Exercise.Question, "cadence"> {
+  getQuestionInC(): Exclude<Exercise.Question<RomanNumeralChord>, "cadence"> {
     const numberOfSegments = this._settings.numberOfSegments;
     const chordProgression: ChordOption[] = [randomFromList(this.chordsInC)];
     while (chordProgression.length < numberOfSegments) {
@@ -73,7 +73,7 @@ export class ChordsInKey extends BaseTonalExercise<RomanNumeralChord, ChordInKey
 
     return {
       segments: voiceChordProgression(_.map(chordProgression, 'chord'), randomFromList([0, 1, 2]))
-        .map((voicing: Note[], index: number): Exercise.Question['segments'][0] => {
+        .map((voicing: Note[], index: number): Exercise.Question<RomanNumeralChord>['segments'][0] => {
           return {
             rightAnswer: chordProgression[index].romanNumeral,
             partToPlay: [{
