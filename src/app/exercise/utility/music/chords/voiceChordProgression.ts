@@ -7,11 +7,21 @@ import { toNoteNumber } from '../notes/toNoteName';
 import * as _ from 'lodash';
 import { NoteType } from '../notes/NoteType';
 import { noteTypeToNote } from '../notes/noteTypeToNote';
+import { transpose } from '../transpose';
+import { Interval } from '../intervals/interval';
 
 function voiceNextChord(currentChordVoicing: Note[], nextChord: Chord): Note[] {
+  const highestVoice: Note = _.last(currentChordVoicing)!;
   const voicingOptionsForNextChord: Note[][] = [];
   for (let i = 0; i < nextChord.noteTypes.length; i++) {
-    voicingOptionsForNextChord.push(nextChord.getVoicing(i, false));
+    let possibleVoicing: Note[] = nextChord.getVoicing({
+      topVoicesInversion: i,
+      withBass: false,
+    });
+    // normalized for preferred octave, i.e. when the the soprano voice is the closest
+    const highestNoteOfPossibleVoicing = _.last(possibleVoicing)!;
+    possibleVoicing = transpose(possibleVoicing, _.round((toNoteNumber(highestVoice) - toNoteNumber(highestNoteOfPossibleVoicing)) / Interval.Octave))
+    voicingOptionsForNextChord.push(possibleVoicing);
   }
 
   // rank chord movement by the movement of each voice
@@ -42,7 +52,10 @@ export function voiceChordProgression(chordOrChordSymbolList: (ChordSymbol | Cho
     }
     return new Chord(chordOrChordSymbol);
   })
-  const chordVoicingWithoutBass: Note[][] = [chordList[0].getVoicing(startingTopVoicesInversion, false)];
+  const chordVoicingWithoutBass: Note[][] = [chordList[0].getVoicing({
+    topVoicesInversion: startingTopVoicesInversion,
+    withBass: false,
+  })];
   for (let i = 1; i < chordList.length; i++) {
     const nextChordVoicing: Note[] = voiceNextChord(chordVoicingWithoutBass[i - 1], chordList[i]);
     chordVoicingWithoutBass.push(nextChordVoicing);

@@ -6,19 +6,19 @@ import {
 
 export const IV_V_I_CADENCE_IN_C: NoteEvent[] = [
   {
-    notes: new Chord('C').getVoicing(TriadInversion.Fifth),
+    notes: new Chord('C').getVoicing({topVoicesInversion: TriadInversion.Fifth}),
     velocity: 0.3,
   },
   {
-    notes: new Chord('F').getVoicing(TriadInversion.Third),
+    notes: new Chord('F').getVoicing({topVoicesInversion: TriadInversion.Third}),
     velocity: 0.3,
   },
   {
-    notes: new Chord('G').getVoicing(TriadInversion.Third),
+    notes: new Chord('G').getVoicing({topVoicesInversion: TriadInversion.Third}),
     velocity: 0.3,
   },
   {
-    notes: new Chord('C').getVoicing(TriadInversion.Octave),
+    notes: new Chord('C').getVoicing({topVoicesInversion: TriadInversion.Octave, octave: 5}),
     duration: '2n',
     velocity: 0.3,
   }

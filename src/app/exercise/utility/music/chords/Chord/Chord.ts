@@ -2,9 +2,9 @@ import { NoteType } from '../../notes/NoteType';
 import { Interval } from '../../intervals/interval';
 import { transpose } from '../../transpose';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { toNoteNumber } from '../../notes/toNoteName';
-import { toNoteTypeNumber } from '../../notes/toNoteTypeNumber';
 import { noteTypeToNote } from '../../notes/noteTypeToNote';
+import * as _ from 'lodash';
+import { getNoteOctave } from '../../notes/getNoteOctave';
 
 export type ChordSymbol = `${NoteType}${'m' | ''}`;
 
@@ -51,14 +51,24 @@ export class Chord {
     return this.intervals.map(interval => transpose(this.root, interval));
   }
 
-  getVoicing(topVoicesInversion: number, withBass: boolean = true, octave: number = toNoteTypeNumber(this.root) < toNoteTypeNumber('Ab') ? 4 : 3): Note[] {
+  /**
+   * octave is the octave of the soprano voice
+   * */
+  getVoicing({
+               topVoicesInversion,
+               withBass = true,
+               octave = 4,
+             }: {
+    topVoicesInversion: number,
+    withBass?: boolean,
+    octave?: number
+  }): Note[] {
     if (topVoicesInversion - 1 > this.noteTypes.length) {
       throw new Error(`Invalid inversion ${topVoicesInversion} from chord with notes ${this.noteTypes}`);
     }
-    ;
 
     // first build the chord without inversions
-    const rootNote: Note = noteTypeToNote(this.root, octave) as Note;
+    const rootNote: Note = noteTypeToNote(this.root, 1);
     let chordVoicing: Note[] = this.intervals.map(interval => transpose(rootNote, interval));
 
     while (topVoicesInversion) {
@@ -67,10 +77,10 @@ export class Chord {
       topVoicesInversion--;
     }
 
-    //normalize to the right octave if needed
-    if (toNoteNumber(chordVoicing[0]) > toNoteNumber('G4')) {
-      chordVoicing = transpose(chordVoicing, -Interval.Octave);
-    }
+    //normalize to the right octave
+    const highestVoice: Note = _.last(chordVoicing)!;
+    const highestVoiceOctave = getNoteOctave(highestVoice);
+    chordVoicing = transpose(chordVoicing, (octave - highestVoiceOctave) * Interval.Octave);
 
     if (withBass) {
       return [

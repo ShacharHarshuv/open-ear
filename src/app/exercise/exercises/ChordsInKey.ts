@@ -52,52 +52,61 @@ const romanNumeralToResolution: {
   I: {
     0: [],
     1: [],
-    2: [],
+    2: [
+      {
+        romanNumeral: 'V',
+        chordVoicing: romanNumeralToChordInC['V']!.getVoicing({topVoicesInversion: TriadInversion.Fifth}),
+      },
+      {
+        romanNumeral: 'I',
+        chordVoicing: romanNumeralToChordInC['I']!.getVoicing({topVoicesInversion: TriadInversion.Octave}),
+      }
+    ],
   },
   IV: {
     0: [
       {
         romanNumeral: 'V',
-        chordVoicing: romanNumeralToChordInC['V']!.getVoicing(TriadInversion.Third),
+        chordVoicing: romanNumeralToChordInC['V']!.getVoicing({topVoicesInversion: TriadInversion.Third, octave: 3}),
       },
       {
         romanNumeral: 'I',
-        chordVoicing: romanNumeralToChordInC['I']!.getVoicing(TriadInversion.Octave),
+        chordVoicing: romanNumeralToChordInC['I']!.getVoicing({topVoicesInversion: TriadInversion.Octave}),
       },
     ],
     1: [
       {
         romanNumeral: 'V',
-        chordVoicing: romanNumeralToChordInC['V']!.getVoicing(TriadInversion.Fifth),
+        chordVoicing: romanNumeralToChordInC['V']!.getVoicing({topVoicesInversion: TriadInversion.Fifth}),
       },
       {
         romanNumeral: 'I',
-        chordVoicing: romanNumeralToChordInC['I']!.getVoicing(TriadInversion.Octave),
+        chordVoicing: romanNumeralToChordInC['I']!.getVoicing({topVoicesInversion: TriadInversion.Octave}),
       },
     ],
     2: [
       {
         romanNumeral: 'V',
-        chordVoicing: romanNumeralToChordInC['V']!.getVoicing(TriadInversion.Third),
+        chordVoicing: romanNumeralToChordInC['V']!.getVoicing({topVoicesInversion: TriadInversion.Third}),
       },
       {
         romanNumeral: 'I',
-        chordVoicing: romanNumeralToChordInC['I']!.getVoicing(TriadInversion.Octave, true, 4),
+        chordVoicing: romanNumeralToChordInC['I']!.getVoicing({ topVoicesInversion: TriadInversion.Octave, octave: 5 }),
       },
     ],
   },
   V: {
     0: [{
       romanNumeral: 'I',
-      chordVoicing: romanNumeralToChordInC['I']!.getVoicing(TriadInversion.Octave),
+      chordVoicing: romanNumeralToChordInC['I']!.getVoicing({topVoicesInversion: TriadInversion.Octave}),
     }],
     1: [{
       romanNumeral: 'I',
-      chordVoicing: romanNumeralToChordInC['I']!.getVoicing(TriadInversion.Octave),
+      chordVoicing: romanNumeralToChordInC['I']!.getVoicing({topVoicesInversion: TriadInversion.Octave, octave: 5}),
     }],
     2: [{
       romanNumeral: 'I',
-      chordVoicing: romanNumeralToChordInC['I']!.getVoicing(TriadInversion.Octave),
+      chordVoicing: romanNumeralToChordInC['I']!.getVoicing({topVoicesInversion: TriadInversion.Octave, octave: 5}),
     }],
   }
 }
@@ -163,7 +172,7 @@ export class ChordsInKey extends BaseTonalExercise<RomanNumeralChord, ChordInKey
       }[] = [
         {
           romanNumeral: firstChordRomanNumeral,
-          chordVoicing: chordProgression[0].chord.getVoicing(firstChordInversion),
+          chordVoicing: chordProgression[0].chord.getVoicing({topVoicesInversion: firstChordInversion}),
         },
         ...romanNumeralToResolution[firstChordRomanNumeral][firstChordInversion],
       ];
@@ -171,11 +180,13 @@ export class ChordsInKey extends BaseTonalExercise<RomanNumeralChord, ChordInKey
         answerToHighlight: romanNumeral,
         partToPlay: [{
           notes: chordVoicing,
-          duration: '2n',
+          duration: index === resolution.length - 1 ? '2n' : '4n',
           velocity: 0.3,
         }]
       }));
     }
+
+    console.log(question.afterCorrectAnswer); // todo
 
     return question;
   }

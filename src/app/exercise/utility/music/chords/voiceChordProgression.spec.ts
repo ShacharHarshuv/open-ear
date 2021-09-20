@@ -17,16 +17,16 @@ describe('voiceChordProgression', function () {
     [
       [['C', 'F', 'G', 'C'], 1],
       [
-        ['C2', 'C3', 'E4', 'G4', 'C5'],
-        ['F2', 'F3', 'F4', 'A4', 'C5'],
-        ['G2', 'G3', 'G4', 'B4', 'D5'],
-        ['C2', 'C3', 'G4', 'C5', 'E5'],
+        ['C2', 'C3', 'E3', 'G3', 'C4'],
+        ['F2', 'F3', 'F3', 'A3', 'C4'],
+        ['G2', 'G3', 'G3', 'B3', 'D4'],
+        ['C2', 'C3', 'G3', 'C4', 'E4'],
       ],
     ]
   ]
 
   testCases.forEach(([[chordSymbolList, startingInversion], voicing]) => {
-    it(`Voicing of ${chordSymbolList.join(', ')}`, () => {
+    it(`Voicing of ${chordSymbolList.join(', ')} starting with ${startingInversion}`, () => {
       const result: Note[][] = voiceChordProgression(chordSymbolList, startingInversion);
       expect(result.map(chord => chord.map(toNoteNumber))).toEqual(voicing.map(chord => chord.map(toNoteNumber)))
     })
