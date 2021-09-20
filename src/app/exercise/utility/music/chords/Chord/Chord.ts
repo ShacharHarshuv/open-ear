@@ -10,6 +10,12 @@ export type ChordSymbol = `${NoteType}${'m' | ''}`;
 
 export type ChordType = 'M' | 'm';
 
+export enum TriadInversion {
+  Fifth = 0,
+  Octave = 1,
+  Third = 2,
+}
+
 export class Chord {
   readonly root: NoteType = this._getChordRoot();
   readonly type: ChordType = this._getChordType();
@@ -45,14 +51,14 @@ export class Chord {
     return this.intervals.map(interval => transpose(this.root, interval));
   }
 
-  getVoicing(topVoicesInversion: number, withBass: boolean = true): Note[] {
+  getVoicing(topVoicesInversion: number, withBass: boolean = true, octave: number = toNoteTypeNumber(this.root) < toNoteTypeNumber('Ab') ? 4 : 3): Note[] {
     if (topVoicesInversion - 1 > this.noteTypes.length) {
       throw new Error(`Invalid inversion ${topVoicesInversion} from chord with notes ${this.noteTypes}`);
     }
     ;
 
     // first build the chord without inversions
-    const rootNote: Note = this.root + (toNoteTypeNumber(this.root) < toNoteTypeNumber('Ab') ? '4' : '3') as Note
+    const rootNote: Note = noteTypeToNote(this.root, octave) as Note;
     let chordVoicing: Note[] = this.intervals.map(interval => transpose(rootNote, interval));
 
     while (topVoicesInversion) {
