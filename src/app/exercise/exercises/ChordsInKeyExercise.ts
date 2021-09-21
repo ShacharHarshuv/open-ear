@@ -111,8 +111,8 @@ const romanNumeralToResolution: {
   }
 }
 
-export class ChordsInKey extends BaseTonalExercise<RomanNumeralChord, ChordInKeySettings> {
-  readonly settingsDescriptor: Exercise.SettingsControlDescriptor<ChordInKeySettings>[] = ChordsInKey._getSettingsDescriptor();
+export class ChordsInKeyExercise extends BaseTonalExercise<RomanNumeralChord, ChordInKeySettings> {
+  readonly settingsDescriptor: Exercise.SettingsControlDescriptor<ChordInKeySettings>[] = ChordsInKeyExercise._getSettingsDescriptor();
   readonly name: string = 'Chord in Key';
   readonly description: string = 'Recognise chords based on their tonal context in a key';
   private _settings: ChordInKeySettings = {

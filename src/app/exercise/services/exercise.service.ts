@@ -4,7 +4,7 @@ import { IntervalExercise } from '../exercises/IntervalExercise';
 import IExercise = Exercise.IExercise;
 import { Exercise } from '../Exercise';
 import { NotesInKeyExercise } from '../exercises/NotesInKeyExercise';
-import { ChordsInKey } from '../exercises/ChordsInKey';
+import { ChordsInKeyExercise } from '../exercises/ChordsInKeyExercise';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class ExerciseService {
     new IntervalExercise(),
     new NotesInKeyExercise(),
     // @ts-ignore
-    new ChordsInKey(),
+    new ChordsInKeyExercise(),
   ];
   private readonly _exerciseIdToExercise = _.keyBy(this._exerciseList, 'id');
 
