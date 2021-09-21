@@ -14,6 +14,8 @@ import {
   Seconds,
 } from 'tone/Tone/core/type/Units';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { NoteType } from '../exercise/utility/music/notes/NoteType';
+import { noteTypeToNote } from '../exercise/utility/music/notes/noteTypeToNote';
 
 const DEFAULT_VELOCITY: number = 0.7;
 
@@ -47,6 +49,19 @@ export class PlayerService {
     await Tone.loaded();
   }
 
+  private static _getSampleMap(): { [note: string]: string } {
+    const sampleMap: { [note: string]: string } = {};
+    const notesWithSamples: NoteType[] = ['A', 'C', 'D#', 'F#'];
+    const octavesWithSamples: number[] = [1, 2, 3, 4, 5, 6, 7];
+    for (let noteType of notesWithSamples) {
+      for (let octaveNumber of octavesWithSamples) {
+        const note = noteTypeToNote(noteType, octaveNumber);
+        sampleMap[note] = encodeURIComponent(`${note}v10.mp3`);
+      }
+    }
+    return sampleMap;
+  }
+
   private _stopCurrentlyPlaying(): void {
     Tone.Transport.stop();
 
@@ -60,19 +75,6 @@ export class PlayerService {
     }
 
     this._onPartFinished$.next();
-  }
-
-  private _getInstrument(): Sampler {
-    return new Sampler({
-      urls: {
-        'C4': 'C4.mp3',
-        'D#4': 'Ds4.mp3',
-        'F#4': 'Fs4.mp3',
-        'A4': 'A4.mp3',
-      },
-      release: 1,
-      baseUrl: `${location.origin}/assets/samples/piano/`,
-    }).toDestination();
   }
 
   async playPart(noteEventList: NoteEvent[]): Promise<void> {
@@ -102,5 +104,13 @@ export class PlayerService {
     Tone.Transport.start();
 
     return this._onPartFinished$.pipe(take(1)).toPromise();
+  }
+
+  private _getInstrument(): Sampler {
+    return new Sampler({
+      urls: PlayerService._getSampleMap(),
+      release: 1,
+      baseUrl: `${location.origin}/samples/piano-mp3-velocity10/audio/`,
+    }).toDestination();
   }
 }
