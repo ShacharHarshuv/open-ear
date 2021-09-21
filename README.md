@@ -32,3 +32,7 @@ If you would like to contibute in adding some features to the core infra of the 
 - ExerciseStateService manages the state of the exercise, including user actions (like answering, requesting repeat etc). This does not hold any UI element. 
 - ExercisePage is the UI part of ExerciseStateService and it manages rendering the UI, getting user input and displaying any indication. 
 - Under src/app/exercise you will also find a "utility" folder that has a tone of musical utilites like generating scales, chord progression etc. You can also convert notes to numbers to make calculation to them etc. 
+
+## Credits
+
+Piano samples used by Jan Frost from [@audio-samples/piano-mp3-*](https://github.com/darosh/samples-piano-mp3]).
