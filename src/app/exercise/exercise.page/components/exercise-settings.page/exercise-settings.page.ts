@@ -64,6 +64,9 @@ export class ExerciseSettingsPage {
     this.exerciseFormGroup.reset(currentSettings);
   }
 
+  @Input()
+  allAvailableAnswers: string[];
+
   @Input('exerciseSettingsDescriptor')
   set exerciseSettingsDescriptorInput(settingsDescriptor: Exercise.SettingsControlDescriptor[]) {
     this.exerciseSettingsDescriptor = settingsDescriptor;

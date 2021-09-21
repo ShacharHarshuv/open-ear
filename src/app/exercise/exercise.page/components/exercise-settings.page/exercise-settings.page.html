@@ -12,23 +12,27 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-item>
-    <ion-label>Play Cadence</ion-label>
-    <ion-select
-      [interface]="'popover'"
-      [formControl]="generalFormGroup.controls.playCadenceOptions"
-    >
-      <ion-select-option [value]="'ALWAYS'">Always</ion-select-option>
-      <!--TODO(OE-13)-->
-      <!--<ion-select-option value="'EVERY'">Every...</ion-select-option>-->
-      <!--TODO(OE-12)-->
-      <!--<ion-select-option [value]="'EVERY_NEW_KEY'">Once for a new key</ion-select-option>-->
-      <ion-select-option [value]="'NEVER'">Never</ion-select-option>
-      <ion-select-option [value]="'ONLY_ON_REPEAT'">Only on repeat</ion-select-option>
-    </ion-select>
-  </ion-item>
+  <ion-list>
+    <ion-item>
+      <ion-label>Play Cadence</ion-label>
+      <ion-select
+        [formControl]="generalFormGroup.controls.playCadenceOptions"
+        [interface]="'popover'"
+      >
+        <ion-select-option [value]="'ALWAYS'">Always</ion-select-option>
+        <!--TODO(OE-13)-->
+        <!--<ion-select-option value="'EVERY'">Every...</ion-select-option>-->
+        <!--TODO(OE-12)-->
+        <!--<ion-select-option [value]="'EVERY_NEW_KEY'">Once for a new key</ion-select-option>-->
+        <ion-select-option [value]="'NEVER'">Never</ion-select-option>
+        <ion-select-option [value]="'ONLY_ON_REPEAT'">Only on repeat</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
 
-  <ng-container *ngIf="exerciseFormGroup">
+  <app-included-answers [allAvailableAnswers]="allAvailableAnswers"></app-included-answers>
+
+  <ion-list *ngIf="exerciseFormGroup">
     <ng-container *ngFor="let exerciseControlSettings of exerciseSettingsDescriptor">
       <ion-item class="exercise-settings__item --label-above">
         <ion-label>{{exerciseControlSettings.descriptor.label}}</ion-label>
@@ -46,5 +50,5 @@
         </ng-container>
       </ion-item>
     </ng-container>
-  </ng-container>
+  </ion-list>
 </ion-content>

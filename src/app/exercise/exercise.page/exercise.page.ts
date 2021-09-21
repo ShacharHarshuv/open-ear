@@ -5,6 +5,7 @@ import {
   ExerciseSettingsPage,
   ExerciseSettingsData
 } from './components/exercise-settings.page/exercise-settings.page';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-exercise-page',
@@ -66,6 +67,7 @@ export class ExercisePage {
   }
 
   async editSettings(): Promise<void> {
+    const allAvailableAnswers: string[] = typeof this.state.answerList === 'object' ? _.flatMap(this.state.answerList) : this.state.answerList;
     const modal = await this._modalController.create({
       component: ExerciseSettingsPage,
       componentProps: {
@@ -73,6 +75,7 @@ export class ExercisePage {
         currentGlobalSettings: this.state.globalSettings,
         exerciseSettingsDescriptorInput: this.state.exerciseSettingsDescriptor, // must be before currentExerciseSettings
         currentExerciseSettings: this.state.exerciseSettings,
+        allAvailableAnswers: allAvailableAnswers,
       }
     });
     await modal.present();

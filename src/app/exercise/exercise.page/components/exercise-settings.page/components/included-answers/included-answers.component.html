@@ -1,0 +1,9 @@
+<ion-list>
+  <ion-list-header>
+    Included Options
+  </ion-list-header>
+  <ion-item *ngFor="let answer of allAvailableAnswers">
+    <ion-label>{{answer}}</ion-label>
+    <ion-checkbox slot="start"></ion-checkbox>
+  </ion-item>
+</ion-list>
