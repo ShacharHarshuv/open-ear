@@ -2,33 +2,106 @@ import { voiceChordProgression } from './voiceChordProgression';
 import { ChordSymbol } from './Chord/Chord';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { toNoteNumber } from '../notes/toNoteName';
+import * as _ from 'lodash';
+import Spy = jasmine.Spy;
 
 describe('voiceChordProgression', function () {
-  const testCases: [[ChordSymbol[], number], Note[][]][] = [
-    [
-      [['C', 'F', 'G', 'C'], 0],
-      [
-        ['C2', 'C3', 'C4', 'E4', 'G4'],
-        ['F2', 'F3', 'C4', 'F4', 'A4'],
-        ['G2', 'G3', 'B3', 'D4', 'G4'],
-        ['C2', 'C3', 'C4', 'E4', 'G4'],
-      ],
-    ],
-    [
-      [['C', 'F', 'G', 'C'], 1],
-      [
-        ['C2', 'C3', 'E3', 'G3', 'C4'],
-        ['F2', 'F3', 'F3', 'A3', 'C4'],
-        ['G2', 'G3', 'G3', 'B3', 'D4'],
-        ['C2', 'C3', 'G3', 'C4', 'E4'],
-      ],
-    ]
+  const testCases: {
+    progression: ChordSymbol[],
+    startingInversion: number,
+    expectedResultsOptions: {
+      randomlyChosenIndexesList: number[],
+      expectedResult: Note[][] | null,
+    }[],
+  }[] = [
+    {
+      progression: ['C', 'F', 'G', 'C'],
+      startingInversion: 0,
+      expectedResultsOptions: [
+        {
+          randomlyChosenIndexesList: [0, 0, 0],
+          expectedResult: [
+            ['C2', 'C3', 'C4', 'E4', 'G4'],
+            ['F2', 'F3', 'C4', 'F4', 'A4'],
+            ['G2', 'G3', 'B3', 'D4', 'G4'],
+            ['C2', 'C3', 'C4', 'E4', 'G4'],
+          ],
+        }
+      ]
+    },
+    {
+      progression: ['C', 'F', 'G', 'C'],
+      startingInversion: 1,
+      expectedResultsOptions: [
+        {
+          randomlyChosenIndexesList: [0, 0, 0],
+          expectedResult: [
+            ['C2', 'C3', 'E3', 'G3', 'C4'],
+            ['F2', 'F3', 'F3', 'A3', 'C4'],
+            ['G2', 'G3', 'G3', 'B3', 'D4'],
+            ['C2', 'C3', 'G3', 'C4', 'E4'],
+          ],
+        }
+      ]
+    },
+    {
+      progression: ['F', 'G'],
+      startingInversion: 2,
+      expectedResultsOptions: [
+        {
+          randomlyChosenIndexesList: [0],
+          expectedResult: [
+            ['F2', 'F3', 'C4', 'F4', 'A4'],
+            ['G2', 'G3', 'B3', 'D4', 'G4'],
+          ]
+        },
+        {
+          randomlyChosenIndexesList: [1],
+          expectedResult: [
+            ['F2', 'F3', 'C4', 'F4', 'A4'],
+            ['G2', 'G3', 'D4', 'G4', 'B4'],
+          ]
+        }
+      ]
+    },
+    {
+      progression: ['C', 'F'],
+      startingInversion: 0,
+      expectedResultsOptions: [
+        {
+          randomlyChosenIndexesList: [0],
+          expectedResult: [
+            ['C2', 'C3', 'C4', 'E4', 'G4'],
+            ['F2', 'F3', 'C4', 'F4', 'A4'],
+          ]
+        },
+        {
+          randomlyChosenIndexesList: [1],
+          expectedResult: null,
+        }
+      ]
+    }
   ]
 
-  testCases.forEach(([[chordSymbolList, startingInversion], voicing]) => {
-    it(`Voicing of ${chordSymbolList.join(', ')} starting with ${startingInversion}`, () => {
-      const result: Note[][] = voiceChordProgression(chordSymbolList, startingInversion);
-      expect(result.map(chord => chord.map(toNoteNumber))).toEqual(voicing.map(chord => chord.map(toNoteNumber)))
+  let spy: Spy;
+
+  beforeEach(() => {
+    spy = spyOn<any>(_, 'random');
+  })
+
+  testCases.forEach((testCase) => {
+    describe(`Voicing of ${testCase.progression.join(', ')} starting with ${testCase.startingInversion}`, () => {
+      testCase.expectedResultsOptions.forEach((voicingOption, index) => {
+        it(`Option ${index++}`, () => {
+          spy.and.returnValues(...voicingOption.randomlyChosenIndexesList);
+          if (!!voicingOption.expectedResult) {
+            const result: Note[][] = voiceChordProgression(testCase.progression, testCase.startingInversion);
+            expect(result.map(chord => chord.map(toNoteNumber))).toEqual(voicingOption.expectedResult.map(chord => chord.map(toNoteNumber)))
+          } else {
+            expect(() => voiceChordProgression(testCase.progression, testCase.startingInversion)).toThrow();
+          }
+        })
+      })
     })
   })
 });

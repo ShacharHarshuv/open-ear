@@ -9,6 +9,9 @@ import { NoteType } from '../notes/NoteType';
 import { noteTypeToNote } from '../notes/noteTypeToNote';
 import { transpose } from '../transpose';
 import { Interval } from '../intervals/interval';
+import { randomFromList } from '../../../../shared/ts-utility';
+
+const MAX_AVG_VOICE_MOVEMENT = 8 / 3;
 
 function voiceNextChord(currentChordVoicing: Note[], nextChord: Chord): Note[] {
   const highestVoice: Note = _.last(currentChordVoicing)!;
@@ -24,25 +27,19 @@ function voiceNextChord(currentChordVoicing: Note[], nextChord: Chord): Note[] {
     voicingOptionsForNextChord.push(possibleVoicing);
   }
 
-  // rank chord movement by the movement of each voice
-  const rankForEveryVoicing = voicingOptionsForNextChord.map((voicingOption: Note[]) => {
+  // filter valid voicing (that has small movements in voices)
+  const validVoicingOptions: Note[][] = voicingOptionsForNextChord.filter((voicingOption: Note[]): boolean => {
     if (voicingOption.length !== currentChordVoicing.length) {
       throw new Error(`voicing of different length not supported`); // (for now)
     }
-    return _.sum(voicingOption.map((voice: Note, index: number): number => {
+    const rank: number = _.sum(voicingOption.map((voice: Note, index: number): number => {
       return Math.abs(toNoteNumber(voice) - toNoteNumber(currentChordVoicing[index]));
     }));
+
+    return (rank / voicingOption.length <= MAX_AVG_VOICE_MOVEMENT);
   });
 
-  let indexOfBestVoicing = 0;
-
-  for (let i = 1; i < rankForEveryVoicing.length; i++) {
-    if (rankForEveryVoicing[i] < rankForEveryVoicing[indexOfBestVoicing]) {
-      indexOfBestVoicing = i;
-    }
-  }
-
-  return voicingOptionsForNextChord[indexOfBestVoicing];
+  return randomFromList(validVoicingOptions);
 }
 
 export function voiceChordProgression(chordOrChordSymbolList: (ChordSymbol | Chord)[], startingTopVoicesInversion: number = 0): Note[][] {
