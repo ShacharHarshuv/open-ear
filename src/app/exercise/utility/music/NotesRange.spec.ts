@@ -49,7 +49,6 @@ describe('Range', function () {
       const range = new NotesRange('Bb3', 'G#4');
       const expectedNotesInRange: Note[] = ['Bb3', 'B3', 'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4'];
       const result: Note[] = range.getAllNotes();
-      console.log(result);
       expect(result.map(toNoteNumber)).toEqual(expectedNotesInRange.map(toNoteNumber));
     })
 

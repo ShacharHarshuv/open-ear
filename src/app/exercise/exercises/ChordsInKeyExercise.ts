@@ -186,8 +186,6 @@ export class ChordsInKeyExercise extends BaseTonalExercise<RomanNumeralChord, Ch
       }));
     }
 
-    console.log(question.afterCorrectAnswer); // todo
-
     return question;
   }
 

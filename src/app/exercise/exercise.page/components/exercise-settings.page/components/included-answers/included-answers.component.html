@@ -1,9 +1,13 @@
-<ion-list>
+<ion-list *ngIf="modelValue$ | async as modelValue">
   <ion-list-header>
     Included Options
   </ion-list-header>
   <ion-item *ngFor="let answer of allAvailableAnswers">
     <ion-label>{{answer}}</ion-label>
-    <ion-checkbox slot="start"></ion-checkbox>
+    <ion-checkbox
+      (ionChange)="onChange(answer, $event.detail.checked)"
+      [checked]="modelValue.includes(answer)"
+      slot="start"
+    ></ion-checkbox>
   </ion-item>
 </ion-list>

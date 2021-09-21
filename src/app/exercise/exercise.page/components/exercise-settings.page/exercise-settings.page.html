@@ -30,7 +30,10 @@
     </ion-item>
   </ion-list>
 
-  <app-included-answers [allAvailableAnswers]="allAvailableAnswers"></app-included-answers>
+  <app-included-answers
+    [allAvailableAnswers]="allAvailableAnswers"
+    [formControl]="generalFormGroup.controls.includedAnswers"
+  ></app-included-answers>
 
   <ion-list *ngIf="exerciseFormGroup">
     <ng-container *ngFor="let exerciseControlSettings of exerciseSettingsDescriptor">

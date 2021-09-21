@@ -13,9 +13,9 @@ import { Exercise, } from '../../../Exercise';
 import SettingValueType = Exercise.SettingValueType;
 
 interface ExerciseSettingsControls {
-  playCadenceOptions: 'ALWAYS' | 'ONLY_ON_REPEAT' | /*'EVERY_NEW_KEY' TODO(OE-12) |*/ 'NEVER' /*| 'EVERY TODO(OE-13)'*/
-  ;
+  playCadenceOptions: 'ALWAYS' | 'ONLY_ON_REPEAT' | /*'EVERY_NEW_KEY' TODO(OE-12) |*/ 'NEVER' /*| 'EVERY TODO(OE-13)'*/;
   // playCadenceEvery: number; // todo(OE-13)
+  includedAnswers: FormControl<string[]>;
 }
 
 export interface ExerciseSettingsData {
@@ -32,6 +32,7 @@ export class ExerciseSettingsPage {
   readonly generalFormGroup = new FormGroup<ExerciseSettingsControls>({
     playCadenceOptions: new FormControl('ALWAYS'),
     // playCadenceEvery: new FormControl(5),
+    includedAnswers: new FormControl([]),
   });
 
   exerciseSettingsDescriptor: Exercise.SettingsControlDescriptor[];
@@ -56,6 +57,7 @@ export class ExerciseSettingsPage {
             return 'ALWAYS';
         }
       })(),
+      includedAnswers: currentSettings.includedAnswers,
     })
   }
 
@@ -80,7 +82,6 @@ export class ExerciseSettingsPage {
   constructor(
     private _modalController: ModalController,
   ) {
-
   }
 
   async close(): Promise<void> {
@@ -104,6 +105,7 @@ export class ExerciseSettingsPage {
         };
         return valueMapping[formGroupValue.playCadenceOptions];
       })(),
+      includedAnswers: formGroupValue.includedAnswers,
     }
   }
 }
