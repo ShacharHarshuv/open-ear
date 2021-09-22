@@ -17,12 +17,10 @@ export interface GlobalExerciseSettings {
    * If received number it will play the cadence every n exercises
    * */
   playCadence: true | false | 'ONLY_ON_REPEAT' /*| 'EVERY_NEW_KEY' | number*/; // TODO(OE-12, OE-13)
-  includedAnswers: string[],
 }
 
 const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   playCadence: true,
-  includedAnswers: [],
 }
 
 interface CurrentAnswer {
@@ -41,7 +39,7 @@ export class ExerciseStateService {
   private _currentlyPlayingSegment: number | null = null;
   private _highlightedAnswer: string | null = null;
   readonly name: string = this._exercise.name;
-  readonly answerList: AnswerList = this._exercise.getAnswerList();
+  answerList: AnswerList = this._exercise.getAnswerList();
   globalSettings: GlobalExerciseSettings = DEFAULT_EXERCISE_SETTINGS;
 
   private get _answeredCurrentWrong(): boolean {
@@ -131,6 +129,7 @@ export class ExerciseStateService {
 
   updateExerciseSettings(settings: { [key: string]: SettingValueType }): void {
     this._exercise.updateSettings?.(settings);
+    this.answerList = this._exercise.getAnswerList();
     this.nextQuestion();
   }
 

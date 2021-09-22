@@ -79,6 +79,9 @@ export class IntervalExercise extends BaseExercise<Interval, IntervalExerciseSet
   readonly description: string = 'Recognizing Intervals without context';
   readonly range = new NotesRange('C3', 'E5');
   readonly settingsDescriptor = IntervalExercise._getSettingsDescriptor();
+  protected _settings: IntervalExerciseSettings = {
+    includedAnswers: _.map(intervalDescriptorList, 'name'),
+  }
 
   private static _getSettingsDescriptor(): SettingsControlDescriptor<IntervalExerciseSettings>[] {
     return [
@@ -94,11 +97,11 @@ export class IntervalExercise extends BaseExercise<Interval, IntervalExerciseSet
   }
 
   getAnswerList(): AnswerList<Interval> {
-    return _.map(intervalDescriptorList, 'name');
+    return this._settings.includedAnswers;
   }
 
   getQuestion(): Exercise.Question<Interval> {
-    const randomIntervalDescriptor: IIntervalDescriptor = randomFromList(intervalDescriptorList);
+    const randomIntervalDescriptor: IIntervalDescriptor = randomFromList(intervalDescriptorList.filter(intervalDescriptor => this._settings.includedAnswers.includes(intervalDescriptor.name)));
     const randomStartingNote: NoteNumber = _.random(this.range.lowestNoteNumber, this.range.highestNoteNumber - randomIntervalDescriptor.semitones);
     return {
       segments: [{

@@ -115,7 +115,7 @@ export class ChordsInKeyExercise extends BaseTonalExercise<RomanNumeralChord, Ch
   readonly settingsDescriptor: Exercise.SettingsControlDescriptor<ChordInKeySettings>[] = ChordsInKeyExercise._getSettingsDescriptor();
   readonly name: string = 'Chord in Key';
   readonly description: string = 'Recognise chords based on their tonal context in a key';
-  private _settings: ChordInKeySettings = {
+  protected _settings: ChordInKeySettings = {
     numberOfSegments: 1,
   }
 
@@ -187,13 +187,5 @@ export class ChordsInKeyExercise extends BaseTonalExercise<RomanNumeralChord, Ch
     }
 
     return question;
-  }
-
-  updateSettings(settings: ChordInKeySettings): void {
-    this._settings = settings;
-  }
-
-  getCurrentSettings(): ChordInKeySettings {
-    return this._settings;
   }
 }

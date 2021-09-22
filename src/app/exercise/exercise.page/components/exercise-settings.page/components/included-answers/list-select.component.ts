@@ -8,20 +8,23 @@ import { take } from 'rxjs/operators';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
-  selector: 'app-included-answers',
-  templateUrl: './included-answers.component.html',
-  styleUrls: ['./included-answers.component.scss'],
+  selector: 'app-list-select',
+  templateUrl: './list-select.component.html',
+  styleUrls: ['./list-select.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => IncludedAnswersComponent),
+      useExisting: forwardRef(() => ListSelectComponent),
       multi: true,
     },
   ],
 })
-export class IncludedAnswersComponent extends BaseControlValueAccessorComponent<string[]> {
+export class ListSelectComponent extends BaseControlValueAccessorComponent<string[]> {
   @Input()
-  allAvailableAnswers: string[];
+  allAvailableOptions: string[];
+
+  @Input()
+  label: string;
 
   async onChange(answer: string, isSelected: boolean): Promise<void> {
     const currentValue: string[] = [...(await this.value$.pipe(take(1)).toPromise())];

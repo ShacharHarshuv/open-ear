@@ -30,28 +30,31 @@
     </ion-item>
   </ion-list>
 
-  <app-included-answers
-    [allAvailableAnswers]="allAvailableAnswers"
-    [formControl]="generalFormGroup.controls.includedAnswers"
-  ></app-included-answers>
-
   <ion-list *ngIf="exerciseFormGroup">
     <ng-container *ngFor="let exerciseControlSettings of exerciseSettingsDescriptor">
-      <ion-item class="exercise-settings__item --label-above">
-        <ion-label>{{exerciseControlSettings.descriptor.label}}</ion-label>
         <ng-container [ngSwitch]="exerciseControlSettings.descriptor.controlType">
-          <ion-range
+          <ion-item
             *ngSwitchCase="'SLIDER'"
-            [formControl]="exerciseFormGroup.controls[exerciseControlSettings.key]"
-            [max]="exerciseControlSettings.descriptor.max"
-            [min]="exerciseControlSettings.descriptor.min"
-            [snaps]="true"
-            [step]="exerciseControlSettings.descriptor.step"
-            pin
+            class="exercise-settings__item --label-above"
           >
-          </ion-range>
+            <ion-label>{{exerciseControlSettings.descriptor.label}}</ion-label>
+            <ion-range
+              [formControl]="exerciseFormGroup.controls[exerciseControlSettings.key]"
+              [max]="exerciseControlSettings.descriptor.max"
+              [min]="exerciseControlSettings.descriptor.min"
+              [snaps]="true"
+              [step]="exerciseControlSettings.descriptor.step"
+              pin
+            >
+            </ion-range>
+          </ion-item>
+          <app-list-select
+            *ngSwitchCase="'LIST_SELECT'"
+            [allAvailableOptions]="exerciseControlSettings.descriptor.allOptions"
+            [formControl]="exerciseFormGroup.controls[exerciseControlSettings.key]"
+            [label]="exerciseControlSettings.descriptor.label"
+          ></app-list-select>
         </ng-container>
-      </ion-item>
     </ng-container>
   </ion-list>
 </ion-content>

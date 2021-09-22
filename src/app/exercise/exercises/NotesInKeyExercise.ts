@@ -57,6 +57,7 @@ export class NotesInKeyExercise extends BaseTonalExercise<SolfegeNote> {
   readonly name: string = `Notes in Key`;
   readonly rangeForKeyOfC = new NotesRange('G2', 'E4');
   readonly questionOptionsInC: { answer: SolfegeNote; question: Note }[] = this._getQuestionOptionsInC();
+  protected _settings = {};
 
   getAnswerList(): AnswerList<SolfegeNote> {
     return {
