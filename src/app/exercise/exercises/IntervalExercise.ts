@@ -10,13 +10,16 @@ import {
 import { NoteNumber } from '../utility/music/notes/NoteNumberOrName';
 import { BaseExercise } from './BaseExercise';
 import AnswerList = Exercise.AnswerList;
+import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
 
-interface IInternalDescriptor {
-  name: string;
+type Interval = 'Minor 2nd' | 'Major 2nd' | 'Minor 3rd' | 'Major 3rd' | 'Perfect 4th' | 'Aug 4th' | 'Perfect 5th' | 'Minor 6th' | 'Major 6th' | 'Minor 7th' | 'Major 7th' | 'Octave';
+
+interface IIntervalDescriptor {
+  name: Interval;
   semitones: number;
 }
 
-const intervalDescriptorList: IInternalDescriptor[] = [
+const intervalDescriptorList: IIntervalDescriptor[] = [
   {
     name: 'Minor 2nd',
     semitones: 1,
@@ -67,17 +70,35 @@ const intervalDescriptorList: IInternalDescriptor[] = [
   },
 ]
 
-export class IntervalExercise extends BaseExercise {
+type IntervalExerciseSettings = {
+  includedAnswers: Interval[];
+}
+
+export class IntervalExercise extends BaseExercise<Interval, IntervalExerciseSettings> {
   readonly name: string = 'Interval Recognition';
   readonly description: string = 'Recognizing Intervals without context';
   readonly range = new NotesRange('C3', 'E5');
+  readonly settingsDescriptor = IntervalExercise._getSettingsDescriptor();
 
-  getAnswerList(): AnswerList {
+  private static _getSettingsDescriptor(): SettingsControlDescriptor<IntervalExerciseSettings>[] {
+    return [
+      {
+        key: 'includedAnswers',
+        descriptor: {
+          controlType: 'LIST_SELECT',
+          label: 'Included Intervals',
+          allOptions: _.map(intervalDescriptorList, 'name'),
+        }
+      }
+    ]
+  }
+
+  getAnswerList(): AnswerList<Interval> {
     return _.map(intervalDescriptorList, 'name');
   }
 
-  getQuestion(): Exercise.Question {
-    const randomIntervalDescriptor: IInternalDescriptor = randomFromList(intervalDescriptorList);
+  getQuestion(): Exercise.Question<Interval> {
+    const randomIntervalDescriptor: IIntervalDescriptor = randomFromList(intervalDescriptorList);
     const randomStartingNote: NoteNumber = _.random(this.range.lowestNoteNumber, this.range.highestNoteNumber - randomIntervalDescriptor.semitones);
     return {
       segments: [{

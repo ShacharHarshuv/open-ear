@@ -11,9 +11,10 @@ import { ChordsInKeyExercise } from '../exercises/ChordsInKeyExercise';
 })
 export class ExerciseService {
   private readonly _exerciseList: IExercise[] = [
+    // @ts-ignore // TODO(OE-27)
     new IntervalExercise(),
     new NotesInKeyExercise(),
-    // @ts-ignore
+    // @ts-ignore // TODO(OE-27)
     new ChordsInKeyExercise(),
   ];
   private readonly _exerciseIdToExercise = _.keyBy(this._exerciseList, 'id');

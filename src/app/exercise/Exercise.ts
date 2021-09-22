@@ -37,18 +37,24 @@ export namespace Exercise {
     label: string;
   }
 
-  export interface SettingsSliderControlDescriptor extends BaseSettingsControlDescriptor {
+  export interface SliderControlDescriptor extends BaseSettingsControlDescriptor {
     controlType: 'SLIDER';
     min: number;
     max: number;
     step: number;
   }
 
-  export type SettingValueType = number | string | boolean;
+  export interface ListSelectControlDescriptor<GOption = string> extends BaseSettingsControlDescriptor {
+    controlType: 'LIST_SELECT';
+    allOptions: GOption[];
+  }
 
-  export type SettingsControlDescriptor<GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }> = {
+  export type SettingValueType = number | string | boolean | string[];
+
+  export type SettingsControlDescriptor<GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }, GKey extends keyof GSettings = keyof GSettings> = {
     key: keyof GSettings,
-    descriptor: SettingsSliderControlDescriptor
+    descriptor: GSettings[GKey] extends number ? SliderControlDescriptor :
+      GSettings[GKey] extends Array<string> ? ListSelectControlDescriptor : never;
   }
 
   export interface IExercise<GAnswer extends string = string, GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }> {

@@ -21,15 +21,6 @@ import * as _ from 'lodash';
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class BaseControlValueAccessorComponent<T> extends BaseComponent implements ControlValueAccessor {
-  @Output('valueChange')
-  readonly onValueChangeEmitter$: Subject<T> = new Subject();
-  readonly value$: Observable<T> = merge(
-    this.modelValue$,
-    this.onValueChangeEmitter$,
-  )
-    .pipe(
-      publishReplayUntilAndConnect(this._destroy$),
-    );
   protected readonly _isDisabled$ = new BehaviorSubject<boolean>(false);
   readonly isDisabled$: Observable<boolean> = this._isDisabled$.asObservable();
   protected readonly _modelValue$ = new ReplaySubject<T>(1);
@@ -53,6 +44,17 @@ export abstract class BaseControlValueAccessorComponent<T> extends BaseComponent
   set disabledInput(isDisabled: boolean | null) {
     this.setDisabledState(!!isDisabled);
   }
+
+  @Output('valueChange')
+  readonly onValueChangeEmitter$: Subject<T> = new Subject();
+
+  readonly value$: Observable<T> = merge(
+    this.modelValue$,
+    this.onValueChangeEmitter$,
+  )
+    .pipe(
+      publishReplayUntilAndConnect(this._destroy$),
+    );
 
   get isDisabled(): boolean {
     return this._isDisabled$.value;
