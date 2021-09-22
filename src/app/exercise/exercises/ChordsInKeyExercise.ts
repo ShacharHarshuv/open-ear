@@ -10,7 +10,7 @@ import * as _ from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { BaseCommonSettingsExerciseSettings } from './BaseCommonSettingsExercise';
 
-type RomanNumeralChord = 'I'/* | 'ii' | 'iii'*/ | 'IV' | 'V'/* | 'vi' | 'viiᵒ'*/;
+type RomanNumeralChord = 'I'/* | 'ii' | 'iii'*/ | 'IV' | 'V' | 'vi'/* | 'viiᵒ'*/;
 
 interface ChordOption {
   chord: Chord;
@@ -33,6 +33,10 @@ const chordsInC: { chord: Chord; romanNumeral: RomanNumeralChord }[] = [
   {
     chord: new Chord('G'),
     romanNumeral: 'V',
+  },
+  {
+    chord: new Chord('Am'),
+    romanNumeral: 'vi',
   },
 ];
 
@@ -118,6 +122,71 @@ const romanNumeralToResolution: {
         octave: 5
       }),
     }],
+  },
+  vi: {
+    0: [
+      {
+        romanNumeral: 'IV',
+        chordVoicing: romanNumeralToChordInC['IV']!.getVoicing({
+          topVoicesInversion: TriadInversion.Octave,
+        }),
+      },
+      {
+        romanNumeral: 'V',
+        chordVoicing: romanNumeralToChordInC['V']!.getVoicing({
+          topVoicesInversion: TriadInversion.Fifth,
+        }),
+      },
+      {
+        romanNumeral: 'I',
+        chordVoicing: romanNumeralToChordInC['I']!.getVoicing({
+          topVoicesInversion: TriadInversion.Octave,
+        }),
+      },
+    ],
+    1: [
+      {
+        romanNumeral: 'IV',
+        chordVoicing: romanNumeralToChordInC['IV']!.getVoicing({
+          topVoicesInversion: TriadInversion.Third,
+        }),
+      },
+      {
+        romanNumeral: 'V',
+        chordVoicing: romanNumeralToChordInC['V']!.getVoicing({
+          topVoicesInversion: TriadInversion.Third,
+        }),
+      },
+      {
+        romanNumeral: 'I',
+        chordVoicing: romanNumeralToChordInC['I']!.getVoicing({
+          topVoicesInversion: TriadInversion.Octave,
+          octave: 5,
+        }),
+      },
+    ],
+    2: [
+      {
+        romanNumeral: 'IV',
+        chordVoicing: romanNumeralToChordInC['IV']!.getVoicing({
+          topVoicesInversion: TriadInversion.Fifth,
+          octave: 5
+        }),
+      },
+      {
+        romanNumeral: 'V',
+        chordVoicing: romanNumeralToChordInC['V']!.getVoicing({
+          topVoicesInversion: TriadInversion.Third,
+        }),
+      },
+      {
+        romanNumeral: 'I',
+        chordVoicing: romanNumeralToChordInC['I']!.getVoicing({
+          topVoicesInversion: TriadInversion.Octave,
+          octave: 5,
+        }),
+      },
+    ]
   }
 }
 
@@ -184,6 +253,7 @@ export class ChordsInKeyExercise extends BaseTonalExercise<RomanNumeralChord, Ch
       'I',
       'IV',
       'V',
+      'vi',
     ];
   }
 
