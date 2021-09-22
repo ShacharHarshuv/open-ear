@@ -75,6 +75,7 @@
         Repeat
       </ion-button>
       <ion-button
+        *ngIf="state.hasCadence"
         (click)="state.playCurrentQuestion()"
       >
         <ion-icon name="musical-note"></ion-icon>

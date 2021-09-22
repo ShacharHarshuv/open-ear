@@ -1,4 +1,7 @@
-import { Key } from '../utility';
+import {
+  Key,
+  randomFromList
+} from '../utility';
 import { Exercise, } from '../Exercise';
 import { transpose } from '../utility/music/transpose';
 import { getDistanceOfKeys } from '../utility/music/keys/getDistanceOfKeys';
@@ -9,7 +12,7 @@ import {
 } from './BaseCommonSettingsExercise';
 
 export abstract class BaseTonalExercise<GAnswer extends string = string, GSettings extends BaseCommonSettingsExerciseSettings<GAnswer> = BaseCommonSettingsExerciseSettings<GAnswer>> extends BaseCommonSettingsExercise<GAnswer, GSettings> {
-  readonly key: Key = /*randomFromList(['C', 'G', 'D', 'A', 'E', 'B', 'F#', 'Db', 'Ab', 'Eb', 'Bb', 'F'])*/ 'C';
+  readonly key: Key = randomFromList(['C', 'G', 'D', 'A', 'E', 'B', 'F#', 'Db', 'Ab', 'Eb', 'Bb', 'F']);
   abstract getQuestionInC(): Exclude<Exercise.Question<GAnswer>, 'cadence'>;
 
   getQuestion(): Exercise.Question<GAnswer> {

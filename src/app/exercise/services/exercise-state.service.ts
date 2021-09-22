@@ -39,6 +39,7 @@ export class ExerciseStateService {
   private _currentlyPlayingSegment: number | null = null;
   private _highlightedAnswer: string | null = null;
   readonly name: string = this._exercise.name;
+  readonly hasCadence: boolean = !!this._currentQuestion.cadence;
   answerList: AnswerList = this._exercise.getAnswerList();
   globalSettings: GlobalExerciseSettings = DEFAULT_EXERCISE_SETTINGS;
 
