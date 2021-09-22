@@ -3,8 +3,8 @@ import * as _ from 'lodash';
 import { IntervalExercise } from '../exercises/IntervalExercise';
 import IExercise = Exercise.IExercise;
 import { Exercise } from '../Exercise';
-import { NotesInKeyExercise } from '../exercises/NotesInKeyExercise';
 import { ChordsInKeyExercise } from '../exercises/ChordsInKeyExercise';
+import { NotesInKeyExercise } from '../exercises/NotesInKeyExercise';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,8 @@ export class ExerciseService {
   private readonly _exerciseList: IExercise[] = [
     // @ts-ignore // TODO(OE-27)
     new IntervalExercise(),
-    new NotesInKeyExercise(),
+    // @ts-ignore // TODO(OE-27)
+    new NotesInKeyExercise(), // todo
     // @ts-ignore // TODO(OE-27)
     new ChordsInKeyExercise(),
   ];

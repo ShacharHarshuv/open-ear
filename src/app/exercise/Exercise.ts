@@ -55,11 +55,17 @@ export namespace Exercise {
 
   export type SettingValueType = number | string | boolean | string[];
 
-  export type SettingsControlDescriptor<GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }, GKey extends keyof GSettings = keyof GSettings> = {
-    key: keyof GSettings,
-    descriptor: [GSettings[GKey]] extends [number] ? SliderControlDescriptor :
-      [GSettings[GKey]] extends [Array<any>] ? ListSelectControlDescriptor : never;
-  }
+  /*
+   * adding a dummy redundant condition on GKey to force description of (potentially) union type GKey.
+   * Without such description the end result will be never.
+   * */
+  export type SettingsControlDescriptor<GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }, GKey extends keyof GSettings = keyof GSettings> = GKey extends string ?
+    {
+      key: GKey,
+      descriptor: GSettings[GKey] extends number ? SliderControlDescriptor
+        : GSettings[GKey] extends Array<any> ? ListSelectControlDescriptor
+          : never,
+    } : never;
 
   export interface IExercise<GAnswer extends string = string, GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }> {
     readonly id: string;

@@ -57,27 +57,9 @@ export class NotesInKeyExercise extends BaseTonalExercise<SolfegeNote> {
   readonly name: string = `Notes in Key`;
   readonly rangeForKeyOfC = new NotesRange('G2', 'E4');
   readonly questionOptionsInC: { answer: SolfegeNote; question: Note }[] = this._getQuestionOptionsInC();
-  protected _settings = {};
-
-  getAnswerList(): AnswerList<SolfegeNote> {
-    return {
-      rows: [
-        [
-          'Do',
-          'Re',
-          'Mi',
-          'Fa',
-          'Sol',
-          'La',
-          'Ti',
-          'Do',
-        ],
-      ],
-    }
-  }
 
   getQuestionInC(): Exclude<Exercise.Question<SolfegeNote>, 'cadence'> {
-    const randomQuestionInC: { answer: SolfegeNote; question: Note } = randomFromList(this.questionOptionsInC);
+    const randomQuestionInC: { answer: SolfegeNote; question: Note } = randomFromList(this.questionOptionsInC.filter(questionOption => this._settings.includedAnswers.includes(questionOption.answer)));
     // calculation resolution
     const noteOctave: number = getNoteOctave(randomQuestionInC.question);
     const noteType: NoteType = getNoteType(randomQuestionInC.question);
@@ -107,6 +89,23 @@ export class NotesInKeyExercise extends BaseTonalExercise<SolfegeNote> {
         }],
         answerToHighlight: noteInCToSolfege[getNoteType(note)],
       })),
+    }
+  }
+
+  protected _getAllAnswersList(): Exercise.AnswerList<SolfegeNote> {
+    return {
+      rows: [
+        [
+          'Do',
+          'Re',
+          'Mi',
+          'Fa',
+          'Sol',
+          'La',
+          'Ti',
+          'Do',
+        ],
+      ],
     }
   }
 

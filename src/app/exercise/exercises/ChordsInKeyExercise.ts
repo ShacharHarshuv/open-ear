@@ -1,16 +1,14 @@
 import { BaseTonalExercise } from './BaseTonalExercise';
-import {
-  Exercise,
-} from '../Exercise';
+import { Exercise, } from '../Exercise';
 import {
   Chord,
   voiceChordProgression,
-  ChordSymbol,
   TriadInversion
 } from '../utility/music/chords';
 import { randomFromList } from '../utility';
 import * as _ from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { BaseCommonSettingsExerciseSettings } from './BaseCommonSettingsExercise';
 
 type RomanNumeralChord = 'I'/* | 'ii' | 'iii'*/ | 'IV' | 'V'/* | 'vi' | 'viiᵒ'*/;
 
@@ -21,7 +19,7 @@ interface ChordOption {
 
 type ChordInKeySettings = {
   numberOfSegments: number;
-}
+} & BaseCommonSettingsExerciseSettings<RomanNumeralChord>;
 
 const chordsInC: { chord: Chord; romanNumeral: RomanNumeralChord }[] = [
   {
@@ -67,7 +65,10 @@ const romanNumeralToResolution: {
     0: [
       {
         romanNumeral: 'V',
-        chordVoicing: romanNumeralToChordInC['V']!.getVoicing({topVoicesInversion: TriadInversion.Third, octave: 3}),
+        chordVoicing: romanNumeralToChordInC['V']!.getVoicing({
+          topVoicesInversion: TriadInversion.Third,
+          octave: 3
+        }),
       },
       {
         romanNumeral: 'I',
@@ -91,7 +92,10 @@ const romanNumeralToResolution: {
       },
       {
         romanNumeral: 'I',
-        chordVoicing: romanNumeralToChordInC['I']!.getVoicing({ topVoicesInversion: TriadInversion.Octave, octave: 5 }),
+        chordVoicing: romanNumeralToChordInC['I']!.getVoicing({
+          topVoicesInversion: TriadInversion.Octave,
+          octave: 5
+        }),
       },
     ],
   },
@@ -102,49 +106,32 @@ const romanNumeralToResolution: {
     }],
     1: [{
       romanNumeral: 'I',
-      chordVoicing: romanNumeralToChordInC['I']!.getVoicing({topVoicesInversion: TriadInversion.Octave, octave: 5}),
+      chordVoicing: romanNumeralToChordInC['I']!.getVoicing({
+        topVoicesInversion: TriadInversion.Octave,
+        octave: 5
+      }),
     }],
     2: [{
       romanNumeral: 'I',
-      chordVoicing: romanNumeralToChordInC['I']!.getVoicing({topVoicesInversion: TriadInversion.Octave, octave: 5}),
+      chordVoicing: romanNumeralToChordInC['I']!.getVoicing({
+        topVoicesInversion: TriadInversion.Octave,
+        octave: 5
+      }),
     }],
   }
 }
 
 export class ChordsInKeyExercise extends BaseTonalExercise<RomanNumeralChord, ChordInKeySettings> {
-  readonly settingsDescriptor: Exercise.SettingsControlDescriptor<ChordInKeySettings>[] = ChordsInKeyExercise._getSettingsDescriptor();
   readonly name: string = 'Chord in Key';
   readonly description: string = 'Recognise chords based on their tonal context in a key';
-  protected _settings: ChordInKeySettings = {
-    numberOfSegments: 1,
-  }
-
-  getAnswerList(): Exercise.AnswerList<RomanNumeralChord> {
-    return [
-      'I',
-      'IV',
-      'V',
-    ];
-  }
-
-  private static _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordInKeySettings>[] {
-    return [{
-      key: 'numberOfSegments',
-      descriptor: {
-        controlType: 'SLIDER',
-        label: 'Number of chords',
-        min: 1,
-        max: 8,
-        step: 1,
-      }
-    }]
-  }
+  protected _settings: ChordInKeySettings = this._getDefaultSettings();
 
   getQuestionInC(): Exclude<Exercise.Question<RomanNumeralChord>, "cadence"> {
     const numberOfSegments = this._settings.numberOfSegments;
-    const chordProgression: ChordOption[] = [randomFromList(chordsInC)];
+    const availableChords = chordsInC.filter(chordDescriptor => this._settings.includedAnswers.includes(chordDescriptor.romanNumeral))
+    const chordProgression: ChordOption[] = [randomFromList(availableChords)];
     while (chordProgression.length < numberOfSegments) {
-      chordProgression.push(randomFromList(chordsInC.filter(chord => chord !== _.last(chordProgression)!)));
+      chordProgression.push(randomFromList(availableChords.filter(chord => chord !== _.last(chordProgression)!)));
     }
 
     const firstChordInversion: 0 | 1 | 2 = randomFromList([0, 1, 2]);
@@ -176,7 +163,10 @@ export class ChordsInKeyExercise extends BaseTonalExercise<RomanNumeralChord, Ch
         },
         ...romanNumeralToResolution[firstChordRomanNumeral][firstChordInversion],
       ];
-      question.afterCorrectAnswer = resolution.map(({romanNumeral, chordVoicing}, index) => ({
+      question.afterCorrectAnswer = resolution.map(({
+                                                      romanNumeral,
+                                                      chordVoicing
+                                                    }, index) => ({
         answerToHighlight: romanNumeral,
         partToPlay: [{
           notes: chordVoicing,
@@ -187,5 +177,37 @@ export class ChordsInKeyExercise extends BaseTonalExercise<RomanNumeralChord, Ch
     }
 
     return question;
+  }
+
+  protected _getAllAnswersList(): Exercise.AnswerList<RomanNumeralChord> {
+    return [
+      'I',
+      'IV',
+      'V',
+    ];
+  }
+
+  protected _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordInKeySettings>[] {
+    const segments: Exercise.SettingsControlDescriptor<ChordInKeySettings> =
+      {
+        key: 'numberOfSegments',
+        descriptor: {
+          controlType: 'SLIDER',
+          label: 'Number of chords',
+          min: 1,
+          max: 8,
+          step: 1,
+        },
+      }
+    return [
+      ...super._getSettingsDescriptor(),
+      segments,
+    ]
+  }
+
+  private _getDefaultSettings(): ChordInKeySettings {
+    const settings = this._settings;
+    settings.numberOfSegments = 1;
+    return settings;
   }
 }

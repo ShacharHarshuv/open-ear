@@ -1,15 +1,15 @@
-import { BaseExercise } from './BaseExercise';
 import { Key } from '../utility';
-import {
-  Exercise,
-} from '../Exercise';
+import { Exercise, } from '../Exercise';
 import { transpose } from '../utility/music/transpose';
 import { getDistanceOfKeys } from '../utility/music/keys/getDistanceOfKeys';
 import { IV_V_I_CADENCE_IN_C } from '../utility/music/chords';
-import SettingValueType = Exercise.SettingValueType;
+import {
+  BaseCommonSettingsExercise,
+  BaseCommonSettingsExerciseSettings
+} from './BaseCommonSettingsExercise';
 
-export abstract class BaseTonalExercise<GAnswer extends string = string, GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }> extends BaseExercise<GAnswer, GSettings> {
-  readonly key: Key = /*randomFromList(['C', 'G', 'D', 'A', 'E', 'B', 'F#', 'Db', 'Ab', 'Eb', 'Bb', 'F'])*/ 'C'; // todo
+export abstract class BaseTonalExercise<GAnswer extends string = string, GSettings extends BaseCommonSettingsExerciseSettings<GAnswer> = BaseCommonSettingsExerciseSettings<GAnswer>> extends BaseCommonSettingsExercise<GAnswer, GSettings> {
+  readonly key: Key = /*randomFromList(['C', 'G', 'D', 'A', 'E', 'B', 'F#', 'Db', 'Ab', 'Eb', 'Bb', 'F'])*/ 'C';
   abstract getQuestionInC(): Exclude<Exercise.Question<GAnswer>, 'cadence'>;
 
   getQuestion(): Exercise.Question<GAnswer> {
