@@ -1,7 +1,7 @@
 import { NoteEvent } from '../services/player.service';
-import { NoteNumberOrName } from './utility/music/notes/NoteNumberOrName';
 import { OneOrMany } from '../shared/ts-utility/toArray';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
+import * as _ from 'lodash';
 
 export namespace Exercise {
   export interface Question<GAnswer extends string = string> {
@@ -32,6 +32,10 @@ export namespace Exercise {
 
   export type AnswerList<GAnswer extends string = string> = Answer<GAnswer>[] | AnswersLayout<GAnswer>;
 
+  export function flatAnswerList<GAnswer extends string>(answerList: AnswerList<GAnswer>): GAnswer[] {
+    return Array.isArray(answerList) ? answerList : _.flatMap(answerList.rows);
+  }
+
   export interface BaseSettingsControlDescriptor {
     controlType: string;
     label: string;
@@ -53,8 +57,8 @@ export namespace Exercise {
 
   export type SettingsControlDescriptor<GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }, GKey extends keyof GSettings = keyof GSettings> = {
     key: keyof GSettings,
-    descriptor: GSettings[GKey] extends number ? SliderControlDescriptor :
-      GSettings[GKey] extends Array<string> ? ListSelectControlDescriptor : never;
+    descriptor: [GSettings[GKey]] extends [number] ? SliderControlDescriptor :
+      [GSettings[GKey]] extends [Array<any>] ? ListSelectControlDescriptor : never;
   }
 
   export interface IExercise<GAnswer extends string = string, GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }> {

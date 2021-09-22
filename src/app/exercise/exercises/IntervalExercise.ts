@@ -1,16 +1,12 @@
 import * as _ from 'lodash';
-import {
-  Exercise,
-} from '../Exercise';
+import { Exercise, } from '../Exercise';
 import {
   randomFromList,
   NotesRange,
   toNoteName
 } from '../utility';
 import { NoteNumber } from '../utility/music/notes/NoteNumberOrName';
-import { BaseExercise } from './BaseExercise';
-import AnswerList = Exercise.AnswerList;
-import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
+import { BaseCommonSettingsExercise } from './BaseCommonSettingsExercise';
 
 type Interval = 'Minor 2nd' | 'Major 2nd' | 'Minor 3rd' | 'Major 3rd' | 'Perfect 4th' | 'Aug 4th' | 'Perfect 5th' | 'Minor 6th' | 'Major 6th' | 'Minor 7th' | 'Major 7th' | 'Octave';
 
@@ -70,35 +66,10 @@ const intervalDescriptorList: IIntervalDescriptor[] = [
   },
 ]
 
-type IntervalExerciseSettings = {
-  includedAnswers: Interval[];
-}
-
-export class IntervalExercise extends BaseExercise<Interval, IntervalExerciseSettings> {
+export class IntervalExercise extends BaseCommonSettingsExercise<Interval> {
   readonly name: string = 'Interval Recognition';
   readonly description: string = 'Recognizing Intervals without context';
   readonly range = new NotesRange('C3', 'E5');
-  readonly settingsDescriptor = IntervalExercise._getSettingsDescriptor();
-  protected _settings: IntervalExerciseSettings = {
-    includedAnswers: _.map(intervalDescriptorList, 'name'),
-  }
-
-  private static _getSettingsDescriptor(): SettingsControlDescriptor<IntervalExerciseSettings>[] {
-    return [
-      {
-        key: 'includedAnswers',
-        descriptor: {
-          controlType: 'LIST_SELECT',
-          label: 'Included Intervals',
-          allOptions: _.map(intervalDescriptorList, 'name'),
-        }
-      }
-    ]
-  }
-
-  getAnswerList(): AnswerList<Interval> {
-    return this._settings.includedAnswers;
-  }
 
   getQuestion(): Exercise.Question<Interval> {
     const randomIntervalDescriptor: IIntervalDescriptor = randomFromList(intervalDescriptorList.filter(intervalDescriptor => this._settings.includedAnswers.includes(intervalDescriptor.name)));
@@ -112,5 +83,9 @@ export class IntervalExercise extends BaseExercise<Interval, IntervalExerciseSet
         ]),
       }],
     }
+  }
+
+  protected _getAllAnswersList(): Exercise.AnswerList<Interval> {
+    return _.map(intervalDescriptorList, 'name');
   }
 }
