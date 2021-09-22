@@ -5,7 +5,7 @@ import {
 } from '../utility';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { getNoteType } from '../utility/music/notes/getNoteType';
-import { BaseTonalExercise, } from './BaseTonalExercise';
+import { BaseTonalExercise, } from './utility/BaseTonalExercise';
 import { NoteType } from '../utility/music/notes/NoteType';
 import * as _ from 'lodash';
 import { getNoteOctave } from '../utility/music/notes/getNoteOctave';

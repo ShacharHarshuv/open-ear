@@ -1,4 +1,4 @@
-import { BaseTonalExercise } from './BaseTonalExercise';
+import { BaseTonalExercise } from './utility/BaseTonalExercise';
 import { Exercise, } from '../Exercise';
 import {
   Chord,
@@ -8,7 +8,11 @@ import {
 import { randomFromList } from '../utility';
 import * as _ from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { BaseCommonSettingsExerciseSettings } from './BaseCommonSettingsExercise';
+import { BaseCommonSettingsExerciseSettings } from './utility/BaseCommonSettingsExercise';
+import {
+  NumberOfSegmentsSetting,
+  numberOfSegmentsControlDescriptorList
+} from './utility/NumberOfSegmentsSetting';
 
 type RomanNumeralChord = 'I'/* | 'ii' | 'iii'*/ | 'IV' | 'V' | 'vi'/* | 'viiᵒ'*/;
 
@@ -17,9 +21,7 @@ interface ChordOption {
   romanNumeral: RomanNumeralChord;
 }
 
-type ChordInKeySettings = {
-  numberOfSegments: number;
-} & BaseCommonSettingsExerciseSettings<RomanNumeralChord>;
+type ChordInKeySettings = NumberOfSegmentsSetting & BaseCommonSettingsExerciseSettings<RomanNumeralChord>;
 
 const chordsInC: { chord: Chord; romanNumeral: RomanNumeralChord }[] = [
   {
@@ -258,26 +260,16 @@ export class ChordsInKeyExercise extends BaseTonalExercise<RomanNumeralChord, Ch
   }
 
   protected _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordInKeySettings>[] {
-    const segments: Exercise.SettingsControlDescriptor<ChordInKeySettings> =
-      {
-        key: 'numberOfSegments',
-        descriptor: {
-          controlType: 'SLIDER',
-          label: 'Number of chords',
-          min: 1,
-          max: 8,
-          step: 1,
-        },
-      }
     return [
       ...super._getSettingsDescriptor(),
-      segments,
+      ...numberOfSegmentsControlDescriptorList,
     ]
   }
 
   private _getDefaultSettings(): ChordInKeySettings {
-    const settings = this._settings;
-    settings.numberOfSegments = 1;
-    return settings;
+    return {
+      ...this._settings,
+      numberOfSegments: 1,
+    };
   }
 }

@@ -1,11 +1,11 @@
 import {
   Key,
   randomFromList
-} from '../utility';
-import { Exercise, } from '../Exercise';
-import { transpose } from '../utility/music/transpose';
-import { getDistanceOfKeys } from '../utility/music/keys/getDistanceOfKeys';
-import { IV_V_I_CADENCE_IN_C } from '../utility/music/chords';
+} from '../../utility';
+import { Exercise, } from '../../Exercise';
+import { transpose } from '../../utility/music/transpose';
+import { getDistanceOfKeys } from '../../utility/music/keys/getDistanceOfKeys';
+import { IV_V_I_CADENCE_IN_C } from '../../utility/music/chords';
 import {
   BaseCommonSettingsExercise,
   BaseCommonSettingsExerciseSettings

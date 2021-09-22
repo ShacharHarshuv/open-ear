@@ -1,6 +1,6 @@
 import {
   Exercise,
-} from '../Exercise';
+} from '../../Exercise';
 import * as _ from 'lodash';
 import AnswerList = Exercise.AnswerList;
 import SettingValueType = Exercise.SettingValueType;
