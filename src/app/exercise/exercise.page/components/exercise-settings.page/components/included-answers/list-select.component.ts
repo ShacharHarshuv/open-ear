@@ -19,16 +19,19 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
     },
   ],
 })
-export class ListSelectComponent extends BaseControlValueAccessorComponent<string[]> {
+export class ListSelectComponent extends BaseControlValueAccessorComponent<(string | number)[]> {
   @Input()
-  allAvailableOptions: string[];
+  allAvailableOptions: {
+    label: string,
+    value: string | number,
+  }[];
 
   @Input()
   label: string;
 
-  async onChange(answer: string, isSelected: boolean): Promise<void> {
-    const currentValue: string[] = [...(await this.value$.pipe(take(1)).toPromise())];
-    let newValue: string[];
+  async onChange(answer: string | number, isSelected: boolean): Promise<void> {
+    const currentValue: (string | number)[] = [...(await this.value$.pipe(take(1)).toPromise())];
+    let newValue: (string | number)[];
     if (currentValue.includes(answer) && !isSelected) {
       newValue = currentValue.filter(value => value !== answer);
     } else if (!currentValue.includes(answer) && isSelected) {

@@ -1,11 +1,11 @@
-import { voiceChordProgression } from './voiceChordProgression';
+import { voiceChordProgressionWithVoiceLeading } from './voiceChordProgressionWithVoiceLeading';
 import { ChordSymbol } from './Chord/Chord';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { toNoteNumber } from '../notes/toNoteName';
 import * as _ from 'lodash';
 import Spy = jasmine.Spy;
 
-describe('voiceChordProgression', function () {
+describe('voiceChordProgressionWithVoiceLeading', function () {
   const testCases: {
     progression: ChordSymbol[],
     startingInversion: number,
@@ -95,10 +95,10 @@ describe('voiceChordProgression', function () {
         it(`Option ${index++}`, () => {
           spy.and.returnValues(...voicingOption.randomlyChosenIndexesList);
           if (!!voicingOption.expectedResult) {
-            const result: Note[][] = voiceChordProgression(testCase.progression, testCase.startingInversion);
+            const result: Note[][] = voiceChordProgressionWithVoiceLeading(testCase.progression, testCase.startingInversion);
             expect(result.map(chord => chord.map(toNoteNumber))).toEqual(voicingOption.expectedResult.map(chord => chord.map(toNoteNumber)))
           } else {
-            expect(() => voiceChordProgression(testCase.progression, testCase.startingInversion)).toThrow();
+            expect(() => voiceChordProgressionWithVoiceLeading(testCase.progression, testCase.startingInversion)).toThrow();
           }
         })
       })

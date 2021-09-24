@@ -48,24 +48,39 @@ export namespace Exercise {
     step: number;
   }
 
-  export interface ListSelectControlDescriptor<GOption = string> extends BaseSettingsControlDescriptor {
-    controlType: 'LIST_SELECT';
-    allOptions: GOption[];
+  export interface SelectControlDescriptor extends BaseSettingsControlDescriptor {
+    controlType: 'SELECT',
+    options: {
+      label: string;
+      value: string | number,
+    }[],
   }
 
-  export type SettingValueType = number | string | boolean | string[];
+  export interface ListSelectControlDescriptor<GValue = string | number> extends BaseSettingsControlDescriptor {
+    controlType: 'LIST_SELECT';
+    allOptions: {
+      label: string,
+      value: GValue,
+    }[];
+  }
+
+  export interface CheckboxControlDescriptor extends BaseSettingsControlDescriptor{
+    controlType: 'CHECKBOX',
+  }
+
+  export type SettingValueType = number | string | boolean | (string | number)[];
 
   /*
    * adding a dummy redundant condition on GKey to force description of (potentially) union type GKey.
    * Without such description the end result will be never.
    * */
-  export type SettingsControlDescriptor<GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }, GKey extends keyof GSettings = keyof GSettings> = GKey extends string ?
+  export type SettingsControlDescriptor<GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }/*, GKey extends keyof GSettings = keyof GSettings*/> = /*GKey extends string ?*/
     {
-      key: GKey,
-      descriptor: GSettings[GKey] extends number ? SliderControlDescriptor
+      key: /*GKey*/ keyof GSettings,
+      descriptor: /*GSettings[GKey] extends number ? SliderControlDescriptor | SelectControlDescriptor<GSettings[GKey]>
         : GSettings[GKey] extends Array<any> ? ListSelectControlDescriptor
-          : never,
-    } : never;
+          : SelectControlDescriptor<GSettings[GKey]>*/ SliderControlDescriptor | SelectControlDescriptor | ListSelectControlDescriptor | CheckboxControlDescriptor,
+    }/* : never*/;
 
   export interface IExercise<GAnswer extends string = string, GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }> {
     readonly id: string;

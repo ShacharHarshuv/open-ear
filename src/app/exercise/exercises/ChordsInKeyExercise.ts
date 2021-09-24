@@ -1,48 +1,50 @@
-import { BaseTonalExercise } from './utility/BaseTonalExercise';
 import { Exercise, } from '../Exercise';
 import {
   Chord,
-  voiceChordProgression,
   TriadInversion
 } from '../utility/music/chords';
 import { randomFromList } from '../utility';
 import * as _ from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { BaseCommonSettingsExerciseSettings } from './utility/BaseCommonSettingsExercise';
 import {
   NumberOfSegmentsSetting,
   numberOfSegmentsControlDescriptorList
 } from './utility/NumberOfSegmentsSetting';
+import {
+  BaseTonalChordProgressionExercise,
+  ChordProgressionQuestion,
+  BaseTonalChordProgressionExerciseSettings
+} from './utility/BaseTonalChordProgressionExercise';
 
 type RomanNumeralChord = 'I'/* | 'ii' | 'iii'*/ | 'IV' | 'V' | 'vi'/* | 'viiᵒ'*/;
 
 interface ChordOption {
   chord: Chord;
-  romanNumeral: RomanNumeralChord;
+  answer: RomanNumeralChord;
 }
 
-type ChordInKeySettings = NumberOfSegmentsSetting & BaseCommonSettingsExerciseSettings<RomanNumeralChord>;
+type ChordInKeySettings = NumberOfSegmentsSetting & BaseTonalChordProgressionExerciseSettings<RomanNumeralChord>;
 
-const chordsInC: { chord: Chord; romanNumeral: RomanNumeralChord }[] = [
+const chordsInC: { chord: Chord; answer: RomanNumeralChord }[] = [
   {
     chord: new Chord('C'),
-    romanNumeral: 'I',
+    answer: 'I',
   },
   {
     chord: new Chord('F'),
-    romanNumeral: 'IV',
+    answer: 'IV',
   },
   {
     chord: new Chord('G'),
-    romanNumeral: 'V',
+    answer: 'V',
   },
   {
     chord: new Chord('Am'),
-    romanNumeral: 'vi',
+    answer: 'vi',
   },
 ];
 
-const romanNumeralToChordInC: { [romanNumeral in RomanNumeralChord]?: Chord } = _.mapValues(_.keyBy(chordsInC, 'romanNumeral'), 'chord');
+const romanNumeralToChordInC: { [romanNumeral in RomanNumeralChord]?: Chord } = _.mapValues(_.keyBy(chordsInC, 'answer'), 'chord');
 
 // todo: go over those resolutions as they are not the best
 const romanNumeralToResolution: {
@@ -192,60 +194,51 @@ const romanNumeralToResolution: {
   }
 }
 
-export class ChordsInKeyExercise extends BaseTonalExercise<RomanNumeralChord, ChordInKeySettings> {
+export class ChordsInKeyExercise extends BaseTonalChordProgressionExercise<RomanNumeralChord, ChordInKeySettings> {
   readonly name: string = 'Chord in Key';
   readonly description: string = 'Recognise chords based on their tonal context in a key';
   protected _settings: ChordInKeySettings = this._getDefaultSettings();
 
-  getQuestionInC(): Exclude<Exercise.Question<RomanNumeralChord>, "cadence"> {
+  protected _getChordProgressionInC(): ChordProgressionQuestion<RomanNumeralChord> {
     const numberOfSegments = this._settings.numberOfSegments;
-    const availableChords = chordsInC.filter(chordDescriptor => this._settings.includedAnswers.includes(chordDescriptor.romanNumeral))
+    const availableChords = chordsInC.filter(chordDescriptor => this._settings.includedAnswers.includes(chordDescriptor.answer))
     const chordProgression: ChordOption[] = [randomFromList(availableChords)];
     while (chordProgression.length < numberOfSegments) {
       chordProgression.push(randomFromList(availableChords.filter(chord => chord !== _.last(chordProgression)!)));
     }
 
-    const firstChordInversion: 0 | 1 | 2 = randomFromList([0, 1, 2]);
-
-    const question: Exclude<Exercise.Question<RomanNumeralChord>, "cadence"> = {
-      segments: voiceChordProgression(_.map(chordProgression, 'chord'), firstChordInversion)
-        .map((voicing: Note[], index: number): Exercise.Question<RomanNumeralChord>['segments'][0] => {
-          return {
-            rightAnswer: chordProgression[index].romanNumeral,
-            partToPlay: [{
-              notes: voicing,
-              velocity: 0.3,
-              duration: '2n',
-            }],
-          }
-        }),
+    const question: ChordProgressionQuestion<RomanNumeralChord> = {
+      segments: chordProgression,
     }
 
     if (numberOfSegments === 1) {
-      // calculate resolution
-      const firstChordRomanNumeral: RomanNumeralChord = chordProgression[0].romanNumeral;
-      const resolution: {
-        romanNumeral: RomanNumeralChord,
-        chordVoicing: Note[],
-      }[] = [
-        {
-          romanNumeral: firstChordRomanNumeral,
-          chordVoicing: chordProgression[0].chord.getVoicing({topVoicesInversion: firstChordInversion}),
-        },
-        ...romanNumeralToResolution[firstChordRomanNumeral][firstChordInversion],
-      ];
-      question.afterCorrectAnswer = resolution.map(({
-                                                      romanNumeral,
-                                                      chordVoicing
-                                                    }, index) => ({
-        answerToHighlight: romanNumeral,
-        partToPlay: [{
-          notes: chordVoicing,
-          duration: index === resolution.length - 1 ? '2n' : '4n',
-          velocity: 0.3,
-        }]
-      }));
-    }
+      question.afterCorrectAnswer = ({firstChordInversion}) => {
+        // calculate resolution
+        const firstChordRomanNumeral: RomanNumeralChord = chordProgression[0].answer;
+        const resolution: {
+          romanNumeral: RomanNumeralChord,
+          chordVoicing: Note[],
+        }[] = [
+          {
+            romanNumeral: firstChordRomanNumeral,
+            chordVoicing: chordProgression[0].chord.getVoicing({topVoicesInversion: firstChordInversion}),
+          },
+          ...romanNumeralToResolution[firstChordRomanNumeral][firstChordInversion],
+        ];
+
+        return resolution.map(({
+                                 romanNumeral,
+                                 chordVoicing
+                               }, index) => ({
+          answerToHighlight: romanNumeral,
+          partToPlay: [{
+            notes: chordVoicing,
+            duration: index === resolution.length - 1 ? '2n' : '4n',
+            velocity: 0.3,
+          }]
+        }));
+      };
+      }
 
     return question;
   }

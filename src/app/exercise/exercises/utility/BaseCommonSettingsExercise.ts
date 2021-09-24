@@ -33,7 +33,10 @@ export abstract class BaseCommonSettingsExercise<GAnswer extends string = string
     const includedAnswersDescriptor: ListSelectControlDescriptor<GAnswer> = {
       controlType: 'LIST_SELECT',
       label: 'Included Options',
-      allOptions: Exercise.flatAnswerList(this._allAnswersList),
+      allOptions: Exercise.flatAnswerList(this._allAnswersList).map(answer => ({
+        value: answer,
+        label: answer,
+      })),
     }
     const settingsDescriptorList: SettingsControlDescriptor<BaseCommonSettingsExerciseSettings<GAnswer>>[] = [
       {

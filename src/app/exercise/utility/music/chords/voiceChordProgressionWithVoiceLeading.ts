@@ -42,7 +42,7 @@ function voiceNextChord(currentChordVoicing: Note[], nextChord: Chord): Note[] {
   return randomFromList(validVoicingOptions);
 }
 
-export function voiceChordProgression(chordOrChordSymbolList: (ChordSymbol | Chord)[], startingTopVoicesInversion: number = 0): Note[][] {
+export function voiceChordProgressionWithVoiceLeading(chordOrChordSymbolList: (ChordSymbol | Chord)[], startingTopVoicesInversion: number = 0, options: {withBass: boolean} = {withBass: true}): Note[][] {
   const chordList: Chord[] = chordOrChordSymbolList.map((chordOrChordSymbol): Chord => {
     if (chordOrChordSymbol instanceof Chord) {
       return chordOrChordSymbol;
@@ -61,8 +61,10 @@ export function voiceChordProgression(chordOrChordSymbolList: (ChordSymbol | Cho
   return chordVoicingWithoutBass.map((chordVoicing: Note[], index): Note[] => {
     const rootNote: NoteType = chordList[index].root;
     return [
-      noteTypeToNote(rootNote, 2),
-      noteTypeToNote(rootNote, 3),
+      ...(options.withBass ? [
+        noteTypeToNote(rootNote, 2),
+        noteTypeToNote(rootNote, 3),
+      ] : []),
       ...chordVoicing,
     ]
   });
