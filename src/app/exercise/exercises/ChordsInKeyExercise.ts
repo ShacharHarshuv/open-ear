@@ -16,7 +16,7 @@ import {
   BaseTonalChordProgressionExerciseSettings,
 } from './utility/BaseTonalChordProgressionExercise';
 
-type RomanNumeralChord = 'I' | 'ii' | 'iii' | 'IV' | 'V' | 'vi' /*| 'viiᵒ'*/;
+type RomanNumeralChord = 'I' | 'ii' | 'iii' | 'IV' | 'V' | 'vi' | 'viiᵒ';
 
 interface ChordOption {
   chord: Chord;
@@ -50,10 +50,10 @@ const chordsInC: { chord: Chord; answer: RomanNumeralChord }[] = [
     chord: new Chord('Am'),
     answer: 'vi',
   },
-  // {
-  //   chord: new Chord('Bdim'), // todo: support dim chords
-  //   answer: 'viiᵒ',
-  // },
+  {
+    chord: new Chord('Bdim'),
+    answer: 'viiᵒ',
+  },
 ];
 
 const romanNumeralToChordInC: { [romanNumeral in RomanNumeralChord]?: Chord } = _.mapValues(_.keyBy(chordsInC, 'answer'), 'chord');
@@ -63,7 +63,7 @@ const romanNumeralToResolution: {
   [romanNumeral in RomanNumeralChord]: {
     [inversion in 0 | 1 | 2]: ReadonlyArray<{
       romanNumeral: RomanNumeralChord,
-      voicingConfig: Parameters<Chord['getVoicing']>[0],
+      voicingConfig: Omit<Parameters<Chord['getVoicing']>[0], 'withBass'>,
     }>;
   }
 } = {
@@ -313,6 +313,33 @@ const romanNumeralToResolution: {
       },
     ],
   },
+  viiᵒ: {
+    0: [
+      {
+        romanNumeral: 'I',
+        voicingConfig: {
+          topVoicesInversion: TriadInversion.Fifth,
+        }
+      }
+    ],
+    1: [
+      {
+        romanNumeral: 'I',
+        voicingConfig: {
+          topVoicesInversion: TriadInversion.Octave,
+          octave: 5,
+        }
+      }
+    ],
+    2: [
+      {
+        romanNumeral: 'I',
+        voicingConfig: {
+          topVoicesInversion: TriadInversion.Octave,
+        }
+      }
+    ],
+  }
 };
 
 export class ChordsInKeyExercise extends BaseTonalChordProgressionExercise<RomanNumeralChord, ChordInKeySettings> {
@@ -383,6 +410,7 @@ export class ChordsInKeyExercise extends BaseTonalChordProgressionExercise<Roman
       'IV',
       'V',
       'vi',
+      'viiᵒ',
     ];
   }
 
