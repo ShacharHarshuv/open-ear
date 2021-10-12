@@ -403,15 +403,19 @@ export class ChordsInKeyExercise extends BaseTonalChordProgressionExercise<Roman
   }
 
   protected _getAllAnswersList(): Exercise.AnswerList<RomanNumeralChord> {
-    return [
-      'I',
-      'ii',
-      'iii',
-      'IV',
-      'V',
-      'vi',
-      'viiᵒ',
-    ];
+    return {
+      rows: [
+        [
+          'I',
+          'ii',
+          'iii',
+          'IV',
+          'V',
+          'vi',
+          'viiᵒ',
+        ]
+      ]
+    }
   }
 
   protected _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordInKeySettings>[] {
