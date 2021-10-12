@@ -6,9 +6,9 @@ import { noteTypeToNote } from '../../notes/noteTypeToNote';
 import * as _ from 'lodash';
 import { getNoteOctave } from '../../notes/getNoteOctave';
 
-export type ChordSymbol = `${NoteType}${'m' | ''}`;
+export type ChordType = 'M' | 'm' | 'dim';
 
-export type ChordType = 'M' | 'm';
+export type ChordSymbol = `${NoteType}${Exclude<ChordType, 'M'> | ''}`;
 
 export enum TriadInversion {
   Fifth = 0,
@@ -30,20 +30,31 @@ export class Chord {
   }
 
   private _getChordType(): ChordType {
-    return this.symbol.includes('m') ? 'm' : 'M';
+    return this.symbol.includes('dim') ? 'dim' :
+      this.symbol.includes('m') ? 'm' : 'M';
   }
 
   private _getChordIntervals(): Interval[] {
     const intervals = [Interval.Prima];
     switch (this.type) {
       case 'm':
+      case 'dim':
         intervals.push(Interval.MinorThird);
         break;
       case 'M':
         intervals.push(Interval.MajorThird);
         break;
     }
-    intervals.push(Interval.PerfectFifth);
+
+    switch (this.type) {
+      case 'm':
+      case 'M':
+        intervals.push(Interval.PerfectFifth);
+        break;
+      case 'dim':
+        intervals.push(Interval.DiminishedFifth);
+
+    }
     return intervals;
   }
 

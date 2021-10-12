@@ -116,8 +116,22 @@ describe('Chord', () => {
           [1, ['A3', 'C#4', 'F#4']],
           [2, ['C#4', 'F#4', 'A4']],
         ],
-      }
+      },
     },
+    {
+      chordSymbol: 'Bdim',
+      expectedResult: {
+        root: 'B',
+        type: 'dim',
+        intervals: [Interval.Prima, Interval.MinorThird, Interval.DiminishedFifth],
+        noteTypes: ['B', 'D' ,'F'],
+        voicing: [
+          [0, ['B3', 'D4', 'F4']],
+          [1, ['D4', 'F4', 'B4']],
+          [2, ['F3', 'B3', 'D4']],
+        ]
+      }
+    }
   ];
 
   testCases.forEach(({
