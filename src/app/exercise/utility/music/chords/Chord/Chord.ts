@@ -51,9 +51,6 @@ export class Chord {
     return this.intervals.map(interval => transpose(this.root, interval));
   }
 
-  /**
-   * octave is the octave of the soprano voice
-   * */
   getVoicing({
                topVoicesInversion,
                withBass = true,
@@ -61,6 +58,9 @@ export class Chord {
              }: {
     topVoicesInversion: number,
     withBass?: boolean,
+    /**
+     * The octave of the soprano voice
+     * */
     octave?: number
   }): Note[] {
     if (topVoicesInversion - 1 > this.noteTypes.length) {

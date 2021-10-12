@@ -38,7 +38,7 @@ export interface ChordProgressionQuestion<GAnswer extends string> {
 export abstract class BaseTonalChordProgressionExercise<GAnswer extends string, GSettings extends BaseTonalChordProgressionExerciseSettings<GAnswer> & { [key: string]: SettingValueType }> extends BaseTonalExercise<GAnswer, GSettings> {
   protected _settings: GSettings = {
     ...this._settings,
-    voiceLeading: 'RANDOM',
+    voiceLeading: 'CORRECT',
     includedPositions: [0, 1, 2],
     includeBass: true,
   };
