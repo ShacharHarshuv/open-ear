@@ -31,6 +31,7 @@ export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnsw
             notes: new Chord(randomChordInC).getVoicing({
               topVoicesInversion: randomTriadInversion,
               withBass: false,
+              octave: 3, // picking a lower octave as a high one is more difficult
             }),
             velocity: 0.3,
             duration: '1n',

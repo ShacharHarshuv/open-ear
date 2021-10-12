@@ -43,11 +43,6 @@ export class ExerciseStateService {
   answerList: AnswerList = this._exercise.getAnswerList();
   globalSettings: GlobalExerciseSettings = DEFAULT_EXERCISE_SETTINGS;
 
-  private get _answeredCurrentWrong(): boolean {
-    const answeredWrong = this._currentAnswers.filter(answer => answer.wasWrong);
-    return !_.isEmpty(answeredWrong);
-  }
-
   get totalCorrectAnswers(): number {
     return this._totalCorrectAnswers;
   }
@@ -90,7 +85,7 @@ export class ExerciseStateService {
       this._currentAnswers[this._currentSegmentToAnswer].wasWrong = true;
     } else {
       this._totalQuestions++;
-      if (!this._answeredCurrentWrong) {
+      if (!this._currentAnswers[this._currentSegmentToAnswer].wasWrong) {
         this._totalCorrectAnswers++;
       }
       this._currentAnswers[this._currentSegmentToAnswer].answer = answer;
