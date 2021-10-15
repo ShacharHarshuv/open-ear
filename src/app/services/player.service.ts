@@ -16,6 +16,7 @@ import {
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { NoteType } from '../exercise/utility/music/notes/NoteType';
 import { noteTypeToNote } from '../exercise/utility/music/notes/noteTypeToNote';
+import { timeoutAsPromise } from '../shared/ts-utility';
 
 const DEFAULT_VELOCITY: number = 0.7;
 
@@ -32,6 +33,13 @@ export interface NoteEvent {
   velocity?: NormalRange,
 }
 
+// passing a number means to wait that many ms
+export type PartToPlay = {
+  partOrTime: NoteEvent[] | number,
+  beforePlaying?: () => void,
+  afterPlaying?: () => void,
+};
+
 @Injectable({
   providedIn: 'root'
 })
@@ -40,6 +48,7 @@ export class PlayerService {
   private _currentlyPlaying: Part | null = null;
   private _currentlyPlayingPartFinishedSchedulerId: number | null = null;
   private _onPartFinished$ = new Subject<void>();
+  private _partsToPlay: PartToPlay[] = [];
 
   constructor() {
   }
@@ -62,7 +71,46 @@ export class PlayerService {
     return sampleMap;
   }
 
-  private _stopCurrentlyPlaying(): void {
+  /**
+   * If you need to play multiple parts in a row please use playMultipleParts to avoid event clashes in case of an event in them middle of the parts
+   * */
+  async playPart(noteEventList: NoteEvent[]): Promise<void> {
+    this._partsToPlay = [];
+    this._stopCurrentlyPlayingAndClearTransport();
+    await this._playPart(noteEventList);
+  }
+
+  async playMultipleParts(parts: PartToPlay[]): Promise<void> {
+    // stop previous playMultipleParts if exists
+    this._partsToPlay = [];
+    this._stopCurrentlyPlayingAndClearTransport();
+    /*
+    * Stop current call stuck so previous call to playMultipleParts can return.
+    * Otherwise previous call will return playing this started, causing a clash in playing order
+    * */
+    await timeoutAsPromise();
+
+    this._partsToPlay = _.clone(parts);
+
+    while(this._partsToPlay.length) {
+      const nextPart: PartToPlay = this._partsToPlay.shift()!;
+      nextPart.beforePlaying?.();
+      if (typeof nextPart.partOrTime === 'number') {
+        await timeoutAsPromise(nextPart.partOrTime);
+      } else {
+        /*
+        * This can be stopped in the following cases:
+        * - Part was finished (thus playing was stopped and transport cleared)
+        * - public playPart was called (thus playing was stopped and transport cleared)
+        * - playMultipleParts was called (thus playing was stopped and transport cleared)
+        * */
+        await this._playPart(nextPart.partOrTime);
+      }
+      nextPart.afterPlaying?.();
+    }
+  }
+
+  private _stopCurrentlyPlayingAndClearTransport(): void {
     Tone.Transport.stop();
 
     if (this._currentlyPlaying) {
@@ -77,7 +125,7 @@ export class PlayerService {
     this._onPartFinished$.next();
   }
 
-  async playPart(noteEventList: NoteEvent[]): Promise<void> {
+  private async _playPart(noteEventList: NoteEvent[]) {
     let lastTime: Time = 0;
     const normalizedNoteEventList: Required<NoteEvent>[] = noteEventList.map((noteEvent: NoteEvent): Required<NoteEvent> => {
       const normalizedNoteEvent: Required<NoteEvent> = {
@@ -90,8 +138,6 @@ export class PlayerService {
       return normalizedNoteEvent;
     });
 
-    this._stopCurrentlyPlaying();
-
     this._currentlyPlaying = new Tone.Part<Required<NoteEvent>>(((time, noteEvent: Required<NoteEvent>) => {
       this._instrument.triggerAttackRelease(noteEvent.notes, noteEvent.duration, time, noteEvent.velocity);
     }), normalizedNoteEventList).start(0);
@@ -99,11 +145,14 @@ export class PlayerService {
     const stoppingTime: Seconds = _.max(normalizedNoteEventList.map(noteEvent => Tone.Time(noteEvent.time).toSeconds() + Tone.Time(noteEvent.duration).toSeconds()))!;
 
     this._currentlyPlayingPartFinishedSchedulerId = Tone.Transport.schedule(() => {
-      this._stopCurrentlyPlaying();
+      this._stopCurrentlyPlayingAndClearTransport();
     }, stoppingTime);
     Tone.Transport.start();
 
-    return this._onPartFinished$.pipe(take(1)).toPromise();
+    return this._onPartFinished$
+      .pipe(
+        take(1),
+      ).toPromise();
   }
 
   private _getInstrument(): Sampler {

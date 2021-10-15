@@ -383,8 +383,6 @@ export class ChordsInKeyExercise extends BaseTonalChordProgressionExercise<Roman
           })),
         ];
 
-        console.log(resolution);
-
         return resolution.map(({
           romanNumeral,
           chordVoicing,

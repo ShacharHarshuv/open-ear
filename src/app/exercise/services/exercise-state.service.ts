@@ -2,12 +2,11 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ExerciseService } from './exercise.service';
 import { Exercise } from '../Exercise';
-import { PlayerService } from '../../services/player.service';
 import {
-  toSteadyPart,
-  timeoutAsPromise
-} from '../utility';
-import * as _ from 'lodash';
+  PlayerService,
+  PartToPlay,
+} from '../../services/player.service';
+import { toSteadyPart } from '../utility';
 import AnswerList = Exercise.AnswerList;
 import Answer = Exercise.Answer;
 import SettingValueType = Exercise.SettingValueType;
@@ -99,19 +98,34 @@ export class ExerciseStateService {
   }
 
   async playCurrentCadenceAndQuestion(): Promise<void> {
+    const partsToPlay: PartToPlay[] = this._getCurrentQuestionPartsToPlay();
     if (this._currentQuestion.cadence && this.globalSettings.playCadence) {
-      await this._player.playPart(toSteadyPart(this._currentQuestion.cadence))
-      await timeoutAsPromise(100);
+      partsToPlay.unshift(
+
+        {
+          partOrTime: toSteadyPart(this._currentQuestion.cadence),
+        },
+        {
+          partOrTime: 100,
+        },
+      )
     }
-    await this.playCurrentQuestion();
+    await this._player.playMultipleParts(partsToPlay);
+    this._currentlyPlayingSegment = null;
   }
 
   async playCurrentQuestion(): Promise<void> {
-    for (let i = 0; i < this._currentQuestion.segments.length; i++) {
-      this._currentlyPlayingSegment = i;
-      await this._player.playPart(toSteadyPart(this._currentQuestion.segments[i].partToPlay));
-    }
+    await this._player.playMultipleParts(this._getCurrentQuestionPartsToPlay());
     this._currentlyPlayingSegment = null;
+  }
+
+  private _getCurrentQuestionPartsToPlay(): PartToPlay[] {
+    return this._currentQuestion.segments.map((segment, i): PartToPlay => ({
+      partOrTime: toSteadyPart(segment.partToPlay),
+      beforePlaying: () => {
+        this._currentlyPlayingSegment = i;
+      },
+    }))
   }
 
   nextQuestion(): void {
@@ -134,10 +148,12 @@ export class ExerciseStateService {
       return;
     }
 
-    for (let afterCorrectAnswerSegment of this._currentQuestion.afterCorrectAnswer) {
-      this._highlightedAnswer = afterCorrectAnswerSegment.answerToHighlight || null;
-      await this._player.playPart(afterCorrectAnswerSegment.partToPlay);
-    }
+    await this._player.playMultipleParts(this._currentQuestion.afterCorrectAnswer.map(({partToPlay, answerToHighlight}): PartToPlay => ({
+      beforePlaying: () => {
+        this._highlightedAnswer = answerToHighlight || null;
+      },
+      partOrTime: partToPlay,
+    })))
     this._highlightedAnswer = null;
   }
 }

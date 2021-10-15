@@ -17,25 +17,4 @@ export class HomePage {
     private _exerciseService: ExerciseService,
   ) {
   }
-
-  async onPlayClicked(): Promise<void> {
-    await this._player.init();
-    await this._player.playPart([
-      {
-        notes: 'G4',
-        duration: '4n',
-        time: 0,
-      },
-      {
-        notes: 'E4',
-        duration: '4n',
-        time: '0:1:0',
-      },
-      {
-        notes: 'E4',
-        duration: '2n',
-        time: '0:2:0',
-      }
-    ]);
-  }
 }
