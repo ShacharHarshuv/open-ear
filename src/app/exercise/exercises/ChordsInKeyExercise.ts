@@ -345,7 +345,6 @@ const romanNumeralToResolution: {
 export class ChordsInKeyExercise extends BaseTonalChordProgressionExercise<RomanNumeralChord, ChordInKeySettings> {
   readonly name: string = 'Chord in Key';
   readonly description: string = 'Recognise chords based on their tonal context in a key';
-  protected _settings: ChordInKeySettings = this._getDefaultSettings();
 
   protected _getChordProgressionInC(): ChordProgressionQuestion<RomanNumeralChord> {
     const numberOfSegments = this._settings.numberOfSegments;
@@ -416,6 +415,9 @@ export class ChordsInKeyExercise extends BaseTonalChordProgressionExercise<Roman
     }
   }
 
+  /**
+   * @override
+   * */
   protected _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordInKeySettings>[] {
     return [
       ...super._getSettingsDescriptor(),
@@ -423,9 +425,12 @@ export class ChordsInKeyExercise extends BaseTonalChordProgressionExercise<Roman
     ];
   }
 
-  private _getDefaultSettings(): ChordInKeySettings {
+  /**
+   * @override
+   * */
+  protected _getDefaultSettings(): ChordInKeySettings {
     return {
-      ...this._settings,
+      ...super._getDefaultSettings(),
       numberOfSegments: 1,
     };
   }
