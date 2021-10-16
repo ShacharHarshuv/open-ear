@@ -14,9 +14,8 @@ import {
   toNoteTypeName,
   toNoteTypeNumber
 } from './notes/toNoteTypeNumber';
-import { Interval } from './intervals/interval';
 import { OneOrMany } from '../../../shared/ts-utility';
-import { NoteNumberOrName } from './notes/NoteNumberOrName';
+import { Interval } from './intervals/Interval';
 
 export function transpose(partOrNotes: Note, semitones: number): Note;
 export function transpose(partOrNotes: NoteType, semitones: number): NoteType;

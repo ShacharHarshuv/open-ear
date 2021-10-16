@@ -1,10 +1,10 @@
 import { NoteType } from '../../notes/NoteType';
-import { Interval } from '../../intervals/interval';
 import { transpose } from '../../transpose';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { noteTypeToNote } from '../../notes/noteTypeToNote';
 import * as _ from 'lodash';
 import { getNoteOctave } from '../../notes/getNoteOctave';
+import { Interval } from '../../intervals/Interval';
 
 export type ChordType = 'M' | 'm' | 'dim';
 

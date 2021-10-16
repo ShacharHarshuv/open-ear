@@ -4,7 +4,7 @@ import {
   ChordType
 } from './Chord';
 import { NoteType } from '../../notes/NoteType';
-import { Interval } from '../../intervals/interval';
+import { Interval } from '../../intervals/Interval';
 import { toNoteTypeNumber } from '../../notes/toNoteTypeNumber';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { toNoteNumber } from '../../notes/toNoteName';

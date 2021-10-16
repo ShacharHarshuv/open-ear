@@ -1,20 +1,26 @@
 import { BaseTonalExercise } from './BaseTonalExercise';
 import { BaseCommonSettingsExerciseSettings } from './BaseCommonSettingsExercise';
-import { Exercise, } from '../../Exercise';
+import { Exercise } from '../../Exercise';
 import {
   randomFromList,
   StaticOrGetter,
-  toGetter
+  toGetter,
 } from '../../../shared/ts-utility';
 import * as _ from 'lodash';
 import {
   voiceChordProgressionWithVoiceLeading,
   Chord,
-  ChordSymbol
+  ChordSymbol,
 } from '../../utility/music/chords';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { NoteEvent } from '../../../services/player.service';
+import {
+  NotesRange,
+  getInterval,
+} from '../../utility';
+import { transpose } from '../../utility/music/transpose';
 import SettingValueType = Exercise.SettingValueType;
+import { Interval } from '../../utility/music/intervals/Interval';
 
 export type BaseTonalChordProgressionExerciseSettings<GAnswer extends string> = BaseCommonSettingsExerciseSettings<GAnswer> & {
   voiceLeading: 'RANDOM' | 'CORRECT';
@@ -42,6 +48,7 @@ export abstract class BaseTonalChordProgressionExercise<GAnswer extends string, 
     includedPositions: [0, 1, 2],
     includeBass: true,
   };
+  private readonly _range = new NotesRange('G3', 'E5');
 
   getQuestionInC(): Exclude<Exercise.Question<GAnswer>, "cadence"> {
     const chordProgression: ChordProgressionQuestion<GAnswer> = this._getChordProgressionInC();
@@ -55,19 +62,54 @@ export abstract class BaseTonalChordProgressionExercise<GAnswer extends string, 
         });
       }
 
-      const voicings: Note[][] = [chordProgression.segments[0].chord.getVoicing({
-        topVoicesInversion: firstChordInversion,
-        withBass: this._settings.includeBass,
-      })];
+      const getAllVoicingsInRange = (chord: Chord, params: Parameters<Chord['getVoicing']>[0]): Note[][] => {
+        const voicing: Note[] = chord.getVoicing(params);
+        const bassNotes: Note[] = [];
+        if (params.withBass) {
+          bassNotes.push(voicing.shift()!);
+          bassNotes.push(voicing.shift()!);
+        }
 
-      for (let i = 1; voicings.length < chordProgression.segments.length; i++) {
-        voicings.push(chordProgression.segments[i].chord.getVoicing({
-          topVoicesInversion: randomFromList(this._settings.includedPositions),
-          withBass: this._settings.includeBass,
-        }));
+        let lowestVoicing = voicing;
+
+        while (this._range.isInRange(transpose(lowestVoicing, -Interval.Octave))) {
+          lowestVoicing = transpose(lowestVoicing, -Interval.Octave);
+        }
+
+        const possibleVoicingList = [lowestVoicing];
+
+        while (this._range.isInRange(transpose(_.last(possibleVoicingList)!, +Interval.Octave))) {
+          possibleVoicingList.push(transpose(_.last(possibleVoicingList)!, +Interval.Octave));
+        }
+
+        return possibleVoicingList.map(possibleVoicing => [
+          ...bassNotes,
+          ...possibleVoicing,
+        ]);
       }
 
-      return voicings;
+      const voicingList: Note[][] = [randomFromList(getAllVoicingsInRange(chordProgression.segments[0].chord, {
+        topVoicesInversion: firstChordInversion,
+        withBass: this._settings.includeBass,
+      }))];
+
+      for (let i = 1; voicingList.length < chordProgression.segments.length; i++) {
+        const lastVoicing: Note[] = voicingList[i - 1];
+        const possibleNextVoicingList: (Note[])[] = getAllVoicingsInRange(chordProgression.segments[i].chord, {
+          topVoicesInversion: randomFromList(this._settings.includedPositions),
+          withBass: this._settings.includeBass,
+        });
+
+        const validNextVoicingList: (Note[])[] = possibleNextVoicingList.filter(possibleNextVoicing => {
+          const lastVoicingHighestNote: Note = _.last(lastVoicing)!;
+          const nextVoicingHighestNote: Note = _.last(possibleNextVoicing)!;
+          return getInterval(lastVoicingHighestNote, nextVoicingHighestNote) <= Interval.PerfectFifth;
+        })
+
+        voicingList.push(randomFromList(_.isEmpty(validNextVoicingList) ? possibleNextVoicingList: validNextVoicingList));
+      }
+
+      return voicingList;
     }
 
     const question: Exclude<Exercise.Question<GAnswer>, "cadence"> = {

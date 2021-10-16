@@ -8,8 +8,8 @@ import * as _ from 'lodash';
 import { NoteType } from '../notes/NoteType';
 import { noteTypeToNote } from '../notes/noteTypeToNote';
 import { transpose } from '../transpose';
-import { Interval } from '../intervals/interval';
 import { randomFromList } from '../../../../shared/ts-utility';
+import { Interval } from '../intervals/Interval';
 
 const MAX_AVG_VOICE_MOVEMENT = 8 / 3;
 

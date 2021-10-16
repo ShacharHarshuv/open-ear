@@ -48,9 +48,14 @@ export class NotesRange {
     this.highestNoteName = toNoteName(this.highestNoteNumber);
   }
 
+  isInRange(noteList: NoteNumberOrName[]): boolean;
+  isInRange(note: NoteNumberOrName): boolean
   @Memoize()
-  isInRange(note: NoteNumberOrName): boolean {
-    const noteNumber = toNoteNumber(note);
+  isInRange(noteOrNoteList: NoteNumberOrName | NoteNumberOrName[]): boolean {
+    if (Array.isArray(noteOrNoteList)) {
+      return noteOrNoteList.every(this.isInRange.bind(this));
+    }
+    const noteNumber = toNoteNumber(noteOrNoteList);
     return noteNumber >= this.lowestNoteNumber && noteNumber <= this.highestNoteNumber;
   }
 
