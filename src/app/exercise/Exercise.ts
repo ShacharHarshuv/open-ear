@@ -83,6 +83,9 @@ export namespace Exercise {
     }/* : never*/;
 
   export interface IExercise<GAnswer extends string = string, GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }> {
+    /**
+     * Do not change the keys for the same exercise between versions, as it will break the persistent storage
+     * */
     readonly id: string;
     readonly name: string;
     readonly description: string;

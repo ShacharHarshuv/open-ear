@@ -6,7 +6,7 @@ import { Exercise } from '../Exercise';
 import { ChordsInKeyExercise } from '../exercises/ChordsInKeyExercise';
 import { NotesInKeyExercise } from '../exercises/NotesInKeyExercise';
 import { ChordTypeInKeyExercise } from '../exercises/ChordTypeInKeyExercise';
-import { TriadInversionExercise } from '../exercises/utility/TriadInversionExercise';
+import { TriadInversionExercise } from '../exercises/TriadInversionExercise';
 
 @Injectable({
   providedIn: 'root'

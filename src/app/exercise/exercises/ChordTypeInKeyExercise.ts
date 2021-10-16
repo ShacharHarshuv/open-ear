@@ -28,6 +28,7 @@ const chordsInC: ChordSymbol[] = [
 type ChordTypeInKeySettings = NumberOfSegmentsSetting & BaseTonalChordProgressionExerciseSettings<ChordType>;
 
 export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<ChordType, ChordTypeInKeySettings> {
+  readonly id: string = 'chordTypeInKey';
   readonly name: string = 'Chord type in key';
   readonly description: string = 'Identify chord type when all chords are diatonic to the same key';
 

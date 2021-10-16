@@ -1,12 +1,12 @@
-import { BaseTonalExercise } from './BaseTonalExercise';
-import { Exercise } from '../../Exercise';
+import { BaseTonalExercise } from './utility/BaseTonalExercise';
+import { Exercise } from '../Exercise';
 import {
   ChordSymbol,
   TriadInversion,
   Chord,
-} from '../../utility/music/chords';
-import { randomFromList } from '../../../shared/ts-utility';
-import { BaseCommonSettingsExerciseSettings } from './BaseCommonSettingsExercise';
+} from '../utility/music/chords';
+import { randomFromList } from '../../shared/ts-utility';
+import { BaseCommonSettingsExerciseSettings } from './utility/BaseCommonSettingsExercise';
 import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
 import * as Tone from 'tone';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
@@ -24,6 +24,7 @@ export type TriadInversionExerciseSettings = BaseCommonSettingsExerciseSettings<
 }
 
 export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnswer, TriadInversionExerciseSettings> {
+  readonly id: string = 'triadInversions';
   readonly name: string = 'Triad Inversions';
   readonly description: string = 'Find the inversion of a triad in close position';
 

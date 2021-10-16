@@ -8,18 +8,16 @@ import {
   FormControl,
   TAbstractControlsOf
 } from '../../../../shared/reactive-forms';
-import { GlobalExerciseSettings } from '../../../services/exercise-state.service';
 import { Exercise, } from '../../../Exercise';
 import SettingValueType = Exercise.SettingValueType;
+import {
+  GlobalExerciseSettings,
+  ExerciseSettingsData,
+} from '../../../utility';
 
 interface ExerciseSettingsControls {
   playCadenceOptions: 'ALWAYS' | 'ONLY_ON_REPEAT' | /*'EVERY_NEW_KEY' TODO(OE-12) |*/ 'NEVER' /*| 'EVERY TODO(OE-13)'*/;
   // playCadenceEvery: number; // todo(OE-13)
-}
-
-export interface ExerciseSettingsData {
-  globalSettings: GlobalExerciseSettings,
-  exerciseSettings: { [key: string]: SettingValueType },
 }
 
 @Component({
@@ -48,6 +46,8 @@ export class ExerciseSettingsPage {
             return 'ALWAYS';
           case false:
             return 'NEVER';
+          case 'ONLY_ON_REPEAT':
+            return 'ONLY_ON_REPEAT';
           // TODO(OE-12)
           // case 'EVERY_NEW_KEY':
           //   return 'EVERY_NEW_KEY';

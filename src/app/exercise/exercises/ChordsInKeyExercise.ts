@@ -343,6 +343,7 @@ const romanNumeralToResolution: {
 };
 
 export class ChordsInKeyExercise extends BaseTonalChordProgressionExercise<RomanNumeralChord, ChordInKeySettings> {
+  readonly id: string = 'chordInKey';
   readonly name: string = 'Chord in Key';
   readonly description: string = 'Recognise chords based on their tonal context in a key';
 

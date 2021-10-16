@@ -67,6 +67,7 @@ const intervalDescriptorList: IIntervalDescriptor[] = [
 ]
 
 export class IntervalExercise extends BaseCommonSettingsExercise<Interval> {
+  readonly id: string = 'interval';
   readonly name: string = 'Interval Recognition';
   readonly description: string = 'Recognizing Intervals without context';
   readonly range = new NotesRange('C3', 'E5');

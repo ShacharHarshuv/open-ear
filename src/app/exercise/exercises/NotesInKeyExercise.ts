@@ -53,6 +53,7 @@ const noteInCToSolfege: { [note in NoteType]?: SolfegeNote } = _.mapValues(_.key
 const solfegeToNoteInC: { [note in SolfegeNote]?: NoteType } = _.mapValues(_.keyBy(CMajor, 'solfege'), 'note');
 
 export class NotesInKeyExercise extends BaseTonalExercise<SolfegeNote> {
+  readonly id: string = 'noteInKey';
   readonly description: string = `Recognise notes based on their tonal context in a key`;
   readonly name: string = `Notes in Key`;
   readonly rangeForKeyOfC = new NotesRange('G2', 'E4');

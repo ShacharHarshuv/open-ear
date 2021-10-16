@@ -6,7 +6,7 @@ import AnswerList = Exercise.AnswerList;
 import SettingValueType = Exercise.SettingValueType;
 
 export abstract class BaseExercise<GAnswer extends string = string, GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }> implements Exercise.IExercise<GAnswer, GSettings> {
-  readonly id: string = _.uniqueId();
+  abstract readonly id: string;
   abstract readonly description: string;
   abstract readonly name: string;
   /**

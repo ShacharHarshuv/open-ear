@@ -6,17 +6,14 @@ import {
   PlayerService,
   PartToPlay,
 } from '../../services/player.service';
-import { toSteadyPart } from '../utility';
+import {
+  toSteadyPart,
+  GlobalExerciseSettings,
+  ExerciseSettingsData,
+} from '../utility';
+import { StorageService } from '../../services/storage.service';
 import AnswerList = Exercise.AnswerList;
 import Answer = Exercise.Answer;
-import SettingValueType = Exercise.SettingValueType;
-
-export interface GlobalExerciseSettings {
-  /**
-   * If received number it will play the cadence every n exercises
-   * */
-  playCadence: true | false | 'ONLY_ON_REPEAT' /*| 'EVERY_NEW_KEY' | number*/; // TODO(OE-12, OE-13)
-}
 
 const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   playCadence: true,
@@ -37,10 +34,19 @@ export class ExerciseStateService {
   private _currentSegmentToAnswer: number = 0;
   private _currentlyPlayingSegment: number | null = null;
   private _highlightedAnswer: string | null = null;
+  constructor(
+    private _activatedRoute: ActivatedRoute,
+    private _exerciseService: ExerciseService,
+    private _player: PlayerService,
+    private _storage: StorageService,
+  ) {
+    this._init();
+  }
   readonly name: string = this._exercise.name;
   readonly hasCadence: boolean = !!this._currentQuestion.cadence;
   answerList: AnswerList = this._exercise.getAnswerList();
-  globalSettings: GlobalExerciseSettings = DEFAULT_EXERCISE_SETTINGS;
+
+  private _globalSettings: GlobalExerciseSettings = DEFAULT_EXERCISE_SETTINGS;
 
   get totalCorrectAnswers(): number {
     return this._totalCorrectAnswers;
@@ -71,11 +77,8 @@ export class ExerciseStateService {
     return this._highlightedAnswer;
   }
 
-  constructor(
-    private _activatedRoute: ActivatedRoute,
-    private _exerciseService: ExerciseService,
-    private _player: PlayerService,
-  ) {
+  get globalSettings(): GlobalExerciseSettings {
+    return this._globalSettings;
   }
 
   answer(answer: string): boolean {
@@ -99,7 +102,7 @@ export class ExerciseStateService {
 
   async playCurrentCadenceAndQuestion(): Promise<void> {
     const partsToPlay: PartToPlay[] = this._getCurrentQuestionPartsToPlay();
-    if (this._currentQuestion.cadence && this.globalSettings.playCadence) {
+    if (this._currentQuestion.cadence && this._globalSettings.playCadence) {
       partsToPlay.unshift(
 
         {
@@ -137,10 +140,28 @@ export class ExerciseStateService {
     this._currentSegmentToAnswer = 0;
   }
 
-  updateExerciseSettings(settings: { [key: string]: SettingValueType }): void {
-    this._exercise.updateSettings?.(settings);
+  updateSettings(settings: ExerciseSettingsData): void {
+    this._storage.saveExerciseSettings(this._exercise.id, settings);
+    this._globalSettings = settings.globalSettings;
+    this._updateExerciseSettings(settings.exerciseSettings)
+  }
+
+  private _updateExerciseSettings(exerciseSettings: { [key: string]: Exercise.SettingValueType }): void {
+    if (!this._exercise.updateSettings) {
+      return;
+    }
+    this._exercise.updateSettings(exerciseSettings);
     this.answerList = this._exercise.getAnswerList();
     this.nextQuestion();
+  }
+
+  private async _init(): Promise<void> {
+    const settings: ExerciseSettingsData | undefined = await this._storage.getExerciseSettings(this._exercise.id);
+    if (!settings) {
+      return;
+    }
+    this._globalSettings = settings.globalSettings;
+    this._updateExerciseSettings(settings.exerciseSettings);
   }
 
   private async _afterCorrectAnswer(): Promise<void> {

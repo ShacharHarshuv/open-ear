@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
 import { ExerciseStateService } from '../services/exercise-state.service';
 import { ModalController } from '@ionic/angular';
-import {
-  ExerciseSettingsPage,
-  ExerciseSettingsData
-} from './components/exercise-settings.page/exercise-settings.page';
+import { ExerciseSettingsPage } from './components/exercise-settings.page/exercise-settings.page';
 import * as _ from 'lodash';
 
 @Component({
@@ -58,6 +55,7 @@ export class ExercisePage {
   }
 
   nextQuestion(): Promise<void> {
+    console.log('next was clicked');
     this.state.nextQuestion();
     if (this.state.globalSettings.playCadence === 'ONLY_ON_REPEAT') {
       return this.state.playCurrentQuestion();
@@ -79,8 +77,6 @@ export class ExercisePage {
       }
     });
     await modal.present();
-    const data: ExerciseSettingsData = (await modal.onDidDismiss()).data;
-    this.state.globalSettings = data.globalSettings;
-    this.state.updateExerciseSettings(data.exerciseSettings);
+    this.state.updateSettings((await modal.onDidDismiss()).data);
   }
 }
