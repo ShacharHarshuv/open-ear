@@ -72,10 +72,6 @@ const romanNumeralToResolution: {
     1: [],
     2: [
       {
-        romanNumeral: 'V',
-        voicingConfig: { topVoicesInversion: TriadInversion.Fifth },
-      },
-      {
         romanNumeral: 'I',
         voicingConfig: { topVoicesInversion: TriadInversion.Octave },
       },
@@ -120,7 +116,9 @@ const romanNumeralToResolution: {
       },
       {
         romanNumeral: 'I',
-        voicingConfig: { topVoicesInversion: TriadInversion.Fifth },
+        voicingConfig: {
+          topVoicesInversion: TriadInversion.Fifth,
+        },
       },
     ],
   },
@@ -251,12 +249,6 @@ const romanNumeralToResolution: {
   vi: {
     0: [
       {
-        romanNumeral: 'IV',
-        voicingConfig: {
-          topVoicesInversion: TriadInversion.Octave,
-        },
-      },
-      {
         romanNumeral: 'V',
         voicingConfig: {
           topVoicesInversion: TriadInversion.Fifth,
@@ -270,12 +262,6 @@ const romanNumeralToResolution: {
       },
     ],
     1: [
-      {
-        romanNumeral: 'IV',
-        voicingConfig: {
-          topVoicesInversion: TriadInversion.Third,
-        },
-      },
       {
         romanNumeral: 'V',
         voicingConfig: {
@@ -292,23 +278,17 @@ const romanNumeralToResolution: {
     ],
     2: [
       {
-        romanNumeral: 'IV',
-        voicingConfig: {
-          topVoicesInversion: TriadInversion.Fifth,
-          octave: 5,
-        },
-      },
-      {
         romanNumeral: 'V',
         voicingConfig: {
           topVoicesInversion: TriadInversion.Third,
+          octave: 3,
         },
       },
       {
         romanNumeral: 'I',
         voicingConfig: {
           topVoicesInversion: TriadInversion.Octave,
-          octave: 5,
+          octave: 4,
         },
       },
     ],
