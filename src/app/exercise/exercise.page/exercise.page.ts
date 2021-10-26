@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ExerciseStateService } from '../services/exercise-state.service';
+import { ExerciseStateService } from '../services/exercise-state/exercise-state.service';
 import { ModalController } from '@ionic/angular';
 import { ExerciseSettingsPage } from './components/exercise-settings.page/exercise-settings.page';
 import * as _ from 'lodash';

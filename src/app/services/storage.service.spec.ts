@@ -27,6 +27,7 @@ describe('StorageService', function() {
     const exerciseSettingsData: ExerciseSettingsData = {
       globalSettings: {
         playCadence: false,
+        adaptive: false,
       },
       exerciseSettings: {
         a: 1,
