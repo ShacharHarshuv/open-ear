@@ -13,16 +13,11 @@ import { TriadInversionExercise } from '../../exercises/TriadInversionExercise';
 })
 export class ExerciseService {
   private readonly _exerciseList: IExercise[] = [
-    // @ts-ignore // TODO(OE-27)
-    new IntervalExercise(),
-    // @ts-ignore // TODO(OE-27)
-    new NotesInKeyExercise(),
-    // @ts-ignore // TODO(OE-27)
-    new ChordsInKeyExercise(),
-    // @ts-ignore // TODO(OE-27)
-    new ChordTypeInKeyExercise(),
-    // @ts-ignore // TODO(OE-27)
-    new TriadInversionExercise(),
+    new IntervalExercise() as unknown as IExercise, // TODO(OE-27)
+    new NotesInKeyExercise() as unknown as IExercise, // TODO(OE-27)
+    new ChordsInKeyExercise() as unknown as IExercise, // TODO(OE-27)
+    new ChordTypeInKeyExercise() as unknown as IExercise, // TODO(OE-27)
+    new TriadInversionExercise() as unknown as IExercise, // TODO(OE-27)
   ];
   private readonly _exerciseIdToExercise = _.keyBy(this._exerciseList, 'id');
 
