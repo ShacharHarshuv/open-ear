@@ -28,9 +28,10 @@ interface CurrentAnswer {
 
 @Injectable()
 export class ExerciseStateService {
+  private readonly _originalExercise: Exercise.IExercise = this._exerciseService.getExercise(this._activatedRoute.snapshot.paramMap.get('id')!);
+  private _globalSettings: GlobalExerciseSettings = DEFAULT_EXERCISE_SETTINGS;
   readonly name: string = this._exercise.name;
   answerList: AnswerList = this._exercise.getAnswerList();
-  private readonly _originalExercise: Exercise.IExercise = this._exerciseService.getExercise(this._activatedRoute.snapshot.paramMap.get('id')!);
   private _adaptiveExercise: AdaptiveExercise = new AdaptiveExercise(this._originalExercise);
   private _currentQuestion: Exercise.Question = this._exercise.getQuestion();
   private _currentSegmentToAnswer: number = 0;
@@ -43,8 +44,6 @@ export class ExerciseStateService {
   ) {
     this._init();
   }
-
-  private _globalSettings: GlobalExerciseSettings = DEFAULT_EXERCISE_SETTINGS;
 
   get globalSettings(): GlobalExerciseSettings {
     return this._globalSettings;
