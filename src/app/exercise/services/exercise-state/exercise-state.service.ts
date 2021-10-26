@@ -92,6 +92,10 @@ export class ExerciseStateService {
     return this._exercise.getCurrentSettings?.() || {};
   }
 
+  private get _areAllSegmentsAnswered(): boolean {
+    return !this._currentAnswers.filter(answer => answer.answer === null).length
+  }
+
   private get _exercise(): Exercise.IExercise {
     return this._globalSettings.adaptive ? this._adaptiveExercise : this._originalExercise;
   }
@@ -133,6 +137,9 @@ export class ExerciseStateService {
         },
       );
     }
+    if (this._areAllSegmentsAnswered && this._currentQuestion.afterCorrectAnswer) {
+      partsToPlay.push(...this._getAfterCorrectAnswerParts());
+    }
     await this._player.playMultipleParts(partsToPlay);
     this._currentlyPlayingSegment = null;
   }
@@ -144,7 +151,7 @@ export class ExerciseStateService {
 
   nextQuestion(): void {
     // if still unanswered questions
-    if (this._globalSettings.adaptive && !!this._currentQuestion && this._currentAnswers.filter(answer => answer.answer === null).length) {
+    if (this._globalSettings.adaptive && !!this._currentQuestion && !this._areAllSegmentsAnswered) {
       try {
         this._adaptiveExercise.reportAnswerCorrectness(true); // reporting true to ignore it in the future
       } catch (e) {}
@@ -191,12 +198,12 @@ export class ExerciseStateService {
     this._updateExerciseSettings(settings.exerciseSettings);
   }
 
-  private async _afterCorrectAnswer(): Promise<void> {
+  private _getAfterCorrectAnswerParts(): PartToPlay[] {
     if (!this._currentQuestion.afterCorrectAnswer) {
-      return;
+      return [];
     }
 
-    await this._player.playMultipleParts(this._currentQuestion.afterCorrectAnswer.map(({
+    return this._currentQuestion.afterCorrectAnswer.map(({
       partToPlay,
       answerToHighlight,
     }): PartToPlay => ({
@@ -204,7 +211,15 @@ export class ExerciseStateService {
         this._highlightedAnswer = answerToHighlight || null;
       },
       partOrTime: partToPlay,
-    })));
+    }));
+  }
+
+  private async _afterCorrectAnswer(): Promise<void> {
+    if (!this._currentQuestion.afterCorrectAnswer) {
+      return;
+    }
+
+    await this._player.playMultipleParts(this._getAfterCorrectAnswerParts());
     this._highlightedAnswer = null;
   }
 }

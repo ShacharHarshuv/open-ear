@@ -11,7 +11,7 @@ import {
 /*
 * If got NoteEvent for input it doesn't change it
 * */
-export function toSteadyPart(noteList: OneOrMany<OneOrMany<NoteNumberOrName> | NoteEvent>, noteDuration: Subdivision = '4n'): NoteEvent[] {
+export function toSteadyPart(noteList: OneOrMany<OneOrMany<NoteNumberOrName> | NoteEvent>, noteDuration: Subdivision = '4n', velocity = 1): NoteEvent[] {
   let numberOfNotes: number = 0;
   return _.map(toArray(noteList), (frequencyOrEvent: OneOrMany<NoteNumberOrName> | NoteEvent): NoteEvent => {
     if(typeof frequencyOrEvent === 'object' && !Array.isArray(frequencyOrEvent)) {
@@ -23,6 +23,7 @@ export function toSteadyPart(noteList: OneOrMany<OneOrMany<NoteNumberOrName> | N
         [noteDuration]: numberOfNotes++,
       },
       duration: noteDuration,
+      velocity: velocity,
     };
   })
 }

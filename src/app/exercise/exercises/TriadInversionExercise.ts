@@ -10,6 +10,7 @@ import { BaseCommonSettingsExerciseSettings } from './utility/BaseCommonSettings
 import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
 import * as Tone from 'tone';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { toSteadyPart } from '../utility';
 
 type TriadInversionAnswer = 'Root Position' | '1st Inversion' | '2nd Inversion'
 
@@ -21,6 +22,7 @@ const triadInversions: TriadInversionAnswer[] = [
 
 export type TriadInversionExerciseSettings = BaseCommonSettingsExerciseSettings<TriadInversionAnswer> & {
   arpeggiateSpeed: number;
+  playRootAfterAnswer: boolean;
 }
 
 export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnswer, TriadInversionExerciseSettings> {
@@ -38,7 +40,7 @@ export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnsw
       withBass: false,
       octave: 3, // picking a lower octave as a high one is more difficult
     });
-    return {
+    const question: Exercise.Question<TriadInversionAnswer> = {
       segments: [
         {
           partToPlay: voicing.map((note, index) => {
@@ -54,6 +56,17 @@ export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnsw
         }
       ],
     };
+
+    if (this._settings.playRootAfterAnswer) {
+      question.afterCorrectAnswer =[
+        {
+          partToPlay: toSteadyPart(voicing[(3 - randomTriadInversion) % 3], '1n', 0.3),
+          answerToHighlight: answer,
+        },
+      ]
+    }
+
+    return question;
   }
 
   getQuestion(): Exercise.Question<TriadInversionAnswer> {
@@ -84,6 +97,13 @@ export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnsw
           max: 100,
           step: 1,
         }
+      },
+      {
+        key: 'playRootAfterAnswer',
+        descriptor: {
+          controlType: 'CHECKBOX',
+          label: 'Play Root After Correct Answer',
+        }
       }
     ];
   }
@@ -95,6 +115,7 @@ export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnsw
     return {
       ...super._getDefaultSettings(),
       arpeggiateSpeed: 0,
+      playRootAfterAnswer: true,
     };
   }
 }

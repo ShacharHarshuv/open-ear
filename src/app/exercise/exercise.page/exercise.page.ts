@@ -55,7 +55,6 @@ export class ExercisePage {
   }
 
   nextQuestion(): Promise<void> {
-    console.log('next was clicked');
     this.state.nextQuestion();
     if (this.state.globalSettings.playCadence === 'ONLY_ON_REPEAT') {
       return this.state.playCurrentQuestion();
