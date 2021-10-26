@@ -162,4 +162,10 @@ export class PlayerService {
       baseUrl: `${location.origin}/samples/piano-mp3-velocity10/audio/`,
     }).toDestination();
   }
+
+  setBpm(bpm: number): void {
+    if (Tone.Transport.bpm.value !== bpm) {
+      Tone.Transport.bpm.value = bpm;
+    }
+  }
 }

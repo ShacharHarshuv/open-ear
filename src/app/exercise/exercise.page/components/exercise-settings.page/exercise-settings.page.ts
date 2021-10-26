@@ -19,6 +19,7 @@ interface ExerciseSettingsControls {
   playCadenceOptions: 'ALWAYS' | 'ONLY_ON_REPEAT' | /*'EVERY_NEW_KEY' TODO(OE-12) |*/ 'NEVER' /*| 'EVERY TODO(OE-13)'*/;
   // playCadenceEvery: number; // todo(OE-13)
   adaptive: boolean,
+  bpm: number,
 }
 
 @Component({
@@ -30,7 +31,8 @@ export class ExerciseSettingsPage {
   readonly generalFormGroup = new FormGroup<ExerciseSettingsControls>({
     playCadenceOptions: new FormControl('ALWAYS'),
     // playCadenceEvery: new FormControl(5),
-    adaptive: new FormControl<boolean>(false,)
+    adaptive: new FormControl<boolean>(false),
+    bpm: new FormControl<number>(120),
   });
 
   exerciseSettingsDescriptor: Exercise.SettingsControlDescriptor[];
@@ -58,6 +60,7 @@ export class ExerciseSettingsPage {
         }
       })(),
       adaptive: currentSettings.adaptive,
+      bpm: currentSettings.bpm,
     })
   }
 
@@ -106,6 +109,7 @@ export class ExerciseSettingsPage {
         return valueMapping[formGroupValue.playCadenceOptions];
       })(),
       adaptive: formGroupValue.adaptive,
+      bpm: formGroupValue.bpm,
     }
   }
 }

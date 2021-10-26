@@ -19,6 +19,7 @@ import { AdaptiveExercise } from './adaptive-exercise';
 const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   playCadence: true,
   adaptive: false,
+  bpm: 120,
 };
 
 interface CurrentAnswer {
@@ -167,6 +168,7 @@ export class ExerciseStateService {
   updateSettings(settings: ExerciseSettingsData): void {
     this._storage.saveExerciseSettings(this._exercise.id, settings);
     this._globalSettings = settings.globalSettings;
+    this._player.setBpm(this._globalSettings.bpm);
     this._updateExerciseSettings(settings.exerciseSettings);
   }
 

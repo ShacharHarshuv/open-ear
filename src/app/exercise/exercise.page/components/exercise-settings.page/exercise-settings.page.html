@@ -35,6 +35,20 @@
         slot="end"
       ></ion-toggle>
     </ion-item>
+    <ion-item
+      class="exercise-settings__item --label-above"
+    >
+      <ion-label>BPM</ion-label>
+      <ion-range
+        [formControl]="generalFormGroup.controls.bpm"
+        [max]="200"
+        [min]="40"
+        [snaps]="true"
+        [step]="1"
+        pin
+      >
+      </ion-range>
+    </ion-item>
   </ion-list>
 
   <ion-list *ngIf="exerciseFormGroup">
