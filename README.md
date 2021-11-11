@@ -7,8 +7,9 @@ Currently includes the following built in exercises:
 1. Identify interval
 2. Identify note in a tonal context
 3. Identify chord & chord progressions in a tonal context
+4. Identify a triad chord inversion in close position
 
-The app is still under initial development and might contain bugs and incompleted features. 
+The app is still under initial development and might contain bugs and uncompleted features. 
 
 ![Image](https://i.imgur.com/SFcYW2a.png)
 
@@ -20,9 +21,10 @@ To contribute follow the following steps.
 
 1. Fork the repository
 2. open the respository root
-3. Run `yarn` or `npm i` (you may need to install node if you don't have it installed already)
-4. ran `yarn start`
-5. App should be served in the browser!
+3. Install ionic globally by running `npm i ionic -g` 
+4. Run `yarn` or `npm i` (you may need to install node if you don't have it installed already)
+5. Run `yarn start`
+6. App should be served in the browser!
 
 To implement new exercises, you need to write a class that implements `Exercise.IExercise` interface. See examples in src/app/exercise/exercises.
 After implementing this class you will need to add it to `ExerciseService#_exerciseList`.
