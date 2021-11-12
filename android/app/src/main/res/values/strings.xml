@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Open Ear</string>
+    <string name="title_activity_main">Open Ear</string>
+    <string name="package_name">com.openear.www</string>
+    <string name="custom_url_scheme">com.openear.www</string>
+</resources>
