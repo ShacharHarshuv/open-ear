@@ -4,6 +4,7 @@ import {AboutPage} from "./about.page";
 import {RouterModule} from "@angular/router";
 import {IonicModule} from "@ionic/angular";
 import {SharedComponentsModule} from "../shared/components/shared-components/shared-components.module";
+import {AppVersion} from "@ionic-native/app-version/ngx";
 
 
 
@@ -21,6 +22,9 @@ import {SharedComponentsModule} from "../shared/components/shared-components/sha
         component: AboutPage,
       }
     ])
+  ],
+  providers: [
+    AppVersion,
   ]
 })
 export class AboutModule { }

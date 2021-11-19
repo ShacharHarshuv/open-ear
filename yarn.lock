@@ -1364,6 +1364,20 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
+"@ionic-native/app-version@^5.36.0":
+  version "5.36.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/app-version/-/app-version-5.36.0.tgz#22015a192442c6d7414ca7342774231ddf3a3024"
+  integrity sha512-eKgLcqBHO0IDs1oRP+kQ47sztIpq8cwnyp51EGpP5xD6unGUyx/GferOz7D6KkkZGR9QbJ6ZmsKt0ImrxT5JgQ==
+  dependencies:
+    "@types/cordova" latest
+
+"@ionic-native/core@^5.36.0":
+  version "5.36.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/core/-/core-5.36.0.tgz#712c40a530b119b0039e8d16cb577899f50541d4"
+  integrity sha512-lOrkktadlKYbYf1LrDyAtsu1JnQ0oCCdkOU7iHQ8oXnNOkMwobFfD2m62F1CoOr0u9LIkpYnZSPjng8lZbmbNw==
+  dependencies:
+    "@types/cordova" latest
+
 "@ionic/angular-toolkit@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@ionic/angular-toolkit/-/angular-toolkit-4.0.0.tgz#517b6b6f8fc527db4b57ce589dc20ba1a2555f35"
@@ -1864,6 +1878,11 @@
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/@types/cookie/-/cookie-0.4.1.tgz#bfd02c1f2224567676c1545199f87c3a861d878d"
   integrity sha512-XW/Aa8APYr6jSVVA1y/DEIZX0/GMKLEVekNG727R8cs56ahETkRAy/3DR7+fJyh7oUgGwNQaRfXCun0+KbWY7Q==
+
+"@types/cordova@latest":
+  version "0.0.34"
+  resolved "https://registry.yarnpkg.com/@types/cordova/-/cordova-0.0.34.tgz#ea7addf74ecec3d7629827a0c39e2c9addc73d04"
+  integrity sha1-6nrd907Ow9dimCegw54smt3HPQQ=
 
 "@types/cors@^2.8.12":
   version "2.8.12"
@@ -3549,6 +3568,11 @@ copy-webpack-plugin@^6.2.1:
     schema-utils "^3.0.0"
     serialize-javascript "^5.0.1"
     webpack-sources "^1.4.3"
+
+cordova-plugin-app-version@^0.1.12:
+  version "0.1.12"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-app-version/-/cordova-plugin-app-version-0.1.12.tgz#08798f6edf870e42dc655a8f1028894428eb72a6"
+  integrity sha512-P+0d9+h9HasanKuMd8tcEpuJJlsVmClie3Mbq16v3TV/VroDrgYB6Ea8Imkc/WjjMVSBCjWB+pji1LoupWlddA==
 
 core-js-compat@^3.15.0, core-js-compat@^3.16.2:
   version "3.19.1"
