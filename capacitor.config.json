@@ -2,5 +2,6 @@
 	"appId": "com.openear.www",
 	"appName": "Open Ear",
 	"webDir": "www",
-	"bundledWebRuntime": false
+	"bundledWebRuntime": false,
+  "backgroundColor": "#9955ff"
 }

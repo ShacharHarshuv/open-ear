@@ -6,7 +6,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ionic serve",
-    "build": "ng build && capacitor copy android && capacitor open android",
+    "add-android": "capacitor add android",
+    "build": "ng build && capacitor copy android && cordova-res android --skip-config --copy && capacitor open android",
+    "open-android": "capacitor open android",
+    "generate-resources": "cordova-res android --skip-config --copy",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
