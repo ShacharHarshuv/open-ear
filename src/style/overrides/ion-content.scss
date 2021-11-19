@@ -1,0 +1,12 @@
+@use 'main' as *;
+
+ion-content {
+  &.--padding {
+    &::part(scroll) {
+      padding: {
+        right: 2 * $unit;
+        left: 2 * $unit;
+      };
+    }
+  }
+}

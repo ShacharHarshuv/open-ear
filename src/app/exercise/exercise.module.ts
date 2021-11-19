@@ -7,6 +7,7 @@ import { ExerciseSettingsPage } from './exercise.page/components/exercise-settin
 import { ReactiveFormsModule } from '@angular/forms';
 import { AnswerIndicationComponent } from './exercise.page/components/answer-indication/answer-indication.component';
 import { ListSelectComponent } from './exercise.page/components/exercise-settings.page/components/included-answers/list-select.component';
+import {SharedComponentsModule} from "../shared/components/shared-components/shared-components.module";
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { ListSelectComponent } from './exercise.page/components/exercise-setting
     CommonModule,
     ExerciseRoutingModule,
     IonicModule,
+    SharedComponentsModule,
     ReactiveFormsModule,
   ]
 })
