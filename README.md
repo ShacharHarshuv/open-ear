@@ -1,4 +1,6 @@
 # OpenEar
+![featured_graphics_narrow](https://user-images.githubusercontent.com/4821858/142941962-efc78796-cc85-4224-8baa-a3faaee9f6f4.png)
+
 
 OpenEar is an open source ear training app for musicians. It's goal is to provide a flexible variety of exercises so musicians will be able to master recognizing any musical pattern that might help them become better musicians. 
 
@@ -11,7 +13,8 @@ Currently includes the following built in exercises:
 
 The app is still under initial development and might contain bugs and uncompleted features. 
 
-![Image](https://i.imgur.com/SFcYW2a.png)
+![screenshots](https://user-images.githubusercontent.com/4821858/142942603-4fb8e1cd-49b7-4029-b8f0-1f60a93e0cab.png)
+
 
 ## Contribution
 
