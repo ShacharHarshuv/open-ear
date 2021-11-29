@@ -13,6 +13,8 @@ Currently includes the following built in exercises:
 
 The app is still under initial development and might contain bugs and uncompleted features. 
 
+Download the app from google play: https://play.google.com/store/apps/details?id=com.openear.www
+
 ![screenshots](https://user-images.githubusercontent.com/4821858/142942603-4fb8e1cd-49b7-4029-b8f0-1f60a93e0cab.png)
 
 
