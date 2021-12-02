@@ -46,12 +46,10 @@ export class ExercisePage {
       this.rightAnswer = answer;
       setTimeout(() => {
         this.rightAnswer = null;
-      }, 0);
+      }, 10);
+      this.wrongAnswer = null;
     } else {
       this.wrongAnswer = answer;
-      setTimeout(() => {
-        this.wrongAnswer = null;
-      }, 0);
     }
   }
 
