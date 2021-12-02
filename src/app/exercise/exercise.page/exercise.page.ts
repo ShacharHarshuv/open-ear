@@ -33,6 +33,7 @@ export class ExercisePage {
     private _modalController: ModalController,
   ) {
     state.nextQuestion();
+    state.playCurrentCadenceAndQuestion();
   }
 
   onAnswer(answer: string): void {
