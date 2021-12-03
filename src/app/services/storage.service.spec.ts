@@ -1,4 +1,4 @@
-import { StorageService } from './storage.service';
+import { ExerciseSettingsDataService } from './exercise-settings-data.service';
 import { TestBed } from '@angular/core/testing';
 import {
   IonicStorageModule,
@@ -7,7 +7,7 @@ import {
 import { ExerciseSettingsData } from '../exercise/utility';
 
 describe('StorageService', function() {
-  let service: StorageService;
+  let service: ExerciseSettingsDataService;
   let storage: Storage;
 
   beforeEach(() => {
@@ -16,10 +16,10 @@ describe('StorageService', function() {
         IonicStorageModule.forRoot(),
       ],
       providers: [
-        StorageService,
+        ExerciseSettingsDataService,
       ]
     });
-    service = TestBed.inject(StorageService);
+    service = TestBed.inject(ExerciseSettingsDataService);
     storage = TestBed.inject(Storage);
   })
 
@@ -28,6 +28,7 @@ describe('StorageService', function() {
       globalSettings: {
         playCadence: false,
         adaptive: false,
+        bpm: 120,
       },
       exerciseSettings: {
         a: 1,

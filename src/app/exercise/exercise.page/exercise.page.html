@@ -8,8 +8,8 @@
     </ion-title>
     <ion-buttons slot="end">
       <ion-button
-        *ngIf="state.exerciseExplanation"
-        (click)="openHelp()"
+        *ngIf="state.exercise.explanation"
+        (click)="exerciseExplanation.openExplanation()"
       >
         <ion-icon slot="icon-only" name="help-outline"></ion-icon>
       </ion-button>

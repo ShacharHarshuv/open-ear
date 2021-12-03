@@ -1,11 +1,6 @@
 @use 'main' as *;
 
 ion-content {
-  &::part(scroll) {
-    display: flex;
-    flex-direction: column;
-  }
-
   &.--padding {
     &::part(scroll) {
       padding: {

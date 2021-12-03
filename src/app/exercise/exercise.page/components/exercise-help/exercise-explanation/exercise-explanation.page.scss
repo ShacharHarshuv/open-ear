@@ -3,3 +3,10 @@
     flex-grow: 1;
   }
 }
+
+ion-content {
+  &::part(scroll) {
+    display: flex;
+    flex-direction: column;
+  }
+}

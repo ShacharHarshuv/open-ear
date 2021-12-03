@@ -5,7 +5,7 @@ import { ExerciseSettingsData } from '../exercise/utility';
 @Injectable({
   providedIn: 'root',
 })
-export class StorageService {
+export class ExerciseSettingsDataService {
   private _storage: Storage;
   private readonly _exerciseSettingsKey: string = 'exerciseSettings';
 
@@ -17,15 +17,18 @@ export class StorageService {
     this._storage = await this.storage.create();
   }
 
-  async saveExerciseSettings(exerciseId: string, settings: ExerciseSettingsData): Promise<void> {
+  async saveExerciseSettings(exerciseId: string, settings: Partial<ExerciseSettingsData>): Promise<void> {
     const currentExercisesSettings: {
       [exerciseKey: string]: ExerciseSettingsData
     } = await this.storage.get(this._exerciseSettingsKey) || {};
-    currentExercisesSettings[exerciseId] = settings;
+    currentExercisesSettings[exerciseId] = {
+      ...currentExercisesSettings[exerciseId],
+      ...settings
+    };
     await this._storage.set(this._exerciseSettingsKey, currentExercisesSettings);
   }
 
-  async getExerciseSettings(exerciseId: string): Promise<ExerciseSettingsData | undefined> {
+  async getExerciseSettings(exerciseId: string): Promise<Partial<ExerciseSettingsData> | undefined> {
     return (await this.storage.get(this._exerciseSettingsKey))?.[exerciseId];
   }
 }
