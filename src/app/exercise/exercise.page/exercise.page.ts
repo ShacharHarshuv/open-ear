@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
-import { ExerciseStateService } from '../services/exercise-state/exercise-state.service';
-import { ModalController } from '@ionic/angular';
-import { ExerciseSettingsPage } from './components/exercise-settings.page/exercise-settings.page';
+import {Component} from '@angular/core';
+import {ExerciseStateService} from '../services/exercise-state/exercise-state.service';
+import {ModalController} from '@ionic/angular';
+import {ExerciseSettingsPage} from './components/exercise-settings.page/exercise-settings.page';
 import * as _ from 'lodash';
+import {ExerciseExplanationService} from "../services/exercise-explanation.service";
 
 @Component({
   selector: 'app-exercise-page',
@@ -10,6 +11,7 @@ import * as _ from 'lodash';
   styleUrls: ['./exercise.page.scss'],
   providers: [
     ExerciseStateService,
+    ExerciseExplanationService,
   ]
 })
 export class ExercisePage {
@@ -30,10 +32,10 @@ export class ExercisePage {
 
   constructor(
     public state: ExerciseStateService,
+    public exerciseExplanation: ExerciseExplanationService,
     private _modalController: ModalController,
   ) {
-    state.nextQuestion();
-    state.playCurrentCadenceAndQuestion();
+    this._init();
   }
 
   onAnswer(answer: string): void {
@@ -76,5 +78,11 @@ export class ExercisePage {
     });
     await modal.present();
     this.state.updateSettings((await modal.onDidDismiss()).data);
+  }
+
+  private async _init(): Promise<void> {
+    this.state.nextQuestion();
+    await this.exerciseExplanation.init();
+    await this.state.playCurrentCadenceAndQuestion();
   }
 }

@@ -11,7 +11,7 @@ import {
   GlobalExerciseSettings,
   ExerciseSettingsData,
 } from '../../utility';
-import { StorageService } from '../../../services/storage.service';
+import { ExerciseSettingsDataService } from '../../../services/exercise-settings-data.service';
 import AnswerList = Exercise.AnswerList;
 import Answer = Exercise.Answer;
 import { AdaptiveExercise } from './adaptive-exercise';
@@ -31,17 +31,17 @@ interface CurrentAnswer {
 export class ExerciseStateService {
   private readonly _originalExercise: Exercise.IExercise = this._exerciseService.getExercise(this._activatedRoute.snapshot.paramMap.get('id')!);
   private _globalSettings: GlobalExerciseSettings = DEFAULT_EXERCISE_SETTINGS;
-  readonly name: string = this._exercise.name;
-  answerList: AnswerList = this._exercise.getAnswerList();
+  readonly name: string = this.exercise.name;
+  answerList: AnswerList = this.exercise.getAnswerList();
   private _adaptiveExercise: AdaptiveExercise = new AdaptiveExercise(this._originalExercise);
-  private _currentQuestion: Exercise.Question = this._exercise.getQuestion();
+  private _currentQuestion: Exercise.Question = this.exercise.getQuestion();
   private _currentSegmentToAnswer: number = 0;
 
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _exerciseService: ExerciseService,
     private _player: PlayerService,
-    private _storage: StorageService,
+    private _exerciseSettingsData: ExerciseSettingsDataService,
   ) {
     this._init();
   }
@@ -85,19 +85,19 @@ export class ExerciseStateService {
   }
 
   get exerciseSettingsDescriptor(): Exercise.SettingsControlDescriptor[] {
-    const settingsDescriptor: Exercise.SettingsControlDescriptor[] | undefined = this._exercise.settingsDescriptor;
+    const settingsDescriptor: Exercise.SettingsControlDescriptor[] | undefined = this.exercise.settingsDescriptor;
     return settingsDescriptor || [];
   }
 
   get exerciseSettings(): { [key: string]: Exercise.SettingValueType } {
-    return this._exercise.getCurrentSettings?.() || {};
+    return this.exercise.getCurrentSettings?.() || {};
   }
 
   private get _areAllSegmentsAnswered(): boolean {
     return !this._currentAnswers.filter(answer => answer.answer === null).length
   }
 
-  private get _exercise(): Exercise.IExercise {
+  get exercise(): Exercise.IExercise {
     return this._globalSettings.adaptive ? this._adaptiveExercise : this._originalExercise;
   }
 
@@ -157,7 +157,7 @@ export class ExerciseStateService {
         this._adaptiveExercise.reportAnswerCorrectness(true); // reporting true to ignore it in the future
       } catch (e) {}
     }
-    this._currentQuestion = this._exercise.getQuestion();
+    this._currentQuestion = this.exercise.getQuestion();
     this._currentAnswers = this._currentQuestion.segments.map(() => ({
       wasWrong: false,
       answer: null,
@@ -166,7 +166,7 @@ export class ExerciseStateService {
   }
 
   updateSettings(settings: ExerciseSettingsData): void {
-    this._storage.saveExerciseSettings(this._exercise.id, settings);
+    this._exerciseSettingsData.saveExerciseSettings(this.exercise.id, settings);
     this._globalSettings = settings.globalSettings;
     this._player.setBpm(this._globalSettings.bpm);
     this._updateExerciseSettings(settings.exerciseSettings);
@@ -182,22 +182,23 @@ export class ExerciseStateService {
   }
 
   private _updateExerciseSettings(exerciseSettings: { [key: string]: Exercise.SettingValueType }): void {
-    if (!this._exercise.updateSettings) {
+    if (!this.exercise.updateSettings) {
       return;
     }
-    this._exercise.updateSettings(exerciseSettings);
-    this.answerList = this._exercise.getAnswerList();
+    this.exercise.updateSettings(exerciseSettings);
+    this.answerList = this.exercise.getAnswerList();
     this._adaptiveExercise.reset();
     this.nextQuestion();
   }
 
   private async _init(): Promise<void> {
-    const settings: ExerciseSettingsData | undefined = await this._storage.getExerciseSettings(this._exercise.id);
-    if (!settings) {
-      return;
+    const settings: Partial<ExerciseSettingsData> | undefined = await this._exerciseSettingsData.getExerciseSettings(this.exercise.id);
+    if (settings?.globalSettings) {
+      this._globalSettings = settings.globalSettings;
     }
-    this._globalSettings = settings.globalSettings;
-    this._updateExerciseSettings(settings.exerciseSettings);
+    if (settings?.exerciseSettings) {
+      this._updateExerciseSettings(settings.exerciseSettings);
+    }
   }
 
   private _getAfterCorrectAnswerParts(): PartToPlay[] {

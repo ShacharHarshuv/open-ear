@@ -1,0 +1,8 @@
+@use 'main' as *;
+
+:host {
+  background-color: rgba(var(--ion-color-primary-rgb), 0.3);
+  padding: 2 * $unit;
+  display: block;
+  border-radius: $unit;
+}

@@ -1,0 +1,23 @@
+<p>
+  In the following exercise <b>two notes will be played</b>, and you will be required
+  to specify the interval between them.
+</p>
+<app-info-panel>
+  <b>Tip!</b> Try to recall songs / melodies you know that starts which each interval.
+</app-info-panel>
+<p>
+  If you're just starting out, it's recommended to limit to amount of possible
+  intervals. That can be done in the exercise settings (<ion-icon name="settings-outline"></ion-icon>)
+</p>
+
+<h2>List of Intervals: </h2>
+
+<p>(Click to play)</p>
+
+<ion-list>
+  <ng-container *ngFor="let interval of intervalDescriptorList">
+    <ion-item button [playOnClick]="interval.toPlay">
+      {{interval.name}}
+    </ion-item>
+  </ng-container>
+</ion-list>

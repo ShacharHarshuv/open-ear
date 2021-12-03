@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
-import { IntervalExercise } from '../../exercises/IntervalExercise';
+import { IntervalExercise } from '../../exercises/IntervalExercise/IntervalExercise';
 import IExercise = Exercise.IExercise;
 import { Exercise } from '../../Exercise';
 import { ChordsInKeyExercise } from '../../exercises/ChordsInKeyExercise';
