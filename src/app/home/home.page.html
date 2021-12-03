@@ -5,9 +5,13 @@
     </ion-title>
     <ion-buttons
       slot="end"
-      [routerLink]="'/about'"
     >
-      <ion-button>
+      <ion-button [href]="'https://github.com/ShacharHarshuv/open-ear'">
+        <ion-icon slot="icon-only" name="logo-github"></ion-icon>
+      </ion-button>
+      <ion-button
+        [routerLink]="'/about'"
+      >
         <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
