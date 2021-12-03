@@ -8,7 +8,7 @@ interface QuestionToRepeat {
 }
 
 export class AdaptiveExercise implements Exercise.IExercise {
-  readonly description: string = this._exercise.description;
+  readonly summary: string = this._exercise.summary;
   readonly id: string = this._exercise.id;
   readonly name: string = this._exercise.name;
   settingsDescriptor: Exercise.SettingsControlDescriptor<{ [key: string]: Exercise.SettingValueType; }>[] | undefined = this._exercise.settingsDescriptor;

@@ -28,7 +28,7 @@ export type TriadInversionExerciseSettings = BaseCommonSettingsExerciseSettings<
 export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnswer, TriadInversionExerciseSettings> {
   readonly id: string = 'triadInversions';
   readonly name: string = 'Triad Inversions';
-  readonly description: string = 'Find the inversion of a triad in close position';
+  readonly summary: string = 'Find the inversion of a triad in close position';
 
   getQuestionInC(): Exclude<Exercise.Question<TriadInversionAnswer>, 'cadence'> {
     const chordsInC: ChordSymbol[] = ['C', 'Dm', 'Em', 'F', 'G', 'Am'];

@@ -7,7 +7,7 @@ import SettingValueType = Exercise.SettingValueType;
 
 export abstract class BaseExercise<GAnswer extends string = string, GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }> implements Exercise.IExercise<GAnswer, GSettings> {
   abstract readonly id: string;
-  abstract readonly description: string;
+  abstract readonly summary: string;
   abstract readonly name: string;
   /**
    * Implementor should implement the desired default settings

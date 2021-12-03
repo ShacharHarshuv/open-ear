@@ -91,7 +91,7 @@ export namespace Exercise {
      * */
     readonly id: string;
     readonly name: string;
-    readonly description: string;
+    readonly summary: string;
     readonly explanation?: ExerciseExplanationContent;
     readonly settingsDescriptor?: SettingsControlDescriptor<GSettings>[];
 

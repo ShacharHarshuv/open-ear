@@ -325,7 +325,7 @@ const romanNumeralToResolution: {
 export class ChordsInKeyExercise extends BaseTonalChordProgressionExercise<RomanNumeralChord, ChordInKeySettings> {
   readonly id: string = 'chordInKey';
   readonly name: string = 'Chord in Key';
-  readonly description: string = 'Recognise chords based on their tonal context in a key';
+  readonly summary: string = 'Recognise chords based on their tonal context in a key';
 
   protected _getChordProgressionInC(): ChordProgressionQuestion<RomanNumeralChord> {
     const numberOfSegments = this._settings.numberOfSegments;
