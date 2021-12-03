@@ -3,7 +3,7 @@ import { ExerciseStateService } from '../services/exercise-state/exercise-state.
 import { ModalController } from '@ionic/angular';
 import { ExerciseSettingsPage } from './components/exercise-settings.page/exercise-settings.page';
 import * as _ from 'lodash';
-import {ExerciseExplanationPage} from "./components/exercise-help/exercise-help/exercise-explanation.page";
+import {ExerciseExplanationPage} from "./components/exercise-help/exercise-explanation/exercise-explanation.page";
 
 @Component({
   selector: 'app-exercise-page',

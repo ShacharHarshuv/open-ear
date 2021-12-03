@@ -16,8 +16,8 @@
   [padding]="true"
 >
   <div
-    class="exercise-explanation__content"
-    [innerHTML]="content">
+    class="exercise-explanation__content">
+    <ng-template [exerciseExplanationContent]="content"></ng-template>
   </div>
 
   <ion-button expand="block" (click)="close()">Got It!</ion-button>

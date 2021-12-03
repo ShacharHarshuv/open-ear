@@ -2,6 +2,7 @@ import { NoteEvent } from '../services/player.service';
 import { OneOrMany } from '../shared/ts-utility/toArray';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import * as _ from 'lodash';
+import {Type} from "@angular/core";
 
 export namespace Exercise {
   export interface Question<GAnswer extends string = string> {
@@ -82,7 +83,7 @@ export namespace Exercise {
           : SelectControlDescriptor<GSettings[GKey]>*/ SliderControlDescriptor | SelectControlDescriptor | ListSelectControlDescriptor | CheckboxControlDescriptor,
     }/* : never*/;
 
-  export type ExerciseExplanationContent = string;
+  export type ExerciseExplanationContent = string | Type<any>;
 
   export interface IExercise<GAnswer extends string = string, GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }> {
     /**
@@ -91,7 +92,7 @@ export namespace Exercise {
     readonly id: string;
     readonly name: string;
     readonly description: string;
-    readonly exerciseExplanation?: ExerciseExplanationContent;
+    readonly explanation?: ExerciseExplanationContent;
     readonly settingsDescriptor?: SettingsControlDescriptor<GSettings>[];
 
     getAnswerList(): AnswerList<GAnswer>;

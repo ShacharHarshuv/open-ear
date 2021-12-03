@@ -1,12 +1,13 @@
 import * as _ from 'lodash';
-import { Exercise, } from '../Exercise';
+import { Exercise, } from '../../Exercise';
 import {
   randomFromList,
   NotesRange,
   toNoteName
-} from '../utility';
-import { NoteNumber } from '../utility/music/notes/NoteNumberOrName';
-import { BaseCommonSettingsExercise } from './utility/BaseCommonSettingsExercise';
+} from '../../utility';
+import { NoteNumber } from '../../utility/music/notes/NoteNumberOrName';
+import { BaseCommonSettingsExercise } from '../utility/BaseCommonSettingsExercise';
+import {IntervalExerciseExplanationComponent} from "./interval-exercise-explanation/interval-exercise-explanation.component";
 
 type Interval = 'Minor 2nd' | 'Major 2nd' | 'Minor 3rd' | 'Major 3rd' | 'Perfect 4th' | 'Aug 4th' | 'Perfect 5th' | 'Minor 6th' | 'Major 6th' | 'Minor 7th' | 'Major 7th' | 'Octave';
 
@@ -19,6 +20,7 @@ export class IntervalExercise extends BaseCommonSettingsExercise<Interval> {
   readonly id: string = 'interval';
   readonly name: string = 'Interval Recognition';
   readonly description: string = 'Recognizing Intervals without context';
+  readonly explanation = IntervalExerciseExplanationComponent;
   readonly range = new NotesRange('C3', 'E5');
 
   static readonly intervalDescriptorList: IIntervalDescriptor[] = [

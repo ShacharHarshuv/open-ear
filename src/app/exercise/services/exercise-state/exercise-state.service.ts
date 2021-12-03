@@ -15,6 +15,7 @@ import { StorageService } from '../../../services/storage.service';
 import AnswerList = Exercise.AnswerList;
 import Answer = Exercise.Answer;
 import { AdaptiveExercise } from './adaptive-exercise';
+import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 
 const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   playCadence: true,
@@ -93,8 +94,8 @@ export class ExerciseStateService {
     return this._exercise.getCurrentSettings?.() || {};
   }
 
-  get exerciseExplanation(): string | null {
-    return this._exercise.exerciseExplanation || null;
+  get exerciseExplanation(): ExerciseExplanationContent | null {
+    return this._exercise.explanation || null;
   }
 
   private get _areAllSegmentsAnswered(): boolean {
