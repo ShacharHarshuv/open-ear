@@ -8,11 +8,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AnswerIndicationComponent } from './exercise.page/components/answer-indication/answer-indication.component';
 import { ListSelectComponent } from './exercise.page/components/exercise-settings.page/components/included-answers/list-select.component';
 import {SharedComponentsModule} from "../shared/components/shared-components/shared-components.module";
+import {ExerciseExplanationPage} from "./exercise.page/components/exercise-help/exercise-help/exercise-explanation.page";
 
 @NgModule({
   declarations: [
     ExercisePage,
     ExerciseSettingsPage,
+    ExerciseExplanationPage,
     AnswerIndicationComponent,
     ListSelectComponent,
   ],

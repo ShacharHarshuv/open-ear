@@ -1,0 +1,24 @@
+<ion-header [translucent]="true">
+  <ion-toolbar [color]="'primary'">
+    <ion-title>
+      {{ exerciseName }}
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content
+  [fullscreen]="true"
+  [padding]="true"
+>
+  <div
+    class="exercise-explanation__content"
+    [innerHTML]="content">
+  </div>
+
+  <ion-button expand="block" (click)="close()">Got It!</ion-button>
+</ion-content>

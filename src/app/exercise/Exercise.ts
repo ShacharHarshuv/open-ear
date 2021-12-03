@@ -82,6 +82,8 @@ export namespace Exercise {
           : SelectControlDescriptor<GSettings[GKey]>*/ SliderControlDescriptor | SelectControlDescriptor | ListSelectControlDescriptor | CheckboxControlDescriptor,
     }/* : never*/;
 
+  export type ExerciseExplanationContent = string;
+
   export interface IExercise<GAnswer extends string = string, GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }> {
     /**
      * Do not change the keys for the same exercise between versions, as it will break the persistent storage
@@ -89,6 +91,7 @@ export namespace Exercise {
     readonly id: string;
     readonly name: string;
     readonly description: string;
+    readonly exerciseExplanation?: ExerciseExplanationContent;
     readonly settingsDescriptor?: SettingsControlDescriptor<GSettings>[];
 
     getAnswerList(): AnswerList<GAnswer>;

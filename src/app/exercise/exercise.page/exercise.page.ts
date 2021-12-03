@@ -3,6 +3,7 @@ import { ExerciseStateService } from '../services/exercise-state/exercise-state.
 import { ModalController } from '@ionic/angular';
 import { ExerciseSettingsPage } from './components/exercise-settings.page/exercise-settings.page';
 import * as _ from 'lodash';
+import {ExerciseExplanationPage} from "./components/exercise-help/exercise-help/exercise-explanation.page";
 
 @Component({
   selector: 'app-exercise-page',
@@ -76,5 +77,16 @@ export class ExercisePage {
     });
     await modal.present();
     this.state.updateSettings((await modal.onDidDismiss()).data);
+  }
+
+  async openHelp(): Promise<void> {
+    const modal = await this._modalController.create({
+      component: ExerciseExplanationPage,
+      componentProps: {
+        content: this.state.exerciseExplanation,
+        exerciseName: this.state.name,
+      }
+    });
+    await modal.present();
   }
 }

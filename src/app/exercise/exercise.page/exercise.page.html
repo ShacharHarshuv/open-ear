@@ -7,6 +7,12 @@
       {{state.name}}
     </ion-title>
     <ion-buttons slot="end">
+      <ion-button
+        *ngIf="state.exerciseExplanation"
+        (click)="openHelp()"
+      >
+        <ion-icon slot="icon-only" name="help-outline"></ion-icon>
+      </ion-button>
       <ion-button (click)="editSettings()">
         <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
       </ion-button>

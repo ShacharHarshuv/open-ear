@@ -93,6 +93,10 @@ export class ExerciseStateService {
     return this._exercise.getCurrentSettings?.() || {};
   }
 
+  get exerciseExplanation(): string | null {
+    return this._exercise.exerciseExplanation || null;
+  }
+
   private get _areAllSegmentsAnswered(): boolean {
     return !this._currentAnswers.filter(answer => answer.answer === null).length
   }
