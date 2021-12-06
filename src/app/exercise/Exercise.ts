@@ -94,6 +94,7 @@ export namespace Exercise {
     readonly summary: string;
     readonly explanation?: ExerciseExplanationContent;
     readonly settingsDescriptor?: SettingsControlDescriptor<GSettings>[];
+    readonly labels?: string[];
 
     getAnswerList(): AnswerList<GAnswer>;
 

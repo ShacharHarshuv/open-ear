@@ -13,11 +13,11 @@ import { TriadInversionExercise } from '../../exercises/TriadInversionExercise';
 })
 export class ExerciseService {
   static readonly _exerciseList: IExercise[] = [
-    new IntervalExercise() as unknown as IExercise, // TODO(OE-27)
     new NotesInKeyExercise() as unknown as IExercise, // TODO(OE-27)
     new ChordsInKeyExercise() as unknown as IExercise, // TODO(OE-27)
     new ChordTypeInKeyExercise() as unknown as IExercise, // TODO(OE-27)
     new TriadInversionExercise() as unknown as IExercise, // TODO(OE-27)
+    new IntervalExercise() as unknown as IExercise, // TODO(OE-27)
   ];
   private readonly _exerciseIdToExercise = _.keyBy(ExerciseService._exerciseList, 'id');
   static readonly ngComponents: Type<any>[] = ExerciseService._exerciseList

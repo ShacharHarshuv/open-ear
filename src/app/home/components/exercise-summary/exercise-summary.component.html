@@ -3,7 +3,15 @@
   (click)="initAudioPlayer()"
 >
   <ion-card-header>
-    <ion-card-title>{{exercise.name}}</ion-card-title>
+    <ion-card-title>
+      {{exercise.name}}
+      <span
+        *ngFor="let label of (exercise.labels || [])"
+        class="exercise-summary__label"
+      >
+        {{label}}
+      </span>
+    </ion-card-title>
   </ion-card-header>
 
   <ion-card-content>

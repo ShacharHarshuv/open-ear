@@ -56,6 +56,7 @@ export class NotesInKeyExercise extends BaseTonalExercise<SolfegeNote> {
   readonly explanation = NotesInKeyExplanationComponent;
   readonly rangeForKeyOfC = new NotesRange('G2', 'E4');
   readonly questionOptionsInC: { answer: SolfegeNote; question: Note }[] = this._getQuestionOptionsInC();
+  readonly labels = ['Recommended for beginners!']
 
   getQuestionInC(): Exclude<Exercise.Question<SolfegeNote>, 'cadence'> {
     const randomQuestionInC: { answer: SolfegeNote; question: Note } = randomFromList(this.questionOptionsInC.filter(questionOption => this._settings.includedAnswers.includes(questionOption.answer)));
