@@ -1,20 +1,22 @@
-import { Exercise } from '../Exercise';
+import { Exercise } from '../../Exercise';
 import {
   Chord,
   ChordType,
   ChordSymbol,
-} from '../utility/music/chords';
-import { randomFromList } from '../../shared/ts-utility';
+} from '../../utility/music/chords';
+import { randomFromList } from '../../../shared/ts-utility';
 import {
   NumberOfSegmentsSetting,
   numberOfSegmentsControlDescriptorList
-} from './utility/NumberOfSegmentsSetting';
+} from '../utility/NumberOfSegmentsSetting';
 import * as _ from 'lodash';
 import {
   BaseTonalChordProgressionExercise,
   ChordProgressionQuestion,
   BaseTonalChordProgressionExerciseSettings
-} from './utility/BaseTonalChordProgressionExercise';
+} from '../utility/BaseTonalChordProgressionExercise';
+import { ChordTypeInKeyExplanationComponent } from './chord-type-in-key-explanation/chord-type-in-key-explanation.component';
+import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 
 const chordsInC: ChordSymbol[] = [
   'C',
@@ -31,6 +33,7 @@ export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<Ch
   readonly id: string = 'chordTypeInKey';
   readonly name: string = 'Chord type in key';
   readonly summary: string = 'Identify chord type when all chords are diatonic to the same key';
+  readonly explanation: ExerciseExplanationContent = ChordTypeInKeyExplanationComponent;
 
   protected _getChordProgressionInC(): ChordProgressionQuestion<ChordType> {
     const chordProgression: Chord[] = [new Chord(randomFromList(chordsInC))];

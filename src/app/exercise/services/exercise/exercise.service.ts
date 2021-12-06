@@ -5,7 +5,7 @@ import IExercise = Exercise.IExercise;
 import { Exercise } from '../../Exercise';
 import { ChordsInKeyExercise } from '../../exercises/ChordInKeyExercise/ChordsInKeyExercise';
 import { NotesInKeyExercise } from '../../exercises/NotesInKeyExercise/NotesInKeyExercise';
-import { ChordTypeInKeyExercise } from '../../exercises/ChordTypeInKeyExercise';
+import { ChordTypeInKeyExercise } from '../../exercises/ChordTypeInKeyExercise/ChordTypeInKeyExercise';
 import { TriadInversionExercise } from '../../exercises/TriadInversionExercise';
 
 @Injectable({
