@@ -1,0 +1,13 @@
+<p
+  (click)="isCollapsed = !isCollapsed"
+>
+  {{isCollapsed ? 'Click here to learn more' : 'Hide'}}
+</p>
+
+<div
+  *ngIf="!isCollapsed"
+  style="overflow: hidden"
+  @collapseVertical
+>
+  <ng-content></ng-content>
+</div>

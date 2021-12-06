@@ -4,7 +4,7 @@ import { IntervalExercise } from '../../exercises/IntervalExercise/IntervalExerc
 import IExercise = Exercise.IExercise;
 import { Exercise } from '../../Exercise';
 import { ChordsInKeyExercise } from '../../exercises/ChordsInKeyExercise';
-import { NotesInKeyExercise } from '../../exercises/NotesInKeyExercise';
+import { NotesInKeyExercise } from '../../exercises/NotesInKeyExercise/NotesInKeyExercise';
 import { ChordTypeInKeyExercise } from '../../exercises/ChordTypeInKeyExercise';
 import { TriadInversionExercise } from '../../exercises/TriadInversionExercise';
 

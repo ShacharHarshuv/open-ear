@@ -1,17 +1,14 @@
-import { Exercise, } from '../Exercise';
-import {
-  NotesRange,
-  randomFromList
-} from '../utility';
-import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { getNoteType } from '../utility/music/notes/getNoteType';
-import { BaseTonalExercise, } from './utility/BaseTonalExercise';
-import { NoteType } from '../utility/music/notes/NoteType';
+import {Exercise,} from '../../Exercise';
+import {NotesRange, randomFromList} from '../../utility';
+import {Note} from 'tone/Tone/core/type/NoteUnits';
+import {getNoteType} from '../../utility/music/notes/getNoteType';
+import {BaseTonalExercise,} from '../utility/BaseTonalExercise';
+import {NoteType} from '../../utility/music/notes/NoteType';
 import * as _ from 'lodash';
-import { getNoteOctave } from '../utility/music/notes/getNoteOctave';
-import { toNoteTypeNumber } from '../utility/music/notes/toNoteTypeNumber';
-import { noteTypeToNote } from '../utility/music/notes/noteTypeToNote';
-import AnswerList = Exercise.AnswerList;
+import {getNoteOctave} from '../../utility/music/notes/getNoteOctave';
+import {toNoteTypeNumber} from '../../utility/music/notes/toNoteTypeNumber';
+import {noteTypeToNote} from '../../utility/music/notes/noteTypeToNote';
+import {NotesInKeyExplanationComponent} from "./notes-in-key-explanation/notes-in-key-explanation.component";
 
 export type SolfegeNote = 'Do' | 'Re' | 'Mi' | 'Fa' | 'Sol' | 'La' | 'Ti';
 
@@ -54,8 +51,9 @@ const solfegeToNoteInC: { [note in SolfegeNote]?: NoteType } = _.mapValues(_.key
 
 export class NotesInKeyExercise extends BaseTonalExercise<SolfegeNote> {
   readonly id: string = 'noteInKey';
-  readonly summary: string = `Recognise notes based on their tonal context in a key`;
   readonly name: string = `Notes in Key`;
+  readonly summary: string = `Recognise notes based on their tonal context in a major scale`;
+  readonly explanation = NotesInKeyExplanationComponent;
   readonly rangeForKeyOfC = new NotesRange('G2', 'E4');
   readonly questionOptionsInC: { answer: SolfegeNote; question: Note }[] = this._getQuestionOptionsInC();
 
