@@ -32,7 +32,7 @@ type ChordTypeInKeySettings = NumberOfSegmentsSetting & BaseTonalChordProgressio
 export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<ChordType, ChordTypeInKeySettings> {
   readonly id: string = 'chordTypeInKey';
   readonly name: string = 'Chord type in key';
-  readonly summary: string = 'Identify chord type when all chords are diatonic to the same key';
+  readonly summary: string = 'Identify chord type (major / minor) when all chords are diatonic to the same key';
   readonly explanation: ExerciseExplanationContent = ChordTypeInKeyExplanationComponent;
 
   protected _getChordProgressionInC(): ChordProgressionQuestion<ChordType> {

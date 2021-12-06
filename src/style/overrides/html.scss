@@ -1,0 +1,5 @@
+@use 'main' as *;
+
+li {
+  margin-bottom: 2 * $unit;
+}

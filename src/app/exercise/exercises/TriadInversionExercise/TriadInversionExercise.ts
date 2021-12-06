@@ -1,16 +1,18 @@
-import { BaseTonalExercise } from './utility/BaseTonalExercise';
-import { Exercise } from '../Exercise';
+import { BaseTonalExercise } from '../utility/BaseTonalExercise';
+import { Exercise } from '../../Exercise';
 import {
   ChordSymbol,
   TriadInversion,
   Chord,
-} from '../utility/music/chords';
-import { randomFromList } from '../../shared/ts-utility';
-import { BaseCommonSettingsExerciseSettings } from './utility/BaseCommonSettingsExercise';
+} from '../../utility/music/chords';
+import { randomFromList } from '../../../shared/ts-utility';
+import { BaseCommonSettingsExerciseSettings } from '../utility/BaseCommonSettingsExercise';
 import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
 import * as Tone from 'tone';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { toSteadyPart } from '../utility';
+import { toSteadyPart } from '../../utility';
+import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
+import { TriadInversionExplanationComponent } from './triad-inversion-explanation/triad-inversion-explanation.component';
 
 type TriadInversionAnswer = 'Root Position' | '1st Inversion' | '2nd Inversion'
 
@@ -29,6 +31,7 @@ export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnsw
   readonly id: string = 'triadInversions';
   readonly name: string = 'Triad Inversions';
   readonly summary: string = 'Find the inversion of a triad in close position';
+  readonly explanation: ExerciseExplanationContent = TriadInversionExplanationComponent;
 
   getQuestionInC(): Exclude<Exercise.Question<TriadInversionAnswer>, 'cadence'> {
     const chordsInC: ChordSymbol[] = ['C', 'Dm', 'Em', 'F', 'G', 'Am'];
