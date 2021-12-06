@@ -16,8 +16,8 @@ import {
 } from '../../../utility';
 
 interface ExerciseSettingsControls {
-  playCadenceOptions: 'ALWAYS' | 'ONLY_ON_REPEAT' | /*'EVERY_NEW_KEY' TODO(OE-12) |*/ 'NEVER' /*| 'EVERY TODO(OE-13)'*/;
-  // playCadenceEvery: number; // todo(OE-13)
+  playCadenceOptions: 'ALWAYS' | 'ONLY_ON_REPEAT' | /*'EVERY_NEW_KEY' TODO(#6) |*/ 'NEVER' /*| 'EVERY TODO(#6)'*/;
+  // playCadenceEvery: number; // todo(#6)
   adaptive: boolean,
   bpm: number,
 }
@@ -52,7 +52,7 @@ export class ExerciseSettingsPage {
             return 'NEVER';
           case 'ONLY_ON_REPEAT':
             return 'ONLY_ON_REPEAT';
-          // TODO(OE-12)
+          // TODO(#6)
           // case 'EVERY_NEW_KEY':
           //   return 'EVERY_NEW_KEY';
           default:
@@ -101,7 +101,7 @@ export class ExerciseSettingsPage {
     return {
       playCadence: ((): GlobalExerciseSettings['playCadence'] => {
         const valueMapping: { [key in ExerciseSettingsControls['playCadenceOptions']]: GlobalExerciseSettings['playCadence'] } = {
-          // EVERY_NEW_KEY: 'EVERY_NEW_KEY', // TODO(OE-12)
+          // EVERY_NEW_KEY: 'EVERY_NEW_KEY', // TODO(#6)
           ALWAYS: true,
           NEVER: false,
           ONLY_ON_REPEAT: 'ONLY_ON_REPEAT',
