@@ -7,11 +7,10 @@ import { ExerciseSettingsPage } from './exercise.page/components/exercise-settin
 import { ReactiveFormsModule } from '@angular/forms';
 import { AnswerIndicationComponent } from './exercise.page/components/answer-indication/answer-indication.component';
 import { ListSelectComponent } from './exercise.page/components/exercise-settings.page/components/included-answers/list-select.component';
-import { SharedComponentsModule } from "../shared/components/shared-components/shared-components.module";
-import { ExerciseExplanationPage } from "./exercise.page/components/exercise-help/exercise-explanation/exercise-explanation.page";
-import { IntervalExerciseExplanationComponent } from "./exercises/IntervalExercise/interval-exercise-explanation/interval-exercise-explanation.component";
+import { SharedComponentsModule } from '../shared/components/shared-components/shared-components.module';
+import { ExerciseExplanationPage } from './exercise.page/components/exercise-help/exercise-explanation/exercise-explanation.page';
 import { ExerciseExplanationContentDirective } from './exercise.page/components/exercise-help/exercise-explanation/exercise-explanation-content.directive';
-import { NotesInKeyExplanationComponent } from "./exercises/NotesInKeyExercise/notes-in-key-explanation/notes-in-key-explanation.component";
+import { ExerciseService } from './services/exercise/exercise.service';
 
 @NgModule({
   declarations: [
@@ -21,8 +20,7 @@ import { NotesInKeyExplanationComponent } from "./exercises/NotesInKeyExercise/n
     AnswerIndicationComponent,
     ListSelectComponent,
     ExerciseExplanationContentDirective,
-    IntervalExerciseExplanationComponent,
-    NotesInKeyExplanationComponent,
+    ...ExerciseService.ngComponents,
   ],
   imports: [
     CommonModule,
@@ -30,6 +28,7 @@ import { NotesInKeyExplanationComponent } from "./exercises/NotesInKeyExercise/n
     IonicModule,
     SharedComponentsModule,
     ReactiveFormsModule,
-  ]
+  ],
 })
-export class ExerciseModule { }
+export class ExerciseModule {
+}
