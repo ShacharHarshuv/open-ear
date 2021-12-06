@@ -1,20 +1,22 @@
-import { Exercise } from '../Exercise';
+import { Exercise } from '../../Exercise';
 import {
   Chord,
   TriadInversion,
-} from '../utility/music/chords';
-import { randomFromList } from '../utility';
+} from '../../utility/music/chords';
+import { randomFromList } from '../../utility';
 import * as _ from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import {
   NumberOfSegmentsSetting,
   numberOfSegmentsControlDescriptorList,
-} from './utility/NumberOfSegmentsSetting';
+} from '../utility/NumberOfSegmentsSetting';
 import {
   BaseTonalChordProgressionExercise,
   ChordProgressionQuestion,
   BaseTonalChordProgressionExerciseSettings,
-} from './utility/BaseTonalChordProgressionExercise';
+} from '../utility/BaseTonalChordProgressionExercise';
+import { ChordInKeyExplanationComponent } from './chord-in-key-explanation/chord-in-key-explanation.component';
+import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 
 type RomanNumeralChord = 'I' | 'ii' | 'iii' | 'IV' | 'V' | 'vi' | 'viiᵒ';
 
@@ -326,6 +328,7 @@ export class ChordsInKeyExercise extends BaseTonalChordProgressionExercise<Roman
   readonly id: string = 'chordInKey';
   readonly name: string = 'Chord in Key';
   readonly summary: string = 'Recognise chords based on their tonal context in a key';
+  readonly explanation: ExerciseExplanationContent = ChordInKeyExplanationComponent;
 
   protected _getChordProgressionInC(): ChordProgressionQuestion<RomanNumeralChord> {
     const numberOfSegments = this._settings.numberOfSegments;
