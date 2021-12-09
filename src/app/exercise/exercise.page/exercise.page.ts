@@ -16,7 +16,7 @@ import {ExerciseExplanationService} from "../services/exercise-explanation.servi
 })
 export class ExercisePage {
   readonly isAutoLayout: boolean = Array.isArray(this.state.answerList);
-  wrongAnswer: string | null = null;
+  wrongAnswers: string[] = [];
   rightAnswer: string | null = null;
 
   get isQuestionCompleted(): boolean {
@@ -49,9 +49,9 @@ export class ExercisePage {
       setTimeout(() => {
         this.rightAnswer = null;
       }, 10);
-      this.wrongAnswer = null;
+      this.wrongAnswers = [];
     } else {
-      this.wrongAnswer = answer;
+      this.wrongAnswers.push(answer);
     }
   }
 

@@ -30,7 +30,7 @@
       }
     }
 
-    &:not(.--right):not(.--wrong):not(.--highlighted) {
+    &:not(.--right):not(.--wrong) {
       &::part(native) {
         transition: background-color 700ms ease-in;
       }
@@ -42,7 +42,7 @@
       }
     }
 
-    &.--highlighted {
+    &.--highlighted:not(.--right) {
       &::part(native) {
         background-color: #{var(--ion-color-dark)};
         color: #{var(--ion-color-dark-contrast)};

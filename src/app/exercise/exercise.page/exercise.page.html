@@ -67,7 +67,7 @@
         (click)="onAnswer(answer)"
         [class.--right]="answer === rightAnswer"
         [class.--highlighted]="answer === state.highlightedAnswer"
-        [class.--wrong]="answer === wrongAnswer"
+        [class.--wrong]="wrongAnswers.includes(answer)"
         [color]="'light'"
         class="exercise__answer-button"
       >
