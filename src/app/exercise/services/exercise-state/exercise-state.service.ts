@@ -132,6 +132,7 @@ export class ExerciseStateService {
       partsToPlay.unshift(
         {
           partOrTime: toSteadyPart(this._currentQuestion.cadence),
+          bpm: 120,
         },
         {
           partOrTime: 100,

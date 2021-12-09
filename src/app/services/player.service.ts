@@ -38,6 +38,7 @@ export type PartToPlay = {
   partOrTime: NoteEvent[] | number,
   beforePlaying?: () => void,
   afterPlaying?: () => void,
+  bpm?: number; // if provided, overrides the general settings for this part only
 };
 
 @Injectable({
@@ -49,6 +50,10 @@ export class PlayerService {
   private _currentlyPlayingPartFinishedSchedulerId: number | null = null;
   private _onPartFinished$ = new Subject<void>();
   private _partsToPlay: PartToPlay[] = [];
+
+  get bpm(): number {
+    return Tone.Transport.bpm.value;
+  }
 
   constructor() {
   }
@@ -104,7 +109,16 @@ export class PlayerService {
         * - public playPart was called (thus playing was stopped and transport cleared)
         * - playMultipleParts was called (thus playing was stopped and transport cleared)
         * */
+        const lastBpm = this.bpm;
+        if (nextPart.bpm && lastBpm != nextPart.bpm) {
+          this.setBpm(nextPart.bpm);
+          console.log('set bpm');
+        }
         await this._playPart(nextPart.partOrTime);
+        if (nextPart.bpm) {
+          this.setBpm(lastBpm);
+          console.log('restore bpm');
+        }
       }
       nextPart.afterPlaying?.();
     }
