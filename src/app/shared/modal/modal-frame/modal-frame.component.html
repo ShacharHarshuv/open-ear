@@ -1,0 +1,19 @@
+<ion-header [translucent]="true">
+  <ion-toolbar [color]="'primary'">
+    <ion-title>
+      {{ title }}
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content
+  [fullscreen]="true"
+  [padding]="padding"
+>
+  <ng-content></ng-content>
+</ion-content>

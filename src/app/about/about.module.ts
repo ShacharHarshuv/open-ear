@@ -5,6 +5,7 @@ import {RouterModule} from "@angular/router";
 import {IonicModule} from "@ionic/angular";
 import {SharedComponentsModule} from "../shared/components/shared-components/shared-components.module";
 import {AppVersion} from "@ionic-native/app-version/ngx";
+import { ModalModule } from '../shared/modal/modal.module';
 
 
 
@@ -21,7 +22,8 @@ import {AppVersion} from "@ionic-native/app-version/ngx";
         path: '',
         component: AboutPage,
       }
-    ])
+    ]),
+    ModalModule
   ],
   providers: [
     AppVersion,

@@ -11,6 +11,7 @@ import { SharedComponentsModule } from '../shared/components/shared-components/s
 import { ExerciseExplanationPage } from './exercise.page/components/exercise-help/exercise-explanation/exercise-explanation.page';
 import { ExerciseExplanationContentDirective } from './exercise.page/components/exercise-help/exercise-explanation/exercise-explanation-content.directive';
 import { ExerciseService } from './services/exercise/exercise.service';
+import { ModalModule } from '../shared/modal/modal.module';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { ExerciseService } from './services/exercise/exercise.service';
     IonicModule,
     SharedComponentsModule,
     ReactiveFormsModule,
+    ModalModule,
   ],
 })
 export class ExerciseModule {
