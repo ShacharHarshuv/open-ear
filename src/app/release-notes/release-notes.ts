@@ -9,8 +9,12 @@ export type ReleaseNotes = {
 }[];
 
 export const releaseNotes: ReleaseNotes = [
-  // { // todo: expose after release notes feature is deployed (the feature will work only if it's not loaded on the first time to avoid showing to new users)
-  //   version: '1.2.0',
-  //   notes: 'Cadence is always played in 120BPM regardless of BPM settings',
-  // },
+  {
+    version: '1.0.3',
+    notes: 'Cadence is always played in 120BPM regardless of BPM settings',
+  },
+  {
+    version: '1.0.3',
+    notes: 'Support multiple notes for Note in Key exercise (can be set up via "Number of notes" in the exercise settings)',
+  },
 ]

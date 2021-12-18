@@ -1,7 +1,6 @@
 import {
   Exercise,
 } from '../../Exercise';
-import * as _ from 'lodash';
 import AnswerList = Exercise.AnswerList;
 import SettingValueType = Exercise.SettingValueType;
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
@@ -21,7 +20,9 @@ export abstract class BaseExercise<GAnswer extends string = string, GSettings ex
   abstract getQuestion(): Exercise.Question<GAnswer>;
 
   updateSettings(settings: GSettings): void {
-    this._settings = settings;
+    for (let key in this._settings) {
+      this._settings[key] = settings[key] || this._settings[key];
+    }
   }
 
   getCurrentSettings(): GSettings {

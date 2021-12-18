@@ -4,15 +4,15 @@ export type NumberOfSegmentsSetting = {
   numberOfSegments: number;
 };
 
-export const numberOfSegmentsControlDescriptorList: Exercise.SettingsControlDescriptor<NumberOfSegmentsSetting>[] = [
+export const numberOfSegmentsControlDescriptorList = (name: string): Exercise.SettingsControlDescriptor<NumberOfSegmentsSetting>[] => ([
   {
     key: 'numberOfSegments',
     descriptor: {
       controlType: 'SLIDER',
-      label: 'Number of chords',
+      label: `Number of ${name}`,
       min: 1,
       max: 8,
       step: 1,
     },
   }
-];
+]);
