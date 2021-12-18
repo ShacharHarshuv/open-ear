@@ -1,0 +1,9 @@
+ul {
+  list-style-type: "\2713   "; // Light checkmark
+
+  li {
+    > {
+      margin-left: 8px;
+    }
+  }
+}

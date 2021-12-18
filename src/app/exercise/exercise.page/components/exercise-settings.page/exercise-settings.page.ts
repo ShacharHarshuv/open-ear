@@ -87,13 +87,13 @@ export class ExerciseSettingsPage {
   ) {
   }
 
-  async close(): Promise<void> {
+  async onClose(): Promise<ExerciseSettingsData> {
     const newGlobalSettings: GlobalExerciseSettings = this._getNewSettings();
     const exerciseSettingsData: ExerciseSettingsData = {
       globalSettings: newGlobalSettings,
       exerciseSettings: this.exerciseFormGroup.getRawValue(),
     }
-    await this._modalController.dismiss(exerciseSettingsData);
+    return exerciseSettingsData;
   }
 
   private _getNewSettings(): GlobalExerciseSettings {

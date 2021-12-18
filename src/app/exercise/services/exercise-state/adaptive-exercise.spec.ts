@@ -23,6 +23,7 @@ describe('adaptive exercise', function() {
       name: '',
       id: '',
       summary: '',
+      explanation: '',
       getAnswerList(): Exercise.AnswerList<string> {
         return ['CORRECT', 'WRONG'];
       },

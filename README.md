@@ -25,8 +25,8 @@ The easiest way to contribute to OpenEar is creating some new exercises on the e
 To contribute follow the following steps.
 
 1. Fork the repository
-2. open the respository root
-3. Install ionic globally by running `npm i ionic -g` 
+2. open the repository root
+3. Install ionic globally by running `npm i ionic -g`
 4. Run `yarn` or `npm i` (you may need to install node if you don't have it installed already)
 5. Run `yarn start`
 6. App should be served in the browser!
@@ -34,11 +34,21 @@ To contribute follow the following steps.
 To implement new exercises, you need to write a class that implements `Exercise.IExercise` interface. See examples in src/app/exercise/exercises.
 After implementing this class you will need to add it to `ExerciseService#_exerciseList`.
 
-If you would like to contibute in adding some features to the core infra of the app, you can do so as well. Here is a quick description of the infra:
-- PlayerService is a wrapper on Tone.js that enabels playing parts and return a promise that resolves when the part completed playing.
-- ExerciseStateService manages the state of the exercise, including user actions (like answering, requesting repeat etc). This does not hold any UI element. 
-- ExercisePage is the UI part of ExerciseStateService and it manages rendering the UI, getting user input and displaying any indication. 
-- Under src/app/exercise you will also find a "utility" folder that has a tone of musical utilites like generating scales, chord progression etc. You can also convert notes to numbers to make calculation to them etc. 
+If you would like to contribute in adding some features to the core infra of the app, you can do so as well. Here is a quick description of the infra:
+- PlayerService is a wrapper on Tone.js that enables playing parts and return a promise that resolves when the part completed playing.
+- ExerciseStateService manages the state of the exercise, including user actions (like answering, requesting repeat etc.). This does not hold any UI element. 
+- ExercisePage is the UI part of ExerciseStateService, and it manages rendering the UI, getting user input and displaying any indication. 
+- Under src/app/exercise you will also find a "utility" folder that has a tone of musical utilities like generating scales, chord progression etc. You can also convert notes to numbers to make calculation to them etc. 
+
+### Version Management
+
+The version name is in the `package.json`, and currently needs to be changed manually using the following convention:
+* Each version has a major, minor and patch numbers, like so: `{major}.{minor}.{patch}`.
+* When making a new feature or fixing a bug (anything that changes app behavior) the patch number should be incremented. Building a tag for the version is optional.
+* When releasing a new version, the minor should be incremented, and a tag for release should be created (i.e. `v1.2.3`)
+* The major number is reserved for big changes.
+* When building the app, the version needs to be set manually in the apk. (In the future we hope to automate that process).
+
 
 ## License
 

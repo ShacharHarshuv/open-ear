@@ -1,17 +1,8 @@
-<ion-header [translucent]="true">
-  <ion-toolbar [color]="'primary'">
-    <ion-title>
-      {{exerciseName}} Settings
-    </ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="close()">
-        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
+<app-modal-frame
+  title="{{exerciseName}} Settings"
+  [padding]="false"
+  [onClose]="onClose.bind(this)"
+>
   <ion-list>
     <ion-item>
       <ion-label>Play Cadence</ion-label>
@@ -53,54 +44,54 @@
 
   <ion-list *ngIf="exerciseFormGroup">
     <ng-container *ngFor="let exerciseControlSettings of exerciseSettingsDescriptor">
-        <ng-container [ngSwitch]="exerciseControlSettings.descriptor.controlType">
-          <ion-item
-            *ngSwitchCase="'SELECT'"
-          >
-            <ion-label>{{exerciseControlSettings.descriptor.label}}</ion-label>
-            <ion-select
-              [formControl]="exerciseFormGroup.controls[exerciseControlSettings.key]"
-              [interface]="'popover'"
-            >
-              <ion-select-option
-                *ngFor="let option of exerciseControlSettings.descriptor.options"
-                [value]="option.value"
-              >
-                {{option.label}}
-              </ion-select-option>
-            </ion-select>
-          </ion-item>
-          <ion-item
-            *ngSwitchCase="'SLIDER'"
-            class="exercise-settings__item --label-above"
-          >
-            <ion-label>{{exerciseControlSettings.descriptor.label}}</ion-label>
-            <ion-range
-              [formControl]="exerciseFormGroup.controls[exerciseControlSettings.key]"
-              [max]="exerciseControlSettings.descriptor.max"
-              [min]="exerciseControlSettings.descriptor.min"
-              [snaps]="true"
-              [step]="exerciseControlSettings.descriptor.step"
-              pin
-            >
-            </ion-range>
-          </ion-item>
-          <app-list-select
-            *ngSwitchCase="'LIST_SELECT'"
-            [allAvailableOptions]="exerciseControlSettings.descriptor.allOptions"
+      <ng-container [ngSwitch]="exerciseControlSettings.descriptor.controlType">
+        <ion-item
+          *ngSwitchCase="'SELECT'"
+        >
+          <ion-label>{{exerciseControlSettings.descriptor.label}}</ion-label>
+          <ion-select
             [formControl]="exerciseFormGroup.controls[exerciseControlSettings.key]"
-            [label]="exerciseControlSettings.descriptor.label"
-          ></app-list-select>
-          <ion-item
-            *ngSwitchCase="'CHECKBOX'"
+            [interface]="'popover'"
           >
-            <ion-label>{{exerciseControlSettings.descriptor.label}}</ion-label>
-            <ion-toggle
-              [formControl]="exerciseFormGroup.controls[exerciseControlSettings.key]"
-              slot="end"
-            ></ion-toggle>
-          </ion-item>
-        </ng-container>
+            <ion-select-option
+              *ngFor="let option of exerciseControlSettings.descriptor.options"
+              [value]="option.value"
+            >
+              {{option.label}}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item
+          *ngSwitchCase="'SLIDER'"
+          class="exercise-settings__item --label-above"
+        >
+          <ion-label>{{exerciseControlSettings.descriptor.label}}</ion-label>
+          <ion-range
+            [formControl]="exerciseFormGroup.controls[exerciseControlSettings.key]"
+            [max]="exerciseControlSettings.descriptor.max"
+            [min]="exerciseControlSettings.descriptor.min"
+            [snaps]="true"
+            [step]="exerciseControlSettings.descriptor.step"
+            pin
+          >
+          </ion-range>
+        </ion-item>
+        <app-list-select
+          *ngSwitchCase="'LIST_SELECT'"
+          [allAvailableOptions]="exerciseControlSettings.descriptor.allOptions"
+          [formControl]="exerciseFormGroup.controls[exerciseControlSettings.key]"
+          [label]="exerciseControlSettings.descriptor.label"
+        ></app-list-select>
+        <ion-item
+          *ngSwitchCase="'CHECKBOX'"
+        >
+          <ion-label>{{exerciseControlSettings.descriptor.label}}</ion-label>
+          <ion-toggle
+            [formControl]="exerciseFormGroup.controls[exerciseControlSettings.key]"
+            slot="end"
+          ></ion-toggle>
+        </ion-item>
+      </ng-container>
     </ng-container>
   </ion-list>
-</ion-content>
+</app-modal-frame>
