@@ -1,34 +1,28 @@
 import { Injectable } from '@angular/core';
-import { Storage } from '@ionic/storage-angular';
 import { ExerciseSettingsData } from '../exercise/utility';
+import { StorageService } from '../storage/storage.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExerciseSettingsDataService {
-  private _storage: Storage;
   private readonly _exerciseSettingsKey: string = 'exerciseSettings';
 
-  constructor(private storage: Storage) {
-    this.init();
-  }
-
-  async init() {
-    this._storage = await this.storage.create();
+  constructor(private _storageService: StorageService) {
   }
 
   async saveExerciseSettings(exerciseId: string, settings: Partial<ExerciseSettingsData>): Promise<void> {
     const currentExercisesSettings: {
       [exerciseKey: string]: ExerciseSettingsData
-    } = await this.storage.get(this._exerciseSettingsKey) || {};
+    } = await this._storageService.get(this._exerciseSettingsKey) || {};
     currentExercisesSettings[exerciseId] = {
       ...currentExercisesSettings[exerciseId],
       ...settings
     };
-    await this._storage.set(this._exerciseSettingsKey, currentExercisesSettings);
+    await this._storageService.set(this._exerciseSettingsKey, currentExercisesSettings);
   }
 
   async getExerciseSettings(exerciseId: string): Promise<Partial<ExerciseSettingsData> | undefined> {
-    return (await this.storage.get(this._exerciseSettingsKey))?.[exerciseId];
+    return (await this._storageService.get(this._exerciseSettingsKey))?.[exerciseId];
   }
 }

@@ -14,12 +14,15 @@ export class ModalFrameComponent {
   @Input()
   padding: boolean = true;
 
+  @Input()
+  onClose: () => Promise<any>;
+
   constructor(
     private _modalController: ModalController,
   ) { }
 
   async close(): Promise<void> {
-    await this._modalController.dismiss();
+    await this._modalController.dismiss(this.onClose ? await this.onClose() : undefined);
   }
 
 }

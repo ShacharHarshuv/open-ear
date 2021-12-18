@@ -25,8 +25,5 @@ import { ModalModule } from '../shared/modal/modal.module';
     ]),
     ModalModule
   ],
-  providers: [
-    AppVersion,
-  ]
 })
 export class AboutModule { }
