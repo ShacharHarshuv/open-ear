@@ -40,6 +40,16 @@ If you would like to contribute in adding some features to the core infra of the
 - ExercisePage is the UI part of ExerciseStateService, and it manages rendering the UI, getting user input and displaying any indication. 
 - Under src/app/exercise you will also find a "utility" folder that has a tone of musical utilities like generating scales, chord progression etc. You can also convert notes to numbers to make calculation to them etc. 
 
+### Version Management
+
+The version name is in the `package.json`, and currently needs to be changed manually using the following convention:
+* Each version has a major, minor and patch numbers, like so: `{major}.{minor}.{patch}`.
+* When making a new feature or fixing a bug (anything that changes app behavior) the patch number should be incremented. Building a tag for the version is optional.
+* When releasing a new version, the minor should be incremented, and a tag for release should be created (i.e. `v1.2.3`)
+* The major number is reserved for big changes.
+* When building the app, the version needs to be set manually in the apk. (In the future we hope to automate that process).
+
+
 ## License
 
 Copyright 2021 Shachar Har-Shuv
