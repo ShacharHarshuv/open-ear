@@ -69,7 +69,7 @@ export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<Ch
   protected _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordTypeInKeySettings>[] {
     return [
       ...super._getSettingsDescriptor(),
-      ...numberOfSegmentsControlDescriptorList,
+      ...numberOfSegmentsControlDescriptorList('chords'),
     ]
   }
 

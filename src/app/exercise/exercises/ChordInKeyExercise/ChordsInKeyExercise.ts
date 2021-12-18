@@ -405,7 +405,7 @@ export class ChordsInKeyExercise extends BaseTonalChordProgressionExercise<Roman
   protected _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordInKeySettings>[] {
     return [
       ...super._getSettingsDescriptor(),
-      ...numberOfSegmentsControlDescriptorList,
+      ...numberOfSegmentsControlDescriptorList('chords'),
     ];
   }
 

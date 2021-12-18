@@ -117,7 +117,6 @@ export class PlayerService {
         await this._playPart(nextPart.partOrTime);
         if (nextPart.bpm) {
           this.setBpm(lastBpm);
-          console.log('restore bpm');
         }
       }
       nextPart.afterPlaying?.();
