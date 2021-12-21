@@ -413,7 +413,9 @@ export class ChordsInKeyExercise extends BaseTonalChordProgressionExercise<Roman
     return [
       ...super._getSettingsDescriptor(),
       ...numberOfSegmentsControlDescriptorList('chords'),
-      ...playAfterCorrectAnswerControlDescriptorList(),
+      ...playAfterCorrectAnswerControlDescriptorList({
+        show: ((settings: ChordInKeySettings) => settings.numberOfSegments === 1),
+      }),
     ];
   }
 

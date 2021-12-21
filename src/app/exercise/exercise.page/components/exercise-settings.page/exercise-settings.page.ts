@@ -1,19 +1,11 @@
-import {
-  Component,
-  Input
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import {
-  FormGroup,
-  FormControl,
-  TAbstractControlsOf
-} from '../../../../shared/reactive-forms';
+import { FormControl, FormGroup, TAbstractControlsOf } from '../../../../shared/reactive-forms';
 import { Exercise, } from '../../../Exercise';
+import { ExerciseSettingsData, GlobalExerciseSettings, } from '../../../utility';
+import * as _ from 'lodash';
+import { collapseVertical } from '../../../../shared/animations';
 import SettingValueType = Exercise.SettingValueType;
-import {
-  GlobalExerciseSettings,
-  ExerciseSettingsData,
-} from '../../../utility';
 
 interface ExerciseSettingsControls {
   playCadenceOptions: 'ALWAYS' | 'ONLY_ON_REPEAT' | /*'EVERY_NEW_KEY' TODO(OE-12) |*/ 'NEVER' /*| 'EVERY TODO(OE-13)'*/;
@@ -26,6 +18,9 @@ interface ExerciseSettingsControls {
   selector: 'app-exercise-settings.page',
   templateUrl: './exercise-settings.page.html',
   styleUrls: ['./exercise-settings.page.scss'],
+  animations: [
+    collapseVertical,
+  ]
 })
 export class ExerciseSettingsPage {
   readonly generalFormGroup = new FormGroup<ExerciseSettingsControls>({
@@ -111,5 +106,9 @@ export class ExerciseSettingsPage {
       adaptive: formGroupValue.adaptive,
       bpm: formGroupValue.bpm,
     }
+  }
+
+  isShowExerciseControl(controlDescriptor: Exercise.SettingsControlDescriptor): boolean {
+    return _.isNil(controlDescriptor.show) ? true : controlDescriptor.show(this.exerciseFormGroup.value);
   }
 }

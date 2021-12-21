@@ -81,6 +81,7 @@ export namespace Exercise {
       descriptor: /*GSettings[GKey] extends number ? SliderControlDescriptor | SelectControlDescriptor<GSettings[GKey]>
         : GSettings[GKey] extends Array<any> ? ListSelectControlDescriptor
           : SelectControlDescriptor<GSettings[GKey]>*/ SliderControlDescriptor | SelectControlDescriptor | ListSelectControlDescriptor | CheckboxControlDescriptor,
+      show?: (settings: GSettings) => boolean;
     }/* : never*/;
 
   export type ExerciseExplanationContent = string | Type<any>;

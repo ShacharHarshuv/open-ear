@@ -138,7 +138,9 @@ export class NotesInKeyExercise extends BaseTonalExercise<SolfegeNote, NoteInKey
     return [
       ...super._getSettingsDescriptor(),
       ...numberOfSegmentsControlDescriptorList('notes'),
-      ...playAfterCorrectAnswerControlDescriptorList(),
+      ...playAfterCorrectAnswerControlDescriptorList({
+        show: ((settings: NoteInKeySettings) => settings.numberOfSegments === 1),
+      }),
     ];
   }
 

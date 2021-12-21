@@ -4,9 +4,12 @@ export type PlayAfterCorrectAnswerSetting = {
   playAfterCorrectAnswer: boolean;
 }
 
-export const playAfterCorrectAnswerControlDescriptorList = (): Exercise.SettingsControlDescriptor<PlayAfterCorrectAnswerSetting>[] => ([
+export const playAfterCorrectAnswerControlDescriptorList = <GSettings extends PlayAfterCorrectAnswerSetting>(param?: {
+  show?: (settings: GSettings) => boolean,
+}): Exercise.SettingsControlDescriptor<PlayAfterCorrectAnswerSetting>[] => ([
   {
     key: 'playAfterCorrectAnswer',
+    show: param?.show || undefined,
     descriptor: {
       controlType: 'CHECKBOX',
       label: `Play Resolution`,
