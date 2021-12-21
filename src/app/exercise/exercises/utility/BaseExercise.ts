@@ -4,6 +4,7 @@ import {
 import AnswerList = Exercise.AnswerList;
 import SettingValueType = Exercise.SettingValueType;
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
+import * as _ from 'lodash';
 
 export abstract class BaseExercise<GAnswer extends string = string, GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }> implements Exercise.IExercise<GAnswer, GSettings> {
   abstract readonly id: string;
@@ -21,7 +22,7 @@ export abstract class BaseExercise<GAnswer extends string = string, GSettings ex
 
   updateSettings(settings: GSettings): void {
     for (let key in this._settings) {
-      this._settings[key] = settings[key] || this._settings[key];
+      this._settings[key] = _.isNil(settings[key]) ? this._settings[key] : settings[key];
     }
   }
 

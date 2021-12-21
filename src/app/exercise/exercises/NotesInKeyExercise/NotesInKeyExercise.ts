@@ -11,10 +11,17 @@ import { noteTypeToNote } from '../../utility/music/notes/noteTypeToNote';
 import { NotesInKeyExplanationComponent } from './notes-in-key-explanation/notes-in-key-explanation.component';
 import { BaseCommonSettingsExerciseSettings } from '../utility/BaseCommonSettingsExercise';
 import { numberOfSegmentsControlDescriptorList, NumberOfSegmentsSetting } from '../utility/NumberOfSegmentsSetting';
+import {
+  playAfterCorrectAnswerControlDescriptorList,
+  PlayAfterCorrectAnswerSetting
+} from '../utility/PlayAfterCorrectAnswerSetting';
 
 export type SolfegeNote = 'Do' | 'Re' | 'Mi' | 'Fa' | 'Sol' | 'La' | 'Ti';
 
-type NoteInKeySettings = NumberOfSegmentsSetting & BaseCommonSettingsExerciseSettings<SolfegeNote>;
+type NoteInKeySettings =
+  BaseCommonSettingsExerciseSettings<SolfegeNote> &
+  NumberOfSegmentsSetting &
+  PlayAfterCorrectAnswerSetting;
 
 const CMajor: { solfege: SolfegeNote, note: NoteType }[] = [
   {
@@ -67,7 +74,7 @@ export class NotesInKeyExercise extends BaseTonalExercise<SolfegeNote, NoteInKey
 
     // calculation resolution
     let resolution: Note[] = [];
-    if (this._settings.numberOfSegments === 1) {
+    if (this._settings.numberOfSegments === 1 && this._settings.playAfterCorrectAnswer) {
       const randomQuestionInC = randomQuestionsInC[0];
       const noteOctave: number = getNoteOctave(randomQuestionInC.question);
       const noteType: NoteType = getNoteType(randomQuestionInC.question);
@@ -131,6 +138,9 @@ export class NotesInKeyExercise extends BaseTonalExercise<SolfegeNote, NoteInKey
     return [
       ...super._getSettingsDescriptor(),
       ...numberOfSegmentsControlDescriptorList('notes'),
+      ...playAfterCorrectAnswerControlDescriptorList({
+        show: ((settings: NoteInKeySettings) => settings.numberOfSegments === 1),
+      }),
     ];
   }
 
@@ -141,6 +151,7 @@ export class NotesInKeyExercise extends BaseTonalExercise<SolfegeNote, NoteInKey
     return {
       ...super._getDefaultSettings(),
       numberOfSegments: 1,
+      playAfterCorrectAnswer: true,
     };
   }
 }

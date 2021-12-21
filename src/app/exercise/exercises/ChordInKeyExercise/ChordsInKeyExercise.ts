@@ -17,6 +17,10 @@ import {
 } from '../utility/BaseTonalChordProgressionExercise';
 import { ChordInKeyExplanationComponent } from './chord-in-key-explanation/chord-in-key-explanation.component';
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
+import {
+  playAfterCorrectAnswerControlDescriptorList,
+  PlayAfterCorrectAnswerSetting
+} from '../utility/PlayAfterCorrectAnswerSetting';
 
 type RomanNumeralChord = 'I' | 'ii' | 'iii' | 'IV' | 'V' | 'vi' | 'viiᵒ';
 
@@ -25,7 +29,10 @@ interface ChordOption {
   answer: RomanNumeralChord;
 }
 
-type ChordInKeySettings = NumberOfSegmentsSetting & BaseTonalChordProgressionExerciseSettings<RomanNumeralChord>;
+type ChordInKeySettings =
+  BaseTonalChordProgressionExerciseSettings<RomanNumeralChord> &
+  NumberOfSegmentsSetting &
+  PlayAfterCorrectAnswerSetting;
 
 const chordsInC: { chord: Chord; answer: RomanNumeralChord }[] = [
   {
@@ -75,7 +82,7 @@ const romanNumeralToResolution: {
     2: [
       {
         romanNumeral: 'I',
-        voicingConfig: { topVoicesInversion: TriadInversion.Octave },
+        voicingConfig: {topVoicesInversion: TriadInversion.Octave},
       },
     ],
   },
@@ -201,23 +208,23 @@ const romanNumeralToResolution: {
       },
       {
         romanNumeral: 'I',
-        voicingConfig: { topVoicesInversion: TriadInversion.Octave },
+        voicingConfig: {topVoicesInversion: TriadInversion.Octave},
       },
     ],
     1: [
       {
         romanNumeral: 'V',
-        voicingConfig: { topVoicesInversion: TriadInversion.Fifth },
+        voicingConfig: {topVoicesInversion: TriadInversion.Fifth},
       },
       {
         romanNumeral: 'I',
-        voicingConfig: { topVoicesInversion: TriadInversion.Octave },
+        voicingConfig: {topVoicesInversion: TriadInversion.Octave},
       },
     ],
     2: [
       {
         romanNumeral: 'V',
-        voicingConfig: { topVoicesInversion: TriadInversion.Third },
+        voicingConfig: {topVoicesInversion: TriadInversion.Third},
       },
       {
         romanNumeral: 'I',
@@ -231,7 +238,7 @@ const romanNumeralToResolution: {
   V: {
     0: [{
       romanNumeral: 'I',
-      voicingConfig: { topVoicesInversion: TriadInversion.Octave },
+      voicingConfig: {topVoicesInversion: TriadInversion.Octave},
     }],
     1: [{
       romanNumeral: 'I',
@@ -342,8 +349,8 @@ export class ChordsInKeyExercise extends BaseTonalChordProgressionExercise<Roman
       segments: chordProgression,
     };
 
-    if (numberOfSegments === 1) {
-      question.afterCorrectAnswer = ({ firstChordInversion }) => {
+    if (numberOfSegments === 1 && this._settings.playAfterCorrectAnswer) {
+      question.afterCorrectAnswer = ({firstChordInversion}) => {
         // calculate resolution
         const firstChordRomanNumeral: RomanNumeralChord = chordProgression[0].answer;
         const resolution: {
@@ -367,9 +374,9 @@ export class ChordsInKeyExercise extends BaseTonalChordProgressionExercise<Roman
         ];
 
         return resolution.map(({
-          romanNumeral,
-          chordVoicing,
-        }, index) => ({
+                                 romanNumeral,
+                                 chordVoicing,
+                               }, index) => ({
           answerToHighlight: romanNumeral,
           partToPlay: [{
             notes: chordVoicing,
@@ -406,6 +413,9 @@ export class ChordsInKeyExercise extends BaseTonalChordProgressionExercise<Roman
     return [
       ...super._getSettingsDescriptor(),
       ...numberOfSegmentsControlDescriptorList('chords'),
+      ...playAfterCorrectAnswerControlDescriptorList({
+        show: ((settings: ChordInKeySettings) => settings.numberOfSegments === 1),
+      }),
     ];
   }
 
@@ -416,6 +426,7 @@ export class ChordsInKeyExercise extends BaseTonalChordProgressionExercise<Roman
     return {
       ...super._getDefaultSettings(),
       numberOfSegments: 1,
+      playAfterCorrectAnswer: true,
     };
   }
 }

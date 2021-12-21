@@ -44,9 +44,13 @@
 
   <ion-list *ngIf="exerciseFormGroup">
     <ng-container *ngFor="let exerciseControlSettings of exerciseSettingsDescriptor">
-      <ng-container [ngSwitch]="exerciseControlSettings.descriptor.controlType">
+      <ng-container
+        *ngIf="isShowExerciseControl(exerciseControlSettings)"
+        [ngSwitch]="exerciseControlSettings.descriptor.controlType"
+      >
         <ion-item
           *ngSwitchCase="'SELECT'"
+          @collapseVertical
         >
           <ion-label>{{exerciseControlSettings.descriptor.label}}</ion-label>
           <ion-select
@@ -64,6 +68,7 @@
         <ion-item
           *ngSwitchCase="'SLIDER'"
           class="exercise-settings__item --label-above"
+          @collapseVertical
         >
           <ion-label>{{exerciseControlSettings.descriptor.label}}</ion-label>
           <ion-range
@@ -81,9 +86,11 @@
           [allAvailableOptions]="exerciseControlSettings.descriptor.allOptions"
           [formControl]="exerciseFormGroup.controls[exerciseControlSettings.key]"
           [label]="exerciseControlSettings.descriptor.label"
+          @collapseVertical
         ></app-list-select>
         <ion-item
           *ngSwitchCase="'CHECKBOX'"
+          @collapseVertical
         >
           <ion-label>{{exerciseControlSettings.descriptor.label}}</ion-label>
           <ion-toggle
