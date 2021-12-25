@@ -9,4 +9,9 @@ ion-content {
       };
     }
   }
+
+  &::part(scroll) {
+    // Fixes bug in ionic where padding bottom is too big
+    padding-bottom: calc(var(--padding-bottom) + var(--keyboard-offset));
+  }
 }

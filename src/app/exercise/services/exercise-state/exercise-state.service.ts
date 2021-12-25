@@ -20,6 +20,7 @@ const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   playCadence: true,
   adaptive: false,
   bpm: 120,
+  moveToNextQuestionAutomatically: false,
 };
 
 interface CurrentAnswer {
@@ -121,6 +122,10 @@ export class ExerciseStateService {
           const areAllSegmentsCorrect: boolean = !this._currentAnswers.filter(answerSegment => answerSegment.wasWrong).length;
           this._adaptiveExercise.reportAnswerCorrectness(areAllSegmentsCorrect);
         }
+
+        if (this._globalSettings.moveToNextQuestionAutomatically) {
+          this.nextQuestion();
+        }
       }
     }
     return isRight;
@@ -151,7 +156,7 @@ export class ExerciseStateService {
     this._currentlyPlayingSegment = null;
   }
 
-  nextQuestion(): void {
+  nextQuestion(): Promise<void> {
     // if still unanswered questions
     if (this._globalSettings.adaptive && !!this._currentQuestion && !this._areAllSegmentsAnswered) {
       try {
@@ -164,6 +169,12 @@ export class ExerciseStateService {
       answer: null,
     }));
     this._currentSegmentToAnswer = 0;
+
+    if (this.globalSettings.playCadence === 'ONLY_ON_REPEAT') {
+      return this.playCurrentQuestion();
+    } else {
+      return this.playCurrentCadenceAndQuestion();
+    }
   }
 
   updateSettings(settings: ExerciseSettingsData): void {
