@@ -10,8 +10,9 @@ import SettingValueType = Exercise.SettingValueType;
 interface ExerciseSettingsControls {
   playCadenceOptions: 'ALWAYS' | 'ONLY_ON_REPEAT' | /*'EVERY_NEW_KEY' TODO(OE-12) |*/ 'NEVER' /*| 'EVERY TODO(OE-13)'*/;
   // playCadenceEvery: number; // todo(OE-13)
-  adaptive: boolean,
   bpm: number,
+  moveToNextQuestionAutomatically: boolean,
+  adaptive: boolean,
 }
 
 @Component({
@@ -28,6 +29,7 @@ export class ExerciseSettingsPage {
     // playCadenceEvery: new FormControl(5),
     adaptive: new FormControl<boolean>(false),
     bpm: new FormControl<number>(120),
+    moveToNextQuestionAutomatically: new FormControl<boolean>(false),
   });
 
   exerciseSettingsDescriptor: Exercise.SettingsControlDescriptor[];
@@ -56,6 +58,7 @@ export class ExerciseSettingsPage {
       })(),
       adaptive: currentSettings.adaptive,
       bpm: currentSettings.bpm,
+      moveToNextQuestionAutomatically: currentSettings.moveToNextQuestionAutomatically,
     })
   }
 
@@ -105,6 +108,7 @@ export class ExerciseSettingsPage {
       })(),
       adaptive: formGroupValue.adaptive,
       bpm: formGroupValue.bpm,
+      moveToNextQuestionAutomatically: formGroupValue.moveToNextQuestionAutomatically,
     }
   }
 

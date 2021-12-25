@@ -55,15 +55,6 @@ export class ExercisePage {
     }
   }
 
-  nextQuestion(): Promise<void> {
-    this.state.nextQuestion();
-    if (this.state.globalSettings.playCadence === 'ONLY_ON_REPEAT') {
-      return this.state.playCurrentQuestion();
-    } else {
-      return this.state.playCurrentCadenceAndQuestion();
-    }
-  }
-
   async editSettings(): Promise<void> {
     const allAvailableAnswers: string[] = typeof this.state.answerList === 'object' ? _.flatMap(this.state.answerList) : this.state.answerList;
     const modal = await this._modalController.create({
@@ -81,8 +72,7 @@ export class ExercisePage {
   }
 
   private async _init(): Promise<void> {
-    this.state.nextQuestion();
     await this.exerciseExplanation.init();
-    await this.state.playCurrentCadenceAndQuestion();
+    await this.state.nextQuestion();
   }
 }

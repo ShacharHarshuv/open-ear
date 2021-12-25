@@ -20,11 +20,11 @@
       </ion-select>
     </ion-item>
     <ion-item>
-      <ion-label>Adaptive</ion-label>
+      <ion-label>Move to next question automatically</ion-label>
       <ion-toggle
-        [formControl]="generalFormGroup.controls.adaptive"
-        slot="end"
-      ></ion-toggle>
+        [formControl]="generalFormGroup.controls.moveToNextQuestionAutomatically"
+      >
+      </ion-toggle>
     </ion-item>
     <ion-item
       class="exercise-settings__item --label-above"
@@ -39,6 +39,13 @@
         pin
       >
       </ion-range>
+    </ion-item>
+    <ion-item>
+      <ion-label>Adaptive</ion-label>
+      <ion-toggle
+        [formControl]="generalFormGroup.controls.adaptive"
+        slot="end"
+      ></ion-toggle>
     </ion-item>
   </ion-list>
 
