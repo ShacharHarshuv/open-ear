@@ -21,4 +21,8 @@ export const releaseNotes: ReleaseNotes = [
     version: '1.1.3',
     notes: 'Add the option to disable resolution in tonal exercise (Notes and Chords in Key)',
   },
+  {
+    version: '1.1.4',
+    notes: 'Add the option move immediately to next question after answering',
+  },
 ]
