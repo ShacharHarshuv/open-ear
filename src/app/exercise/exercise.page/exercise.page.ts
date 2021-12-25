@@ -20,7 +20,7 @@ export class ExercisePage {
   rightAnswer: string | null = null;
 
   get isQuestionCompleted(): boolean {
-    return !!this.state.currentAnswers[this.state.currentAnswers.length - 1].answer;
+    return !!this.state.currentAnswers[this.state.currentAnswers.length - 1]?.answer;
   }
 
   get correctAnswersPercentage(): number {

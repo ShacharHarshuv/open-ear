@@ -125,7 +125,6 @@ export class ExerciseStateService {
 
         if (this._globalSettings.moveToNextQuestionAutomatically) {
           this.nextQuestion();
-          this.playCurrentCadenceAndQuestion();
         }
       }
     }
