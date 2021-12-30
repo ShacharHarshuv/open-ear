@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { VersionService } from '../version.service';
 import { map, startWith, switchMap } from 'rxjs/operators';
 import { toObservable } from '../shared/ts-utility';
@@ -7,7 +7,6 @@ import { RELEASE_NOTES_TOKEN, ReleaseNotes } from './release-notes';
 import * as _ from 'lodash';
 import { toPromise } from '../shared/ts-utility/rxjs/toPromise';
 import { versionComparator } from './version-comparator';
-import { tapLogValue } from '../shared/ts-utility/rxjs/tapLogValue';
 import { StorageService } from '../storage/storage.service';
 
 @Injectable({
@@ -35,19 +34,27 @@ export class ReleaseNotesService {
   }
 
   private _getRelevantReleaseNotes(): Observable<string[]> {
-    const releaseNotesLastViewedOn$ = toObservable(this._storageService.get(this._releaseNotesKey)).pipe(
-      switchMap(releaseNotesLastViewedOn => {
-        return this._releaseNotesViewedOnChange$.pipe(startWith(releaseNotesLastViewedOn));
-      }),
-    )
+    return toObservable(this._versionService.version$).pipe(
+      switchMap(currentVersion => {
+        if (currentVersion === 'development') {
+          return of([]);
+        }
 
-    return releaseNotesLastViewedOn$.pipe(
-      map((releaseNotesLastViewedOn) => {
-        return _.flatMap(
-          this._releaseNotes.filter(releaseNote => !!releaseNotesLastViewedOn && versionComparator(releaseNote.version, releaseNotesLastViewedOn) > 0),
-          releaseNote => {
-            return releaseNote.notes;
-          });
+        const releaseNotesLastViewedOn$ = toObservable(this._storageService.get(this._releaseNotesKey)).pipe(
+          switchMap(releaseNotesLastViewedOn => {
+            return this._releaseNotesViewedOnChange$.pipe(startWith(releaseNotesLastViewedOn));
+          }),
+        )
+
+        return releaseNotesLastViewedOn$.pipe(
+          map((releaseNotesLastViewedOn) => {
+            return _.flatMap(
+              this._releaseNotes.filter(releaseNote => !!releaseNotesLastViewedOn && versionComparator(releaseNote.version, releaseNotesLastViewedOn) > 0),
+              releaseNote => {
+                return releaseNote.notes;
+              });
+          })
+        );
       })
     );
   }
