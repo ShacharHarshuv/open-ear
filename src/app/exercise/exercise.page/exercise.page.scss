@@ -23,7 +23,16 @@
     }
   }
 
+  /**
+  * CSS here is complicated due to the fact that we want to animate --right, --wrong and --highlighted out,
+  * But the button can be both --highlighted and --right at the same time,
+  * and we need to avoid overriding the transition property incorrectly
+  */
   &__answer-button {
+    &::part(native) {
+      border: 4px solid rgba(0,0,0, 0);
+    }
+
     &.--right {
       &::part(native) {
         background-color: #{var(--ion-color-success)};
@@ -31,8 +40,31 @@
     }
 
     &:not(.--right):not(.--wrong) {
-      &::part(native) {
-        transition: background-color 700ms ease-in;
+      &.--highlighted {
+        &::part(native) {
+          transition: background-color 700ms ease-in;
+        }
+      }
+
+      &:not(.--highlighted) {
+        &::part(native) {
+          transition: background-color 700ms ease-in, border-color 300ms ease-in-out;
+        }
+      }
+    }
+
+    &:not(.--highlighted) {
+      &.--right,
+      &.--wrong {
+        &::part(native) {
+          transition: border-color 300ms ease-in;
+        }
+      }
+
+      &:not(.--right):not(.--wrong) {
+        &::part(native) {
+          transition: background-color 700ms ease-in, border-color 300ms ease-in-out;
+        }
       }
     }
 
@@ -42,10 +74,9 @@
       }
     }
 
-    &.--highlighted:not(.--right) {
+    &.--highlighted {
       &::part(native) {
-        background-color: #{var(--ion-color-dark)};
-        color: #{var(--ion-color-dark-contrast)};
+        border-color: rgba(0, 0, 0, 0.2);
       }
     }
   }
