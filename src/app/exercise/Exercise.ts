@@ -103,5 +103,7 @@ export namespace Exercise {
     updateSettings?(settings: GSettings): void;
 
     getCurrentSettings?(): GSettings;
+
+    onDestroy?(): void;
   }
 }

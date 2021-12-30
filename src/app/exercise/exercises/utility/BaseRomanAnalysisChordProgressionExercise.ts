@@ -7,6 +7,7 @@ import { Chord, TriadInversion } from '../../utility/music/chords';
 import * as _ from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { PlayAfterCorrectAnswerSetting } from './PlayAfterCorrectAnswerSetting';
+import { Exercise } from '../../Exercise';
 
 export type RomanNumeralChord = 'I' | 'ii' | 'iii' | 'IV' | 'V' | 'vi' | 'viiᵒ';
 
@@ -380,5 +381,21 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
       ...super._getDefaultSettings(),
       playAfterCorrectAnswer: false,
     };
+  }
+
+  protected _getAllAnswersList(): Exercise.AnswerList<RomanNumeralChord> {
+    return {
+      rows: [
+        [
+          'I',
+          'ii',
+          'iii',
+          'IV',
+          'V',
+          'vi',
+          'viiᵒ',
+        ]
+      ]
+    }
   }
 }

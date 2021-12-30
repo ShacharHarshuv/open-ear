@@ -39,22 +39,6 @@ export class ChordsInKeyExercise extends BaseRomanAnalysisChordProgressionExerci
     };
   }
 
-  protected _getAllAnswersList(): Exercise.AnswerList<RomanNumeralChord> {
-    return {
-      rows: [
-        [
-          'I',
-          'ii',
-          'iii',
-          'IV',
-          'V',
-          'vi',
-          'viiᵒ',
-        ]
-      ]
-    }
-  }
-
   /**
    * @override
    * */
