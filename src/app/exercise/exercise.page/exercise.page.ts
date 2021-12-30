@@ -48,7 +48,7 @@ export class ExercisePage {
       this.rightAnswer = answer;
       setTimeout(() => {
         this.rightAnswer = null;
-      }, 10);
+      }, 100);
       this.wrongAnswers = [];
     } else {
       this.wrongAnswers.push(answer);
