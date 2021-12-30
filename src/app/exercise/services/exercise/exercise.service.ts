@@ -18,8 +18,8 @@ export class ExerciseService {
   static readonly _exerciseList: IExercise[] = [
     new NotesInKeyExercise() as unknown as IExercise, // TODO(OE-27)
     new ChordsInKeyExercise() as unknown as IExercise, // TODO(OE-27)
-    new ChordTypeInKeyExercise() as unknown as IExercise, // TODO(OE-27)
     new CommonChordProgressionsExercise() as unknown as IExercise, // TODO(OE-27)
+    new ChordTypeInKeyExercise() as unknown as IExercise, // TODO(OE-27)
     new TriadInversionExercise() as unknown as IExercise, // TODO(OE-27)
     new IntervalExercise() as unknown as IExercise, // TODO(OE-27)
   ];

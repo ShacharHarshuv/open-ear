@@ -8,6 +8,9 @@ import { Exercise } from '../../Exercise';
 import { randomFromList } from '../../../shared/ts-utility';
 import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
 import * as _ from 'lodash';
+import {
+  CommonChordProgressionsExplanationComponent
+} from './common-chord-progressions-explanation/common-chord-progressions-explanation.component';
 
 type CommonChordProgressionExerciseSettings = BaseRomanAnalysisChordProgressionExerciseSettings & {
   includedProgressions: string[];
@@ -21,6 +24,14 @@ interface ProgressionDescriptor {
 export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgressionExercise<CommonChordProgressionExerciseSettings> {
   private static readonly _progression: ProgressionDescriptor[] = [
     {
+      romanNumerals: ['I', 'V', 'I'],
+      name: 'Perfect Cadence'
+    },
+    {
+      romanNumerals: ['I', 'IV', 'I'],
+      name: 'Plagal Cadence',
+    },
+    {
       romanNumerals: ['I', 'IV', 'V', 'I'],
       name: 'Classical Cadence',
     },
@@ -30,15 +41,41 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
     },
     {
       romanNumerals: ['I', 'V', 'vi', 'IV'],
-      name: 'Axis',
+      name: 'Axis (optimistic)',
+    },
+    {
+      romanNumerals: ['I', 'V', 'vi', 'IV'],
+      name: 'Axis (optimistic)',
+    },
+    {
+      romanNumerals: ['V', 'vi', 'IV', 'I'],
+      name: 'Axis'
+    },
+    {
+      romanNumerals: ['vi', 'IV', 'I', 'V'],
+      name: 'Axis (pessimistic)',
+    },
+    {
+      romanNumerals: ['IV', 'I', 'V', 'vi'],
+      name: 'Axis'
     },
     {
       romanNumerals: ['I', 'vi', 'IV', 'V'],
-      name: 'Doo-Wop',
+      name: 'Doo-Wop / 50s',
     },
     {
-      romanNumerals: ['ii', 'V', 'I'],
-      name: 'Jazz Cadence'
+      romanNumerals: ['I', 'vi', 'ii', 'V'],
+      name: 'Circle'
+    },
+    {
+      romanNumerals: ['I', 'vi', 'iii'],
+      name: 'Circle'
+    },
+    {
+      romanNumerals: ['I', 'vi', 'iii'],
+    },
+    {
+      romanNumerals: ['I', 'vi', 'iii', 'IV'],
     }
   ]
 
@@ -46,9 +83,9 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
     return progression.romanNumerals.join(' ');
   }
 
-  readonly explanation: Exercise.ExerciseExplanationContent = ''; // todo
+  readonly explanation: Exercise.ExerciseExplanationContent = CommonChordProgressionsExplanationComponent;
   readonly id: string = 'commonChordProgression'
-  readonly name: string = 'Common Chord Progressions'
+  readonly name: string = 'Common Progressions'
   readonly summary: string = 'Practice on recognizing the most common chord progression in popular music.'
 
   constructor() {

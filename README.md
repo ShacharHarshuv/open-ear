@@ -6,14 +6,13 @@ OpenEar is an open source ear training app for musicians. It's goal is to provid
 
 Currently includes the following built in exercises:
 
-1. Identify interval
-2. Identify note in a tonal context
-3. Identify chord & chord progressions in a tonal context
+1. Identify notes & melodies in a tonal context 
+2. Identify chord & chord progressions in a tonal context
+3. Identify chord types (minor / major)
 4. Identify a triad chord inversion in close position
+5. Identify intervals (without context)
 
-The app is still under initial development and might contain bugs and uncompleted features. 
-
-Download the app from google play: https://play.google.com/store/apps/details?id=com.openear.www
+Download the app from Google play: https://play.google.com/store/apps/details?id=com.openear.www
 
 ![screenshots](https://user-images.githubusercontent.com/4821858/142942603-4fb8e1cd-49b7-4029-b8f0-1f60a93e0cab.png)
 

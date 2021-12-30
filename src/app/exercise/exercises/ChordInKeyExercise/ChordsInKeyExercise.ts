@@ -23,7 +23,7 @@ type ChordInKeySettings =
 export class ChordsInKeyExercise extends BaseRomanAnalysisChordProgressionExercise<ChordInKeySettings> {
   readonly id: string = 'chordInKey';
   readonly name: string = 'Chord in Key';
-  readonly summary: string = 'Recognise chords based on their tonal context in a key';
+  readonly summary: string = 'Identify chords based on their tonal context in a key';
   readonly explanation: ExerciseExplanationContent = ChordInKeyExplanationComponent;
 
   protected _getChordProgressionInRomanNumerals(): RomanNumeralsChordProgressionQuestion {

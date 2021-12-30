@@ -19,7 +19,7 @@ export interface IIntervalDescriptor {
 export class IntervalExercise extends BaseCommonSettingsExercise<Interval> {
   readonly id: string = 'interval';
   readonly name: string = 'Intervals';
-  readonly summary: string = 'Recognizing Intervals without context';
+  readonly summary: string = 'Identify intervals without context';
   readonly explanation = IntervalExerciseExplanationComponent;
   readonly range = new NotesRange('C3', 'E5');
 
