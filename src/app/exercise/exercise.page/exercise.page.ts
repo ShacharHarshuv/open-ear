@@ -73,6 +73,6 @@ export class ExercisePage {
 
   private async _init(): Promise<void> {
     await this.exerciseExplanation.init();
-    await this.state.nextQuestion();
+    await this.state.init()
   }
 }

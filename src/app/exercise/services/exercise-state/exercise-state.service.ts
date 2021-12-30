@@ -44,7 +44,6 @@ export class ExerciseStateService {
     private _player: PlayerService,
     private _exerciseSettingsData: ExerciseSettingsDataService,
   ) {
-    this._init();
   }
 
   get globalSettings(): GlobalExerciseSettings {
@@ -114,18 +113,23 @@ export class ExerciseStateService {
       this._currentAnswers[this._currentSegmentToAnswer].answer = answer;
       this._currentSegmentToAnswer++;
 
+      // Last segment was answered
       if (this._currentSegmentToAnswer === this._currentQuestion.segments.length) {
-        this._afterCorrectAnswer();
-
         // if not all answers are correct
         if (this._globalSettings.adaptive) {
           const areAllSegmentsCorrect: boolean = !this._currentAnswers.filter(answerSegment => answerSegment.wasWrong).length;
           this._adaptiveExercise.reportAnswerCorrectness(areAllSegmentsCorrect);
         }
-
-        if (this._globalSettings.moveToNextQuestionAutomatically) {
-          this.nextQuestion();
-        }
+        this._afterCorrectAnswer()
+        .then(() => {
+          if (this._globalSettings.moveToNextQuestionAutomatically) {
+            // Make sure we are still in the same question (i.e. "Next" wasn't clicked by user)
+            const numberOfAnsweredSegments = this._currentAnswers.filter(answer => !!answer.answer).length;
+            if (numberOfAnsweredSegments === this._currentQuestion.segments.length) {
+              this.nextQuestion();
+            }
+          }
+        })
       }
     }
     return isRight;
@@ -184,6 +188,16 @@ export class ExerciseStateService {
     this._updateExerciseSettings(settings.exerciseSettings);
   }
 
+  async init(): Promise<void> {
+    const settings: Partial<ExerciseSettingsData> | undefined = await this._exerciseSettingsData.getExerciseSettings(this.exercise.id);
+    if (settings?.globalSettings) {
+      this._globalSettings = settings.globalSettings;
+    }
+    if (settings?.exerciseSettings) {
+      this._updateExerciseSettings(settings.exerciseSettings);
+    }
+  }
+
   private _getCurrentQuestionPartsToPlay(): PartToPlay[] {
     return this._currentQuestion.segments.map((segment, i): PartToPlay => ({
       partOrTime: toSteadyPart(segment.partToPlay),
@@ -201,16 +215,6 @@ export class ExerciseStateService {
     this.answerList = this.exercise.getAnswerList();
     this._adaptiveExercise.reset();
     this.nextQuestion();
-  }
-
-  private async _init(): Promise<void> {
-    const settings: Partial<ExerciseSettingsData> | undefined = await this._exerciseSettingsData.getExerciseSettings(this.exercise.id);
-    if (settings?.globalSettings) {
-      this._globalSettings = settings.globalSettings;
-    }
-    if (settings?.exerciseSettings) {
-      this._updateExerciseSettings(settings.exerciseSettings);
-    }
   }
 
   private _getAfterCorrectAnswerParts(): PartToPlay[] {
