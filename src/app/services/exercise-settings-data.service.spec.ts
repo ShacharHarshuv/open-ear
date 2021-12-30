@@ -29,6 +29,7 @@ describe('StorageService', function() {
         playCadence: false,
         adaptive: false,
         bpm: 120,
+        moveToNextQuestionAutomatically: false,
       },
       exerciseSettings: {
         a: 1,

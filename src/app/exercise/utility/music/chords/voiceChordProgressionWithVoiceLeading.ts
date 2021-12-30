@@ -23,7 +23,7 @@ function voiceNextChord(currentChordVoicing: Note[], nextChord: Chord): Note[] {
     });
     // normalized for preferred octave, i.e. when the the soprano voice is the closest
     const highestNoteOfPossibleVoicing = _.last(possibleVoicing)!;
-    possibleVoicing = transpose(possibleVoicing, _.round((toNoteNumber(highestVoice) - toNoteNumber(highestNoteOfPossibleVoicing)) / Interval.Octave))
+    possibleVoicing = transpose(possibleVoicing, _.round((toNoteNumber(highestVoice) - toNoteNumber(highestNoteOfPossibleVoicing)) / Interval.Octave) * Interval.Octave)
     voicingOptionsForNextChord.push(possibleVoicing);
   }
 
@@ -55,6 +55,9 @@ export function voiceChordProgressionWithVoiceLeading(chordOrChordSymbolList: (C
   })];
   for (let i = 1; i < chordList.length; i++) {
     const nextChordVoicing: Note[] = voiceNextChord(chordVoicingWithoutBass[i - 1], chordList[i]);
+    if (!nextChordVoicing) {
+      throw new Error(`Voicing is undefined`);
+    }
     chordVoicingWithoutBass.push(nextChordVoicing);
   }
   // adding bass notes

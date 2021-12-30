@@ -80,6 +80,19 @@ describe('voiceChordProgressionWithVoiceLeading', function () {
           expectedResult: null,
         }
       ]
+    },
+    {
+      progression: ['C', 'G'],
+      startingInversion: 1,
+      expectedResultsOptions: [
+        {
+          randomlyChosenIndexesList: [0],
+          expectedResult: [
+            ['C2', 'C3', 'E3', 'G3', 'C4'],
+            ['G2', 'G3', 'D3', 'G3', 'B3']
+          ],
+        }
+      ],
     }
   ]
 
