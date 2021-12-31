@@ -186,6 +186,7 @@ export class ExerciseStateService {
     this._globalSettings = settings.globalSettings;
     this._player.setBpm(this._globalSettings.bpm);
     this._updateExerciseSettings(settings.exerciseSettings);
+    this.nextQuestion();
   }
 
   async init(): Promise<void> {
@@ -196,6 +197,7 @@ export class ExerciseStateService {
     if (settings?.exerciseSettings) {
       this._updateExerciseSettings(settings.exerciseSettings);
     }
+    await this.nextQuestion();
   }
 
   private _getCurrentQuestionPartsToPlay(): PartToPlay[] {
@@ -214,7 +216,6 @@ export class ExerciseStateService {
     this.exercise.updateSettings(exerciseSettings);
     this.answerList = this.exercise.getAnswerList();
     this._adaptiveExercise.reset();
-    this.nextQuestion();
   }
 
   private _getAfterCorrectAnswerParts(): PartToPlay[] {
