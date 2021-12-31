@@ -6,7 +6,7 @@ import {
 } from '../utility/BaseRomanAnalysisChordProgressionExercise';
 import { Exercise } from '../../Exercise';
 import { randomFromList } from '../../../shared/ts-utility';
-import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
 import * as _ from 'lodash';
 import {
   CommonChordProgressionsExplanationComponent
@@ -79,6 +79,11 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
     }
   ]
 
+  private static readonly _defaultProgressions: string[] = [
+    'I V vi IV',
+    'I vi IV V',
+  ]
+
   private static _getProgressionId(progression: ProgressionDescriptor): string {
     return progression.romanNumerals.join(' ');
   }
@@ -119,13 +124,14 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
   protected _getDefaultSettings(): CommonChordProgressionExerciseSettings {
     return {
       ...super._getDefaultSettings(),
-      includedProgressions: CommonChordProgressionsExercise._progression.map(progression => CommonChordProgressionsExercise._getProgressionId(progression)),
+      includedProgressions: CommonChordProgressionsExercise._defaultProgressions,
     }
   }
 
   private _startIncludedProgressionsChangeHandler(): void {
-    this._settingsChange.pipe(
+    this._settings$.pipe(
       map(settings => settings.includedProgressions),
+      startWith(CommonChordProgressionsExercise._defaultProgressions),
       distinctUntilChanged(),
       takeUntil(this._destroy$),
     ).subscribe(() => {

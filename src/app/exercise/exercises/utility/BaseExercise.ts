@@ -15,7 +15,7 @@ export abstract class BaseExercise<GAnswer extends string = string, GSettings ex
    * Implementor should implement the desired default settings
    * */
   protected abstract _settings: GSettings;
-  protected _settingsChange: Observable<GSettings> = this._settingsChangeSubject.asObservable();
+  protected _settings$: Observable<GSettings> = this._settingsChangeSubject.asObservable();
 
   abstract readonly id: string;
   abstract readonly summary: string;
