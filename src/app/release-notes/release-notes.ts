@@ -25,4 +25,12 @@ export const releaseNotes: ReleaseNotes = [
     version: '1.1.4',
     notes: 'Add the option move immediately to next question after answering',
   },
+  {
+    version: '1.1.5',
+    notes: 'Add "Common Chord Progressions" Exercise. Try this to identify on the most popular and used progression.'
+  },
+  {
+    version: '1.1.6',
+    notes: 'Fix bug where right answers were not highlighted correctly'
+  },
 ]
