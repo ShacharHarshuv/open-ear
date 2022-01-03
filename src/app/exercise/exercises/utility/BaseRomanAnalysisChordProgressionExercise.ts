@@ -8,6 +8,8 @@ import * as _ from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { PlayAfterCorrectAnswerSetting } from './PlayAfterCorrectAnswerSetting';
 import { Exercise } from '../../Exercise';
+import { Interval, toArray, toNoteNumber, toSteadyPart } from '../../utility';
+import { transpose } from '../../utility/music/transpose';
 
 export type RomanNumeralChord = 'I' | 'ii' | 'iii' | 'IV' | 'V' | 'vi' | 'viiᵒ';
 
@@ -333,7 +335,7 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
     };
 
     if (question.segments.length === 1 && this._settings.playAfterCorrectAnswer) {
-      question.afterCorrectAnswer = ({firstChordInversion}) => {
+      question.afterCorrectAnswer = ({firstChordInversion, questionSegments}) => {
         // calculate resolution
         const firstChordRomanNumeral: RomanNumeralChord = question.segments[0].answer;
         const resolution: {
@@ -356,13 +358,15 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
           })),
         ];
 
+        const differenceInOctavesToNormalize: number = _.round((toNoteNumber(toArray(toSteadyPart(questionSegments[0].partToPlay)[0].notes)[0]) - toNoteNumber(resolution[0].chordVoicing[0])) / Interval.Octave);
+
         return resolution.map(({
                                  romanNumeral,
                                  chordVoicing,
                                }, index) => ({
           answerToHighlight: romanNumeral,
           partToPlay: [{
-            notes: chordVoicing,
+            notes: chordVoicing.map(note => transpose(note, differenceInOctavesToNormalize * Interval.Octave)),
             duration: index === resolution.length - 1 ? '2n' : '4n',
             velocity: 0.3,
           }],
