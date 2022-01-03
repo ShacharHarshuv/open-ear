@@ -1,4 +1,4 @@
-import { BaseTonalExercise } from '../utility/BaseTonalExercise';
+import { BaseTonalExercise, BaseTonalExerciseSettings } from '../utility/BaseTonalExercise';
 import { Exercise } from '../../Exercise';
 import {
   ChordSymbol,
@@ -22,7 +22,7 @@ const triadInversions: TriadInversionAnswer[] = [
   '2nd Inversion',
 ];
 
-export type TriadInversionExerciseSettings = BaseCommonSettingsExerciseSettings<TriadInversionAnswer> & {
+export type TriadInversionExerciseSettings = BaseTonalExerciseSettings<TriadInversionAnswer> & {
   arpeggiateSpeed: number;
   playRootAfterAnswer: boolean;
 }

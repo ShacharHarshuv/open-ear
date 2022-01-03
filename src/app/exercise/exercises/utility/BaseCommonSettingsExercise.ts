@@ -4,6 +4,8 @@ import AnswerList = Exercise.AnswerList;
 import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
 import ListSelectControlDescriptor = Exercise.ListSelectControlDescriptor;
 import * as _ from 'lodash';
+import normalizeAnswerLayoutCellConfig = Exercise.normalizeAnswerLayoutCellConfig;
+import AnswerLayoutCellConfig = Exercise.AnswerLayoutCellConfig;
 
 export type BaseCommonSettingsExerciseSettings<GAnswer extends string> = {
   includedAnswers: GAnswer[];
@@ -16,12 +18,22 @@ export abstract class BaseCommonSettingsExercise<GAnswer extends string = string
 
   getAnswerList(): AnswerList<GAnswer> {
     const includedAnswersList: GAnswer[] = this._settings.includedAnswers;
+
     if (Array.isArray(this._allAnswersList)) {
       return _.filter(this._allAnswersList, (answer => includedAnswersList.includes(answer)));
     }
 
+    const normalizedAnswerLayout: {
+      rows: Required<AnswerLayoutCellConfig<GAnswer>>[][],
+    } = {
+      rows: this._allAnswersList.rows.map((row): Required<AnswerLayoutCellConfig<GAnswer>>[] => row.map(normalizeAnswerLayoutCellConfig)),
+    }
+
     return {
-      rows: this._allAnswersList.rows.map((row: GAnswer[]) => _.filter(row, answer => includedAnswersList.includes(answer)))
+      rows: normalizedAnswerLayout.rows.map((row: Required<AnswerLayoutCellConfig<GAnswer>>[]): Required<AnswerLayoutCellConfig<GAnswer>>[] => _.map(row, answerLayoutCellConfig => answerLayoutCellConfig.answer && includedAnswersList.includes(answerLayoutCellConfig.answer) ? answerLayoutCellConfig : {
+        ...answerLayoutCellConfig,
+        answer: null, // In the future it's possible we'll want to configure a button to be disabled instead of hidden in this case
+      }))
     }
   }
 
@@ -31,7 +43,7 @@ export abstract class BaseCommonSettingsExercise<GAnswer extends string = string
     const includedAnswersDescriptor: ListSelectControlDescriptor<GAnswer> = {
       controlType: 'LIST_SELECT',
       label: 'Included Options',
-      allOptions: Exercise.flatAnswerList(this._allAnswersList).map(answer => ({
+      allOptions: this._getIncludedAnswersOptions().map(answer => ({
         value: answer,
         label: answer,
       })),
@@ -48,7 +60,15 @@ export abstract class BaseCommonSettingsExercise<GAnswer extends string = string
 
   protected _getDefaultSettings(): GSettings {
     return {
-      includedAnswers: Exercise.flatAnswerList(this._allAnswersList),
+      includedAnswers: this._getDefaultSelectedIncludedAnswers(),
     } as GSettings; // couldn't find a better way around it, it means that extending classes will have the responsibility to override this property
+  }
+
+  protected _getDefaultSelectedIncludedAnswers(): GAnswer[] {
+    return Exercise.flatAnswerList(this._allAnswersList);
+  }
+
+  protected _getIncludedAnswersOptions(): GAnswer[] {
+    return Exercise.flatAnswerList(this._allAnswersList);
   }
 }

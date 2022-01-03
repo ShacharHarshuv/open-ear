@@ -2,7 +2,8 @@ import { NoteEvent } from '../services/player.service';
 import { OneOrMany } from '../shared/ts-utility/toArray';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import * as _ from 'lodash';
-import {Type} from "@angular/core";
+import { Type } from '@angular/core';
+import { isValueTruthy } from '../shared/ts-utility';
 
 export namespace Exercise {
   export interface Question<GAnswer extends string = string> {
@@ -27,14 +28,43 @@ export namespace Exercise {
 
   export type Answer<GAnswer extends string = string> = GAnswer;
 
-  export interface AnswersLayout<GAnswer extends string = string> {
-    rows: Answer<GAnswer>[][];
+  export interface AnswerLayoutCellConfig<GAnswer extends string> {
+    space?: number; // 1 (Default) means all cells takes the same space
+    answer: Answer<GAnswer> | null;
   }
+
+  export interface AnswersLayout<GAnswer extends string = string> {
+    /**
+     * Null means an empty space
+     * */
+    rows: (Answer<GAnswer> | null | AnswerLayoutCellConfig<GAnswer>)[][];
+  }
+
+  export function normalizeAnswerLayoutCellConfig<GAnswer extends string = string>(cell: Answer<GAnswer> | null | AnswerLayoutCellConfig<GAnswer>): Required<AnswerLayoutCellConfig<GAnswer>> {
+    if (!cell || typeof cell !== 'object') {
+    return {
+      answer: cell,
+      space: 1,
+    };
+  }
+
+  return {
+    space: cell.space ?? 1,
+    answer: cell.answer,
+  };
+}
 
   export type AnswerList<GAnswer extends string = string> = Answer<GAnswer>[] | AnswersLayout<GAnswer>;
 
   export function flatAnswerList<GAnswer extends string>(answerList: AnswerList<GAnswer>): GAnswer[] {
-    return Array.isArray(answerList) ? answerList : _.flatMap(answerList.rows);
+    return Array.isArray(answerList) ? answerList : _.flatMap(answerList.rows.map(row => row.map(cellConfig => {
+        if (typeof cellConfig === 'object') {
+          return cellConfig?.answer;
+        } else {
+          return cellConfig
+        }
+      }).filter(isValueTruthy),
+    ));
   }
 
   export interface BaseSettingsControlDescriptor {
@@ -65,7 +95,7 @@ export namespace Exercise {
     }[];
   }
 
-  export interface CheckboxControlDescriptor extends BaseSettingsControlDescriptor{
+  export interface CheckboxControlDescriptor extends BaseSettingsControlDescriptor {
     controlType: 'CHECKBOX',
   }
 

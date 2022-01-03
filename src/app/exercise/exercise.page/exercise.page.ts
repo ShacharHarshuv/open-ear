@@ -1,9 +1,10 @@
-import {Component} from '@angular/core';
-import {ExerciseStateService} from '../services/exercise-state/exercise-state.service';
-import {ModalController} from '@ionic/angular';
-import {ExerciseSettingsPage} from './components/exercise-settings.page/exercise-settings.page';
+import { Component } from '@angular/core';
+import { ExerciseStateService } from '../services/exercise-state/exercise-state.service';
+import { ModalController } from '@ionic/angular';
+import { ExerciseSettingsPage } from './components/exercise-settings.page/exercise-settings.page';
 import * as _ from 'lodash';
-import {ExerciseExplanationService} from "../services/exercise-explanation.service";
+import { ExerciseExplanationService } from '../services/exercise-explanation.service';
+import { Exercise } from '../Exercise';
 
 @Component({
   selector: 'app-exercise-page',
@@ -75,4 +76,6 @@ export class ExercisePage {
     await this.exerciseExplanation.init();
     await this.state.init()
   }
+
+  readonly normalizeAnswerLayoutCellConfig = Exercise.normalizeAnswerLayoutCellConfig;
 }
