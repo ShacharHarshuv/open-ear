@@ -38,6 +38,7 @@ export interface ChordProgressionQuestion<GAnswer extends string> {
     answerToHighlight?: GAnswer,
   }[], [{
     firstChordInversion: 0 | 1 | 2,
+    questionSegments: Exercise.Question<GAnswer>['segments'],
   }]>;
 }
 
@@ -128,7 +129,8 @@ export abstract class BaseTonalChordProgressionExercise<GAnswer extends string, 
 
     if (chordProgression.afterCorrectAnswer) {
       question.afterCorrectAnswer = toGetter(chordProgression.afterCorrectAnswer)({
-        firstChordInversion,
+        firstChordInversion: firstChordInversion,
+        questionSegments: question.segments,
       });
     }
 
