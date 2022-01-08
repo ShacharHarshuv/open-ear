@@ -98,4 +98,8 @@ describe('adaptive exercise', function() {
       [5, true],
     ]);
   })
+
+  it('broken test', () => {
+    expect(false).toEqual(true); // todo
+  })
 });
