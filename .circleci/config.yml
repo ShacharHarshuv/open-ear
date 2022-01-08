@@ -16,7 +16,7 @@ jobs:
       - checkout
       - run:
           name: "Tests"
-          command: "yarn test"
+          command: "npm -v"
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
