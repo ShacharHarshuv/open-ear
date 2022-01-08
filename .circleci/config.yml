@@ -12,6 +12,8 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
+      - install-packages:
+          pkg-manager: yarn
       - run: |
           yarn run ci
 
