@@ -23,5 +23,4 @@ jobs:
 workflows:
   ci-workflow:
     jobs:
-      - tests:
-          pkg-manager: yarn
+      - tests
