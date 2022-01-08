@@ -11,6 +11,7 @@
     "open-android": "capacitor open android",
     "generate-resources": "cordova-res android --skip-config --copy",
     "test": "ng test",
+    "ci": "ng test --sourceMap=false --browsers=ChromeHeadless --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
