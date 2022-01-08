@@ -10,7 +10,6 @@ jobs:
   ci:
     docker:
       - image: cimg/base:stable
-
     steps:
       - checkout
       - run: |
@@ -22,4 +21,5 @@ workflows:
   sample: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
-      - ci
+      - ci:
+          pkg-manager: yarn
