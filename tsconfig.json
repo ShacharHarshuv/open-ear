@@ -14,6 +14,7 @@
     "module": "es2020",
     "lib": ["es2018", "dom"],
     "strictNullChecks": true,
+    "skipLibCheck": true,
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
