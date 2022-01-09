@@ -1,0 +1,20 @@
+version: 2.1
+
+# TODO: consider adding caching for dependencies (See examples here: https://dev.to/obinnaogbonnajoseph/circle-ci-test-configuration-for-angular-projects-1o2p)
+jobs:
+  ci:
+    docker:
+      - image: circleci/node:16-browsers
+    steps:
+      - checkout
+      - run:
+          name: Install local dependencies
+          command: yarn
+      - run:
+          name: Testing
+          command: yarn ci
+
+workflows:
+  main:
+    jobs:
+      - ci

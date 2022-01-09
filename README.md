@@ -25,10 +25,10 @@ To contribute follow the following steps.
 
 1. Fork the repository
 2. Open the repository root
-3. Download and install node at https://nodejs.org/en/download/
+3. Download and install node at https://nodejs.org/en/download/ (If not already installed)
 4. Open nodejs directory
 5. Install ionic globally by running `npm i ionic -g`
-6. Install yarn globally by running `npm install --global yarn`
+6. Install yarn globally by running `npm install --global yarn` (If not already installed)
 7. At the repository root directory Run `yarn`
 8. Run `yarn start`
 9. App should be served in the browser!

@@ -23,6 +23,7 @@ npm-debug.log*
 /.sourcemaps
 /.versions
 /.vscode
+/.angular/cache
 /coverage
 /dist
 /node_modules
