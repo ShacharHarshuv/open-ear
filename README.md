@@ -24,11 +24,14 @@ The easiest way to contribute to OpenEar is creating some new exercises on the e
 To contribute follow the following steps.
 
 1. Fork the repository
-2. open the repository root
-3. Install ionic globally by running `npm i ionic -g`
-4. Run `yarn` or `npm i` (you may need to install node if you don't have it installed already)
-5. Run `yarn start`
-6. App should be served in the browser!
+2. Open the repository root
+3. Download and install node at https://nodejs.org/en/download/ (If not already installed)
+4. Open nodejs directory
+5. Install ionic globally by running `npm i ionic -g`
+6. Install yarn globally by running `npm install --global yarn` (If not already installed)
+7. At the repository root directory Run `yarn`
+8. Run `yarn start`
+9. App should be served in the browser!
 
 To implement new exercises, you need to write a class that implements `Exercise.IExercise` interface. See examples in src/app/exercise/exercises.
 After implementing this class you will need to add it to `ExerciseService#_exerciseList`.
