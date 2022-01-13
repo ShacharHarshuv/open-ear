@@ -37,10 +37,6 @@ const CMajor: { solfege: SolfegeNote, note: NoteType }[] = [
     solfege: 'Mi',
   },
   {
-    note: 'E',
-    solfege: 'Mi',
-  },
-  {
     note: 'F',
     solfege: 'Fa',
   },
