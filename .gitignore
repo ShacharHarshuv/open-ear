@@ -33,3 +33,4 @@ npm-debug.log*
 /resources/android/icon
 /resources/android/splash
 /android
+/.vs
