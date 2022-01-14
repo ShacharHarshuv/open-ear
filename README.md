@@ -28,7 +28,7 @@ To contribute follow the following steps.
 * Download and install node at https://nodejs.org/en/download/ (If not already installed)
 * Install ionic globally by running `npm i @ionic/cli -g`
 * Install yarn globally by running `npm install --global yarn` (If not already installed)
-* At the repository root directory Run `yarn`
+* At the repository root directory run `yarn`
 * Run `yarn start`
 * App should be served in the browser!
 
