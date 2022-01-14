@@ -23,15 +23,14 @@ OpenEar app is built in Angular using the Ionic library. It uses [Tone.js](https
 The easiest way to contribute to OpenEar is creating some new exercises on the existing infra. 
 To contribute follow the following steps.
 
-1. Fork the repository
-2. Open the repository root
-3. Download and install node at https://nodejs.org/en/download/ (If not already installed)
-4. Open nodejs directory
-5. Install ionic globally by running `npm i ionic -g`
-6. Install yarn globally by running `npm install --global yarn` (If not already installed)
-7. At the repository root directory Run `yarn`
-8. Run `yarn start`
-9. App should be served in the browser!
+* Fork the repository
+* Open the repository root
+* Download and install node at https://nodejs.org/en/download/ (If not already installed)
+* Install ionic globally by running `npm i @ionic/cli -g`
+* Install yarn globally by running `npm install --global yarn` (If not already installed)
+* At the repository root directory Run `yarn`
+* Run `yarn start`
+* App should be served in the browser!
 
 To implement new exercises, you need to write a class that implements `Exercise.IExercise` interface. See examples in src/app/exercise/exercises.
 After implementing this class you will need to add it to `ExerciseService#_exerciseList`.
