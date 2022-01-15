@@ -12,6 +12,8 @@ import { ExerciseExplanationPage } from './exercise.page/components/exercise-hel
 import { ExerciseExplanationContentDirective } from './exercise.page/components/exercise-help/exercise-explanation/exercise-explanation-content.directive';
 import { ExerciseService } from './services/exercise/exercise.service';
 import { ModalModule } from '../shared/modal/modal.module';
+import { PureFunctionPipe } from '../shared/ng-utilities/pure-function-pipe/pure-function.pipe';
+import { ConsoleLogComponentModule } from '../shared/ng-utilities/console-log-component/console-log-component.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,7 @@ import { ModalModule } from '../shared/modal/modal.module';
     ListSelectComponent,
     ExerciseExplanationContentDirective,
     ...ExerciseService.ngComponents,
+    PureFunctionPipe,
   ],
   imports: [
     CommonModule,
@@ -30,6 +33,7 @@ import { ModalModule } from '../shared/modal/modal.module';
     SharedComponentsModule,
     ReactiveFormsModule,
     ModalModule,
+    ConsoleLogComponentModule,
   ],
 })
 export class ExerciseModule {

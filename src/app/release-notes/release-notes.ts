@@ -33,4 +33,8 @@ export const releaseNotes: ReleaseNotes = [
     version: '1.1.6',
     notes: 'Fix bug where right answers were not highlighted correctly'
   },
+  {
+    version: '1.2.1',
+    notes: 'Support the minor mode for note in key exercise. Note you have to manually select relevant notes and cadence type (for now)'
+  }
 ]

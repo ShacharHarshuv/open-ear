@@ -57,5 +57,11 @@ describe('Range', function () {
       const expectedNotesInRange: Note[] = ['Bb3', 'C4', 'D4', 'Eb4', 'F4', 'G4'];
       expect(range.getAllNotes('Bb').map(toNoteNumber)).toEqual(expectedNotesInRange.map(toNoteNumber));
     })
+
+    it('with custom scale', () => {
+      const range = new NotesRange('Bb3', 'G#4');
+      const expectedNotesInRange: Note[] = ['Bb3', 'C4', 'Db4', 'Eb4', 'F4', 'Gb4', 'Ab4'];
+      expect(range.getAllNotes(['Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'Ab']).map(toNoteNumber)).toEqual(expectedNotesInRange.map(toNoteNumber));
+    })
   });
 });

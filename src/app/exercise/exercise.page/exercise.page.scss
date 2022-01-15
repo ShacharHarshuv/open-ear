@@ -17,7 +17,7 @@
   &__answers-row {
     display: flex;
 
-    ion-button {
+    > * {
       min-width: 0;
       flex: 1;
     }

@@ -43,9 +43,9 @@
         class="exercise__answers-row"
       >
         <ng-container
-          *ngFor="let answer of row"
+          *ngFor="let answerCellConfig of row"
           [ngTemplateOutlet]="answerButton"
-          [ngTemplateOutletContext]="{$implicit: answer}"
+          [ngTemplateOutletContext]="{$implicit: normalizeAnswerLayoutCellConfig | pureFunction: answerCellConfig}"
         ></ng-container>
       </div>
     </div>
@@ -56,23 +56,29 @@
       <ng-container
         *ngFor="let answer of state.answerList"
         [ngTemplateOutlet]="answerButton"
-        [ngTemplateOutletContext]="{$implicit: answer}"
+        [ngTemplateOutletContext]="{$implicit: normalizeAnswerLayoutCellConfig | pureFunction: answer}"
       ></ng-container>
     </div>
     <ng-template
-      let-answer
+      let-answerLayoutCellConfig
       #answerButton
     >
       <ion-button
+        *ngIf="answerLayoutCellConfig.answer as answer"
         (click)="onAnswer(answer)"
         [class.--right]="answer === rightAnswer"
         [class.--highlighted]="answer === state.highlightedAnswer"
         [class.--wrong]="wrongAnswers.includes(answer)"
         [color]="'light'"
+        [style.flex]="answerLayoutCellConfig.space"
         class="exercise__answer-button"
       >
         {{answer}}
       </ion-button>
+      <div
+        *ngIf="!answerLayoutCellConfig.answer"
+        [style.flex]="answerLayoutCellConfig.space"
+      ></div>
     </ng-template>
     <div class="exercise__actions-container">
       <ion-button
