@@ -30,7 +30,7 @@ export interface ChordProgressionQuestion<GAnswer extends string> {
 }
 
 export abstract class BaseTonalChordProgressionExercise<GAnswer extends string, GSettings extends BaseTonalChordProgressionExerciseSettings<GAnswer>> extends BaseTonalExercise<GAnswer, GSettings> {
-  protected _settings: GSettings = {
+  protected override _settings: GSettings = {
     ...this._settings,
     voiceLeading: 'CORRECT',
     includedPositions: [0, 1, 2],
@@ -126,7 +126,7 @@ export abstract class BaseTonalChordProgressionExercise<GAnswer extends string, 
 
   protected abstract _getChordProgressionInC(): ChordProgressionQuestion<GAnswer>;
 
-  protected _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<GSettings>[] {
+  protected override _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<GSettings>[] {
     return [
       ...super._getSettingsDescriptor(),
       {

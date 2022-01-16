@@ -358,10 +358,7 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
     return question;
   }
 
-  /**
-   * @override
-   * */
-  protected _getDefaultSettings(): GSettings {
+  protected override _getDefaultSettings(): GSettings {
     return {
       ...super._getDefaultSettings(),
       playAfterCorrectAnswer: false,

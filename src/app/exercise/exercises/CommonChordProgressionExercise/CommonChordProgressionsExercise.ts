@@ -105,7 +105,7 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
     };
   }
 
-  protected _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<CommonChordProgressionExerciseSettings>[] {
+  protected override _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<CommonChordProgressionExerciseSettings>[] {
     return [
       {
         key: 'includedProgressions',
@@ -121,7 +121,7 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
     ];
   }
 
-  protected _getDefaultSettings(): CommonChordProgressionExerciseSettings {
+  protected override _getDefaultSettings(): CommonChordProgressionExerciseSettings {
     return {
       ...super._getDefaultSettings(),
       includedProgressions: CommonChordProgressionsExercise._defaultProgressions,

@@ -45,7 +45,7 @@ export abstract class BaseTonalExercise<GAnswer extends string = string, GSettin
     }
   }
 
-  protected _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<GSettings>[] {
+  protected override _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<GSettings>[] {
     return [
       {
         key: 'cadenceType',
@@ -68,7 +68,7 @@ export abstract class BaseTonalExercise<GAnswer extends string = string, GSettin
     ];
   }
 
-  protected _getDefaultSettings(): GSettings {
+  protected override _getDefaultSettings(): GSettings {
     return {
       ...super._getDefaultSettings(),
       cadenceType: 'I IV V I',

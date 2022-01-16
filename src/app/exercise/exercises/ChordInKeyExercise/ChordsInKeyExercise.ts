@@ -39,10 +39,7 @@ export class ChordsInKeyExercise extends BaseRomanAnalysisChordProgressionExerci
     };
   }
 
-  /**
-   * @override
-   * */
-  protected _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordInKeySettings>[] {
+  protected override _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordInKeySettings>[] {
     return [
       ...super._getSettingsDescriptor(),
       ...numberOfSegmentsControlDescriptorList('chords'),
@@ -52,10 +49,7 @@ export class ChordsInKeyExercise extends BaseRomanAnalysisChordProgressionExerci
     ];
   }
 
-  /**
-   * @override
-   * */
-  protected _getDefaultSettings(): ChordInKeySettings {
+  protected override _getDefaultSettings(): ChordInKeySettings {
     return {
       ...super._getDefaultSettings(),
       numberOfSegments: 1,
