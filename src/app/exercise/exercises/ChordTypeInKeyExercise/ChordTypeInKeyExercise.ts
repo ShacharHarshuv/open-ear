@@ -52,7 +52,7 @@ export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<Ch
     }
   }
 
-  getQuestion(): Exercise.Question<ChordType> {
+  override getQuestion(): Exercise.Question<ChordType> {
     return {
       ...super.getQuestion(),
       cadence: undefined,
@@ -66,14 +66,14 @@ export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<Ch
     ];
   }
 
-  protected _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordTypeInKeySettings>[] {
+  protected override _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordTypeInKeySettings>[] {
     return [
       ...super._getSettingsDescriptor(),
       ...numberOfSegmentsControlDescriptorList('chords'),
     ]
   }
 
-  protected _getDefaultSettings(): ChordTypeInKeySettings {
+  protected override _getDefaultSettings(): ChordTypeInKeySettings {
     return {
       ...super._getDefaultSettings(),
       numberOfSegments: 1,

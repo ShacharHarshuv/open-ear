@@ -15,6 +15,7 @@
     "lib": ["es2018", "dom"],
     "strictNullChecks": true,
     "skipLibCheck": true,
+    "noImplicitOverride": true,
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

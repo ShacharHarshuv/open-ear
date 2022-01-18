@@ -10,6 +10,7 @@ import { TriadInversionExercise } from '../../exercises/TriadInversionExercise/T
 import {
   CommonChordProgressionsExercise
 } from '../../exercises/CommonChordProgressionExercise/CommonChordProgressionsExercise';
+import { ChordArpeggioExercise } from '../../exercises/ChordArpeggioExercise/ChordArpeggioExercise';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,7 @@ export class ExerciseService {
     new CommonChordProgressionsExercise() as unknown as IExercise, // TODO(OE-27)
     new ChordTypeInKeyExercise() as unknown as IExercise, // TODO(OE-27)
     new TriadInversionExercise() as unknown as IExercise, // TODO(OE-27)
+    new ChordArpeggioExercise() as unknown as IExercise, // TODO(OE-27)
     new IntervalExercise() as unknown as IExercise, // TODO(OE-27)
   ];
   private readonly _exerciseIdToExercise = _.keyBy(ExerciseService._exerciseList, 'id');

@@ -72,7 +72,7 @@ export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnsw
     return question;
   }
 
-  getQuestion(): Exercise.Question<TriadInversionAnswer> {
+  override getQuestion(): Exercise.Question<TriadInversionAnswer> {
     return {
       ...super.getQuestion(),
       cadence: undefined,
@@ -85,10 +85,7 @@ export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnsw
     };
   }
 
-  /**
-   * @override
-   * */
-  protected _getSettingsDescriptor(): SettingsControlDescriptor<TriadInversionExerciseSettings>[] {
+  protected override _getSettingsDescriptor(): SettingsControlDescriptor<TriadInversionExerciseSettings>[] {
     return [
       ...super._getSettingsDescriptor(),
       {
@@ -111,10 +108,7 @@ export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnsw
     ];
   }
 
-  /**
-   * @override
-   * */
-  protected _getDefaultSettings(): TriadInversionExerciseSettings {
+  protected override _getDefaultSettings(): TriadInversionExerciseSettings {
     return {
       ...super._getDefaultSettings(),
       arpeggiateSpeed: 0,

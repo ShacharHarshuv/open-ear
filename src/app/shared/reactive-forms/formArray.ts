@@ -42,12 +42,12 @@ export class FormArray<GControlOrValue = any, GErrors extends ValidationErrors =
 
   private readonly _options: IAbstractControlOptions<TControlValue<GControlOrValue>[], GErrors> & IFormArrayOptions<GControlOrValue, GErrors> | undefined = ControlMethods.getOptions(this._validatorOrOpts);
 
-  controls: Array<TAbstractControlOf<GControlOrValue, FormArray<GControlOrValue, GErrors, GParent>>>;
-  readonly value: TControlValue<GControlOrValue>[];
-  readonly valueChanges: Observable<TControlValue<GControlOrValue>[]>;
-  readonly status: TControlStatus;
-  readonly statusChanges: Observable<TControlStatus>;
-  readonly errors: GErrors | null;
+  override controls: Array<TAbstractControlOf<GControlOrValue, FormArray<GControlOrValue, GErrors, GParent>>>;
+  override readonly value: TControlValue<GControlOrValue>[];
+  override readonly valueChanges: Observable<TControlValue<GControlOrValue>[]>;
+  override readonly status: TControlStatus;
+  override readonly statusChanges: Observable<TControlStatus>;
+  override readonly errors: GErrors | null;
 
   readonly isTouched$ = this._touchChanges$.asObservable()
     .pipe(startWith(this.touched), distinctUntilChanged());
@@ -69,23 +69,23 @@ export class FormArray<GControlOrValue = any, GErrors extends ValidationErrors =
   readonly isValidAndDirty$: Observable<boolean> = ControlMethods.getIsValidAndDirtyStream(this);
   readonly isInvalid$: Observable<boolean> = ControlMethods.getIsInvalidStream(this);
 
-  get asyncValidator(): AsyncValidatorFn<TControlValue<GControlOrValue>[], GErrors> | null {
+  override get asyncValidator(): AsyncValidatorFn<TControlValue<GControlOrValue>[], GErrors> | null {
     return super.asyncValidator as AsyncValidatorFn<TControlValue<GControlOrValue>[], GErrors> | null;
   }
 
-  set asyncValidator(asyncValidator: AsyncValidatorFn<TControlValue<GControlOrValue>[], GErrors> | null) {
+  override set asyncValidator(asyncValidator: AsyncValidatorFn<TControlValue<GControlOrValue>[], GErrors> | null) {
     super.asyncValidator = asyncValidator;
   }
 
-  get validator(): ValidatorFn<TControlValue<GControlOrValue>[], GErrors> | null {
+  override get validator(): ValidatorFn<TControlValue<GControlOrValue>[], GErrors> | null {
     return super.validator as ValidatorFn<TControlValue<GControlOrValue>[], GErrors> | null;
   }
 
-  set validator(validator: ValidatorFn<TControlValue<GControlOrValue>[], GErrors> | null) {
+  override set validator(validator: ValidatorFn<TControlValue<GControlOrValue>[], GErrors> | null) {
     super.validator = validator;
   }
 
-  get parent(): GParent | null {
+  override get parent(): GParent | null {
     return super.parent as GParent;
   }
 
@@ -141,15 +141,15 @@ export class FormArray<GControlOrValue = any, GErrors extends ValidationErrors =
     }
   }
 
-  getRawValue(): TControlValue<GControlOrValue>[] {
+  override getRawValue(): TControlValue<GControlOrValue>[] {
     return super.getRawValue();
   }
 
-  at(index: number): TAbstractControlOf<GControlOrValue> {
+  override at(index: number): TAbstractControlOf<GControlOrValue> {
     return super.at(index) as TAbstractControlOf<GControlOrValue>;
   }
 
-  setValue(
+  override setValue(
     value: TControlValue<GControlOrValue>[],
     options?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>,
   ): void {
@@ -166,14 +166,14 @@ export class FormArray<GControlOrValue = any, GErrors extends ValidationErrors =
    * @deprecated
    * Preffered to use setValue instead as patchValue delivers unexpected results
    * */
-  patchValue(
+  override patchValue(
     value: Partial<TControlValue<GControlOrValue>>[],
     options?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>,
   ): void {
     super.patchValue(value as GControlOrValue[], options);
   }
 
-  push(control: TAbstractControlOf<GControlOrValue>): void {
+  override push(control: TAbstractControlOf<GControlOrValue>): void {
     return super.push(control);
   }
 
@@ -186,11 +186,11 @@ export class FormArray<GControlOrValue = any, GErrors extends ValidationErrors =
     this.push(control);
   }
 
-  insert(index: number, control: TAbstractControlOf<GControlOrValue>): void {
+  override insert(index: number, control: TAbstractControlOf<GControlOrValue>): void {
     return super.insert(index, control);
   }
 
-  setControl(index: number, control: TAbstractControlOf<GControlOrValue>): void {
+  override setControl(index: number, control: TAbstractControlOf<GControlOrValue>): void {
     return super.setControl(index, control);
   }
 
@@ -201,27 +201,27 @@ export class FormArray<GControlOrValue = any, GErrors extends ValidationErrors =
     return ControlMethods.disableWhile(this, observable, this._options, options);
   }
 
-  markAsTouched(opts?: Pick<IControlUpdateOptions, 'onlySelf'>): void {
+  override markAsTouched(opts?: Pick<IControlUpdateOptions, 'onlySelf'>): void {
     super.markAsTouched(opts);
     this._touchChanges$.next(true);
   }
 
-  markAsUntouched(opts?: Pick<IControlUpdateOptions, 'onlySelf'>): void {
+  override markAsUntouched(opts?: Pick<IControlUpdateOptions, 'onlySelf'>): void {
     super.markAsUntouched(opts);
     this._touchChanges$.next(false);
   }
 
-  markAsPristine(opts?: Pick<IControlUpdateOptions, 'onlySelf'>): void {
+  override markAsPristine(opts?: Pick<IControlUpdateOptions, 'onlySelf'>): void {
     super.markAsPristine(opts);
     this._dirtyChanges$.next(false);
   }
 
-  markAsDirty(opts?: Pick<IControlUpdateOptions, 'onlySelf'>): void {
+  override markAsDirty(opts?: Pick<IControlUpdateOptions, 'onlySelf'>): void {
     super.markAsDirty(opts);
     this._dirtyChanges$.next(true);
   }
 
-  reset(value?: TControlValue<GControlOrValue>[], options?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>): void {
+  override reset(value?: TControlValue<GControlOrValue>[], options?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>): void {
     try {
       this._setControlsFromValue(value);
     } catch (e) {
@@ -231,27 +231,27 @@ export class FormArray<GControlOrValue = any, GErrors extends ValidationErrors =
     super.reset(value, options);
   }
 
-  setValidators(newValidator: ValidatorFn<TControlValue<GControlOrValue>[], GErrors> | ValidatorFn<TControlValue<GControlOrValue>[], GErrors>[]): void {
+  override setValidators(newValidator: ValidatorFn<TControlValue<GControlOrValue>[], GErrors> | ValidatorFn<TControlValue<GControlOrValue>[], GErrors>[]): void {
     super.setValidators(newValidator);
     super.updateValueAndValidity();
   }
 
-  setAsyncValidators(newValidator: AsyncValidatorFn<TControlValue<GControlOrValue>[], GErrors> | AsyncValidatorFn<TControlValue<GControlOrValue>[], GErrors>[] | null): void {
+  override setAsyncValidators(newValidator: AsyncValidatorFn<TControlValue<GControlOrValue>[], GErrors> | AsyncValidatorFn<TControlValue<GControlOrValue>[], GErrors>[] | null): void {
     super.setAsyncValidators(newValidator);
     super.updateValueAndValidity();
   }
 
-  hasError(errorCode: Extract<keyof GErrors, string>, path?: TControlPath): boolean {
+  override hasError(errorCode: Extract<keyof GErrors, string>, path?: TControlPath): boolean {
     return super.hasError(errorCode, path);
   }
 
-  async setErrors(errors: Partial<GErrors> | null, opts: Pick<IControlUpdateOptions, 'emitEvent'> = {}): Promise<void> {
+  override async setErrors(errors: Partial<GErrors> | null, opts: Pick<IControlUpdateOptions, 'emitEvent'> = {}): Promise<void> {
     await ControlMethods.setErrors(this, () => {
       return this._errorsSubject$;
     }, errors, opts);
   }
 
-  getError<K extends Extract<keyof GErrors, string>>(errorCode: K, path?: TControlPath): GErrors[K] | null {
+  override getError<K extends Extract<keyof GErrors, string>>(errorCode: K, path?: TControlPath): GErrors[K] | null {
     return super.getError(errorCode, path) as GErrors[K] | null;
   }
 
