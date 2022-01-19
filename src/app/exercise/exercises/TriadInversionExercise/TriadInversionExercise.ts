@@ -36,7 +36,8 @@ export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnsw
   getQuestionInC(): Exclude<Exercise.Question<TriadInversionAnswer>, 'cadence'> {
     const chordsInC: ChordSymbol[] = ['C', 'Dm', 'Em', 'F', 'G', 'Am'];
     const randomChordInC: ChordSymbol = randomFromList(chordsInC);
-    const randomTriadInversion: TriadInversion = randomFromList([0, 1, 2]);
+    const invertionOptions: TriadInversion[] = [0, 1, 2].filter(invertionOption => this._settings.includedAnswers.includes(triadInversions[invertionOption]));
+    const randomTriadInversion: TriadInversion = randomFromList(invertionOptions);
     const answer = triadInversions[randomTriadInversion];
     const voicing: Note[] = new Chord(randomChordInC).getVoicing({
       topVoicesInversion: randomTriadInversion,
