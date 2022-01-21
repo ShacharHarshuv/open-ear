@@ -1,0 +1,4 @@
+uk/co/whiteoctober/cordova/AppVersion.java
+ uk.co.whiteoctober.cordova.AppVersion
+capacitor/android/plugins/BuildConfig.java
+ capacitor.android.plugins.BuildConfig

@@ -1,0 +1,199 @@
+-- Merging decision tree log ---
+provider#androidx.core.content.FileProvider
+INJECTED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:27:9-35:20
+	android:grantUriPermissions
+		ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:31:13-47
+	android:authorities
+		INJECTED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:29:13-64
+	android:exported
+		ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:30:13-37
+	android:name
+		ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:28:13-62
+manifest
+ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:2:1-41:12
+INJECTED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:2:1-41:12
+INJECTED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:2:1-41:12
+INJECTED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:2:1-41:12
+MERGED from [:capacitor-app] C:\Users\shach\Documents\git repositories\open-ear\node_modules\@capacitor\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
+MERGED from [:capacitor-haptics] C:\Users\shach\Documents\git repositories\open-ear\node_modules\@capacitor\haptics\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-11:12
+MERGED from [:capacitor-keyboard] C:\Users\shach\Documents\git repositories\open-ear\node_modules\@capacitor\keyboard\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
+MERGED from [:capacitor-status-bar] C:\Users\shach\Documents\git repositories\open-ear\node_modules\@capacitor\status-bar\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
+MERGED from [:capacitor-android] C:\Users\shach\Documents\git repositories\open-ear\node_modules\@capacitor\android\capacitor\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
+MERGED from [androidx.appcompat:appcompat:1.2.0] C:\Users\shach\.gradle\caches\transforms-3\ce3f79a523d89320dd464c2b2de6183e\transformed\appcompat-1.2.0\AndroidManifest.xml:17:1-24:12
+MERGED from [:capacitor-cordova-android-plugins] C:\Users\shach\Documents\git repositories\open-ear\android\capacitor-cordova-android-plugins\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-13:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\shach\.gradle\caches\transforms-3\9b188530aaf8f03b1fd26ece6eff17c8\transformed\cursoradapter-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.appcompat:appcompat-resources:1.2.0] C:\Users\shach\.gradle\caches\transforms-3\804042e6d116ef92477c35ed4e474038\transformed\jetified-appcompat-resources-1.2.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\shach\.gradle\caches\transforms-3\6c888caef4c35a64b5bd1e8d15ed1f50\transformed\drawerlayout-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.fragment:fragment:1.3.0] C:\Users\shach\.gradle\caches\transforms-3\3326700239a903574cd434f116984ce4\transformed\fragment-1.3.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.activity:activity:1.2.0] C:\Users\shach\.gradle\caches\transforms-3\faf2aafd49866afc28262ac287a94245\transformed\jetified-activity-1.2.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] C:\Users\shach\.gradle\caches\transforms-3\6346c0995ca131c4694eafb0fe1c82d2\transformed\coordinatorlayout-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\shach\.gradle\caches\transforms-3\108589b9a8e66769f22ad6533a9c6764\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\shach\.gradle\caches\transforms-3\f30be6cddd1cb1a58d2bbe4f0ba981da\transformed\vectordrawable-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\shach\.gradle\caches\transforms-3\8f0cc5106679f17ca4183612a3419902\transformed\viewpager-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\shach\.gradle\caches\transforms-3\1a83f95ecd6f1d201d0c399e10fec966\transformed\customview-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\shach\.gradle\caches\transforms-3\aea880d9124fffda8376cc6a8c2e4394\transformed\loader-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.core:core:1.3.2] C:\Users\shach\.gradle\caches\transforms-3\2affdb6e6a1314389bbf6c67f425b6c6\transformed\core-1.3.2\AndroidManifest.xml:17:1-26:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\shach\.gradle\caches\transforms-3\523f2ca22f050be590849c916fb13f4d\transformed\versionedparcelable-1.1.0\AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.0] C:\Users\shach\.gradle\caches\transforms-3\bfa6fd874da3492020576e6d776583b6\transformed\jetified-lifecycle-viewmodel-savedstate-2.3.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.3.0] C:\Users\shach\.gradle\caches\transforms-3\2bbfe0dd88d56ea8ea9bf668768d0a18\transformed\lifecycle-viewmodel-2.3.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.savedstate:savedstate:1.1.0] C:\Users\shach\.gradle\caches\transforms-3\8d6e2a378b08012ce21682f02156e96d\transformed\jetified-savedstate-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.3.0] C:\Users\shach\.gradle\caches\transforms-3\b5bb22050c16e7e3ef7157c9e1c528cf\transformed\lifecycle-runtime-2.3.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.tracing:tracing:1.0.0] C:\Users\shach\.gradle\caches\transforms-3\9e5d546c98c0583457ab6b361e6e0169\transformed\jetified-tracing-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\shach\.gradle\caches\transforms-3\8a2f5d66e830899c86e713a0434c45a6\transformed\interpolator-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\shach\.gradle\caches\transforms-3\c187c062974376df2e9c835e0aa68328\transformed\lifecycle-livedata-2.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.3.0] C:\Users\shach\.gradle\caches\transforms-3\5d27b656c94f8e06bb1a9b76b3e4c59e\transformed\lifecycle-livedata-core-2.3.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.arch.core:core-runtime:2.1.0] C:\Users\shach\.gradle\caches\transforms-3\42027eb097c8d1147ffec86ae6f8e5f1\transformed\core-runtime-2.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [org.apache.cordova:framework:7.0.0] C:\Users\shach\.gradle\caches\transforms-3\325d6dcea8227db9293efe47df6f420d\transformed\jetified-framework-7.0.0\AndroidManifest.xml:20:1-27:12
+MERGED from [androidx.annotation:annotation-experimental:1.0.0] C:\Users\shach\.gradle\caches\transforms-3\f6909f64b3030f2847e81a88ec0891c9\transformed\jetified-annotation-experimental-1.0.0\AndroidManifest.xml:17:1-24:12
+INJECTED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:2:1-41:12
+INJECTED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:2:1-41:12
+INJECTED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:2:1-41:12
+	package
+		ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:3:5-30
+		INJECTED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:2:1-41:12
+		INJECTED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml
+	android:versionCode
+		INJECTED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:2:1-41:12
+		INJECTED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:2:11-69
+application
+ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:5:5-36:19
+MERGED from [:capacitor-cordova-android-plugins] C:\Users\shach\Documents\git repositories\open-ear\android\capacitor-cordova-android-plugins\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:5-11:19
+MERGED from [:capacitor-cordova-android-plugins] C:\Users\shach\Documents\git repositories\open-ear\android\capacitor-cordova-android-plugins\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:5-11:19
+MERGED from [androidx.core:core:1.3.2] C:\Users\shach\.gradle\caches\transforms-3\2affdb6e6a1314389bbf6c67f425b6c6\transformed\core-1.3.2\AndroidManifest.xml:24:5-89
+MERGED from [androidx.core:core:1.3.2] C:\Users\shach\.gradle\caches\transforms-3\2affdb6e6a1314389bbf6c67f425b6c6\transformed\core-1.3.2\AndroidManifest.xml:24:5-89
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\shach\.gradle\caches\transforms-3\523f2ca22f050be590849c916fb13f4d\transformed\versionedparcelable-1.1.0\AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\shach\.gradle\caches\transforms-3\523f2ca22f050be590849c916fb13f4d\transformed\versionedparcelable-1.1.0\AndroidManifest.xml:24:5-25:19
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.3.2] C:\Users\shach\.gradle\caches\transforms-3\2affdb6e6a1314389bbf6c67f425b6c6\transformed\core-1.3.2\AndroidManifest.xml:24:18-86
+	android:supportsRtl
+		ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:10:9-35
+	android:label
+		ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:8:9-41
+	android:roundIcon
+		ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:9:9-54
+	android:icon
+		ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:7:9-43
+	android:allowBackup
+		ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:6:9-35
+	android:theme
+		ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:11:9-40
+activity#com.openear.www.MainActivity
+ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:13:9-25:20
+	android:label
+		ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:16:13-56
+	android:launchMode
+		ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:18:13-44
+	android:configChanges
+		ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:14:13-129
+	android:theme
+		ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:17:13-62
+	android:name
+		ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:15:13-56
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:20:13-23:29
+action#android.intent.action.MAIN
+ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:21:17-69
+	android:name
+		ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:21:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:22:17-77
+	android:name
+		ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:22:27-74
+uses-permission#android.permission.INTERNET
+ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:40:5-67
+	android:name
+		ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:40:22-64
+uses-sdk
+INJECTED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml
+MERGED from [:capacitor-app] C:\Users\shach\Documents\git repositories\open-ear\node_modules\@capacitor\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:capacitor-app] C:\Users\shach\Documents\git repositories\open-ear\node_modules\@capacitor\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:capacitor-haptics] C:\Users\shach\Documents\git repositories\open-ear\node_modules\@capacitor\haptics\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:capacitor-haptics] C:\Users\shach\Documents\git repositories\open-ear\node_modules\@capacitor\haptics\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:capacitor-keyboard] C:\Users\shach\Documents\git repositories\open-ear\node_modules\@capacitor\keyboard\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:capacitor-keyboard] C:\Users\shach\Documents\git repositories\open-ear\node_modules\@capacitor\keyboard\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:capacitor-status-bar] C:\Users\shach\Documents\git repositories\open-ear\node_modules\@capacitor\status-bar\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:capacitor-status-bar] C:\Users\shach\Documents\git repositories\open-ear\node_modules\@capacitor\status-bar\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:capacitor-android] C:\Users\shach\Documents\git repositories\open-ear\node_modules\@capacitor\android\capacitor\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:capacitor-android] C:\Users\shach\Documents\git repositories\open-ear\node_modules\@capacitor\android\capacitor\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.appcompat:appcompat:1.2.0] C:\Users\shach\.gradle\caches\transforms-3\ce3f79a523d89320dd464c2b2de6183e\transformed\appcompat-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat:1.2.0] C:\Users\shach\.gradle\caches\transforms-3\ce3f79a523d89320dd464c2b2de6183e\transformed\appcompat-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [:capacitor-cordova-android-plugins] C:\Users\shach\Documents\git repositories\open-ear\android\capacitor-cordova-android-plugins\build\intermediates\merged_manifest\debug\AndroidManifest.xml:6:5-8:41
+MERGED from [:capacitor-cordova-android-plugins] C:\Users\shach\Documents\git repositories\open-ear\android\capacitor-cordova-android-plugins\build\intermediates\merged_manifest\debug\AndroidManifest.xml:6:5-8:41
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\shach\.gradle\caches\transforms-3\9b188530aaf8f03b1fd26ece6eff17c8\transformed\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\shach\.gradle\caches\transforms-3\9b188530aaf8f03b1fd26ece6eff17c8\transformed\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat-resources:1.2.0] C:\Users\shach\.gradle\caches\transforms-3\804042e6d116ef92477c35ed4e474038\transformed\jetified-appcompat-resources-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat-resources:1.2.0] C:\Users\shach\.gradle\caches\transforms-3\804042e6d116ef92477c35ed4e474038\transformed\jetified-appcompat-resources-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\shach\.gradle\caches\transforms-3\6c888caef4c35a64b5bd1e8d15ed1f50\transformed\drawerlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\shach\.gradle\caches\transforms-3\6c888caef4c35a64b5bd1e8d15ed1f50\transformed\drawerlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment:1.3.0] C:\Users\shach\.gradle\caches\transforms-3\3326700239a903574cd434f116984ce4\transformed\fragment-1.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.3.0] C:\Users\shach\.gradle\caches\transforms-3\3326700239a903574cd434f116984ce4\transformed\fragment-1.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity:1.2.0] C:\Users\shach\.gradle\caches\transforms-3\faf2aafd49866afc28262ac287a94245\transformed\jetified-activity-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity:1.2.0] C:\Users\shach\.gradle\caches\transforms-3\faf2aafd49866afc28262ac287a94245\transformed\jetified-activity-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] C:\Users\shach\.gradle\caches\transforms-3\6346c0995ca131c4694eafb0fe1c82d2\transformed\coordinatorlayout-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] C:\Users\shach\.gradle\caches\transforms-3\6346c0995ca131c4694eafb0fe1c82d2\transformed\coordinatorlayout-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\shach\.gradle\caches\transforms-3\108589b9a8e66769f22ad6533a9c6764\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\shach\.gradle\caches\transforms-3\108589b9a8e66769f22ad6533a9c6764\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\shach\.gradle\caches\transforms-3\f30be6cddd1cb1a58d2bbe4f0ba981da\transformed\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\shach\.gradle\caches\transforms-3\f30be6cddd1cb1a58d2bbe4f0ba981da\transformed\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\shach\.gradle\caches\transforms-3\8f0cc5106679f17ca4183612a3419902\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\shach\.gradle\caches\transforms-3\8f0cc5106679f17ca4183612a3419902\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\shach\.gradle\caches\transforms-3\1a83f95ecd6f1d201d0c399e10fec966\transformed\customview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\shach\.gradle\caches\transforms-3\1a83f95ecd6f1d201d0c399e10fec966\transformed\customview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\shach\.gradle\caches\transforms-3\aea880d9124fffda8376cc6a8c2e4394\transformed\loader-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\shach\.gradle\caches\transforms-3\aea880d9124fffda8376cc6a8c2e4394\transformed\loader-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.3.2] C:\Users\shach\.gradle\caches\transforms-3\2affdb6e6a1314389bbf6c67f425b6c6\transformed\core-1.3.2\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.3.2] C:\Users\shach\.gradle\caches\transforms-3\2affdb6e6a1314389bbf6c67f425b6c6\transformed\core-1.3.2\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\shach\.gradle\caches\transforms-3\523f2ca22f050be590849c916fb13f4d\transformed\versionedparcelable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\shach\.gradle\caches\transforms-3\523f2ca22f050be590849c916fb13f4d\transformed\versionedparcelable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.0] C:\Users\shach\.gradle\caches\transforms-3\bfa6fd874da3492020576e6d776583b6\transformed\jetified-lifecycle-viewmodel-savedstate-2.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.0] C:\Users\shach\.gradle\caches\transforms-3\bfa6fd874da3492020576e6d776583b6\transformed\jetified-lifecycle-viewmodel-savedstate-2.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.3.0] C:\Users\shach\.gradle\caches\transforms-3\2bbfe0dd88d56ea8ea9bf668768d0a18\transformed\lifecycle-viewmodel-2.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.3.0] C:\Users\shach\.gradle\caches\transforms-3\2bbfe0dd88d56ea8ea9bf668768d0a18\transformed\lifecycle-viewmodel-2.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.savedstate:savedstate:1.1.0] C:\Users\shach\.gradle\caches\transforms-3\8d6e2a378b08012ce21682f02156e96d\transformed\jetified-savedstate-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.savedstate:savedstate:1.1.0] C:\Users\shach\.gradle\caches\transforms-3\8d6e2a378b08012ce21682f02156e96d\transformed\jetified-savedstate-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.3.0] C:\Users\shach\.gradle\caches\transforms-3\b5bb22050c16e7e3ef7157c9e1c528cf\transformed\lifecycle-runtime-2.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.3.0] C:\Users\shach\.gradle\caches\transforms-3\b5bb22050c16e7e3ef7157c9e1c528cf\transformed\lifecycle-runtime-2.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.tracing:tracing:1.0.0] C:\Users\shach\.gradle\caches\transforms-3\9e5d546c98c0583457ab6b361e6e0169\transformed\jetified-tracing-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.tracing:tracing:1.0.0] C:\Users\shach\.gradle\caches\transforms-3\9e5d546c98c0583457ab6b361e6e0169\transformed\jetified-tracing-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\shach\.gradle\caches\transforms-3\8a2f5d66e830899c86e713a0434c45a6\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\shach\.gradle\caches\transforms-3\8a2f5d66e830899c86e713a0434c45a6\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\shach\.gradle\caches\transforms-3\c187c062974376df2e9c835e0aa68328\transformed\lifecycle-livedata-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\shach\.gradle\caches\transforms-3\c187c062974376df2e9c835e0aa68328\transformed\lifecycle-livedata-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.3.0] C:\Users\shach\.gradle\caches\transforms-3\5d27b656c94f8e06bb1a9b76b3e4c59e\transformed\lifecycle-livedata-core-2.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.3.0] C:\Users\shach\.gradle\caches\transforms-3\5d27b656c94f8e06bb1a9b76b3e4c59e\transformed\lifecycle-livedata-core-2.3.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.arch.core:core-runtime:2.1.0] C:\Users\shach\.gradle\caches\transforms-3\42027eb097c8d1147ffec86ae6f8e5f1\transformed\core-runtime-2.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.arch.core:core-runtime:2.1.0] C:\Users\shach\.gradle\caches\transforms-3\42027eb097c8d1147ffec86ae6f8e5f1\transformed\core-runtime-2.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [org.apache.cordova:framework:7.0.0] C:\Users\shach\.gradle\caches\transforms-3\325d6dcea8227db9293efe47df6f420d\transformed\jetified-framework-7.0.0\AndroidManifest.xml:25:5-44
+MERGED from [org.apache.cordova:framework:7.0.0] C:\Users\shach\.gradle\caches\transforms-3\325d6dcea8227db9293efe47df6f420d\transformed\jetified-framework-7.0.0\AndroidManifest.xml:25:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.0.0] C:\Users\shach\.gradle\caches\transforms-3\f6909f64b3030f2847e81a88ec0891c9\transformed\jetified-annotation-experimental-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.annotation:annotation-experimental:1.0.0] C:\Users\shach\.gradle\caches\transforms-3\f6909f64b3030f2847e81a88ec0891c9\transformed\jetified-annotation-experimental-1.0.0\AndroidManifest.xml:20:5-22:41
+INJECTED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:32:13-34:64
+	android:resource
+		ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:34:17-51
+	android:name
+		ADDED from C:\Users\shach\Documents\git repositories\open-ear\android\app\src\main\AndroidManifest.xml:33:17-67
+uses-permission#android.permission.VIBRATE
+ADDED from [:capacitor-haptics] C:\Users\shach\Documents\git repositories\open-ear\node_modules\@capacitor\haptics\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-66
+	android:name
+		ADDED from [:capacitor-haptics] C:\Users\shach\Documents\git repositories\open-ear\node_modules\@capacitor\haptics\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:22-63

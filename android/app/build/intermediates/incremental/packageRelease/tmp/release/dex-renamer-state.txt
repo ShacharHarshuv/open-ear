@@ -1,0 +1,4 @@
+#Tue Jan 04 11:48:38 IST 2022
+base.0=C\:\\Users\\shach\\Documents\\git repositories\\open-ear\\android\\app\\build\\intermediates\\dex\\release\\mergeDexRelease\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
