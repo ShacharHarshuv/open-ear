@@ -1,4 +1,0 @@
-com/openear/www/BuildConfig.java
- com.openear.www.BuildConfig
-com/openear/www/MainActivity.java
- com.openear.www.MainActivity
