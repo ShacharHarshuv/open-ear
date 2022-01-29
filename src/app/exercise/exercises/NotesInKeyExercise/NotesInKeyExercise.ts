@@ -27,8 +27,8 @@ type NoteInKeySettings =
 
 export class NotesInKeyExercise extends BaseMelodicDictationExercise<NoteInKeySettings> {
   readonly id: string = 'noteInKey';
-  readonly name: string = `Notes in Key`;
-  readonly summary: string = `Identify notes based on their tonal context in a major scale`;
+  readonly name: string = `Scale Degrees`;
+  readonly summary: string = `Identify monophonic notes based on their tonal context in a particular key`;
   readonly explanation = NotesInKeyExplanationComponent;
   readonly rangeForKeyOfC = new NotesRange('G2', 'E4');
   readonly questionOptionsInC: Note[] = this._getQuestionOptionsInC();

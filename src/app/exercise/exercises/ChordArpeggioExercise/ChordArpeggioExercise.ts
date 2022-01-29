@@ -12,7 +12,7 @@ export type ChordArpeggioExerciseSettings = BaseMelodicDictationExerciseSettings
 export class ChordArpeggioExercise extends BaseMelodicDictationExercise<ChordArpeggioExerciseSettings> {
   readonly id: string = 'chordArpeggio';
   readonly name: string = 'Chord Arpeggio';
-  readonly summary: string = 'Identify melodic lines that arpeggiate chord tone'
+  readonly summary: string = 'Identify melodic lines that arpeggiate chord tones'
   readonly explanation: Exercise.ExerciseExplanationContent = 'In this exercise a chord will be played but its notes will be broken melodically, either ascending or descending. Your job is to understand what is the chord and work out the notes in it.';
   readonly includedChords: ChordSymbol[] = ['C', 'G']; // todo: make it part of the setting
   override readonly noteDuration = '4n';
