@@ -36,5 +36,9 @@ export const releaseNotes: ReleaseNotes = [
   {
     version: '1.2.1',
     notes: 'Support the minor mode for note in key exercise. Note you have to manually select relevant notes and cadence type (for now)'
+  },
+  {
+    version: '1.2.2',
+    notes: 'New "Notes with Chords" exercise. Practice it to memorize the sound of the same scale degrees above different chords.'
   }
 ]

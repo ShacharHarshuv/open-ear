@@ -12,7 +12,7 @@ export type BaseCommonSettingsExerciseSettings<GAnswer extends string> = {
 }
 
 export abstract class BaseCommonSettingsExercise<GAnswer extends string = string, GSettings extends BaseCommonSettingsExerciseSettings<GAnswer> = BaseCommonSettingsExerciseSettings<GAnswer>> extends BaseExercise<GAnswer, GSettings> {
-  private _allAnswersList: AnswerList<GAnswer> = this._getAllAnswersList();
+  protected _allAnswersList: AnswerList<GAnswer> = this._getAllAnswersList();
   readonly settingsDescriptor = this._getSettingsDescriptor();
   protected _settings: GSettings = this._getDefaultSettings();
 

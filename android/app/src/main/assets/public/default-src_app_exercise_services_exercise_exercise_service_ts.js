@@ -69,7 +69,7 @@ class ChordArpeggioExercise extends _utility_BaseMelodicDictationExercise__WEBPA
         super();
         this.id = 'chordArpeggio';
         this.name = 'Chord Arpeggio';
-        this.summary = 'Identify melodic lines that arpeggiate chord tone';
+        this.summary = 'Identify melodic lines that arpeggiate chord tones';
         this.explanation = 'In this exercise a chord will be played but its notes will be broken melodically, either ascending or descending. Your job is to understand what is the chord and work out the notes in it.';
         this.includedChords = ['C', 'G']; // todo: make it part of the setting
         this.noteDuration = '4n';
@@ -127,7 +127,7 @@ class ChordsInKeyExercise extends _utility_BaseRomanAnalysisChordProgressionExer
     constructor() {
         super(...arguments);
         this.id = 'chordInKey';
-        this.name = 'Chord in Key';
+        this.name = 'Chord Progressions';
         this.summary = 'Identify chords based on their tonal context in a key';
         this.explanation = _chord_in_key_explanation_chord_in_key_explanation_component__WEBPACK_IMPORTED_MODULE_3__.ChordInKeyExplanationComponent;
     }
@@ -243,7 +243,7 @@ class ChordTypeInKeyExercise extends _utility_BaseTonalChordProgressionExercise_
     constructor() {
         super(...arguments);
         this.id = 'chordTypeInKey';
-        this.name = 'Chord type in key';
+        this.name = 'Chord Types';
         this.summary = 'Identify chord type (major / minor) when all chords are diatonic to the same key';
         this.explanation = _chord_type_in_key_explanation_chord_type_in_key_explanation_component__WEBPACK_IMPORTED_MODULE_5__.ChordTypeInKeyExplanationComponent;
     }
@@ -505,7 +505,7 @@ class IntervalExercise extends _utility_BaseCommonSettingsExercise__WEBPACK_IMPO
         super(...arguments);
         this.id = 'interval';
         this.name = 'Intervals';
-        this.summary = 'Identify intervals without context';
+        this.summary = 'Identify intervals chromatically (no key)';
         this.explanation = _interval_exercise_explanation_interval_exercise_explanation_component__WEBPACK_IMPORTED_MODULE_3__.IntervalExerciseExplanationComponent;
         this.range = new _utility__WEBPACK_IMPORTED_MODULE_1__.NotesRange('C3', 'E5');
     }
@@ -648,8 +648,8 @@ class NotesInKeyExercise extends _utility_BaseMelodicDictationExercise__WEBPACK_
     constructor() {
         super(...arguments);
         this.id = 'noteInKey';
-        this.name = `Notes in Key`;
-        this.summary = `Identify notes based on their tonal context in a major scale`;
+        this.name = `Scale Degrees`;
+        this.summary = `Identify monophonic notes based on their tonal context in a particular key`;
         this.explanation = _notes_in_key_explanation_notes_in_key_explanation_component__WEBPACK_IMPORTED_MODULE_5__.NotesInKeyExplanationComponent;
         this.rangeForKeyOfC = new _utility__WEBPACK_IMPORTED_MODULE_0__.NotesRange('G2', 'E4');
         this.questionOptionsInC = this._getQuestionOptionsInC();
@@ -761,6 +761,252 @@ NotesInKeyExplanationComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__decorat
 
 /***/ }),
 
+/***/ 52623:
+/*!*******************************************************************************!*\
+  !*** ./src/app/exercise/exercises/NotesWithChords/NotesWithChordsExercise.ts ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "NotesWithChordsExercise": () => (/* binding */ NotesWithChordsExercise)
+/* harmony export */ });
+/* harmony import */ var _utility_BaseMelodicDictationExercise__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utility/BaseMelodicDictationExercise */ 81482);
+/* harmony import */ var _utility_BaseTonalExercise__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utility/BaseTonalExercise */ 46167);
+/* harmony import */ var _shared_ts_utility__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../shared/ts-utility */ 40352);
+/* harmony import */ var _utility_BaseRomanAnalysisChordProgressionExercise__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utility/BaseRomanAnalysisChordProgressionExercise */ 14079);
+/* harmony import */ var _utility_music_notes_noteTypeToNote__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utility/music/notes/noteTypeToNote */ 57875);
+/* harmony import */ var _utility__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utility */ 98979);
+/* harmony import */ var _utility_music_transpose__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utility/music/transpose */ 20585);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! lodash */ 92938);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _notes_with_chords_explanation_notes_with_chords_explanation_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./notes-with-chords-explanation/notes-with-chords-explanation.component */ 22768);
+
+
+
+
+
+
+
+
+
+const noteWithChordDescriptorMap = {
+    Do1: {
+        chord: 'I',
+        solfegeNote: 'Do',
+    },
+    Do3: {
+        chord: 'vi',
+        solfegeNote: 'Do',
+    },
+    Do5: {
+        chord: 'IV',
+        solfegeNote: 'Do',
+    },
+    Re1: {
+        chord: 'ii',
+        solfegeNote: 'Re',
+    },
+    Re3: {
+        chord: 'viiᵒ',
+        solfegeNote: 'Re',
+    },
+    Re5: {
+        chord: 'V',
+        solfegeNote: 'Re',
+    },
+    Mi1: {
+        chord: 'iii',
+        solfegeNote: 'Mi',
+    },
+    Mi3: {
+        chord: 'I',
+        solfegeNote: 'Mi',
+    },
+    Mi5: {
+        chord: 'vi',
+        solfegeNote: 'Mi',
+    },
+    Fa1: {
+        chord: 'vi',
+        solfegeNote: 'Mi',
+    },
+    Fa3: {
+        chord: 'ii',
+        solfegeNote: 'Fa',
+    },
+    Fa5: {
+        chord: 'viiᵒ',
+        solfegeNote: 'Fa',
+    },
+    Sol1: {
+        chord: 'V',
+        solfegeNote: 'Sol',
+    },
+    Sol3: {
+        chord: 'iii',
+        solfegeNote: 'Sol',
+    },
+    Sol5: {
+        chord: 'I',
+        solfegeNote: 'Sol',
+    },
+    La1: {
+        chord: 'vi',
+        solfegeNote: 'La',
+    },
+    La3: {
+        chord: 'IV',
+        solfegeNote: 'La',
+    },
+    La5: {
+        chord: 'ii',
+        solfegeNote: 'La',
+    },
+    Ti1: {
+        chord: 'viiᵒ',
+        solfegeNote: 'Ti',
+    },
+    Ti3: {
+        chord: 'V',
+        solfegeNote: 'Ti',
+    },
+    Ti5: {
+        chord: 'iii',
+        solfegeNote: 'Ti',
+    },
+};
+class NotesWithChordsExercise extends _utility_BaseTonalExercise__WEBPACK_IMPORTED_MODULE_1__.BaseTonalExercise {
+    constructor() {
+        super(...arguments);
+        this.id = 'notesWithChords';
+        this.name = 'Notes with Chords';
+        this.summary = 'Identify scale degrees in the context of different diatonic chords';
+        this.explanation = _notes_with_chords_explanation_notes_with_chords_explanation_component__WEBPACK_IMPORTED_MODULE_8__.NotesWithChordsExplanationComponent;
+    }
+    _getAllAnswersList() {
+        const solfegeSyllables = ['Do', 'Re', 'Mi', 'Fa', 'Sol', 'La', 'Ti'];
+        const chordDegrees = [1, 3, 5];
+        return {
+            rows: chordDegrees.map(chordDegree => solfegeSyllables.map((solfegeNote) => `${solfegeNote}${chordDegree}`)),
+        };
+    }
+    getQuestionInC() {
+        const randomAnswer = (0,_shared_ts_utility__WEBPACK_IMPORTED_MODULE_2__.randomFromList)(this._settings.includedAnswers);
+        const descriptor = noteWithChordDescriptorMap[randomAnswer];
+        if (!descriptor) {
+            throw new Error(`Missing descriptor for ${randomAnswer}`);
+        }
+        const chord = _utility_BaseRomanAnalysisChordProgressionExercise__WEBPACK_IMPORTED_MODULE_3__.romanNumeralToChordInC[descriptor.chord];
+        const noteType = _utility_BaseMelodicDictationExercise__WEBPACK_IMPORTED_MODULE_0__.solfegeToNoteInC[descriptor.solfegeNote];
+        const chordVoicing = chord.getVoicing({
+            topVoicesInversion: (0,_shared_ts_utility__WEBPACK_IMPORTED_MODULE_2__.randomFromList)([0, 1, 2]),
+            octave: 3,
+        });
+        let note = (0,_utility_music_notes_noteTypeToNote__WEBPACK_IMPORTED_MODULE_4__.noteTypeToNote)(noteType, 4);
+        while ((0,_utility__WEBPACK_IMPORTED_MODULE_5__.toNoteNumber)(note) <= (0,_utility__WEBPACK_IMPORTED_MODULE_5__.toNoteNumber)(lodash__WEBPACK_IMPORTED_MODULE_7__.last(chordVoicing))) {
+            note = (0,_utility_music_transpose__WEBPACK_IMPORTED_MODULE_6__.transpose)(note, _utility__WEBPACK_IMPORTED_MODULE_5__.Interval.Octave);
+        }
+        return {
+            segments: [
+                {
+                    rightAnswer: randomAnswer,
+                    partToPlay: [
+                        {
+                            notes: chordVoicing,
+                            velocity: 0.2,
+                            time: 0,
+                            duration: '2n',
+                        },
+                        {
+                            notes: [note],
+                            velocity: 1,
+                            time: 0,
+                            duration: '2n',
+                        }
+                    ]
+                }
+            ]
+        };
+    }
+    _getDefaultSelectedIncludedAnswers() {
+        return [
+            'Do1',
+            'Do3',
+            'Do5',
+        ];
+    }
+    /* Overriding to ensure order is right */
+    _getIncludedAnswersOptions() {
+        return [
+            'Do1',
+            'Do3',
+            'Do5',
+            'Re1',
+            'Re3',
+            'Re5',
+            'Me1',
+            'Me3',
+            'Me5',
+            'Mi1',
+            'Mi3',
+            'Mi5',
+            'Fa1',
+            'Fa3',
+            'Fa5',
+            'Sol1',
+            'Sol3',
+            'Sol5',
+            'Le1',
+            'Le3',
+            'Le5',
+            'La1',
+            'La3',
+            'La5',
+            'Te1',
+            'Te3',
+            'Te5',
+            'Ti1',
+            'Ti3',
+            'Ti5',
+        ];
+    }
+}
+
+
+/***/ }),
+
+/***/ 22768:
+/*!*****************************************************************************************************************************!*\
+  !*** ./src/app/exercise/exercises/NotesWithChords/notes-with-chords-explanation/notes-with-chords-explanation.component.ts ***!
+  \*****************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "NotesWithChordsExplanationComponent": () => (/* binding */ NotesWithChordsExplanationComponent)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var _notes_with_chords_explanation_component_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./notes-with-chords-explanation.component.html?ngResource */ 77796);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 3184);
+
+
+
+let NotesWithChordsExplanationComponent = class NotesWithChordsExplanationComponent {
+    constructor() { }
+};
+NotesWithChordsExplanationComponent.ctorParameters = () => [];
+NotesWithChordsExplanationComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_2__.Component)({
+        selector: 'app-notes-with-chords-explanation',
+        template: _notes_with_chords_explanation_component_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
+    })
+], NotesWithChordsExplanationComponent);
+
+
+
+/***/ }),
+
 /***/ 27755:
 /*!*************************************************************************************!*\
   !*** ./src/app/exercise/exercises/TriadInversionExercise/TriadInversionExercise.ts ***!
@@ -799,7 +1045,8 @@ class TriadInversionExercise extends _utility_BaseTonalExercise__WEBPACK_IMPORTE
     getQuestionInC() {
         const chordsInC = ['C', 'Dm', 'Em', 'F', 'G', 'Am'];
         const randomChordInC = (0,_shared_ts_utility__WEBPACK_IMPORTED_MODULE_2__.randomFromList)(chordsInC);
-        const randomTriadInversion = (0,_shared_ts_utility__WEBPACK_IMPORTED_MODULE_2__.randomFromList)([0, 1, 2]);
+        const invertionOptions = [0, 1, 2].filter(invertionOption => this._settings.includedAnswers.includes(triadInversions[invertionOption]));
+        const randomTriadInversion = (0,_shared_ts_utility__WEBPACK_IMPORTED_MODULE_2__.randomFromList)(invertionOptions);
         const answer = triadInversions[randomTriadInversion];
         const voicing = new _utility_music_chords__WEBPACK_IMPORTED_MODULE_1__.Chord(randomChordInC).getVoicing({
             topVoicesInversion: randomTriadInversion,
@@ -1023,6 +1270,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "solfegeNotesInC": () => (/* binding */ solfegeNotesInC),
 /* harmony export */   "noteInCToSolfege": () => (/* binding */ noteInCToSolfege),
+/* harmony export */   "solfegeToNoteInC": () => (/* binding */ solfegeToNoteInC),
 /* harmony export */   "BaseMelodicDictationExercise": () => (/* binding */ BaseMelodicDictationExercise)
 /* harmony export */ });
 /* harmony import */ var _BaseTonalExercise__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseTonalExercise */ 46167);
@@ -1075,6 +1323,7 @@ const solfegeNotesInC = [
     },
 ];
 const noteInCToSolfege = lodash__WEBPACK_IMPORTED_MODULE_1__.mapValues(lodash__WEBPACK_IMPORTED_MODULE_1__.keyBy(solfegeNotesInC, 'note'), 'solfege');
+const solfegeToNoteInC = lodash__WEBPACK_IMPORTED_MODULE_1__.mapValues(lodash__WEBPACK_IMPORTED_MODULE_1__.keyBy(solfegeNotesInC, 'solfege'), 'note');
 class BaseMelodicDictationExercise extends _BaseTonalExercise__WEBPACK_IMPORTED_MODULE_0__.BaseTonalExercise {
     constructor() {
         super(...arguments);
@@ -1157,6 +1406,7 @@ class BaseMelodicDictationExercise extends _BaseTonalExercise__WEBPACK_IMPORTED_
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "romanNumeralToChordInC": () => (/* binding */ romanNumeralToChordInC),
 /* harmony export */   "BaseRomanAnalysisChordProgressionExercise": () => (/* binding */ BaseRomanAnalysisChordProgressionExercise)
 /* harmony export */ });
 /* harmony import */ var _BaseTonalChordProgressionExercise__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseTonalChordProgressionExercise */ 72891);
@@ -1789,8 +2039,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ExerciseService": () => (/* binding */ ExerciseService)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! tslib */ 34929);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ 92938);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _exercises_IntervalExercise_IntervalExercise__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../exercises/IntervalExercise/IntervalExercise */ 52897);
@@ -1800,7 +2050,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _exercises_TriadInversionExercise_TriadInversionExercise__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../exercises/TriadInversionExercise/TriadInversionExercise */ 27755);
 /* harmony import */ var _exercises_CommonChordProgressionExercise_CommonChordProgressionsExercise__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../exercises/CommonChordProgressionExercise/CommonChordProgressionsExercise */ 1264);
 /* harmony import */ var _exercises_ChordArpeggioExercise_ChordArpeggioExercise__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../exercises/ChordArpeggioExercise/ChordArpeggioExercise */ 28576);
+/* harmony import */ var _exercises_NotesWithChords_NotesWithChordsExercise__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../exercises/NotesWithChords/NotesWithChordsExercise */ 52623);
 var ExerciseService_1;
+
 
 
 
@@ -1827,6 +2079,7 @@ ExerciseService._exerciseList = [
     new _exercises_ChordInKeyExercise_ChordsInKeyExercise__WEBPACK_IMPORTED_MODULE_2__.ChordsInKeyExercise(),
     new _exercises_CommonChordProgressionExercise_CommonChordProgressionsExercise__WEBPACK_IMPORTED_MODULE_6__.CommonChordProgressionsExercise(),
     new _exercises_ChordTypeInKeyExercise_ChordTypeInKeyExercise__WEBPACK_IMPORTED_MODULE_4__.ChordTypeInKeyExercise(),
+    new _exercises_NotesWithChords_NotesWithChordsExercise__WEBPACK_IMPORTED_MODULE_8__.NotesWithChordsExercise(),
     new _exercises_TriadInversionExercise_TriadInversionExercise__WEBPACK_IMPORTED_MODULE_5__.TriadInversionExercise(),
     new _exercises_ChordArpeggioExercise_ChordArpeggioExercise__WEBPACK_IMPORTED_MODULE_7__.ChordArpeggioExercise(),
     new _exercises_IntervalExercise_IntervalExercise__WEBPACK_IMPORTED_MODULE_1__.IntervalExercise(),
@@ -1835,8 +2088,8 @@ ExerciseService.ngComponents = ExerciseService_1._exerciseList
     .map(exercise => exercise.explanation)
     .filter((explanation) => !!explanation && typeof explanation != 'string');
 ExerciseService.ctorParameters = () => [];
-ExerciseService = ExerciseService_1 = (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_9__.Injectable)({
+ExerciseService = ExerciseService_1 = (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_10__.Injectable)({
         providedIn: 'root'
     })
 ], ExerciseService);
@@ -2171,6 +2424,16 @@ module.exports = "<p>\r\n  In the following exercise <b>two notes will be played
 /***/ ((module) => {
 
 module.exports = "<p>\r\n  In this exercise you will be given a series of chords (cadence) to establish a tonal center.\r\n  Then a note (or a series of notes) will be played and you will be asked to find the scale degree of the note.\r\n</p>\r\n\r\n<app-info-panel>\r\n  <b>Tip!</b> If you're just starting out, it's better to practice on just a few scale degrees. Starting from Do, Re\r\n  and Mi is recommended.\r\n</app-info-panel>\r\n<app-collapsible>\r\n  <h2>Scales and scale degrees</h2>\r\n  <p>\r\n    The major scale consist of 7 notes that are built from the following intervals:\r\n  </p>\r\n  <app-info-panel>\r\n    tone - tone - semitone - tone - tone - tone - semitone\r\n  </app-info-panel>\r\n  <p>\r\n    For example, the C major scale, consists of the following notes:\r\n  </p>\r\n  <app-info-panel>\r\n    C D E F G A B\r\n  </app-info-panel>\r\n  <p>\r\n    The first note of the scale - also called the tonic - is the \"home\" note.\r\n    The note that will feel most \"resolves\" and at \"rest\".\r\n  </p>\r\n  <p>\r\n    Any other note will have a specific \"tension\" or \"sensation\" in relation to the tonic note.\r\n    It might feel as if the note \"wants\" to resolve to the tonic note.\r\n  </p>\r\n  <p>\r\n    In this example a group of chords will be played to let your mind feel C as the \"root note\".\r\n    Then the note D will be played, listen to its sense of tension, like it wants to resolve down to C.\r\n  </p>\r\n  <ion-button\r\n    [color]=\"'light'\"\r\n    [playOnClick]=\"resolutionOfReInC\"\r\n  >\r\n    Play\r\n  </ion-button>\r\n  <p>\r\n    In the key of D however, D is the tonic, so it assumes a sensation of rest.\r\n    To avoid confusion between different keys, <b>we use solfege syllables.</b>\r\n  </p>\r\n  <p>\r\n    Each syllable represents a different <b>degree</b> in the scale.\r\n  </p>\r\n  <ul>\r\n    <li><b>Do</b> - 1st Degree (C in C major)</li>\r\n    <li><b>Re</b> - 2nd Degree (D in C major)</li>\r\n    <li><b>Mi</b> - 3rd Degree (E in C major)</li>\r\n    <li><b>Fa</b> - 4th Degree (F in C major)</li>\r\n    <li><b>Sol</b> - 5th Degree (G in C major)</li>\r\n    <li><b>La</b> - 6th Degree (A in C major)</li>\r\n    <li><b>Ti</b> - 7th Degree (B in C major)</li>\r\n  </ul>\r\n  <p>\r\n    After getting a correct answer, the app will play a resolution of the note to the tonic,\r\n    to enforce your memory and sensation of tension and release.\r\n  </p>\r\n  <app-info-panel>\r\n    If you're finding it hard to accomplish, try sing the note and resolve it to the nearest tonic, either above or\r\n    below.\r\n  </app-info-panel>\r\n</app-collapsible>\r\n";
+
+/***/ }),
+
+/***/ 77796:
+/*!******************************************************************************************************************************************!*\
+  !*** ./src/app/exercise/exercises/NotesWithChords/notes-with-chords-explanation/notes-with-chords-explanation.component.html?ngResource ***!
+  \******************************************************************************************************************************************/
+/***/ ((module) => {
+
+module.exports = "<p>\r\n  Different notes can sound different with different chords underneath them.\r\n  In this exercise you'll hear a chord with a high note emphasized,\r\n  and you'll be prompted not only to identify the scale degree of the note (denoted with a solfege syllable), but also the chord degree. (Denoted with a number)\r\n</p>\r\n<p>\r\n  <b>For example:</b> In the key of C, La5 is the 6th degree (aka A) as the 5th of a chord, which happened to be the ii chord (aka Dm)\r\n</p>\r\n<app-info-panel>\r\n  This exercise is most affective while practicing with the same scale degree and different chord degrees.\r\n</app-info-panel>\r\n";
 
 /***/ }),
 

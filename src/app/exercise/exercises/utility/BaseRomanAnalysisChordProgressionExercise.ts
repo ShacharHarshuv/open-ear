@@ -48,7 +48,7 @@ const chordsInC: { chord: Chord; answer: RomanNumeralChord }[] = [
   },
 ];
 
-const romanNumeralToChordInC: { [romanNumeral in RomanNumeralChord]?: Chord } = _.mapValues(_.keyBy(chordsInC, 'answer'), 'chord');
+export const romanNumeralToChordInC: { [romanNumeral in RomanNumeralChord]?: Chord } = _.mapValues(_.keyBy(chordsInC, 'answer'), 'chord');
 
 const romanNumeralToResolution: {
   [romanNumeral in RomanNumeralChord]: {

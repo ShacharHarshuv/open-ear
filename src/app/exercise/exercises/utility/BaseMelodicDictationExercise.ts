@@ -53,6 +53,7 @@ export const solfegeNotesInC: { solfege: SolfegeNote, note: NoteType }[] = [
   },
 ]
 export const noteInCToSolfege: { [note in NoteType]?: SolfegeNote } = _.mapValues(_.keyBy(solfegeNotesInC, 'note'), 'solfege');
+export const solfegeToNoteInC: { [note in SolfegeNote]?: NoteType } = _.mapValues(_.keyBy(solfegeNotesInC, 'solfege'), 'note');
 
 export interface IMelodicQuestion {
   segments: Note[],
