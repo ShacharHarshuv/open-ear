@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ExerciseService } from '../exercise/exercise.service';
+import { ExerciseService } from '../../exercise.service';
 import { Exercise } from '../../Exercise';
 import {
   PlayerService,
-  PartToPlay,
+  PartToPlay, NoteEvent,
 } from '../../../services/player.service';
 import {
   toSteadyPart,
   GlobalExerciseSettings,
-  ExerciseSettingsData,
+  ExerciseSettingsData, toGetter, OneOrMany,
 } from '../../utility';
 import { ExerciseSettingsDataService } from '../../../services/exercise-settings-data.service';
 import AnswerList = Exercise.AnswerList;
 import Answer = Exercise.Answer;
 import { AdaptiveExercise } from './adaptive-exercise';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
 
 const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   playCadence: true,
@@ -241,5 +242,13 @@ export class ExerciseStateService {
 
     await this._player.playMultipleParts(this._getAfterCorrectAnswerParts());
     this._highlightedAnswer = null;
+  }
+
+  playAnswer(answerConfig: Exercise.AnswerConfig<string>): void {
+    const partToPlay: NoteEvent[] | OneOrMany<Note> | null | undefined = toGetter(answerConfig.playOnClick)(this._currentQuestion);
+    if (!partToPlay) {
+      return;
+    }
+    this._player.playPart(toSteadyPart(partToPlay));
   }
 }

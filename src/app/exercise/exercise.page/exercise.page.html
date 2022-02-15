@@ -65,7 +65,7 @@
     >
       <ion-button
         *ngIf="answerLayoutCellConfig.answer as answer"
-        (click)="onAnswer(answer)"
+        (click)="onAnswerClick(answerLayoutCellConfig)"
         [class.--right]="answer === rightAnswer"
         [class.--highlighted]="answer === state.highlightedAnswer"
         [class.--wrong]="wrongAnswers.includes(answer)"

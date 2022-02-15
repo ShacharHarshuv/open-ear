@@ -59,7 +59,7 @@ export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<Ch
     }
   }
 
-  protected _getAllAnswersList(): Exercise.AnswerList<ChordType> {
+  protected _getAllAnswersListInC(): Exercise.AnswerList<ChordType> {
     return [
       'M',
       'm',

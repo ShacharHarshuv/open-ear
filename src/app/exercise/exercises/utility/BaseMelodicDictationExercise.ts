@@ -83,7 +83,7 @@ export abstract class BaseMelodicDictationExercise<GSettings extends BaseMelodic
     return question;
   }
 
-  protected _getAllAnswersList(): Exercise.AnswerList<SolfegeNote> {
+  protected _getAllAnswersListInC(): Exercise.AnswerList<SolfegeNote> {
     return {
       rows: [
         [
@@ -92,11 +92,20 @@ export abstract class BaseMelodicDictationExercise<GSettings extends BaseMelodic
             space: 0.58
           },
           null, // Ra (to be added in the future to support more modes)
-          'Me',
+          {
+            answer: 'Me',
+            playOnClick: 'Eb4',
+          },
           null,
           null, // Fi / Se (to be added in the future to support more modes)
-          'Le',
-          'Te',
+          {
+            answer: 'Le',
+            playOnClick: 'Ab4',
+          },
+          {
+            answer: 'Te',
+            playOnClick: 'Bb4',
+          },
           {
             answer: null,
             space: 0.58,
@@ -104,14 +113,38 @@ export abstract class BaseMelodicDictationExercise<GSettings extends BaseMelodic
           null,
         ],
         [
-          'Do',
-          'Re',
-          'Mi',
-          'Fa',
-          'Sol',
-          'La',
-          'Ti',
-          'Do',
+          {
+            answer: 'Do',
+            playOnClick: 'C4',
+          },
+          {
+            answer: 'Re',
+            playOnClick: 'D4',
+          },
+          {
+            answer: 'Mi',
+            playOnClick: 'E4',
+          },
+          {
+            answer: 'Fa',
+            playOnClick: 'F4',
+          },
+          {
+            answer: 'Sol',
+            playOnClick: 'G4',
+          },
+          {
+            answer: 'La',
+            playOnClick: 'A4',
+          },
+          {
+            answer: 'Ti',
+            playOnClick: 'B4',
+          },
+          {
+            answer: 'Do',
+            playOnClick: 'C5',
+          },
         ],
       ],
     }
