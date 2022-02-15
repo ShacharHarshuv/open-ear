@@ -20,6 +20,9 @@ export class ExerciseExplanationService {
         content: this._state.exercise.explanation,
         exerciseName: this._state.name,
       }
+    }).catch(err => {
+      console.error(err);
+      throw err;
     });
     await modal.present();
     await modal.onDidDismiss();
