@@ -4,17 +4,18 @@ import { ExerciseService } from '../exercise/exercise.service';
 import { Exercise } from '../../Exercise';
 import {
   PlayerService,
-  PartToPlay,
+  PartToPlay, NoteEvent,
 } from '../../../services/player.service';
 import {
   toSteadyPart,
   GlobalExerciseSettings,
-  ExerciseSettingsData,
+  ExerciseSettingsData, toGetter, OneOrMany,
 } from '../../utility';
 import { ExerciseSettingsDataService } from '../../../services/exercise-settings-data.service';
 import AnswerList = Exercise.AnswerList;
 import Answer = Exercise.Answer;
 import { AdaptiveExercise } from './adaptive-exercise';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
 
 const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   playCadence: true,
@@ -244,9 +245,10 @@ export class ExerciseStateService {
   }
 
   playAnswer(answerConfig: Exercise.AnswerConfig<string>): void {
-    if (!answerConfig.playOnClick) {
+    const partToPlay: NoteEvent[] | OneOrMany<Note> | null | undefined = toGetter(answerConfig.playOnClick)(this._currentQuestion);
+    if (!partToPlay) {
       return;
     }
-    this._player.playPart(toSteadyPart(answerConfig.playOnClick));
+    this._player.playPart(toSteadyPart(partToPlay));
   }
 }

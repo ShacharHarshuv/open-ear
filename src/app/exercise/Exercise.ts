@@ -3,7 +3,7 @@ import { OneOrMany } from '../shared/ts-utility/toArray';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import * as _ from 'lodash';
 import { Type } from '@angular/core';
-import { isValueTruthy } from '../shared/ts-utility';
+import { isValueTruthy, StaticOrGetter } from '../shared/ts-utility';
 
 type PartToPlay = NoteEvent[] | OneOrMany<Note>;
 
@@ -32,7 +32,7 @@ export namespace Exercise {
 
   export interface AnswerConfig<GAnswer extends string> {
     answer: Answer<GAnswer> | null;
-    playOnClick?: PartToPlay | null,
+    playOnClick?: StaticOrGetter<PartToPlay | null, [Question<GAnswer>]>,
     space?: number; // 1 (Default) means all cells takes the same space
   }
 

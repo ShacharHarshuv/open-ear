@@ -1,4 +1,4 @@
-import { Key, OneOrMany, randomFromList } from '../../utility';
+import { Key, OneOrMany, randomFromList, toGetter } from '../../utility';
 import { Exercise, } from '../../Exercise';
 import { transpose } from '../../utility/music/transpose';
 import { getDistanceOfKeys } from '../../utility/music/keys/getDistanceOfKeys';
@@ -87,7 +87,10 @@ export abstract class BaseTonalExercise<GAnswer extends string = string, GSettin
     return {
       rows: answerLayout.rows.map(row => row.map(answerConfig => ({
         ...answerConfig,
-        playOnClick: answerConfig.playOnClick ? this._transposeToKey(answerConfig.playOnClick) : null,
+        playOnClick: answerConfig.playOnClick ? (question: Exercise.Question<GAnswer>) => {
+          const partToPlayInC: NoteEvent[] | OneOrMany<Note> | null = toGetter(answerConfig.playOnClick)(question);
+          return partToPlayInC && this._transposeToKey(partToPlayInC)
+        } : null,
       })))
     }
   }
