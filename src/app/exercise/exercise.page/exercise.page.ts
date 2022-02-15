@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { ExerciseStateService } from '../services/exercise-state/exercise-state.service';
+import { ExerciseStateService } from './state/exercise-state.service';
 import { ModalController } from '@ionic/angular';
 import { ExerciseSettingsPage } from './components/exercise-settings.page/exercise-settings.page';
 import * as _ from 'lodash';
-import { ExerciseExplanationService } from '../services/exercise-explanation.service';
+import { ExerciseExplanationService } from './state/exercise-explanation.service';
 import { Exercise } from '../Exercise';
 import AnswerConfig = Exercise.AnswerConfig;
 

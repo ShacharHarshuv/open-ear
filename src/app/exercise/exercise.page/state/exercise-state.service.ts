@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ExerciseService } from '../exercise/exercise.service';
+import { ExerciseService } from '../../exercise.service';
 import { Exercise } from '../../Exercise';
 import {
   PlayerService,

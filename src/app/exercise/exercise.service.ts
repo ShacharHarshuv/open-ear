@@ -1,17 +1,17 @@
 import { Injectable, Type } from '@angular/core';
 import * as _ from 'lodash';
-import { IntervalExercise } from '../../exercises/IntervalExercise/IntervalExercise';
+import { IntervalExercise } from './exercises/IntervalExercise/IntervalExercise';
 import IExercise = Exercise.IExercise;
-import { Exercise } from '../../Exercise';
-import { ChordsInKeyExercise } from '../../exercises/ChordInKeyExercise/ChordsInKeyExercise';
-import { NotesInKeyExercise } from '../../exercises/NotesInKeyExercise/NotesInKeyExercise';
-import { ChordTypeInKeyExercise } from '../../exercises/ChordTypeInKeyExercise/ChordTypeInKeyExercise';
-import { TriadInversionExercise } from '../../exercises/TriadInversionExercise/TriadInversionExercise';
+import { Exercise } from './Exercise';
+import { ChordsInKeyExercise } from './exercises/ChordInKeyExercise/ChordsInKeyExercise';
+import { NotesInKeyExercise } from './exercises/NotesInKeyExercise/NotesInKeyExercise';
+import { ChordTypeInKeyExercise } from './exercises/ChordTypeInKeyExercise/ChordTypeInKeyExercise';
+import { TriadInversionExercise } from './exercises/TriadInversionExercise/TriadInversionExercise';
 import {
   CommonChordProgressionsExercise
-} from '../../exercises/CommonChordProgressionExercise/CommonChordProgressionsExercise';
-import { ChordArpeggioExercise } from '../../exercises/ChordArpeggioExercise/ChordArpeggioExercise';
-import { NotesWithChordsExercise } from '../../exercises/NotesWithChords/NotesWithChordsExercise';
+} from './exercises/CommonChordProgressionExercise/CommonChordProgressionsExercise';
+import { ChordArpeggioExercise } from './exercises/ChordArpeggioExercise/ChordArpeggioExercise';
+import { NotesWithChordsExercise } from './exercises/NotesWithChords/NotesWithChordsExercise';
 
 @Injectable({
   providedIn: 'root'
