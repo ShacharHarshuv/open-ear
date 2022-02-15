@@ -365,7 +365,7 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
     };
   }
 
-  protected _getAllAnswersList(): Exercise.AnswerList<RomanNumeralChord> {
+  protected _getAllAnswersListInC(): Exercise.AnswerList<RomanNumeralChord> {
     return {
       rows: [
         [

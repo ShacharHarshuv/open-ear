@@ -40,5 +40,9 @@ export const releaseNotes: ReleaseNotes = [
   {
     version: '1.2.2',
     notes: 'New "Notes with Chords" exercise. Practice it to memorize the sound of the same scale degrees above different chords.'
+  },
+  {
+    version: '1.2.3',
+    notes: 'Click other answers to listen to what they sound like after correct answer received',
   }
 ]

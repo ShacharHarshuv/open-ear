@@ -242,4 +242,11 @@ export class ExerciseStateService {
     await this._player.playMultipleParts(this._getAfterCorrectAnswerParts());
     this._highlightedAnswer = null;
   }
+
+  playAnswer(answerConfig: Exercise.AnswerConfig<string>): void {
+    if (!answerConfig.playOnClick) {
+      return;
+    }
+    this._player.playPart(toSteadyPart(answerConfig.playOnClick));
+  }
 }

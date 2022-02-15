@@ -1,11 +1,12 @@
 import { Exercise } from '../../Exercise';
 import { BaseExercise } from './BaseExercise';
+import * as _ from 'lodash';
 import AnswerList = Exercise.AnswerList;
 import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
 import ListSelectControlDescriptor = Exercise.ListSelectControlDescriptor;
-import * as _ from 'lodash';
-import normalizeAnswerLayoutCellConfig = Exercise.normalizeAnswerLayoutCellConfig;
-import AnswerLayoutCellConfig = Exercise.AnswerLayoutCellConfig;
+import normalizeAnswerLayoutCellConfig = Exercise.normalizeAnswerConfig;
+import AnswerLayoutCellConfig = Exercise.AnswerConfig;
+import AnswersLayout = Exercise.AnswersLayout;
 
 export type BaseCommonSettingsExerciseSettings<GAnswer extends string> = {
   includedAnswers: GAnswer[];
@@ -19,14 +20,14 @@ export abstract class BaseCommonSettingsExercise<GAnswer extends string = string
   getAnswerList(): AnswerList<GAnswer> {
     const includedAnswersList: GAnswer[] = this._settings.includedAnswers;
 
-    if (Array.isArray(this._allAnswersList)) {
-      return _.filter(this._allAnswersList, (answer => includedAnswersList.includes(answer)));
-    }
+    const answerLayout: AnswersLayout<GAnswer> = Array.isArray(this._allAnswersList) ? {
+      rows: [ this._allAnswersList ],
+    } : this._allAnswersList;
 
     const normalizedAnswerLayout: {
       rows: Required<AnswerLayoutCellConfig<GAnswer>>[][],
     } = {
-      rows: this._allAnswersList.rows.map((row): Required<AnswerLayoutCellConfig<GAnswer>>[] => row.map(normalizeAnswerLayoutCellConfig)),
+      rows: answerLayout.rows.map((row): Required<AnswerLayoutCellConfig<GAnswer>>[] => row.map(normalizeAnswerLayoutCellConfig)),
     }
 
     return {

@@ -23,6 +23,7 @@ export function transpose(partOrNotes: Note[], semitones: number): Note[];
 export function transpose(partOrNotes: Note | Note[], semitones: number): Note | Note[];
 export function transpose(partOrNotes: NoteEvent[], semitones: number): NoteEvent[];
 export function transpose(partOrNotes: NoteEvent[] | OneOrMany<Note>, semitones: number): NoteEvent[] | OneOrMany<Note>;
+export function transpose(partOrNotes: NoteEvent[] | Note[] | Note | NoteType, semitones: number): NoteEvent[] | Frequency[] | Frequency | NoteType;
 export function transpose(partOrNotes: NoteEvent[] | Note[] | Note | NoteType, semitones: number): NoteEvent[] | Frequency[] | Frequency | NoteType {
   if (!Array.isArray(partOrNotes)) {
     const note: Note | NoteType = partOrNotes;

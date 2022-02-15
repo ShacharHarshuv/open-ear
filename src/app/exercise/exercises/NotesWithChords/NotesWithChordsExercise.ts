@@ -114,7 +114,7 @@ export class NotesWithChordsExercise extends BaseTonalExercise<NoteWithChord> {
   readonly summary: string = 'Identify scale degrees in the context of different diatonic chords';
   readonly explanation: Exercise.ExerciseExplanationContent = NotesWithChordsExplanationComponent;
 
-  protected _getAllAnswersList(): Exercise.AnswerList<NoteWithChord> {
+  protected _getAllAnswersListInC(): Exercise.AnswerList<NoteWithChord> {
     const solfegeSyllables = ['Do', 'Re', 'Mi', 'Fa', 'Sol', 'La', 'Ti'] as const;
     const chordDegrees = [1, 3, 5] as const;
     return {
