@@ -20,7 +20,9 @@ import { timeoutAsPromise } from '../shared/ts-utility';
 
 const DEFAULT_VELOCITY: number = 0.7;
 
-const audioCtx = new window.AudioContext();
+// @ts-ignore
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+const audioCtx = new AudioContext();
 
 export interface NoteEvent {
   notes: Note[] | Note,
@@ -88,9 +90,15 @@ export class PlayerService {
     for (let noteType of notesWithSamples) {
       for (let octaveNumber of octavesWithSamples) {
         const note = noteTypeToNote(noteType, octaveNumber);
-        sampleMap[note] = await audioCtx.decodeAudioData(
-          await getFileArrayBuffer(`${location.origin}/samples/piano-mp3-velocity10/audio/${encodeURIComponent(note)}v10.mp3`),
-        );
+        sampleMap[note] = await new Promise((resolve, reject) => {
+          getFileArrayBuffer(`${location.origin}/samples/piano-mp3-velocity10/audio/${encodeURIComponent(note)}v10.mp3`).then(arrayBuffer => {
+            audioCtx.decodeAudioData(
+              arrayBuffer,
+              resolve,
+              reject,
+            );
+          })
+        });
       }
     }
     return sampleMap;
