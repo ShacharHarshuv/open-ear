@@ -20,7 +20,10 @@ import { ExerciseModule } from '../exercise.module';
 import {
   PlayerService,
   PartToPlay,
+  NoteEvent,
 } from '../../services/player.service';
+import { TestingUtility } from '../../shared/testing-utility';
+import MatchableArgs = jasmine.MatchableArgs;
 
 class ExercisePageDebugger {
   readonly spectator: Spectator<ExercisePage> = new Spectator<ExercisePage>(this.fixture, this.fixture.debugElement, this.fixture.componentInstance, this.fixture.nativeElement);
@@ -38,25 +41,23 @@ class ExercisePageDebugger {
   }
 
   displayExplanation(): void {
-    const helpIcon = ExercisePageDebugger._getIconButton('help-outline');
-    if (!helpIcon) {
-      throw new Error(`Could not find help icon`);
-    }
-    helpIcon.click();
+    TestingUtility.getButtonByIcon('help-outline').click();
     this.fixture.detectChanges();
   }
 
   closeExplanation(): void {
-    const closeIcon = ExercisePageDebugger._getIconButton('close-outline');
-    if (!closeIcon) {
-      throw new Error(`Cannot find close icon`);
-    }
-    closeIcon.click();
+    TestingUtility.getButtonByIcon('close-outline').click();
     this.fixture.detectChanges();
   }
 
-  private static _getIconButton(iconName: string): HTMLElement | null {
-    return document.querySelector<HTMLElement>(`ion-button ion-icon[name="${iconName}"]`);
+  clickOnRepeat(): void {
+    TestingUtility.getButtonByText('repeat').click();
+    this.fixture.detectChanges();
+  }
+
+  clickOnMusicalNote(): void {
+    TestingUtility.getButtonByIcon('musical-note').click();
+    this.fixture.detectChanges();
   }
 }
 
@@ -89,11 +90,11 @@ describe('ExercisePage', () => {
           provide: ActivatedRoute,
           useValue: {
             snapshot: {
-              params: {id: MockExercise.instance.id}
-            }
-          }
-        }
-      ]
+              params: {id: MockExercise.instance.id},
+            },
+          },
+        },
+      ],
     }).compileComponents();
 
     spies.push(
@@ -101,8 +102,8 @@ describe('ExercisePage', () => {
       spyOn(MockExercise.instance, 'getAnswerList').and.returnValue([
         'Answer 1',
         'Answer 2',
-        'Answer 3'
-      ])
+        'Answer 3',
+      ]),
     );
 
     TestBed.inject(ExerciseSettingsDataMockService).exerciseIdToSettings[MockExercise.instance.id] = {
@@ -155,49 +156,81 @@ describe('ExercisePage', () => {
     expect(document.body.innerText).not.toContain(expectedExplanation);
   });
 
+  /**
+   * figure out how to make a more flexible test here
+   * For example, there are multiple ways to pass in time
+   * (Like a custom matcher?)
+   */
+  const cadenceToPlayExpectation: MatchableArgs<PlayerService['playMultipleParts']>[0][] = [
+    // cadence
+    jasmine.objectContaining<PartToPlay>({
+      partOrTime: [
+        jasmine.objectContaining<NoteEvent>({
+          notes: ['E4'],
+          duration: '4n',
+        }),
+      ],
+    }),
+    jasmine.objectContaining<PartToPlay>({ // this can be optional, need to make the test more relaxed
+      partOrTime: 100,
+    }),
+  ]
+
+  const questionToPlayExpectation: MatchableArgs<PlayerService['playMultipleParts']>[0][] = [
+    // first segment
+    jasmine.objectContaining<PartToPlay>({
+      partOrTime: [
+        jasmine.objectContaining({
+          notes: ['C4'],
+          duration: '4n',
+        }),
+      ],
+    }),
+    //second segment
+    jasmine.objectContaining<PartToPlay>({
+      partOrTime: [
+        jasmine.objectContaining({
+          notes: ['D4'],
+          duration: '4n',
+        }),
+      ],
+    }),
+  ];
+
   it('exercise question should be played with cadence when exercise load', fakeAsync(() => {
-    const playMultiplePartsSpy: jasmine.Spy = spyOn(TestBed.inject(PlayerService), 'playMultipleParts').and.callFake((...params) => {
-      console.log(params);
-      return Promise.resolve();
-    });
+    const playMultiplePartsSpy: jasmine.Spy<PlayerService['playMultipleParts']> = spyOn(TestBed.inject(PlayerService), 'playMultipleParts');
     createComponent();
     flush();
-    /**
-     * figure out how to make a more flexible test here
-     * For example, there are multiple ways to pass in time
-     * (Like a custom matcher?)
-     */
-    expect(playMultiplePartsSpy).toHaveBeenCalledOnceWith([
-      // cadence
-      jasmine.objectContaining<PartToPlay>({
-        partOrTime: [
-          jasmine.objectContaining({
-            notes: ['E4'],
-            duration: '4n',
-          }),
-        ]
-      }),
-      jasmine.objectContaining({ // this can be optional, need to make the test more relaxed
-        partOrTime: 100,
-      }),
-      // first segment
-      jasmine.objectContaining<PartToPlay>({
-        partOrTime: [
-          jasmine.objectContaining({
-            notes: ['C4'],
-            duration: '4n',
-          }),
-        ]
-      }),
-      //second segment
-      jasmine.objectContaining<PartToPlay>({
-        partOrTime: [
-          jasmine.objectContaining({
-            notes: ['D4'],
-            duration: '4n',
-          })
-        ],
-      }),
-    ]);
+    expect(playMultiplePartsSpy).toHaveBeenCalledOnceWith(jasmine.arrayWithExactContents([
+      ...cadenceToPlayExpectation,
+      ...questionToPlayExpectation,
+    ]));
+    playMultiplePartsSpy.and.callThrough();
   }));
+
+  it('clicking repeat should repeat the question with cadence', fakeAsync(() => {
+    createComponent();
+    flush();
+    const playMultiplePartsSpy: jasmine.Spy = spyOn(TestBed.inject(PlayerService), 'playMultipleParts');
+    expect(playMultiplePartsSpy).not.toHaveBeenCalled();
+    exercisePageDebugger.clickOnRepeat();
+    flush();
+    expect(playMultiplePartsSpy).toHaveBeenCalledOnceWith(jasmine.arrayWithExactContents([
+      ...cadenceToPlayExpectation,
+      ...questionToPlayExpectation,
+    ]))
+  }));
+
+  it('exercise question should be played without cadence when clicking musical note icon', fakeAsync(() => {
+    createComponent();
+    flush();
+    const playMultiplePartsSpy: jasmine.Spy = spyOn(TestBed.inject(PlayerService), 'playMultipleParts');
+    expect(playMultiplePartsSpy).not.toHaveBeenCalled();
+    exercisePageDebugger.clickOnMusicalNote();
+    flush();
+    expect(playMultiplePartsSpy).toHaveBeenCalledOnceWith(jasmine.arrayWithExactContents([
+      ...questionToPlayExpectation,
+    ]))
+  }));
+
 })
