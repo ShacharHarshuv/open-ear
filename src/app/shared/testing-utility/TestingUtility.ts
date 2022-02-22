@@ -7,13 +7,24 @@ export class TestingUtility {
     return iconButton;
   }
 
-  static getButtonByText(text: string): HTMLElement {
-    const button = Array.from(document.querySelectorAll('ion-button')).find((button: HTMLElement | null) => {
-      return button?.innerText.toLowerCase() === text.toLowerCase();
+  static getElementByText(text: string, selector: string): HTMLElement {
+    const element = Array.from(document.querySelectorAll<HTMLElement>(selector)).find((element: HTMLElement | null) => {
+      return element?.innerText.toLowerCase() === text.toLowerCase();
     });
-    if (!button) {
-      throw new Error(`Could not find button with text ${text}`);
+    if (!element) {
+      throw new Error(`Could not find ${selector} element with text ${text}`);
     }
-    return button;
+    return element;
+  }
+
+  static getButtonByText(text: string): HTMLElement {
+    return TestingUtility.getElementByText(text, 'ion-button');
+  }
+
+  static isDisabled(button: HTMLElement): boolean {
+    if (button.tagName.toLowerCase() === 'ion-button') {
+      return button.getAttribute('ng-reflect-disabled') === 'true';
+    }
+    return button.hasAttribute('disabled');
   }
 }

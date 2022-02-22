@@ -1,5 +1,10 @@
 import { Exercise } from './Exercise';
-import { IV_V_I_CADENCE_IN_C } from './utility/music/chords';
+import {
+  PlayerService,
+  PartToPlay,
+  NoteEvent,
+} from '../services/player.service';
+import MatchableArgs = jasmine.MatchableArgs;
 
 export class MockExercise implements Exercise.IExercise {
   static instance: Readonly<MockExercise> = new MockExercise();
@@ -29,4 +34,45 @@ export class MockExercise implements Exercise.IExercise {
   getQuestion(): Exercise.Question<string> {
     return MockExercise.mockQuestion;
   }
+
+  /**
+   * figure out how to make a more flexible test here
+   * For example, there are multiple ways to pass in time
+   * (Like a custom matcher?)
+   */
+  static cadenceToPlayExpectation: MatchableArgs<PlayerService['playMultipleParts']>[0][] = [
+    // cadence
+    jasmine.objectContaining<PartToPlay>({
+      partOrTime: [
+        jasmine.objectContaining<NoteEvent>({
+          notes: ['E4'],
+          duration: '4n',
+        }),
+      ],
+    }),
+    jasmine.objectContaining<PartToPlay>({ // this can be optional, need to make the test more relaxed
+      partOrTime: 100,
+    }),
+  ]
+
+  static questionToPlayExpectation: MatchableArgs<PlayerService['playMultipleParts']>[0][] = [
+    // first segment
+    jasmine.objectContaining<PartToPlay>({
+      partOrTime: [
+        jasmine.objectContaining({
+          notes: ['C4'],
+          duration: '4n',
+        }),
+      ],
+    }),
+    //second segment
+    jasmine.objectContaining<PartToPlay>({
+      partOrTime: [
+        jasmine.objectContaining({
+          notes: ['D4'],
+          duration: '4n',
+        }),
+      ],
+    }),
+  ];
 }

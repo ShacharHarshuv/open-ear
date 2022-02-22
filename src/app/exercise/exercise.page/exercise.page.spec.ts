@@ -17,20 +17,14 @@ import { PlayerMockService } from '../../services/player.mock.service';
 import { ExerciseModule } from '../exercise.module';
 import {
   PlayerService,
-  PartToPlay,
   NoteEvent,
 } from '../../services/player.service';
 import { ExercisePageDebugger } from './exerice.page.debugger.spec';
-import MatchableArgs = jasmine.MatchableArgs;
+import { TestingUtility } from '../../shared/testing-utility';
 
 describe('ExercisePage', () => {
   const spies: jasmine.Spy[] = [];
   let exercisePageDebugger: ExercisePageDebugger;
-
-  function createComponent(): void {
-    exercisePageDebugger = new ExercisePageDebugger(TestBed.createComponent(ExercisePage));
-    exercisePageDebugger.spectator.detectChanges();
-  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -62,7 +56,10 @@ describe('ExercisePage', () => {
     spies.push(
       spyOn(TestBed.inject(ExerciseService), 'getExercise').and.returnValue(MockExercise.instance),
       spyOn(MockExercise.instance, 'getAnswerList').and.returnValue([
-        'Answer 1',
+        {
+          answer: 'Answer 1',
+          playOnClick: 'F4',
+        },
         'Answer 2',
         'Answer 3',
       ]),
@@ -85,11 +82,41 @@ describe('ExercisePage', () => {
     spies.forEach(spy => {
       spy.and.callThrough();
     });
-  })
+  });
+
+  //#region Utility functions
+  function createComponent(): void {
+    exercisePageDebugger = new ExercisePageDebugger(TestBed.createComponent(ExercisePage));
+    exercisePageDebugger.spectator.detectChanges();
+  }
+
+  function createPlayMultiplePartsSpy(): jasmine.Spy<PlayerService['playMultipleParts']> {
+    return spyOn(TestBed.inject(PlayerService), 'playMultipleParts');
+  }
+
+  function answerAllSegmentsOfMockQuestion(): void {
+    exercisePageDebugger.clickOnAnswer('Answer 1');
+    exercisePageDebugger.clickOnAnswer('Answer 2');
+    expect(TestingUtility.isDisabled(exercisePageDebugger.getNextButton())).toBeFalse();
+  }
+  //#endregion
 
   it('all answers should be visible', async () => {
     createComponent();
-    expect(exercisePageDebugger.getPossibleAnswersList()).toEqual(['Answer 1', 'Answer 2', 'Answer 3']);
+    expect(exercisePageDebugger.getPossibleAnswersList()).toEqual([
+      {
+        answerText: 'Answer 1',
+        wasWrong: false,
+      },
+      {
+        answerText: 'Answer 2',
+        wasWrong: false,
+      },
+      {
+        answerText: 'Answer 3',
+        wasWrong: false,
+      },
+    ]);
   });
 
   it('exercise name should be visible in the header', async () => {
@@ -119,54 +146,13 @@ describe('ExercisePage', () => {
   });
 
   describe('Playing Questions', function() {
-    /**
-     * figure out how to make a more flexible test here
-     * For example, there are multiple ways to pass in time
-     * (Like a custom matcher?)
-     */
-    const cadenceToPlayExpectation: MatchableArgs<PlayerService['playMultipleParts']>[0][] = [
-      // cadence
-      jasmine.objectContaining<PartToPlay>({
-        partOrTime: [
-          jasmine.objectContaining<NoteEvent>({
-            notes: ['E4'],
-            duration: '4n',
-          }),
-        ],
-      }),
-      jasmine.objectContaining<PartToPlay>({ // this can be optional, need to make the test more relaxed
-        partOrTime: 100,
-      }),
-    ]
-
-    const questionToPlayExpectation: MatchableArgs<PlayerService['playMultipleParts']>[0][] = [
-      // first segment
-      jasmine.objectContaining<PartToPlay>({
-        partOrTime: [
-          jasmine.objectContaining({
-            notes: ['C4'],
-            duration: '4n',
-          }),
-        ],
-      }),
-      //second segment
-      jasmine.objectContaining<PartToPlay>({
-        partOrTime: [
-          jasmine.objectContaining({
-            notes: ['D4'],
-            duration: '4n',
-          }),
-        ],
-      }),
-    ];
-
     it('exercise question should be played with cadence when exercise load', fakeAsync(() => {
-      const playMultiplePartsSpy: jasmine.Spy<PlayerService['playMultipleParts']> = spyOn(TestBed.inject(PlayerService), 'playMultipleParts');
+      const playMultiplePartsSpy: jasmine.Spy<PlayerService['playMultipleParts']> = createPlayMultiplePartsSpy();
       createComponent();
       flush();
       expect(playMultiplePartsSpy).toHaveBeenCalledOnceWith(jasmine.arrayWithExactContents([
-        ...cadenceToPlayExpectation,
-        ...questionToPlayExpectation,
+        ...MockExercise.cadenceToPlayExpectation,
+        ...MockExercise.questionToPlayExpectation,
       ]));
       playMultiplePartsSpy.and.callThrough();
     }));
@@ -174,49 +160,205 @@ describe('ExercisePage', () => {
     it('clicking repeat should repeat the question with cadence', fakeAsync(() => {
       createComponent();
       flush();
-      const playMultiplePartsSpy: jasmine.Spy = spyOn(TestBed.inject(PlayerService), 'playMultipleParts');
+      const playMultiplePartsSpy: jasmine.Spy = createPlayMultiplePartsSpy();
       expect(playMultiplePartsSpy).not.toHaveBeenCalled();
       exercisePageDebugger.clickOnRepeat();
       flush();
       expect(playMultiplePartsSpy).toHaveBeenCalledOnceWith(jasmine.arrayWithExactContents([
-        ...cadenceToPlayExpectation,
-        ...questionToPlayExpectation,
+        ...MockExercise.cadenceToPlayExpectation,
+        ...MockExercise.questionToPlayExpectation,
       ]))
     }));
 
     it('exercise question should be played without cadence when clicking musical note icon', fakeAsync(() => {
       createComponent();
       flush();
-      const playMultiplePartsSpy: jasmine.Spy = spyOn(TestBed.inject(PlayerService), 'playMultipleParts');
+      const playMultiplePartsSpy: jasmine.Spy = createPlayMultiplePartsSpy();
       expect(playMultiplePartsSpy).not.toHaveBeenCalled();
       exercisePageDebugger.clickOnMusicalNote();
       flush();
       expect(playMultiplePartsSpy).toHaveBeenCalledOnceWith(jasmine.arrayWithExactContents([
-        ...questionToPlayExpectation,
+        ...MockExercise.questionToPlayExpectation,
       ]))
     }));
   });
 
-  describe('Answering', () => {
+  describe('Answer initialization', function() {
     beforeEach(fakeAsync(() => {
-
-    }));
-
-    it('should initially have two unanswered segments', fakeAsync(() => {
       createComponent();
       flush();
       exercisePageDebugger.detectChanges();
-      expect(exercisePageDebugger.getCurrentAnswersList()).toEqual([
-        {
-          answer: null,
-          wasWrong: false,
-        },
-        {
-          answer: null,
-          wasWrong: false,
-        },
-      ])
-    }))
-  });
+    }));
 
+    describe('Answering', () => {
+      it('should initially have two unanswered segments', fakeAsync(() => {
+        expect(exercisePageDebugger.getCurrentAnswersList()).toEqual([
+          {
+            answer: null,
+            wasWrong: false,
+          },
+          {
+            answer: null,
+            wasWrong: false,
+          },
+        ]);
+      }));
+
+      it('should display answer as wrong', fakeAsync(() => {
+        // answering a wrong answer
+        exercisePageDebugger.clickOnAnswer('Answer 2');
+
+        // current answers should indicate answer was wrong
+        expect(exercisePageDebugger.getCurrentAnswersList()).toEqual([
+          {
+            answer: null,
+            wasWrong: true,
+          },
+          {
+            answer: null,
+            wasWrong: false,
+          },
+        ]);
+
+        // the wrong answer button should be marked wrong
+        expect(exercisePageDebugger.getPossibleAnswersList()).toEqual([
+          {
+            answerText: 'Answer 1',
+            wasWrong: false,
+          },
+          {
+            answerText: 'Answer 2',
+            wasWrong: true,
+          },
+          {
+            answerText: 'Answer 3',
+            wasWrong: false,
+          },
+        ]);
+
+        // answer the right answer
+        exercisePageDebugger.clickOnAnswer('Answer 1');
+
+        // current answer should indicate first answer was wrong
+        expect(exercisePageDebugger.getCurrentAnswersList()).toEqual([
+          {
+            answer: 'Answer 1',
+            wasWrong: true,
+          },
+          {
+            answer: null,
+            wasWrong: false,
+          },
+        ]);
+
+        // Answer buttons should NOT be marked as wrong
+        expect(exercisePageDebugger.getPossibleAnswersList()).toEqual([
+          {
+            answerText: 'Answer 1',
+            wasWrong: false,
+          },
+          {
+            answerText: 'Answer 2',
+            wasWrong: false,
+          },
+          {
+            answerText: 'Answer 3',
+            wasWrong: false,
+          },
+        ]);
+      }))
+    });
+
+    describe('Next question', function() {
+      it('should be disabled before answering', () => {
+        expect(TestingUtility.isDisabled(exercisePageDebugger.getNextButton())).toBeTrue();
+      });
+
+      it('should be disabled when partially answered', fakeAsync(() => {
+        exercisePageDebugger.clickOnAnswer('Answer 1');
+        expect(TestingUtility.isDisabled(exercisePageDebugger.getNextButton())).toBeTrue();
+      }));
+
+      it('should be enabled when completely answered', fakeAsync(() => {
+        exercisePageDebugger.clickOnAnswer('Answer 1');
+        exercisePageDebugger.clickOnAnswer('Answer 2');
+        expect(TestingUtility.isDisabled(exercisePageDebugger.getNextButton())).toBeFalse();
+      }));
+
+      it('when clicking next, next question should be played and answers indication cleared', fakeAsync(() => {
+        answerAllSegmentsOfMockQuestion();
+
+        // verify answers are indeed filled
+        expect(exercisePageDebugger.getCurrentAnswersList()).toEqual([
+          {
+            answer: 'Answer 1',
+            wasWrong: false,
+          },
+          {
+            answer: 'Answer 2',
+            wasWrong: false,
+          }
+        ]);
+
+        // making sure spy call list is empty before clicking
+        const playMultiplePartsSpy: jasmine.Spy<PlayerService['playMultipleParts']> = createPlayMultiplePartsSpy();
+        flush();
+        exercisePageDebugger.detectChanges();
+        expect(playMultiplePartsSpy).not.toHaveBeenCalled();
+
+        exercisePageDebugger.nextQuestion();
+        expect(playMultiplePartsSpy).toHaveBeenCalledOnceWith(jasmine.arrayWithExactContents([
+          ...MockExercise.cadenceToPlayExpectation,
+          ...MockExercise.questionToPlayExpectation,
+        ]));
+
+        playMultiplePartsSpy.and.callThrough();
+
+        expect(exercisePageDebugger.getCurrentAnswersList()).toEqual([
+          {
+            answer: null,
+            wasWrong: false,
+          },
+          {
+            answer: null,
+            wasWrong: false,
+          }
+        ]);
+      }));
+    });
+
+    describe('play on answer click', () => {
+      it('Nothing should played before completing all answers', fakeAsync(() => {
+        const playerSpy = createPlayMultiplePartsSpy();
+        exercisePageDebugger.clickOnAnswer('Answer 1');
+        expect(playerSpy).not.toHaveBeenCalled();
+      }));
+
+      it('after all segments when answers, it should play answers on click', fakeAsync(() => {
+        answerAllSegmentsOfMockQuestion();
+        const playPartSpy: jasmine.Spy<PlayerService['playPart']> = spyOn(TestBed.inject(PlayerService), 'playPart');
+        exercisePageDebugger.clickOnAnswer('Answer 1');
+        expect(playPartSpy).toHaveBeenCalledOnceWith(jasmine.arrayWithExactContents([
+          jasmine.objectContaining<NoteEvent>({
+            notes: ['F4'],
+            duration: '4n',
+          }),
+        ]));
+
+        // verify answers indication remain
+        expect(exercisePageDebugger.getCurrentAnswersList()).toEqual([
+          {
+            answer: 'Answer 1',
+            wasWrong: false,
+          },
+          {
+            answer: 'Answer 2',
+            wasWrong: false,
+          }
+        ]);
+
+        playPartSpy.and.callThrough();
+      }))
+    });
+  });
 })
