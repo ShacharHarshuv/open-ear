@@ -1,4 +1,3 @@
-import { Spectator } from '@ngneat/spectator';
 import { ExercisePage } from './exercise.page';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ExerciseSettingsDataMockService } from '../../services/exercise-settings-data.mock.service';
@@ -7,7 +6,6 @@ import { ModalModule } from '../../shared/modal/modal.module';
 import { MockExercise } from '../MockExercise';
 import { SharedComponentsModule } from '../../shared/components/shared-components/shared-components.module';
 import {
-  ComponentFixture,
   TestBed,
   fakeAsync,
   flush,
@@ -22,57 +20,10 @@ import {
   PartToPlay,
   NoteEvent,
 } from '../../services/player.service';
-import {
-  TestingUtility,
-  BaseComponentDebugger,
-} from '../../shared/testing-utility';
-import { Exercise } from '../Exercise';
+import { ExercisePageDebugger } from './exerice.page.debugger.spec';
 import MatchableArgs = jasmine.MatchableArgs;
 
-class ExercisePageDebugger extends BaseComponentDebugger<ExercisePage> {
-  getPossibleAnswersList(): string[] {
-    return this.spectator.queryAll('.exercise__answer-button').map((element: HTMLElement) => element.innerText)
-  }
-
-  getExerciseTitle(): string | null {
-    const toolbarElement: HTMLElement | null = this.spectator.query<HTMLElement>('ion-toolbar');
-    return toolbarElement?.innerText ?? null;
-  }
-
-  displayExplanation(): void {
-    TestingUtility.getButtonByIcon('help-outline').click();
-    this.fixture.detectChanges();
-  }
-
-  closeExplanation(): void {
-    TestingUtility.getButtonByIcon('close-outline').click();
-    this.fixture.detectChanges();
-  }
-
-  clickOnRepeat(): void {
-    TestingUtility.getButtonByText('repeat').click();
-    this.fixture.detectChanges();
-  }
-
-  clickOnMusicalNote(): void {
-    TestingUtility.getButtonByIcon('musical-note').click();
-    this.fixture.detectChanges();
-  }
-
-  getCurrentAnswersList(): {
-    answer: Exercise.Answer | null;
-    wasWrong: boolean;
-  }[] {
-    return Array.from(document.querySelectorAll('app-answer-indication')).map((answerIndication: HTMLElement) => {
-      return {
-        answer: answerIndication.innerText === '?' ? null : answerIndication.innerText,
-        wasWrong: answerIndication.classList.contains('--wrong'),
-      }
-    });
-  }
-}
-
-fdescribe('ExercisePage', () => {
+describe('ExercisePage', () => {
   const spies: jasmine.Spy[] = [];
   let exercisePageDebugger: ExercisePageDebugger;
 
