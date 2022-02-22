@@ -22,16 +22,15 @@ import {
   PartToPlay,
   NoteEvent,
 } from '../../services/player.service';
-import { TestingUtility } from '../../shared/testing-utility';
+import {
+  TestingUtility,
+  BaseComponentDebugger,
+} from '../../shared/testing-utility';
+import { Exercise } from '../Exercise';
 import MatchableArgs = jasmine.MatchableArgs;
 
-class ExercisePageDebugger {
-  readonly spectator: Spectator<ExercisePage> = new Spectator<ExercisePage>(this.fixture, this.fixture.debugElement, this.fixture.componentInstance, this.fixture.nativeElement);
-
-  constructor(public readonly fixture: ComponentFixture<ExercisePage>) {
-  }
-
-  getAnswersList(): string[] {
+class ExercisePageDebugger extends BaseComponentDebugger<ExercisePage> {
+  getPossibleAnswersList(): string[] {
     return this.spectator.queryAll('.exercise__answer-button').map((element: HTMLElement) => element.innerText)
   }
 
@@ -59,9 +58,21 @@ class ExercisePageDebugger {
     TestingUtility.getButtonByIcon('musical-note').click();
     this.fixture.detectChanges();
   }
+
+  getCurrentAnswersList(): {
+    answer: Exercise.Answer | null;
+    wasWrong: boolean;
+  }[] {
+    return Array.from(document.querySelectorAll('app-answer-indication')).map((answerIndication: HTMLElement) => {
+      return {
+        answer: answerIndication.innerText === '?' ? null : answerIndication.innerText,
+        wasWrong: answerIndication.classList.contains('--wrong'),
+      }
+    });
+  }
 }
 
-describe('ExercisePage', () => {
+fdescribe('ExercisePage', () => {
   const spies: jasmine.Spy[] = [];
   let exercisePageDebugger: ExercisePageDebugger;
 
@@ -127,7 +138,7 @@ describe('ExercisePage', () => {
 
   it('all answers should be visible', async () => {
     createComponent();
-    expect(exercisePageDebugger.getAnswersList()).toEqual(['Answer 1', 'Answer 2', 'Answer 3']);
+    expect(exercisePageDebugger.getPossibleAnswersList()).toEqual(['Answer 1', 'Answer 2', 'Answer 3']);
   });
 
   it('exercise name should be visible in the header', async () => {
@@ -156,81 +167,105 @@ describe('ExercisePage', () => {
     expect(document.body.innerText).not.toContain(expectedExplanation);
   });
 
-  /**
-   * figure out how to make a more flexible test here
-   * For example, there are multiple ways to pass in time
-   * (Like a custom matcher?)
-   */
-  const cadenceToPlayExpectation: MatchableArgs<PlayerService['playMultipleParts']>[0][] = [
-    // cadence
-    jasmine.objectContaining<PartToPlay>({
-      partOrTime: [
-        jasmine.objectContaining<NoteEvent>({
-          notes: ['E4'],
-          duration: '4n',
-        }),
-      ],
-    }),
-    jasmine.objectContaining<PartToPlay>({ // this can be optional, need to make the test more relaxed
-      partOrTime: 100,
-    }),
-  ]
+  describe('Playing Questions', function() {
+    /**
+     * figure out how to make a more flexible test here
+     * For example, there are multiple ways to pass in time
+     * (Like a custom matcher?)
+     */
+    const cadenceToPlayExpectation: MatchableArgs<PlayerService['playMultipleParts']>[0][] = [
+      // cadence
+      jasmine.objectContaining<PartToPlay>({
+        partOrTime: [
+          jasmine.objectContaining<NoteEvent>({
+            notes: ['E4'],
+            duration: '4n',
+          }),
+        ],
+      }),
+      jasmine.objectContaining<PartToPlay>({ // this can be optional, need to make the test more relaxed
+        partOrTime: 100,
+      }),
+    ]
 
-  const questionToPlayExpectation: MatchableArgs<PlayerService['playMultipleParts']>[0][] = [
-    // first segment
-    jasmine.objectContaining<PartToPlay>({
-      partOrTime: [
-        jasmine.objectContaining({
-          notes: ['C4'],
-          duration: '4n',
-        }),
-      ],
-    }),
-    //second segment
-    jasmine.objectContaining<PartToPlay>({
-      partOrTime: [
-        jasmine.objectContaining({
-          notes: ['D4'],
-          duration: '4n',
-        }),
-      ],
-    }),
-  ];
+    const questionToPlayExpectation: MatchableArgs<PlayerService['playMultipleParts']>[0][] = [
+      // first segment
+      jasmine.objectContaining<PartToPlay>({
+        partOrTime: [
+          jasmine.objectContaining({
+            notes: ['C4'],
+            duration: '4n',
+          }),
+        ],
+      }),
+      //second segment
+      jasmine.objectContaining<PartToPlay>({
+        partOrTime: [
+          jasmine.objectContaining({
+            notes: ['D4'],
+            duration: '4n',
+          }),
+        ],
+      }),
+    ];
 
-  it('exercise question should be played with cadence when exercise load', fakeAsync(() => {
-    const playMultiplePartsSpy: jasmine.Spy<PlayerService['playMultipleParts']> = spyOn(TestBed.inject(PlayerService), 'playMultipleParts');
-    createComponent();
-    flush();
-    expect(playMultiplePartsSpy).toHaveBeenCalledOnceWith(jasmine.arrayWithExactContents([
-      ...cadenceToPlayExpectation,
-      ...questionToPlayExpectation,
-    ]));
-    playMultiplePartsSpy.and.callThrough();
-  }));
+    it('exercise question should be played with cadence when exercise load', fakeAsync(() => {
+      const playMultiplePartsSpy: jasmine.Spy<PlayerService['playMultipleParts']> = spyOn(TestBed.inject(PlayerService), 'playMultipleParts');
+      createComponent();
+      flush();
+      expect(playMultiplePartsSpy).toHaveBeenCalledOnceWith(jasmine.arrayWithExactContents([
+        ...cadenceToPlayExpectation,
+        ...questionToPlayExpectation,
+      ]));
+      playMultiplePartsSpy.and.callThrough();
+    }));
 
-  it('clicking repeat should repeat the question with cadence', fakeAsync(() => {
-    createComponent();
-    flush();
-    const playMultiplePartsSpy: jasmine.Spy = spyOn(TestBed.inject(PlayerService), 'playMultipleParts');
-    expect(playMultiplePartsSpy).not.toHaveBeenCalled();
-    exercisePageDebugger.clickOnRepeat();
-    flush();
-    expect(playMultiplePartsSpy).toHaveBeenCalledOnceWith(jasmine.arrayWithExactContents([
-      ...cadenceToPlayExpectation,
-      ...questionToPlayExpectation,
-    ]))
-  }));
+    it('clicking repeat should repeat the question with cadence', fakeAsync(() => {
+      createComponent();
+      flush();
+      const playMultiplePartsSpy: jasmine.Spy = spyOn(TestBed.inject(PlayerService), 'playMultipleParts');
+      expect(playMultiplePartsSpy).not.toHaveBeenCalled();
+      exercisePageDebugger.clickOnRepeat();
+      flush();
+      expect(playMultiplePartsSpy).toHaveBeenCalledOnceWith(jasmine.arrayWithExactContents([
+        ...cadenceToPlayExpectation,
+        ...questionToPlayExpectation,
+      ]))
+    }));
 
-  it('exercise question should be played without cadence when clicking musical note icon', fakeAsync(() => {
-    createComponent();
-    flush();
-    const playMultiplePartsSpy: jasmine.Spy = spyOn(TestBed.inject(PlayerService), 'playMultipleParts');
-    expect(playMultiplePartsSpy).not.toHaveBeenCalled();
-    exercisePageDebugger.clickOnMusicalNote();
-    flush();
-    expect(playMultiplePartsSpy).toHaveBeenCalledOnceWith(jasmine.arrayWithExactContents([
-      ...questionToPlayExpectation,
-    ]))
-  }));
+    it('exercise question should be played without cadence when clicking musical note icon', fakeAsync(() => {
+      createComponent();
+      flush();
+      const playMultiplePartsSpy: jasmine.Spy = spyOn(TestBed.inject(PlayerService), 'playMultipleParts');
+      expect(playMultiplePartsSpy).not.toHaveBeenCalled();
+      exercisePageDebugger.clickOnMusicalNote();
+      flush();
+      expect(playMultiplePartsSpy).toHaveBeenCalledOnceWith(jasmine.arrayWithExactContents([
+        ...questionToPlayExpectation,
+      ]))
+    }));
+  });
+
+  describe('Answering', () => {
+    beforeEach(fakeAsync(() => {
+
+    }));
+
+    it('should initially have two unanswered segments', fakeAsync(() => {
+      createComponent();
+      flush();
+      exercisePageDebugger.detectChanges();
+      expect(exercisePageDebugger.getCurrentAnswersList()).toEqual([
+        {
+          answer: null,
+          wasWrong: false,
+        },
+        {
+          answer: null,
+          wasWrong: false,
+        },
+      ])
+    }))
+  });
 
 })
