@@ -31,7 +31,7 @@ interface CurrentAnswer {
 
 @Injectable()
 export class ExerciseStateService {
-  private readonly _originalExercise: Exercise.IExercise = this._exerciseService.getExercise(this._activatedRoute.snapshot.paramMap.get('id')!);
+  private readonly _originalExercise: Exercise.IExercise = this._exerciseService.getExercise(this._activatedRoute.snapshot.params['id']!);
   private _globalSettings: GlobalExerciseSettings = DEFAULT_EXERCISE_SETTINGS;
   readonly name: string = this.exercise.name;
   answerList: AnswerList = this.exercise.getAnswerList();
