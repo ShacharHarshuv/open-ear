@@ -41,7 +41,6 @@ describe('ExercisePage', () => {
         ...ExerciseSettingsDataMockService.providers,
         ...ExerciseMockService.providers,
         ...PlayerMockService.providers,
-        // todo: this is not the most declarative way to mock this
         {
           provide: ActivatedRoute,
           useValue: {
@@ -124,7 +123,7 @@ describe('ExercisePage', () => {
     expect(exercisePageDebugger.getExerciseTitle()).toEqual(MockExercise.instance.name);
   });
 
-  // todo: there is an issue with importing the ionic module, without which it can't work
+  // todo(#75): there is an issue with importing the ionic module, without which it can't work
   xit('should display explanation', async () => {
     const expectedExplanation = MockExercise.instance.explanation;
     if (typeof expectedExplanation !== 'string') {
@@ -181,6 +180,10 @@ describe('ExercisePage', () => {
         ...MockExercise.questionToPlayExpectation,
       ]))
     }));
+
+    // TODO(#76) Test with different "play cadence" modes
+
+    // TODO(#76) Test BPM change. (Cadence bpm should remain regardless of settings)
   });
 
   describe('Answer initialization', function() {
@@ -306,7 +309,7 @@ describe('ExercisePage', () => {
         exercisePageDebugger.detectChanges();
         expect(playMultiplePartsSpy).not.toHaveBeenCalled();
 
-        exercisePageDebugger.nextQuestion();
+        exercisePageDebugger.clickOnNext();
         expect(playMultiplePartsSpy).toHaveBeenCalledOnceWith(jasmine.arrayWithExactContents([
           ...MockExercise.cadenceToPlayExpectation,
           ...MockExercise.questionToPlayExpectation,
@@ -325,6 +328,8 @@ describe('ExercisePage', () => {
           }
         ]);
       }));
+
+      // TODO(#76) Test "move to next question automatically"
     });
 
     describe('play on answer click', () => {
@@ -360,5 +365,46 @@ describe('ExercisePage', () => {
         playPartSpy.and.callThrough();
       }))
     });
+
+    describe('Stats', () => {
+      it('should calculate the stats correctly', fakeAsync(() => {
+        expect(exercisePageDebugger.getStats()).toEqual({
+          correctAnswers: 0,
+          totalAnswers: 0,
+          percentage: 0,
+        });
+
+        exercisePageDebugger.clickOnAnswer('Answer 1');
+        expect(exercisePageDebugger.getStats()).toEqual({
+          correctAnswers: 1,
+          totalAnswers: 1,
+          percentage: 100,
+        });
+
+        exercisePageDebugger.clickOnAnswer('Answer 3');
+        expect(exercisePageDebugger.getStats()).toEqual({
+          correctAnswers: 1,
+          totalAnswers: 1,
+          percentage: 100,
+        });
+
+        exercisePageDebugger.clickOnAnswer('Answer 2');
+        expect(exercisePageDebugger.getStats()).toEqual({
+          correctAnswers: 1,
+          totalAnswers: 2,
+          percentage: 50,
+        });
+
+        exercisePageDebugger.clickOnNext();
+        exercisePageDebugger.clickOnAnswer('Answer 1');
+        expect(exercisePageDebugger.getStats()).toEqual({
+          correctAnswers: 2,
+          totalAnswers: 3,
+          percentage: 66.67,
+        });
+      }))
+    });
   });
-})
+
+  // TODO(#76) test adaptive mode. No need to get into logic, as it's already tests in AdaptiveExercise. Just mock AdaptiveExercise and make sure it's invoked
+});
