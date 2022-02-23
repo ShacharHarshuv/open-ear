@@ -9,7 +9,7 @@ export class ExerciseExplanationContentDirective {
   @Input('exerciseExplanationContent')
   set content(content: Exercise.ExerciseExplanationContent) {
     if (typeof content === 'string') {
-      this._eRef.nativeElement.innerHTML = content;
+      this._eRef.nativeElement.parentElement.innerHTML = content;
     } else {
       this._viewContainerRef.clear();
       this._viewContainerRef.createComponent(
@@ -23,8 +23,5 @@ export class ExerciseExplanationContentDirective {
     private _viewContainerRef: ViewContainerRef,
     private _cfResolver: ComponentFactoryResolver,
   ) {
-  }
-
-  private _clearCurrentContent() {
   }
 }

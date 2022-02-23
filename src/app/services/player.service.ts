@@ -20,6 +20,10 @@ import { timeoutAsPromise } from '../shared/ts-utility';
 
 const DEFAULT_VELOCITY: number = 0.7;
 
+// @ts-ignore
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+const audioCtx = new AudioContext();
+
 export interface NoteEvent {
   notes: Note[] | Note,
   /**
@@ -41,11 +45,27 @@ export type PartToPlay = {
   bpm?: number; // if provided, overrides the general settings for this part only
 };
 
+function getFileArrayBuffer(url: string): Promise<ArrayBuffer> {
+  return new Promise((resolve) => {
+    const request = new XMLHttpRequest();
+    request.open('GET', url, true);
+    request.responseType = 'blob';
+    request.onload = function() {
+      const reader = new FileReader();
+      reader.readAsArrayBuffer(request.response);
+      reader.onload =  function(e){
+        resolve(e.target?.result as ArrayBuffer);
+      };
+    };
+    request.send();
+  })
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class PlayerService {
-  private _instrument: Sampler = this._getInstrument();
+  private _instrumentPromise: Promise<Sampler> = this._getInstrument();
   private _currentlyPlaying: Part | null = null;
   private _currentlyPlayingPartFinishedSchedulerId: number | null = null;
   private _onPartFinished$ = new Subject<void>();
@@ -63,14 +83,22 @@ export class PlayerService {
     await Tone.loaded();
   }
 
-  private static _getSampleMap(): { [note: string]: string } {
-    const sampleMap: { [note: string]: string } = {};
+  private static async _getSampleMap(): Promise<{ [note: string]: AudioBuffer }> {
+    const sampleMap: { [note: string]: AudioBuffer } = {};
     const notesWithSamples: NoteType[] = ['A', 'C', 'D#', 'F#'];
     const octavesWithSamples: number[] = [1, 2, 3, 4, 5, 6, 7];
     for (let noteType of notesWithSamples) {
       for (let octaveNumber of octavesWithSamples) {
         const note = noteTypeToNote(noteType, octaveNumber);
-        sampleMap[note] = encodeURIComponent(`${note}v10.mp3`);
+        sampleMap[note] = await new Promise((resolve, reject) => {
+          getFileArrayBuffer(`${location.origin}/samples/piano-mp3-velocity10/audio/${encodeURIComponent(note)}v10.mp3`).then(arrayBuffer => {
+            audioCtx.decodeAudioData(
+              arrayBuffer,
+              resolve,
+              reject,
+            );
+          })
+        });
       }
     }
     return sampleMap;
@@ -139,6 +167,7 @@ export class PlayerService {
   }
 
   private async _playPart(noteEventList: NoteEvent[]) {
+    const instrument = await this._instrumentPromise;
     let lastTime: Time = 0;
     const normalizedNoteEventList: Required<NoteEvent>[] = noteEventList.map((noteEvent: NoteEvent): Required<NoteEvent> => {
       const normalizedNoteEvent: Required<NoteEvent> = {
@@ -152,7 +181,7 @@ export class PlayerService {
     });
 
     this._currentlyPlaying = new Tone.Part<Required<NoteEvent>>(((time, noteEvent: Required<NoteEvent>) => {
-      this._instrument.triggerAttackRelease(noteEvent.notes, noteEvent.duration, time, noteEvent.velocity);
+      instrument.triggerAttackRelease(noteEvent.notes, noteEvent.duration, time, noteEvent.velocity);
     }), normalizedNoteEventList).start(0);
 
     const stoppingTime: Seconds = _.max(normalizedNoteEventList.map(noteEvent => Tone.Time(noteEvent.time).toSeconds() + Tone.Time(noteEvent.duration).toSeconds()))!;
@@ -168,11 +197,10 @@ export class PlayerService {
       ).toPromise();
   }
 
-  private _getInstrument(): Sampler {
+  private async _getInstrument(): Promise<Sampler> {
     return new Sampler({
-      urls: PlayerService._getSampleMap(),
+      urls: await PlayerService._getSampleMap(),
       release: 1,
-      baseUrl: `${location.origin}/samples/piano-mp3-velocity10/audio/`,
     }).toDestination();
   }
 

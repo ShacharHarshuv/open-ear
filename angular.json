@@ -127,7 +127,12 @@
                 "input": "node_modules/@audio-samples",
                 "output": "samples"
               }
-            ]
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/style"
+              ]
+            }
           },
           "configurations": {
             "ci": {
