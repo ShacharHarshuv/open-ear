@@ -59,8 +59,8 @@ const noteWithChordDescriptorMap: {[noteWithHarmonicContext in NoteWithChord]?: 
     solfegeNote: 'Mi',
   },
   Fa1: {
-    chord: 'vi',
-    solfegeNote: 'Mi',
+    chord: 'IV',
+    solfegeNote: 'Fa',
   },
   Fa3: {
     chord: 'ii',
