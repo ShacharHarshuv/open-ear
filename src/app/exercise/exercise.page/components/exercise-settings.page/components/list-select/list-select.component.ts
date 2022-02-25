@@ -1,22 +1,13 @@
-import {
-  Component,
-  Input,
-  forwardRef
-} from '@angular/core';
-import { BaseControlValueAccessorComponent } from '../../../../../../shared/ts-utility';
+import { Component, Input } from '@angular/core';
+import { BaseControlValueAccessorComponent, getNgValueAccessorProvider } from '../../../../../../shared/ts-utility';
 import { take } from 'rxjs/operators';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-list-select',
   templateUrl: './list-select.component.html',
   styleUrls: ['./list-select.component.scss'],
   providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ListSelectComponent),
-      multi: true,
-    },
+    getNgValueAccessorProvider(ListSelectComponent),
   ],
 })
 export class ListSelectComponent extends BaseControlValueAccessorComponent<(string | number)[]> {

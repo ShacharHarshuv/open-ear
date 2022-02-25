@@ -105,6 +105,15 @@
             slot="end"
           ></ion-toggle>
         </ion-item>
+        <ion-list
+          *ngSwitchCase="'INCLUDED_ANSWERS'"
+        >
+          <ion-list-header>{{exerciseControlSettings.descriptor.label}}</ion-list-header>
+          <app-included-answers
+            [answerList]="exerciseControlSettings.descriptor.answerList"
+            [formControl]="exerciseFormGroup.controls[exerciseControlSettings.key]"
+          ></app-included-answers>
+        </ion-list>
       </ng-container>
     </ng-container>
   </ion-list>

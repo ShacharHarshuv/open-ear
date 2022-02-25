@@ -1,0 +1,47 @@
+<ng-container *ngIf="answerList">
+  <div
+    *ngIf="!isAutoLayout"
+    class="answers-layout__answers-rows-container"
+  >
+    <div
+      *ngFor="let row of answerList.rows"
+      class="answers-layout__answers-row"
+    >
+      <ng-container
+        *ngFor="let answerCellConfig of row"
+        [ngTemplateOutlet]="cellTemplate"
+        [ngTemplateOutletContext]="{$implicit: normalizeAnswerLayoutCellConfig | pureFunction: answerCellConfig}"
+      ></ng-container>
+    </div>
+  </div>
+  <div
+    *ngIf="isAutoLayout"
+    class="answers-layout__answers-buttons-auto-layout-container"
+  >
+    <ng-container
+      *ngFor="let answer of answerList"
+      [ngTemplateOutlet]="cellTemplate"
+      [ngTemplateOutletContext]="{$implicit: normalizeAnswerLayoutCellConfig | pureFunction: answer}"
+    ></ng-container>
+  </div>
+</ng-container>
+
+<ng-template
+  let-answerLayoutCellConfig
+  #cellTemplate
+>
+  <div
+    class="answers-layout__cell"
+    *ngIf="answerLayoutCellConfig.answer"
+    [style.flex]="answerLayoutCellConfig.space"
+  >
+    <ng-template
+      [ngTemplateOutlet]="buttonTemplate"
+      [ngTemplateOutletContext]="{$implicit: answerLayoutCellConfig}"
+    ></ng-template>
+  </div>
+  <div
+    *ngIf="!answerLayoutCellConfig.answer"
+    [style.flex]="answerLayoutCellConfig.space"
+  ></div>
+</ng-template>
