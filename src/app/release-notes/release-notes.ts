@@ -44,5 +44,9 @@ export const releaseNotes: ReleaseNotes = [
   {
     version: '1.2.3',
     notes: 'Click other answers to listen to what they sound like after correct answer received',
+  },
+  {
+    version: '1.2.4',
+    notes: 'Settings for included answers have a more friendly layout that matches the answers in practice view',
   }
 ]

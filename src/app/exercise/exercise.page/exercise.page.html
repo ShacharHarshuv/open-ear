@@ -34,51 +34,25 @@
         [wasAnsweredWrong]="answer.wasWrong"
       ></app-answer-indication>
     </div>
-    <div
-      *ngIf="!isAutoLayout"
-      class="exercise__answers-rows-container"
-    >
-      <div
-        *ngFor="let row of state.answerList.rows"
-        class="exercise__answers-row"
-      >
-        <ng-container
-          *ngFor="let answerCellConfig of row"
-          [ngTemplateOutlet]="answerButton"
-          [ngTemplateOutletContext]="{$implicit: normalizeAnswerLayoutCellConfig | pureFunction: answerCellConfig}"
-        ></ng-container>
-      </div>
-    </div>
-    <div
-      *ngIf="isAutoLayout"
-      class="exercise__answers-buttons-auto-layout-container"
-    >
-      <ng-container
-        *ngFor="let answer of state.answerList"
-        [ngTemplateOutlet]="answerButton"
-        [ngTemplateOutletContext]="{$implicit: normalizeAnswerLayoutCellConfig | pureFunction: answer}"
-      ></ng-container>
-    </div>
+    <app-answers-layout
+      [answerList]="state.answerList"
+      [buttonTemplate]="answerButton"
+    ></app-answers-layout>
     <ng-template
-      let-answerLayoutCellConfig
+      let-answerConfig
       #answerButton
     >
       <ion-button
-        *ngIf="answerLayoutCellConfig.answer as answer"
-        (click)="onAnswerClick(answerLayoutCellConfig)"
+        *ngIf="answerConfig.answer as answer"
+        class="exercise__answer-button"
+        (click)="onAnswerClick(answerConfig)"
         [class.--right]="answer === rightAnswer"
         [class.--highlighted]="answer === state.highlightedAnswer"
         [class.--wrong]="wrongAnswers.includes(answer)"
         [color]="'light'"
-        [style.flex]="answerLayoutCellConfig.space"
-        class="exercise__answer-button"
       >
         {{answer}}
       </ion-button>
-      <div
-        *ngIf="!answerLayoutCellConfig.answer"
-        [style.flex]="answerLayoutCellConfig.space"
-      ></div>
     </ng-template>
     <div class="exercise__actions-container">
       <ion-button

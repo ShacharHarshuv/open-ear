@@ -129,6 +129,11 @@ export namespace Exercise {
     controlType: 'CHECKBOX',
   }
 
+  export interface IncludedAnswersControlDescriptor<GAnswer extends string = string> extends BaseSettingsControlDescriptor {
+    controlType: 'INCLUDED_ANSWERS',
+    answerList: AnswerList<GAnswer>;
+  }
+
   export type SettingValueType = number | string | boolean | (string | number)[];
 
   /*
@@ -140,7 +145,7 @@ export namespace Exercise {
       key: /*GKey*/ keyof GSettings,
       descriptor: /*GSettings[GKey] extends number ? SliderControlDescriptor | SelectControlDescriptor<GSettings[GKey]>
         : GSettings[GKey] extends Array<any> ? ListSelectControlDescriptor
-          : SelectControlDescriptor<GSettings[GKey]>*/ SliderControlDescriptor | SelectControlDescriptor | ListSelectControlDescriptor | CheckboxControlDescriptor,
+          : SelectControlDescriptor<GSettings[GKey]>*/ SliderControlDescriptor | SelectControlDescriptor | ListSelectControlDescriptor | IncludedAnswersControlDescriptor | CheckboxControlDescriptor,
       show?: (settings: GSettings) => boolean;
     }/* : never*/;
 

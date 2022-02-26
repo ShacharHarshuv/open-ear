@@ -3,10 +3,10 @@ import {
   ElementRef,
   Input,
   Output,
-  Injector,
+  Injector, forwardRef, Provider, Type,
 } from '@angular/core';
 import { BaseComponent } from './base-component';
-import { ControlValueAccessor } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
   BehaviorSubject,
   ReplaySubject,
@@ -17,6 +17,14 @@ import {
 import { publishReplayUntilAndConnect } from '../rxjs';
 import { take } from 'rxjs/operators';
 import * as _ from 'lodash';
+
+export function getNgValueAccessorProvider(type: Type<any>): Provider {
+  return {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => type),
+    multi: true,
+  };
+}
 
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
@@ -51,10 +59,9 @@ export abstract class BaseControlValueAccessorComponent<T> extends BaseComponent
   readonly value$: Observable<T> = merge(
     this.modelValue$,
     this.onValueChangeEmitter$,
-  )
-    .pipe(
-      publishReplayUntilAndConnect(this._destroy$),
-    );
+  ).pipe(
+    publishReplayUntilAndConnect(this._destroy$),
+  );
 
   get isDisabled(): boolean {
     return this._isDisabled$.value;
@@ -70,9 +77,9 @@ export abstract class BaseControlValueAccessorComponent<T> extends BaseComponent
   }
 
   getCurrentValuePromise(): Promise<T> {
-    return this.value$.pipe(take(1))
-      .toPromise();
+    return this.value$.pipe(take(1)).toPromise();
   }
+
   //#endregion
 
   //#region ANGULAR

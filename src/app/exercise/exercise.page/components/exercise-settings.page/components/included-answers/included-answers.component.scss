@@ -1,0 +1,12 @@
+@use 'main' as *;
+
+:host {
+  display: block;
+  padding: 2 * $unit;
+}
+
+ion-button {
+  &:not(.--included) {
+    opacity: 0.3;
+  }
+}
