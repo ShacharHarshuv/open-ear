@@ -1,5 +1,5 @@
 import { NoteEvent } from '../services/player.service';
-import { OneOrMany } from '../shared/ts-utility/toArray';
+import { OneOrMany } from '../shared/ts-utility';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import * as _ from 'lodash';
 import { Type } from '@angular/core';
@@ -170,5 +170,8 @@ export namespace Exercise {
     getCurrentSettings?(): GSettings;
 
     onDestroy?(): void;
+  }
+
+  export class ExerciseError extends Error {
   }
 }

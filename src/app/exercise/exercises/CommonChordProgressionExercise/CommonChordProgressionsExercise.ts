@@ -11,6 +11,7 @@ import * as _ from 'lodash';
 import {
   CommonChordProgressionsExplanationComponent
 } from './common-chord-progressions-explanation/common-chord-progressions-explanation.component';
+import { CadenceType } from '../utility/BaseTonalExercise';
 
 type CommonChordProgressionExerciseSettings = BaseRomanAnalysisChordProgressionExerciseSettings & {
   includedProgressions: string[];
@@ -19,13 +20,15 @@ type CommonChordProgressionExerciseSettings = BaseRomanAnalysisChordProgressionE
 interface ProgressionDescriptor {
   romanNumerals: RomanNumeralChord[],
   name?: string,
+  cadenceType?: CadenceType,
 }
 
 export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgressionExercise<CommonChordProgressionExerciseSettings> {
   private static readonly _progression: ProgressionDescriptor[] = [
+    // Diatonic Major progressions
     {
       romanNumerals: ['I', 'V', 'I'],
-      name: 'Perfect Cadence'
+      name: 'Perfect Cadence (Major)'
     },
     {
       romanNumerals: ['I', 'IV', 'I'],
@@ -76,7 +79,78 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
     },
     {
       romanNumerals: ['I', 'vi', 'iii', 'IV'],
-    }
+    },
+    // Diatonic Minor progressions
+    {
+      romanNumerals: ['i', 'V', 'i'],
+      cadenceType: 'i iv V i',
+    },
+    {
+      romanNumerals: ['i', 'iv', 'i'],
+      cadenceType: 'i iv V i',
+    },
+    {
+      romanNumerals: ['i', 'iv', 'V', 'i'],
+      name: 'Minor Classical Cadence',
+      cadenceType: 'i iv V i',
+    },
+    {
+      romanNumerals: ['i', '♭VII', '♭VI', 'i'],
+      cadenceType: 'i iv V i',
+    },
+    {
+      romanNumerals: ['♭VI', 'i', '♭VII', 'i'],
+      cadenceType: 'i iv V i',
+    },
+    {
+      romanNumerals: ['i', '♭VII', '♭VI', '♭VII'],
+      cadenceType: 'i iv V i',
+    },
+    {
+      romanNumerals: ['i', '♭VI', '♭III', '♭VII'],
+      cadenceType: 'i iv V i',
+    },
+    {
+      romanNumerals: ['i', '♭VII', '♭VI', 'V'],
+      name: 'Andalusian Cadence',
+      cadenceType: 'i iv V i',
+    },
+    {
+      romanNumerals: ['i', '♭III', 'iv', '♭VII'],
+      cadenceType: 'i iv V i',
+    },
+    {
+      romanNumerals: ['i', '♭III', '♭VI', 'V'],
+      cadenceType: 'i iv V i',
+    },
+    {
+      romanNumerals: ['iiᵒ', 'V', 'i'],
+      name: 'Minor 2-5-1',
+      cadenceType: 'i iv V i',
+    },
+    {
+      romanNumerals: ['i', 'iv', '♭VI', 'V', 'i'],
+      cadenceType: 'i iv V i',
+    },
+    {
+      romanNumerals: ['i', 'iv', 'v'],
+      cadenceType: 'i iv V i',
+    },
+    {
+      romanNumerals: ['i', '♭VI', '♭III', 'iv'],
+      cadenceType: 'i iv V i',
+    },
+    // Non-diatonic progressions
+    {
+      romanNumerals: ['I', 'IV', 'iv', 'I'],
+      name: 'Minor Plagal Cadence',
+    },
+    {
+      romanNumerals: ['I', 'III', 'vi', 'IV'],
+    },
+    {
+      romanNumerals: ['I', 'VI', 'ii', 'V'],
+    },
   ]
 
   private static readonly _defaultProgressions: string[] = [
@@ -100,8 +174,10 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
 
   protected _getChordProgressionInRomanNumerals(): RomanNumeralsChordProgressionQuestion {
     const includedProgressions: ProgressionDescriptor[] = this._getIncludedProgressionsDescriptors();
+    const selectedChordProgression = randomFromList(includedProgressions);
+    this._settings.cadenceType = selectedChordProgression.cadenceType ?? 'I IV V I';
     return {
-      chordProgressionInRomanAnalysis: randomFromList(includedProgressions.map(progression => progression.romanNumerals))
+      chordProgressionInRomanAnalysis: selectedChordProgression.romanNumerals,
     };
   }
 
@@ -135,9 +211,10 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
       distinctUntilChanged(),
       takeUntil(this._destroy$),
     ).subscribe(() => {
+      const newIncludedAnswers: RomanNumeralChord[] = _.uniq(_.flatMap(this._getIncludedProgressionsDescriptors(), 'romanNumerals'));
       this.updateSettings({
         ...this._settings,
-        includedAnswers: _.uniq(_.flatMap(this._getIncludedProgressionsDescriptors(), 'romanNumerals'))
+        includedAnswers: newIncludedAnswers,
       })
     })
   }
