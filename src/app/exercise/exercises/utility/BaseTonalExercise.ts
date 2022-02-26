@@ -9,7 +9,7 @@ import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { NoteType } from '../../utility/music/notes/NoteType';
 import { Frequency } from 'tone/Tone/core/type/Units';
 
-type CadenceType = 'I IV V I' | 'i iv V i';
+export type CadenceType = 'I IV V I' | 'i iv V i';
 
 export type BaseTonalExerciseSettings<GAnswer extends string> = BaseCommonSettingsExerciseSettings<GAnswer> & {
   cadenceType: CadenceType;
