@@ -1,4 +1,4 @@
-@import 'main';
+@use 'main' as *;
 
 .exercise {
   &__content-container {
@@ -17,7 +17,7 @@
   &__answers-row {
     display: flex;
 
-    ion-button {
+    > * {
       min-width: 0;
       flex: 1;
     }

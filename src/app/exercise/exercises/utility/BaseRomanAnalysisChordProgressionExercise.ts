@@ -3,13 +3,14 @@ import {
   BaseTonalChordProgressionExerciseSettings,
   ChordProgressionQuestion
 } from './BaseTonalChordProgressionExercise';
-import { Chord, TriadInversion } from '../../utility/music/chords';
+import { Chord, ChordSymbol, TriadInversion } from '../../utility/music/chords';
 import * as _ from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { PlayAfterCorrectAnswerSetting } from './PlayAfterCorrectAnswerSetting';
 import { Exercise } from '../../Exercise';
 import { Interval, toArray, toNoteNumber, toSteadyPart } from '../../utility';
 import { transpose } from '../../utility/music/transpose';
+import { NoteEvent } from '../../../services/player.service';
 
 export type RomanNumeralChord = 'I' | 'ii' | 'iii' | 'IV' | 'V' | 'vi' | 'viiᵒ';
 
@@ -48,7 +49,7 @@ const chordsInC: { chord: Chord; answer: RomanNumeralChord }[] = [
   },
 ];
 
-const romanNumeralToChordInC: { [romanNumeral in RomanNumeralChord]?: Chord } = _.mapValues(_.keyBy(chordsInC, 'answer'), 'chord');
+export const romanNumeralToChordInC: { [romanNumeral in RomanNumeralChord]?: Chord } = _.mapValues(_.keyBy(chordsInC, 'answer'), 'chord');
 
 const romanNumeralToResolution: {
   [romanNumeral in RomanNumeralChord]: {
@@ -71,26 +72,13 @@ const romanNumeralToResolution: {
   ii: {
     0: [
       {
-        romanNumeral: 'V',
-        voicingConfig: {
-          topVoicesInversion: TriadInversion.Third,
-        },
-      },
-      {
         romanNumeral: 'I',
-        voicingConfig: {
-          topVoicesInversion: TriadInversion.Octave,
-          octave: 5,
-        },
-      },
-    ],
-    1: [
-      {
-        romanNumeral: 'V',
         voicingConfig: {
           topVoicesInversion: TriadInversion.Fifth,
         },
       },
+    ],
+    1: [
       {
         romanNumeral: 'I',
         voicingConfig: {
@@ -100,15 +88,9 @@ const romanNumeralToResolution: {
     ],
     2: [
       {
-        romanNumeral: 'V',
-        voicingConfig: {
-          topVoicesInversion: TriadInversion.Octave,
-        },
-      },
-      {
         romanNumeral: 'I',
         voicingConfig: {
-          topVoicesInversion: TriadInversion.Fifth,
+          topVoicesInversion: TriadInversion.Third,
         },
       },
     ],
@@ -377,27 +359,53 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
     return question;
   }
 
-  /**
-   * @override
-   * */
-  protected _getDefaultSettings(): GSettings {
+  protected override _getDefaultSettings(): GSettings {
     return {
       ...super._getDefaultSettings(),
       playAfterCorrectAnswer: false,
     };
   }
 
-  protected _getAllAnswersList(): Exercise.AnswerList<RomanNumeralChord> {
+  protected _getAllAnswersListInC(): Exercise.AnswerList<RomanNumeralChord> {
+    function getPlayOnClickPart(chord: ChordSymbol): NoteEvent[] {
+      return [{
+        notes: new Chord(chord).getVoicing({topVoicesInversion: TriadInversion.Fifth}),
+        velocity: 0.3,
+        duration: '2n',
+      }];
+    }
+
     return {
       rows: [
         [
-          'I',
-          'ii',
-          'iii',
-          'IV',
-          'V',
-          'vi',
-          'viiᵒ',
+          {
+            answer: 'I',
+            playOnClick: getPlayOnClickPart('C'),
+          },
+          {
+            answer: 'ii',
+            playOnClick: getPlayOnClickPart('Dm'),
+          },
+          {
+            answer: 'iii',
+            playOnClick: getPlayOnClickPart('Em'),
+          },
+          {
+            answer: 'IV',
+            playOnClick: getPlayOnClickPart('F'),
+          },
+          {
+            answer: 'V',
+            playOnClick: getPlayOnClickPart('G'),
+          },
+          {
+            answer: 'vi',
+            playOnClick: getPlayOnClickPart('Am'),
+          },
+          {
+            answer: 'viiᵒ',
+            playOnClick: getPlayOnClickPart('Bdim'),
+          },
         ]
       ]
     }

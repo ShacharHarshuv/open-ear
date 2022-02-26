@@ -37,33 +37,33 @@ export class FormGroup<GControlsOrValue extends { [p: string]: any } = { [p: str
 
   private readonly _options: IAbstractControlOptions<IControlsValue<GControlsOrValue>, GErrors> | undefined = ControlMethods.getOptions(this._validatorOrOpts);
 
-  get asyncValidator(): AsyncValidatorFn<IControlsValue<GControlsOrValue>, GErrors> | null {
+  override get asyncValidator(): AsyncValidatorFn<IControlsValue<GControlsOrValue>, GErrors> | null {
     return super.asyncValidator as AsyncValidatorFn<IControlsValue<GControlsOrValue>, GErrors> | null;
   }
 
-  set asyncValidator(asyncValidator: AsyncValidatorFn<IControlsValue<GControlsOrValue>, GErrors> | null) {
+  override set asyncValidator(asyncValidator: AsyncValidatorFn<IControlsValue<GControlsOrValue>, GErrors> | null) {
     super.asyncValidator = asyncValidator;
   }
 
-  get validator(): ValidatorFn<IControlsValue<GControlsOrValue>, GErrors> | null {
+  override get validator(): ValidatorFn<IControlsValue<GControlsOrValue>, GErrors> | null {
     return super.validator as ValidatorFn<IControlsValue<GControlsOrValue>, GErrors> | null;
   }
 
-  set validator(validator: ValidatorFn<IControlsValue<GControlsOrValue>, GErrors> | null) {
+  override set validator(validator: ValidatorFn<IControlsValue<GControlsOrValue>, GErrors> | null) {
     super.validator = validator;
   }
 
-  get parent(): GParent | null {
+  override get parent(): GParent | null {
     return super.parent as GParent;
   }
 
-  controls: TAbstractControlsOf<GControlsOrValue, GErrors>;
-  readonly value: IControlsValue<GControlsOrValue>;
-  readonly errors: GErrors | null;
-  readonly valueChanges: Observable<IControlsValue<GControlsOrValue>>;
-  readonly status: TControlStatus;
+  override controls: TAbstractControlsOf<GControlsOrValue, GErrors>;
+  override readonly value: IControlsValue<GControlsOrValue>;
+  override readonly errors: GErrors | null;
+  override readonly valueChanges: Observable<IControlsValue<GControlsOrValue>>;
+  override readonly status: TControlStatus;
 
-  readonly statusChanges: Observable<TControlStatus>;
+  override readonly statusChanges: Observable<TControlStatus>;
 
   readonly isTouched$ = this._touchChanges$.asObservable()
     .pipe(startWith(this.touched), distinctUntilChanged());
@@ -110,27 +110,27 @@ export class FormGroup<GControlsOrValue extends { [p: string]: any } = { [p: str
     );
   }
 
-  getRawValue(): IControlsValue<GControlsOrValue> {
+  override getRawValue(): IControlsValue<GControlsOrValue> {
     return super.getRawValue();
   }
 
-  addControl<K extends Extract<keyof GControlsOrValue, string>>(name: K, control: TAbstractControlsOf<GControlsOrValue, GErrors>[K]): void {
+  override addControl<K extends Extract<keyof GControlsOrValue, string>>(name: K, control: TAbstractControlsOf<GControlsOrValue, GErrors>[K]): void {
     super.addControl(name, control);
   }
 
-  removeControl(name: Extract<keyof GControlsOrValue, string>): void {
+  override removeControl(name: Extract<keyof GControlsOrValue, string>): void {
     super.removeControl(name);
   }
 
-  contains(controlName: Extract<keyof GControlsOrValue, string>): boolean {
+  override contains(controlName: Extract<keyof GControlsOrValue, string>): boolean {
     return super.contains(controlName);
   }
 
-  setControl<K extends Extract<keyof GControlsOrValue, string>>(name: K, control: TAbstractControlsOf<GControlsOrValue, GErrors>[K]): void {
+  override setControl<K extends Extract<keyof GControlsOrValue, string>>(name: K, control: TAbstractControlsOf<GControlsOrValue, GErrors>[K]): void {
     super.setControl(name, control);
   }
 
-  setValue(
+  override setValue(
     value: IControlsValue<GControlsOrValue>,
     options?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>,
   ): void {
@@ -138,7 +138,7 @@ export class FormGroup<GControlsOrValue extends { [p: string]: any } = { [p: str
     super.setValue(normalizedValue, options);
   }
 
-  patchValue(
+  override patchValue(
     valueOrObservable: Partial<IControlsValue<GControlsOrValue>>,
     options?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>,
   ): void {
@@ -152,70 +152,70 @@ export class FormGroup<GControlsOrValue extends { [p: string]: any } = { [p: str
     return ControlMethods.disableWhile(this, observable, this._options, options);
   }
 
-  markAsTouched(opts?: Pick<IControlUpdateOptions, 'onlySelf'>): void {
+  override markAsTouched(opts?: Pick<IControlUpdateOptions, 'onlySelf'>): void {
     super.markAsTouched(opts);
     this._touchChanges$.next(true);
   }
 
-  markAsUntouched(opts?: Pick<IControlUpdateOptions, 'onlySelf'>): void {
+  override markAsUntouched(opts?: Pick<IControlUpdateOptions, 'onlySelf'>): void {
     super.markAsUntouched(opts);
     this._touchChanges$.next(false);
   }
 
-  markAsPristine(opts?: Pick<IControlUpdateOptions, 'onlySelf'>): void {
+  override markAsPristine(opts?: Pick<IControlUpdateOptions, 'onlySelf'>): void {
     super.markAsPristine(opts);
     this._dirtyChanges$.next(false);
   }
 
-  markAsDirty(opts?: Pick<IControlUpdateOptions, 'onlySelf'>): void {
+  override markAsDirty(opts?: Pick<IControlUpdateOptions, 'onlySelf'>): void {
     super.markAsDirty(opts);
     this._dirtyChanges$.next(true);
   }
 
-  reset(formState?: TControlValueState<IControlsValue<GControlsOrValue>>, options?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>): void {
+  override reset(formState?: TControlValueState<IControlsValue<GControlsOrValue>>, options?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>): void {
     super.reset(formState, options);
   }
 
-  setValidators(newValidator: ValidatorFn<IControlsValue<GControlsOrValue>, GErrors> | ValidatorFn<IControlsValue<GControlsOrValue>, GErrors>[]): void {
+  override setValidators(newValidator: ValidatorFn<IControlsValue<GControlsOrValue>, GErrors> | ValidatorFn<IControlsValue<GControlsOrValue>, GErrors>[]): void {
     super.setValidators(newValidator);
     super.updateValueAndValidity();
   }
 
-  setAsyncValidators(newValidator: AsyncValidatorFn<IControlsValue<GControlsOrValue>, GErrors> | AsyncValidatorFn<IControlsValue<GControlsOrValue>, GErrors>[] | null): void {
+  override setAsyncValidators(newValidator: AsyncValidatorFn<IControlsValue<GControlsOrValue>, GErrors> | AsyncValidatorFn<IControlsValue<GControlsOrValue>, GErrors>[] | null): void {
     super.setAsyncValidators(newValidator);
     super.updateValueAndValidity();
   }
 
-  hasError<K1 extends keyof IControlsValue<GControlsOrValue>>(errorCode: Extract<keyof GErrors, string>, path?: [K1]): boolean;
-  hasError<K1 extends keyof IControlsValue<GControlsOrValue>, K2 extends keyof IControlsValue<GControlsOrValue>[K1]>(
+  override hasError<K1 extends keyof IControlsValue<GControlsOrValue>>(errorCode: Extract<keyof GErrors, string>, path?: [K1]): boolean;
+  override hasError<K1 extends keyof IControlsValue<GControlsOrValue>, K2 extends keyof IControlsValue<GControlsOrValue>[K1]>(
     errorCode: Extract<keyof GErrors, string>,
     path?: [K1, K2],
   ): boolean;
-  hasError<K1 extends keyof IControlsValue<GControlsOrValue>,
+  override hasError<K1 extends keyof IControlsValue<GControlsOrValue>,
     K2 extends keyof IControlsValue<GControlsOrValue>[K1],
     K3 extends keyof IControlsValue<GControlsOrValue>[K1][K2]>(errorCode: Extract<keyof GErrors, string>, path?: [K1, K2, K3]): boolean;
-  hasError(errorCode: Extract<keyof GErrors, string>, path?: string): boolean;
-  hasError(errorCode: Extract<keyof GErrors, string>, path?: any): boolean {
+  override hasError(errorCode: Extract<keyof GErrors, string>, path?: string): boolean;
+  override hasError(errorCode: Extract<keyof GErrors, string>, path?: any): boolean {
     return super.hasError(errorCode, path);
   }
 
-  async setErrors(errors: Partial<GErrors> | null, opts: Pick<IControlUpdateOptions, 'emitEvent'> = {}): Promise<void> {
+  override async setErrors(errors: Partial<GErrors> | null, opts: Pick<IControlUpdateOptions, 'emitEvent'> = {}): Promise<void> {
     await ControlMethods.setErrors(this, () => {
       return this._errorsSubject$;
     }, errors, opts);
   }
 
-  getError<K extends keyof GErrors, K1 extends keyof IControlsValue<GControlsOrValue>>(errorCode: K, path?: [K1]): GErrors[K] | null;
-  getError<K extends keyof GErrors, K1 extends keyof IControlsValue<GControlsOrValue>, K2 extends keyof IControlsValue<GControlsOrValue>[K1]>(
+  override getError<K extends keyof GErrors, K1 extends keyof IControlsValue<GControlsOrValue>>(errorCode: K, path?: [K1]): GErrors[K] | null;
+  override getError<K extends keyof GErrors, K1 extends keyof IControlsValue<GControlsOrValue>, K2 extends keyof IControlsValue<GControlsOrValue>[K1]>(
     errorCode: K,
     path?: [K1, K2],
   ): GErrors[K] | null;
-  getError<K extends keyof GErrors,
+  override getError<K extends keyof GErrors,
     K1 extends keyof IControlsValue<GControlsOrValue>,
     K2 extends keyof IControlsValue<GControlsOrValue>[K1],
     K3 extends keyof IControlsValue<GControlsOrValue>[K1][K2]>(errorCode: K, path?: [K1, K2, K3]): GErrors[K] | null;
-  getError<K extends keyof GErrors>(errorCode: K, path?: string): GErrors[K] | null;
-  getError<K extends keyof GErrors>(errorCode: K, path?: any): GErrors[K] | null {
+  override getError<K extends keyof GErrors>(errorCode: K, path?: string): GErrors[K] | null;
+  override getError<K extends keyof GErrors>(errorCode: K, path?: any): GErrors[K] | null {
     return super.getError(errorCode as any, path) as GErrors[K] | null;
   }
 

@@ -1,4 +1,19 @@
 @use 'main' as *;
 
 ion-card {
+  &.ios {
+    margin: 8px 8px;
+  }
+}
+
+ion-card-title {
+  &.ios {
+    font-size: 22px;
+  }
+}
+
+ion-card-content {
+  &.ios {
+    font-size: 14px;
+  }
 }

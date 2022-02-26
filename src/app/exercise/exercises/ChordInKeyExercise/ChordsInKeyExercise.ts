@@ -22,7 +22,7 @@ type ChordInKeySettings =
 
 export class ChordsInKeyExercise extends BaseRomanAnalysisChordProgressionExercise<ChordInKeySettings> {
   readonly id: string = 'chordInKey';
-  readonly name: string = 'Chord in Key';
+  readonly name: string = 'Chord Functions';
   readonly summary: string = 'Identify chords based on their tonal context in a key';
   readonly explanation: ExerciseExplanationContent = ChordInKeyExplanationComponent;
 
@@ -39,10 +39,7 @@ export class ChordsInKeyExercise extends BaseRomanAnalysisChordProgressionExerci
     };
   }
 
-  /**
-   * @override
-   * */
-  protected _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordInKeySettings>[] {
+  protected override _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordInKeySettings>[] {
     return [
       ...super._getSettingsDescriptor(),
       ...numberOfSegmentsControlDescriptorList('chords'),
@@ -52,10 +49,7 @@ export class ChordsInKeyExercise extends BaseRomanAnalysisChordProgressionExerci
     ];
   }
 
-  /**
-   * @override
-   * */
-  protected _getDefaultSettings(): ChordInKeySettings {
+  protected override _getDefaultSettings(): ChordInKeySettings {
     return {
       ...super._getDefaultSettings(),
       numberOfSegments: 1,

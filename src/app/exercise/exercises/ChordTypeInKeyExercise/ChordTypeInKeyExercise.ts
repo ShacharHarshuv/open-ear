@@ -31,7 +31,7 @@ type ChordTypeInKeySettings = NumberOfSegmentsSetting & BaseTonalChordProgressio
 
 export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<ChordType, ChordTypeInKeySettings> {
   readonly id: string = 'chordTypeInKey';
-  readonly name: string = 'Chord type in key';
+  readonly name: string = 'Chord Types';
   readonly summary: string = 'Identify chord type (major / minor) when all chords are diatonic to the same key';
   readonly explanation: ExerciseExplanationContent = ChordTypeInKeyExplanationComponent;
 
@@ -52,28 +52,28 @@ export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<Ch
     }
   }
 
-  getQuestion(): Exercise.Question<ChordType> {
+  override getQuestion(): Exercise.Question<ChordType> {
     return {
       ...super.getQuestion(),
       cadence: undefined,
     }
   }
 
-  protected _getAllAnswersList(): Exercise.AnswerList<ChordType> {
+  protected _getAllAnswersListInC(): Exercise.AnswerList<ChordType> {
     return [
       'M',
       'm',
     ];
   }
 
-  protected _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordTypeInKeySettings>[] {
+  protected override _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordTypeInKeySettings>[] {
     return [
       ...super._getSettingsDescriptor(),
       ...numberOfSegmentsControlDescriptorList('chords'),
     ]
   }
 
-  protected _getDefaultSettings(): ChordTypeInKeySettings {
+  protected override _getDefaultSettings(): ChordTypeInKeySettings {
     return {
       ...super._getDefaultSettings(),
       numberOfSegments: 1,

@@ -1,0 +1,7 @@
+{
+	"appId": "com.openear.shachar",
+	"appName": "Open Ear",
+	"webDir": "www",
+	"bundledWebRuntime": false,
+	"backgroundColor": "#9955ff"
+}

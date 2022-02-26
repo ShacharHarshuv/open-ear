@@ -1,28 +1,15 @@
-import { BaseTonalExercise } from './BaseTonalExercise';
-import { BaseCommonSettingsExerciseSettings } from './BaseCommonSettingsExercise';
+import { BaseTonalExercise, BaseTonalExerciseSettings } from './BaseTonalExercise';
 import { Exercise } from '../../Exercise';
-import {
-  randomFromList,
-  StaticOrGetter,
-  toGetter,
-} from '../../../shared/ts-utility';
+import { randomFromList, StaticOrGetter, toGetter, } from '../../../shared/ts-utility';
 import * as _ from 'lodash';
-import {
-  voiceChordProgressionWithVoiceLeading,
-  Chord,
-  ChordSymbol,
-} from '../../utility/music/chords';
+import { Chord, ChordSymbol, voiceChordProgressionWithVoiceLeading, } from '../../utility/music/chords';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { NoteEvent } from '../../../services/player.service';
-import {
-  NotesRange,
-  getInterval,
-} from '../../utility';
+import { getInterval, NotesRange, } from '../../utility';
 import { transpose } from '../../utility/music/transpose';
-import SettingValueType = Exercise.SettingValueType;
 import { Interval } from '../../utility/music/intervals/Interval';
 
-export type BaseTonalChordProgressionExerciseSettings<GAnswer extends string> = BaseCommonSettingsExerciseSettings<GAnswer> & {
+export type BaseTonalChordProgressionExerciseSettings<GAnswer extends string> = BaseTonalExerciseSettings<GAnswer> & {
   voiceLeading: 'RANDOM' | 'CORRECT';
   includedPositions: (0 | 1 | 2)[];
   includeBass: boolean;
@@ -42,8 +29,8 @@ export interface ChordProgressionQuestion<GAnswer extends string> {
   }]>;
 }
 
-export abstract class BaseTonalChordProgressionExercise<GAnswer extends string, GSettings extends BaseTonalChordProgressionExerciseSettings<GAnswer> & { [key: string]: SettingValueType }> extends BaseTonalExercise<GAnswer, GSettings> {
-  protected _settings: GSettings = {
+export abstract class BaseTonalChordProgressionExercise<GAnswer extends string, GSettings extends BaseTonalChordProgressionExerciseSettings<GAnswer>> extends BaseTonalExercise<GAnswer, GSettings> {
+  protected override _settings: GSettings = {
     ...this._settings,
     voiceLeading: 'CORRECT',
     includedPositions: [0, 1, 2],
@@ -139,7 +126,7 @@ export abstract class BaseTonalChordProgressionExercise<GAnswer extends string, 
 
   protected abstract _getChordProgressionInC(): ChordProgressionQuestion<GAnswer>;
 
-  protected _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<GSettings>[] {
+  protected override _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<GSettings>[] {
     return [
       ...super._getSettingsDescriptor(),
       {

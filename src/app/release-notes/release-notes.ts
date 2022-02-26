@@ -33,4 +33,16 @@ export const releaseNotes: ReleaseNotes = [
     version: '1.1.6',
     notes: 'Fix bug where right answers were not highlighted correctly'
   },
+  {
+    version: '1.2.1',
+    notes: 'Support the minor mode for note in key exercise. Note you have to manually select relevant notes and cadence type (for now)'
+  },
+  {
+    version: '1.2.2',
+    notes: 'New "Notes with Chords" exercise. Practice it to memorize the sound of the same scale degrees above different chords.'
+  },
+  {
+    version: '1.2.3',
+    notes: 'Click other answers to listen to what they sound like after correct answer received',
+  }
 ]

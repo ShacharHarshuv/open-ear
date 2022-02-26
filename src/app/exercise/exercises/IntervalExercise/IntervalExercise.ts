@@ -3,11 +3,14 @@ import { Exercise, } from '../../Exercise';
 import {
   randomFromList,
   NotesRange,
-  toNoteName
+  toNoteName, toArray, toNoteNumber
 } from '../../utility';
 import { NoteNumber } from '../../utility/music/notes/NoteNumberOrName';
 import { BaseCommonSettingsExercise } from '../utility/BaseCommonSettingsExercise';
 import {IntervalExerciseExplanationComponent} from "./interval-exercise-explanation/interval-exercise-explanation.component";
+import { NoteEvent } from '../../../services/player.service';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { transpose } from '../../utility/music/transpose';
 
 type Interval = 'Minor 2nd' | 'Major 2nd' | 'Minor 3rd' | 'Major 3rd' | 'Perfect 4th' | 'Aug 4th' | 'Perfect 5th' | 'Minor 6th' | 'Major 6th' | 'Minor 7th' | 'Major 7th' | 'Octave';
 
@@ -19,7 +22,7 @@ export interface IIntervalDescriptor {
 export class IntervalExercise extends BaseCommonSettingsExercise<Interval> {
   readonly id: string = 'interval';
   readonly name: string = 'Intervals';
-  readonly summary: string = 'Identify intervals without context';
+  readonly summary: string = 'Identify intervals chromatically (no key)';
   readonly explanation = IntervalExerciseExplanationComponent;
   readonly range = new NotesRange('C3', 'E5');
 
@@ -74,6 +77,8 @@ export class IntervalExercise extends BaseCommonSettingsExercise<Interval> {
     },
   ]
 
+  private static readonly _intervalNameToIntervalDescriptor: {[intervalName in Interval]: IIntervalDescriptor} = _.keyBy(IntervalExercise.intervalDescriptorList, 'name') as {[intervalName in Interval]: IIntervalDescriptor};
+
   getQuestion(): Exercise.Question<Interval> {
     const randomIntervalDescriptor: IIntervalDescriptor = randomFromList(IntervalExercise.intervalDescriptorList.filter(intervalDescriptor => this._settings.includedAnswers.includes(intervalDescriptor.name)));
     const randomStartingNote: NoteNumber = _.random(this.range.lowestNoteNumber, this.range.highestNoteNumber - randomIntervalDescriptor.semitones);
@@ -89,6 +94,37 @@ export class IntervalExercise extends BaseCommonSettingsExercise<Interval> {
   }
 
   protected _getAllAnswersList(): Exercise.AnswerList<Interval> {
-    return _.map(IntervalExercise.intervalDescriptorList, 'name');
+    return {
+      rows: [
+        ['Minor 2nd', 'Major 2nd'],
+        ['Minor 3rd', 'Major 3rd'],
+        ['Perfect 4th', 'Aug 4th', 'Perfect 5th'],
+        ['Minor 6th', 'Major 6th'],
+        ['Minor 7th', 'Major 7th'],
+        ['Octave'],
+      ].map((row: Interval[]) => row.map((interval: Interval) => {
+        return {
+          answer: interval,
+          playOnClick: (question: Exercise.Question<Interval>) => {
+            const noteList: Note[] = toArray<NoteEvent | Note>(question.segments[0].partToPlay)
+              .map((noteOrEvent): Note => {
+                if (typeof noteOrEvent === 'object') {
+                  return toArray(noteOrEvent.notes)[0]; // assuming no harmonic notes
+                } else {
+                  return noteOrEvent;
+                }
+            })
+            const startNote: Note = _.first(noteList)!;
+            const endNote: Note = _.last(noteList)!;
+            const originalInterval: number = toNoteNumber(endNote) - toNoteNumber(startNote);
+            const direction: 1 | -1 = originalInterval / Math.abs(originalInterval) as 1 | -1;
+            return [
+              startNote,
+              transpose(startNote, direction * IntervalExercise._intervalNameToIntervalDescriptor[interval].semitones)
+            ]
+          }
+        }
+      })),
+    };
   }
 }

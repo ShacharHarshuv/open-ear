@@ -2,7 +2,10 @@ import { NoteEvent } from '../services/player.service';
 import { OneOrMany } from '../shared/ts-utility/toArray';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import * as _ from 'lodash';
-import {Type} from "@angular/core";
+import { Type } from '@angular/core';
+import { isValueTruthy, StaticOrGetter } from '../shared/ts-utility';
+
+type PartToPlay = NoteEvent[] | OneOrMany<Note>;
 
 export namespace Exercise {
   export interface Question<GAnswer extends string = string> {
@@ -12,13 +15,13 @@ export namespace Exercise {
      * */
     segments: {
       rightAnswer: GAnswer;
-      partToPlay: NoteEvent[] | OneOrMany<Note>;
+      partToPlay: PartToPlay;
     }[],
     /**
      * To be played to give the listener a context of the part,
      * Then the part can be played separately or with the cadence
      * */
-    cadence?: NoteEvent[] | OneOrMany<Note>;
+    cadence?: PartToPlay;
     afterCorrectAnswer?: {
       partToPlay: NoteEvent[],
       answerToHighlight?: GAnswer,
@@ -27,14 +30,71 @@ export namespace Exercise {
 
   export type Answer<GAnswer extends string = string> = GAnswer;
 
-  export interface AnswersLayout<GAnswer extends string = string> {
-    rows: Answer<GAnswer>[][];
+  export interface AnswerConfig<GAnswer extends string> {
+    answer: Answer<GAnswer> | null;
+    playOnClick?: StaticOrGetter<PartToPlay | null, [Question<GAnswer>]>,
+    space?: number; // 1 (Default) means all cells takes the same space
   }
 
-  export type AnswerList<GAnswer extends string = string> = Answer<GAnswer>[] | AnswersLayout<GAnswer>;
+  export interface AnswersLayout<GAnswer extends string = string> {
+    /**
+     * Null means an empty space
+     * */
+    rows: (Answer<GAnswer> | null | AnswerConfig<GAnswer>)[][];
+  }
+
+  export interface NormalizedAnswerLayout<GAnswer extends string = string> extends Required<AnswersLayout<GAnswer>> {
+    rows: Required<AnswerConfig<GAnswer>>[][];
+  }
+
+  export function normalizedAnswerList<GAnswer extends string = string>(answerList: AnswerList<GAnswer>): NormalizedAnswerLayout<GAnswer> {
+    const answerLayout: AnswersLayout<GAnswer> = Array.isArray(answerList) ? {
+      rows: [answerList],
+    } : answerList;
+
+    return {
+      rows: answerLayout.rows.map(row => row.map(answerConfig => normalizeAnswerConfig(answerConfig))),
+    }
+  }
+
+  export function normalizeAnswerConfig<GAnswer extends string = string>(cell: Answer<GAnswer> | null | AnswerConfig<GAnswer>): Required<AnswerConfig<GAnswer>> {
+    if (!cell || typeof cell !== 'object') {
+      return {
+        answer: cell,
+        space: 1,
+        playOnClick: null,
+      };
+    }
+
+    return {
+      space: cell.space ?? 1,
+      answer: cell.answer,
+      playOnClick: cell.playOnClick ?? null,
+    };
+  }
+
+  export type AnswerList<GAnswer extends string = string> =
+    (Answer<GAnswer> | AnswerConfig<GAnswer>)[]
+    | AnswersLayout<GAnswer>;
 
   export function flatAnswerList<GAnswer extends string>(answerList: AnswerList<GAnswer>): GAnswer[] {
-    return Array.isArray(answerList) ? answerList : _.flatMap(answerList.rows);
+    if (Array.isArray(answerList)) {
+      return answerList.map((answerOrAnswerConfig): GAnswer | null => {
+        if (typeof answerOrAnswerConfig === 'object') {
+          return answerOrAnswerConfig.answer;
+        } else {
+          return answerOrAnswerConfig;
+        }
+      }).filter(isValueTruthy);
+    } else {
+      return _.flatMap<GAnswer | null | undefined>(answerList.rows.map(row => row.map(cellConfig => {
+        if (typeof cellConfig === 'object') {
+          return cellConfig?.answer;
+        } else {
+          return cellConfig
+        }
+      }))).filter(isValueTruthy);
+    }
   }
 
   export interface BaseSettingsControlDescriptor {
@@ -65,7 +125,7 @@ export namespace Exercise {
     }[];
   }
 
-  export interface CheckboxControlDescriptor extends BaseSettingsControlDescriptor{
+  export interface CheckboxControlDescriptor extends BaseSettingsControlDescriptor {
     controlType: 'CHECKBOX',
   }
 

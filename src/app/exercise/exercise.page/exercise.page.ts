@@ -1,9 +1,11 @@
-import {Component} from '@angular/core';
-import {ExerciseStateService} from '../services/exercise-state/exercise-state.service';
-import {ModalController} from '@ionic/angular';
-import {ExerciseSettingsPage} from './components/exercise-settings.page/exercise-settings.page';
+import { Component } from '@angular/core';
+import { ExerciseStateService } from './state/exercise-state.service';
+import { ModalController } from '@ionic/angular';
+import { ExerciseSettingsPage } from './components/exercise-settings.page/exercise-settings.page';
 import * as _ from 'lodash';
-import {ExerciseExplanationService} from "../services/exercise-explanation.service";
+import { ExerciseExplanationService } from './state/exercise-explanation.service';
+import { Exercise } from '../Exercise';
+import AnswerConfig = Exercise.AnswerConfig;
 
 @Component({
   selector: 'app-exercise-page',
@@ -38,10 +40,14 @@ export class ExercisePage {
     this._init();
   }
 
-  onAnswer(answer: string): void {
+  onAnswerClick(answerConfig: AnswerConfig<string>): void {
     if (this.isQuestionCompleted) {
-      // TODO(OE-8) - play the clicked answer
+      this.state.playAnswer(answerConfig);
       return;
+    }
+    const answer: string | null = answerConfig.answer;
+    if (!answer) {
+      throw new Error(`Clicked answer is ${answer}`)
     }
     const isRight: boolean = this.state.answer(answer);
     if (isRight) {
@@ -75,4 +81,6 @@ export class ExercisePage {
     await this.exerciseExplanation.init();
     await this.state.init()
   }
+
+  readonly normalizeAnswerLayoutCellConfig = Exercise.normalizeAnswerConfig;
 }
