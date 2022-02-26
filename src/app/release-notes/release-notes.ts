@@ -52,5 +52,9 @@ export const releaseNotes: ReleaseNotes = [
   {
     version: '1.2.5',
     notes: 'Support all modes and non-diatonic chords for Chord Functions Exercise. Note you have to manually select relevant chords and cadence type for the scale you want to practice in (for now)',
-  }
+  },
+  {
+    version: '1.2.6',
+    notes: `<b>OpenEar now accepts donations!</b> <a [href]="https://www.paypal.com/donate/?hosted_button_id=2WH25GBMCJTJS">Click here</a> to donate. Any sum is appreciated!`,
+  },
 ]
