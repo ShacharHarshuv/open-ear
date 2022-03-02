@@ -20,6 +20,7 @@ import { Note } from 'tone/Tone/core/type/NoteUnits';
 const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   playCadence: true,
   adaptive: false,
+  showAswerWhenWrong: false,
   bpm: 120,
   moveToNextQuestionAutomatically: false,
 };
@@ -103,15 +104,18 @@ export class ExerciseStateService {
   }
 
   answer(answer: string): boolean {
-    const isRight = this._currentQuestion.segments[this._currentSegmentToAnswer].rightAnswer === answer;
+    const rightAnswer = this._currentQuestion.segments[this._currentSegmentToAnswer].rightAnswer;
+    const isRight = rightAnswer === answer;
+    const showAnswerWhenWrong: boolean = true;
     if (!isRight) {
       this._currentAnswers[this._currentSegmentToAnswer].wasWrong = true;
-    } else {
+    }
+    if(isRight || this._globalSettings.showAswerWhenWrong) {
       this._totalQuestions++;
       if (!this._currentAnswers[this._currentSegmentToAnswer].wasWrong) {
         this._totalCorrectAnswers++;
       }
-      this._currentAnswers[this._currentSegmentToAnswer].answer = answer;
+      this._currentAnswers[this._currentSegmentToAnswer].answer = rightAnswer;
       this._currentSegmentToAnswer++;
 
       // Last segment was answered
@@ -134,6 +138,10 @@ export class ExerciseStateService {
       }
     }
     return isRight;
+  }
+
+  getCurrectAnswer(): string | null{
+    return this._currentQuestion.segments[this._currentSegmentToAnswer].rightAnswer;
   }
 
   async playCurrentCadenceAndQuestion(): Promise<void> {

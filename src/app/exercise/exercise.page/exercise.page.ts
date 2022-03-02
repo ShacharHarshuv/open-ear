@@ -41,23 +41,30 @@ export class ExercisePage {
   }
 
   onAnswerClick(answerConfig: AnswerConfig<string>): void {
+    
     if (this.isQuestionCompleted) {
       this.state.playAnswer(answerConfig);
       return;
     }
     const answer: string | null = answerConfig.answer;
+    
     if (!answer) {
       throw new Error(`Clicked answer is ${answer}`)
     }
     const isRight: boolean = this.state.answer(answer);
-    if (isRight) {
-      this.rightAnswer = answer;
+
+    if (isRight || true) {
+      if(isRight){
+        this.rightAnswer = answer;
+      } else {
+        this.wrongAnswers.push(answer);                
+      }     
       setTimeout(() => {
         this.rightAnswer = null;
+        this.wrongAnswers = [];
       }, 100);
-      this.wrongAnswers = [];
     } else {
-      this.wrongAnswers.push(answer);
+      //this.wrongAnswers.push(answer);
     }
   }
 
