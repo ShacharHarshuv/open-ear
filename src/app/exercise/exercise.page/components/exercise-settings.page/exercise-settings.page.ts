@@ -13,7 +13,7 @@ interface ExerciseSettingsControls {
   bpm: number,
   moveToNextQuestionAutomatically: boolean,
   adaptive: boolean,
-  showAswerWhenWrong: boolean,
+  revealAnswerAfterFirstMistake: boolean,
 }
 
 @Component({
@@ -29,7 +29,7 @@ export class ExerciseSettingsPage {
     playCadenceOptions: new FormControl('ALWAYS'),
     // playCadenceEvery: new FormControl(5),
     adaptive: new FormControl<boolean>(false),
-    showAswerWhenWrong: new FormControl<boolean>(false),
+    revealAnswerAfterFirstMistake: new FormControl<boolean>(false),
     bpm: new FormControl<number>(120),
     moveToNextQuestionAutomatically: new FormControl<boolean>(false),
   });
@@ -59,7 +59,7 @@ export class ExerciseSettingsPage {
         }
       })(),
       adaptive: currentSettings.adaptive,
-      showAswerWhenWrong: currentSettings.showAswerWhenWrong,
+      revealAnswerAfterFirstMistake: currentSettings.revealAnswerAfterFirstMistake,
       bpm: currentSettings.bpm,
       moveToNextQuestionAutomatically: currentSettings.moveToNextQuestionAutomatically,
     })
@@ -110,7 +110,7 @@ export class ExerciseSettingsPage {
         return valueMapping[formGroupValue.playCadenceOptions];
       })(),
       adaptive: formGroupValue.adaptive,
-      showAswerWhenWrong: formGroupValue.showAswerWhenWrong,
+      revealAnswerAfterFirstMistake: formGroupValue.revealAnswerAfterFirstMistake,
       bpm: formGroupValue.bpm,
       moveToNextQuestionAutomatically: formGroupValue.moveToNextQuestionAutomatically,
     }

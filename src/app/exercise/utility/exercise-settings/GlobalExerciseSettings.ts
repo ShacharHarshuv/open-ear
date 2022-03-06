@@ -4,7 +4,7 @@ export interface GlobalExerciseSettings {
    * */
   playCadence: true | false | 'ONLY_ON_REPEAT' /*| 'EVERY_NEW_KEY' | number*/; // TODO(OE-12, OE-13)
   adaptive: boolean;
-  showAswerWhenWrong: boolean;
+  revealAnswerAfterFirstMistake: boolean;
   bpm: number;
   moveToNextQuestionAutomatically: boolean;
 }

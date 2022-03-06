@@ -20,7 +20,7 @@ import { Note } from 'tone/Tone/core/type/NoteUnits';
 const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   playCadence: true,
   adaptive: false,
-  showAswerWhenWrong: false,
+  revealAnswerAfterFirstMistake: false,
   bpm: 120,
   moveToNextQuestionAutomatically: false,
 };
@@ -106,11 +106,10 @@ export class ExerciseStateService {
   answer(answer: string): boolean {
     const rightAnswer = this._currentQuestion.segments[this._currentSegmentToAnswer].rightAnswer;
     const isRight = rightAnswer === answer;
-    const showAnswerWhenWrong: boolean = true;
     if (!isRight) {
       this._currentAnswers[this._currentSegmentToAnswer].wasWrong = true;
     }
-    if(isRight || this._globalSettings.showAswerWhenWrong) {
+    if(isRight || this._globalSettings.revealAnswerAfterFirstMistake) {
       this._totalQuestions++;
       if (!this._currentAnswers[this._currentSegmentToAnswer].wasWrong) {
         this._totalCorrectAnswers++;

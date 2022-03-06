@@ -52,21 +52,19 @@ export class ExercisePage {
       throw new Error(`Clicked answer is ${answer}`)
     }
     const isRight: boolean = this.state.answer(answer);
-
-    if (isRight || true) {
-      if(isRight){
-        this.rightAnswer = answer;
-      } else {
-        this.wrongAnswers.push(answer);                
-      }     
-      setTimeout(() => {
-        this.rightAnswer = null;
+    if(isRight){
+      this.rightAnswer = answer;
+      this.wrongAnswers = [];
+    } else {       
+      this.wrongAnswers.push(answer);                
+    }     
+    setTimeout(() => {
+      if(this.state.globalSettings.revealAnswerAfterFirstMistake){
         this.wrongAnswers = [];
-      }, 100);
-    } else {
-      //this.wrongAnswers.push(answer);
+      }
+      this.rightAnswer = null;       
+      }, 100);      
     }
-  }
 
   async editSettings(): Promise<void> {
     const allAvailableAnswers: string[] = typeof this.state.answerList === 'object' ? _.flatMap(this.state.answerList) : this.state.answerList;
