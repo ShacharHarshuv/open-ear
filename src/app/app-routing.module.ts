@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { SandboxComponent } from './sandbox/sandbox.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,10 @@ const routes: Routes = [
   {
     path: 'exercise/:id',
     loadChildren: () => import('./exercise/exercise.module').then( m => m.ExerciseModule)
+  },
+  {
+    path: 'sandbox',
+    component: SandboxComponent,
   },
   {
     path: '',
