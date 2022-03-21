@@ -1,11 +1,7 @@
 import { Exercise } from '../../Exercise';
 import { BaseExercise } from './BaseExercise';
-import * as _ from 'lodash';
 import AnswerList = Exercise.AnswerList;
 import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
-import normalizeAnswerLayoutCellConfig = Exercise.normalizeAnswerConfig;
-import AnswerLayoutCellConfig = Exercise.AnswerConfig;
-import AnswersLayout = Exercise.AnswersLayout;
 import IncludedAnswersControlDescriptor = Exercise.IncludedAnswersControlDescriptor;
 
 export type BaseCommonSettingsExerciseSettings<GAnswer extends string> = {
@@ -18,24 +14,7 @@ export abstract class BaseCommonSettingsExercise<GAnswer extends string = string
   protected _settings: GSettings = this._getDefaultSettings();
 
   getAnswerList(): AnswerList<GAnswer> {
-    const includedAnswersList: GAnswer[] = this._settings.includedAnswers;
-
-    const answerLayout: AnswersLayout<GAnswer> = Array.isArray(this._allAnswersList) ? {
-      rows: [ this._allAnswersList ],
-    } : this._allAnswersList;
-
-    const normalizedAnswerLayout: {
-      rows: Required<AnswerLayoutCellConfig<GAnswer>>[][],
-    } = {
-      rows: answerLayout.rows.map((row): Required<AnswerLayoutCellConfig<GAnswer>>[] => row.map(normalizeAnswerLayoutCellConfig)),
-    }
-
-    return {
-      rows: normalizedAnswerLayout.rows.map((row: Required<AnswerLayoutCellConfig<GAnswer>>[]): Required<AnswerLayoutCellConfig<GAnswer>>[] => _.map(row, answerLayoutCellConfig => answerLayoutCellConfig.answer && includedAnswersList.includes(answerLayoutCellConfig.answer) ? answerLayoutCellConfig : {
-        ...answerLayoutCellConfig,
-        answer: null, // In the future it's possible we'll want to configure a button to be disabled instead of hidden in this case
-      }))
-    }
+    return Exercise.filterIncludedAnswers(this._allAnswersList, this._settings.includedAnswers);
   }
 
   protected abstract _getAllAnswersList(): AnswerList<GAnswer>;

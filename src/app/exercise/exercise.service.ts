@@ -12,6 +12,7 @@ import {
 } from './exercises/CommonChordProgressionExercise/CommonChordProgressionsExercise';
 import { ChordArpeggioExercise } from './exercises/ChordArpeggioExercise/ChordArpeggioExercise';
 import { NotesWithChordsExercise } from './exercises/NotesWithChords/NotesWithChordsExercise';
+import { ChordsInRealSongsExercise } from './exercises/ChordsInRealSongsExercise/ChordsInRealSongsExercise';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,7 @@ export class ExerciseService {
     new NotesInKeyExercise() as unknown as IExercise, // TODO(OE-27)
     new ChordsInKeyExercise() as unknown as IExercise, // TODO(OE-27)
     new CommonChordProgressionsExercise() as unknown as IExercise, // TODO(OE-27)
+    new ChordsInRealSongsExercise(),
     new ChordTypeInKeyExercise() as unknown as IExercise, // TODO(OE-27)
     new NotesWithChordsExercise() as unknown as IExercise, // TODO(OE-27)
     new TriadInversionExercise() as unknown as IExercise, // TODO(OE-27)

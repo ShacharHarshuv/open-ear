@@ -586,6 +586,8 @@ export type RomanNumeralsChordProgressionQuestion = {
 };
 
 export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extends BaseRomanAnalysisChordProgressionExerciseSettings> extends BaseTonalChordProgressionExercise<RomanNumeralChord, GSettings> {
+  static allAnswersList: Exercise.AnswerList<RomanNumeralChord> = BaseRomanAnalysisChordProgressionExercise._getAllAnswersList();
+
   protected abstract _getChordProgressionInRomanNumerals(): RomanNumeralsChordProgressionQuestion;
 
   protected _getChordProgressionInC(): ChordProgressionQuestion<RomanNumeralChord> {
@@ -659,6 +661,10 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
   }
 
   protected _getAllAnswersListInC(): Exercise.AnswerList<RomanNumeralChord> {
+    return BaseRomanAnalysisChordProgressionExercise.allAnswersList;
+  }
+
+  private static _getAllAnswersList(): Exercise.AnswerList<RomanNumeralChord> {
     function getPlayOnClickPart(chord: Chord): NoteEvent[] {
       return [{
         notes: chord.getVoicing({topVoicesInversion: TriadInversion.Fifth}),

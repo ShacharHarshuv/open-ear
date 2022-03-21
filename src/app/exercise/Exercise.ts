@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 import { Type } from '@angular/core';
 import { isValueTruthy, StaticOrGetter } from '../shared/ts-utility';
 
+
 type PartToPlay = NoteEvent[] | OneOrMany<Note>;
 
 export namespace Exercise {
@@ -94,6 +95,25 @@ export namespace Exercise {
           return cellConfig
         }
       }))).filter(isValueTruthy);
+    }
+  }
+
+  export function filterIncludedAnswers<GAnswer extends string>(allAnswerList: Exercise.AnswerList<GAnswer>, includedAnswersList: GAnswer[]) {
+    const answerLayout: AnswersLayout<GAnswer> = Array.isArray(allAnswerList) ? {
+      rows: [ allAnswerList ],
+    } : allAnswerList;
+
+    const normalizedAnswerLayout: {
+      rows: Required<AnswerConfig<GAnswer>>[][],
+    } = {
+      rows: answerLayout.rows.map((row): Required<AnswerConfig<GAnswer>>[] => row.map(normalizeAnswerConfig)),
+    }
+
+    return {
+      rows: normalizedAnswerLayout.rows.map((row: Required<AnswerConfig<GAnswer>>[]): Required<AnswerConfig<GAnswer>>[] => _.map(row, answerLayoutCellConfig => answerLayoutCellConfig.answer && includedAnswersList.includes(answerLayoutCellConfig.answer) ? answerLayoutCellConfig : {
+        ...answerLayoutCellConfig,
+        answer: null, // In the future it's possible we'll want to configure a button to be disabled instead of hidden in this case
+      }))
     }
   }
 
