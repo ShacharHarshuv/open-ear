@@ -139,9 +139,6 @@ export class ExerciseStateService {
     return isRight;
   }
 
-  getCurrectAnswer(): string | null{
-    return this._currentQuestion.segments[this._currentSegmentToAnswer].rightAnswer;
-  }
 
   async playCurrentCadenceAndQuestion(): Promise<void> {
     const partsToPlay: PartToPlay[] = this._getCurrentQuestionPartsToPlay();
