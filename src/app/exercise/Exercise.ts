@@ -36,12 +36,11 @@ export namespace Exercise {
     type?: 'notes',
   }
 
-  export interface YouTubeQuestion<GAnswer extends string> extends BaseQuestion<GAnswer, {
+  export interface YouTubeQuestion<GAnswer extends string = string> extends BaseQuestion<GAnswer, {
     rightAnswer: GAnswer,
     seconds: number,
   }> {
     type: 'youtube',
-    key: NoteType,
     videoId: string,
     endSeconds: number,
   }

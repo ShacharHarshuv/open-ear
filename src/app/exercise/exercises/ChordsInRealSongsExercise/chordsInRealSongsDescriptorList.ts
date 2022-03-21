@@ -4,7 +4,7 @@ import { RomanNumeralChord } from '../utility/BaseRomanAnalysisChordProgressionE
 export interface ProgressionInSongFromYouTubeDescriptor {
   key: NoteType,
   mode: 'MAJOR' | 'MINOR', // will determinate the cadence to play
-  youTubeVideoId: string;
+  videoId: string;
   chords: {
     seconds: number,
     chord: RomanNumeralChord,
@@ -16,7 +16,7 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
   {
     key: 'D',
     mode: 'MAJOR',
-    youTubeVideoId: 'Bg59q4puhmg',
+    videoId: 'Bg59q4puhmg',
     chords: [
       {
         seconds: 36,
