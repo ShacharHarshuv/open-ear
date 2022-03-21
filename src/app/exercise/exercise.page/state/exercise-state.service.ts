@@ -16,6 +16,7 @@ import AnswerList = Exercise.AnswerList;
 import Answer = Exercise.Answer;
 import { AdaptiveExercise } from './adaptive-exercise';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { delay } from 'lodash';
 
 const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   playCadence: true,
@@ -159,6 +160,14 @@ export class ExerciseStateService {
   async playCurrentQuestion(): Promise<void> {
     await this._player.playMultipleParts(this._getCurrentQuestionPartsToPlay());
     this._currentlyPlayingSegment = null;
+    console.log(this._originalExercise.id);
+    console.log(this._activatedRoute.snapshot.params['id']!);
+    if(true){//add in settings listening_mode
+      setTimeout(() => {
+        this.answer(this._currentQuestion.segments[this._currentSegmentToAnswer].rightAnswer);
+      }, 500);
+    }
+
   }
 
   nextQuestion(): Promise<void> {
