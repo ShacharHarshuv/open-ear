@@ -40,25 +40,30 @@ export class ExercisePage {
   }
 
   onAnswerClick(answerConfig: AnswerConfig<string>): void {
+    
     if (this.isQuestionCompleted) {
       this.state.playAnswer(answerConfig);
       return;
     }
     const answer: string | null = answerConfig.answer;
+    
     if (!answer) {
       throw new Error(`Clicked answer is ${answer}`)
     }
     const isRight: boolean = this.state.answer(answer);
-    if (isRight) {
+    if(isRight){
       this.rightAnswer = answer;
-      setTimeout(() => {
-        this.rightAnswer = null;
-      }, 100);
       this.wrongAnswers = [];
-    } else {
-      this.wrongAnswers.push(answer);
+    } else {       
+      this.wrongAnswers.push(answer);                
+    }     
+    setTimeout(() => {
+      if(this.state.globalSettings.revealAnswerAfterFirstMistake){
+        this.wrongAnswers = [];
+      }
+      this.rightAnswer = null;       
+      }, 100);      
     }
-  }
 
   async editSettings(): Promise<void> {
     const allAvailableAnswers: string[] = typeof this.state.answerList === 'object' ? _.flatMap(this.state.answerList) : this.state.answerList;
