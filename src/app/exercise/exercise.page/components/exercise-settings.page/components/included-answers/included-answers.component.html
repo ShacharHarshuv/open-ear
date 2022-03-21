@@ -1,0 +1,21 @@
+<ng-container *ngIf="value$ | async as value">
+  <app-answers-layout
+    [answerList]="answerList"
+    [buttonTemplate]="buttonTemplate"
+  ></app-answers-layout>
+
+  <ng-template
+    let-answerConfig
+    #buttonTemplate
+  >
+    <ion-button
+      *ngIf="answerConfig.answer as answer"
+      [color]="'light'"
+      [class.--included]="value.includes(answer)"
+      (click)="toggleInclusion(answer)"
+    >
+      {{answer}}
+    </ion-button>
+  </ng-template>
+
+</ng-container>

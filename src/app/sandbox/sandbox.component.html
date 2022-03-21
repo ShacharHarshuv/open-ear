@@ -1,0 +1,11 @@
+<ion-header [translucent]="true">
+  <ion-toolbar [color]="'primary'">
+    <ion-title>
+      Sandbox
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+    <ion-button (click)="youTubePlayerService.play('Bg59q4puhmg', 48)">play</ion-button>
+  <ion-button (click)="youTubePlayerService.stop()">stop</ion-button>
+</ion-content>

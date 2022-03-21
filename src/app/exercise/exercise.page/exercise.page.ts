@@ -17,7 +17,6 @@ import AnswerConfig = Exercise.AnswerConfig;
   ]
 })
 export class ExercisePage {
-  readonly isAutoLayout: boolean = Array.isArray(this.state.answerList);
   wrongAnswers: string[] = [];
   rightAnswer: string | null = null;
 
@@ -81,6 +80,4 @@ export class ExercisePage {
     await this.exerciseExplanation.init();
     await this.state.init()
   }
-
-  readonly normalizeAnswerLayoutCellConfig = Exercise.normalizeAnswerConfig;
 }

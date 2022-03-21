@@ -14,15 +14,6 @@
     justify-content: center;
   }
 
-  &__answers-row {
-    display: flex;
-
-    > * {
-      min-width: 0;
-      flex: 1;
-    }
-  }
-
   /**
   * CSS here is complicated due to the fact that we want to animate --right, --wrong and --highlighted out,
   * But the button can be both --highlighted and --right at the same time,
@@ -80,21 +71,6 @@
         border-width: 4px;
         transition: border-color 10ms ease-in-out, border-width 10ms ease-in-out;
       }
-    }
-  }
-
-  &__answers-rows-container,
-  &__answers-buttons-auto-layout-container {
-    flex-grow: 1;
-  }
-
-  &__answers-buttons-auto-layout-container {
-    display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
-
-    ion-button {
-      flex: 1;
     }
   }
 

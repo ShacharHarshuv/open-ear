@@ -1,0 +1,40 @@
+@use 'main' as *;
+
+:host {
+  display: contents;
+}
+
+.answers-layout {
+  &__answers-rows-container,
+  &__answers-buttons-auto-layout-container {
+    flex-grow: 1;
+  }
+
+  &__answers-buttons-auto-layout-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+
+    ion-button {
+      flex: 1;
+    }
+  }
+
+  &__answers-row {
+    display: flex;
+    gap: $unit / 2;
+    margin-bottom: $unit / 2;
+
+    > * {
+      min-width: 0;
+      flex: 1;
+    }
+  }
+
+  &__cell {
+    ::ng-deep * {
+      width: 100%;
+      margin: 0;
+    }
+  }
+}

@@ -44,5 +44,17 @@ export const releaseNotes: ReleaseNotes = [
   {
     version: '1.2.3',
     notes: 'Click other answers to listen to what they sound like after correct answer received',
-  }
+  },
+  {
+    version: '1.2.4',
+    notes: 'Settings for included answers have a more friendly layout that matches the answers in practice view',
+  },
+  {
+    version: '1.2.5',
+    notes: 'Support all modes and non-diatonic chords for Chord Functions Exercise. Note you have to manually select relevant chords and cadence type for the scale you want to practice in (for now)',
+  },
+  {
+    version: '1.2.6',
+    notes: `<b>OpenEar now accepts donations!</b> <a href="https://www.paypal.com/donate/?hosted_button_id=2WH25GBMCJTJS">Click here</a> to donate. Any sum is appreciated!`,
+  },
 ]

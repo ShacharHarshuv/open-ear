@@ -13,10 +13,12 @@ import { VersionService } from './version.service';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { ModalModule } from './shared/modal/modal.module';
 import { ReleaseNotesModule } from './release-notes/release-notes.module';
+import { SandboxComponent } from './sandbox/sandbox.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    SandboxComponent,
   ],
   entryComponents: [],
   imports: [

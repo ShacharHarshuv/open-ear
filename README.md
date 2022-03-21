@@ -12,10 +12,14 @@ Currently includes the following built in exercises:
 4. Identify a triad chord inversion in close position
 5. Identify intervals (without context)
 
-Download the app from Google play: https://play.google.com/store/apps/details?id=com.openear.www
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+     alt="Get it on F-Droid"
+     height="80">](https://f-droid.org/packages/com.openear.www/)
+[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
+     alt="Get it on Google Play"
+     height="80">](https://play.google.com/store/apps/details?id=com.openear.www)
 
 ![screenshots](https://user-images.githubusercontent.com/4821858/142942603-4fb8e1cd-49b7-4029-b8f0-1f60a93e0cab.png)
-
 
 ## Contribution
 

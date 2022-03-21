@@ -6,7 +6,10 @@
     Version: {{versionService.version$ | async}}
   </p>
   <ul>
-    <li *ngFor="let releaseNote of (releaseNotesService.relevantReleaseNotes$ | async)">{{releaseNote}}</li>
+    <li
+      *ngFor="let releaseNote of (releaseNotesService.relevantReleaseNotes$ | async)"
+      [innerHtml]="releaseNote"
+    ></li>
   </ul>
   <ion-button expand="block" (click)="modal.close()">Nice! Let's go</ion-button>
 </app-modal-frame>

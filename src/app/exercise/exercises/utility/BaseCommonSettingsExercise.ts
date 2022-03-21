@@ -3,10 +3,10 @@ import { BaseExercise } from './BaseExercise';
 import * as _ from 'lodash';
 import AnswerList = Exercise.AnswerList;
 import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
-import ListSelectControlDescriptor = Exercise.ListSelectControlDescriptor;
 import normalizeAnswerLayoutCellConfig = Exercise.normalizeAnswerConfig;
 import AnswerLayoutCellConfig = Exercise.AnswerConfig;
 import AnswersLayout = Exercise.AnswersLayout;
+import IncludedAnswersControlDescriptor = Exercise.IncludedAnswersControlDescriptor;
 
 export type BaseCommonSettingsExerciseSettings<GAnswer extends string> = {
   includedAnswers: GAnswer[];
@@ -41,13 +41,10 @@ export abstract class BaseCommonSettingsExercise<GAnswer extends string = string
   protected abstract _getAllAnswersList(): AnswerList<GAnswer>;
 
   protected _getSettingsDescriptor(): SettingsControlDescriptor<GSettings>[] {
-    const includedAnswersDescriptor: ListSelectControlDescriptor<GAnswer> = {
-      controlType: 'LIST_SELECT',
+    const includedAnswersDescriptor: IncludedAnswersControlDescriptor<GAnswer> = {
+      controlType: 'INCLUDED_ANSWERS',
       label: 'Included Options',
-      allOptions: this._getIncludedAnswersOptions().map(answer => ({
-        value: answer,
-        label: answer,
-      })),
+      answerList: this._allAnswersList,
     }
     const settingsDescriptorList: SettingsControlDescriptor<BaseCommonSettingsExerciseSettings<GAnswer>>[] = [
       {
