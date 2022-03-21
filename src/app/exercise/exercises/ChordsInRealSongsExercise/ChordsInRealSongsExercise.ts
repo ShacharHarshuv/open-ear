@@ -20,7 +20,7 @@ export class ChordsInRealSongsExercise extends BaseExercise<RomanNumeralChord, {
   override getAnswerList(): Exercise.AnswerList<RomanNumeralChord> {
     const progressionsList: ProgressionInSongFromYouTubeDescriptor[] = chordsInRealSongsDescriptorList;
     const includedAnswers: RomanNumeralChord[] = _.uniq(_.flatMap(progressionsList, (progression: ProgressionInSongFromYouTubeDescriptor): RomanNumeralChord[] => progression.chords.map(chordDescriptor => chordDescriptor.chord)))
-    return Exercise.filterIncludedAnswers(BaseRomanAnalysisChordProgressionExercise.allAnswersList, includedAnswers);
+     return Exercise.filterIncludedAnswers(BaseRomanAnalysisChordProgressionExercise.allAnswersList, includedAnswers);
   }
 
   override getQuestion(): Exercise.Question<RomanNumeralChord> {

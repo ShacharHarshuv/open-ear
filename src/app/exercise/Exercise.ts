@@ -4,20 +4,20 @@ import { Note } from 'tone/Tone/core/type/NoteUnits';
 import * as _ from 'lodash';
 import { Type } from '@angular/core';
 import { isValueTruthy, StaticOrGetter } from '../shared/ts-utility';
+import { NoteType } from './utility/music/notes/NoteType';
 
 
 type PartToPlay = NoteEvent[] | OneOrMany<Note>;
 
 export namespace Exercise {
-  export interface Question<GAnswer extends string = string> {
+
+  interface BaseQuestion<GAnswer extends string, GSegment extends {rightAnswer: GAnswer}> {
+    type?: string, // default: 'notes'
     /**
-     * Use more then one segment for serial exercises
+     * Use more than one segment for serial exercises
      * Example: in a melodic dictation each note is a segment, it has its own answer
      * */
-    segments: {
-      rightAnswer: GAnswer;
-      partToPlay: PartToPlay;
-    }[],
+    segments: GSegment[],
     /**
      * To be played to give the listener a context of the part,
      * Then the part can be played separately or with the cadence
@@ -28,6 +28,25 @@ export namespace Exercise {
       answerToHighlight?: GAnswer,
     }[];
   }
+
+  export interface NotesQuestion<GAnswer extends string = string> extends BaseQuestion<GAnswer, {
+    rightAnswer: GAnswer;
+    partToPlay: PartToPlay;
+  }> {
+    type?: 'notes',
+  }
+
+  export interface YouTubeQuestion<GAnswer extends string> extends BaseQuestion<GAnswer, {
+    rightAnswer: GAnswer,
+    seconds: number,
+  }> {
+    type: 'youtube',
+    key: NoteType,
+    videoId: string,
+    endSeconds: number,
+  }
+
+  export type Question<GAnswer extends string = string> = NotesQuestion<GAnswer> | YouTubeQuestion<GAnswer>;
 
   export type Answer<GAnswer extends string = string> = GAnswer;
 
