@@ -2037,6 +2037,11 @@
   dependencies:
     "@types/jasmine" "*"
 
+"@types/js-priority-queue@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@types/js-priority-queue/-/js-priority-queue-0.0.6.tgz#81a4f4fceadcf5a7721eb733fa1c314d7f633bd9"
+  integrity sha512-cw2I5pmK7GwB0NCNnbYhOG0N7imLqxP5XRriJSoFyztG+/xmHHWL6beu+hXlCeph0EQ/Ynp051jXyAqcVEFfvw==
+
 "@types/json-schema@*", "@types/json-schema@^7.0.3", "@types/json-schema@^7.0.5", "@types/json-schema@^7.0.8", "@types/json-schema@^7.0.9":
   version "7.0.9"
   resolved "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.9.tgz"
@@ -2098,6 +2103,16 @@
   integrity sha512-T8Yc9wt/5LbJyCaLiHPReJa0kApcIgJ7Bn735GjItUfh08Z1pJvu8QZqb9s+mMvKV6WUQRV7K2R46YbjMXTTJw==
   dependencies:
     "@types/yargs-parser" "*"
+
+"@types/youtube-player@^5.5.6":
+  version "5.5.6"
+  resolved "https://registry.yarnpkg.com/@types/youtube-player/-/youtube-player-5.5.6.tgz#d9ee9c8c6cc6f313cd7d52ef94d303148791c7b9"
+  integrity sha512-RcWWUEuAZZX24dG55Xk558/HHCZxYf798/xPnV6wTwDlUF8HZNAmqyXyi+4QgN2l9juP9GRjCwILxXLSPKQBBw==
+
+"@types/youtube@^0.0.46":
+  version "0.0.46"
+  resolved "https://registry.yarnpkg.com/@types/youtube/-/youtube-0.0.46.tgz#925afdf741f35279114da7c58c98013868a949f5"
+  integrity sha512-Yf1Y4bDj/QIn8v+zdy0l7+OW6s1uoUvzVn5cGqPNCsL4iUW4gYUlIdQIRtH9NOHVgwZNLbVeeRDEn6N4RMq6Nw==
 
 "@typescript-eslint/eslint-plugin@4.16.1":
   version "4.16.1"
@@ -3688,7 +3703,7 @@ date-format@^4.0.3:
   resolved "https://registry.npmjs.org/date-format/-/date-format-4.0.3.tgz"
   integrity sha512-7P3FyqDcfeznLZp2b+OMitV9Sz2lUnsT87WaTat9nVwqsBkTzPG3lPLNwW3en6F4pHUiWzr6vb8CLhjdK9bcxQ==
 
-debug@2.6.9, debug@^2.6.9:
+debug@2.6.9, debug@^2.6.6, debug@^2.6.9:
   version "2.6.9"
   resolved "https://registry.npmjs.org/debug/-/debug-2.6.9.tgz"
   integrity sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==
@@ -6209,6 +6224,11 @@ jquery@3.6.0:
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.6.0.tgz#c72a09f15c1bdce142f49dbf1170bdf8adac2470"
   integrity sha512-JVzAR/AjBvVt2BmYhxRCSYysDsPcssdmTFnzyLEts9qNwmjmu4JTAMYubEfwVOSwpQ1I1sKKFcxhZCI2buerfw==
 
+js-priority-queue@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/js-priority-queue/-/js-priority-queue-0.1.5.tgz#f71e9b2120c91e8a1ddab3b7d347dac01d81e837"
+  integrity sha1-9x6bISDJHood2rO300fawB2B6Dc=
+
 js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.npmjs.org/js-tokens/-/js-tokens-4.0.0.tgz"
@@ -6541,6 +6561,11 @@ load-json-file@^2.0.0:
     parse-json "^2.2.0"
     pify "^2.0.0"
     strip-bom "^3.0.0"
+
+load-script@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/load-script/-/load-script-1.0.0.tgz#0491939e0bee5643ee494a7e3da3d2bac70c6ca4"
+  integrity sha1-BJGTngvuVkPuSUp+PaPSuscMbKQ=
 
 loader-runner@^4.2.0:
   version "4.2.0"
@@ -8684,6 +8709,11 @@ simple-swizzle@^0.2.2:
   dependencies:
     is-arrayish "^0.3.1"
 
+sister@^3.0.0:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/sister/-/sister-3.0.2.tgz#bb3e39f07b1f75bbe1945f29a27ff1e5a2f26be4"
+  integrity sha512-p19rtTs+NksBRKW9qn0UhZ8/TUI9BPw9lmtHny+Y3TinWlOa9jWh9xB0AtPSdmOy49NJJJSSe0Ey4C7h0TrcYA==
+
 sisteransi@^1.0.5:
   version "1.0.5"
   resolved "https://registry.npmjs.org/sisteransi/-/sisteransi-1.0.5.tgz"
@@ -10005,6 +10035,15 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.npmjs.org/yocto-queue/-/yocto-queue-0.1.0.tgz"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+youtube-player@^5.5.2:
+  version "5.5.2"
+  resolved "https://registry.yarnpkg.com/youtube-player/-/youtube-player-5.5.2.tgz#052b86b1eabe21ff331095ffffeae285fa7f7cb5"
+  integrity sha512-ZGtsemSpXnDky2AUYWgxjaopgB+shFHgXVpiJFeNB5nWEugpW1KWYDaHKuLqh2b67r24GtP6HoSW5swvf0fFIQ==
+  dependencies:
+    debug "^2.6.6"
+    load-script "^1.0.0"
+    sister "^3.0.0"
 
 zone.js@~0.11.4:
   version "0.11.4"
