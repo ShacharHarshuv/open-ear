@@ -33,4 +33,7 @@ export class PlayerMockService implements PublicMembers<PlayerService> {
     }
   ]
 
+  stop(): void {
+  }
+
 }
