@@ -339,5 +339,178 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     ],
     "endSeconds": 67.5
   },
-
+  {
+    "key": "F",
+    "mode": "MINOR",
+    "videoId": "hTWKbfoikeg",
+    "name": "Smells Like Teen Spirit",
+    "artist": "",
+    "chords": [
+      {
+        "chord": "i",
+        "seconds": 26
+      },
+      {
+        "chord": "iv",
+        "seconds": 27.03
+      },
+      {
+        "chord": "♭III",
+        "seconds": 28.07
+      },
+      {
+        "chord": "♭VI",
+        "seconds": 29.1
+      },
+      {
+        "chord": "i",
+        "seconds": 30.14
+      },
+      {
+        "chord": "iv",
+        "seconds": 31.17
+      },
+      {
+        "chord": "♭III",
+        "seconds": 32.21
+      },
+      {
+        "chord": "♭VI",
+        "seconds": 33.24
+      }
+    ],
+    "endSeconds": 34.28
+  },
+  {
+    "key": "F",
+    "mode": "MINOR",
+    "videoId": "hTWKbfoikeg",
+    "name": "Smells Like Teen Spirit",
+    "artist": "Nirvana",
+    "chords": [
+      {
+        "chord": "i",
+        "seconds": 59.07
+      },
+      {
+        "chord": "iv",
+        "seconds": 60.1
+      },
+      {
+        "chord": "♭III",
+        "seconds": 61.12
+      },
+      {
+        "chord": "♭VI",
+        "seconds": 62.15
+      },
+      {
+        "chord": "i",
+        "seconds": 63.17
+      },
+      {
+        "chord": "iv",
+        "seconds": 64.2
+      },
+      {
+        "chord": "♭III",
+        "seconds": 65.23
+      },
+      {
+        "chord": "♭VI",
+        "seconds": 66.25
+      }
+    ],
+    "endSeconds": 67.28
+  },
+  {
+    "key": "F#",
+    "mode": "MINOR",
+    "videoId": "Zi_XLOBDo_Y",
+    "name": "Billie Jean",
+    "artist": "Michael Jackson",
+    "chords": [
+      {
+        "chord": "♭VI",
+        "seconds": 71.08
+      },
+      {
+        "chord": "i",
+        "seconds": 73.15
+      },
+      {
+        "chord": "♭VI",
+        "seconds": 75.22
+      },
+      {
+        "chord": "i",
+        "seconds": 77.29
+      },
+      {
+        "chord": "♭VI",
+        "seconds": 79.36
+      },
+      {
+        "chord": "i",
+        "seconds": 81.43
+      },
+      {
+        "chord": "♭VI",
+        "seconds": 83.49
+      },
+      {
+        "chord": "V",
+        "seconds": 85.56
+      }
+    ],
+    "endSeconds": 87.59
+  },
+  {
+    "key": "Db",
+    "mode": "MAJOR",
+    "videoId": "1w7OgIMMRc4",
+    "name": "Sweet Child O' Mine",
+    "artist": "Guns N' Roses",
+    chords: [
+      {
+        seconds: 31,
+        chord: 'I'
+      },
+      {
+        seconds: 34.5,
+        chord: '♭VII'
+      },
+      {
+        seconds: 38.5,
+        chord: 'IV',
+      },
+      {
+        seconds: 42,
+        chord: 'I',
+      },
+    ],
+    endSeconds: 46.2,
+  },
+  {
+    "key": "Db",
+    "mode": "MAJOR",
+    "videoId": "1w7OgIMMRc4",
+    "name": "Sweet Child O' Mine",
+    "artist": "Guns N' Roses",
+    chords: [
+      {
+        seconds: 61,
+        chord: 'V'
+      },
+      {
+        seconds: 63,
+        chord: '♭VII',
+      },
+      {
+        seconds: 65,
+        chord: 'I',
+      },
+    ],
+    endSeconds: 69,
+  }
 ]
