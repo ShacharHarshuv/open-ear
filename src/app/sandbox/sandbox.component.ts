@@ -1,11 +1,5 @@
 import { Component } from '@angular/core';
-import PlayerFactory from 'youtube-player';
-import { YouTubePlayer } from 'youtube-player/dist/types';
-import { BehaviorSubject, interval, NEVER } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import * as PriorityQueue from 'js-priority-queue';
-import { YouTubePlayerService } from '../services/you-tube-player.service';
-
+import { YouTubePlayerService } from '../services/players/you-tube-player.service';
 
 
 @Component({

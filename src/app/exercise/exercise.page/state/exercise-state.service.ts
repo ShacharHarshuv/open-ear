@@ -16,7 +16,7 @@ import AnswerList = Exercise.AnswerList;
 import Answer = Exercise.Answer;
 import { AdaptiveExercise } from './adaptive-exercise';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { YouTubePlayerService } from '../../../services/you-tube-player.service';
+import { YouTubePlayerService } from '../../../services/players/you-tube-player.service';
 
 const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   playCadence: true,

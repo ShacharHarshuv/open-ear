@@ -5,7 +5,9 @@ import * as PriorityQueue from 'js-priority-queue';
 import CallbackDescriptor = YouTubePlayerService.CallbackDescriptor;
 import PlayerFactory from 'youtube-player';
 import { filter, skip, switchMap, take, takeUntil } from 'rxjs/operators';
-import { BaseDestroyable } from '../shared/ts-utility';
+import { BaseDestroyable } from '../../shared/ts-utility';
+
+export type YouTubePlayerPart = never; // todo: add part type for youtube player
 
 namespace YouTubePlayerService {
   export interface CallbackDescriptor {
