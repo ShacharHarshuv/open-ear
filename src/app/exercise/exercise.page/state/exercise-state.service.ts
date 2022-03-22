@@ -139,6 +139,7 @@ export class ExerciseStateService {
   }
 
   async playCurrentCadenceAndQuestion(): Promise<void> {
+    await this._stop();
     const cadence: PartToPlay[] | undefined = this._currentQuestion.cadence && [
       {
         partOrTime: toSteadyPart(this._currentQuestion.cadence),
@@ -166,25 +167,8 @@ export class ExerciseStateService {
     this._currentlyPlayingSegment = null;
   }
 
-  private async _playYouTubeQuestion(question: Exercise.YouTubeQuestion): Promise<void> {
-    await this._youtubePlayer.play(question.videoId, question.segments[0].seconds, [
-      ...question.segments.map((segment, i) => ({
-        seconds: segment.seconds,
-        callback: () => {
-          this._currentlyPlayingSegment = i;
-        }
-      })),
-      {
-        seconds: question.endSeconds,
-        callback: () => {
-          this._youtubePlayer.stop();
-        }
-      }
-    ]);
-    await this._youtubePlayer.onStop();
-  }
-
   async playCurrentQuestion(): Promise<void> {
+    await this._stop();
     if (this._currentQuestion.type === 'youtube') {
       await this._playYouTubeQuestion(this._currentQuestion);
     } else {
@@ -231,6 +215,29 @@ export class ExerciseStateService {
       this._updateExerciseSettings(settings.exerciseSettings);
     }
     await this.nextQuestion();
+  }
+
+  private async _stop(): Promise<void> {
+    await this._youtubePlayer.stop();
+    this._notesPlayer.stop();
+  }
+
+  private async _playYouTubeQuestion(question: Exercise.YouTubeQuestion): Promise<void> {
+    await this._youtubePlayer.play(question.videoId, question.segments[0].seconds, [
+      ...question.segments.map((segment, i) => ({
+        seconds: segment.seconds,
+        callback: () => {
+          this._currentlyPlayingSegment = i;
+        }
+      })),
+      {
+        seconds: question.endSeconds,
+        callback: () => {
+          this._youtubePlayer.stop();
+        }
+      }
+    ]);
+    await this._youtubePlayer.onStop();
   }
 
   private _getCurrentQuestionPartsToPlay(): PartToPlay[] {
