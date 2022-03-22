@@ -11,6 +11,8 @@ export interface YouTubeCallbackDescriptor {
   callback: () => void;
 }
 
+const TIME_STAMP_POLLING: number = 200;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -40,7 +42,7 @@ export class YouTubePlayerService extends BaseDestroyable {
         if (!isPlaying) {
           return NEVER;
         } else {
-          return interval(500);
+          return interval(TIME_STAMP_POLLING);
         }
       }),
       takeUntil(this._destroy$),
@@ -49,7 +51,7 @@ export class YouTubePlayerService extends BaseDestroyable {
         return;
       }
       const nextCallback = this._callBackQueue.peek();
-      if (await this._youTubePlayer.getCurrentTime() > nextCallback.seconds) {
+      if (await this._youTubePlayer.getCurrentTime() > nextCallback.seconds - (TIME_STAMP_POLLING / 2000)) {
         this._callBackQueue.dequeue();
         nextCallback.callback();
       }
