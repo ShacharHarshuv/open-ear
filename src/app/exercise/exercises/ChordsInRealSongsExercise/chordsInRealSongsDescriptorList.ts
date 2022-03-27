@@ -512,5 +512,421 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
       },
     ],
     endSeconds: 69,
+  },
+  {
+    "key": "C",
+    "mode": "MAJOR",
+    "videoId": "QDYfEBY9NM4",
+    "name": "Let It Be",
+    "artist": "The Beatles",
+    "chords": [
+      {
+        "chord": "I",
+        "seconds": 64.66
+      },
+      {
+        "chord": "V",
+        "seconds": 66.37
+      },
+      {
+        "chord": "vi",
+        "seconds": 68.06
+      },
+      {
+        "chord": "IV",
+        "seconds": 69.62
+      },
+    ],
+    "endSeconds": 71.35
+  },
+  {
+    "key": "C",
+    "mode": "MAJOR",
+    "videoId": "9OQBDdNHmXo",
+    "name": "All Too Well",
+    "artist": "Taylor Swift",
+    "chords": [
+      {
+        "chord": "I",
+        "seconds": 51.67
+      },
+      {
+        "chord": "V",
+        "seconds": 54.09
+      },
+      {
+        "chord": "vi",
+        "seconds": 56.68
+      },
+      {
+        "chord": "IV",
+        "seconds": 59.41
+      }
+    ],
+    "endSeconds": 61.87
+  },
+  {
+    "key": "C",
+    "mode": "MAJOR",
+    "videoId": "hnK6CoUZZFc",
+    "name": "All Too Well",
+    "artist": "Taylor Swift",
+    "chords": [
+      {
+        "chord": "I",
+        "seconds": 98.04
+      },
+      {
+        "chord": "V",
+        "seconds": 100.62
+      },
+      {
+        "chord": "vi",
+        "seconds": 103.15
+      },
+      {
+        "chord": "IV",
+        "seconds": 105.74
+      }
+    ],
+    "endSeconds": 108.31
+  },
+  {
+    "key": "A",
+    "mode": "MAJOR",
+    "videoId": "hLQl3WQQoQ0",
+    "name": "Someone Like You",
+    "artist": "Adele",
+    "chords": [
+      {
+        "chord": "I",
+        "seconds": 73.7
+      },
+      {
+        "chord": "V",
+        "seconds": 75.51
+      },
+      {
+        "chord": "vi",
+        "seconds": 77.33
+      },
+      {
+        "chord": "IV",
+        "seconds": 79.15
+      },
+    ],
+    "endSeconds": 80.97
+  },
+  {
+    "key": "E",
+    "mode": "MAJOR",
+    "videoId": "1k8craCGpgs",
+    "name": "Don't Stop Believing",
+    "artist": "Journey",
+    "chords": [
+      {
+        "chord": "I",
+        "seconds": 17.36
+      },
+      {
+        "chord": "V",
+        "seconds": 19.12
+      },
+      {
+        "chord": "vi",
+        "seconds": 21.39
+      },
+      {
+        "chord": "IV",
+        "seconds": 23.16
+      }
+    ],
+    "endSeconds": 25.43
+  },
+  {
+    "key": "F",
+    "mode": "MAJOR",
+    "videoId": "aF4CWCXirZ8",
+    "name": "Can You Feel The Love Tonight",
+    "artist": "Elton John",
+    "chords": [
+      {
+        "chord": "I",
+        "seconds": 66.11
+      },
+      {
+        "chord": "V",
+        "seconds": 67.69
+      },
+      {
+        "chord": "vi",
+        "seconds": 69.27
+      },
+      {
+        "chord": "IV",
+        "seconds": 70.85
+      }
+    ],
+    "endSeconds": 72.43
+  },
+  {
+    "key": "F#",
+    "mode": "MAJOR",
+    "videoId": "i8dh9gDzmz8",
+    "name": "When I Come Around",
+    "artist": "Green Day",
+    "chords": [
+      {
+        "chord": "I",
+        "seconds": 15.06
+      },
+      {
+        "chord": "V",
+        "seconds": 15.92
+      },
+      {
+        "chord": "vi",
+        "seconds": 17.16
+      },
+      {
+        "chord": "IV",
+        "seconds": 18.06
+      },
+    ],
+    "endSeconds": 20.01
+  },
+  {
+    "key": "Ab",
+    "mode": "MAJOR",
+    "videoId": "moSFlvxnbgk",
+    "name": "Let It Go",
+    "artist": "Robert and Kristen Anderson-Lopez",
+    "chords": [
+      {
+        "chord": "I",
+        "seconds": 60.49
+      },
+      {
+        "chord": "V",
+        "seconds": 62.24
+      },
+      {
+        "chord": "vi",
+        "seconds": 64.07
+      },
+      {
+        "chord": "IV",
+        "seconds": 65.84
+      }
+    ],
+    "endSeconds": 67.58
+  },
+  {
+    "key": "A",
+    "mode": "MAJOR",
+    "videoId": "kXYiU_JCYtU",
+    "name": "Numb",
+    "artist": "Linkin Park",
+    "chords": [
+      {
+        "chord": "vi",
+        "seconds": 21.7
+      },
+      {
+        "chord": "IV",
+        "seconds": 23.88
+      },
+      {
+        "chord": "I",
+        "seconds": 26.06
+      },
+      {
+        "chord": "V",
+        "seconds": 28.24
+      }
+    ],
+    "endSeconds": 30.42
+  },
+  {
+    "key": "A",
+    "mode": "MAJOR",
+    "videoId": "fe4EK4HSPkI",
+    "name": "Kids",
+    "artist": "MGMT",
+    "chords": [
+      {
+        "chord": "vi",
+        "seconds": 86.34
+      },
+      {
+        "chord": "IV",
+        "seconds": 88.04
+      },
+      {
+        "chord": "I",
+        "seconds": 89.89
+      },
+      {
+        "chord": "V",
+        "seconds": 91.89
+      }
+    ],
+    "endSeconds": 94.15
+  },
+  {
+    "key": "A",
+    "mode": "MAJOR",
+    "videoId": "FTQbiNvZqaY",
+    "name": "Africa",
+    "artist": "Toto",
+    "chords": [
+      {
+        "chord": "vi",
+        "seconds": 69.32
+      },
+      {
+        "chord": "IV",
+        "seconds": 70.60
+      },
+      {
+        "chord": "I",
+        "seconds": 71.92
+      },
+      {
+        "chord": "V",
+        "seconds": 73.22
+      }
+    ],
+    "endSeconds": 74.43
+  },
+  {
+    "key": "A",
+    "mode": "MAJOR",
+    "videoId": "NPBCbTZWnq0",
+    "name": "River flows in you",
+    "artist": "Yiruma",
+    "chords": [
+      {
+        "chord": "vi",
+        "seconds": 53.03
+      },
+      {
+        "chord": "IV",
+        "seconds": 54.59
+      },
+      {
+        "chord": "I",
+        "seconds": 56.28
+      },
+      {
+        "chord": "V",
+        "seconds": 57.87
+      }
+    ],
+    "endSeconds": 60.04
+  },
+  {
+    "key": "F",
+    "mode": "MAJOR",
+    "videoId": "5NPBIwQyPWE",
+    "name": "Complicated",
+    "artist": "Avril Lavigne",
+    "chords": [
+      {
+        "chord": "vi",
+        "seconds": 69.83
+      },
+      {
+        "chord": "IV",
+        "seconds": 70.98
+      },
+      {
+        "chord": "I",
+        "seconds": 72.60
+      },
+      {
+        "chord": "V",
+        "seconds": 74.06
+      }
+    ],
+    "endSeconds": 75.99
+  },
+  {
+    "key": "F",
+    "mode": "MAJOR",
+    "videoId": "SR6iYWJxHqs",
+    "name": "Grenade",
+    "artist": "Bruno Mars",
+    "chords": [
+      {
+        "chord": "vi",
+        "seconds": 39.43
+      },
+      {
+        "chord": "IV",
+        "seconds": 40.49
+      },
+      {
+        "chord": "I",
+        "seconds": 41.56
+      },
+      {
+        "chord": "V",
+        "seconds": 42.61
+      },
+    ],
+    "endSeconds": 43.61
+  },
+  {
+    key: 'Ab',
+    mode: 'MAJOR',
+    videoId: '7I0vkKy504U',
+    name: 'San Francisco',
+    artist: 'Scott McKenzie',
+    chords: [
+      {
+        "chord": "vi",
+        "seconds": 6
+      },
+      {
+        "chord": "IV",
+        "seconds": 8.11
+      },
+      {
+        "chord": "I",
+        "seconds": 10.28
+      },
+      {
+        "chord": "V",
+        "seconds": 12.32
+      },
+    ],
+    endSeconds: 14.46,
+  },
+  {
+    "key": "C",
+    "mode": "MAJOR",
+    "videoId": "dTa2Bzlbjv0",
+    "name": "Save Tonight",
+    "artist": "Eagle Eye Cherry",
+    "chords": [
+      {
+        "chord": "vi",
+        "seconds": 48.17
+      },
+      {
+        "chord": "IV",
+        "seconds": 49.17
+      },
+      {
+        "chord": "I",
+        "seconds": 50.17
+      },
+      {
+        "chord": "V",
+        "seconds": 51.13
+      },
+    ],
+    "endSeconds": 52.17
   }
 ]
