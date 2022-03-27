@@ -47,65 +47,65 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     artist: 'Tim McGraw',
     chords: [
       {
-        seconds: 14,
+        seconds: 14.5,
         chord: 'I',
       },
       {
-        seconds: 17,
+        seconds: 17.7,
         chord: 'V',
       },
       {
-        seconds: 20,
+        seconds: 21,
         chord: 'vi',
       },
       {
-        seconds: 24,
+        seconds: 24.2,
         chord: 'IV',
       },
     ],
-    endSeconds: 27,
+    endSeconds: 28,
   },
   {
-    'key': 'G#',
-    'mode': 'MINOR',
+    'key': 'B',
+    'mode': 'MAJOR',
     'videoId': '1cCBqY2B7lI',
     'name': 'Confusion and Frustration in Modern Times',
     'artist': 'Sum 41',
     'chords': [
       {
-        'chord': 'i',
+        'chord': 'vi',
         'seconds': 0
       },
       {
-        'chord': '♭VI',
-        'seconds': 2.07
+        'chord': 'IV',
+        'seconds': 2.17
       },
       {
-        'chord': '♭III',
-        'seconds': 4.14
+        'chord': 'I',
+        'seconds': 4.44
       },
       {
-        'chord': '♭VII',
-        'seconds': 6.21
+        'chord': 'V',
+        'seconds': 6.41
       },
       {
-        'chord': 'i',
+        'chord': 'vi',
         'seconds': 8.28
       },
       {
-        'chord': '♭VI',
+        'chord': 'IV',
         'seconds': 10.34
       },
       {
-        'chord': '♭III',
+        'chord': 'I',
         'seconds': 12.41
       },
       {
-        'chord': '♭VII',
+        'chord': 'V',
         'seconds': 14.48
       },
       {
-        'chord': '♭VI',
+        'chord': 'IV',
         'seconds': 16.55
       }
     ],
@@ -120,31 +120,31 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     'chords': [
       {
         'chord': 'I',
-        'seconds': 20.92
+        'seconds': 21.92
       },
       {
         'chord': 'IV',
-        'seconds': 21.75
+        'seconds': 22.65
       },
       {
         'chord': 'vi',
-        'seconds': 23.14
+        'seconds': 23.76
       },
       {
         'chord': 'IV',
-        'seconds': 23.98
+        'seconds': 24.64
       },
       {
         'chord': 'I',
-        'seconds': 25.36
+        'seconds': 25.76
       },
       {
         'chord': 'IV',
-        'seconds': 26.2
+        'seconds': 26.81
       },
       {
         'chord': 'V',
-        'seconds': 27.59
+        'seconds': 27.83
       },
     ],
     'endSeconds': 29.81
@@ -162,23 +162,23 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
       },
       {
         "chord": "vi",
-        "seconds": 32.03
+        "seconds": 31.84
       },
       {
         "chord": "IV",
-        "seconds": 33.14
+        "seconds": 32.97
       },
       {
         "chord": "I",
-        "seconds": 34.25
+        "seconds": 34.00
       },
       {
         "chord": "vi",
-        "seconds": 36.48
+        "seconds": 35.93
       },
       {
         "chord": "IV",
-        "seconds": 37.59
+        "seconds": 36.99
       }
     ],
     "endSeconds": 39.28
@@ -192,19 +192,19 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "vi",
-        "seconds": 37.34
+        "seconds": 38.05
       },
       {
         "chord": "IV",
-        "seconds": 38.44
+        "seconds": 39.16
       },
       {
         "chord": "I",
-        "seconds": 39.54
+        "seconds": 40.10
       },
       {
         "chord": "V",
-        "seconds": 40.64
+        "seconds": 41.06
       },
     ],
     "endSeconds": 42.24
@@ -394,31 +394,31 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
       },
       {
         "chord": "iv",
-        "seconds": 60.1
+        "seconds": 59.96
       },
       {
         "chord": "♭III",
-        "seconds": 61.12
+        "seconds": 60.96
       },
       {
         "chord": "♭VI",
-        "seconds": 62.15
+        "seconds": 61.97
       },
       {
         "chord": "i",
-        "seconds": 63.17
+        "seconds": 62.98
       },
       {
         "chord": "iv",
-        "seconds": 64.2
+        "seconds": 63.99
       },
       {
         "chord": "♭III",
-        "seconds": 65.23
+        "seconds": 65.06
       },
       {
         "chord": "♭VI",
-        "seconds": 66.25
+        "seconds": 66.03
       }
     ],
     "endSeconds": 67.28
@@ -436,31 +436,31 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
       },
       {
         "chord": "i",
-        "seconds": 73.15
+        "seconds": 72.94
       },
       {
         "chord": "♭VI",
-        "seconds": 75.22
+        "seconds": 75.02
       },
       {
         "chord": "i",
-        "seconds": 77.29
+        "seconds": 76.99
       },
       {
         "chord": "♭VI",
-        "seconds": 79.36
+        "seconds": 79.16
       },
       {
         "chord": "i",
-        "seconds": 81.43
+        "seconds": 81.20
       },
       {
         "chord": "♭VI",
-        "seconds": 83.49
+        "seconds": 83.2
       },
       {
         "chord": "V",
-        "seconds": 85.56
+        "seconds": 85.19
       }
     ],
     "endSeconds": 87.59

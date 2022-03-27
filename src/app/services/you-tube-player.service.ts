@@ -5,6 +5,7 @@ import * as PriorityQueue from 'js-priority-queue';
 import PlayerFactory from 'youtube-player';
 import { filter, skip, switchMap, take, takeUntil } from 'rxjs/operators';
 import { BaseDestroyable } from '../shared/ts-utility';
+import * as _ from 'lodash';
 
 export interface YouTubeCallbackDescriptor {
   seconds: number;
@@ -28,6 +29,11 @@ export class YouTubePlayerService extends BaseDestroyable {
   constructor() {
     super();
     this._startTimeListener();
+
+    // this helps to sync the chords faster
+    document.addEventListener('click', async () => {
+      console.log(_.round(await this._youTubePlayer.getCurrentTime(), 2) - 0.3); // compensating for delay
+    })
   }
 
   private _getYouTubePlayer(): YouTubePlayer {
@@ -51,7 +57,8 @@ export class YouTubePlayerService extends BaseDestroyable {
         return;
       }
       const nextCallback = this._callBackQueue.peek();
-      if (await this._youTubePlayer.getCurrentTime() > nextCallback.seconds - (TIME_STAMP_POLLING / 2000)) {
+      const currentTime = await this._youTubePlayer.getCurrentTime();
+      if (currentTime > nextCallback.seconds - (TIME_STAMP_POLLING / 2000)) {
         this._callBackQueue.dequeue();
         nextCallback.callback();
       }
