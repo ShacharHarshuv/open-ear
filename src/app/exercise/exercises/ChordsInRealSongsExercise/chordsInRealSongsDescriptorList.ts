@@ -7,6 +7,7 @@ export interface ProgressionInSongFromYouTubeDescriptor {
   videoId: string;
   name?: string;
   artist?: string;
+  section?: string;
   chords: {
     seconds: number,
     chord: RomanNumeralChord,
@@ -1042,22 +1043,22 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "i",
-        "seconds": 16.96
+        "seconds": 16.96,
       },
       {
         "chord": "♭VII",
-        "seconds": 20.66
+        "seconds": 20.66,
       },
       {
         "chord": "♭VI",
-        "seconds": 24.69
+        "seconds": 24.69,
       },
       {
         "chord": "V",
-        "seconds": 28.56
-      }
+        "seconds": 28.56,
+      },
     ],
-    "endSeconds": 32.86
+    "endSeconds": 32.86,
   },
   {
     "key": "F",
@@ -1068,22 +1069,22 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "i",
-        "seconds": 6.96
+        "seconds": 6.96,
       },
       {
         "chord": "♭VII",
-        "seconds": 9.82
+        "seconds": 9.82,
       },
       {
         "chord": "♭VI",
-        "seconds": 12.94
+        "seconds": 12.94,
       },
       {
         "chord": "V",
-        "seconds": 16.07
-      }
+        "seconds": 16.07,
+      },
     ],
-    "endSeconds": 19.35
+    "endSeconds": 19.35,
   },
   {
     "key": "C",
@@ -1094,22 +1095,22 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "i",
-        "seconds": 59.6
+        "seconds": 59.6,
       },
       {
         "chord": "♭VII",
-        "seconds": 61.89
+        "seconds": 61.89,
       },
       {
         "chord": "♭VI",
-        "seconds": 64.17
+        "seconds": 64.17,
       },
       {
         "chord": "♭VII",
-        "seconds": 67.6
-      }
+        "seconds": 67.6,
+      },
     ],
-    "endSeconds": 68.74
+    "endSeconds": 68.74,
   },
   {
     "key": "C",
@@ -1120,22 +1121,22 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "i",
-        "seconds": 18.72
+        "seconds": 18.72,
       },
       {
         "chord": "♭VII",
-        "seconds": 19.8
+        "seconds": 19.8,
       },
       {
         "chord": "♭VI",
-        "seconds": 20.61
+        "seconds": 20.61,
       },
       {
         "chord": "♭VII",
-        "seconds": 22.23
+        "seconds": 22.23,
       },
     ],
-    "endSeconds": 23.04
+    "endSeconds": 23.04,
   },
   {
     "key": "A",
@@ -1146,26 +1147,26 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "i",
-        "seconds": 404
+        "seconds": 404,
       },
       {
         "chord": "♭VII",
-        "seconds": 405.15
+        "seconds": 405.15,
       },
       {
         "chord": "♭VI",
-        "seconds": 406.42
+        "seconds": 406.42,
       },
       {
         "chord": "♭VII",
-        "seconds": 408.49
+        "seconds": 408.49,
       },
       {
         "chord": "i",
-        "seconds": 408.74
+        "seconds": 408.74,
       },
     ],
-    "endSeconds": 410
+    "endSeconds": 410,
   },
   {
     "key": "C",
@@ -1176,22 +1177,22 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "i",
-        "seconds": 214.68
+        "seconds": 214.68,
       },
       {
         "chord": "♭VII",
-        "seconds": 217.1
+        "seconds": 217.1,
       },
       {
         "chord": "♭VI",
-        "seconds": 219.53
+        "seconds": 219.53,
       },
       {
         "chord": "♭VII",
-        "seconds": 221.95
-      }
+        "seconds": 221.95,
+      },
     ],
-    "endSeconds": 224.38
+    "endSeconds": 224.38,
   },
   {
     "key": "D",
@@ -1202,21 +1203,204 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "i",
-        "seconds": 93.09
+        "seconds": 93.09,
       },
       {
         "chord": "♭VII",
-        "seconds": 94.03
+        "seconds": 94.03,
       },
       {
         "chord": "♭VI",
-        "seconds": 94.97
+        "seconds": 94.97,
       },
       {
         "chord": "♭VII",
-        "seconds": 95.9
+        "seconds": 95.9,
+      },
+    ],
+    "endSeconds": 96.84,
+  },
+  {
+    key: "E",
+    mode: "MAJOR",
+    videoId: "tbU3zdAgiX8",
+    name: 'All I Have To Do Is Dream',
+    artist: 'Everly Brothers',
+    chords: [
+      {
+        chord: 'I',
+        seconds: 3.8,
+      },
+      {
+        chord: 'vi',
+        seconds: 4.73,
+      },
+      {
+        chord: 'IV',
+        seconds: 5.91,
+      },
+      {
+        chord: 'V',
+        seconds: 7,
+      },
+    ],
+    endSeconds: 8.4
+  },
+  {
+    "key": "A",
+    "mode": "MAJOR",
+    "videoId": "3JWTaaS7LdU",
+    "name": "I Will Always Love You",
+    "artist": "Whitney Houston",
+    "chords": [
+      {
+        "chord": "I",
+        "seconds": 107.5
+      },
+      {
+        "chord": "vi",
+        "seconds": 109.26
+      },
+      {
+        "chord": "IV",
+        "seconds": 111.03
+      },
+      {
+        "chord": "V",
+        "seconds": 112.79
       }
     ],
-    "endSeconds": 96.84
+    "endSeconds": 114.55
+  },
+  {
+    "key": "G",
+    "mode": "MAJOR",
+    "videoId": "xw0EozkBWuI",
+    "name": "Crocodile Rock",
+    "artist": "Elton John",
+    "section": "Bridge",
+    "chords": [
+      {
+        "chord": "I",
+        "seconds": 131.83
+      },
+      {
+        "chord": "vi",
+        "seconds": 134.79
+      },
+      {
+        "chord": "IV",
+        "seconds": 137.96
+      },
+      {
+        "chord": "V",
+        "seconds": 141.17
+      }
+    ],
+    "endSeconds": 144.37
+  },
+  {
+    "key": "G#",
+    "mode": "MAJOR",
+    "videoId": "VJcGi4-n_Yw",
+    "name": "Earth Angle",
+    "artist": "The Penguins",
+    "chords": [
+      {
+        "chord": "I",
+        "seconds": 13
+      },
+      {
+        "chord": "vi",
+        "seconds": 14.54
+      },
+      {
+        "chord": "IV",
+        "seconds": 16.06
+      },
+      {
+        "chord": "V",
+        "seconds": 17.69
+      }
+    ],
+    "endSeconds": 19.32
+  },
+  {
+    "key": "C",
+    "mode": "MAJOR",
+    "videoId": "vdvnOH060Qg",
+    "name": "Happiness is a Warm Gun",
+    "artist": "The Beatles",
+    "chords": [
+      {
+        "chord": "I",
+        "seconds": 94.93
+      },
+      {
+        "chord": "vi",
+        "seconds": 96.13
+      },
+      {
+        "chord": "IV",
+        "seconds": 97.67
+      },
+      {
+        "chord": "V",
+        "seconds": 99.28
+      },
+    ],
+    "endSeconds": 100.94
+  },
+  {
+    "key": "Db",
+    "mode": "MAJOR",
+    "videoId": "JMcNzjzw63I",
+    "name": "Jesus of Suburbia",
+    "artist": "Green Day",
+    "chords": [
+      {
+        "chord": "I",
+        "seconds": 0
+      },
+      {
+        "chord": "vi",
+        "seconds": 3.3
+      },
+      {
+        "chord": "IV",
+        "seconds": 6.72
+      },
+      {
+        "chord": "V",
+        "seconds": 10
+      },
+    ],
+    "endSeconds":13.42
+  },
+  {
+    "key": "Eb",
+    "mode": "MAJOR",
+    "videoId": "kffacxfA7G4",
+    "name": "Baby",
+    "artist": "Justin Bieber",
+    "chords": [
+      {
+        "chord": "I",
+        "seconds": 15.51
+      },
+      {
+        "chord": "vi",
+        "seconds": 19.12
+      },
+      {
+        "chord": "IV",
+        "seconds": 22.78
+      },
+      {
+        "chord": "V",
+        "seconds": 26.52
+      }
+    ],
+    "endSeconds": 30.14
   }
 ]
