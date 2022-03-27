@@ -1402,5 +1402,184 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
       }
     ],
     "endSeconds": 30.14
-  }
+  },
+  {
+    "key": "G",
+    "mode": "MAJOR",
+    "videoId": "CZXLLMbJdZ4",
+    "name": "There she goes",
+    "artist": "The La's",
+    "chords": [
+      {
+        "chord": "I",
+        "seconds": 16.9
+      },
+      {
+        "chord": "V",
+        "seconds": 17.84
+      },
+      {
+        "chord": "IV",
+        "seconds": 18.78
+      },
+    ],
+    "endSeconds": 20.65
+  },
+  {
+    "key": "F#",
+    "mode": "MAJOR",
+    "videoId": "VZt7J0iaUD0",
+    "name": "New Project",
+    "artist": "Suzanne Vega",
+    "chords": [
+      {
+        "chord": "I",
+        "seconds": 25.65
+      },
+      {
+        "chord": "V",
+        "seconds": 27.53
+      },
+      {
+        "chord": "IV",
+        "seconds": 29.4
+      },
+      {
+        "chord": "V",
+        "seconds": 31.28
+      },
+    ],
+    "endSeconds": 33.15
+  },
+  {
+    "key": "F",
+    "mode": "MAJOR",
+    "videoId": "N5EnGwXV_Pg",
+    "name": "your body is a wonderland",
+    "artist": "",
+    "chords": [
+      {
+        "chord": "I",
+        "seconds": 79.37
+      },
+      {
+        "chord": "V",
+        "seconds": 80.65
+      },
+      {
+        "chord": "IV",
+        "seconds": 81.93
+      },
+      {
+        "chord": "V",
+        "seconds": 83.2
+      },
+    ],
+    "endSeconds": 84.48
+  },
+  // todo: need to figure out the timing here, it's a bit tricky
+  // {
+  //   "key": "G",
+  //   "mode": "MAJOR",
+  //   "videoId": "79JcPZNLCTY",
+  //   "name": "Tangerine",
+  //   "artist": "Led Zeppelin",
+  //   "chords": [
+  //     {
+  //       "chord": "I",
+  //       "seconds": 143
+  //     },
+  //     {
+  //       "chord": "V",
+  //       "seconds": 143
+  //     },
+  //     {
+  //       "chord": "IV",
+  //       "seconds": 143
+  //     },
+  //     {
+  //       "chord": "V",
+  //       "seconds": 143
+  //     },
+  //   ],
+  //   "endSeconds": 180
+  // },
+  {
+    "key": "A",
+    "mode": "MAJOR",
+    "videoId": "NHozn0YXAeE",
+    "name": "MMMBop",
+    "artist": "Hanson",
+    "chords": [
+      {
+        "chord": "I",
+        "seconds": 18.12
+      },
+      {
+        "chord": "V",
+        "seconds": 19.33
+      },
+      {
+        "chord": "IV",
+        "seconds": 20.43
+      },
+      {
+        "chord": "V",
+        "seconds": 21.56
+      },
+    ],
+    "endSeconds": 22.61
+  },
+  {
+    "key": "C",
+    "mode": "MAJOR",
+    "videoId": "9Ht5RZpzPqw",
+    "name": "All The Small Things",
+    "artist": "Blink 182",
+    "chords": [
+      {
+        "chord": "I",
+        "seconds": 16.88
+      },
+      {
+        "chord": "V",
+        "seconds": 18.48
+      },
+      {
+        "chord": "IV",
+        "seconds": 20.08
+      },
+      {
+        "chord": "V",
+        "seconds": 21.68
+      },
+    ],
+    "endSeconds": 23.28
+  },
+  {
+    "key": "E",
+    "mode": "MAJOR",
+    "videoId": "j2F4INQFjEI",
+    "name": "Heaven is a Place on Earth",
+    "artist": "Belinda Carlisle",
+    "chords": [
+      {
+        "chord": "I",
+        "seconds": 37.9
+      },
+      {
+        "chord": "V",
+        "seconds": 39.77
+      },
+      {
+        "chord": "IV",
+        "seconds": 41.77
+      },
+      {
+        "chord": "V",
+        "seconds": 43.61
+      },
+    ],
+    "endSeconds": 45.6
+  },
 ]
