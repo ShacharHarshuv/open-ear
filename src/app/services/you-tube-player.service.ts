@@ -97,6 +97,7 @@ export class YouTubePlayerService extends BaseDestroyable {
   async stop(): Promise<void> {
     if (this._isPlaying$.value) {
       await this._youTubePlayer.stopVideo();
+      this._callBackQueue.clear();
       this._isPlaying$.next(false);
     }
   }
