@@ -1084,5 +1084,139 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
       }
     ],
     "endSeconds": 19.35
+  },
+  {
+    "key": "C",
+    "mode": "MINOR",
+    "videoId": "rYEDA3JcQqw",
+    "name": "Rolling In The Deep",
+    "artist": "Adele",
+    "chords": [
+      {
+        "chord": "i",
+        "seconds": 59.6
+      },
+      {
+        "chord": "♭VII",
+        "seconds": 61.89
+      },
+      {
+        "chord": "♭VI",
+        "seconds": 64.17
+      },
+      {
+        "chord": "♭VII",
+        "seconds": 67.6
+      }
+    ],
+    "endSeconds": 68.74
+  },
+  {
+    "key": "C",
+    "mode": "MINOR",
+    "videoId": "TLV4_xaYynY",
+    "name": "All Along The Watchtower",
+    "artist": "Jimi Handrix",
+    "chords": [
+      {
+        "chord": "i",
+        "seconds": 18.72
+      },
+      {
+        "chord": "♭VII",
+        "seconds": 19.8
+      },
+      {
+        "chord": "♭VI",
+        "seconds": 20.61
+      },
+      {
+        "chord": "♭VII",
+        "seconds": 22.23
+      },
+    ],
+    "endSeconds": 23.04
+  },
+  {
+    "key": "A",
+    "mode": "MINOR",
+    "videoId": "iXQUu5Dti4g",
+    "name": "Stairway to Heaven",
+    "artist": "Led Zeppelin",
+    "chords": [
+      {
+        "chord": "i",
+        "seconds": 404
+      },
+      {
+        "chord": "♭VII",
+        "seconds": 405.15
+      },
+      {
+        "chord": "♭VI",
+        "seconds": 406.42
+      },
+      {
+        "chord": "♭VII",
+        "seconds": 408.49
+      },
+      {
+        "chord": "i",
+        "seconds": 408.74
+      },
+    ],
+    "endSeconds": 410
+  },
+  {
+    "key": "C",
+    "mode": "MINOR",
+    "videoId": "WNIPqafd4As",
+    "name": "My Heart Will Go On",
+    "artist": "Celin Deon",
+    "chords": [
+      {
+        "chord": "i",
+        "seconds": 214.68
+      },
+      {
+        "chord": "♭VII",
+        "seconds": 217.1
+      },
+      {
+        "chord": "♭VI",
+        "seconds": 219.53
+      },
+      {
+        "chord": "♭VII",
+        "seconds": 221.95
+      }
+    ],
+    "endSeconds": 224.38
+  },
+  {
+    "key": "D",
+    "mode": "MINOR",
+    "videoId": "8UVNT4wvIGY",
+    "name": "Somebody That I Used To Know",
+    "artist": "Gotye",
+    "chords": [
+      {
+        "chord": "i",
+        "seconds": 93.09
+      },
+      {
+        "chord": "♭VII",
+        "seconds": 94.03
+      },
+      {
+        "chord": "♭VI",
+        "seconds": 94.97
+      },
+      {
+        "chord": "♭VII",
+        "seconds": 95.9
+      }
+    ],
+    "endSeconds": 96.84
   }
 ]
