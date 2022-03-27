@@ -74,42 +74,42 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     'chords': [
       {
         'chord': 'vi',
-        'seconds': 0
+        'seconds': 0,
       },
       {
         'chord': 'IV',
-        'seconds': 2.17
+        'seconds': 2.17,
       },
       {
         'chord': 'I',
-        'seconds': 4.44
+        'seconds': 4.44,
       },
       {
         'chord': 'V',
-        'seconds': 6.41
+        'seconds': 6.41,
       },
       {
         'chord': 'vi',
-        'seconds': 8.28
+        'seconds': 8.28,
       },
       {
         'chord': 'IV',
-        'seconds': 10.34
+        'seconds': 10.34,
       },
       {
         'chord': 'I',
-        'seconds': 12.41
+        'seconds': 12.41,
       },
       {
         'chord': 'V',
-        'seconds': 14.48
+        'seconds': 14.48,
       },
       {
         'chord': 'IV',
-        'seconds': 16.55
-      }
+        'seconds': 16.55,
+      },
     ],
-    'endSeconds': 18.62
+    'endSeconds': 18.62,
   },
   {
     'key': 'B',
@@ -120,34 +120,34 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     'chords': [
       {
         'chord': 'I',
-        'seconds': 21.92
+        'seconds': 21.92,
       },
       {
         'chord': 'IV',
-        'seconds': 22.65
+        'seconds': 22.65,
       },
       {
         'chord': 'vi',
-        'seconds': 23.76
+        'seconds': 23.76,
       },
       {
         'chord': 'IV',
-        'seconds': 24.64
+        'seconds': 24.64,
       },
       {
         'chord': 'I',
-        'seconds': 25.76
+        'seconds': 25.76,
       },
       {
         'chord': 'IV',
-        'seconds': 26.81
+        'seconds': 26.81,
       },
       {
         'chord': 'V',
-        'seconds': 27.83
+        'seconds': 27.83,
       },
     ],
-    'endSeconds': 29.81
+    'endSeconds': 29.81,
   },
   {
     "key": "B",
@@ -158,30 +158,30 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "I",
-        "seconds": 29.81
+        "seconds": 29.81,
       },
       {
         "chord": "vi",
-        "seconds": 31.84
+        "seconds": 31.84,
       },
       {
         "chord": "IV",
-        "seconds": 32.97
+        "seconds": 32.97,
       },
       {
         "chord": "I",
-        "seconds": 34.00
+        "seconds": 34.00,
       },
       {
         "chord": "vi",
-        "seconds": 35.93
+        "seconds": 35.93,
       },
       {
         "chord": "IV",
-        "seconds": 36.99
-      }
+        "seconds": 36.99,
+      },
     ],
-    "endSeconds": 39.28
+    "endSeconds": 39.28,
   },
   {
     "key": "B",
@@ -192,22 +192,22 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "vi",
-        "seconds": 38.05
+        "seconds": 38.05,
       },
       {
         "chord": "IV",
-        "seconds": 39.16
+        "seconds": 39.16,
       },
       {
         "chord": "I",
-        "seconds": 40.10
+        "seconds": 40.10,
       },
       {
         "chord": "V",
-        "seconds": 41.06
+        "seconds": 41.06,
       },
     ],
-    "endSeconds": 42.24
+    "endSeconds": 42.24,
   },
   {
     "key": "B",
@@ -218,22 +218,22 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "I",
-        "seconds": 52.34
+        "seconds": 52.34,
       },
       {
         "chord": "V",
-        "seconds": 53.34
+        "seconds": 53.34,
       },
       {
         "chord": "vi",
-        "seconds": 54.2
+        "seconds": 54.2,
       },
       {
         "chord": "IV",
-        "seconds": 55.25
-      }
+        "seconds": 55.25,
+      },
     ],
-    "endSeconds": 56.56
+    "endSeconds": 56.56,
   },
   {
     "key": "B",
@@ -244,22 +244,22 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "ii",
-        "seconds": 37.76
+        "seconds": 37.76,
       },
       {
         "chord": "IV",
-        "seconds": 39.81
+        "seconds": 39.81,
       },
       {
         "chord": "vi",
-        "seconds": 42.37
+        "seconds": 42.37,
       },
       {
         "chord": "V",
-        "seconds": 44.42
-      }
+        "seconds": 44.42,
+      },
     ],
-    "endSeconds": 47.5
+    "endSeconds": 47.5,
   },
   {
     "key": "B",
@@ -270,22 +270,22 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "ii",
-        "seconds": 47.3
+        "seconds": 47.3,
       },
       {
         "chord": "IV",
-        "seconds": 49.3
+        "seconds": 49.3,
       },
       {
         "chord": "vi",
-        "seconds": 51.5
+        "seconds": 51.5,
       },
       {
         "chord": "V",
-        "seconds": 53.8
+        "seconds": 53.8,
       },
     ],
-    "endSeconds": 55.3
+    "endSeconds": 55.3,
   },
   {
     "key": "B",
@@ -296,22 +296,22 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "IV",
-        "seconds": 94.77
+        "seconds": 94.77,
       },
       {
         "chord": "I",
-        "seconds": 97.03
+        "seconds": 97.03,
       },
       {
         "chord": "V",
-        "seconds": 99.3
+        "seconds": 99.3,
       },
       {
         "chord": "vi",
-        "seconds": 101.56
-      }
+        "seconds": 101.56,
+      },
     ],
-    "endSeconds": 104
+    "endSeconds": 104,
   },
   {
     "key": "Db",
@@ -322,22 +322,22 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "IV",
-        "seconds": 57
+        "seconds": 57,
       },
       {
         "chord": "I",
-        "seconds": 58.8
+        "seconds": 58.8,
       },
       {
         "chord": "V",
-        "seconds": 61.5
+        "seconds": 61.5,
       },
       {
         "chord": "vi",
-        "seconds": 64.2
+        "seconds": 64.2,
       },
     ],
-    "endSeconds": 67.5
+    "endSeconds": 67.5,
   },
   {
     "key": "F",
@@ -348,38 +348,38 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "i",
-        "seconds": 26
+        "seconds": 26,
       },
       {
         "chord": "iv",
-        "seconds": 27.03
+        "seconds": 27.03,
       },
       {
         "chord": "♭III",
-        "seconds": 28.07
+        "seconds": 28.07,
       },
       {
         "chord": "♭VI",
-        "seconds": 29.1
+        "seconds": 29.1,
       },
       {
         "chord": "i",
-        "seconds": 30.14
+        "seconds": 30.14,
       },
       {
         "chord": "iv",
-        "seconds": 31.17
+        "seconds": 31.17,
       },
       {
         "chord": "♭III",
-        "seconds": 32.21
+        "seconds": 32.21,
       },
       {
         "chord": "♭VI",
-        "seconds": 33.24
-      }
+        "seconds": 33.24,
+      },
     ],
-    "endSeconds": 34.28
+    "endSeconds": 34.28,
   },
   {
     "key": "F",
@@ -390,38 +390,38 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "i",
-        "seconds": 59.07
+        "seconds": 59.07,
       },
       {
         "chord": "iv",
-        "seconds": 59.96
+        "seconds": 59.96,
       },
       {
         "chord": "♭III",
-        "seconds": 60.96
+        "seconds": 60.96,
       },
       {
         "chord": "♭VI",
-        "seconds": 61.97
+        "seconds": 61.97,
       },
       {
         "chord": "i",
-        "seconds": 62.98
+        "seconds": 62.98,
       },
       {
         "chord": "iv",
-        "seconds": 63.99
+        "seconds": 63.99,
       },
       {
         "chord": "♭III",
-        "seconds": 65.06
+        "seconds": 65.06,
       },
       {
         "chord": "♭VI",
-        "seconds": 66.03
-      }
+        "seconds": 66.03,
+      },
     ],
-    "endSeconds": 67.28
+    "endSeconds": 67.28,
   },
   {
     "key": "F#",
@@ -432,38 +432,38 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "♭VI",
-        "seconds": 71.08
+        "seconds": 71.08,
       },
       {
         "chord": "i",
-        "seconds": 72.94
+        "seconds": 72.94,
       },
       {
         "chord": "♭VI",
-        "seconds": 75.02
+        "seconds": 75.02,
       },
       {
         "chord": "i",
-        "seconds": 76.99
+        "seconds": 76.99,
       },
       {
         "chord": "♭VI",
-        "seconds": 79.16
+        "seconds": 79.16,
       },
       {
         "chord": "i",
-        "seconds": 81.20
+        "seconds": 81.20,
       },
       {
         "chord": "♭VI",
-        "seconds": 83.2
+        "seconds": 83.2,
       },
       {
         "chord": "V",
-        "seconds": 85.19
-      }
+        "seconds": 85.19,
+      },
     ],
-    "endSeconds": 87.59
+    "endSeconds": 87.59,
   },
   {
     "key": "Db",
@@ -474,11 +474,11 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     chords: [
       {
         seconds: 31,
-        chord: 'I'
+        chord: 'I',
       },
       {
         seconds: 34.5,
-        chord: '♭VII'
+        chord: '♭VII',
       },
       {
         seconds: 38.5,
@@ -500,7 +500,7 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     chords: [
       {
         seconds: 61,
-        chord: 'V'
+        chord: 'V',
       },
       {
         seconds: 63,
@@ -522,22 +522,22 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "I",
-        "seconds": 64.66
+        "seconds": 64.66,
       },
       {
         "chord": "V",
-        "seconds": 66.37
+        "seconds": 66.37,
       },
       {
         "chord": "vi",
-        "seconds": 68.06
+        "seconds": 68.06,
       },
       {
         "chord": "IV",
-        "seconds": 69.62
+        "seconds": 69.62,
       },
     ],
-    "endSeconds": 71.35
+    "endSeconds": 71.35,
   },
   {
     "key": "C",
@@ -548,22 +548,22 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "I",
-        "seconds": 51.67
+        "seconds": 51.67,
       },
       {
         "chord": "V",
-        "seconds": 54.09
+        "seconds": 54.09,
       },
       {
         "chord": "vi",
-        "seconds": 56.68
+        "seconds": 56.68,
       },
       {
         "chord": "IV",
-        "seconds": 59.41
-      }
+        "seconds": 59.41,
+      },
     ],
-    "endSeconds": 61.87
+    "endSeconds": 61.87,
   },
   {
     "key": "C",
@@ -574,22 +574,22 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "I",
-        "seconds": 98.04
+        "seconds": 98.04,
       },
       {
         "chord": "V",
-        "seconds": 100.62
+        "seconds": 100.62,
       },
       {
         "chord": "vi",
-        "seconds": 103.15
+        "seconds": 103.15,
       },
       {
         "chord": "IV",
-        "seconds": 105.74
-      }
+        "seconds": 105.74,
+      },
     ],
-    "endSeconds": 108.31
+    "endSeconds": 108.31,
   },
   {
     "key": "A",
@@ -600,22 +600,22 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "I",
-        "seconds": 73.7
+        "seconds": 73.7,
       },
       {
         "chord": "V",
-        "seconds": 75.51
+        "seconds": 75.51,
       },
       {
         "chord": "vi",
-        "seconds": 77.33
+        "seconds": 77.33,
       },
       {
         "chord": "IV",
-        "seconds": 79.15
+        "seconds": 79.15,
       },
     ],
-    "endSeconds": 80.97
+    "endSeconds": 80.97,
   },
   {
     "key": "E",
@@ -626,22 +626,22 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "I",
-        "seconds": 17.36
+        "seconds": 17.36,
       },
       {
         "chord": "V",
-        "seconds": 19.12
+        "seconds": 19.12,
       },
       {
         "chord": "vi",
-        "seconds": 21.39
+        "seconds": 21.39,
       },
       {
         "chord": "IV",
-        "seconds": 23.16
-      }
+        "seconds": 23.16,
+      },
     ],
-    "endSeconds": 25.43
+    "endSeconds": 25.43,
   },
   {
     "key": "F",
@@ -652,22 +652,22 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "I",
-        "seconds": 66.11
+        "seconds": 66.11,
       },
       {
         "chord": "V",
-        "seconds": 67.69
+        "seconds": 67.69,
       },
       {
         "chord": "vi",
-        "seconds": 69.27
+        "seconds": 69.27,
       },
       {
         "chord": "IV",
-        "seconds": 70.85
-      }
+        "seconds": 70.85,
+      },
     ],
-    "endSeconds": 72.43
+    "endSeconds": 72.43,
   },
   {
     "key": "F#",
@@ -678,22 +678,22 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "I",
-        "seconds": 15.06
+        "seconds": 15.06,
       },
       {
         "chord": "V",
-        "seconds": 15.92
+        "seconds": 15.92,
       },
       {
         "chord": "vi",
-        "seconds": 17.16
+        "seconds": 17.16,
       },
       {
         "chord": "IV",
-        "seconds": 18.06
+        "seconds": 18.06,
       },
     ],
-    "endSeconds": 20.01
+    "endSeconds": 20.01,
   },
   {
     "key": "Ab",
@@ -704,22 +704,22 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "I",
-        "seconds": 60.49
+        "seconds": 60.49,
       },
       {
         "chord": "V",
-        "seconds": 62.24
+        "seconds": 62.24,
       },
       {
         "chord": "vi",
-        "seconds": 64.07
+        "seconds": 64.07,
       },
       {
         "chord": "IV",
-        "seconds": 65.84
-      }
+        "seconds": 65.84,
+      },
     ],
-    "endSeconds": 67.58
+    "endSeconds": 67.58,
   },
   {
     "key": "A",
@@ -730,22 +730,22 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "vi",
-        "seconds": 21.7
+        "seconds": 21.7,
       },
       {
         "chord": "IV",
-        "seconds": 23.88
+        "seconds": 23.88,
       },
       {
         "chord": "I",
-        "seconds": 26.06
+        "seconds": 26.06,
       },
       {
         "chord": "V",
-        "seconds": 28.24
-      }
+        "seconds": 28.24,
+      },
     ],
-    "endSeconds": 30.42
+    "endSeconds": 30.42,
   },
   {
     "key": "A",
@@ -756,22 +756,22 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "vi",
-        "seconds": 86.34
+        "seconds": 86.34,
       },
       {
         "chord": "IV",
-        "seconds": 88.04
+        "seconds": 88.04,
       },
       {
         "chord": "I",
-        "seconds": 89.89
+        "seconds": 89.89,
       },
       {
         "chord": "V",
-        "seconds": 91.89
-      }
+        "seconds": 91.89,
+      },
     ],
-    "endSeconds": 94.15
+    "endSeconds": 94.15,
   },
   {
     "key": "A",
@@ -782,22 +782,22 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "vi",
-        "seconds": 69.32
+        "seconds": 69.32,
       },
       {
         "chord": "IV",
-        "seconds": 70.60
+        "seconds": 70.60,
       },
       {
         "chord": "I",
-        "seconds": 71.92
+        "seconds": 71.92,
       },
       {
         "chord": "V",
-        "seconds": 73.22
-      }
+        "seconds": 73.22,
+      },
     ],
-    "endSeconds": 74.43
+    "endSeconds": 74.43,
   },
   {
     "key": "A",
@@ -808,22 +808,22 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "vi",
-        "seconds": 53.03
+        "seconds": 53.03,
       },
       {
         "chord": "IV",
-        "seconds": 54.59
+        "seconds": 54.59,
       },
       {
         "chord": "I",
-        "seconds": 56.28
+        "seconds": 56.28,
       },
       {
         "chord": "V",
-        "seconds": 57.87
-      }
+        "seconds": 57.87,
+      },
     ],
-    "endSeconds": 60.04
+    "endSeconds": 60.04,
   },
   {
     "key": "F",
@@ -834,22 +834,22 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "vi",
-        "seconds": 69.83
+        "seconds": 69.83,
       },
       {
         "chord": "IV",
-        "seconds": 70.98
+        "seconds": 70.98,
       },
       {
         "chord": "I",
-        "seconds": 72.60
+        "seconds": 72.60,
       },
       {
         "chord": "V",
-        "seconds": 74.06
-      }
+        "seconds": 74.06,
+      },
     ],
-    "endSeconds": 75.99
+    "endSeconds": 75.99,
   },
   {
     "key": "F",
@@ -860,22 +860,22 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "vi",
-        "seconds": 39.43
+        "seconds": 39.43,
       },
       {
         "chord": "IV",
-        "seconds": 40.49
+        "seconds": 40.49,
       },
       {
         "chord": "I",
-        "seconds": 41.56
+        "seconds": 41.56,
       },
       {
         "chord": "V",
-        "seconds": 42.61
+        "seconds": 42.61,
       },
     ],
-    "endSeconds": 43.61
+    "endSeconds": 43.61,
   },
   {
     key: 'Ab',
@@ -886,19 +886,19 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     chords: [
       {
         "chord": "vi",
-        "seconds": 6
+        "seconds": 6,
       },
       {
         "chord": "IV",
-        "seconds": 8.11
+        "seconds": 8.11,
       },
       {
         "chord": "I",
-        "seconds": 10.28
+        "seconds": 10.28,
       },
       {
         "chord": "V",
-        "seconds": 12.32
+        "seconds": 12.32,
       },
     ],
     endSeconds: 14.46,
@@ -912,21 +912,177 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     "chords": [
       {
         "chord": "vi",
-        "seconds": 48.17
+        "seconds": 48.17,
       },
       {
         "chord": "IV",
-        "seconds": 49.17
+        "seconds": 49.17,
       },
       {
         "chord": "I",
-        "seconds": 50.17
+        "seconds": 50.17,
       },
       {
         "chord": "V",
-        "seconds": 51.13
+        "seconds": 51.13,
       },
     ],
-    "endSeconds": 52.17
+    "endSeconds": 52.17,
+  },
+  {
+    "key": "G#",
+    "mode": "MINOR",
+    "videoId": "ZKvhxapM5zo",
+    "name": "Hit The Road Jack",
+    "artist": "Ray Charles",
+    "chords": [
+      {
+        "chord": "i",
+        "seconds": 9.7,
+      },
+      {
+        "chord": "♭VII",
+        "seconds": 10.49,
+      },
+      {
+        "chord": "♭VI",
+        "seconds": 11.09,
+      },
+      {
+        "chord": "V",
+        "seconds": 11.78,
+      },
+    ],
+    "endSeconds": 12.78,
+  },
+  {
+    "key": "D#",
+    "mode": "MINOR",
+    "videoId": "gO071XuztZA",
+    "name": "Good Vibrations",
+    "artist": "Beach Boys",
+    "chords": [
+      {
+        "chord": "i",
+        "seconds": 0.72,
+      },
+      {
+        "chord": "♭VII",
+        "seconds": 3.86,
+      },
+      {
+        "chord": "♭VI",
+        "seconds": 6.99,
+      },
+      {
+        "chord": "V",
+        "seconds": 10.13,
+      },
+    ],
+    "endSeconds": 13.27,
+  },
+  {
+    "key": "A",
+    "mode": "MINOR",
+    "videoId": "Vyc8lezaa9g",
+    "name": "Citizen Erased",
+    "artist": "Muse",
+    "chords": [
+      {
+        "chord": "i",
+        "seconds": 471.1,
+      },
+      {
+        "chord": "♭VII",
+        "seconds": 473.44,
+      },
+      {
+        "chord": "♭VI",
+        "seconds": 475.89,
+      },
+      {
+        "chord": "V",
+        "seconds": 478.51,
+      },
+    ],
+    "endSeconds": 481.07,
+  },
+  {
+    "key": "A",
+    "mode": "MINOR",
+    "videoId": "Vyc8lezaa9g",
+    "name": "Summer in the City",
+    "artist": "Quincy Jones",
+    "chords": [
+      {
+        "chord": "i",
+        "seconds": 481.70,
+      },
+      {
+        "chord": "♭VII",
+        "seconds": 482.54,
+      },
+      {
+        "chord": "♭VI",
+        "seconds": 484,
+      },
+      {
+        "chord": "V",
+        "seconds": 485.53,
+      },
+    ],
+    "endSeconds": 487,
+  },
+  {
+    "key": "F#",
+    "mode": "MINOR",
+    "videoId": "OTvhWVTwRnM",
+    "name": "Happy together",
+    "artist": "The Turtles",
+    "chords": [
+      {
+        "chord": "i",
+        "seconds": 16.96
+      },
+      {
+        "chord": "♭VII",
+        "seconds": 20.66
+      },
+      {
+        "chord": "♭VI",
+        "seconds": 24.69
+      },
+      {
+        "chord": "V",
+        "seconds": 28.56
+      }
+    ],
+    "endSeconds": 32.86
+  },
+  {
+    "key": "F",
+    "mode": "MINOR",
+    "videoId": "0S13mP_pfEc",
+    "name": "Runaway",
+    "artist": "Del Shannon",
+    "chords": [
+      {
+        "chord": "i",
+        "seconds": 6.96
+      },
+      {
+        "chord": "♭VII",
+        "seconds": 9.82
+      },
+      {
+        "chord": "♭VI",
+        "seconds": 12.94
+      },
+      {
+        "chord": "V",
+        "seconds": 16.07
+      }
+    ],
+    "endSeconds": 19.35
   }
 ]
