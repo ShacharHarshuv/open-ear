@@ -1582,4 +1582,154 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
     ],
     "endSeconds": 45.6
   },
+  {
+    "key": "Ab",
+    "mode": "MAJOR",
+    "videoId": "YQHsXMglC9A",
+    "name": "Hello",
+    "artist": "Adele",
+    "chords": [
+      {
+        "chord": "vi",
+        "seconds": 233.16
+      },
+      {
+        "chord": "IV",
+        "seconds": 234.3
+      },
+      {
+        "chord": "I",
+        "seconds": 236.2
+      },
+      {
+        "chord": "V",
+        "seconds": 237.34
+      }
+    ],
+    "endSeconds": 239.24
+  },
+  {
+    "key": "F",
+    "mode": "MAJOR",
+    "videoId": "A_MjCqQoLLA",
+    "name": "Hey Jude",
+    "artist": "The Beatles",
+    "section": "Outro",
+    "chords": [
+      {
+        "chord": "I",
+        "seconds": 258.76
+      },
+      {
+        "chord": "♭VI",
+        "seconds": 261.92
+      },
+      {
+        "chord": "IV",
+        "seconds": 265.08
+      },
+      {
+        "chord": "I",
+        "seconds": 268.24
+      }
+    ],
+    "endSeconds": 272.02
+  },
+  {
+    "key": "E",
+    "mode": "MAJOR",
+    "videoId": "GgnClrx8N2k",
+    "name": "Sympathy for the Devil",
+    "artist": "The Rolling Stones",
+    "chords": [
+      {
+        "chord": "I",
+        "seconds": 21.2
+      },
+      {
+        "chord": "♭VI",
+        "seconds": 23.23
+      },
+      {
+        "chord": "IV",
+        "seconds": 25.31
+      },
+      {
+        "chord": "I",
+        "seconds": 27.26
+      }
+    ],
+    "endSeconds": 29
+  },
+  {
+    "key": "D",
+    "mode": "MAJOR",
+    "videoId": "nlcIKh6sBtc",
+    "name": "Royals",
+    "artist": "Lorde",
+    "chords": [
+      {
+        "chord": "I",
+        "seconds": 56.59
+      },
+      {
+        "chord": "♭VI",
+        "seconds": 62.12
+      },
+      {
+        "chord": "IV",
+        "seconds": 64.84
+      },
+    ],
+    "endSeconds": 67.71
+  },
+  {
+    "key": "C",
+    "mode": "MAJOR",
+    "videoId": "j8h-Ltha_9w",
+    "name": "Freedom",
+    "artist": "George Michael",
+    "chords": [
+      {
+        "chord": "I",
+        "seconds": 136.17
+      },
+      {
+        "chord": "♭VI",
+        "seconds": 138.78
+      },
+      {
+        "chord": "IV",
+        "seconds": 141.35
+      },
+      {
+        "chord": "I",
+        "seconds": 143.98
+      },
+    ],
+    "endSeconds": 146.9
+  },
+  {
+    "key": "D",
+    "mode": "MAJOR",
+    "videoId": "ye5BuYf8q4o",
+    "name": "Sweet Home Alabama",
+    "artist": "Lynyrd Skynyrd",
+    "chords": [
+      {
+        "chord": "I",
+        "seconds": 70.43
+      },
+      {
+        "chord": "♭VI",
+        "seconds": 71.74
+      },
+      {
+        "chord": "IV",
+        "seconds": 72.93
+      },
+    ],
+    "endSeconds": 75.37
+  },
+
 ]
