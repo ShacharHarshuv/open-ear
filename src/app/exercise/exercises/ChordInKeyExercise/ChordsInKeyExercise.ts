@@ -54,6 +54,7 @@ export class ChordsInKeyExercise extends BaseRomanAnalysisChordProgressionExerci
       ...super._getDefaultSettings(),
       numberOfSegments: 1,
       playAfterCorrectAnswer: true,
+      includedAnswers: ['I', 'IV', 'V'],
     };
   }
 }
