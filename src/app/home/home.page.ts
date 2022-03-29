@@ -3,6 +3,7 @@ import { PlayerService } from '../services/player.service';
 import { ExerciseService } from '../exercise/exercise.service';
 import { Exercise } from '../exercise/Exercise';
 import IExercise = Exercise.IExercise;
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -13,8 +14,9 @@ export class HomePage {
   readonly exerciseList: IExercise[] = this._exerciseService.getExerciseList();
 
   constructor(
-    private _player: PlayerService,
-    private _exerciseService: ExerciseService,
+    private readonly _player: PlayerService,
+    private readonly _exerciseService: ExerciseService,
+    public readonly platform: Platform,
   ) {
   }
 }
