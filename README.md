@@ -21,6 +21,10 @@ Currently includes the following built in exercises:
 
 ![screenshots](https://user-images.githubusercontent.com/4821858/142942603-4fb8e1cd-49b7-4029-b8f0-1f60a93e0cab.png)
 
+## Donations
+
+OpenEar has a paypal page you can donate money to: https://www.paypal.com/donate/?hosted_button_id=2WH25GBMCJTJS. All donations will be used for maintainance and development of the app. Any sum is appreciated. 
+
 ## Contribution
 
 OpenEar app is built in Angular using the Ionic library. It uses [Tone.js](https://tonejs.github.io/) to generate sounds.
