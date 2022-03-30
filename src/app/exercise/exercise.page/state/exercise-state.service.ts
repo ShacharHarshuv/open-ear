@@ -16,10 +16,12 @@ import AnswerList = Exercise.AnswerList;
 import Answer = Exercise.Answer;
 import { AdaptiveExercise } from './adaptive-exercise';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { YouTubePlayerService } from '../../../services/you-tube-player.service';
 
 const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   playCadence: true,
   adaptive: false,
+  revealAnswerAfterFirstMistake: false,
   bpm: 120,
   moveToNextQuestionAutomatically: false,
 };
@@ -40,10 +42,11 @@ export class ExerciseStateService {
   private _currentSegmentToAnswer: number = 0;
 
   constructor(
-    private _activatedRoute: ActivatedRoute,
-    private _exerciseService: ExerciseService,
-    private _player: PlayerService,
-    private _exerciseSettingsData: ExerciseSettingsDataService,
+    private readonly _activatedRoute: ActivatedRoute,
+    private readonly _exerciseService: ExerciseService,
+    private readonly _notesPlayer: PlayerService,
+    private readonly _youtubePlayer: YouTubePlayerService,
+    private readonly _exerciseSettingsData: ExerciseSettingsDataService,
   ) {
   }
 
@@ -103,15 +106,17 @@ export class ExerciseStateService {
   }
 
   answer(answer: string): boolean {
-    const isRight = this._currentQuestion.segments[this._currentSegmentToAnswer].rightAnswer === answer;
+    const rightAnswer = this._currentQuestion.segments[this._currentSegmentToAnswer].rightAnswer;
+    const isRight = rightAnswer === answer;
     if (!isRight) {
       this._currentAnswers[this._currentSegmentToAnswer].wasWrong = true;
-    } else {
+    }
+    if(isRight || this._globalSettings.revealAnswerAfterFirstMistake) {
       this._totalQuestions++;
       if (!this._currentAnswers[this._currentSegmentToAnswer].wasWrong) {
         this._totalCorrectAnswers++;
       }
-      this._currentAnswers[this._currentSegmentToAnswer].answer = answer;
+      this._currentAnswers[this._currentSegmentToAnswer].answer = rightAnswer;
       this._currentSegmentToAnswer++;
 
       // Last segment was answered
@@ -136,28 +141,43 @@ export class ExerciseStateService {
     return isRight;
   }
 
+
   async playCurrentCadenceAndQuestion(): Promise<void> {
-    const partsToPlay: PartToPlay[] = this._getCurrentQuestionPartsToPlay();
-    if (this._currentQuestion.cadence && this._globalSettings.playCadence) {
-      partsToPlay.unshift(
-        {
-          partOrTime: toSteadyPart(this._currentQuestion.cadence),
-          bpm: 120,
-        },
-        {
-          partOrTime: 100,
-        },
-      );
+    await this._stop();
+    const cadence: PartToPlay[] | undefined = this._currentQuestion.cadence && [
+      {
+        partOrTime: toSteadyPart(this._currentQuestion.cadence),
+        bpm: 120,
+      },
+      {
+        partOrTime: 100,
+      },
+    ]
+    if (this._currentQuestion.type === 'youtube') {
+      if (cadence) {
+        await this._notesPlayer.playMultipleParts(cadence);
+      }
+      await this._playYouTubeQuestion(this._currentQuestion);
+    } else {
+      const partsToPlay: PartToPlay[] = this._getCurrentQuestionPartsToPlay();
+      if (cadence && this._globalSettings.playCadence) {
+        partsToPlay.unshift(...cadence);
+      }
+      if (this._areAllSegmentsAnswered && this._currentQuestion.afterCorrectAnswer) {
+        partsToPlay.push(...this._getAfterCorrectAnswerParts());
+      }
+      await this._notesPlayer.playMultipleParts(partsToPlay);
     }
-    if (this._areAllSegmentsAnswered && this._currentQuestion.afterCorrectAnswer) {
-      partsToPlay.push(...this._getAfterCorrectAnswerParts());
-    }
-    await this._player.playMultipleParts(partsToPlay);
     this._currentlyPlayingSegment = null;
   }
 
   async playCurrentQuestion(): Promise<void> {
-    await this._player.playMultipleParts(this._getCurrentQuestionPartsToPlay());
+    await this._stop();
+    if (this._currentQuestion.type === 'youtube') {
+      await this._playYouTubeQuestion(this._currentQuestion);
+    } else {
+      await this._notesPlayer.playMultipleParts(this._getCurrentQuestionPartsToPlay());
+    }
     this._currentlyPlayingSegment = null;
   }
 
@@ -185,7 +205,7 @@ export class ExerciseStateService {
   updateSettings(settings: ExerciseSettingsData): void {
     this._exerciseSettingsData.saveExerciseSettings(this.exercise.id, settings);
     this._globalSettings = settings.globalSettings;
-    this._player.setBpm(this._globalSettings.bpm);
+    this._notesPlayer.setBpm(this._globalSettings.bpm);
     this._updateExerciseSettings(settings.exerciseSettings);
     this.nextQuestion();
   }
@@ -199,6 +219,29 @@ export class ExerciseStateService {
       this._updateExerciseSettings(settings.exerciseSettings);
     }
     await this.nextQuestion();
+  }
+
+  private async _stop(): Promise<void> {
+    await this._youtubePlayer.stop();
+    this._notesPlayer.stop();
+  }
+
+  private async _playYouTubeQuestion(question: Exercise.YouTubeQuestion): Promise<void> {
+    await this._youtubePlayer.play(question.videoId, question.segments[0].seconds, [
+      ...question.segments.map((segment, i) => ({
+        seconds: segment.seconds,
+        callback: () => {
+          this._currentlyPlayingSegment = i;
+        }
+      })),
+      {
+        seconds: question.endSeconds,
+        callback: () => {
+          this._youtubePlayer.stop();
+        }
+      }
+    ]);
+    await this._youtubePlayer.onStop();
   }
 
   private _getCurrentQuestionPartsToPlay(): PartToPlay[] {
@@ -240,7 +283,7 @@ export class ExerciseStateService {
       return;
     }
 
-    await this._player.playMultipleParts(this._getAfterCorrectAnswerParts());
+    await this._notesPlayer.playMultipleParts(this._getAfterCorrectAnswerParts());
     this._highlightedAnswer = null;
   }
 
@@ -249,6 +292,6 @@ export class ExerciseStateService {
     if (!partToPlay) {
       return;
     }
-    this._player.playPart(toSteadyPart(partToPlay));
+    this._notesPlayer.playPart(toSteadyPart(partToPlay));
   }
 }

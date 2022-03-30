@@ -25,7 +25,7 @@ export interface ChordProgressionQuestion<GAnswer extends string> {
     answerToHighlight?: GAnswer,
   }[], [{
     firstChordInversion: 0 | 1 | 2,
-    questionSegments: Exercise.Question<GAnswer>['segments'],
+    questionSegments: Exercise.NotesQuestion<GAnswer>['segments'],
   }]>;
 }
 
@@ -102,7 +102,7 @@ export abstract class BaseTonalChordProgressionExercise<GAnswer extends string, 
 
     const question: Exclude<Exercise.Question<GAnswer>, "cadence"> = {
       segments: voiceChordProgression(_.map(chordProgression.segments, 'chord'))
-        .map((voicing: Note[], index: number): Exercise.Question<GAnswer>['segments'][0] => {
+        .map((voicing: Note[], index: number): Exercise.NotesQuestion<GAnswer>['segments'][0] => {
           return {
             rightAnswer: chordProgression.segments[index].answer,
             partToPlay: [{

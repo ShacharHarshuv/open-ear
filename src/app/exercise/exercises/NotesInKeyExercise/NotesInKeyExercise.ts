@@ -45,7 +45,7 @@ export class NotesInKeyExercise extends BaseMelodicDictationExercise<NoteInKeySe
       /**
        * Temporary solution, in the future we should either automatically detect it, or enable the user to set it in the setting
        * */
-      const detectedScale: NoteType[] = this._settings.cadenceType === 'I IV V I' ? ['C', 'D', 'E', 'F', 'G', 'A', 'B'] : ['C', 'D', 'Eb', 'F', 'G', 'Ab', 'B'];
+      const detectedScale: NoteType[] = this._detectScale();
 
       const noteOctave: number = getNoteOctave(randomQuestionInC);
       const noteType: NoteType = getNoteType(randomQuestionInC);
@@ -102,5 +102,17 @@ export class NotesInKeyExercise extends BaseMelodicDictationExercise<NoteInKeySe
       'Re',
       'Mi',
     ]
+  }
+
+  private _detectScale(): NoteType[] {
+    if (this._settings.cadenceType === 'I IV V I') {
+      return ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
+    } else {
+      if (this._settings.includedAnswers.includes('Te')) {
+        return ['C', 'D', 'Eb', 'F', 'G', 'Ab', 'Bb'];
+      } else {
+        return ['C', 'D', 'Eb', 'F', 'G', 'Ab', 'B'];
+      }
+    }
   }
 }

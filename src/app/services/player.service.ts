@@ -151,6 +151,16 @@ export class PlayerService {
     }
   }
 
+  stop(): void {
+    this._stopCurrentlyPlayingAndClearTransport();
+  }
+
+  setBpm(bpm: number): void {
+    if (Tone.Transport.bpm.value !== bpm) {
+      Tone.Transport.bpm.value = bpm;
+    }
+  }
+
   private _stopCurrentlyPlayingAndClearTransport(): void {
     Tone.Transport.stop();
 
@@ -202,11 +212,5 @@ export class PlayerService {
       urls: await PlayerService._getSampleMap(),
       release: 1,
     }).toDestination();
-  }
-
-  setBpm(bpm: number): void {
-    if (Tone.Transport.bpm.value !== bpm) {
-      Tone.Transport.bpm.value = bpm;
-    }
   }
 }

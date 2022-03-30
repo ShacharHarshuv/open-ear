@@ -105,7 +105,7 @@ export class IntervalExercise extends BaseCommonSettingsExercise<Interval> {
       ].map((row: Interval[]) => row.map((interval: Interval) => {
         return {
           answer: interval,
-          playOnClick: (question: Exercise.Question<Interval>) => {
+          playOnClick: (question: Exercise.NotesQuestion<Interval>) => {
             const noteList: Note[] = toArray<NoteEvent | Note>(question.segments[0].partToPlay)
               .map((noteOrEvent): Note => {
                 if (typeof noteOrEvent === 'object') {

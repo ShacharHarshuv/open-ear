@@ -5,22 +5,16 @@ import { ExerciseMockService } from '../exercise.mock.service';
 import { ModalModule } from '../../shared/modal/modal.module';
 import { MockExercise } from '../MockExercise';
 import { SharedComponentsModule } from '../../shared/components/shared-components/shared-components.module';
-import {
-  TestBed,
-  fakeAsync,
-  flush,
-} from '@angular/core/testing';
+import { fakeAsync, flush, TestBed, } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { ExerciseService } from '../exercise.service';
 import { timeoutAsPromise } from '../../shared/ts-utility';
 import { PlayerMockService } from '../../services/player.mock.service';
 import { ExerciseModule } from '../exercise.module';
-import {
-  PlayerService,
-  NoteEvent,
-} from '../../services/player.service';
+import { NoteEvent, PlayerService, } from '../../services/player.service';
 import { ExercisePageDebugger } from './exerice.page.debugger.spec';
 import { TestingUtility } from '../../shared/testing-utility';
+import { YouTubePlayerMockService } from '../../services/you-tube-player.mock.service';
 
 describe('ExercisePage', () => {
   const spies: jasmine.Spy[] = [];
@@ -41,6 +35,7 @@ describe('ExercisePage', () => {
         ...ExerciseSettingsDataMockService.providers,
         ...ExerciseMockService.providers,
         ...PlayerMockService.providers,
+        ...YouTubePlayerMockService.providers,
         {
           provide: ActivatedRoute,
           useValue: {
