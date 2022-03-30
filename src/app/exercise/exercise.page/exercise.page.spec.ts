@@ -69,6 +69,7 @@ describe('ExercisePage', () => {
       globalSettings: {
         bpm: 120,
         moveToNextQuestionAutomatically: false,
+        answerQuestionAutomatically: false,
         adaptive: false,
         playCadence: true,
       },

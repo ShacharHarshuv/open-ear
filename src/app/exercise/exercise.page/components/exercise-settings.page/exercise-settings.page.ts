@@ -12,6 +12,7 @@ interface ExerciseSettingsControls {
   // playCadenceEvery: number; // todo(OE-13)
   bpm: number,
   moveToNextQuestionAutomatically: boolean,
+  answerQuestionAutomatically : boolean,
   adaptive: boolean,
 }
 
@@ -30,6 +31,7 @@ export class ExerciseSettingsPage {
     adaptive: new FormControl<boolean>(false),
     bpm: new FormControl<number>(120),
     moveToNextQuestionAutomatically: new FormControl<boolean>(false),
+    answerQuestionAutomatically: new FormControl<boolean>(false),
   });
 
   exerciseSettingsDescriptor: Exercise.SettingsControlDescriptor[];
@@ -59,6 +61,7 @@ export class ExerciseSettingsPage {
       adaptive: currentSettings.adaptive,
       bpm: currentSettings.bpm,
       moveToNextQuestionAutomatically: currentSettings.moveToNextQuestionAutomatically,
+      answerQuestionAutomatically: currentSettings.answerQuestionAutomatically,
     })
   }
 
@@ -109,6 +112,7 @@ export class ExerciseSettingsPage {
       adaptive: formGroupValue.adaptive,
       bpm: formGroupValue.bpm,
       moveToNextQuestionAutomatically: formGroupValue.moveToNextQuestionAutomatically,
+      answerQuestionAutomatically: formGroupValue.answerQuestionAutomatically,
     }
   }
 

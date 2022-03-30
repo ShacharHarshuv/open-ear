@@ -6,4 +6,5 @@ export interface GlobalExerciseSettings {
   adaptive: boolean;
   bpm: number;
   moveToNextQuestionAutomatically: boolean;
+  answerQuestionAutomatically: boolean;
 }

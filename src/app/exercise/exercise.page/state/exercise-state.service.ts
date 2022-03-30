@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ExerciseService } from '../../exercise.service';
 import { Exercise } from '../../Exercise';
 import {
@@ -23,6 +23,7 @@ const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   adaptive: false,
   bpm: 120,
   moveToNextQuestionAutomatically: false,
+  answerQuestionAutomatically: false,
 };
 
 interface CurrentAnswer {
@@ -45,6 +46,7 @@ export class ExerciseStateService {
     private _exerciseService: ExerciseService,
     private _player: PlayerService,
     private _exerciseSettingsData: ExerciseSettingsDataService,
+    private router: Router
   ) {
   }
 
@@ -158,14 +160,13 @@ export class ExerciseStateService {
   }
 
   async playCurrentQuestion(): Promise<void> {
+    const currentUrl = this.router.url.split('/').slice(-1).toString();
     await this._player.playMultipleParts(this._getCurrentQuestionPartsToPlay());
     this._currentlyPlayingSegment = null;
-    console.log(this._originalExercise.id);
-    console.log(this._activatedRoute.snapshot.params['id']!);
-    if(true){//add in settings listening_mode
+    if(this._globalSettings.answerQuestionAutomatically && currentUrl == this._originalExercise.id){//add in settings listening_mode
       setTimeout(() => {
         this.answer(this._currentQuestion.segments[this._currentSegmentToAnswer].rightAnswer);
-      }, 500);
+      }, 800);
     }
 
   }
