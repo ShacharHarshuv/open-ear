@@ -21,6 +21,7 @@ export class ChordsInRealSongsExercise extends BaseExercise<RomanNumeralChord, {
   readonly id: string = 'chordsInRealSongs';
   readonly name: string = 'Chord Progressions In Real Songs';
   readonly summary: string = 'Identify chord progressions in real songs, streamed from YouTube';
+  readonly blackListPlatform = 'ios'; // currently, this exercise is not working on ios
 
   private _getAvailableProgressions(): ProgressionInSongFromYouTubeDescriptor[] {
     // in the future we can filter it based on settings
