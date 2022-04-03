@@ -57,4 +57,12 @@ export const releaseNotes: ReleaseNotes = [
     version: '1.2.6',
     notes: `<b>OpenEar now accepts donations!</b> <a href="https://www.paypal.com/donate/?hosted_button_id=2WH25GBMCJTJS">Click here</a> to donate. Any sum is appreciated!`,
   },
+  {
+    version: '1.2.7',
+    notes: `With "Chord Progression in Real Songs" Exercise, you can listen to real songs streaming from YouTube and try to identify their chord progressions.`,
+  },
+  {
+    version: '1.2.7',
+    notes: `"Reveal answer after first mistake" option - when checked, correct answer will be revealed after first mistake, so you don't have a "second chance" to find the right answer.`
+  },
 ]

@@ -1,11 +1,13 @@
 import { NoteEvent } from '../services/player.service';
-import { OneOrMany } from '../shared/ts-utility';
+import {
+  OneOrMany,
+  isValueTruthy,
+  StaticOrGetter,
+} from '../shared/ts-utility';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import * as _ from 'lodash';
 import { Type } from '@angular/core';
-import { isValueTruthy, StaticOrGetter } from '../shared/ts-utility';
-import { NoteType } from './utility/music/notes/NoteType';
-
+import { Platforms } from '@ionic/core/dist/types/utils/platform';
 
 type PartToPlay = NoteEvent[] | OneOrMany<Note>;
 
@@ -198,6 +200,7 @@ export namespace Exercise {
     readonly summary: string;
     readonly explanation: ExerciseExplanationContent;
     readonly settingsDescriptor?: SettingsControlDescriptor<GSettings>[];
+    readonly blackListPlatform?: Platforms;
 
     getAnswerList(): AnswerList<GAnswer>;
 
