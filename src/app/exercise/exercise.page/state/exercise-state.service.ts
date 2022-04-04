@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ExerciseService } from '../../exercise.service';
 import { Exercise } from '../../Exercise';
 import {
@@ -17,6 +17,7 @@ import Answer = Exercise.Answer;
 import { AdaptiveExercise } from './adaptive-exercise';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { YouTubePlayerService } from '../../../services/you-tube-player.service';
+import { delay } from 'lodash';
 
 const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   playCadence: true,
@@ -24,6 +25,7 @@ const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   revealAnswerAfterFirstMistake: false,
   bpm: 120,
   moveToNextQuestionAutomatically: false,
+  answerQuestionAutomatically: false,
 };
 
 interface CurrentAnswer {
@@ -47,6 +49,7 @@ export class ExerciseStateService {
     private readonly _notesPlayer: PlayerService,
     private readonly _youtubePlayer: YouTubePlayerService,
     private readonly _exerciseSettingsData: ExerciseSettingsDataService,
+    private readonly router: Router
   ) {
   }
 
@@ -178,7 +181,14 @@ export class ExerciseStateService {
     } else {
       await this._notesPlayer.playMultipleParts(this._getCurrentQuestionPartsToPlay());
     }
+    const currentUrl = this.router.url.split('/').slice(-1).toString();
     this._currentlyPlayingSegment = null;
+    if(this._globalSettings.answerQuestionAutomatically && currentUrl == this._originalExercise.id){//add in settings listening_mode
+      setTimeout(() => {
+        this.answer(this._currentQuestion.segments[this._currentSegmentToAnswer].rightAnswer);
+      }, 800);
+    }
+
   }
 
   nextQuestion(): Promise<void> {

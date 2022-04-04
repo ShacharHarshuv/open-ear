@@ -22,9 +22,9 @@
 
 <ion-content [fullscreen]="true" [padding]="true">
   <div class="exercise__content-container">
-    <p class="exercise__stats-container">
-      Correct answers: {{state.totalCorrectAnswers}}/{{state.totalQuestions}}
-      ({{correctAnswersPercentage | number: '1.0-2'}}%)
+    <p class="exercise__stats-container" *ngIf="!state.globalSettings.answerQuestionAutomatically">     
+        Correct answers: {{state.totalCorrectAnswers}}/{{state.totalQuestions}}
+        ({{correctAnswersPercentage | number: '1.0-2'}}%)      
     </p>
     <div class="exercise__answers-container">
       <app-answer-indication
