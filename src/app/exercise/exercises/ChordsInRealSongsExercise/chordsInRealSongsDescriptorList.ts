@@ -1621,7 +1621,7 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
         "seconds": 258.76
       },
       {
-        "chord": "♭VI",
+        "chord": "♭VII",
         "seconds": 261.92
       },
       {
@@ -1647,7 +1647,7 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
         "seconds": 21.2
       },
       {
-        "chord": "♭VI",
+        "chord": "♭VII",
         "seconds": 23.23
       },
       {
@@ -1673,7 +1673,7 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
         "seconds": 56.59
       },
       {
-        "chord": "♭VI",
+        "chord": "♭VII",
         "seconds": 62.12
       },
       {
@@ -1695,7 +1695,7 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
         "seconds": 136.17
       },
       {
-        "chord": "♭VI",
+        "chord": "♭VII",
         "seconds": 138.78
       },
       {
@@ -1721,7 +1721,7 @@ export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescri
         "seconds": 70.43
       },
       {
-        "chord": "♭VI",
+        "chord": "♭VII",
         "seconds": 71.74
       },
       {
