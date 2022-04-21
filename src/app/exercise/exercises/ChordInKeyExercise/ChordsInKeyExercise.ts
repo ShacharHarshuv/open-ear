@@ -57,4 +57,12 @@ export class ChordsInKeyExercise extends BaseRomanAnalysisChordProgressionExerci
       includedAnswers: ['I', 'IV', 'V'],
     };
   }
+
+  protected override _getDefaultSelectedIncludedAnswers(): RomanNumeralChord[] {
+    return [
+      'I',
+      'IV',
+      'V',
+    ]
+  }
 }
