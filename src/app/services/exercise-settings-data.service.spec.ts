@@ -30,6 +30,7 @@ describe('StorageService', function() {
         adaptive: false,
         bpm: 120,
         moveToNextQuestionAutomatically: false,
+        revealAnswerAfterFirstMistake: false,
       },
       exerciseSettings: {
         a: 1,

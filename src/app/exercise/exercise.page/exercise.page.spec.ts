@@ -66,6 +66,7 @@ describe('ExercisePage', () => {
         moveToNextQuestionAutomatically: false,
         adaptive: false,
         playCadence: true,
+        revealAnswerAfterFirstMistake: false,
       },
       wasExplanationDisplayed: true,
     }
