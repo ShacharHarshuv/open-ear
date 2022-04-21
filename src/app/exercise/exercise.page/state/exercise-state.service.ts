@@ -17,6 +17,7 @@ import Answer = Exercise.Answer;
 import { AdaptiveExercise } from './adaptive-exercise';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { YouTubePlayerService } from '../../../services/you-tube-player.service';
+import { ToastController } from '@ionic/angular';
 
 const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   playCadence: true,
@@ -47,6 +48,7 @@ export class ExerciseStateService {
     private readonly _notesPlayer: PlayerService,
     private readonly _youtubePlayer: YouTubePlayerService,
     private readonly _exerciseSettingsData: ExerciseSettingsDataService,
+    private readonly _toastController: ToastController,
   ) {
   }
 
@@ -154,6 +156,8 @@ export class ExerciseStateService {
       },
     ]
     if (this._currentQuestion.type === 'youtube') {
+      // loading YouTube video in the background when the cadence plays to save time
+      this._loadYoutubeQuestion(this._currentQuestion);
       if (cadence) {
         await this._notesPlayer.playMultipleParts(cadence);
       }
@@ -226,7 +230,21 @@ export class ExerciseStateService {
     this._notesPlayer.stop();
   }
 
+  private async _loadYoutubeQuestion(question: Exercise.YouTubeQuestion): Promise<void> {
+    await this._youtubePlayer.loadVideoById(question.videoId);
+  }
+
   private async _playYouTubeQuestion(question: Exercise.YouTubeQuestion): Promise<void> {
+    if (this._youtubePlayer.isVideoLoading) {
+      const toast: HTMLIonToastElement = await this._toastController.create({
+        message: 'Video loading...',
+        position: 'top',
+      });
+      await toast.present();
+      this._youtubePlayer.onCurrentVideoLoaded.then(() => {
+        toast.dismiss();
+      });
+    }
     await this._youtubePlayer.play(question.videoId, question.segments[0].seconds, [
       ...question.segments.map((segment, i) => ({
         seconds: segment.seconds,
