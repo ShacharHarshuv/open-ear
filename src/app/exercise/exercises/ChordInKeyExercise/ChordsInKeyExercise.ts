@@ -31,7 +31,7 @@ export class ChordsInKeyExercise extends BaseRomanAnalysisChordProgressionExerci
     const availableChords: RomanNumeralChord[] = this._settings.includedAnswers;
     const chordProgression: RomanNumeralChord[] = [randomFromList(availableChords)];
     while (chordProgression.length < numberOfSegments) {
-      chordProgression.push(randomFromList(availableChords.filter(chord => chord !== _.last(chordProgression)!)));
+      chordProgression.push(randomFromList(availableChords.filter(chord => chord !== _.last(chordProgression)! || availableChords.length <= 1)));
     }
 
     return {

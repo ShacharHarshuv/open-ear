@@ -70,6 +70,7 @@ export class PlayerService {
   private _currentlyPlayingPartFinishedSchedulerId: number | null = null;
   private _onPartFinished$ = new Subject<void>();
   private _partsToPlay: PartToPlay[] = [];
+  private _onAllPartsFinished$ = new Subject<void>();
 
   get bpm(): number {
     return Tone.Transport.bpm.value;
@@ -81,6 +82,15 @@ export class PlayerService {
   async init() {
     await Tone.start();
     await Tone.loaded();
+  }
+
+  // Used this to wait for current playing parts to finish
+  onAllPartsFinished(): Promise<void> {
+    if (this._currentlyPlaying) {
+      return this._onAllPartsFinished$.pipe(take(1)).toPromise();
+    } else {
+      return Promise.resolve();
+    }
   }
 
   private static async _getSampleMap(): Promise<{ [note: string]: AudioBuffer }> {
@@ -111,6 +121,7 @@ export class PlayerService {
     this._partsToPlay = [];
     this._stopCurrentlyPlayingAndClearTransport();
     await this._playPart(noteEventList);
+    this._onAllPartsFinished$.next();
   }
 
   async playMultipleParts(parts: PartToPlay[]): Promise<void> {
@@ -149,6 +160,8 @@ export class PlayerService {
       }
       nextPart.afterPlaying?.();
     }
+
+    this._onAllPartsFinished$.next();
   }
 
   stopAndClearQueue(): void {

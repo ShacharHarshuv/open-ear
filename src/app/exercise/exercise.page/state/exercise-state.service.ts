@@ -39,12 +39,12 @@ interface CurrentAnswer {
 export class ExerciseStateService implements OnDestroy {
   private readonly _originalExercise: Exercise.IExercise = this._exerciseService.getExercise(this._activatedRoute.snapshot.params['id']!);
   private _globalSettings: GlobalExerciseSettings = DEFAULT_EXERCISE_SETTINGS;
-  readonly name: string = this.exercise.name;
-  answerList: AnswerList = this.exercise.getAnswerList();
   private _adaptiveExercise: AdaptiveExercise = new AdaptiveExercise(this._originalExercise);
   private _currentQuestion: Exercise.Question = this.exercise.getQuestion();
   private _currentSegmentToAnswer: number = 0;
   private _destroyed: boolean = false;
+  readonly name: string = this.exercise.name;
+  answerList: AnswerList = this.exercise.getAnswerList();
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
@@ -133,11 +133,12 @@ export class ExerciseStateService implements OnDestroy {
           this._adaptiveExercise.reportAnswerCorrectness(areAllSegmentsCorrect);
         }
         this._afterCorrectAnswer()
-        .then(() => {
+        .then(async () => {
           if (this._globalSettings.moveToNextQuestionAutomatically) {
             // Make sure we are still in the same question (i.e. "Next" wasn't clicked by user)
             const numberOfAnsweredSegments = this._currentAnswers.filter(answer => !!answer.answer).length;
             if (numberOfAnsweredSegments === this._currentQuestion.segments.length) {
+              await this.onQuestionPlayingFinished();
               this.nextQuestion();
             }
           }
@@ -146,7 +147,6 @@ export class ExerciseStateService implements OnDestroy {
     }
     return isRight;
   }
-
 
   async playCurrentCadenceAndQuestion(): Promise<void> {
     await this._stop();
@@ -235,6 +235,13 @@ export class ExerciseStateService implements OnDestroy {
       return;
     }
     this._notesPlayer.playPart(toSteadyPart(partToPlay));
+  }
+
+  async onQuestionPlayingFinished(): Promise<void> {
+    await Promise.all([
+      this._notesPlayer.onAllPartsFinished(),
+      this._youtubePlayer.onStop(),
+    ]);
   }
 
   ngOnDestroy(): void {

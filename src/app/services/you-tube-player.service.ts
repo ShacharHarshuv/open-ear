@@ -1,9 +1,19 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, interval, NEVER } from 'rxjs';
+import {
+  BehaviorSubject,
+  interval,
+  NEVER,
+} from 'rxjs';
 import { YouTubePlayer } from 'youtube-player/dist/types';
 import * as PriorityQueue from 'js-priority-queue';
 import PlayerFactory from 'youtube-player';
-import { filter, skip, switchMap, take, takeUntil } from 'rxjs/operators';
+import {
+  filter,
+  skip,
+  switchMap,
+  take,
+  takeUntil,
+} from 'rxjs/operators';
 import { BaseDestroyable } from '../shared/ts-utility';
 import * as _ from 'lodash';
 
@@ -37,6 +47,10 @@ export class YouTubePlayerService extends BaseDestroyable {
     return this._onCurrentVideoLoaded;
   }
 
+  get isPlaying() {
+    return this._isPlaying$.value;
+  }
+
   constructor() {
     super();
     this._startTimeListener();
@@ -45,44 +59,6 @@ export class YouTubePlayerService extends BaseDestroyable {
     document.addEventListener('click', async () => {
       console.log(_.round(await this._youTubePlayer.getCurrentTime(), 2) - 0.3); // compensating for delay
     })
-  }
-
-  private _getYouTubePlayer(): YouTubePlayer {
-    const elm = document.createElement('div');
-    // Expose the following code for debugging purposes
-    // elm.style['position'] = 'absolute';
-    // elm.style['top'] = '0';
-    // elm.style['width'] = '100px';
-    // elm.style['height'] = '100px';
-    document.body.appendChild(elm);
-    return PlayerFactory(elm);
-  }
-
-  private _startTimeListener(): void {
-    this._isPlaying$.pipe(
-      switchMap((isPlaying) => {
-        if (!isPlaying) {
-          return NEVER;
-        } else {
-          return interval(TIME_STAMP_POLLING);
-        }
-      }),
-      takeUntil(this._destroy$),
-    ).subscribe(async () => {
-      if (!this._callBackQueue.length) {
-        return;
-      }
-      const nextCallback = this._callBackQueue.peek();
-      const currentTime = await this._youTubePlayer.getCurrentTime();
-      if (currentTime > nextCallback.seconds - (TIME_STAMP_POLLING / 2000)) {
-        this._callBackQueue.dequeue();
-        nextCallback.callback();
-      }
-    });
-  }
-
-  get isPlaying() {
-    return this._isPlaying$.value;
   }
 
   /**
@@ -148,5 +124,39 @@ export class YouTubePlayerService extends BaseDestroyable {
       filter(isPlaying => !isPlaying),
       take(1),
     ).toPromise();
+  }
+
+  private _getYouTubePlayer(): YouTubePlayer {
+    const elm = document.createElement('div');
+    // Expose the following code for debugging purposes
+    // elm.style['position'] = 'absolute';
+    // elm.style['top'] = '0';
+    // elm.style['width'] = '100px';
+    // elm.style['height'] = '100px';
+    document.body.appendChild(elm);
+    return PlayerFactory(elm);
+  }
+
+  private _startTimeListener(): void {
+    this._isPlaying$.pipe(
+      switchMap((isPlaying) => {
+        if (!isPlaying) {
+          return NEVER;
+        } else {
+          return interval(TIME_STAMP_POLLING);
+        }
+      }),
+      takeUntil(this._destroy$),
+    ).subscribe(async () => {
+      if (!this._callBackQueue.length) {
+        return;
+      }
+      const nextCallback = this._callBackQueue.peek();
+      const currentTime = await this._youTubePlayer.getCurrentTime();
+      if (currentTime > nextCallback.seconds - (TIME_STAMP_POLLING / 2000)) {
+        this._callBackQueue.dequeue();
+        nextCallback.callback();
+      }
+    });
   }
 }
