@@ -154,6 +154,8 @@ export class ExerciseStateService {
       },
     ]
     if (this._currentQuestion.type === 'youtube') {
+      // loading YouTube video in the background when the cadence plays to save time
+      this._loadYoutubeQuestion(this._currentQuestion);
       if (cadence) {
         await this._notesPlayer.playMultipleParts(cadence);
       }
@@ -224,6 +226,10 @@ export class ExerciseStateService {
   private async _stop(): Promise<void> {
     await this._youtubePlayer.stop();
     this._notesPlayer.stop();
+  }
+
+  private async _loadYoutubeQuestion(question: Exercise.YouTubeQuestion): Promise<void> {
+    await this._youtubePlayer.loadVideoById(question.videoId);
   }
 
   private async _playYouTubeQuestion(question: Exercise.YouTubeQuestion): Promise<void> {
