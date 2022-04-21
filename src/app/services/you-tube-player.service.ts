@@ -18,6 +18,7 @@ const TIME_STAMP_POLLING: number = 200;
   providedIn: 'root'
 })
 export class YouTubePlayerService extends BaseDestroyable {
+  private _isVideoLoading: boolean = false;
   private _currentlyLoadedVideoId: string | null = null;
   private _onCurrentVideoLoaded: Promise<void> = Promise.resolve();
   private _isPlaying$ = new BehaviorSubject(false);
@@ -27,6 +28,14 @@ export class YouTubePlayerService extends BaseDestroyable {
       return a.seconds - b.seconds;
     }
   });
+
+  get isVideoLoading(): boolean {
+    return this._isVideoLoading;
+  }
+
+  get onCurrentVideoLoaded(): Promise<void> {
+    return this._onCurrentVideoLoaded;
+  }
 
   constructor() {
     super();
@@ -82,6 +91,7 @@ export class YouTubePlayerService extends BaseDestroyable {
   async loadVideoById(videoId: string): Promise<void> {
     if (this._currentlyLoadedVideoId !== videoId) {
       this._currentlyLoadedVideoId = videoId;
+      this._isVideoLoading = true;
       this._onCurrentVideoLoaded = this._youTubePlayer.loadVideoById(videoId)
         .then(() => {
           return new Promise<void>(resolve => {
@@ -96,6 +106,9 @@ export class YouTubePlayerService extends BaseDestroyable {
         })
         .then(() => {
           this._youTubePlayer.pauseVideo(); // we don't always want it to start playing immediately
+        })
+        .then(() => {
+          this._isVideoLoading = false;
         })
     }
     await this._onCurrentVideoLoaded;
