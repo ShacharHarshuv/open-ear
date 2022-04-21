@@ -1,4 +1,7 @@
-import { Injectable } from '@angular/core';
+import {
+  Injectable,
+  OnDestroy,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ExerciseService } from '../../exercise.service';
 import { Exercise } from '../../Exercise';
@@ -33,7 +36,7 @@ interface CurrentAnswer {
 }
 
 @Injectable()
-export class ExerciseStateService {
+export class ExerciseStateService implements OnDestroy {
   private readonly _originalExercise: Exercise.IExercise = this._exerciseService.getExercise(this._activatedRoute.snapshot.params['id']!);
   private _globalSettings: GlobalExerciseSettings = DEFAULT_EXERCISE_SETTINGS;
   readonly name: string = this.exercise.name;
@@ -41,6 +44,7 @@ export class ExerciseStateService {
   private _adaptiveExercise: AdaptiveExercise = new AdaptiveExercise(this._originalExercise);
   private _currentQuestion: Exercise.Question = this.exercise.getQuestion();
   private _currentSegmentToAnswer: number = 0;
+  private _destroyed: boolean = false;
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
@@ -225,9 +229,22 @@ export class ExerciseStateService {
     await this.nextQuestion();
   }
 
-  private async _stop(): Promise<void> {
-    await this._youtubePlayer.stop();
-    this._notesPlayer.stop();
+  playAnswer(answerConfig: Exercise.AnswerConfig<string>): void {
+    const partToPlay: NoteEvent[] | OneOrMany<Note> | null | undefined = toGetter(answerConfig.playOnClick)(this._currentQuestion);
+    if (!partToPlay) {
+      return;
+    }
+    this._notesPlayer.playPart(toSteadyPart(partToPlay));
+  }
+
+  ngOnDestroy(): void {
+    this._stop();
+    this._destroyed = true; // used to prevent playing of pending actions
+  }
+
+  private _stop(): void {
+    this._youtubePlayer.stop();
+    this._notesPlayer.stopAndClearQueue();
   }
 
   private async _loadYoutubeQuestion(question: Exercise.YouTubeQuestion): Promise<void> {
@@ -235,6 +252,9 @@ export class ExerciseStateService {
   }
 
   private async _playYouTubeQuestion(question: Exercise.YouTubeQuestion): Promise<void> {
+    if (this._destroyed) {
+      return;
+    }
     if (this._youtubePlayer.isVideoLoading) {
       const toast: HTMLIonToastElement = await this._toastController.create({
         message: 'Video loading...',
@@ -303,13 +323,5 @@ export class ExerciseStateService {
 
     await this._notesPlayer.playMultipleParts(this._getAfterCorrectAnswerParts());
     this._highlightedAnswer = null;
-  }
-
-  playAnswer(answerConfig: Exercise.AnswerConfig<string>): void {
-    const partToPlay: NoteEvent[] | OneOrMany<Note> | null | undefined = toGetter(answerConfig.playOnClick)(this._currentQuestion);
-    if (!partToPlay) {
-      return;
-    }
-    this._notesPlayer.playPart(toSteadyPart(partToPlay));
   }
 }

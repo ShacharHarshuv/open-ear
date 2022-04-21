@@ -151,8 +151,9 @@ export class PlayerService {
     }
   }
 
-  stop(): void {
+  stopAndClearQueue(): void {
     this._stopCurrentlyPlayingAndClearTransport();
+    this._partsToPlay = [];
   }
 
   setBpm(bpm: number): void {
