@@ -1,5 +1,11 @@
-import { Exercise, } from '../../Exercise';
-import { NotesRange, randomFromList } from '../../utility';
+import {
+  Exercise,
+} from '../../Exercise';
+import {
+  NotesRange,
+  randomFromList,
+  Interval,
+} from '../../utility';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { getNoteType } from '../../utility/music/notes/getNoteType';
 import { NoteType } from '../../utility/music/notes/NoteType';
@@ -19,11 +25,14 @@ import {
   noteInCToSolfege,
   SolfegeNote
 } from '../utility/BaseMelodicDictationExercise';
+import { transpose } from '../../utility/music/transpose';
 
 type NoteInKeySettings =
   BaseMelodicDictationExerciseSettings &
   NumberOfSegmentsSetting &
-  PlayAfterCorrectAnswerSetting;
+  PlayAfterCorrectAnswerSetting & {
+    notesRange: 'high' | 'middle' | 'bass' | 'contrabass',
+  };
 
 export class NotesInKeyExercise extends BaseMelodicDictationExercise<NoteInKeySettings> {
   readonly id: string = 'noteInKey';
@@ -32,10 +41,19 @@ export class NotesInKeyExercise extends BaseMelodicDictationExercise<NoteInKeySe
   readonly explanation = NotesInKeyExplanationComponent;
   readonly rangeForKeyOfC = new NotesRange('G2', 'E4');
   readonly questionOptionsInC: Note[] = this._getQuestionOptionsInC();
+  static readonly rangeToOctaveTranspose: {[range in NoteInKeySettings['notesRange']]: number} = {
+    high: 2,
+    middle: 0,
+    bass: -1,
+    contrabass: -2,
+  }
 
   override getMelodicQuestionInC(): IMelodicQuestion {
     const noteOptions: Note[] = this.questionOptionsInC.filter(questionOption => this._settings.includedAnswers.includes(noteInCToSolfege[getNoteType(questionOption)]!));
-    const randomQuestionsInC: Note[] = Array.from(Array(this._settings.numberOfSegments)).map(() => randomFromList(noteOptions));
+    let randomQuestionsInC: Note[] = transpose(
+      Array.from(Array(this._settings.numberOfSegments)).map(() => randomFromList(noteOptions)),
+      NotesInKeyExercise.rangeToOctaveTranspose[this._settings.notesRange] * Interval.Octave,
+    );
 
     // calculation resolution
     let resolution: Note[] = [];
@@ -79,8 +97,36 @@ export class NotesInKeyExercise extends BaseMelodicDictationExercise<NoteInKeySe
   }
 
   protected override _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<NoteInKeySettings>[] {
+
     return [
       ...super._getSettingsDescriptor(),
+      {
+        key: 'notesRange',
+        descriptor: ((): Exercise.SelectControlDescriptor<NoteInKeySettings['notesRange']> => {
+          return {
+            controlType: 'SELECT',
+            label: 'Range',
+            options: [
+              {
+                label: 'High',
+                value: 'high',
+              },
+              {
+                label: 'Middle',
+                value: 'middle',
+              },
+              {
+                label: 'Bass',
+                value: 'bass',
+              },
+              {
+                label: 'Contra Bass',
+                value: 'contrabass',
+              }
+          ]
+          }
+        })()
+      },
       ...numberOfSegmentsControlDescriptorList('notes'),
       ...playAfterCorrectAnswerControlDescriptorList({
         show: ((settings: NoteInKeySettings) => settings.numberOfSegments === 1),
@@ -93,6 +139,7 @@ export class NotesInKeyExercise extends BaseMelodicDictationExercise<NoteInKeySe
       ...super._getDefaultSettings(),
       numberOfSegments: 1,
       playAfterCorrectAnswer: true,
+      notesRange: 'middle',
     };
   }
 

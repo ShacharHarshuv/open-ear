@@ -65,4 +65,12 @@ export const releaseNotes: ReleaseNotes = [
     version: '1.2.7',
     notes: `"Reveal answer after first mistake" option - when checked, correct answer will be revealed after first mistake, so you don't have a "second chance" to find the right answer.`
   },
+  {
+    version: '1.2.9',
+    notes: 'Improve performance for "Chord progressions in real songs" (Android only)',
+  },
+  {
+    version: '1.2.10',
+    notes: 'Enable a selection of range for "Scale Degree" exercise.'
+  }
 ]

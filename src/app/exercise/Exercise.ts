@@ -149,11 +149,11 @@ export namespace Exercise {
     step: number;
   }
 
-  export interface SelectControlDescriptor extends BaseSettingsControlDescriptor {
+  export interface SelectControlDescriptor<GValue extends string | number = string | number> extends BaseSettingsControlDescriptor {
     controlType: 'SELECT',
     options: {
       label: string;
-      value: string | number,
+      value: GValue,
     }[],
   }
 
