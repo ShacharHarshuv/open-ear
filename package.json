@@ -34,7 +34,7 @@
     "@capacitor/status-bar": "1.0.2",
     "@ionic-native/app-version": "^5.36.0",
     "@ionic-native/core": "^5.36.0",
-    "@ionic/angular": "^5.5.2",
+    "@ionic/angular": "6",
     "@ionic/storage-angular": "^3.0.6",
     "cordova-plugin-app-version": "^0.1.12",
     "expect-type": "^0.12.0",
