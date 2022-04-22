@@ -1,6 +1,12 @@
-import { Component, Input } from '@angular/core';
-import { BaseControlValueAccessorComponent, getNgValueAccessorProvider } from '../../../../../../shared/ts-utility';
-import { take } from 'rxjs/operators';
+import {
+  Component,
+  Input,
+} from '@angular/core';
+import {
+  BaseControlValueAccessorComponent,
+  getNgValueAccessorProvider,
+} from '../../../../../../shared/ts-utility';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-list-select',
@@ -21,7 +27,7 @@ export class ListSelectComponent extends BaseControlValueAccessorComponent<(stri
   label: string;
 
   async onChange(answer: string | number, isSelected: boolean): Promise<void> {
-    const currentValue: (string | number)[] = [...(await this.value$.pipe(take(1)).toPromise())];
+    const currentValue: (string | number)[] = [...(await firstValueFrom(this.value$))];
     let newValue: (string | number)[];
     if (currentValue.includes(answer) && !isSelected) {
       newValue = currentValue.filter(value => value !== answer);

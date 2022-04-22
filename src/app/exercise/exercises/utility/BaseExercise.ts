@@ -10,7 +10,7 @@ import { Observable, ReplaySubject, Subject } from 'rxjs';
 export abstract class BaseExercise<GAnswer extends string = string, GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }> implements Exercise.IExercise<GAnswer, GSettings> {
   private _settingsChangeSubject = new ReplaySubject<GSettings>(1);
 
-  protected _destroy$ = new Subject();
+  protected _destroy$ = new Subject<void>();
   /**
    * Implementor should implement the desired default settings
    * */
