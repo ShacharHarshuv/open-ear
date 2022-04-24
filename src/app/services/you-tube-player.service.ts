@@ -119,11 +119,14 @@ export class YouTubePlayerService extends BaseDestroyable {
   }
 
   async onStop(): Promise<unknown> {
-    return this._isPlaying$.pipe(
-      skip(1),
-      filter(isPlaying => !isPlaying),
-      take(1),
-    ).toPromise();
+    if (this._isPlaying$.value) {
+      return this._isPlaying$.pipe(
+        filter(isPlaying => !isPlaying),
+        take(1),
+      ).toPromise();
+    } else {
+      return Promise.resolve();
+    }
   }
 
   private _getYouTubePlayer(): YouTubePlayer {

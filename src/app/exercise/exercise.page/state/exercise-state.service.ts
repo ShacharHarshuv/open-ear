@@ -7,12 +7,15 @@ import { ExerciseService } from '../../exercise.service';
 import { Exercise } from '../../Exercise';
 import {
   PlayerService,
-  PartToPlay, NoteEvent,
+  PartToPlay,
+  NoteEvent,
 } from '../../../services/player.service';
 import {
   toSteadyPart,
   GlobalExerciseSettings,
-  ExerciseSettingsData, toGetter, OneOrMany,
+  ExerciseSettingsData,
+  toGetter,
+  OneOrMany,
 } from '../../utility';
 import { ExerciseSettingsDataService } from '../../../services/exercise-settings-data.service';
 import AnswerList = Exercise.AnswerList;
@@ -21,6 +24,7 @@ import { AdaptiveExercise } from './adaptive-exercise';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { YouTubePlayerService } from '../../../services/you-tube-player.service';
 import { ToastController } from '@ionic/angular';
+import * as _ from 'lodash';
 
 const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   playCadence: true,
@@ -117,7 +121,7 @@ export class ExerciseStateService implements OnDestroy {
     if (!isRight) {
       this._currentAnswers[this._currentSegmentToAnswer].wasWrong = true;
     }
-    if(isRight || this._globalSettings.revealAnswerAfterFirstMistake) {
+    if (isRight || this._globalSettings.revealAnswerAfterFirstMistake) {
       this._totalQuestions++;
       if (!this._currentAnswers[this._currentSegmentToAnswer].wasWrong) {
         this._totalCorrectAnswers++;
@@ -133,16 +137,16 @@ export class ExerciseStateService implements OnDestroy {
           this._adaptiveExercise.reportAnswerCorrectness(areAllSegmentsCorrect);
         }
         this._afterCorrectAnswer()
-        .then(async () => {
-          if (this._globalSettings.moveToNextQuestionAutomatically) {
-            // Make sure we are still in the same question (i.e. "Next" wasn't clicked by user)
-            const numberOfAnsweredSegments = this._currentAnswers.filter(answer => !!answer.answer).length;
-            if (numberOfAnsweredSegments === this._currentQuestion.segments.length) {
-              await this.onQuestionPlayingFinished();
-              this.nextQuestion();
+          .then(async () => {
+            if (this._globalSettings.moveToNextQuestionAutomatically) {
+              // Make sure we are still in the same question (i.e. "Next" wasn't clicked by user)
+              const numberOfAnsweredSegments = this._currentAnswers.filter(answer => !!answer.answer).length;
+              if (numberOfAnsweredSegments === this._currentQuestion.segments.length) {
+                await this.onQuestionPlayingFinished();
+                this.nextQuestion();
+              }
             }
-          }
-        })
+          })
       }
     }
     return isRight;
@@ -194,7 +198,8 @@ export class ExerciseStateService implements OnDestroy {
     if (this._globalSettings.adaptive && !!this._currentQuestion && !this._areAllSegmentsAnswered) {
       try {
         this._adaptiveExercise.reportAnswerCorrectness(true); // reporting true to ignore it in the future
-      } catch (e) {}
+      } catch (e) {
+      }
     }
     this._currentQuestion = this.exercise.getQuestion();
     this._currentAnswers = this._currentQuestion.segments.map(() => ({
@@ -277,14 +282,14 @@ export class ExerciseStateService implements OnDestroy {
         seconds: segment.seconds,
         callback: () => {
           this._currentlyPlayingSegment = i;
-        }
+        },
       })),
       {
         seconds: question.endSeconds,
         callback: () => {
           this._youtubePlayer.stop();
-        }
-      }
+        },
+      },
     ]);
     await this._youtubePlayer.onStop();
   }
@@ -324,11 +329,12 @@ export class ExerciseStateService implements OnDestroy {
   }
 
   private async _afterCorrectAnswer(): Promise<void> {
-    if (!this._currentQuestion.afterCorrectAnswer) {
+    const afterCorrectAnswerParts: PartToPlay[] = this._getAfterCorrectAnswerParts();
+    if (_.isEmpty(afterCorrectAnswerParts)) {
       return;
     }
 
-    await this._notesPlayer.playMultipleParts(this._getAfterCorrectAnswerParts());
+    await this._notesPlayer.playMultipleParts(afterCorrectAnswerParts);
     this._highlightedAnswer = null;
   }
 }
