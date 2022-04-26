@@ -18,13 +18,14 @@ import {
   OneOrMany,
 } from '../../utility';
 import { ExerciseSettingsDataService } from '../../../services/exercise-settings-data.service';
-import AnswerList = Exercise.AnswerList;
-import Answer = Exercise.Answer;
 import { AdaptiveExercise } from './adaptive-exercise';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { YouTubePlayerService } from '../../../services/you-tube-player.service';
 import { ToastController } from '@ionic/angular';
 import * as _ from 'lodash';
+import { AdaptiveExerciseService } from './adaptive-exercise.service';
+import AnswerList = Exercise.AnswerList;
+import Answer = Exercise.Answer;
 
 const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   playCadence: true,
@@ -43,7 +44,7 @@ interface CurrentAnswer {
 export class ExerciseStateService implements OnDestroy {
   private readonly _originalExercise: Exercise.IExercise = this._exerciseService.getExercise(this._activatedRoute.snapshot.params['id']!);
   private _globalSettings: GlobalExerciseSettings = DEFAULT_EXERCISE_SETTINGS;
-  private _adaptiveExercise: AdaptiveExercise = new AdaptiveExercise(this._originalExercise);
+  private _adaptiveExercise: AdaptiveExercise = this._adaptiveExerciseService.createAdaptiveExercise(this._originalExercise);
   private _currentQuestion: Exercise.Question = this.exercise.getQuestion();
   private _currentSegmentToAnswer: number = 0;
   private _destroyed: boolean = false;
@@ -57,6 +58,7 @@ export class ExerciseStateService implements OnDestroy {
     private readonly _youtubePlayer: YouTubePlayerService,
     private readonly _exerciseSettingsData: ExerciseSettingsDataService,
     private readonly _toastController: ToastController,
+    private readonly _adaptiveExerciseService: AdaptiveExerciseService,
   ) {
   }
 
@@ -250,7 +252,9 @@ export class ExerciseStateService implements OnDestroy {
   }
 
   resetStatistics(): void {
-
+    this._totalCorrectAnswers = 0;
+    this._totalQuestions = 0;
+    this._adaptiveExercise.reset();
   }
 
   ngOnDestroy(): void {
