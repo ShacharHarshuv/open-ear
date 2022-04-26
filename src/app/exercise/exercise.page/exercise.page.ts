@@ -108,7 +108,7 @@ export class ExercisePage {
     await alert.present()
     const { role } = await alert.onDidDismiss();
     if (role === 'reset') {
-      console.log('Resetting statistics!!'); // todo
+      this.state.resetStatistics();
     }
   }
 }

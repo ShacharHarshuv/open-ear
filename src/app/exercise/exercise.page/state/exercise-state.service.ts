@@ -255,6 +255,7 @@ export class ExerciseStateService implements OnDestroy {
     this._totalCorrectAnswers = 0;
     this._totalQuestions = 0;
     this._adaptiveExercise.reset();
+    this.nextQuestion();
   }
 
   ngOnDestroy(): void {

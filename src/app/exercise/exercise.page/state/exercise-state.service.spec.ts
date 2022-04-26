@@ -53,6 +53,12 @@ describe('ExerciseStateService', function() {
       expect(adaptiveExerciseResetSpy).not.toHaveBeenCalled();
       exerciseStateService.resetStatistics();
       expect(adaptiveExerciseResetSpy).toHaveBeenCalledOnceWith();
+    });
+
+    it('should move to next question', () => {
+      const moveToNextQuestionSpy = spyOn(exerciseStateService, 'nextQuestion');
+      exerciseStateService.resetStatistics();
+      expect(moveToNextQuestionSpy).toHaveBeenCalledOnceWith();
     })
   })
 });
