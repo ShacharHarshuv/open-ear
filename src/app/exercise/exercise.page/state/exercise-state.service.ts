@@ -263,6 +263,13 @@ export class ExerciseStateService implements OnDestroy {
     this._destroyed = true; // used to prevent playing of pending actions
   }
 
+  getAnswerDisplay(answer: string | null): string | null {
+    if (!this._originalExercise.getAnswerDisplay) {
+      return answer;
+    }
+    return answer ? this._originalExercise.getAnswerDisplay(answer) : null;
+  }
+
   private _stop(): void {
     this._youtubePlayer.stop();
     this._notesPlayer.stopAndClearQueue();

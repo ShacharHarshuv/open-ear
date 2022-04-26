@@ -6,12 +6,14 @@ import { MockExercise } from './MockExercise';
 
 @Injectable()
 export class ExerciseMockService implements PublicMembers<ExerciseService> {
+  static mockExercise: MockExercise = new MockExercise();
+
   getExercise(id: string): Exercise.IExercise {
-    return new MockExercise(id);
+    return ExerciseMockService.mockExercise;
   }
 
   getExerciseList(): Exercise.IExercise[] {
-    return [new MockExercise()];
+    return [ExerciseMockService.mockExercise];
   }
 
   static providers: Provider[] = [

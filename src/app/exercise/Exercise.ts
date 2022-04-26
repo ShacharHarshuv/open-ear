@@ -210,6 +210,8 @@ export namespace Exercise {
 
     getCurrentSettings?(): GSettings;
 
+    getAnswerDisplay?(answer: GAnswer): string;
+
     onDestroy?(): void;
   }
 

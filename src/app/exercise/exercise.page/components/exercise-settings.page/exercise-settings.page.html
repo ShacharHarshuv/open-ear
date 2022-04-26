@@ -117,6 +117,7 @@
           <app-included-answers
             [answerList]="exerciseControlSettings.descriptor.answerList"
             [formControl]="exerciseFormGroup.controls[exerciseControlSettings.key]"
+            [getAnswerDisplay]="getAnswerDisplay"
           ></app-included-answers>
         </ion-list>
       </ng-container>

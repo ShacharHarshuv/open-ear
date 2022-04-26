@@ -69,7 +69,7 @@ export class ExercisePage {
         this.wrongAnswers = [];
       }
       this.rightAnswer = null;       
-      }, 100);      
+      }, 100);
     }
 
   async editSettings(): Promise<void> {
@@ -82,7 +82,8 @@ export class ExercisePage {
         exerciseSettingsDescriptorInput: this.state.exerciseSettingsDescriptor, // must be before currentExerciseSettings
         currentExerciseSettings: this.state.exerciseSettings,
         allAvailableAnswers: allAvailableAnswers,
-      }
+        getAnswerDisplay: (answer: string | null): string | null => this.state.getAnswerDisplay(answer),
+      },
     });
     await modal.present();
     this.state.updateSettings((await modal.onDidDismiss()).data);
