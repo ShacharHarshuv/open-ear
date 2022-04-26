@@ -73,6 +73,7 @@
         *ngIf="answerConfig.answer as answer"
         class="exercise__answer-button"
         (click)="onAnswerClick(answerConfig)"
+        [disabled]="!state.isAnswerEnabled"
         [class.--right]="answer === rightAnswer"
         [class.--highlighted]="answer === state.highlightedAnswer"
         [class.--wrong]="wrongAnswers.includes(answer)"

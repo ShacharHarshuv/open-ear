@@ -66,6 +66,12 @@ export class ExerciseStateService implements OnDestroy {
     return this._globalSettings;
   }
 
+  private _isAnsweringEnabled: boolean = true;
+
+  get isAnswerEnabled(): boolean {
+    return this._isAnsweringEnabled;
+  }
+
   private _totalCorrectAnswers: number = 0;
 
   get totalCorrectAnswers(): number {
@@ -156,10 +162,23 @@ export class ExerciseStateService implements OnDestroy {
 
   async playCurrentCadenceAndQuestion(): Promise<void> {
     await this._stop();
+    const cadenceIsPlayingToaster: HTMLIonToastElement = await this._toastController.create({
+      message: 'Playing cadence to establish key...',
+      position: 'middle',
+      translucent: true,
+    })
     const cadence: PartToPlay[] | undefined = this._currentQuestion.cadence && [
       {
         partOrTime: toSteadyPart(this._currentQuestion.cadence),
         bpm: 120,
+        beforePlaying: () => {
+          this._isAnsweringEnabled = false;
+          cadenceIsPlayingToaster.present();
+        },
+        afterPlaying: () => {
+          this._isAnsweringEnabled = true;
+          cadenceIsPlayingToaster.dismiss();
+        }
       },
       {
         partOrTime: 100,
@@ -311,12 +330,16 @@ export class ExerciseStateService implements OnDestroy {
   }
 
   private _getCurrentQuestionPartsToPlay(): PartToPlay[] {
-    return this._currentQuestion.segments.map((segment, i): PartToPlay => ({
+    const partsToPlay: PartToPlay[] = this._currentQuestion.segments.map((segment, i): PartToPlay => ({
       partOrTime: toSteadyPart(segment.partToPlay),
       beforePlaying: () => {
         this._currentlyPlayingSegment = i;
+        if (i === 0) {
+          this._isAnsweringEnabled = true;
+        }
       },
     }));
+    return partsToPlay;
   }
 
   private _updateExerciseSettings(exerciseSettings: { [key: string]: Exercise.SettingValueType }): void {

@@ -76,5 +76,9 @@ export const releaseNotes: ReleaseNotes = [
   {
     version: '1.2.11',
     notes: 'Add the options to reset statistics',
-  }
+  },
+  {
+    version: '1.2.12',
+    notes: 'Use numeric display instead of Moveable-Do for scale degrees exercise'
+  },
 ]
