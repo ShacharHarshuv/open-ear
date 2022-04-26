@@ -39,12 +39,14 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
       name: 'Classical Cadence',
     },
     {
-      romanNumerals: ['I', 'V', 'IV', 'I'],
-      name: 'Blues Cadence',
+      romanNumerals: ['I', 'IV', 'V', 'IV'],
     },
     {
-      romanNumerals: ['I', 'V', 'vi', 'IV'],
-      name: 'Axis (optimistic)',
+      romanNumerals: ['I', 'V', 'IV', 'V'],
+    },
+    {
+      romanNumerals: ['I', 'V', 'IV', 'I'],
+      name: 'Blues Cadence',
     },
     {
       romanNumerals: ['I', 'V', 'vi', 'IV'],
@@ -63,8 +65,15 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
       name: 'Axis'
     },
     {
+      romanNumerals: ['I', 'IV', 'vi', 'V',]
+    },
+    {
       romanNumerals: ['I', 'vi', 'IV', 'V'],
       name: 'Doo-Wop / 50s',
+    },
+    {
+      romanNumerals: ['IV', 'V', 'I', 'vi'],
+      name: 'Doo-Wop (IV-rotation)'
     },
     {
       romanNumerals: ['I', 'vi', 'ii', 'V'],
@@ -154,8 +163,18 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
   ]
 
   private static readonly _defaultProgressions: string[] = [
+    'I V I',
+    'I IV I',
+    'I IV V I',
+    'I IV V IV',
+    'I V IV V',
+    'I V IV I',
     'I V vi IV',
     'I vi IV V',
+    'vi IV I V',
+    'I IV vi V',
+    'IV I V vi',
+    'IV V I vi',
   ]
 
   private static _getProgressionId(progression: ProgressionDescriptor): string {
