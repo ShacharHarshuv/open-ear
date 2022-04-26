@@ -249,6 +249,10 @@ export class ExerciseStateService implements OnDestroy {
     ]);
   }
 
+  resetStatistics(): void {
+
+  }
+
   ngOnDestroy(): void {
     this._stop();
     this._destroyed = true; // used to prevent playing of pending actions

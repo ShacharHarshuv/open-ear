@@ -2,7 +2,10 @@ import {
   Component,
 } from '@angular/core';
 import { ExerciseStateService } from './state/exercise-state.service';
-import { ModalController } from '@ionic/angular';
+import {
+  ModalController,
+  AlertController,
+} from '@ionic/angular';
 import { ExerciseSettingsPage } from './components/exercise-settings.page/exercise-settings.page';
 import * as _ from 'lodash';
 import { ExerciseExplanationService } from './state/exercise-explanation.service';
@@ -21,6 +24,7 @@ import AnswerConfig = Exercise.AnswerConfig;
 export class ExercisePage {
   wrongAnswers: string[] = [];
   rightAnswer: string | null = null;
+  isMenuOpened: boolean = false;
 
   get isQuestionCompleted(): boolean {
     return !!this.state.currentAnswers[this.state.currentAnswers.length - 1]?.answer;
@@ -37,6 +41,7 @@ export class ExercisePage {
     public state: ExerciseStateService,
     public exerciseExplanation: ExerciseExplanationService,
     private _modalController: ModalController,
+    private _alertController: AlertController,
   ) {
     this._init();
   }
@@ -86,5 +91,24 @@ export class ExercisePage {
   private async _init(): Promise<void> {
     await this.exerciseExplanation.init();
     await this.state.init()
+  }
+
+  async resetStatistics(): Promise<void> {
+    const alert: HTMLIonAlertElement = await this._alertController.create({
+      header: 'Reset statistics',
+      message: 'Are you sure you want to reset statistics?',
+      buttons: [{
+        text: 'Cancel',
+        role: 'cancel',
+      }, {
+        text: 'Reset',
+        role: 'reset',
+      }],
+    });
+    await alert.present()
+    const { role } = await alert.onDidDismiss();
+    if (role === 'reset') {
+      console.log('Resetting statistics!!'); // todo
+    }
   }
 }
