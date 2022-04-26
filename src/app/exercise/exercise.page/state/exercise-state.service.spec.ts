@@ -27,7 +27,6 @@ describe('ExerciseStateService', function() {
       ],
       imports: [
         RouterTestingModule,
-        IonicTestingModule,
       ],
     }).compileComponents();
 
