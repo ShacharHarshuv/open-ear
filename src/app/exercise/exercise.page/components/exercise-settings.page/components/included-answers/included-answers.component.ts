@@ -14,6 +14,9 @@ export class IncludedAnswersComponent<GAnswer extends string> extends BaseContro
   @Input()
   answerList: Exercise.AnswerList<GAnswer>;
 
+  @Input()
+  getAnswerDisplay: (answer: GAnswer | null) => string | null;
+
   async toggleInclusion(answer: GAnswer): Promise<void> {
     const currentValue: ReadonlyArray<GAnswer> = await this.getCurrentValuePromise();
     if (currentValue.includes(answer)) {

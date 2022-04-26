@@ -1,8 +1,18 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  Input,
+} from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { FormControl, FormGroup, TAbstractControlsOf } from '../../../../shared/reactive-forms';
-import { Exercise, } from '../../../Exercise';
-import { ExerciseSettingsData, GlobalExerciseSettings, } from '../../../utility';
+import {
+  FormControl,
+  FormGroup,
+  TAbstractControlsOf,
+} from '../../../../shared/reactive-forms';
+import { Exercise } from '../../../Exercise';
+import {
+  ExerciseSettingsData,
+  GlobalExerciseSettings,
+} from '../../../utility';
 import * as _ from 'lodash';
 import { collapseVertical } from '../../../../shared/animations';
 import SettingValueType = Exercise.SettingValueType;
@@ -82,6 +92,9 @@ export class ExerciseSettingsPage {
     }
     this.exerciseFormGroup = new FormGroup(controls);
   }
+
+  @Input()
+  getAnswerDisplay: (answer: string | null) => string | null;
 
   constructor(
     private _modalController: ModalController,

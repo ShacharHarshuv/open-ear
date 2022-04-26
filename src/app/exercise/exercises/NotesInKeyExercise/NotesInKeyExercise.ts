@@ -32,7 +32,10 @@ type NoteInKeySettings =
   NumberOfSegmentsSetting &
   PlayAfterCorrectAnswerSetting & {
     notesRange: 'high' | 'middle' | 'bass' | 'contrabass',
+    displayMode: 'solfege' | 'numeral',
   };
+
+type NoteInKeyDisplayMode = 'solfege' | 'numeral';
 
 export class NotesInKeyExercise extends BaseMelodicDictationExercise<NoteInKeySettings> {
   readonly id: string = 'noteInKey';
@@ -46,6 +49,20 @@ export class NotesInKeyExercise extends BaseMelodicDictationExercise<NoteInKeySe
     middle: 0,
     bass: -1,
     contrabass: -2,
+  }
+  static readonly displayModeToAnswerDisplayMap: {[mode in NoteInKeyDisplayMode]?: {[note in SolfegeNote]: string}} = {
+    numeral: {
+      Do: '1',
+      Re: '2',
+      Me: '♭3',
+      Mi: '3',
+      Fa: '4',
+      Sol: '5',
+      Le: '♭6',
+      La: '6',
+      Te: '♭7',
+      Ti: '7',
+    }
   }
 
   override getMelodicQuestionInC(): IMelodicQuestion {
@@ -92,14 +109,34 @@ export class NotesInKeyExercise extends BaseMelodicDictationExercise<NoteInKeySe
     }
   }
 
+  getAnswerDisplay(answer: SolfegeNote): string {
+    return NotesInKeyExercise.displayModeToAnswerDisplayMap[this._settings.displayMode]?.[answer] ?? answer;
+  }
+
   private _getQuestionOptionsInC(): Note[] {
     return this.rangeForKeyOfC.getAllNotes().filter((note: Note) => noteInCToSolfege[getNoteType(note)]);
   }
 
   protected override _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<NoteInKeySettings>[] {
-
     return [
       ...super._getSettingsDescriptor(),
+      {
+        key: 'displayMode',
+        descriptor: {
+          label: 'Display',
+          controlType: 'SELECT',
+          options: [
+            {
+              label: 'Numbers',
+              value: 'numeral',
+            },
+            {
+              label: 'Movable-Do',
+              value: 'solfege',
+            }
+          ]
+        }
+      },
       {
         key: 'notesRange',
         descriptor: ((): Exercise.SelectControlDescriptor<NoteInKeySettings['notesRange']> => {
@@ -140,6 +177,7 @@ export class NotesInKeyExercise extends BaseMelodicDictationExercise<NoteInKeySe
       numberOfSegments: 1,
       playAfterCorrectAnswer: true,
       notesRange: 'middle',
+      displayMode: 'numeral',
     };
   }
 
