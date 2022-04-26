@@ -21,11 +21,11 @@ import { ExerciseSettingsDataService } from '../../../services/exercise-settings
 import { AdaptiveExercise } from './adaptive-exercise';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { YouTubePlayerService } from '../../../services/you-tube-player.service';
-import { ToastController } from '@ionic/angular';
 import * as _ from 'lodash';
 import { AdaptiveExerciseService } from './adaptive-exercise.service';
 import AnswerList = Exercise.AnswerList;
 import Answer = Exercise.Answer;
+import { BehaviorSubject } from 'rxjs';
 
 const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   playCadence: true,
@@ -48,6 +48,8 @@ export class ExerciseStateService implements OnDestroy {
   private _currentQuestion: Exercise.Question = this.exercise.getQuestion();
   private _currentSegmentToAnswer: number = 0;
   private _destroyed: boolean = false;
+  private _message$ = new BehaviorSubject<string | null>(null);
+  readonly message$ = this._message$.asObservable();
   readonly name: string = this.exercise.name;
   answerList: AnswerList = this.exercise.getAnswerList();
 
@@ -57,7 +59,6 @@ export class ExerciseStateService implements OnDestroy {
     private readonly _notesPlayer: PlayerService,
     private readonly _youtubePlayer: YouTubePlayerService,
     private readonly _exerciseSettingsData: ExerciseSettingsDataService,
-    private readonly _toastController: ToastController,
     private readonly _adaptiveExerciseService: AdaptiveExerciseService,
   ) {
   }
@@ -162,22 +163,17 @@ export class ExerciseStateService implements OnDestroy {
 
   async playCurrentCadenceAndQuestion(): Promise<void> {
     await this._stop();
-    const cadenceIsPlayingToaster: HTMLIonToastElement = await this._toastController.create({
-      message: 'Playing cadence to establish key...',
-      position: 'middle',
-      translucent: true,
-    })
     const cadence: PartToPlay[] | undefined = this._currentQuestion.cadence && [
       {
         partOrTime: toSteadyPart(this._currentQuestion.cadence),
         bpm: 120,
         beforePlaying: () => {
           this._isAnsweringEnabled = false;
-          cadenceIsPlayingToaster.present();
+          this._showMessage('Playing cadence to establish key...');
         },
         afterPlaying: () => {
           this._isAnsweringEnabled = true;
-          cadenceIsPlayingToaster.dismiss();
+          this._hideMessage();
         }
       },
       {
@@ -289,6 +285,14 @@ export class ExerciseStateService implements OnDestroy {
     return answer ? this._originalExercise.getAnswerDisplay(answer) : null;
   }
 
+  private _showMessage(message: string) {
+    this._message$.next(message);
+  }
+
+  private _hideMessage() {
+    this._message$.next(null);
+  }
+
   private _stop(): void {
     this._youtubePlayer.stop();
     this._notesPlayer.stopAndClearQueue();
@@ -303,13 +307,9 @@ export class ExerciseStateService implements OnDestroy {
       return;
     }
     if (this._youtubePlayer.isVideoLoading) {
-      const toast: HTMLIonToastElement = await this._toastController.create({
-        message: 'Video loading...',
-        position: 'top',
-      });
-      await toast.present();
+      this._showMessage('Video is loading...');
       this._youtubePlayer.onCurrentVideoLoaded.then(() => {
-        toast.dismiss();
+        this._hideMessage();
       });
     }
     await this._youtubePlayer.play(question.videoId, question.segments[0].seconds, [

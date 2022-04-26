@@ -14,7 +14,7 @@ export class AlertControllerMock implements PublicMembers<AlertController> {
     AlertControllerMock,
     {
       provide: AlertController,
-      useExisting: AlertController
+      useExisting: AlertControllerMock
     }
   ]
 

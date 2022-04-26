@@ -5,12 +5,15 @@ import { ExerciseStateService } from './state/exercise-state.service';
 import {
   ModalController,
   AlertController,
+  ToastController,
 } from '@ionic/angular';
 import { ExerciseSettingsPage } from './components/exercise-settings.page/exercise-settings.page';
 import * as _ from 'lodash';
 import { ExerciseExplanationService } from './state/exercise-explanation.service';
 import { Exercise } from '../Exercise';
 import AnswerConfig = Exercise.AnswerConfig;
+import { BaseComponent } from '../../shared/ts-utility';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-exercise-page',
@@ -19,9 +22,9 @@ import AnswerConfig = Exercise.AnswerConfig;
   providers: [
     ExerciseStateService,
     ExerciseExplanationService,
-  ]
+  ],
 })
-export class ExercisePage {
+export class ExercisePage extends BaseComponent {
   wrongAnswers: string[] = [];
   rightAnswer: string | null = null;
   isMenuOpened: boolean = false;
@@ -42,35 +45,38 @@ export class ExercisePage {
     public exerciseExplanation: ExerciseExplanationService,
     private _modalController: ModalController,
     private _alertController: AlertController,
+    private _toastController: ToastController,
   ) {
+    super();
     this._init();
+    this._handleMessages();
   }
 
   onAnswerClick(answerConfig: AnswerConfig<string>): void {
-    
+
     if (this.isQuestionCompleted) {
       this.state.playAnswer(answerConfig);
       return;
     }
     const answer: string | null = answerConfig.answer;
-    
+
     if (!answer) {
       throw new Error(`Clicked answer is ${answer}`)
     }
     const isRight: boolean = this.state.answer(answer);
-    if(isRight){
+    if (isRight) {
       this.rightAnswer = answer;
       this.wrongAnswers = [];
-    } else {       
-      this.wrongAnswers.push(answer);                
-    }     
+    } else {
+      this.wrongAnswers.push(answer);
+    }
     setTimeout(() => {
-      if(this.state.globalSettings.revealAnswerAfterFirstMistake){
+      if (this.state.globalSettings.revealAnswerAfterFirstMistake) {
         this.wrongAnswers = [];
       }
-      this.rightAnswer = null;       
-      }, 100);
-    }
+      this.rightAnswer = null;
+    }, 100);
+  }
 
   async editSettings(): Promise<void> {
     const allAvailableAnswers: string[] = typeof this.state.answerList === 'object' ? _.flatMap(this.state.answerList) : this.state.answerList;
@@ -107,9 +113,33 @@ export class ExercisePage {
       }],
     });
     await alert.present()
-    const { role } = await alert.onDidDismiss();
+    const {role} = await alert.onDidDismiss();
     if (role === 'reset') {
       this.state.resetStatistics();
     }
+  }
+
+  private _handleMessages(): void {
+    let lastToaster: HTMLIonToastElement | null = null;
+    this.state.message$
+      .pipe(
+        takeUntil(this._destroy$),
+      )
+      .subscribe(async message => {
+        if (lastToaster) {
+          await lastToaster.dismiss();
+          lastToaster = null;
+        }
+
+        if (!message) {
+          return;
+        }
+
+        lastToaster = await this._toastController.create({
+          message: message,
+          position: 'middle',
+        });
+        await lastToaster.present();
+      })
   }
 }
