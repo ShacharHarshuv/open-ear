@@ -23,9 +23,12 @@ export class MockExercise implements Exercise.IExercise {
   };
 
   readonly explanation: Exercise.ExerciseExplanationContent = 'This is my exercise explanation';
-  readonly id: string = 'mockExerciseId';
+  readonly id: string = this._id || 'mockExerciseId';
   readonly name: string = 'mockExerciseName';
   readonly summary: string = 'mockExerciseSummary';
+
+  constructor(private _id?: string) {
+  }
 
   getAnswerList(): Exercise.AnswerList<string> {
     return [];

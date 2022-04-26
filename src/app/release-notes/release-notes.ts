@@ -72,5 +72,9 @@ export const releaseNotes: ReleaseNotes = [
   {
     version: '1.2.10',
     notes: 'Enable a selection of range for "Scale Degree" exercise.'
+  },
+  {
+    version: '1.2.11',
+    notes: 'Add the options to reset statistics',
   }
 ]

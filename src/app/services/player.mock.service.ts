@@ -36,4 +36,8 @@ export class PlayerMockService implements PublicMembers<PlayerService> {
   stopAndClearQueue(): void {
   }
 
+  onAllPartsFinished(): Promise<void> {
+    return Promise.resolve();
+  }
+
 }
