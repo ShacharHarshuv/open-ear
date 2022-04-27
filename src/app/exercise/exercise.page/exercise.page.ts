@@ -125,9 +125,9 @@ export class ExercisePage extends BaseComponent {
       .pipe(
         takeUntil(this._destroy$),
       )
-      .subscribe(async message => {
+      .subscribe(message => {
         if (lastToaster) {
-          await lastToaster.dismiss();
+          lastToaster.dismiss();
           lastToaster = null;
         }
 
@@ -135,11 +135,17 @@ export class ExercisePage extends BaseComponent {
           return;
         }
 
-        lastToaster = await this._toastController.create({
+        this._toastController.create({
           message: message,
           position: 'middle',
-        });
-        await lastToaster.present();
+        }).then(toaster => {
+          // can happen because of a race condition
+          if (lastToaster) {
+            lastToaster.dismiss();
+          }
+          lastToaster = toaster;
+          toaster.present();
+        })
       })
   }
 }

@@ -102,6 +102,7 @@ export class YouTubePlayerService extends BaseDestroyable {
     if (videoId !== this._currentlyLoadedVideoId) {
       await this.loadVideoById(videoId);
     }
+    await this._onCurrentVideoLoaded; // it's possible loadVideoById was invoked by another function but video is not loaded yet
     await this._youTubePlayer.seekTo(time, true);
     await this._youTubePlayer.playVideo();
     this._isPlaying$.next(true);
