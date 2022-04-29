@@ -1,6 +1,7 @@
 <ion-list *ngIf="modelValue$ | async as modelValue">
   <ion-list-header>
     {{label}}
+    <ng-content select="[list-select-proj__after-label]"></ng-content>
   </ion-list-header>
   <ion-item *ngFor="let answer of allAvailableOptions">
     <ion-label>{{answer.label}}</ion-label>

@@ -18,6 +18,7 @@ import {
   IncludedAnswersComponent
 } from './exercise.page/components/exercise-settings.page/components/included-answers/included-answers.component';
 import { AnswersLayoutComponent } from './exercise.page/components/answers-layout/answers-layout.component';
+import { FieldInfoComponent } from './exercise.page/components/exercise-settings.page/components/field-info/field-info.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { AnswersLayoutComponent } from './exercise.page/components/answers-layou
     ...ExerciseService.ngComponents,
     PureFunctionPipe,
     AnswersLayoutComponent,
+    FieldInfoComponent,
   ],
   imports: [
     CommonModule,

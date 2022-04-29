@@ -131,6 +131,8 @@ export abstract class BaseTonalChordProgressionExercise<GAnswer extends string, 
       ...super._getSettingsDescriptor(),
       {
         key: 'voiceLeading',
+        info: 'Smooth: voices in the chords will move as little as possible (as usually happens in real music) <br>' +
+          'Random: each chord will have a random position regardless of the previous chord. Choose this if you want to limit the included positions',
         descriptor: {
           controlType: 'SELECT',
           label: 'Voice Leading',
@@ -148,6 +150,7 @@ export abstract class BaseTonalChordProgressionExercise<GAnswer extends string, 
       },
       {
         key: 'includeBass',
+        info: 'When turned off, the bass note will not be played',
         descriptor: {
           controlType: 'CHECKBOX',
           label: 'Include Bass',
@@ -155,6 +158,9 @@ export abstract class BaseTonalChordProgressionExercise<GAnswer extends string, 
       },
       {
         key: 'includedPositions' as const,
+        info: 'Limit the included top voices positions. <br> ' +
+          'This does not influence the bass, only the top voices.<br>' +
+          'This works only if "Voice Leading" is set to "Random"',
         descriptor: {
           controlType: 'LIST_SELECT',
           label: 'Included Positions (top voices)',
