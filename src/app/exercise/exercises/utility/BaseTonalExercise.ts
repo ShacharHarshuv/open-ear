@@ -55,6 +55,7 @@ export abstract class BaseTonalExercise<GAnswer extends string = string, GSettin
     return [
       {
         key: 'cadenceType',
+        info: 'Choose what chords will be played before the exercise to establish the key',
         descriptor: {
           controlType: 'SELECT',
           label: 'Cadence Type',
@@ -68,7 +69,7 @@ export abstract class BaseTonalExercise<GAnswer extends string = string, GSettin
               label: 'i iv V i (Minor)',
             },
           ]
-        }
+        },
       },
       ...super._getSettingsDescriptor(),
     ];

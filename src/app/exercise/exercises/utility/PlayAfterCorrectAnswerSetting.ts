@@ -10,6 +10,7 @@ export const playAfterCorrectAnswerControlDescriptorList = <GSettings extends Pl
   {
     key: 'playAfterCorrectAnswer',
     show: param?.show || undefined,
+    info: 'After correct answer was clicked the app will play a short segment of music to enforce your memory. <br>This is recommended for beginners.',
     descriptor: {
       controlType: 'CHECKBOX',
       label: `Play Resolution`,

@@ -56,6 +56,9 @@
 
   <ion-list *ngIf="exerciseFormGroup">
     <ng-container *ngFor="let exerciseControlSettings of exerciseSettingsDescriptor">
+      <ng-template #label>
+        <ion-label>{{exerciseControlSettings.descriptor.label}}<app-field-info *ngIf="exerciseControlSettings.info" [message]="exerciseControlSettings.info"></app-field-info></ion-label>
+      </ng-template>
       <ng-container
         *ngIf="isShowExerciseControl(exerciseControlSettings)"
         [ngSwitch]="exerciseControlSettings.descriptor.controlType"
@@ -64,7 +67,7 @@
           *ngSwitchCase="'SELECT'"
           @collapseVertical
         >
-          <ion-label>{{exerciseControlSettings.descriptor.label}}</ion-label>
+          <ng-container *ngTemplateOutlet="label"></ng-container>
           <ion-select
             [formControl]="exerciseFormGroup.controls[exerciseControlSettings.key]"
             [interface]="'popover'"
@@ -82,7 +85,7 @@
           class="exercise-settings__item --label-above"
           @collapseVertical
         >
-          <ion-label>{{exerciseControlSettings.descriptor.label}}</ion-label>
+          <ng-container *ngTemplateOutlet="label"></ng-container>
           <ion-range
             [formControl]="exerciseFormGroup.controls[exerciseControlSettings.key]"
             [max]="exerciseControlSettings.descriptor.max"
@@ -104,7 +107,7 @@
           *ngSwitchCase="'CHECKBOX'"
           @collapseVertical
         >
-          <ion-label>{{exerciseControlSettings.descriptor.label}}</ion-label>
+          <ng-container *ngTemplateOutlet="label"></ng-container>
           <ion-toggle
             [formControl]="exerciseFormGroup.controls[exerciseControlSettings.key]"
             slot="end"
@@ -113,7 +116,7 @@
         <ion-list
           *ngSwitchCase="'INCLUDED_ANSWERS'"
         >
-          <ion-list-header>{{exerciseControlSettings.descriptor.label}}</ion-list-header>
+          <ion-list-header>{{exerciseControlSettings.descriptor.label}}<app-field-info *ngIf="exerciseControlSettings.info" [message]="exerciseControlSettings.info"></app-field-info></ion-list-header>
           <app-included-answers
             [answerList]="exerciseControlSettings.descriptor.answerList"
             [formControl]="exerciseFormGroup.controls[exerciseControlSettings.key]"

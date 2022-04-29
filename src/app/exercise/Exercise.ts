@@ -13,7 +13,7 @@ type PartToPlay = NoteEvent[] | OneOrMany<Note>;
 
 export namespace Exercise {
 
-  interface BaseQuestion<GAnswer extends string, GSegment extends {rightAnswer: GAnswer}> {
+  interface BaseQuestion<GAnswer extends string, GSegment extends { rightAnswer: GAnswer }> {
     type?: string, // default: 'notes'
     /**
      * Use more than one segment for serial exercises
@@ -120,7 +120,7 @@ export namespace Exercise {
 
   export function filterIncludedAnswers<GAnswer extends string>(allAnswerList: Exercise.AnswerList<GAnswer>, includedAnswersList: GAnswer[]) {
     const answerLayout: AnswersLayout<GAnswer> = Array.isArray(allAnswerList) ? {
-      rows: [ allAnswerList ],
+      rows: [allAnswerList],
     } : allAnswerList;
 
     const normalizedAnswerLayout: {
@@ -133,7 +133,7 @@ export namespace Exercise {
       rows: normalizedAnswerLayout.rows.map((row: Required<AnswerConfig<GAnswer>>[]): Required<AnswerConfig<GAnswer>>[] => _.map(row, answerLayoutCellConfig => answerLayoutCellConfig.answer && includedAnswersList.includes(answerLayoutCellConfig.answer) ? answerLayoutCellConfig : {
         ...answerLayoutCellConfig,
         answer: null, // In the future it's possible we'll want to configure a button to be disabled instead of hidden in this case
-      }))
+      })),
     }
   }
 
@@ -184,9 +184,10 @@ export namespace Exercise {
     {
       key: /*GKey*/ keyof GSettings,
       descriptor: /*GSettings[GKey] extends number ? SliderControlDescriptor | SelectControlDescriptor<GSettings[GKey]>
-        : GSettings[GKey] extends Array<any> ? ListSelectControlDescriptor
-          : SelectControlDescriptor<GSettings[GKey]>*/ SliderControlDescriptor | SelectControlDescriptor | ListSelectControlDescriptor | IncludedAnswersControlDescriptor | CheckboxControlDescriptor,
+       : GSettings[GKey] extends Array<any> ? ListSelectControlDescriptor
+       : SelectControlDescriptor<GSettings[GKey]>*/ SliderControlDescriptor | SelectControlDescriptor | ListSelectControlDescriptor | IncludedAnswersControlDescriptor | CheckboxControlDescriptor,
       show?: (settings: GSettings) => boolean;
+      info?: string; // can contain html
     }/* : never*/;
 
   export type ExerciseExplanationContent = string | Type<any>;
