@@ -176,13 +176,12 @@ export namespace Exercise {
 
   export type SettingValueType = number | string | boolean | (string | number)[];
 
-  /*
-   * adding a dummy redundant condition on GKey to force description of (potentially) union type GKey.
-   * Without such description the end result will be never.
+  /***
+   * Usage of GKey is necessary here to avoid this issue: https://github.com/microsoft/TypeScript/issues/41595
    * */
-  export type SettingsControlDescriptor<GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }/*, GKey extends keyof GSettings = keyof GSettings*/> = /*GKey extends string ?*/
+  export type SettingsControlDescriptor<GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }, GKey extends keyof GSettings = keyof GSettings> = /*GKey extends string ?*/
     {
-      key: /*GKey*/ keyof GSettings,
+      key: GKey,
       descriptor: /*GSettings[GKey] extends number ? SliderControlDescriptor | SelectControlDescriptor<GSettings[GKey]>
        : GSettings[GKey] extends Array<any> ? ListSelectControlDescriptor
        : SelectControlDescriptor<GSettings[GKey]>*/ SliderControlDescriptor | SelectControlDescriptor | ListSelectControlDescriptor | IncludedAnswersControlDescriptor | CheckboxControlDescriptor,

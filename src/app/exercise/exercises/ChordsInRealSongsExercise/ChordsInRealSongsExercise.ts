@@ -16,7 +16,6 @@ import { transpose } from '../../utility/music/transpose';
 import { getDistanceOfKeys } from '../../utility/music/keys/getDistanceOfKeys';
 
 export class ChordsInRealSongsExercise extends BaseExercise<RomanNumeralChord, {}> {
-  protected readonly _settings = {};
   readonly explanation: Exercise.ExerciseExplanationContent;
   readonly id: string = 'chordsInRealSongs';
   readonly name: string = 'Chord Progressions In Real Songs';
