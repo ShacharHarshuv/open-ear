@@ -16,7 +16,6 @@ export class HomePage {
   constructor(
     private readonly _player: PlayerService,
     private readonly _exerciseService: ExerciseService,
-    public readonly platform: Platform,
   ) {
   }
 }
