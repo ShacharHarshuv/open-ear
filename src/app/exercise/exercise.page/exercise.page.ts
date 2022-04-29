@@ -13,7 +13,10 @@ import { ExerciseExplanationService } from './state/exercise-explanation.service
 import { Exercise } from '../Exercise';
 import AnswerConfig = Exercise.AnswerConfig;
 import { BaseComponent } from '../../shared/ts-utility';
-import { takeUntil } from 'rxjs/operators';
+import {
+  takeUntil,
+  finalize,
+} from 'rxjs/operators';
 
 @Component({
   selector: 'app-exercise-page',
@@ -124,6 +127,9 @@ export class ExercisePage extends BaseComponent {
     this.state.message$
       .pipe(
         takeUntil(this._destroy$),
+        finalize(() => {
+          lastToaster?.dismiss();
+        })
       )
       .subscribe(message => {
         if (lastToaster) {
