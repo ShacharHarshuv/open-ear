@@ -5,7 +5,7 @@
 >
   <ion-list>
     <ion-item>
-      <ion-label>Play Cadence</ion-label>
+      <ion-label>Play Cadence<app-field-info message="Choose when the cadence is played. Relevant only to exercises that play a Cadence."></app-field-info></ion-label>
       <ion-select
         [formControl]="generalFormGroup.controls.playCadenceOptions"
         [interface]="'popover'"
@@ -20,7 +20,7 @@
       </ion-select>
     </ion-item>
     <ion-item>
-      <ion-label>Move to next question automatically</ion-label>
+      <ion-label>Auto-play next question <app-field-info message="Next question will be played immediately after answering current question"></app-field-info></ion-label>
       <ion-toggle
         [formControl]="generalFormGroup.controls.moveToNextQuestionAutomatically"
       >
@@ -29,7 +29,7 @@
     <ion-item
       class="exercise-settings__item --label-above"
     >
-      <ion-label>BPM</ion-label>
+      <ion-label>BPM <app-field-info message="Tempo in Beats Per Minute. Change this to control the speed of the question's playback."></app-field-info></ion-label>
       <ion-range
         [formControl]="generalFormGroup.controls.bpm"
         [max]="200"
@@ -41,13 +41,13 @@
       </ion-range>
     </ion-item>
     <ion-item>
-      <ion-label>Adaptive</ion-label>
+      <ion-label>Adaptive <app-field-info [message]="'When turned on, questions that were answered wrong will repeat until answered right enough time. <br>Great for learning from mistakes.'"></app-field-info></ion-label>
       <ion-toggle
         [formControl]="generalFormGroup.controls.adaptive"
       ></ion-toggle>
     </ion-item>
     <ion-item>
-      <ion-label>Reveal answer after first mistake</ion-label>
+      <ion-label>Reveal answer after first mistake <app-field-info [message]="'Even if you got the answer wrong in the first attempt, the correct answer will be revealed. <br> Turn it off if you want a second chance to guess the correct answer'"></app-field-info></ion-label>
       <ion-toggle
         [formControl]="generalFormGroup.controls.revealAnswerAfterFirstMistake"
       ></ion-toggle>
