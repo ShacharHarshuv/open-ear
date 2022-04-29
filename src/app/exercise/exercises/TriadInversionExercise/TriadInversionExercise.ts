@@ -91,6 +91,8 @@ export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnsw
       ...super._getSettingsDescriptor(),
       {
         key: 'arpeggiateSpeed',
+        info: 'When set to a value larger then zero, the chord will be arpeggiated, making it easier to pick up individual notes from it. <br>' +
+          'Starter with a large settings and gradually reducing can be a good way to train your ear to pick up individual notes being played harmonically',
         descriptor: {
           controlType: 'SLIDER',
           label: 'Arpeggiate Speed',

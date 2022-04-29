@@ -102,7 +102,13 @@
           [formControl]="exerciseFormGroup.controls[exerciseControlSettings.key]"
           [label]="exerciseControlSettings.descriptor.label"
           @collapseVertical
-        ></app-list-select>
+        >
+          <app-field-info
+            *ngIf="exerciseControlSettings.info"
+            [message]="exerciseControlSettings.info"
+            list-select-proj__after-label
+          ></app-field-info>
+        </app-list-select>
         <ion-item
           *ngSwitchCase="'CHECKBOX'"
           @collapseVertical
