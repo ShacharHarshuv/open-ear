@@ -1,9 +1,9 @@
 import { BaseTonalExercise, BaseTonalExerciseSettings } from './BaseTonalExercise';
-import { NoteType } from '../../utility/music/notes/NoteType';
+import { NoteType } from '../../../utility/music/notes/NoteType';
 import * as _ from 'lodash';
-import { Exercise } from '../../Exercise';
+import { Exercise } from '../../../Exercise';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { getNoteType } from '../../utility/music/notes/getNoteType';
+import { getNoteType } from '../../../utility/music/notes/getNoteType';
 import { Time } from 'tone/Tone/core/type/Units';
 
 export type SolfegeNote = 'Do' | 'Re' | 'Me' | 'Mi' | 'Fa' | 'Sol' | 'Le' | 'La' | 'Te' | 'Ti';

@@ -3,14 +3,14 @@ import {
   BaseTonalChordProgressionExerciseSettings,
   ChordProgressionQuestion
 } from './BaseTonalChordProgressionExercise';
-import { Chord, ChordSymbol, TriadInversion } from '../../utility/music/chords';
+import { Chord, ChordSymbol, TriadInversion } from '../../../utility/music/chords';
 import * as _ from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { PlayAfterCorrectAnswerSetting } from './PlayAfterCorrectAnswerSetting';
-import { Exercise } from '../../Exercise';
-import { Interval, toArray, toNoteNumber, toSteadyPart } from '../../utility';
-import { transpose } from '../../utility/music/transpose';
-import { NoteEvent } from '../../../services/player.service';
+import { PlayAfterCorrectAnswerSetting } from '../settings/PlayAfterCorrectAnswerSetting';
+import { Exercise } from '../../../Exercise';
+import { Interval, toArray, toNoteNumber, toSteadyPart } from '../../../utility';
+import { transpose } from '../../../utility/music/transpose';
+import { NoteEvent } from '../../../../services/player.service';
 
 export type RomanNumeralChord =
   | 'II' | 'III' | '#IVᵒ' | 'VI' | 'VII'

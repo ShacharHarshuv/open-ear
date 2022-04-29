@@ -3,7 +3,7 @@ import {
   BaseRomanAnalysisChordProgressionExerciseSettings,
   RomanNumeralChord,
   RomanNumeralsChordProgressionQuestion
-} from '../utility/BaseRomanAnalysisChordProgressionExercise';
+} from '../utility/base exercises/BaseRomanAnalysisChordProgressionExercise';
 import { Exercise } from '../../Exercise';
 import { randomFromList } from '../../../shared/ts-utility';
 import { distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
@@ -11,7 +11,7 @@ import * as _ from 'lodash';
 import {
   CommonChordProgressionsExplanationComponent
 } from './common-chord-progressions-explanation/common-chord-progressions-explanation.component';
-import { CadenceType } from '../utility/BaseTonalExercise';
+import { CadenceType } from '../utility/base exercises/BaseTonalExercise';
 
 type CommonChordProgressionExerciseSettings = BaseRomanAnalysisChordProgressionExerciseSettings & {
   includedProgressions: string[];

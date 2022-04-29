@@ -1,6 +1,6 @@
 import {
   Exercise,
-} from '../../Exercise';
+} from '../../../Exercise';
 import AnswerList = Exercise.AnswerList;
 import SettingValueType = Exercise.SettingValueType;
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;

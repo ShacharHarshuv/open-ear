@@ -1,13 +1,13 @@
 import { BaseTonalExercise, BaseTonalExerciseSettings } from './BaseTonalExercise';
-import { Exercise } from '../../Exercise';
-import { randomFromList, StaticOrGetter, toGetter, } from '../../../shared/ts-utility';
+import { Exercise } from '../../../Exercise';
+import { randomFromList, StaticOrGetter, toGetter, } from '../../../../shared/ts-utility';
 import * as _ from 'lodash';
-import { Chord, ChordSymbol, voiceChordProgressionWithVoiceLeading, } from '../../utility/music/chords';
+import { Chord, ChordSymbol, voiceChordProgressionWithVoiceLeading, } from '../../../utility/music/chords';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { NoteEvent } from '../../../services/player.service';
-import { getInterval, NotesRange, } from '../../utility';
-import { transpose } from '../../utility/music/transpose';
-import { Interval } from '../../utility/music/intervals/Interval';
+import { NoteEvent } from '../../../../services/player.service';
+import { getInterval, NotesRange, } from '../../../utility';
+import { transpose } from '../../../utility/music/transpose';
+import { Interval } from '../../../utility/music/intervals/Interval';
 
 export type BaseTonalChordProgressionExerciseSettings<GAnswer extends string> = BaseTonalExerciseSettings<GAnswer> & {
   voiceLeading: 'RANDOM' | 'CORRECT';

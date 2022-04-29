@@ -1,9 +1,9 @@
-import { BaseExercise } from '../utility/BaseExercise';
+import { BaseExercise } from '../utility/base exercises/BaseExercise';
 import { Exercise } from '../../Exercise';
 import {
   BaseRomanAnalysisChordProgressionExercise,
   RomanNumeralChord
-} from '../utility/BaseRomanAnalysisChordProgressionExercise';
+} from '../utility/base exercises/BaseRomanAnalysisChordProgressionExercise';
 import {
   chordsInRealSongsDescriptorList,
   ProgressionInSongFromYouTubeDescriptor

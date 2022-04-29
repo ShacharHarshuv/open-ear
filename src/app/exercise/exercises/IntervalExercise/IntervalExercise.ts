@@ -12,11 +12,15 @@ import { IntervalExerciseExplanationComponent } from "./interval-exercise-explan
 import { NoteEvent } from '../../../services/player.service';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { transpose } from '../../utility/music/transpose';
-import { BaseExercise } from '../utility/BaseExercise';
-import { BaseCommonSettingsExerciseSettings } from '../utility/BaseCommonSettingsExercise';
+import { BaseExercise } from '../utility/base exercises/BaseExercise';
+import { BaseCommonSettingsExerciseSettings } from '../utility/base exercises/BaseCommonSettingsExercise';
 import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
 import IncludedAnswersControlDescriptor = Exercise.IncludedAnswersControlDescriptor;
 import AnswerList = Exercise.AnswerList;
+import {
+  IncludedAnswersSetting,
+  IncludedAnswersSettings,
+} from '../utility/settings/IncludedAnswersSettings';
 
 type Interval = 'Minor 2nd' | 'Major 2nd' | 'Minor 3rd' | 'Major 3rd' | 'Perfect 4th' | 'Aug 4th' | 'Perfect 5th' | 'Minor 6th' | 'Major 6th' | 'Minor 7th' | 'Major 7th' | 'Octave';
 
@@ -25,65 +29,10 @@ export interface IIntervalDescriptor {
   semitones: number;
 }
 
-type IncludedAnswersSettings<GAnswer extends string> = {
-  includedAnswers: GAnswer[];
-}
-
-type Constructor<G = any> = { new(...args: any[]): G };
-
-function IncludedAnswersSetting<GAnswer extends string>(params: {
-  default: GAnswer[],
-  allAnswersList: Exercise.AnswerList<GAnswer>,
-}) {
-  if (params.default.length < 2) {
-    throw new Error(`Must provide at least 2 answers selected by default`);
-  }
-
-  return function <GConstructor extends Constructor<BaseExercise<GAnswer, IncludedAnswersSettings<GAnswer>>>>(BaseExercise: GConstructor) {
-    // @ts-ignore
-    return class HasIncludedAnswersSettings extends BaseExercise {
-      constructor() {
-        super();
-      }
-
-      protected override _getDefaultSettings(): IncludedAnswersSettings<GAnswer> {
-        return {
-          ...super._getDefaultSettings(),
-          includedAnswers: params.default,
-        };
-      }
-
-      // setting the setting's descriptor
-      protected override _getSettingsDescriptor(): SettingsControlDescriptor<IncludedAnswersSettings<GAnswer>>[] {
-        const includedAnswersDescriptor: IncludedAnswersControlDescriptor<GAnswer> = {
-          controlType: 'INCLUDED_ANSWERS',
-          label: 'Included Options',
-          answerList: params.allAnswersList,
-        }
-        const settingsDescriptorList: SettingsControlDescriptor<BaseCommonSettingsExerciseSettings<GAnswer>>[] = [
-          {
-            key: 'includedAnswers',
-            descriptor: includedAnswersDescriptor,
-          }
-        ];
-
-        return [
-          ...super._getSettingsDescriptor(),
-          ...settingsDescriptorList
-        ]
-      }
-
-      getAnswerList(): AnswerList<GAnswer> {
-        return Exercise.filterIncludedAnswers(params.allAnswersList, this._settings.includedAnswers);
-      }
-    }
-  }
-}
-
 type IntervalExerciseSettings = IncludedAnswersSettings<Interval>
 
 @IncludedAnswersSetting<Interval>({
-  default: ['Minor 2nd', 'Major 2nd', 'Minor 3rd', 'Major 3rd', 'Perfect 4th', 'Aug 4th','Perfect 5th', 'Minor 6th', 'Major 6th', 'Minor 7th', 'Major 7th', 'Octave'],
+  default: IntervalExercise.getDefaultSelectedAnswers(),
   allAnswersList: IntervalExercise.getAllAnswersList(),
 })
 export class IntervalExercise extends BaseExercise<Interval, IntervalExerciseSettings> {
@@ -199,9 +148,8 @@ export class IntervalExercise extends BaseExercise<Interval, IntervalExerciseSet
       })),
     };
   }
-}
 
-export class A {
-  constructor() {
+  static getDefaultSelectedAnswers(): Interval[] {
+    return ['Minor 2nd', 'Major 2nd', 'Minor 3rd', 'Major 3rd', 'Perfect 4th', 'Aug 4th', 'Perfect 5th', 'Minor 6th', 'Major 6th', 'Minor 7th', 'Major 7th', 'Octave']
   }
 }

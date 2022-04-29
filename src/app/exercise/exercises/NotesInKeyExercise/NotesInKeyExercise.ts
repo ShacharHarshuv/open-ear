@@ -13,18 +13,18 @@ import { getNoteOctave } from '../../utility/music/notes/getNoteOctave';
 import { toNoteTypeNumber } from '../../utility/music/notes/toNoteTypeNumber';
 import { noteTypeToNote } from '../../utility/music/notes/noteTypeToNote';
 import { NotesInKeyExplanationComponent } from './notes-in-key-explanation/notes-in-key-explanation.component';
-import { numberOfSegmentsControlDescriptorList, NumberOfSegmentsSetting } from '../utility/NumberOfSegmentsSetting';
+import { numberOfSegmentsControlDescriptorList, NumberOfSegmentsSetting } from '../utility/settings/NumberOfSegmentsSetting';
 import {
   playAfterCorrectAnswerControlDescriptorList,
   PlayAfterCorrectAnswerSetting
-} from '../utility/PlayAfterCorrectAnswerSetting';
+} from '../utility/settings/PlayAfterCorrectAnswerSetting';
 import {
   BaseMelodicDictationExercise,
   BaseMelodicDictationExerciseSettings,
   IMelodicQuestion,
   noteInCToSolfege,
   SolfegeNote
-} from '../utility/BaseMelodicDictationExercise';
+} from '../utility/base exercises/BaseMelodicDictationExercise';
 import { transpose } from '../../utility/music/transpose';
 
 type NoteInKeySettings =

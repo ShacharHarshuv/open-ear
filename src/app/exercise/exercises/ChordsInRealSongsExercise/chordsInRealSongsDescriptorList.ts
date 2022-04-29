@@ -1,5 +1,5 @@
 import { NoteType } from '../../utility/music/notes/NoteType';
-import { RomanNumeralChord } from '../utility/BaseRomanAnalysisChordProgressionExercise';
+import { RomanNumeralChord } from '../utility/base exercises/BaseRomanAnalysisChordProgressionExercise';
 
 export interface ProgressionInSongFromYouTubeDescriptor {
   key: NoteType,

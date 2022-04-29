@@ -1,18 +1,18 @@
 import { Exercise } from '../../Exercise';
 import { randomFromList } from '../../utility';
 import * as _ from 'lodash';
-import { numberOfSegmentsControlDescriptorList, NumberOfSegmentsSetting, } from '../utility/NumberOfSegmentsSetting';
+import { numberOfSegmentsControlDescriptorList, NumberOfSegmentsSetting, } from '../utility/settings/NumberOfSegmentsSetting';
 import { ChordInKeyExplanationComponent } from './chord-in-key-explanation/chord-in-key-explanation.component';
 import {
   playAfterCorrectAnswerControlDescriptorList,
   PlayAfterCorrectAnswerSetting
-} from '../utility/PlayAfterCorrectAnswerSetting';
+} from '../utility/settings/PlayAfterCorrectAnswerSetting';
 import {
   BaseRomanAnalysisChordProgressionExercise,
   BaseRomanAnalysisChordProgressionExerciseSettings,
   RomanNumeralChord,
   RomanNumeralsChordProgressionQuestion
-} from '../utility/BaseRomanAnalysisChordProgressionExercise';
+} from '../utility/base exercises/BaseRomanAnalysisChordProgressionExercise';
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 
 type ChordInKeySettings =

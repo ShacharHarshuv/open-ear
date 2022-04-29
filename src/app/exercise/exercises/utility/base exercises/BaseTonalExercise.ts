@@ -1,12 +1,12 @@
-import { Key, OneOrMany, randomFromList, toGetter } from '../../utility';
-import { Exercise, } from '../../Exercise';
-import { transpose } from '../../utility/music/transpose';
-import { getDistanceOfKeys } from '../../utility/music/keys/getDistanceOfKeys';
-import { iv_V_i_CADENCE_IN_C, IV_V_I_CADENCE_IN_C } from '../../utility/music/chords';
+import { Key, OneOrMany, randomFromList, toGetter } from '../../../utility';
+import { Exercise, } from '../../../Exercise';
+import { transpose } from '../../../utility/music/transpose';
+import { getDistanceOfKeys } from '../../../utility/music/keys/getDistanceOfKeys';
+import { iv_V_i_CADENCE_IN_C, IV_V_I_CADENCE_IN_C } from '../../../utility/music/chords';
 import { BaseCommonSettingsExercise, BaseCommonSettingsExerciseSettings } from './BaseCommonSettingsExercise';
-import { NoteEvent } from '../../../services/player.service';
+import { NoteEvent } from '../../../../services/player.service';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { NoteType } from '../../utility/music/notes/NoteType';
+import { NoteType } from '../../../utility/music/notes/NoteType';
 import { Frequency } from 'tone/Tone/core/type/Units';
 
 export type CadenceType = 'I IV V I' | 'i iv V i';

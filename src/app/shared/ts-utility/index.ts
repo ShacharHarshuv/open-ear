@@ -8,3 +8,4 @@ export * from './rxjs';
 export * from './base-classes';
 export * from './StaticOrGetter';
 export * from './LogReturnValue';
+export * from './Constructor';
