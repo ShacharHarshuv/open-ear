@@ -1,8 +1,8 @@
-import { SolfegeNote, solfegeToNoteInC } from '../utility/base exercises/BaseMelodicDictationExercise';
-import { BaseTonalExercise } from '../utility/base exercises/BaseTonalExercise';
+import { SolfegeNote, solfegeToNoteInC } from '../utility/base-exercises/BaseMelodicDictationExercise';
+import { BaseTonalExercise } from '../utility/base-exercises/BaseTonalExercise';
 import { Exercise } from '../../Exercise';
 import { randomFromList } from '../../../shared/ts-utility';
-import { RomanNumeralChord, romanNumeralToChordInC } from '../utility/base exercises/BaseRomanAnalysisChordProgressionExercise';
+import { RomanNumeralChord, romanNumeralToChordInC } from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
 import { Chord } from '../../utility/music/chords';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { NoteType } from '../../utility/music/notes/NoteType';

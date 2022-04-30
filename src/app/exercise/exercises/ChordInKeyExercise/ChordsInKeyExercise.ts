@@ -12,7 +12,7 @@ import {
   BaseRomanAnalysisChordProgressionExerciseSettings,
   RomanNumeralChord,
   RomanNumeralsChordProgressionQuestion
-} from '../utility/base exercises/BaseRomanAnalysisChordProgressionExercise';
+} from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 
 type ChordInKeySettings =

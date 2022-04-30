@@ -1,4 +1,4 @@
-import { BaseTonalExercise, BaseTonalExerciseSettings } from '../utility/base exercises/BaseTonalExercise';
+import { BaseTonalExercise, BaseTonalExerciseSettings } from '../utility/base-exercises/BaseTonalExercise';
 import { Exercise } from '../../Exercise';
 import {
   ChordSymbol,
@@ -6,7 +6,7 @@ import {
   Chord,
 } from '../../utility/music/chords';
 import { randomFromList } from '../../../shared/ts-utility';
-import { BaseCommonSettingsExerciseSettings } from '../utility/base exercises/BaseCommonSettingsExercise';
+import { BaseCommonSettingsExerciseSettings } from '../utility/base-exercises/BaseCommonSettingsExercise';
 import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
 import * as Tone from 'tone';
 import { Note } from 'tone/Tone/core/type/NoteUnits';

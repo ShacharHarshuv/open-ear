@@ -1,6 +1,6 @@
 import { Exercise } from '../../../Exercise';
-import { BaseCommonSettingsExerciseSettings } from '../base exercises/BaseCommonSettingsExercise';
-import { BaseExercise } from '../base exercises/BaseExercise';
+import { BaseCommonSettingsExerciseSettings } from '../base-exercises/BaseCommonSettingsExercise';
+import { BaseExercise } from '../base-exercises/BaseExercise';
 import { Constructor } from '../../../../shared/ts-utility';
 
 export type IncludedAnswersSettings<GAnswer extends string> = {

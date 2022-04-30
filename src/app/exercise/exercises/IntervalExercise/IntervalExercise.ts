@@ -12,7 +12,7 @@ import { IntervalExerciseExplanationComponent } from "./interval-exercise-explan
 import { NoteEvent } from '../../../services/player.service';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { transpose } from '../../utility/music/transpose';
-import { BaseExercise } from '../utility/base exercises/BaseExercise';
+import { BaseExercise } from '../utility/base-exercises/BaseExercise';
 import {
   IncludedAnswersSetting,
   IncludedAnswersSettings,

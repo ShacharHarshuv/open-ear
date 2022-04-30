@@ -14,7 +14,7 @@ import {
   BaseTonalChordProgressionExercise,
   ChordProgressionQuestion,
   BaseTonalChordProgressionExerciseSettings
-} from '../utility/base exercises/BaseTonalChordProgressionExercise';
+} from '../utility/base-exercises/BaseTonalChordProgressionExercise';
 import { ChordTypeInKeyExplanationComponent } from './chord-type-in-key-explanation/chord-type-in-key-explanation.component';
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 

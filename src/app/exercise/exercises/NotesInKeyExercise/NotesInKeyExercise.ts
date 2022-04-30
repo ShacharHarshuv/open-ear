@@ -24,7 +24,7 @@ import {
   IMelodicQuestion,
   noteInCToSolfege,
   SolfegeNote
-} from '../utility/base exercises/BaseMelodicDictationExercise';
+} from '../utility/base-exercises/BaseMelodicDictationExercise';
 import { transpose } from '../../utility/music/transpose';
 
 type NoteInKeySettings =
