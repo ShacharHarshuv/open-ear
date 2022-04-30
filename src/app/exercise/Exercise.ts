@@ -176,10 +176,12 @@ export namespace Exercise {
 
   export type SettingValueType = number | string | boolean | (string | number)[];
 
+  export type Settings = { [key: string]: SettingValueType };
+
   /***
    * Usage of GKey is necessary here to avoid this issue: https://github.com/microsoft/TypeScript/issues/41595
    * */
-  export type SettingsControlDescriptor<GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }, GKey extends keyof GSettings = keyof GSettings> = /*GKey extends string ?*/
+  export type SettingsControlDescriptor<GSettings extends Settings = Settings, GKey extends keyof GSettings = keyof GSettings> = /*GKey extends string ?*/
     {
       key: GKey,
       descriptor: /*GSettings[GKey] extends number ? SliderControlDescriptor | SelectControlDescriptor<GSettings[GKey]>

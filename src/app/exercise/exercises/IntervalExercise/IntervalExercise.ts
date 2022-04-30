@@ -17,6 +17,7 @@ import {
   IncludedAnswersSetting,
   IncludedAnswersSettings,
 } from '../utility/settings/IncludedAnswersSettings';
+import { Memoize } from 'lodash-decorators';
 
 export type IntervalName = 'Minor 2nd' | 'Major 2nd' | 'Minor 3rd' | 'Major 3rd' | 'Perfect 4th' | 'Aug 4th' | 'Perfect 5th' | 'Minor 6th' | 'Major 6th' | 'Minor 7th' | 'Major 7th' | 'Octave';
 
@@ -29,7 +30,6 @@ export type IntervalExerciseSettings = IncludedAnswersSettings<IntervalName>
 
 @IncludedAnswersSetting<IntervalName>({
   default: IntervalExercise.getDefaultSelectedAnswers(),
-  allAnswersList: IntervalExercise.getAllAnswersList(),
 })
 export class IntervalExercise extends BaseExercise<IntervalName, IntervalExerciseSettings> {
   readonly id: string = 'interval';
@@ -110,7 +110,8 @@ export class IntervalExercise extends BaseExercise<IntervalName, IntervalExercis
     return [];
   }
 
-  static getAllAnswersList(): Exercise.AnswerList<IntervalName> {
+  @Memoize()
+  getAllAnswersList(): Exercise.AnswerList<IntervalName> {
     return {
       rows: [
         ['Minor 2nd', 'Major 2nd'],

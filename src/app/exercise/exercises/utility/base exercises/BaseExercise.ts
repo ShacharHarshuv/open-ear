@@ -1,14 +1,15 @@
-import {
-  Exercise,
-} from '../../../Exercise';
-import AnswerList = Exercise.AnswerList;
-import SettingValueType = Exercise.SettingValueType;
-import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
+import { Exercise } from '../../../Exercise';
 import * as _ from 'lodash';
-import { Observable, ReplaySubject, Subject } from 'rxjs';
+import {
+  Observable,
+  ReplaySubject,
+  Subject,
+} from 'rxjs';
+import AnswerList = Exercise.AnswerList;
+import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
 
-export abstract class BaseExercise<GAnswer extends string = string, GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }> implements Exercise.IExercise<GAnswer, GSettings> {
+export abstract class BaseExercise<GAnswer extends string = string, GSettings extends Exercise.Settings = Exercise.Settings> implements Exercise.IExercise<GAnswer, GSettings> {
   private _settingsChangeSubject = new ReplaySubject<GSettings>(1);
 
   protected _destroy$ = new Subject<void>();

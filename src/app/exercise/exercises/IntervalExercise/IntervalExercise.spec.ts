@@ -6,7 +6,6 @@ import {
 } from './IntervalExercise';
 import * as _ from 'lodash';
 import { ExerciseTest } from '../../ExerciseTest';
-import { interval } from 'rxjs';
 
 describe('IntervalExercise', () => {
   let exercise: Exercise.IExercise<IntervalName, IntervalExerciseSettings>;

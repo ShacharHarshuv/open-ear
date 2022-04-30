@@ -7,15 +7,18 @@ export type IncludedAnswersSettings<GAnswer extends string> = {
   includedAnswers: GAnswer[];
 }
 
+type IncludedAnswersBaseExercise<GAnswer extends string> = BaseExercise<GAnswer, IncludedAnswersSettings<GAnswer>> & {
+  getAllAnswersList(): Exercise.AnswerList<GAnswer>;
+}
+
 export function IncludedAnswersSetting<GAnswer extends string>(params: {
   default: GAnswer[],
-  allAnswersList: Exercise.AnswerList<GAnswer>,
 }) {
   if (params.default.length < 2) {
     throw new Error(`Must provide at least 2 answers selected by default`);
   }
 
-  return function <GConstructor extends Constructor<BaseExercise<GAnswer, IncludedAnswersSettings<GAnswer>>>>(BaseExercise: GConstructor) {
+  return function <GConstructor extends Constructor<IncludedAnswersBaseExercise<GAnswer>>>(BaseExercise: GConstructor) {
     // @ts-ignore
     return class HasIncludedAnswersSettings extends BaseExercise {
       constructor() {
@@ -34,7 +37,7 @@ export function IncludedAnswersSetting<GAnswer extends string>(params: {
         const includedAnswersDescriptor: Exercise.IncludedAnswersControlDescriptor<GAnswer> = {
           controlType: 'INCLUDED_ANSWERS',
           label: 'Included Options',
-          answerList: params.allAnswersList,
+          answerList: this.getAllAnswersList(),
         }
         const settingsDescriptorList: Exercise.SettingsControlDescriptor<BaseCommonSettingsExerciseSettings<GAnswer>>[] = [
           {
@@ -46,11 +49,11 @@ export function IncludedAnswersSetting<GAnswer extends string>(params: {
         return [
           ...super._getSettingsDescriptor(),
           ...settingsDescriptorList
-        ]
+        ];
       }
 
       getAnswerList(): Exercise.AnswerList<GAnswer> {
-        return Exercise.filterIncludedAnswers(params.allAnswersList, this._settings.includedAnswers);
+        return Exercise.filterIncludedAnswers(this.getAllAnswersList(), this._settings.includedAnswers);
       }
     }
   }
