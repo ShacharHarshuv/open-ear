@@ -88,6 +88,7 @@ export class IntervalExercise extends BaseExercise<IntervalName, IntervalExercis
       semitones: 12,
     },
   ]
+  private static readonly _allAnswerList: Exercise.AnswerList<IntervalName> = IntervalExercise._getAllAnswerList();
 
   private static readonly _intervalNameToIntervalDescriptor: { [intervalName in IntervalName]: IIntervalDescriptor } = _.keyBy(IntervalExercise.intervalDescriptorList, 'name') as { [intervalName in IntervalName]: IIntervalDescriptor };
 
@@ -105,13 +106,11 @@ export class IntervalExercise extends BaseExercise<IntervalName, IntervalExercis
     }
   }
 
-  // This will be overridden by IncludedAnswersSetting
   getAnswerList(): Exercise.AnswerList<IntervalName> {
-    return [];
+    return IntervalExercise._allAnswerList;
   }
 
-  @Memoize()
-  getAllAnswersList(): Exercise.AnswerList<IntervalName> {
+  private static _getAllAnswerList(): Exercise.AnswerList<IntervalName> {
     return {
       rows: [
         ['Minor 2nd', 'Major 2nd'],

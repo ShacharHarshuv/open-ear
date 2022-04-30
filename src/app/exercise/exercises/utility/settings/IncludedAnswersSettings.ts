@@ -1,14 +1,14 @@
 import { Exercise } from '../../../Exercise';
 import { BaseCommonSettingsExerciseSettings } from '../base-exercises/BaseCommonSettingsExercise';
-import { BaseExercise } from '../base-exercises/BaseExercise';
 import { Constructor } from '../../../../shared/ts-utility';
+import { BaseExercise } from '../base-exercises/BaseExercise';
 
 export type IncludedAnswersSettings<GAnswer extends string> = {
   includedAnswers: GAnswer[];
 }
 
 type IncludedAnswersBaseExercise<GAnswer extends string> = BaseExercise<GAnswer, IncludedAnswersSettings<GAnswer>> & {
-  getAllAnswersList(): Exercise.AnswerList<GAnswer>;
+  getAnswerList(): Exercise.AnswerList<GAnswer>;
 }
 
 export function IncludedAnswersSetting<GAnswer extends string>(params: {
@@ -37,23 +37,23 @@ export function IncludedAnswersSetting<GAnswer extends string>(params: {
         const includedAnswersDescriptor: Exercise.IncludedAnswersControlDescriptor<GAnswer> = {
           controlType: 'INCLUDED_ANSWERS',
           label: 'Included Options',
-          answerList: this.getAllAnswersList(),
+          answerList: super.getAnswerList(),
         }
         const settingsDescriptorList: Exercise.SettingsControlDescriptor<BaseCommonSettingsExerciseSettings<GAnswer>>[] = [
           {
             key: 'includedAnswers',
             descriptor: includedAnswersDescriptor,
-          }
+          },
         ];
 
         return [
           ...super._getSettingsDescriptor(),
-          ...settingsDescriptorList
+          ...settingsDescriptorList,
         ];
       }
 
-      getAnswerList(): Exercise.AnswerList<GAnswer> {
-        return Exercise.filterIncludedAnswers(this.getAllAnswersList(), this._settings.includedAnswers);
+      override getAnswerList(): Exercise.AnswerList<GAnswer> {
+        return Exercise.filterIncludedAnswers(super.getAnswerList(), this._settings.includedAnswers);
       }
     }
   }
