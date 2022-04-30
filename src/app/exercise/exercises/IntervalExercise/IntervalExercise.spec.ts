@@ -1,12 +1,12 @@
-import {
-  Exercise,
-} from '../../Exercise';
+import { Exercise } from '../../Exercise';
 import {
   IntervalExercise,
   IntervalName,
   IntervalExerciseSettings,
 } from './IntervalExercise';
 import * as _ from 'lodash';
+import { ExerciseTest } from '../../ExerciseTest';
+import { interval } from 'rxjs';
 
 describe('IntervalExercise', () => {
   let exercise: Exercise.IExercise<IntervalName, IntervalExerciseSettings>;
@@ -18,7 +18,7 @@ describe('IntervalExercise', () => {
 
   describe('getAnswersList', () => {
     it('should include all intervals by default', () => {
-      expect(Exercise.flatAnswerList(exercise.getAnswerList())).toEqual(jasmine.arrayWithExactContents(allIntervals))
+      expect(exercise.getAnswerList()).toEqual(ExerciseTest.answerListContaining(allIntervals))
     });
 
     it('should return only the intervals set by the settings', () => {
@@ -38,6 +38,7 @@ describe('IntervalExercise', () => {
           key: 'includedAnswers',
           descriptor: jasmine.objectContaining({
             controlType: 'INCLUDED_ANSWERS',
+            answerList: ExerciseTest.answerListContaining(allIntervals),
           }),
         })
       ]))
