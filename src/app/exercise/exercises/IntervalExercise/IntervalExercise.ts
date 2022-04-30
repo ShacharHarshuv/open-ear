@@ -13,29 +13,25 @@ import { NoteEvent } from '../../../services/player.service';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { transpose } from '../../utility/music/transpose';
 import { BaseExercise } from '../utility/base exercises/BaseExercise';
-import { BaseCommonSettingsExerciseSettings } from '../utility/base exercises/BaseCommonSettingsExercise';
-import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
-import IncludedAnswersControlDescriptor = Exercise.IncludedAnswersControlDescriptor;
-import AnswerList = Exercise.AnswerList;
 import {
   IncludedAnswersSetting,
   IncludedAnswersSettings,
 } from '../utility/settings/IncludedAnswersSettings';
 
-type Interval = 'Minor 2nd' | 'Major 2nd' | 'Minor 3rd' | 'Major 3rd' | 'Perfect 4th' | 'Aug 4th' | 'Perfect 5th' | 'Minor 6th' | 'Major 6th' | 'Minor 7th' | 'Major 7th' | 'Octave';
+export type IntervalName = 'Minor 2nd' | 'Major 2nd' | 'Minor 3rd' | 'Major 3rd' | 'Perfect 4th' | 'Aug 4th' | 'Perfect 5th' | 'Minor 6th' | 'Major 6th' | 'Minor 7th' | 'Major 7th' | 'Octave';
 
 export interface IIntervalDescriptor {
-  name: Interval;
+  name: IntervalName;
   semitones: number;
 }
 
-type IntervalExerciseSettings = IncludedAnswersSettings<Interval>
+export type IntervalExerciseSettings = IncludedAnswersSettings<IntervalName>
 
-@IncludedAnswersSetting<Interval>({
+@IncludedAnswersSetting<IntervalName>({
   default: IntervalExercise.getDefaultSelectedAnswers(),
   allAnswersList: IntervalExercise.getAllAnswersList(),
 })
-export class IntervalExercise extends BaseExercise<Interval, IntervalExerciseSettings> {
+export class IntervalExercise extends BaseExercise<IntervalName, IntervalExerciseSettings> {
   readonly id: string = 'interval';
   readonly name: string = 'Intervals';
   readonly summary: string = 'Identify intervals chromatically (no key)';
@@ -93,9 +89,9 @@ export class IntervalExercise extends BaseExercise<Interval, IntervalExerciseSet
     },
   ]
 
-  private static readonly _intervalNameToIntervalDescriptor: { [intervalName in Interval]: IIntervalDescriptor } = _.keyBy(IntervalExercise.intervalDescriptorList, 'name') as { [intervalName in Interval]: IIntervalDescriptor };
+  private static readonly _intervalNameToIntervalDescriptor: { [intervalName in IntervalName]: IIntervalDescriptor } = _.keyBy(IntervalExercise.intervalDescriptorList, 'name') as { [intervalName in IntervalName]: IIntervalDescriptor };
 
-  getQuestion(): Exercise.Question<Interval> {
+  getQuestion(): Exercise.Question<IntervalName> {
     const randomIntervalDescriptor: IIntervalDescriptor = randomFromList(IntervalExercise.intervalDescriptorList.filter(intervalDescriptor => this._settings.includedAnswers.includes(intervalDescriptor.name)));
     const randomStartingNote: NoteNumber = _.random(this.range.lowestNoteNumber, this.range.highestNoteNumber - randomIntervalDescriptor.semitones);
     return {
@@ -110,11 +106,11 @@ export class IntervalExercise extends BaseExercise<Interval, IntervalExerciseSet
   }
 
   // This will be overridden by IncludedAnswersSetting
-  getAnswerList(): Exercise.AnswerList<Interval> {
+  getAnswerList(): Exercise.AnswerList<IntervalName> {
     return [];
   }
 
-  static getAllAnswersList(): Exercise.AnswerList<Interval> {
+  static getAllAnswersList(): Exercise.AnswerList<IntervalName> {
     return {
       rows: [
         ['Minor 2nd', 'Major 2nd'],
@@ -123,10 +119,10 @@ export class IntervalExercise extends BaseExercise<Interval, IntervalExerciseSet
         ['Minor 6th', 'Major 6th'],
         ['Minor 7th', 'Major 7th'],
         ['Octave'],
-      ].map((row: Interval[]) => row.map((interval: Interval) => {
+      ].map((row: IntervalName[]) => row.map((interval: IntervalName) => {
         return {
           answer: interval,
-          playOnClick: (question: Exercise.NotesQuestion<Interval>) => {
+          playOnClick: (question: Exercise.NotesQuestion<IntervalName>) => {
             const noteList: Note[] = toArray<NoteEvent | Note>(question.segments[0].partToPlay)
               .map((noteOrEvent): Note => {
                 if (typeof noteOrEvent === 'object') {
@@ -149,7 +145,7 @@ export class IntervalExercise extends BaseExercise<Interval, IntervalExerciseSet
     };
   }
 
-  static getDefaultSelectedAnswers(): Interval[] {
+  static getDefaultSelectedAnswers(): IntervalName[] {
     return ['Minor 2nd', 'Major 2nd', 'Minor 3rd', 'Major 3rd', 'Perfect 4th', 'Aug 4th', 'Perfect 5th', 'Minor 6th', 'Major 6th', 'Minor 7th', 'Major 7th', 'Octave']
   }
 }
