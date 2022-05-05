@@ -1,7 +1,8 @@
 import { transpose } from './transpose';
+import { NotesRange } from './NotesRange';
 
-describe('transpose', function () {
-  describe('Single note type', function () {
+describe('transpose', function() {
+  describe('Single note type', function() {
     it('C + 3', () => {
       expect(transpose('C', 3)).toEqual('D#');
     })
@@ -11,7 +12,7 @@ describe('transpose', function () {
     })
   });
 
-  describe('single note', function () {
+  describe('single note', function() {
     it('C4 + 3', () => {
       expect(transpose('C4', 3)).toEqual('D#4');
     })
@@ -21,7 +22,7 @@ describe('transpose', function () {
     })
   });
 
-  describe('multiple notes', function () {
+  describe('multiple notes', function() {
     it('[C4, E4] + 3', () => {
       expect(transpose(['C4', 'E4'], 3)).toEqual(['D#4', 'G4']);
     })
@@ -31,7 +32,7 @@ describe('transpose', function () {
     })
   });
 
-  describe('note events', function () {
+  describe('note events', function() {
     it('[C4, E4] + 3', () => {
       expect(transpose([
         {
@@ -45,7 +46,7 @@ describe('transpose', function () {
           time: 5,
           duration: '8n',
           velocity: 0.9,
-        }
+        },
       ], 3)).toEqual([
         {
           notes: 'D#4',
@@ -58,7 +59,7 @@ describe('transpose', function () {
           time: 5,
           duration: '8n',
           velocity: 0.9,
-        }
+        },
       ]);
     })
 
@@ -75,7 +76,7 @@ describe('transpose', function () {
           time: 5,
           duration: '8n',
           velocity: 0.9,
-        }
+        },
       ], -4)).toEqual([
         {
           notes: 'A#1',
@@ -88,8 +89,14 @@ describe('transpose', function () {
           time: 5,
           duration: '8n',
           velocity: 0.9,
-        }
+        },
       ]);
     })
   });
+
+  describe('note range', function() {
+    it('should work', () => {
+      expect(transpose(new NotesRange('C1', 'G1'), 3)).toEqual(new NotesRange('D#1', 'A#1'));
+    })
+  })
 });
