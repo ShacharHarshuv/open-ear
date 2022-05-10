@@ -30,7 +30,7 @@ import {
   IncludedAnswersSettings,
 } from '../utility/settings/IncludedAnswersSettings';
 
-type ChordDegree = 1 | 3 | 5;
+type ChordDegree = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
 type NoteWithChord = `${SolfegeNote}${ChordDegree}`;
 
@@ -44,84 +44,192 @@ const noteWithChordDescriptorMap: {
     chord: 'I',
     solfegeNote: 'Do',
   },
+  Do2: {
+    chord: 'viiᵒ',
+    solfegeNote: 'Do',
+  },
   Do3: {
     chord: 'vi',
+    solfegeNote: 'Do',
+  },
+  Do4: {
+    chord: 'V',
     solfegeNote: 'Do',
   },
   Do5: {
     chord: 'IV',
     solfegeNote: 'Do',
   },
+  Do6: {
+    chord: 'iii',
+    solfegeNote: 'Do',
+  },
+  Do7: {
+    chord: 'ii',
+    solfegeNote: 'Do',
+  },
   Re1: {
     chord: 'ii',
+    solfegeNote: 'Re',
+  },
+  Re2: {
+    chord: 'I',
     solfegeNote: 'Re',
   },
   Re3: {
     chord: 'viiᵒ',
     solfegeNote: 'Re',
   },
+  Re4: {
+    chord: 'vi',
+    solfegeNote: 'Re',
+  },
   Re5: {
     chord: 'V',
+    solfegeNote: 'Re',
+  },
+  Re6: {
+    chord: 'IV',
+    solfegeNote: 'Re',
+  },
+  Re7: {
+    chord: 'iii',
     solfegeNote: 'Re',
   },
   Mi1: {
     chord: 'iii',
     solfegeNote: 'Mi',
   },
+  Mi2: {
+    chord: 'ii',
+    solfegeNote: 'Mi',
+  },
   Mi3: {
     chord: 'I',
+    solfegeNote: 'Mi',
+  },
+  Mi4: {
+    chord: 'viiᵒ',
     solfegeNote: 'Mi',
   },
   Mi5: {
     chord: 'vi',
     solfegeNote: 'Mi',
   },
+  Mi6: {
+    chord: 'V',
+    solfegeNote: 'Mi',
+  },
+  Mi7: {
+    chord: 'IV',
+    solfegeNote: 'Mi',
+  },
   Fa1: {
     chord: 'IV',
+    solfegeNote: 'Fa',
+  },
+  Fa2: {
+    chord: 'iii',
     solfegeNote: 'Fa',
   },
   Fa3: {
     chord: 'ii',
     solfegeNote: 'Fa',
   },
+  Fa4: {
+    chord: 'I',
+    solfegeNote: 'Fa',
+  },
   Fa5: {
     chord: 'viiᵒ',
+    solfegeNote: 'Fa',
+  },
+  Fa6: {
+    chord: 'vi',
+    solfegeNote: 'Fa',
+  },
+  Fa7: {
+    chord: 'V',
     solfegeNote: 'Fa',
   },
   Sol1: {
     chord: 'V',
     solfegeNote: 'Sol',
   },
+  Sol2: {
+    chord: 'IV',
+    solfegeNote: 'Sol',
+  },
   Sol3: {
     chord: 'iii',
+    solfegeNote: 'Sol',
+  },
+  Sol4: {
+    chord: 'ii',
     solfegeNote: 'Sol',
   },
   Sol5: {
     chord: 'I',
     solfegeNote: 'Sol',
   },
+  Sol6: {
+    chord: 'viiᵒ',
+    solfegeNote: 'Sol',
+  },
+  Sol7: {
+    chord: 'vi',
+    solfegeNote: 'Sol',
+  },
   La1: {
     chord: 'vi',
+    solfegeNote: 'La',
+  },
+  La2: {
+    chord: 'V',
     solfegeNote: 'La',
   },
   La3: {
     chord: 'IV',
     solfegeNote: 'La',
   },
+  La4: {
+    chord: 'iii',
+    solfegeNote: 'La',
+  },
   La5: {
     chord: 'ii',
+    solfegeNote: 'La',
+  },
+  La6: {
+    chord: 'I',
     solfegeNote: 'La',
   },
   Ti1: {
     chord: 'viiᵒ',
     solfegeNote: 'Ti',
   },
+  Ti2: {
+    chord: 'vi',
+    solfegeNote: 'Ti',
+  },
   Ti3: {
     chord: 'V',
     solfegeNote: 'Ti',
   },
+  Ti4: {
+    chord: 'IV',
+    solfegeNote: 'Ti',
+  },
   Ti5: {
     chord: 'iii',
+    solfegeNote: 'Ti',
+  },
+  Ti6: {
+    chord: 'ii',
+    solfegeNote: 'Ti',
+  },
+  Ti7: {
+    chord: 'I',
     solfegeNote: 'Ti',
   },
 }
@@ -143,7 +251,7 @@ export class NotesWithChordsExercise extends BaseTonalExercise<NoteWithChord> {
 
   protected _getAllAnswersListInC(): Exercise.AnswerList<NoteWithChord> {
     const solfegeSyllables = ['Do', 'Re', 'Mi', 'Fa', 'Sol', 'La', 'Ti'] as const;
-    const chordDegrees = [1, 3, 5] as const;
+    const chordDegrees = [1, 2, 3, 4, 5, 6, 7] as const;
     return {
       rows: chordDegrees.map(chordDegree => solfegeSyllables.map((solfegeNote): NoteWithChord => `${solfegeNote}${chordDegree}`)),
     };

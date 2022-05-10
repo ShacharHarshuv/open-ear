@@ -81,4 +81,8 @@ export const releaseNotes: ReleaseNotes = [
     version: '1.2.12',
     notes: 'Use numeric display instead of Moveable-Do for scale degrees exercise'
   },
+  {
+    version: '1.2.14',
+    notes: 'Add more chord degrees options'
+  },
 ]

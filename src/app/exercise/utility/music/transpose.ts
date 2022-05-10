@@ -3,19 +3,20 @@ import { Frequency } from 'tone/Tone/core/type/Units';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import {
   toNoteName,
-  toNoteNumber
+  toNoteNumber,
 } from './notes/toNoteName';
 import * as _ from 'lodash';
 import {
   NoteType,
-  ALL_NOTE_TYPES
+  ALL_NOTE_TYPES,
 } from './notes/NoteType';
 import {
   toNoteTypeName,
-  toNoteTypeNumber
+  toNoteTypeNumber,
 } from './notes/toNoteTypeNumber';
 import { OneOrMany } from '../../../shared/ts-utility';
 import { Interval } from './intervals/Interval';
+import { NotesRange } from './NotesRange';
 
 export function transpose(partOrNotes: Note, semitones: number): Note;
 export function transpose(partOrNotes: NoteType, semitones: number): NoteType;
@@ -23,8 +24,13 @@ export function transpose(partOrNotes: Note[], semitones: number): Note[];
 export function transpose(partOrNotes: Note | Note[], semitones: number): Note | Note[];
 export function transpose(partOrNotes: NoteEvent[], semitones: number): NoteEvent[];
 export function transpose(partOrNotes: NoteEvent[] | OneOrMany<Note>, semitones: number): NoteEvent[] | OneOrMany<Note>;
+export function transpose(partOrNotes: NotesRange, semitones: number): NotesRange;
 export function transpose(partOrNotes: NoteEvent[] | Note[] | Note | NoteType, semitones: number): NoteEvent[] | Frequency[] | Frequency | NoteType;
-export function transpose(partOrNotes: NoteEvent[] | Note[] | Note | NoteType, semitones: number): NoteEvent[] | Frequency[] | Frequency | NoteType {
+export function transpose(partOrNotes: NoteEvent[] | Note[] | Note | NoteType | NotesRange, semitones: number): NoteEvent[] | Frequency[] | Frequency | NoteType | NotesRange {
+  if (partOrNotes instanceof NotesRange) {
+    return new NotesRange(transpose(partOrNotes.lowestNoteName, semitones), transpose(partOrNotes.highestNoteName, semitones))
+  }
+
   if (!Array.isArray(partOrNotes)) {
     const note: Note | NoteType = partOrNotes;
     if (ALL_NOTE_TYPES.includes(note as NoteType)) {
