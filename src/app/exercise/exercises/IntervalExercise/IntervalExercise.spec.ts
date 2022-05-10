@@ -42,7 +42,5 @@ describe('IntervalExercise', () => {
         })
       ]))
     });
-
-    it('should have all intervals')
   });
 })

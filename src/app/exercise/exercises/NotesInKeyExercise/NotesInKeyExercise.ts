@@ -10,23 +10,24 @@ import { getNoteOctave } from '../../utility/music/notes/getNoteOctave';
 import { toNoteTypeNumber } from '../../utility/music/notes/toNoteTypeNumber';
 import { noteTypeToNote } from '../../utility/music/notes/noteTypeToNote';
 import { NotesInKeyExplanationComponent } from './notes-in-key-explanation/notes-in-key-explanation.component';
+import { transpose } from '../../utility/music/transpose';
+import { getDistanceOfKeys } from '../../utility/music/keys/getDistanceOfKeys';
 import {
-  numberOfSegmentsControlDescriptorList,
-  NumberOfSegmentsSetting,
-} from '../utility/NumberOfSegmentsSetting';
-import {
-  playAfterCorrectAnswerControlDescriptorList,
-  PlayAfterCorrectAnswerSetting,
-} from '../utility/PlayAfterCorrectAnswerSetting';
-import {
-  BaseMelodicDictationExercise,
   BaseMelodicDictationExerciseSettings,
+  BaseMelodicDictationExercise,
   IMelodicQuestion,
   noteInCToSolfege,
   SolfegeNote,
-} from '../utility/BaseMelodicDictationExercise';
-import { transpose } from '../../utility/music/transpose';
-import { getDistanceOfKeys } from '../../utility/music/keys/getDistanceOfKeys';
+} from '../utility/base-exercises/BaseMelodicDictationExercise';
+import {
+  NumberOfSegmentsSetting,
+  numberOfSegmentsControlDescriptorList,
+} from '../utility/settings/NumberOfSegmentsSetting';
+import {
+  PlayAfterCorrectAnswerSetting,
+  playAfterCorrectAnswerControlDescriptorList,
+} from '../utility/settings/PlayAfterCorrectAnswerSetting';
+import { IncludedAnswersSetting } from '../utility/settings/IncludedAnswersSettings';
 
 type NoteInKeySettings =
   BaseMelodicDictationExerciseSettings &
@@ -38,6 +39,13 @@ type NoteInKeySettings =
 
 type NoteInKeyDisplayMode = 'solfege' | 'numeral';
 
+@IncludedAnswersSetting<SolfegeNote, NoteInKeySettings>({
+  default: [
+    'Do',
+    'Re',
+    'Mi',
+  ]
+})
 export class NotesInKeyExercise extends BaseMelodicDictationExercise<NoteInKeySettings> {
   readonly id: string = 'noteInKey';
   readonly name: string = `Scale Degrees`;
@@ -181,14 +189,6 @@ export class NotesInKeyExercise extends BaseMelodicDictationExercise<NoteInKeySe
       notesRange: 'middle',
       displayMode: 'numeral',
     };
-  }
-
-  protected override _getDefaultSelectedIncludedAnswers(): SolfegeNote[] {
-    return [
-      'Do',
-      'Re',
-      'Mi',
-    ]
   }
 
   private _detectScale(): NoteType[] {
