@@ -7,25 +7,25 @@ export type IncludedAnswersSettings<GAnswer extends string> = {
   includedAnswers: GAnswer[];
 }
 
-type IncludedAnswersBaseExercise<GAnswer extends string> = BaseExercise<GAnswer, IncludedAnswersSettings<GAnswer>> & {
+type IncludedAnswersBaseExercise<GAnswer extends string, GSettings extends IncludedAnswersSettings<GAnswer>> = BaseExercise<GAnswer, GSettings> & {
   getAnswerList(): Exercise.AnswerList<GAnswer>;
 }
 
-export function IncludedAnswersSetting<GAnswer extends string>(params: {
+export function IncludedAnswersSetting<GAnswer extends string, GSettings extends IncludedAnswersSettings<GAnswer>>(params: {
   default: GAnswer[],
 }) {
   if (params.default.length < 2) {
     throw new Error(`Must provide at least 2 answers selected by default`);
   }
 
-  return function <GConstructor extends Constructor<IncludedAnswersBaseExercise<GAnswer>>>(BaseExercise: GConstructor) {
+  return function IncludedAnswersSettingDecorator<GConstructor extends Constructor<IncludedAnswersBaseExercise<GAnswer, GSettings>>>(BaseExercise: GConstructor) {
     // @ts-ignore
     return class HasIncludedAnswersSettings extends BaseExercise {
       constructor() {
         super();
       }
 
-      protected override _getDefaultSettings(): IncludedAnswersSettings<GAnswer> {
+      protected override _getDefaultSettings(): GSettings {
         return {
           ...super._getDefaultSettings(),
           includedAnswers: params.default,
@@ -33,7 +33,7 @@ export function IncludedAnswersSetting<GAnswer extends string>(params: {
       }
 
       // setting the setting's descriptor
-      protected override _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<IncludedAnswersSettings<GAnswer>>[] {
+      protected override _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<GSettings>[] {
         const includedAnswersDescriptor: Exercise.IncludedAnswersControlDescriptor<GAnswer> = {
           controlType: 'INCLUDED_ANSWERS',
           label: 'Included Options',

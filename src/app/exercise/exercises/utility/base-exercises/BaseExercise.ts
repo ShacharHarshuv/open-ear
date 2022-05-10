@@ -14,7 +14,7 @@ export abstract class BaseExercise<GAnswer extends string = string, GSettings ex
 
   protected _destroy$ = new Subject<void>();
   protected _settings: GSettings = this._getDefaultSettings();
-  readonly settingsDescriptor = this._getSettingsDescriptor();
+  readonly settingsDescriptor: SettingsControlDescriptor<GSettings>[] = this._getSettingsDescriptor();
   protected _settings$: Observable<GSettings> = this._settingsChangeSubject.asObservable();
 
   abstract readonly id: string;

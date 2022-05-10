@@ -1,4 +1,7 @@
-import { BaseTonalExercise, BaseTonalExerciseSettings } from '../utility/base-exercises/BaseTonalExercise';
+import {
+  BaseTonalExercise,
+  TonalExerciseSettings,
+} from '../utility/base-exercises/BaseTonalExercise';
 import { Exercise } from '../../Exercise';
 import {
   ChordSymbol,
@@ -6,13 +9,12 @@ import {
   Chord,
 } from '../../utility/music/chords';
 import { randomFromList } from '../../../shared/ts-utility';
-import { BaseCommonSettingsExerciseSettings } from '../utility/base-exercises/BaseCommonSettingsExercise';
-import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
 import * as Tone from 'tone';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { toSteadyPart } from '../../utility';
-import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 import { TriadInversionExplanationComponent } from './triad-inversion-explanation/triad-inversion-explanation.component';
+import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
+import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 
 type TriadInversionAnswer = 'Root Position' | '1st Inversion' | '2nd Inversion'
 
@@ -22,7 +24,7 @@ const triadInversions: TriadInversionAnswer[] = [
   '2nd Inversion',
 ];
 
-export type TriadInversionExerciseSettings = BaseTonalExerciseSettings<TriadInversionAnswer> & {
+export type TriadInversionExerciseSettings = TonalExerciseSettings<TriadInversionAnswer> & {
   arpeggiateSpeed: number;
   playRootAfterAnswer: boolean;
 }

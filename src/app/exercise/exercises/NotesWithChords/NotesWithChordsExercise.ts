@@ -1,27 +1,45 @@
-import { SolfegeNote, solfegeToNoteInC } from '../utility/base-exercises/BaseMelodicDictationExercise';
-import { BaseTonalExercise } from '../utility/base-exercises/BaseTonalExercise';
+import {
+  SolfegeNote,
+  solfegeToNoteInC,
+} from '../utility/base-exercises/BaseMelodicDictationExercise';
+import {
+  BaseTonalExercise,
+  TonalExerciseSettings,
+} from '../utility/base-exercises/BaseTonalExercise';
 import { Exercise } from '../../Exercise';
 import { randomFromList } from '../../../shared/ts-utility';
-import { RomanNumeralChord, romanNumeralToChordInC } from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
+import {
+  RomanNumeralChord,
+  romanNumeralToChordInC,
+} from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
 import { Chord } from '../../utility/music/chords';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { NoteType } from '../../utility/music/notes/NoteType';
 import { noteTypeToNote } from '../../utility/music/notes/noteTypeToNote';
-import { Interval, toNoteNumber } from '../../utility';
+import {
+  Interval,
+  toNoteNumber,
+} from '../../utility';
 import { transpose } from '../../utility/music/transpose';
 import * as _ from 'lodash';
 import {
-  NotesWithChordsExplanationComponent
+  NotesWithChordsExplanationComponent,
 } from './notes-with-chords-explanation/notes-with-chords-explanation.component';
+import {
+  IncludedAnswersSetting,
+  IncludedAnswersSettings,
+} from '../utility/settings/IncludedAnswersSettings';
 
 type ChordDegree = 1 | 3 | 5;
 
 type NoteWithChord = `${SolfegeNote}${ChordDegree}`;
 
-const noteWithChordDescriptorMap: {[noteWithHarmonicContext in NoteWithChord]?: {
-  chord: RomanNumeralChord,
-  solfegeNote: SolfegeNote,
-}} = {
+const noteWithChordDescriptorMap: {
+  [noteWithHarmonicContext in NoteWithChord]?: {
+    chord: RomanNumeralChord,
+    solfegeNote: SolfegeNote,
+  }
+} = {
   Do1: {
     chord: 'I',
     solfegeNote: 'Do',
@@ -108,6 +126,15 @@ const noteWithChordDescriptorMap: {[noteWithHarmonicContext in NoteWithChord]?: 
   },
 }
 
+type NoteWithChordsSettings = TonalExerciseSettings<NoteWithChord> & IncludedAnswersSettings<NoteWithChord>;
+
+@IncludedAnswersSetting<NoteWithChord, NoteWithChordsSettings>({
+  default: [
+    'Do1',
+    'Do3',
+    'Do5',
+  ],
+})
 export class NotesWithChordsExercise extends BaseTonalExercise<NoteWithChord> {
   readonly id: string = 'notesWithChords';
   readonly name: string = 'Notes with Chords';
@@ -163,45 +190,10 @@ export class NotesWithChordsExercise extends BaseTonalExercise<NoteWithChord> {
               velocity: 1,
               time: 0,
               duration: '2n',
-            }
-          ]
-        }
-      ]
+            },
+          ],
+        },
+      ],
     }
-  }
-
-  protected override _getDefaultSelectedIncludedAnswers(): NoteWithChord[] {
-    return [
-      'Do1',
-      'Do3',
-      'Do5',
-    ]
-  }
-
-  /* Overriding to ensure order is right */
-  protected override _getIncludedAnswersOptions(): NoteWithChord[] {
-    return [
-      'Do1',
-      'Do3',
-      'Do5',
-      'Re1',
-      'Re3',
-      'Re5',
-      'Mi1',
-      'Mi3',
-      'Mi5',
-      'Fa1',
-      'Fa3',
-      'Fa5',
-      'Sol1',
-      'Sol3',
-      'Sol5',
-      'La1',
-      'La3',
-      'La5',
-      'Ti1',
-      'Ti3',
-      'Ti5',
-    ]
   }
 }

@@ -1,4 +1,4 @@
-import { BaseTonalExercise, BaseTonalExerciseSettings } from './BaseTonalExercise';
+import { BaseTonalExercise, TonalExerciseSettings } from './BaseTonalExercise';
 import { NoteType } from '../../../utility/music/notes/NoteType';
 import * as _ from 'lodash';
 import { Exercise } from '../../../Exercise';
@@ -8,7 +8,7 @@ import { Time } from 'tone/Tone/core/type/Units';
 
 export type SolfegeNote = 'Do' | 'Re' | 'Me' | 'Mi' | 'Fa' | 'Sol' | 'Le' | 'La' | 'Te' | 'Ti';
 
-export type BaseMelodicDictationExerciseSettings = BaseTonalExerciseSettings<SolfegeNote>;
+export type BaseMelodicDictationExerciseSettings = TonalExerciseSettings<SolfegeNote>;
 
 export const solfegeNotesInC: { solfege: SolfegeNote, note: NoteType }[] = [
   {
@@ -149,21 +149,4 @@ export abstract class BaseMelodicDictationExercise<GSettings extends BaseMelodic
       ],
     }
   }
-
-  /* Overriding to ensure order is right */
-  protected override _getIncludedAnswersOptions(): SolfegeNote[] {
-    return [
-      'Do',
-      'Re',
-      'Me',
-      'Mi',
-      'Fa',
-      'Sol',
-      'Le',
-      'La',
-      'Te',
-      'Ti',
-    ]
-  }
-
 }
