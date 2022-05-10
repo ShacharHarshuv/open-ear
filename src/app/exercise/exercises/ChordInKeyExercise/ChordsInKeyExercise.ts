@@ -1,25 +1,36 @@
 import { Exercise } from '../../Exercise';
 import { randomFromList } from '../../utility';
 import * as _ from 'lodash';
-import { numberOfSegmentsControlDescriptorList, NumberOfSegmentsSetting, } from '../utility/NumberOfSegmentsSetting';
+import {
+  numberOfSegmentsControlDescriptorList,
+  NumberOfSegmentsSetting,
+} from '../utility/settings/NumberOfSegmentsSetting';
 import { ChordInKeyExplanationComponent } from './chord-in-key-explanation/chord-in-key-explanation.component';
 import {
   playAfterCorrectAnswerControlDescriptorList,
-  PlayAfterCorrectAnswerSetting
-} from '../utility/PlayAfterCorrectAnswerSetting';
+  PlayAfterCorrectAnswerSetting,
+} from '../utility/settings/PlayAfterCorrectAnswerSetting';
 import {
   BaseRomanAnalysisChordProgressionExercise,
   BaseRomanAnalysisChordProgressionExerciseSettings,
   RomanNumeralChord,
-  RomanNumeralsChordProgressionQuestion
-} from '../utility/BaseRomanAnalysisChordProgressionExercise';
+  RomanNumeralsChordProgressionQuestion,
+} from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
+import {
+  IncludedAnswersSetting,
+  IncludedAnswersSettings,
+} from '../utility/settings/IncludedAnswersSettings';
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 
 type ChordInKeySettings =
+  IncludedAnswersSettings<RomanNumeralChord> &
   BaseRomanAnalysisChordProgressionExerciseSettings &
   NumberOfSegmentsSetting &
   PlayAfterCorrectAnswerSetting;
 
+@IncludedAnswersSetting<RomanNumeralChord, ChordInKeySettings>({
+  default: ['I', 'IV', 'V'],
+})
 export class ChordsInKeyExercise extends BaseRomanAnalysisChordProgressionExercise<ChordInKeySettings> {
   readonly id: string = 'chordInKey';
   readonly name: string = 'Chord Functions';
@@ -56,13 +67,5 @@ export class ChordsInKeyExercise extends BaseRomanAnalysisChordProgressionExerci
       playAfterCorrectAnswer: true,
       includedAnswers: ['I', 'IV', 'V'],
     };
-  }
-
-  protected override _getDefaultSelectedIncludedAnswers(): RomanNumeralChord[] {
-    return [
-      'I',
-      'IV',
-      'V',
-    ]
   }
 }

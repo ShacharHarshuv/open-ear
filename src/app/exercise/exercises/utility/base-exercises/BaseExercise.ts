@@ -1,20 +1,20 @@
-import {
-  Exercise,
-} from '../../Exercise';
-import AnswerList = Exercise.AnswerList;
-import SettingValueType = Exercise.SettingValueType;
-import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
+import { Exercise } from '../../../Exercise';
 import * as _ from 'lodash';
-import { Observable, ReplaySubject, Subject } from 'rxjs';
+import {
+  Observable,
+  ReplaySubject,
+  Subject,
+} from 'rxjs';
+import AnswerList = Exercise.AnswerList;
+import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
+import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
 
-export abstract class BaseExercise<GAnswer extends string = string, GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }> implements Exercise.IExercise<GAnswer, GSettings> {
+export abstract class BaseExercise<GAnswer extends string = string, GSettings extends Exercise.Settings = Exercise.Settings> implements Exercise.IExercise<GAnswer, GSettings> {
   private _settingsChangeSubject = new ReplaySubject<GSettings>(1);
 
   protected _destroy$ = new Subject<void>();
-  /**
-   * Implementor should implement the desired default settings
-   * */
-  protected abstract _settings: GSettings;
+  protected _settings: GSettings = this._getDefaultSettings();
+  readonly settingsDescriptor: SettingsControlDescriptor<GSettings>[] = this._getSettingsDescriptor();
   protected _settings$: Observable<GSettings> = this._settingsChangeSubject.asObservable();
 
   abstract readonly id: string;
@@ -41,5 +41,13 @@ export abstract class BaseExercise<GAnswer extends string = string, GSettings ex
   onDestroy(): void {
     this._destroy$.next();
     this._destroy$.complete();
+  }
+
+  protected _getSettingsDescriptor(): SettingsControlDescriptor<GSettings>[] {
+    return [];
+  }
+
+  protected _getDefaultSettings(): GSettings {
+    return {} as GSettings; // couldn't find a better way around it, it means that extending classes will have the responsibility to override this property
   }
 }

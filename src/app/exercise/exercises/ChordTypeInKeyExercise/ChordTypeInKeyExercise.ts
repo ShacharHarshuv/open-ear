@@ -8,13 +8,13 @@ import { randomFromList } from '../../../shared/ts-utility';
 import {
   NumberOfSegmentsSetting,
   numberOfSegmentsControlDescriptorList
-} from '../utility/NumberOfSegmentsSetting';
+} from '../utility/settings/NumberOfSegmentsSetting';
 import * as _ from 'lodash';
 import {
   BaseTonalChordProgressionExercise,
   ChordProgressionQuestion,
   BaseTonalChordProgressionExerciseSettings
-} from '../utility/BaseTonalChordProgressionExercise';
+} from '../utility/base-exercises/BaseTonalChordProgressionExercise';
 import { ChordTypeInKeyExplanationComponent } from './chord-type-in-key-explanation/chord-type-in-key-explanation.component';
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 

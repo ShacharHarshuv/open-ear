@@ -1,17 +1,26 @@
-import { Key, OneOrMany, randomFromList, toGetter } from '../../utility';
-import { Exercise, } from '../../Exercise';
-import { transpose } from '../../utility/music/transpose';
-import { getDistanceOfKeys } from '../../utility/music/keys/getDistanceOfKeys';
-import { iv_V_i_CADENCE_IN_C, IV_V_I_CADENCE_IN_C } from '../../utility/music/chords';
-import { BaseCommonSettingsExercise, BaseCommonSettingsExerciseSettings } from './BaseCommonSettingsExercise';
-import { NoteEvent } from '../../../services/player.service';
+import {
+  Key,
+  OneOrMany,
+  randomFromList,
+  toGetter,
+} from '../../../utility';
+import { Exercise } from '../../../Exercise';
+import { transpose } from '../../../utility/music/transpose';
+import { getDistanceOfKeys } from '../../../utility/music/keys/getDistanceOfKeys';
+import {
+  iv_V_i_CADENCE_IN_C,
+  IV_V_I_CADENCE_IN_C,
+} from '../../../utility/music/chords';
+import { NoteEvent } from '../../../../services/player.service';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { NoteType } from '../../utility/music/notes/NoteType';
+import { NoteType } from '../../../utility/music/notes/NoteType';
 import { Frequency } from 'tone/Tone/core/type/Units';
+import { BaseExercise } from './BaseExercise';
+import { IncludedAnswersSettings } from '../settings/IncludedAnswersSettings';
 
 export type CadenceType = 'I IV V I' | 'i iv V i';
 
-export type BaseTonalExerciseSettings<GAnswer extends string> = BaseCommonSettingsExerciseSettings<GAnswer> & {
+export type TonalExerciseSettings<GAnswer extends string> = IncludedAnswersSettings<GAnswer> & {
   cadenceType: CadenceType;
 }
 
@@ -22,7 +31,7 @@ const cadenceTypeToCadence: {
   'i iv V i': iv_V_i_CADENCE_IN_C,
 }
 
-export abstract class BaseTonalExercise<GAnswer extends string = string, GSettings extends BaseTonalExerciseSettings<GAnswer> = BaseTonalExerciseSettings<GAnswer>> extends BaseCommonSettingsExercise<GAnswer, GSettings> {
+export abstract class BaseTonalExercise<GAnswer extends string = string, GSettings extends TonalExerciseSettings<GAnswer> = TonalExerciseSettings<GAnswer>> extends BaseExercise<GAnswer, GSettings> {
   key: Key;
 
   constructor() {
@@ -82,7 +91,7 @@ export abstract class BaseTonalExercise<GAnswer extends string = string, GSettin
     };
   }
 
-  protected override _getAllAnswersList(): Exercise.AnswerList<GAnswer> {
+  override getAnswerList(): Exercise.AnswerList<GAnswer> {
     const answerListInC: Exercise.AnswerList<GAnswer> = this._getAllAnswersListInC();
     const answerLayout: Exercise.NormalizedAnswerLayout<GAnswer> = Exercise.normalizedAnswerList(answerListInC);
     return {
