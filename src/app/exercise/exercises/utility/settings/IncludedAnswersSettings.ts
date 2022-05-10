@@ -1,5 +1,4 @@
 import { Exercise } from '../../../Exercise';
-import { BaseCommonSettingsExerciseSettings } from '../base-exercises/BaseCommonSettingsExercise';
 import { Constructor } from '../../../../shared/ts-utility';
 import { BaseExercise } from '../base-exercises/BaseExercise';
 
@@ -39,7 +38,7 @@ export function IncludedAnswersSetting<GAnswer extends string, GSettings extends
           label: 'Included Options',
           answerList: super.getAnswerList(),
         }
-        const settingsDescriptorList: Exercise.SettingsControlDescriptor<BaseCommonSettingsExerciseSettings<GAnswer>>[] = [
+        const settingsDescriptorList: Exercise.SettingsControlDescriptor<GSettings>[] = [
           {
             key: 'includedAnswers',
             descriptor: includedAnswersDescriptor,
@@ -52,7 +51,7 @@ export function IncludedAnswersSetting<GAnswer extends string, GSettings extends
         ];
       }
 
-      override getAnswerList(): Exercise.AnswerList<GAnswer> {
+      getAnswerList(): Exercise.AnswerList<GAnswer> {
         return Exercise.filterIncludedAnswers(super.getAnswerList(), this._settings.includedAnswers);
       }
     }
