@@ -14,6 +14,7 @@ import { NoteEvent } from '../../../services/player.service';
 import { iv_V_i_CADENCE_IN_C, IV_V_I_CADENCE_IN_C } from '../../utility/music/chords';
 import { transpose } from '../../utility/music/transpose';
 import { getDistanceOfKeys } from '../../utility/music/keys/getDistanceOfKeys';
+import { TitleCasePipe } from '@angular/common';
 
 export class ChordsInRealSongsExercise extends BaseExercise<RomanNumeralChord, {}> {
   readonly explanation: Exercise.ExerciseExplanationContent;
@@ -48,6 +49,7 @@ export class ChordsInRealSongsExercise extends BaseExercise<RomanNumeralChord, {
       })),
       endSeconds: progression.endSeconds,
       cadence: transpose(modeToCadenceInC[progression.mode], getDistanceOfKeys(progression.key, 'C')),
+      info: `${progression.name ?? ''}${progression.artist ? ` by ${progression.artist} ` : ''}(Key: ${progression.key} ${TitleCasePipe.prototype.transform(progression.mode)})`,
     }
   }
 

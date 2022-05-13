@@ -32,10 +32,6 @@ export class ExercisePage extends BaseComponent {
   rightAnswer: string | null = null;
   isMenuOpened: boolean = false;
 
-  get isQuestionCompleted(): boolean {
-    return !!this.state.currentAnswers[this.state.currentAnswers.length - 1]?.answer;
-  }
-
   get correctAnswersPercentage(): number {
     if (!this.state.totalQuestions) {
       return 0;
@@ -56,8 +52,7 @@ export class ExercisePage extends BaseComponent {
   }
 
   onAnswerClick(answerConfig: AnswerConfig<string>): void {
-
-    if (this.isQuestionCompleted) {
+    if (this.state.isQuestionCompleted) {
       this.state.playAnswer(answerConfig);
       return;
     }

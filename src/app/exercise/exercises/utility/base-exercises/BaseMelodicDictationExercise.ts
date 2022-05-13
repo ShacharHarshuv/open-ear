@@ -55,18 +55,18 @@ export const solfegeNotesInC: { solfege: SolfegeNote, note: NoteType }[] = [
 export const noteInCToSolfege: { [note in NoteType]?: SolfegeNote } = _.mapValues(_.keyBy(solfegeNotesInC, 'note'), 'solfege');
 export const solfegeToNoteInC: { [note in SolfegeNote]?: NoteType } = _.mapValues(_.keyBy(solfegeNotesInC, 'solfege'), 'note');
 
-export interface IMelodicQuestion {
+export interface IMelodicQuestion extends Omit<Exercise.NotesQuestion<SolfegeNote>, 'segments'> {
   segments: Note[],
-  afterCorrectAnswer?: Exercise.Question<SolfegeNote>['afterCorrectAnswer'];
 }
 
 export abstract class BaseMelodicDictationExercise<GSettings extends BaseMelodicDictationExerciseSettings> extends BaseTonalExercise<SolfegeNote, GSettings> {
   readonly noteDuration: Time = '2n';
   abstract getMelodicQuestionInC(): IMelodicQuestion;
 
-  override getQuestionInC(): Exclude<Exercise.Question<SolfegeNote>, 'cadence'> {
+  override getQuestionInC(): Exclude<Exercise.NotesQuestion<SolfegeNote>, 'cadence'> {
     const melodicQuestionInC: IMelodicQuestion = this.getMelodicQuestionInC();
     const question: Exercise.Question<SolfegeNote> = {
+      ..._.omit(melodicQuestionInC, 'segments'),
       segments: melodicQuestionInC.segments.map(randomQuestionInC => ({
         rightAnswer: noteInCToSolfege[getNoteType(randomQuestionInC)]!,
         partToPlay: [{

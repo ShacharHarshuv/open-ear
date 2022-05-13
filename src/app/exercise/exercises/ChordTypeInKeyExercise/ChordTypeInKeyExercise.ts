@@ -56,6 +56,7 @@ export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<Ch
     return {
       ...super.getQuestion(),
       cadence: undefined,
+      info: '',
     }
   }
 

@@ -43,23 +43,29 @@ export abstract class BaseTonalExercise<GAnswer extends string = string, GSettin
     }
   }
 
+  protected get _keyInfo(): string {
+    return `Key: ${this.key}`
+  }
+
   getQuestion(): Exercise.Question<GAnswer> {
-    const randomQuestionInC: Exclude<Exercise.Question<GAnswer>, 'cadence'> = this.getQuestionInC();
+    const questionInC: Exclude<Exercise.NotesQuestion<GAnswer>, 'cadence'> = this.getQuestionInC();
     const selectedCadence = cadenceTypeToCadence[this._settings.cadenceType];
     return {
-      segments: randomQuestionInC.segments.map(segment => ({
+      info: this._keyInfo,
+      ...questionInC,
+      segments: questionInC.segments.map(segment => ({
         rightAnswer: segment.rightAnswer,
         partToPlay: this._transposeToKey(segment.partToPlay),
       })),
       cadence: this._transposeToKey(selectedCadence),
-      afterCorrectAnswer: randomQuestionInC.afterCorrectAnswer?.map(afterCorrectAnswerSegment => ({
+      afterCorrectAnswer: questionInC.afterCorrectAnswer?.map(afterCorrectAnswerSegment => ({
         answerToHighlight: afterCorrectAnswerSegment.answerToHighlight,
         partToPlay: this._transposeToKey(afterCorrectAnswerSegment.partToPlay),
       })),
     }
   }
 
-  abstract getQuestionInC(): Exclude<Exercise.Question<GAnswer>, 'cadence'>;
+  abstract getQuestionInC(): Exclude<Exercise.NotesQuestion<GAnswer>, 'cadence'>;
 
   protected override _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<GSettings>[] {
     return [

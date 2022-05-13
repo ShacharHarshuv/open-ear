@@ -93,15 +93,18 @@ export class IntervalExercise extends BaseExercise<IntervalName, IntervalExercis
 
   getQuestion(): Exercise.Question<IntervalName> {
     const randomIntervalDescriptor: IIntervalDescriptor = randomFromList(IntervalExercise.intervalDescriptorList.filter(intervalDescriptor => this._settings.includedAnswers.includes(intervalDescriptor.name)));
-    const randomStartingNote: NoteNumber = _.random(this.range.lowestNoteNumber, this.range.highestNoteNumber - randomIntervalDescriptor.semitones);
+    const randomStartingNoteNumber: NoteNumber = _.random(this.range.lowestNoteNumber, this.range.highestNoteNumber - randomIntervalDescriptor.semitones);
+    const startNoteName = toNoteName(randomStartingNoteNumber);
+    const endNoteName = toNoteName(randomStartingNoteNumber + randomIntervalDescriptor.semitones);
     return {
       segments: [{
         rightAnswer: randomIntervalDescriptor.name,
-        partToPlay: _.shuffle([
-          toNoteName(randomStartingNote),
-          toNoteName(randomStartingNote + randomIntervalDescriptor.semitones),
-        ]),
+        partToPlay: _.shuffle([startNoteName, endNoteName]),
       }],
+      info: {
+        beforeCorrectAnswer: `Notes played: ${toNoteName(randomStartingNoteNumber)} - ?`,
+        afterCorrectAnswer: `Notes played: ${startNoteName} - ${endNoteName}`
+      }
     }
   }
 
