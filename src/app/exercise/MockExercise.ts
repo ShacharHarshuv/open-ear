@@ -5,8 +5,9 @@ import {
   NoteEvent,
 } from '../services/player.service';
 import MatchableArgs = jasmine.MatchableArgs;
+import { BaseExercise } from './exercises/utility/base-exercises/BaseExercise';
 
-export class MockExercise implements Exercise.IExercise {
+export class MockExercise extends BaseExercise {
   static instance: Readonly<MockExercise> = new MockExercise();
   static mockQuestion: Exercise.Question<string> = {
     segments: [
@@ -28,6 +29,7 @@ export class MockExercise implements Exercise.IExercise {
   readonly summary: string = 'mockExerciseSummary';
 
   constructor(private _id?: string) {
+    super();
   }
 
   getAnswerList(): Exercise.AnswerList<string> {

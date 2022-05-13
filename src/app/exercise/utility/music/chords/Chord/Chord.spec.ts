@@ -1,13 +1,15 @@
 import {
   Chord,
   ChordSymbol,
-  ChordType
+  ChordType,
+  Direction,
 } from './Chord';
 import { NoteType } from '../../notes/NoteType';
 import { Interval } from '../../intervals/Interval';
 import { toNoteTypeNumber } from '../../notes/toNoteTypeNumber';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { toNoteNumber } from '../../notes/toNoteName';
+import { testPureFunction } from '../../../../../shared/testing-utility/testPureFunction';
 
 describe('Chord', () => {
   const testCases: {
@@ -174,5 +176,18 @@ describe('Chord', () => {
         })
       });
     });
-  })
+  });
+
+  describe('invertVoicing', () => {
+    testPureFunction<typeof Chord.invertVoicing>(Chord.invertVoicing, [
+      {
+        args: [['C4', 'E4', 'G4'], Direction.Up],
+        returnValue: ['E4', 'G4', 'C5'],
+      },
+      {
+        args: [['C4', 'E4', 'G4'], Direction.Down],
+        returnValue: ['G3', 'C4', 'E4'],
+      },
+    ])
+  });
 })
