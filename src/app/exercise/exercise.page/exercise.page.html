@@ -54,7 +54,10 @@
         Correct answers: {{state.totalCorrectAnswers}}/{{state.totalQuestions}}
         ({{correctAnswersPercentage | number: '1.0-2'}}%)
       </p>
-      <p *ngIf="state.info">
+      <p
+        class="exercise__info"
+        *ngIf="state.info"
+      >
         {{state.info}}
       </p>
     </section>

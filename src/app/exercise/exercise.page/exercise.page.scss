@@ -7,6 +7,10 @@
     flex-direction: column;
   }
 
+  &__info {
+    color: var(--ion-color-medium);
+  }
+
   &__answers-container {
     min-height: 20 * $unit;
     display: flex;
