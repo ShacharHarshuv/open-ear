@@ -116,6 +116,20 @@ export class ExerciseStateService implements OnDestroy {
     return this.exercise.getCurrentSettings?.() || {};
   }
 
+  get info(): string | null {
+    if (!this._currentQuestion.info) {
+      return null;
+    }
+    if (typeof this._currentQuestion.info === 'string') {
+      return this._currentQuestion.info;
+    }
+    return this.isQuestionCompleted ? this._currentQuestion.info.afterCorrectAnswer : this._currentQuestion.info.beforeCorrectAnswer;
+  }
+
+  get isQuestionCompleted(): boolean {
+    return !!this._currentAnswers[this._currentAnswers.length - 1]?.answer;
+  }
+
   private get _areAllSegmentsAnswered(): boolean {
     return !this._currentAnswers.filter(answer => answer.answer === null).length
   }

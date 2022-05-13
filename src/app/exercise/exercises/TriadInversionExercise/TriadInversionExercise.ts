@@ -35,7 +35,7 @@ export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnsw
   readonly summary: string = 'Find the inversion of a triad in close position';
   readonly explanation: ExerciseExplanationContent = TriadInversionExplanationComponent;
 
-  getQuestionInC(): Exclude<Exercise.Question<TriadInversionAnswer>, 'cadence'> {
+  getQuestionInC(): Exclude<Exercise.NotesQuestion<TriadInversionAnswer>, 'cadence'> {
     const chordsInC: ChordSymbol[] = ['C', 'Dm', 'Em', 'F', 'G', 'Am'];
     const randomChordInC: ChordSymbol = randomFromList(chordsInC);
     const invertionOptions: TriadInversion[] = [0, 1, 2].filter(invertionOption => this._settings.includedAnswers.includes(triadInversions[invertionOption]));
@@ -61,6 +61,7 @@ export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnsw
           rightAnswer: answer,
         }
       ],
+      info: '',
     };
 
     if (this._settings.playRootAfterAnswer) {

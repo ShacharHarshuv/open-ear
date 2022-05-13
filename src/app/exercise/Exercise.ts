@@ -29,6 +29,11 @@ export namespace Exercise {
       partToPlay: NoteEvent[],
       answerToHighlight?: GAnswer,
     }[];
+    // use to display some info about the question to the user (for example, a key)
+    info?: string | {
+      beforeCorrectAnswer: string;
+      afterCorrectAnswer: string;
+    },
   }
 
   export interface NotesQuestion<GAnswer extends string = string> extends BaseQuestion<GAnswer, {

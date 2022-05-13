@@ -15,7 +15,7 @@ export type BaseTonalChordProgressionExerciseSettings<GAnswer extends string> = 
   includeBass: boolean;
 }
 
-export interface ChordProgressionQuestion<GAnswer extends string> {
+export interface ChordProgressionQuestion<GAnswer extends string> extends Omit<Exercise.NotesQuestion, 'segments' | 'afterCorrectAnswer'> {
   segments: {
     chord: Chord;
     answer: GAnswer;
@@ -38,7 +38,7 @@ export abstract class BaseTonalChordProgressionExercise<GAnswer extends string, 
   };
   private readonly _range = new NotesRange('G3', 'E5');
 
-  getQuestionInC(): Exclude<Exercise.Question<GAnswer>, "cadence"> {
+  getQuestionInC(): Exclude<Exercise.NotesQuestion<GAnswer>, "cadence"> {
     const chordProgression: ChordProgressionQuestion<GAnswer> = this._getChordProgressionInC();
 
     const firstChordInversion: 0 | 1 | 2 = randomFromList(this._settings.includedPositions);

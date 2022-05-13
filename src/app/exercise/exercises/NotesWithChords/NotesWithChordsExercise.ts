@@ -286,7 +286,7 @@ export class NotesWithChordsExercise extends BaseTonalExercise<NoteWithChord, No
     return this._getRangeForKeyOfC(this.voiceModeToRange[this._settings.voiceMode])
   }
 
-  getQuestionInC(): Exclude<Exercise.Question<NoteWithChord>, "cadence"> {
+  getQuestionInC(): Exclude<Exercise.NotesQuestion<NoteWithChord>, "cadence"> {
     const randomAnswer: NoteWithChord = randomFromList(this._settings.includedAnswers)
     const descriptor: {
       chord: RomanNumeralChord,
