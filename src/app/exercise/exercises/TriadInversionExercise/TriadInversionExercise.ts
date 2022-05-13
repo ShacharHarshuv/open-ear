@@ -118,6 +118,7 @@ export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnsw
       ...super._getDefaultSettings(),
       arpeggiateSpeed: 0,
       playRootAfterAnswer: true,
+      includedAnswers: ['Root Position', '1st Inversion', '2nd Inversion'],
     };
   }
 }
