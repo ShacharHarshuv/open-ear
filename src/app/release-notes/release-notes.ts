@@ -89,4 +89,8 @@ export const releaseNotes: ReleaseNotes = [
     version: '1.3.1',
     notes: 'Bass voice mode for Notes with Chord: Use it to learn how different bass notes sounds like under different chords. (essentially creating inversions or interesting suspensions)'
   },
+  {
+    version: '1.3.1',
+    notes: 'Enable selection of chords in "Chord Progressions in Real Songs" exercise. (Android only)'
+  },
 ]

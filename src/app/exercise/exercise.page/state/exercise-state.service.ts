@@ -176,7 +176,7 @@ export class ExerciseStateService implements OnDestroy {
   }
 
   async playCurrentCadenceAndQuestion(): Promise<void> {
-    await this._stop();
+    await this.stop();
     const cadence: PartToPlay[] | undefined = this._currentQuestion.cadence && [
       {
         partOrTime: toSteadyPart(this._currentQuestion.cadence),
@@ -188,7 +188,7 @@ export class ExerciseStateService implements OnDestroy {
         afterPlaying: () => {
           this._isAnsweringEnabled = true;
           this._hideMessage();
-        }
+        },
       },
       {
         partOrTime: 100,
@@ -215,7 +215,7 @@ export class ExerciseStateService implements OnDestroy {
   }
 
   async playCurrentQuestion(): Promise<void> {
-    await this._stop();
+    await this.stop();
     if (this._currentQuestion.type === 'youtube') {
       await this._playYouTubeQuestion(this._currentQuestion);
     } else {
@@ -232,7 +232,11 @@ export class ExerciseStateService implements OnDestroy {
       } catch (e) {
       }
     }
-    this._currentQuestion = this.exercise.getQuestion();
+    try {
+      this._currentQuestion = this.exercise.getQuestion();
+    } catch (e) {
+      this._message$.next(e);
+    }
     this._currentAnswers = this._currentQuestion.segments.map(() => ({
       wasWrong: false,
       answer: null,
@@ -250,8 +254,14 @@ export class ExerciseStateService implements OnDestroy {
     this._exerciseSettingsData.saveExerciseSettings(this.exercise.id, settings);
     this._globalSettings = settings.globalSettings;
     this._notesPlayer.setBpm(this._globalSettings.bpm);
-    this._updateExerciseSettings(settings.exerciseSettings);
-    this.nextQuestion();
+    // settings may be invalid so we need to catch errors
+    try {
+      this._updateExerciseSettings(settings.exerciseSettings);
+      this._message$.next(null);
+      this.nextQuestion();
+    } catch (e) {
+      this._message$.next(e);
+    }
   }
 
   async init(): Promise<void> {
@@ -288,7 +298,7 @@ export class ExerciseStateService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this._stop();
+    this.stop();
     this._destroyed = true; // used to prevent playing of pending actions
   }
 
@@ -307,7 +317,7 @@ export class ExerciseStateService implements OnDestroy {
     this._message$.next(null);
   }
 
-  private _stop(): void {
+  stop(): void {
     this._youtubePlayer.stop();
     this._notesPlayer.stopAndClearQueue();
   }
