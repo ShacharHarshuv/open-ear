@@ -43,4 +43,10 @@ describe('IntervalExercise', () => {
       ]))
     });
   });
+
+  describe('getQuestion', () => {
+    it('should return truthy value', () => {
+      expect(exercise.getQuestion()).toBeTruthy();
+    })
+  })
 })
