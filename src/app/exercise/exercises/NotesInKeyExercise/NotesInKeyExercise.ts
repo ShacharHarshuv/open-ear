@@ -73,7 +73,7 @@ export class NotesInKeyExercise extends BaseMelodicDictationExercise<NoteInKeySe
   }
 
   private get _rangeForKeyOfC(): NotesRange {
-    return transpose(NotesInKeyExercise.rangeOptionToNotesRange[this._settings.notesRange], getDistanceOfKeys('C', this.key));
+    return this._getRangeForKeyOfC(NotesInKeyExercise.rangeOptionToNotesRange[this._settings.notesRange]);
   }
 
   override getMelodicQuestionInC(): IMelodicQuestion {

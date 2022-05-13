@@ -16,6 +16,11 @@ export enum TriadInversion {
   Third = 2,
 }
 
+export enum Direction {
+  Up = 1,
+  Down = -1,
+}
+
 export class Chord {
   readonly root: NoteType = this._getChordRoot();
   readonly type: ChordType = this._getChordType();
@@ -62,6 +67,13 @@ export class Chord {
     return this.intervals.map(interval => transpose(this.root, interval));
   }
 
+  getBass(): Note[] {
+    return [
+      noteTypeToNote(this.root, 2),
+      noteTypeToNote(this.root, 3),
+    ];
+  }
+
   getVoicing({
                topVoicesInversion,
                withBass = true,
@@ -95,12 +107,26 @@ export class Chord {
 
     if (withBass) {
       return [
-        noteTypeToNote(this.root, 2),
-        noteTypeToNote(this.root, 3),
+        ...this.getBass(),
         ...chordVoicing,
       ]
     }
 
     return chordVoicing;
+  }
+
+  static invertVoicing(voicing: Note[], direction: Direction): Note[] {
+    if (_.isEmpty(voicing)) {
+      return [];
+    }
+    const invertedVoicing = [...voicing];
+    if (direction === Direction.Up) {
+      const bottomNote: Note = invertedVoicing.shift()!;
+      invertedVoicing.push(transpose(bottomNote, Interval.Octave));
+    } else {
+      const topNote: Note = invertedVoicing.pop()!;
+      invertedVoicing.unshift(transpose(topNote, -Interval.Octave))
+    }
+    return invertedVoicing;
   }
 }

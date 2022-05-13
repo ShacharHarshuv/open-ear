@@ -12,23 +12,25 @@ import {
   RomanNumeralChord,
   romanNumeralToChordInC,
 } from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
-import { Chord } from '../../utility/music/chords';
+import {
+  Chord,
+  Direction,
+} from '../../utility/music/chords';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { NoteType } from '../../utility/music/notes/NoteType';
-import { noteTypeToNote } from '../../utility/music/notes/noteTypeToNote';
 import {
   Interval,
   toNoteNumber,
+  NotesRange,
 } from '../../utility';
 import { transpose } from '../../utility/music/transpose';
 import * as _ from 'lodash';
-import {
-  NotesWithChordsExplanationComponent,
-} from './notes-with-chords-explanation/notes-with-chords-explanation.component';
+import { NotesWithChordsExplanationComponent } from './notes-with-chords-explanation/notes-with-chords-explanation.component';
 import {
   IncludedAnswersSetting,
   IncludedAnswersSettings,
 } from '../utility/settings/IncludedAnswersSettings';
+import { SettingsDescriptors } from '../utility/settings/SettingsDescriptors';
 
 type ChordDegree = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
@@ -234,8 +236,31 @@ const noteWithChordDescriptorMap: {
   },
 }
 
-type NoteWithChordsSettings = TonalExerciseSettings<NoteWithChord> & IncludedAnswersSettings<NoteWithChord>;
+type NoteWithChordsSettings = TonalExerciseSettings<NoteWithChord> &
+  IncludedAnswersSettings<NoteWithChord> & {
+  voiceMode: 'soprano' | 'bass';
+};
 
+@SettingsDescriptors<NoteWithChordsSettings>({
+  key: 'voiceMode',
+  info: 'With soprano mode, the note in question will be played on top. \n' +
+    'With bass mode, the note in question will be played at the bottom (affectively changing the chord inversion)',
+  descriptor: {
+    label: 'Voice Mode',
+    controlType: 'SELECT',
+    options: [
+      {
+        label: 'Soprano',
+        value: 'soprano',
+      },
+      {
+        label: 'Bass',
+        value: 'bass',
+      },
+    ],
+  },
+  defaultValue: 'soprano',
+})
 @IncludedAnswersSetting<NoteWithChord, NoteWithChordsSettings>({
   default: [
     'Do1',
@@ -243,18 +268,22 @@ type NoteWithChordsSettings = TonalExerciseSettings<NoteWithChord> & IncludedAns
     'Do5',
   ],
 })
-export class NotesWithChordsExercise extends BaseTonalExercise<NoteWithChord> {
+export class NotesWithChordsExercise extends BaseTonalExercise<NoteWithChord, NoteWithChordsSettings> {
   readonly id: string = 'notesWithChords';
   readonly name: string = 'Notes with Chords';
   readonly summary: string = 'Identify scale degrees in the context of different diatonic chords';
   readonly explanation: Exercise.ExerciseExplanationContent = NotesWithChordsExplanationComponent;
+  readonly voiceModeToRange: Record<NoteWithChordsSettings['voiceMode'], NotesRange> = {
+    soprano: new NotesRange('C4', 'G5'),
+    bass: new NotesRange('G2', 'B3'),
+  }
 
-  protected _getAllAnswersListInC(): Exercise.AnswerList<NoteWithChord> {
-    const solfegeSyllables = ['Do', 'Re', 'Mi', 'Fa', 'Sol', 'La', 'Ti'] as const;
-    const chordDegrees = [1, 2, 3, 4, 5, 6, 7] as const;
-    return {
-      rows: chordDegrees.map(chordDegree => solfegeSyllables.map((solfegeNote): NoteWithChord => `${solfegeNote}${chordDegree}`)),
-    };
+  constructor() {
+    super();
+  }
+
+  get voiceRange(): NotesRange {
+    return this._getRangeForKeyOfC(this.voiceModeToRange[this._settings.voiceMode])
   }
 
   getQuestionInC(): Exclude<Exercise.Question<NoteWithChord>, "cadence"> {
@@ -271,15 +300,34 @@ export class NotesWithChordsExercise extends BaseTonalExercise<NoteWithChord> {
     const chord: Chord = romanNumeralToChordInC[descriptor.chord]!;
     const noteType: NoteType = solfegeToNoteInC[descriptor.solfegeNote]!;
 
-    const chordVoicing: Note[] = chord.getVoicing({
+    let chordVoicing: Note[] = chord.getVoicing({
       topVoicesInversion: randomFromList([0, 1, 2]),
-      octave: 3,
+      octave: 4,
+      withBass: false,
     });
 
-    let note = noteTypeToNote(noteType, 4);
+    const possibleNotesToSelect: Note[] = this.voiceRange.getAllNotes([noteType]);
+    let note: Note = randomFromList(possibleNotesToSelect);
 
-    while (toNoteNumber(note) <= toNoteNumber(_.last(chordVoicing)!)) {
-      note = transpose(note, Interval.Octave);
+    if (this._settings.voiceMode === 'soprano') {
+      while (toNoteNumber(note) < toNoteNumber(_.last(chordVoicing)!)) {
+        chordVoicing = Chord.invertVoicing(chordVoicing, Direction.Down);
+      }
+    } else {
+      console.log('note', note);
+      console.log('chordVoicing', chordVoicing);
+      while (toNoteNumber(note) > toNoteNumber(_.first(chordVoicing)!)) {
+        chordVoicing = Chord.invertVoicing(chordVoicing, Direction.Up);
+      }
+    }
+
+    if (this._settings.voiceMode === 'soprano') {
+      let bass = chord.getBass();
+      if (toNoteNumber(_.last(bass)!) > toNoteNumber(_.first(chordVoicing)!)) {
+        bass = transpose(bass, -Interval.Octave)
+      }
+
+      chordVoicing.unshift(...bass);
     }
 
     return {
@@ -289,7 +337,7 @@ export class NotesWithChordsExercise extends BaseTonalExercise<NoteWithChord> {
           partToPlay: [
             {
               notes: chordVoicing,
-              velocity: 0.2,
+              velocity: 0.3,
               time: 0,
               duration: '2n',
             },
@@ -303,5 +351,13 @@ export class NotesWithChordsExercise extends BaseTonalExercise<NoteWithChord> {
         },
       ],
     }
+  }
+
+  protected _getAllAnswersListInC(): Exercise.AnswerList<NoteWithChord> {
+    const solfegeSyllables = ['Do', 'Re', 'Mi', 'Fa', 'Sol', 'La', 'Ti'] as const;
+    const chordDegrees = [1, 2, 3, 4, 5, 6, 7] as const;
+    return {
+      rows: chordDegrees.map(chordDegree => solfegeSyllables.map((solfegeNote): NoteWithChord => `${solfegeNote}${chordDegree}`)),
+    };
   }
 }

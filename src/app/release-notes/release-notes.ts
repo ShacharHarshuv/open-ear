@@ -85,4 +85,8 @@ export const releaseNotes: ReleaseNotes = [
     version: '1.2.14',
     notes: 'Add more chord degrees options'
   },
+  {
+    version: '1.3.1',
+    notes: 'Bass voice mode for Notes with Chord: Use it to learn how different bass notes sounds like under different chords. (essentially creating inversions or interesting suspensions)'
+  },
 ]

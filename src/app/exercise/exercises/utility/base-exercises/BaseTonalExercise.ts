@@ -3,6 +3,7 @@ import {
   OneOrMany,
   randomFromList,
   toGetter,
+  NotesRange,
 } from '../../../utility';
 import { Exercise } from '../../../Exercise';
 import { transpose } from '../../../utility/music/transpose';
@@ -106,6 +107,13 @@ export abstract class BaseTonalExercise<GAnswer extends string = string, GSettin
   }
 
   protected abstract _getAllAnswersListInC(): Exercise.AnswerList<GAnswer>;
+
+  /**
+   * Use when you want to limit question heard range
+   * */
+  protected _getRangeForKeyOfC(rangeForPlaying: NotesRange): NotesRange {
+    return transpose(rangeForPlaying, getDistanceOfKeys('C', this.key));
+  }
 
   private _transposeToKey(partOrNotes: Note): Note;
   private _transposeToKey(partOrNotes: NoteType): NoteType;
