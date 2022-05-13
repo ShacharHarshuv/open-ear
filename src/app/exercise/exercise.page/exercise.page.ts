@@ -1,6 +1,4 @@
-import {
-  Component,
-} from '@angular/core';
+import { Component } from '@angular/core';
 import { ExerciseStateService } from './state/exercise-state.service';
 import {
   ModalController,
@@ -11,12 +9,15 @@ import { ExerciseSettingsPage } from './components/exercise-settings.page/exerci
 import * as _ from 'lodash';
 import { ExerciseExplanationService } from './state/exercise-explanation.service';
 import { Exercise } from '../Exercise';
-import AnswerConfig = Exercise.AnswerConfig;
 import { BaseComponent } from '../../shared/ts-utility';
 import {
   takeUntil,
   finalize,
+  switchMap,
+  map,
 } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
+import AnswerConfig = Exercise.AnswerConfig;
 
 @Component({
   selector: 'app-exercise-page',
@@ -28,6 +29,8 @@ import {
   ],
 })
 export class ExercisePage extends BaseComponent {
+  private _hideMessage$ = new BehaviorSubject<boolean>(false);
+
   wrongAnswers: string[] = [];
   rightAnswer: string | null = null;
   isMenuOpened: boolean = false;
@@ -89,8 +92,12 @@ export class ExercisePage extends BaseComponent {
         getAnswerDisplay: (answer: string | null): string | null => this.state.getAnswerDisplay(answer),
       },
     });
+    this._hideMessage$.next(true);
     await modal.present();
-    this.state.updateSettings((await modal.onDidDismiss()).data);
+    await this.state.stop();
+    const data = (await modal.onDidDismiss()).data;
+    this._hideMessage$.next(false);
+    this.state.updateSettings(data);
   }
 
   private async _init(): Promise<void> {
@@ -121,10 +128,16 @@ export class ExercisePage extends BaseComponent {
     let lastToaster: HTMLIonToastElement | null = null;
     this.state.message$
       .pipe(
+        switchMap((message) => {
+          return this._hideMessage$
+            .pipe(
+              map(hideMessage => hideMessage ? null : message),
+            );
+        }),
         takeUntil(this._destroy$),
         finalize(() => {
           lastToaster?.dismiss();
-        })
+        }),
       )
       .subscribe(message => {
         if (lastToaster) {
