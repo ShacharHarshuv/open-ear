@@ -15,7 +15,7 @@ export interface ProgressionInSongFromYouTubeDescriptor {
   endSeconds: number,
 }
 
-export const chordsInRealSongsDescriptorList: ProgressionInSongFromYouTubeDescriptor[] = [
+export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<ProgressionInSongFromYouTubeDescriptor>> = [
   {
     key: 'D',
     mode: 'MAJOR',
