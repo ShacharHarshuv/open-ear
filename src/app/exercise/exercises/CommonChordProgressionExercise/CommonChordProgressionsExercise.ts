@@ -89,7 +89,7 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
     {
       romanNumerals: ['I', 'vi', 'iii', 'IV'],
     },
-    // Diatonic Minor progressions
+     // Diatonic Minor (Harmonic / Natural) progressions
     {
       romanNumerals: ['i', 'V', 'i'],
       cadenceType: 'i iv V i',
@@ -148,6 +148,11 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
     {
       romanNumerals: ['i', '♭VI', '♭III', 'iv'],
       cadenceType: 'i iv V i',
+    },
+    {
+      romanNumerals: ['i', '♭VII', 'v', '♭VI'],
+      cadenceType: 'i iv V i',
+      name: '"Can\'t Stop"'
     },
     // Diatonic Dorian progressions
     {

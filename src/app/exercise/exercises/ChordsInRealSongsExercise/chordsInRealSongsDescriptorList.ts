@@ -1925,4 +1925,229 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
     ],
     endSeconds: 77.52,
   },
+  {
+    name: 'Can\'t Stop',
+    artist: 'Radiohead',
+    key: 'E',
+    mode: 'MINOR',
+    videoId: '8DyziWtkfBw',
+    chords: [
+      {
+        chord: 'i',
+        seconds: 34.22,
+      },
+      {
+        chord: '♭VII',
+        seconds: 36.29,
+      },
+      {
+        chord: 'v',
+        seconds: 38.9,
+      },
+      {
+        chord: '♭VI',
+        seconds: 41.52,
+      },
+    ],
+    endSeconds: 44.1,
+  },
+  {
+    name: 'Attention',
+    artist: 'Charlie Puth',
+    mode: 'MINOR',
+    videoId: 'nfs8NYg7yQM',
+    key: 'Eb',
+    chords: [
+      {
+        chord: 'i',
+        seconds: 106,
+      },
+      {
+        chord: '♭VII',
+        seconds: 108.31,
+      },
+      {
+        chord: 'v',
+        seconds: 110.61,
+      },
+      {
+        chord: '♭VI',
+        seconds: 113.05,
+      },
+    ],
+    endSeconds: 115.42 ,
+  },
+  {
+    name: 'Sweet Dreams',
+    artist: 'Beyoncé',
+    mode: 'MINOR',
+    videoId: 'JlxByc0-V40',
+    key: 'Eb',
+    chords: [
+      {
+        chord: 'i',
+        seconds: 73.55,
+      },
+      {
+        chord: '♭VII',
+        seconds: 75.42,
+      },
+      {
+        chord: 'v',
+        seconds: 77.33,
+      },
+      {
+        chord: '♭VI',
+        seconds: 79.36,
+      },
+    ],
+    endSeconds: 81.27 ,
+  },
+  {
+    name: 'Can\'t Hold Us',
+    artist: 'Macklemore & Ryan Lewis ',
+    mode: 'MINOR',
+    videoId: '2zNSgSzhBfM',
+    key: 'E',
+    chords: [
+      {
+        chord: 'i',
+        seconds: 165,
+      },
+      {
+        chord: '♭VII',
+        seconds: 166.46,
+      },
+      {
+        chord: 'v',
+        seconds: 168.1,
+      },
+      {
+        chord: '♭VI',
+        seconds: 169.74,
+      },
+    ],
+    endSeconds: 171.31,
+  },
+  {
+    name: 'Hello',
+    artist: 'Adele',
+    mode: 'MINOR',
+    videoId: 'YQHsXMglC9A',
+    section: 'Pre-Chorus',
+    key: 'E',
+    chords: [
+      {
+        chord: 'i',
+        seconds: 130,
+      },
+      {
+        chord: '♭VII',
+        seconds: 130.79,
+      },
+      {
+        chord: 'v',
+        seconds: 132.56,
+      },
+      {
+        chord: '♭VI',
+        seconds: 133.69,
+      },
+      {
+        chord: 'i',
+        seconds: 135.72,
+      },
+      {
+        chord: '♭VII',
+        seconds: 136.79,
+      },
+      {
+        chord: '♭VI',
+        seconds: 138.1,
+      },
+    ],
+    endSeconds: 141.85,
+  },
+  {
+    name: 'Someone New',
+    artist: 'Hozier',
+    mode: 'MINOR',
+    videoId: 'bPJSsAr2iu0',
+    key: 'E',
+    chords: [
+      {
+        chord: 'i',
+        seconds: 55,
+      },
+      {
+        chord: '♭VII',
+        seconds: 56.32,
+      },
+      {
+        chord: 'v',
+        seconds: 57.58,
+      },
+      {
+        chord: '♭VI',
+        seconds: 58.77,
+      },
+    ],
+    endSeconds: 60.12,
+  },
+  {
+    name: 'The Zephyr Song',
+    artist: 'Red Hot Chilli Peppers',
+    mode: 'MINOR',
+    videoId: '0fcRa5Z6LmU',
+    key: 'A',
+    chords: [
+      {
+        chord: 'i',
+        seconds: 17,
+      },
+      {
+        chord: '♭VII',
+        seconds: 18.82,
+      },
+      {
+        chord: 'v',
+        seconds: 20.86,
+      },
+      {
+        chord: '♭VI',
+        seconds: 22.88,
+      },
+    ],
+    endSeconds: 25.03,
+  },
+  {
+    name: 'Who\'s that Girl',
+    artist: 'Eurythmics',
+    mode: 'MINOR',
+    videoId: '-5iDKWV6Chg',
+    key: 'A',
+    chords: [
+      {
+        chord: 'i',
+        seconds: 68,
+      },
+      {
+        chord: '♭VII',
+        seconds: 69.54,
+      },
+      {
+        chord: 'v',
+        seconds: 71.49,
+      },
+      {
+        chord: '♭VI',
+        seconds: 73.52,
+      },
+      {
+        chord: '♭VII',
+        seconds: 74.48,
+      },
+    ],
+    endSeconds: 75.5,
+  },
 ]
