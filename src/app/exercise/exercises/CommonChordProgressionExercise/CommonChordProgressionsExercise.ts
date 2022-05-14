@@ -149,6 +149,17 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
       romanNumerals: ['i', '♭VI', '♭III', 'iv'],
       cadenceType: 'i iv V i',
     },
+    // Diatonic Dorian progressions
+    {
+      romanNumerals: ['i', 'IV', 'i', 'IV'],
+      cadenceType: 'i iv V i',
+      name: 'Dorian Vamp'
+    },
+    {
+      romanNumerals: ['i', '♭III', '♭VI', 'IV'],
+      cadenceType: 'i iv V i',
+      name: 'Plagal Cascade',
+    },
     // Non-diatonic progressions
     {
       romanNumerals: ['I', 'IV', 'iv', 'I'],

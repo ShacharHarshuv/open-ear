@@ -1731,5 +1731,198 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
     ],
     "endSeconds": 75.37
   },
-
+  {
+    name: 'Wonderfall',
+    artist: 'Oasis',
+    key: 'F#',
+    mode: 'MINOR',
+    videoId: '6hzrDeceEKc',
+    chords: [
+      {
+        chord: 'i',
+        seconds: 65.76,
+      },
+      {
+        chord: '♭III',
+        seconds: 67.11,
+      },
+      {
+        chord: '♭VII',
+        seconds: 68.51,
+      },
+      {
+        chord: 'IV',
+        seconds: 69.9,
+      },
+    ],
+    endSeconds: 71.19,
+  },
+  {
+    name: 'Boulevard of Broken Dreams',
+    artist: 'Green Day',
+    key: 'F',
+    mode: 'MINOR',
+    videoId: 'Soa3gO7tL-c',
+    chords: [
+      {
+        chord: 'i',
+        seconds: 54.6,
+      },
+      {
+        chord: '♭III',
+        seconds: 56.1,
+      },
+      {
+        chord: '♭VII',
+        seconds: 57.57,
+      },
+      {
+        chord: 'IV',
+        seconds: 58.97,
+      },
+      {
+        chord: 'i',
+        seconds: 60.47,
+      },
+    ],
+    endSeconds: 61.16,
+  },
+  {
+    name: 'Mad World',
+    artist: 'Gray Jules',
+    key: 'F',
+    mode: 'MINOR',
+    videoId: '4N3N1MlvVc4',
+    chords: [
+      {
+        chord: 'i',
+        seconds: 17.42,
+      },
+      {
+        chord: '♭III',
+        seconds: 20.12,
+      },
+      {
+        chord: '♭VII',
+        seconds: 22.75,
+      },
+      {
+        chord: 'IV',
+        seconds: 25.53,
+      },
+    ],
+    endSeconds: 28.42,
+  },
+  {
+    name: 'D\'You Know What I Mean?',
+    artist: 'Oasis',
+    key: 'B',
+    mode: 'MINOR',
+    videoId: 'jyJU2136ym4',
+    chords: [
+      {
+        chord: 'i',
+        seconds: 76.13,
+      },
+      {
+        chord: '♭III',
+        seconds: 77.5,
+      },
+      {
+        chord: '♭VII',
+        seconds: 78.98,
+      },
+      {
+        chord: 'IV',
+        seconds: 80.44,
+      },
+      {
+        chord: 'i',
+        seconds: 81.98,
+      },
+    ],
+    endSeconds: 83.51,
+  },
+  {
+    name: 'Pumped Up Kicks',
+    artist: 'Foster The People',
+    key: 'F',
+    mode: 'MINOR',
+    videoId: 'SDTZ7iX4vTQ',
+    chords: [
+      {
+        chord: 'i',
+        seconds: 75.52,
+      },
+      {
+        chord: '♭III',
+        seconds: 77.37,
+      },
+      {
+        chord: '♭VII',
+        seconds: 79.2,
+      },
+      {
+        chord: 'IV',
+        seconds: 81.12,
+      },
+    ],
+    endSeconds: 82.94,
+  },
+  {
+    name: 'Radioactive',
+    artist: 'Imagine dragons',
+    key: 'E',
+    mode: 'MINOR',
+    videoId: 'ktvTqknDobU',
+    chords: [
+      {
+        chord: 'i',
+        seconds: 89.6,
+      },
+      {
+        chord: '♭III',
+        seconds: 91.04,
+      },
+      {
+        chord: '♭VII',
+        seconds: 92.83,
+      },
+      {
+        chord: 'IV',
+        seconds: 94.65,
+      },
+    ],
+    endSeconds: 96.32,
+  },
+  {
+    name: 'What Goes Around... Comes Around ',
+    artist: 'Justin Timberlake',
+    key: 'A',
+    mode: 'MINOR',
+    videoId: 'm2Kcv-Pmwkg',
+    chords: [
+      {
+        chord: 'i',
+        seconds: 69.4,
+      },
+      {
+        chord: '♭III',
+        seconds: 71.05,
+      },
+      {
+        chord: '♭VII',
+        seconds: 72.61,
+      },
+      {
+        chord: 'IV',
+        seconds: 74.18,
+      },
+      {
+        chord: 'i',
+        seconds: 75.79,
+      }
+    ],
+    endSeconds: 77.52,
+  },
 ]
