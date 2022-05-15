@@ -89,6 +89,9 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
     {
       romanNumerals: ['I', 'vi', 'iii', 'IV'],
     },
+    {
+      romanNumerals: ['I', 'V', 'ii', 'IV']
+    },
      // Diatonic Minor (Harmonic / Natural) progressions
     {
       romanNumerals: ['i', 'V', 'i'],

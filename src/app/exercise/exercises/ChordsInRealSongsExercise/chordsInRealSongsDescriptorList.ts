@@ -2150,4 +2150,290 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
     ],
     endSeconds: 75.5,
   },
+  {
+    name: 'SOS',
+    artist: 'ABBA',
+    mode: 'MAJOR',
+    videoId: 'cvChjHcABPA',
+    key: 'A',
+    chords: [
+      {
+        chord: 'I',
+        seconds: 44.55,
+      },
+      {
+        chord: 'V',
+        seconds: 45.29,
+      },
+      {
+        chord: 'ii',
+        seconds: 46.28,
+      },
+      {
+        chord: 'IV',
+        seconds: 47.28,
+      },
+    ],
+    endSeconds: 48.23,
+  },
+  {
+    name: 'Believe',
+    artist: 'Cher',
+    mode: 'MAJOR',
+    videoId: 'nZXRV4MezEw',
+    key: 'A',
+    chords: [
+      {
+        chord: 'I',
+        seconds: 58.55,
+      },
+      {
+        chord: 'V',
+        seconds: 60.35,
+      },
+      {
+        chord: 'ii',
+        seconds: 62.18,
+      },
+      {
+        chord: 'IV',
+        seconds: 63.95,
+      },
+    ],
+    endSeconds: 65.66,
+  },
+  {
+    name: 'All Star',
+    artist: 'Smash Mouth',
+    mode: 'MAJOR',
+    videoId: 'L_jWHffIx5E',
+    key: 'F#',
+    chords:  [
+      {
+        chord: 'I',
+        seconds: 56.23,
+      },
+      {
+        chord: 'V',
+        seconds: 57.33,
+      },
+      {
+        chord: 'ii',
+        seconds: 58.47,
+      },
+      {
+        chord: 'IV',
+        seconds: 59.63,
+      },
+    ],
+    endSeconds: 60.79,
+  },
+  {
+    name: 'Singing In My Sleep',
+    artist: 'Semisonic',
+    mode: 'MAJOR',
+    videoId: 'zhS3YP04Fjk',
+    key: 'E',
+    chords:  [
+      {
+        chord: 'I',
+        seconds: 75.69,
+      },
+      {
+        chord: 'V',
+        seconds: 77.35,
+      },
+      {
+        chord: 'ii',
+        seconds: 79.09,
+      },
+      {
+        chord: 'IV',
+        seconds: 80.85,
+      },
+    ],
+    endSeconds: 82.55,
+  },
+  {
+    name: 'Closing Time',
+    artist: 'Semisonic',
+    mode: 'MAJOR',
+    videoId: 'xGytDsqkQY8',
+    key: 'G',
+    chords:  [
+      {
+        chord: 'I',
+        seconds: 17.49,
+      },
+      {
+        chord: 'V',
+        seconds: 18.55,
+      },
+      {
+        chord: 'ii',
+        seconds: 19.83,
+      },
+      {
+        chord: 'IV',
+        seconds: 21.15,
+      },
+    ],
+    endSeconds: 22.42,
+  },
+  {
+    name: 'Hot N Cold',
+    artist: 'Katy Perry',
+    mode: 'MAJOR',
+    videoId: 'kTHNpusq654',
+    key: 'G',
+    chords:  [
+      {
+        chord: 'I',
+        seconds: 65.38,
+      },
+      {
+        chord: 'V',
+        seconds: 67.11,
+      },
+      {
+        chord: 'ii',
+        seconds: 68.98,
+      },
+      {
+        chord: 'IV',
+        seconds: 70.83,
+      },
+    ],
+    endSeconds: 72.56,
+  },
+  {
+    name: 'Archi, Marry Me',
+    artist: 'Alvvays',
+    mode: 'MAJOR',
+    videoId: 'ZAn3JdtSrnY',
+    key: 'G',
+    chords:  [
+      {
+        chord: 'I',
+        seconds: 51.57,
+      },
+      {
+        chord: 'V',
+        seconds: 53.38,
+      },
+      {
+        chord: 'ii',
+        seconds: 55.38,
+      },
+      {
+        chord: 'IV',
+        seconds: 57.41,
+      },
+    ],
+    endSeconds: 59.41,
+  },
+  {
+    name: 'Irreplaceable',
+    artist: 'Beyoncé',
+    mode: 'MAJOR',
+    videoId: '2EwViQxSJJQ',
+    key: 'F',
+    chords:  [
+      {
+        chord: 'I',
+        seconds: 62.61,
+      },
+      {
+        chord: 'V',
+        seconds: 65.32,
+      },
+      {
+        chord: 'ii',
+        seconds: 68.02,
+      },
+      {
+        chord: 'IV',
+        seconds: 70.78,
+      },
+    ],
+    endSeconds: 73.4,
+  },
+  {
+    name: 'Just Like Heaven',
+    artist: 'The Cure',
+    mode: 'MAJOR',
+    videoId: 'n3nPiBai66M',
+    key: 'A',
+    chords:  [
+      {
+        chord: 'I',
+        seconds: 50.99,
+      },
+      {
+        chord: 'V',
+        seconds: 52.56,
+      },
+      {
+        chord: 'ii',
+        seconds: 54.19,
+      },
+      {
+        chord: 'IV',
+        seconds: 55.64,
+      },
+    ],
+    endSeconds: 57.21,
+  },
+  {
+    name: 'I\'m Like A Bird',
+    artist: 'Nelly Furtado',
+    mode: 'MAJOR',
+    videoId: 'roPQ_M3yJTA',
+    key: 'Bb',
+    chords:  [
+      {
+        chord: 'I',
+        seconds: 55.3,
+      },
+      {
+        chord: 'V',
+        seconds: 57.88,
+      },
+      {
+        chord: 'ii',
+        seconds: 60.63,
+      },
+      {
+        chord: 'IV',
+        seconds: 63.31,
+      },
+    ],
+    endSeconds: 65.95,
+  },
+  {
+    name: 'Scott Street',
+    artist: 'Pheobe Bridgers',
+    mode: 'MAJOR',
+    videoId: 'roPQ_M3yJTA',
+    key: 'Bb',
+    chords:  [
+      {
+        chord: 'I',
+        seconds: 55.3,
+      },
+      {
+        chord: 'V',
+        seconds: 57.88,
+      },
+      {
+        chord: 'ii',
+        seconds: 60.63,
+      },
+      {
+        chord: 'IV',
+        seconds: 63.31,
+      },
+    ],
+    endSeconds: 65.95,
+  },
 ]
