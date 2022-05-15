@@ -30,6 +30,7 @@ import AnswerConfig = Exercise.AnswerConfig;
 })
 export class ExercisePage extends BaseComponent {
   private _hideMessage$ = new BehaviorSubject<boolean>(false);
+  private _developerModeActivationCount: number = 0;
 
   wrongAnswers: string[] = [];
   rightAnswer: string | null = null;
@@ -161,5 +162,25 @@ export class ExercisePage extends BaseComponent {
           toaster.present();
         })
       })
+  }
+
+  async onTitleClick(): Promise<void> {
+    // if first click in sequence
+    if (this._developerModeActivationCount === 0) {
+      setTimeout(() => {
+        this._developerModeActivationCount = 0;
+      }, 1e3);
+    }
+
+    if (this._developerModeActivationCount >= 3) {
+      console.log();
+      const alert = await this._alertController.create({
+        message: `<pre>${JSON.stringify(this.state.lastPlayed, null, 2)}</pre>`,
+      });
+      await alert.present();
+      this._developerModeActivationCount = 0;
+    } else {
+      this._developerModeActivationCount++;
+    }
   }
 }

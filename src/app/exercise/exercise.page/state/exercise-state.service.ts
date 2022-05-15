@@ -63,6 +63,10 @@ export class ExerciseStateService implements OnDestroy {
   ) {
   }
 
+  get lastPlayed(): PartToPlay[] | null {
+    return this._notesPlayer.lastPlayed;
+  }
+
   get globalSettings(): GlobalExerciseSettings {
     return this._globalSettings;
   }

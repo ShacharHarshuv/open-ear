@@ -71,9 +71,14 @@ export class PlayerService {
   private _onPartFinished$ = new Subject<void>();
   private _partsToPlay: PartToPlay[] = [];
   private _onAllPartsFinished$ = new Subject<void>();
+  private _lastPlayed: PartToPlay[] | null = null;
 
   get bpm(): number {
     return Tone.Transport.bpm.value;
+  }
+
+  get lastPlayed(): PartToPlay[] | null {
+    return this._lastPlayed;
   }
 
   constructor() {
@@ -125,6 +130,8 @@ export class PlayerService {
   }
 
   async playMultipleParts(parts: PartToPlay[]): Promise<void> {
+    this._lastPlayed = parts;
+
     // stop previous playMultipleParts if exists
     this._partsToPlay = [];
     this._stopCurrentlyPlayingAndClearTransport();
