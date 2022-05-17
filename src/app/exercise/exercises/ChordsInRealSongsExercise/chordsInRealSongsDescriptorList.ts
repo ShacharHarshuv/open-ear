@@ -20,6 +20,8 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
     key: 'D',
     mode: 'MAJOR',
     videoId: 'Bg59q4puhmg',
+    name: 'Girlfriend',
+    artist: 'Avril Lavigne',
     chords: [
       {
         seconds: 36,
@@ -2181,7 +2183,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
     artist: 'Cher',
     mode: 'MAJOR',
     videoId: 'nZXRV4MezEw',
-    key: 'A',
+    key: 'F#',
     chords: [
       {
         chord: 'I',
@@ -2414,26 +2416,551 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
     name: 'Scott Street',
     artist: 'Pheobe Bridgers',
     mode: 'MAJOR',
-    videoId: 'roPQ_M3yJTA',
+    videoId: 'BBBxzmyeNdw',
     key: 'Bb',
     chords:  [
       {
         chord: 'I',
-        seconds: 55.3,
+        seconds: 15.87,
       },
       {
         chord: 'V',
-        seconds: 57.88,
+        seconds: 17.59,
       },
       {
         chord: 'ii',
-        seconds: 60.63,
+        seconds: 19.33,
       },
       {
         chord: 'IV',
-        seconds: 63.31,
+        seconds: 21.17,
       },
     ],
-    endSeconds: 65.95,
+    endSeconds: 22.87,
+  },
+  // Axis progression IV-rotation
+  {
+    name: 'What\'s my age again?',
+    artist: 'blink-182',
+    mode: 'MAJOR',
+    videoId: 'K7l5ZeVVoCA',
+    key: 'F#',
+    chords:  [
+      {
+        chord: 'I',
+        seconds: 55.7,
+      },
+      {
+        chord: 'V',
+        seconds: 56.54,
+      },
+      {
+        chord: 'vi',
+        seconds: 57.28,
+      },
+      {
+        chord: 'IV',
+        seconds: 58.01,
+      },
+    ],
+    endSeconds: 58.73,
+  },
+  {
+    name: 'Higher Love',
+    artist: 'Steve Winwood',
+    mode: 'MAJOR',
+    videoId: 'k9olaIio3l8',
+    key: 'F',
+    chords:  [
+      {
+        chord: 'IV',
+        seconds: 50.06,
+      },
+      {
+        chord: 'I',
+        seconds: 51.26,
+      },
+      {
+        chord: 'V',
+        seconds: 52.51,
+      },
+      {
+        chord: 'vi',
+        seconds: 53.8,
+      },
+    ],
+    endSeconds: 54.89,
+  },
+  {
+    name: 'Dragonstea Din Tei',
+    artist: 'O-Zone',
+    mode: 'MAJOR',
+    videoId: 'YnopHCL1Jk8',
+    key: 'C',
+    chords:  [
+      {
+        chord: 'IV',
+        seconds: 115.05,
+      },
+      {
+        chord: 'I',
+        seconds: 116.86,
+      },
+      {
+        chord: 'V',
+        seconds: 118.65,
+      },
+      {
+        chord: 'vi',
+        seconds: 120.46,
+      },
+    ],
+    endSeconds: 122.35,
+  },
+  {
+    name: 'Boulevard Of Broken Dreams',
+    artist: 'Green Day ',
+    mode: 'MAJOR',
+    section: 'Chorus',
+    videoId: 'Soa3gO7tL-c',
+    key: 'Ab',
+    chords:  [
+      {
+        chord: 'IV',
+        seconds: 77.69,
+      },
+      {
+        chord: 'I',
+        seconds: 79,
+      },
+      {
+        chord: 'V',
+        seconds: 80.61,
+      },
+      {
+        chord: 'vi',
+        seconds: 81.93,
+      },
+    ],
+    endSeconds: 83.47,
+  },
+  {
+    name: 'Radar Love',
+    artist: 'Goldern Earing',
+    mode: 'MAJOR',
+    section: 'Chorus',
+    videoId: 'ckM51xoTC2U',
+    key: 'A',
+    chords:  [
+      {
+        chord: 'IV',
+        seconds: 79.03,
+      },
+      {
+        chord: 'I',
+        seconds: 80.24,
+      },
+      {
+        chord: 'V',
+        seconds: 81.46,
+      },
+      {
+        chord: 'vi',
+        seconds: 82.56,
+      },
+    ],
+    endSeconds: 83.97,
+  },
+  {
+    name: 'Elastic Heart',
+    artist: 'Sia',
+    mode: 'MAJOR',
+    section: 'Chorus',
+    videoId: 'KWZGAExj-es',
+    key: 'A',
+    chords:  [
+      {
+        chord: 'IV',
+        seconds: 61.31,
+      },
+      {
+        chord: 'I',
+        seconds: 62.67,
+      },
+      {
+        chord: 'V',
+        seconds: 64.65,
+      },
+      {
+        chord: 'vi',
+        seconds: 66.52,
+      },
+    ],
+    endSeconds: 68.34,
+  },
+  {
+    name: 'Big Girls Don\'t Cry',
+    artist: 'Fergie',
+    mode: 'MAJOR',
+    section: 'Chorus',
+    videoId: 'agrXgrAgQ0U',
+    key: 'G',
+    chords:  [
+      {
+        chord: 'IV',
+        seconds: 82.61,
+      },
+      {
+        chord: 'I',
+        seconds: 84.78,
+      },
+      {
+        chord: 'V',
+        seconds: 86.89,
+      },
+      {
+        chord: 'vi',
+        seconds: 89,
+      },
+    ],
+    endSeconds: 91.12,
+  },
+  {
+    name: 'Let Her Go',
+    artist: 'Passenger',
+    mode: 'MAJOR',
+    section: 'Chorus',
+    videoId: 'RBumgq5yVrA',
+    key: 'G',
+    chords:  [
+      {
+        chord: 'IV',
+        seconds: 103.67,
+      },
+      {
+        chord: 'I',
+        seconds: 105.24,
+      },
+      {
+        chord: 'V',
+        seconds: 106.89,
+      },
+      {
+        chord: 'vi',
+        seconds: 108.41,
+      },
+    ],
+    endSeconds: 110.05,
+  },
+  {
+    name: 'Bad Blood',
+    artist: 'Taylor Swift',
+    mode: 'MAJOR',
+    section: 'Chorus',
+    videoId: 'QcIy9NiNbmo',
+    key: 'G',
+    chords:  [
+      {
+        chord: 'IV',
+        seconds: 187,
+      },
+      {
+        chord: 'I',
+        seconds: 188.13,
+      },
+      {
+        chord: 'V',
+        seconds: 189.39,
+      },
+      {
+        chord: 'vi',
+        seconds: 190.86,
+      },
+    ],
+    endSeconds: 192.7,
+  },
+  {
+    name: 'Mine',
+    artist: 'Taylor Swift',
+    mode: 'MAJOR',
+    section: 'Chorus',
+    videoId: 'XPBwXKgDTdE',
+    key: 'G',
+    chords:  [
+      {
+        chord: 'IV',
+        seconds: 49,
+      },
+      {
+        chord: 'I',
+        seconds: 51.06,
+      },
+      {
+        chord: 'V',
+        seconds: 53.03,
+      },
+      {
+        chord: 'vi',
+        seconds: 55,
+      },
+    ],
+    endSeconds: 56.94,
+  },
+  {
+    name: 'We Are Never Ever Getting Back Together',
+    artist: 'Taylor Swift',
+    mode: 'MAJOR',
+    section: 'Chorus',
+    videoId: 'WA4iX5D9Z64',
+    key: 'G',
+    chords:  [
+      {
+        chord: 'IV',
+        seconds: 43,
+      },
+      {
+        chord: 'I',
+        seconds: 44.27,
+      },
+      {
+        chord: 'V',
+        seconds: 45.65,
+      },
+      {
+        chord: 'vi',
+        seconds: 47.04,
+      },
+    ],
+    endSeconds: 48.41,
+  },
+  {
+    name: 'Misery Business',
+    artist: 'Paramore',
+    mode: 'MAJOR',
+    section: 'Chorus',
+    videoId: 'aCyGvGEtOwc',
+    key: 'Ab',
+    chords:   [
+      {
+        chord: 'IV',
+        seconds: 36.92,
+      },
+      {
+        chord: 'I',
+        seconds: 38.12,
+      },
+      {
+        chord: 'V',
+        seconds: 39.55,
+      },
+      {
+        chord: 'vi',
+        seconds: 40.93,
+      },
+      {
+        chord: 'V',
+        seconds: 41.59,
+      },
+    ],
+    endSeconds: 42.42,
+  },
+  {
+    name: 'Good 4 u',
+    artist: 'Olivia Rodrigo',
+    mode: 'MAJOR',
+    section: 'Chorus',
+    videoId: 'gNi_6U5Pm_o',
+    key: 'Ab',
+    chords:   [
+      {
+        chord: 'IV',
+        seconds: 44.74,
+      },
+      {
+        chord: 'I',
+        seconds: 45.95,
+      },
+      {
+        chord: 'V',
+        seconds: 47.43,
+      },
+      {
+        chord: 'vi',
+        seconds: 49.62,
+      },
+      {
+        chord: 'V',
+        seconds: 50.01,
+      },
+      {
+        chord: 'IV',
+        seconds: 50.44,
+      },
+    ],
+    endSeconds: 51.29,
+  },
+  {
+    name: 'Drive By',
+    artist: 'Train',
+    mode: 'MAJOR',
+    videoId: 'oxqnFJ3lp5k',
+    key: 'E',
+    chords:   [
+      {
+        chord: 'IV',
+        seconds: 48.23,
+      },
+      {
+        chord: 'I',
+        seconds: 50.14,
+      },
+      {
+        chord: 'V',
+        seconds: 52.13,
+      },
+      {
+        chord: 'vi',
+        seconds: 54.01,
+      },
+      {
+        chord: 'V',
+        seconds: 55.01,
+      },
+      {
+        chord: 'IV',
+        seconds: 56,
+      },
+    ],
+    endSeconds: 56.83
+  },
+  {
+    name: 'Drive By',
+    artist: 'Train',
+    mode: 'MAJOR',
+    videoId: 'oxqnFJ3lp5k',
+    key: 'E',
+    chords:   [
+      {
+        chord: 'IV',
+        seconds: 56,
+      },
+      {
+        chord: 'I',
+        seconds: 57.9,
+      },
+      {
+        chord: 'V',
+        seconds: 59.95,
+      },
+      {
+        chord: 'III',
+        seconds: 61.96,
+      },
+    ],
+    endSeconds: 63.89
+  },
+  {
+    name: 'Drive By',
+    artist: 'Train',
+    mode: 'MAJOR',
+    videoId: 'oxqnFJ3lp5k',
+    key: 'E',
+    chords:   [
+      {
+        chord: 'vi',
+        seconds: 16.76,
+      },
+      {
+        chord: 'IV',
+        seconds: 18.64,
+      },
+      {
+        chord: 'I',
+        seconds: 20.7,
+      },
+      {
+        chord: 'V',
+        seconds: 22.59,
+      },
+    ],
+    endSeconds: 24.54
+  },
+  {
+    name: 'Half Of My Heart',
+    artist: 'John Mayer',
+    mode: 'MAJOR',
+    videoId: 'aojTGWAqUIQ',
+    key: 'F',
+    chords: [
+      {
+        chord: 'IV',
+        seconds: 53.7,
+      },
+      {
+        chord: 'I',
+        seconds: 54.47,
+      },
+      {
+        chord: 'V',
+        seconds: 55.5,
+      },
+      {
+        chord: 'vi',
+        seconds: 56.54,
+      },
+    ],
+    endSeconds: 57.73
+  },
+  {
+    name: 'Castle Of Glass',
+    artist: 'Linkin Park',
+    mode: 'MAJOR',
+    videoId: 'ScNNfyq3d_w',
+    key: 'E',
+    chords: [
+      {
+        chord: 'IV',
+        seconds: 126.27,
+      },
+      {
+        chord: 'I',
+        seconds: 128.48,
+      },
+      {
+        chord: 'V',
+        seconds: 130.7,
+      },
+      {
+        chord: 'vi',
+        seconds: 132.83,
+      },
+    ],
+    endSeconds: 135.13
+  },
+  {
+    name: 'Alejandro',
+    artist: 'Lady Gaga',
+    mode: 'MAJOR',
+    videoId: 'niqrrmev4mA',
+    key: 'D',
+    chords: [
+      {
+        chord: 'IV',
+        seconds: 182.27,
+      },
+      {
+        chord: 'I',
+        seconds: 183.46,
+      },
+      {
+        chord: 'V',
+        seconds: 184.66,
+      },
+      {
+        chord: 'vi',
+        seconds: 185.87,
+      },
+    ],
+    endSeconds: 187.1
   },
 ]
