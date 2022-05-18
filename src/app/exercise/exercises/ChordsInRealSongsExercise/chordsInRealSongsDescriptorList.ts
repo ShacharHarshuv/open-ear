@@ -1,9 +1,11 @@
 import { NoteType } from '../../utility/music/notes/NoteType';
 import { RomanNumeralChord } from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
+import { CadenceType } from '../utility/base-exercises/BaseTonalExercise';
 
 export interface ProgressionInSongFromYouTubeDescriptor {
   key: NoteType,
   mode: 'MAJOR' | 'MINOR', // will determinate the cadence to play
+  cadence?: CadenceType, // if not provided, will be determined by the mode
   videoId: string;
   name?: string;
   artist?: string;
