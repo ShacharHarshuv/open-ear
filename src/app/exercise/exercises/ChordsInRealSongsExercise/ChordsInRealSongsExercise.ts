@@ -7,6 +7,7 @@ import {
 import {
   chordsInRealSongsDescriptorList,
   ProgressionInSongFromYouTubeDescriptor,
+  Mode,
 } from './chordsInRealSongsDescriptorList';
 import * as _ from 'lodash';
 import {
@@ -45,13 +46,13 @@ const MAJOR_TO_RELATIVE_MINOR: Partial<Record<RomanNumeralChord, RomanNumeralCho
   viiᵒ: 'iiᵒ',
 }
 
-const TO_RELATIVE_MODE: Record<'major' | 'minor', Partial<Record<RomanNumeralChord, RomanNumeralChord>>> = {
-  major: MAJOR_TO_RELATIVE_MINOR,
-  minor: _.invert(MAJOR_TO_RELATIVE_MINOR),
+const TO_RELATIVE_MODE: Record<Mode.Major | Mode.Minor, Partial<Record<RomanNumeralChord, RomanNumeralChord>>> = {
+  [Mode.Major]: MAJOR_TO_RELATIVE_MINOR,
+  [Mode.Minor]: _.invert(MAJOR_TO_RELATIVE_MINOR),
 }
 
-export function getRelativeKeyTonic(tonic: NoteType, mode: 'major' | 'minor'): NoteType {
-  const differenceToRelativeTonic = mode === 'major' ? -3 : 3;
+export function getRelativeKeyTonic(tonic: NoteType, mode: Mode): NoteType {
+  const differenceToRelativeTonic = mode === Mode.Major ? -3 : 3;
   return toNoteTypeName(mod(toNoteTypeNumber(tonic) + differenceToRelativeTonic, Interval.Octave))
 }
 
@@ -93,7 +94,7 @@ export class ChordsInRealSongsExercise extends BaseExercise<RomanNumeralChord, C
             return {
               ...chordProgression,
               chords: chordsInRelativeKey,
-              mode: chordProgression.mode === 'major' ? 'minor' : 'major',
+              mode: chordProgression.mode === Mode.Major ? Mode.Minor : Mode.Major,
               key: getRelativeKeyTonic(chordProgression.key, chordProgression.mode),
             }
           } else {
@@ -119,9 +120,9 @@ export class ChordsInRealSongsExercise extends BaseExercise<RomanNumeralChord, C
 
   override getQuestion(): Exercise.Question<RomanNumeralChord> {
     const progression: ProgressionInSongFromYouTubeDescriptor = randomFromList(this._getAvailableProgressions())
-    const modeToCadenceInC: Record<'major' | 'minor', NoteEvent[]> = {
-      major: IV_V_I_CADENCE_IN_C,
-      minor: iv_V_i_CADENCE_IN_C,
+    const modeToCadenceInC: Record<Mode.Major | Mode.Minor, NoteEvent[]> = {
+      [Mode.Major]: IV_V_I_CADENCE_IN_C,
+      [Mode.Minor]: iv_V_i_CADENCE_IN_C,
     }
     return {
       type: 'youtube',
@@ -132,7 +133,7 @@ export class ChordsInRealSongsExercise extends BaseExercise<RomanNumeralChord, C
       })),
       endSeconds: progression.endSeconds,
       cadence: transpose(modeToCadenceInC[progression.mode], getDistanceOfKeys(progression.key, 'C')),
-      info: `${progression.name ?? ''}${progression.artist ? ` by ${progression.artist} ` : ''}(${progression.key} ${TitleCasePipe.prototype.transform(progression.mode)})`,
+      info: `${progression.name ?? ''}${progression.artist ? ` by ${progression.artist} ` : ''}(${progression.key} ${TitleCasePipe.prototype.transform(Mode[progression.mode])})`,
     }
   }
 

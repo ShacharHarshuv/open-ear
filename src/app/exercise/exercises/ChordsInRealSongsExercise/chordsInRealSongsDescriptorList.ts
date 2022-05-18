@@ -2,9 +2,21 @@ import { NoteType } from '../../utility/music/notes/NoteType';
 import { RomanNumeralChord } from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
 import { CadenceType } from '../utility/base-exercises/BaseTonalExercise';
 
+export enum Mode {
+  Ionian = 1,
+  Dorian,
+  Phrygian,
+  Lydian,
+  Mixolydian,
+  Aeolian,
+  Locrian,
+  Major = Ionian,
+  Minor = Aeolian,
+}
+
 export interface ProgressionInSongFromYouTubeDescriptor {
   key: NoteType,
-  mode: 'major' | 'minor', // will determinate the cadence to play
+  mode: Mode, // will determinate the cadence to play
   cadence?: CadenceType, // if not provided, will be determined by the mode
   videoId: string;
   name?: string;
@@ -20,7 +32,7 @@ export interface ProgressionInSongFromYouTubeDescriptor {
 export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<ProgressionInSongFromYouTubeDescriptor>> = [
   {
     key: 'D',
-    mode: 'major',
+    mode: Mode.Major,
     videoId: 'Bg59q4puhmg',
     name: 'Girlfriend',
     artist: 'Avril Lavigne',
@@ -46,7 +58,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     key: 'G',
-    mode: 'major',
+    mode: Mode.Major,
     videoId: '2AJ4i4S_fP8',
     name: `It's your love`,
     artist: 'Tim McGraw',
@@ -72,7 +84,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     'key': 'B',
-    'mode': 'major',
+    'mode': Mode.Major,
     'videoId': '1cCBqY2B7lI',
     'name': 'Confusion and Frustration in Modern Times',
     'artist': 'Sum 41',
@@ -118,7 +130,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     'key': 'B',
-    'mode': 'major',
+    'mode': Mode.Major,
     'videoId': '1cCBqY2B7lI',
     'name': 'Confusion and Frustration in Modern Times',
     'artist': 'Sum 41',
@@ -156,7 +168,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "B",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "1cCBqY2B7lI",
     "name": "Confusion and Frustration in Modern Times",
     "artist": "Sum 41",
@@ -190,7 +202,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "B",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "1cCBqY2B7lI",
     "name": "Confusion and Frustration in Modern Times",
     "artist": "Sum 41",
@@ -216,7 +228,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "B",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "1cCBqY2B7lI",
     "name": "Confusion and Frustration in Modern Times",
     "artist": "Sum 41",
@@ -242,7 +254,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "B",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "dZX6Q-Bj_xg",
     "name": "Passion Pit Take A Walk",
     "artist": "MilkMan",
@@ -268,7 +280,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "B",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "dZX6Q-Bj_xg",
     "name": "Passion Pit Take A Walk",
     "artist": "MilkMan",
@@ -294,7 +306,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "B",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "dZX6Q-Bj_xg",
     "name": "Passion Pit Take A Walk",
     "artist": "MilkMan",
@@ -320,7 +332,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "Db",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "CvBfHwUxHIk",
     "name": "Umbrella",
     "artist": "Rihanna",
@@ -346,7 +358,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "F",
-    "mode": 'minor',
+    "mode": Mode.Minor,
     "videoId": "hTWKbfoikeg",
     "name": "Smells Like Teen Spirit",
     "artist": "",
@@ -388,7 +400,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "F",
-    "mode": 'minor',
+    "mode": Mode.Minor,
     "videoId": "hTWKbfoikeg",
     "name": "Smells Like Teen Spirit",
     "artist": "Nirvana",
@@ -430,7 +442,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "F#",
-    "mode": 'minor',
+    "mode": Mode.Minor,
     "videoId": "Zi_XLOBDo_Y",
     "name": "Billie Jean",
     "artist": "Michael Jackson",
@@ -472,7 +484,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "Db",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "1w7OgIMMRc4",
     "name": "Sweet Child O' Mine",
     "artist": "Guns N' Roses",
@@ -498,7 +510,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "Db",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "1w7OgIMMRc4",
     "name": "Sweet Child O' Mine",
     "artist": "Guns N' Roses",
@@ -520,7 +532,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "C",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "QDYfEBY9NM4",
     "name": "Let It Be",
     "artist": "The Beatles",
@@ -546,7 +558,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "C",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "9OQBDdNHmXo",
     "name": "All Too Well",
     "artist": "Taylor Swift",
@@ -572,7 +584,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "C",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "hnK6CoUZZFc",
     "name": "All Too Well",
     "artist": "Taylor Swift",
@@ -598,7 +610,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "A",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "hLQl3WQQoQ0",
     "name": "Someone Like You",
     "artist": "Adele",
@@ -624,7 +636,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "E",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "1k8craCGpgs",
     "name": "Don't Stop Believing",
     "artist": "Journey",
@@ -650,7 +662,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "F",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "aF4CWCXirZ8",
     "name": "Can You Feel The Love Tonight",
     "artist": "Elton John",
@@ -676,7 +688,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "F#",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "i8dh9gDzmz8",
     "name": "When I Come Around",
     "artist": "Green Day",
@@ -702,7 +714,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "Ab",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "moSFlvxnbgk",
     "name": "Let It Go",
     "artist": "Robert and Kristen Anderson-Lopez",
@@ -728,7 +740,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "A",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "kXYiU_JCYtU",
     "name": "Numb",
     "artist": "Linkin Park",
@@ -754,7 +766,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "A",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "fe4EK4HSPkI",
     "name": "Kids",
     "artist": "MGMT",
@@ -780,7 +792,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "A",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "FTQbiNvZqaY",
     "name": "Africa",
     "artist": "Toto",
@@ -806,7 +818,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "A",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "NPBCbTZWnq0",
     "name": "River flows in you",
     "artist": "Yiruma",
@@ -832,7 +844,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "F",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "5NPBIwQyPWE",
     "name": "Complicated",
     "artist": "Avril Lavigne",
@@ -858,7 +870,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "F",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "SR6iYWJxHqs",
     "name": "Grenade",
     "artist": "Bruno Mars",
@@ -884,7 +896,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     key: 'Ab',
-    mode: 'major',
+    mode: Mode.Major,
     videoId: '7I0vkKy504U',
     name: 'San Francisco',
     artist: 'Scott McKenzie',
@@ -910,7 +922,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "C",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "dTa2Bzlbjv0",
     "name": "Save Tonight",
     "artist": "Eagle Eye Cherry",
@@ -936,7 +948,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "G#",
-    "mode": 'minor',
+    "mode": Mode.Minor,
     "videoId": "ZKvhxapM5zo",
     "name": "Hit The Road Jack",
     "artist": "Ray Charles",
@@ -962,7 +974,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "D#",
-    "mode": 'minor',
+    "mode": Mode.Minor,
     "videoId": "gO071XuztZA",
     "name": "Good Vibrations",
     "artist": "Beach Boys",
@@ -988,7 +1000,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "A",
-    "mode": 'minor',
+    "mode": Mode.Minor,
     "videoId": "Vyc8lezaa9g",
     "name": "Citizen Erased",
     "artist": "Muse",
@@ -1014,7 +1026,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "A",
-    "mode": 'minor',
+    "mode": Mode.Minor,
     "videoId": "Vyc8lezaa9g",
     "name": "Summer in the City",
     "artist": "Quincy Jones",
@@ -1040,7 +1052,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "F#",
-    "mode": 'minor',
+    "mode": Mode.Minor,
     "videoId": "OTvhWVTwRnM",
     "name": "Happy together",
     "artist": "The Turtles",
@@ -1066,7 +1078,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "F",
-    "mode": 'minor',
+    "mode": Mode.Minor,
     "videoId": "0S13mP_pfEc",
     "name": "Runaway",
     "artist": "Del Shannon",
@@ -1092,7 +1104,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "C",
-    "mode": 'minor',
+    "mode": Mode.Minor,
     "videoId": "rYEDA3JcQqw",
     "name": "Rolling In The Deep",
     "artist": "Adele",
@@ -1118,7 +1130,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "C",
-    "mode": 'minor',
+    "mode": Mode.Minor,
     "videoId": "TLV4_xaYynY",
     "name": "All Along The Watchtower",
     "artist": "Jimi Handrix",
@@ -1144,7 +1156,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "A",
-    "mode": 'minor',
+    "mode": Mode.Minor,
     "videoId": "iXQUu5Dti4g",
     "name": "Stairway to Heaven",
     "artist": "Led Zeppelin",
@@ -1174,7 +1186,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "C",
-    "mode": 'minor',
+    "mode": Mode.Minor,
     "videoId": "WNIPqafd4As",
     "name": "My Heart Will Go On",
     "artist": "Celin Deon",
@@ -1200,7 +1212,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "D",
-    "mode": 'minor',
+    "mode": Mode.Minor,
     "videoId": "8UVNT4wvIGY",
     "name": "Somebody That I Used To Know",
     "artist": "Gotye",
@@ -1226,7 +1238,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     key: "E",
-    mode: 'major',
+    mode: Mode.Major,
     videoId: "tbU3zdAgiX8",
     name: 'All I Have To Do Is Dream',
     artist: 'Everly Brothers',
@@ -1248,37 +1260,37 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 7,
       },
     ],
-    endSeconds: 8.4
+    endSeconds: 8.4,
   },
   {
     "key": "A",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "3JWTaaS7LdU",
     "name": "I Will Always Love You",
     "artist": "Whitney Houston",
     "chords": [
       {
         "chord": "I",
-        "seconds": 107.5
+        "seconds": 107.5,
       },
       {
         "chord": "vi",
-        "seconds": 109.26
+        "seconds": 109.26,
       },
       {
         "chord": "IV",
-        "seconds": 111.03
+        "seconds": 111.03,
       },
       {
         "chord": "V",
-        "seconds": 112.79
-      }
+        "seconds": 112.79,
+      },
     ],
-    "endSeconds": 114.55
+    "endSeconds": 114.55,
   },
   {
     "key": "G",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "xw0EozkBWuI",
     "name": "Crocodile Rock",
     "artist": "Elton John",
@@ -1286,205 +1298,205 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
     "chords": [
       {
         "chord": "I",
-        "seconds": 131.83
+        "seconds": 131.83,
       },
       {
         "chord": "vi",
-        "seconds": 134.79
+        "seconds": 134.79,
       },
       {
         "chord": "IV",
-        "seconds": 137.96
+        "seconds": 137.96,
       },
       {
         "chord": "V",
-        "seconds": 141.17
-      }
+        "seconds": 141.17,
+      },
     ],
-    "endSeconds": 144.37
+    "endSeconds": 144.37,
   },
   {
     "key": "G#",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "VJcGi4-n_Yw",
     "name": "Earth Angle",
     "artist": "The Penguins",
     "chords": [
       {
         "chord": "I",
-        "seconds": 13
+        "seconds": 13,
       },
       {
         "chord": "vi",
-        "seconds": 14.54
+        "seconds": 14.54,
       },
       {
         "chord": "IV",
-        "seconds": 16.06
+        "seconds": 16.06,
       },
       {
         "chord": "V",
-        "seconds": 17.69
-      }
+        "seconds": 17.69,
+      },
     ],
-    "endSeconds": 19.32
+    "endSeconds": 19.32,
   },
   {
     "key": "C",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "vdvnOH060Qg",
     "name": "Happiness is a Warm Gun",
     "artist": "The Beatles",
     "chords": [
       {
         "chord": "I",
-        "seconds": 94.93
+        "seconds": 94.93,
       },
       {
         "chord": "vi",
-        "seconds": 96.13
+        "seconds": 96.13,
       },
       {
         "chord": "IV",
-        "seconds": 97.67
+        "seconds": 97.67,
       },
       {
         "chord": "V",
-        "seconds": 99.28
+        "seconds": 99.28,
       },
     ],
-    "endSeconds": 100.94
+    "endSeconds": 100.94,
   },
   {
     "key": "Db",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "JMcNzjzw63I",
     "name": "Jesus of Suburbia",
     "artist": "Green Day",
     "chords": [
       {
         "chord": "I",
-        "seconds": 0
+        "seconds": 0,
       },
       {
         "chord": "vi",
-        "seconds": 3.3
+        "seconds": 3.3,
       },
       {
         "chord": "IV",
-        "seconds": 6.72
+        "seconds": 6.72,
       },
       {
         "chord": "V",
-        "seconds": 10
+        "seconds": 10,
       },
     ],
-    "endSeconds":13.42
+    "endSeconds": 13.42,
   },
   {
     "key": "Eb",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "kffacxfA7G4",
     "name": "Baby",
     "artist": "Justin Bieber",
     "chords": [
       {
         "chord": "I",
-        "seconds": 15.51
+        "seconds": 15.51,
       },
       {
         "chord": "vi",
-        "seconds": 19.12
+        "seconds": 19.12,
       },
       {
         "chord": "IV",
-        "seconds": 22.78
+        "seconds": 22.78,
       },
       {
         "chord": "V",
-        "seconds": 26.52
-      }
+        "seconds": 26.52,
+      },
     ],
-    "endSeconds": 30.14
+    "endSeconds": 30.14,
   },
   {
     "key": "G",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "CZXLLMbJdZ4",
     "name": "There she goes",
     "artist": "The La's",
     "chords": [
       {
         "chord": "I",
-        "seconds": 16.9
+        "seconds": 16.9,
       },
       {
         "chord": "V",
-        "seconds": 17.84
+        "seconds": 17.84,
       },
       {
         "chord": "IV",
-        "seconds": 18.78
+        "seconds": 18.78,
       },
     ],
-    "endSeconds": 20.65
+    "endSeconds": 20.65,
   },
   {
     "key": "F#",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "VZt7J0iaUD0",
     "name": "New Project",
     "artist": "Suzanne Vega",
     "chords": [
       {
         "chord": "I",
-        "seconds": 25.65
+        "seconds": 25.65,
       },
       {
         "chord": "V",
-        "seconds": 27.53
+        "seconds": 27.53,
       },
       {
         "chord": "IV",
-        "seconds": 29.4
+        "seconds": 29.4,
       },
       {
         "chord": "V",
-        "seconds": 31.28
+        "seconds": 31.28,
       },
     ],
-    "endSeconds": 33.15
+    "endSeconds": 33.15,
   },
   {
     "key": "F",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "N5EnGwXV_Pg",
     "name": "your body is a wonderland",
     "artist": "",
     "chords": [
       {
         "chord": "I",
-        "seconds": 79.37
+        "seconds": 79.37,
       },
       {
         "chord": "V",
-        "seconds": 80.65
+        "seconds": 80.65,
       },
       {
         "chord": "IV",
-        "seconds": 81.93
+        "seconds": 81.93,
       },
       {
         "chord": "V",
-        "seconds": 83.2
+        "seconds": 83.2,
       },
     ],
-    "endSeconds": 84.48
+    "endSeconds": 84.48,
   },
   // todo: need to figure out the timing here, it's a bit tricky
   // {
   //   "key": "G",
-  //   "mode": 'major',
+  //   "mode": Mode.Major,
   //   "videoId": "79JcPZNLCTY",
   //   "name": "Tangerine",
   //   "artist": "Led Zeppelin",
@@ -1510,111 +1522,111 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   // },
   {
     "key": "A",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "NHozn0YXAeE",
     "name": "MMMBop",
     "artist": "Hanson",
     "chords": [
       {
         "chord": "I",
-        "seconds": 18.12
+        "seconds": 18.12,
       },
       {
         "chord": "V",
-        "seconds": 19.33
+        "seconds": 19.33,
       },
       {
         "chord": "IV",
-        "seconds": 20.43
+        "seconds": 20.43,
       },
       {
         "chord": "V",
-        "seconds": 21.56
+        "seconds": 21.56,
       },
     ],
-    "endSeconds": 22.61
+    "endSeconds": 22.61,
   },
   {
     "key": "C",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "9Ht5RZpzPqw",
     "name": "All The Small Things",
     "artist": "Blink 182",
     "chords": [
       {
         "chord": "I",
-        "seconds": 16.88
+        "seconds": 16.88,
       },
       {
         "chord": "V",
-        "seconds": 18.48
+        "seconds": 18.48,
       },
       {
         "chord": "IV",
-        "seconds": 20.08
+        "seconds": 20.08,
       },
       {
         "chord": "V",
-        "seconds": 21.68
+        "seconds": 21.68,
       },
     ],
-    "endSeconds": 23.28
+    "endSeconds": 23.28,
   },
   {
     "key": "E",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "j2F4INQFjEI",
     "name": "Heaven is a Place on Earth",
     "artist": "Belinda Carlisle",
     "chords": [
       {
         "chord": "I",
-        "seconds": 37.9
+        "seconds": 37.9,
       },
       {
         "chord": "V",
-        "seconds": 39.77
+        "seconds": 39.77,
       },
       {
         "chord": "IV",
-        "seconds": 41.77
+        "seconds": 41.77,
       },
       {
         "chord": "V",
-        "seconds": 43.61
+        "seconds": 43.61,
       },
     ],
-    "endSeconds": 45.6
+    "endSeconds": 45.6,
   },
   {
     "key": "Ab",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "YQHsXMglC9A",
     "name": "Hello",
     "artist": "Adele",
     "chords": [
       {
         "chord": "vi",
-        "seconds": 233.16
+        "seconds": 233.16,
       },
       {
         "chord": "IV",
-        "seconds": 234.3
+        "seconds": 234.3,
       },
       {
         "chord": "I",
-        "seconds": 236.2
+        "seconds": 236.2,
       },
       {
         "chord": "V",
-        "seconds": 237.34
-      }
+        "seconds": 237.34,
+      },
     ],
-    "endSeconds": 239.24
+    "endSeconds": 239.24,
   },
   {
     "key": "F",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "A_MjCqQoLLA",
     "name": "Hey Jude",
     "artist": "The Beatles",
@@ -1622,124 +1634,124 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
     "chords": [
       {
         "chord": "I",
-        "seconds": 258.76
+        "seconds": 258.76,
       },
       {
         "chord": "♭VII",
-        "seconds": 261.92
+        "seconds": 261.92,
       },
       {
         "chord": "IV",
-        "seconds": 265.08
+        "seconds": 265.08,
       },
       {
         "chord": "I",
-        "seconds": 268.24
-      }
+        "seconds": 268.24,
+      },
     ],
-    "endSeconds": 272.02
+    "endSeconds": 272.02,
   },
   {
     "key": "E",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "GgnClrx8N2k",
     "name": "Sympathy for the Devil",
     "artist": "The Rolling Stones",
     "chords": [
       {
         "chord": "I",
-        "seconds": 21.2
+        "seconds": 21.2,
       },
       {
         "chord": "♭VII",
-        "seconds": 23.23
+        "seconds": 23.23,
       },
       {
         "chord": "IV",
-        "seconds": 25.31
+        "seconds": 25.31,
       },
       {
         "chord": "I",
-        "seconds": 27.26
-      }
+        "seconds": 27.26,
+      },
     ],
-    "endSeconds": 29
+    "endSeconds": 29,
   },
   {
     "key": "D",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "nlcIKh6sBtc",
     "name": "Royals",
     "artist": "Lorde",
     "chords": [
       {
         "chord": "I",
-        "seconds": 56.59
+        "seconds": 56.59,
       },
       {
         "chord": "♭VII",
-        "seconds": 62.12
+        "seconds": 62.12,
       },
       {
         "chord": "IV",
-        "seconds": 64.84
+        "seconds": 64.84,
       },
     ],
-    "endSeconds": 67.71
+    "endSeconds": 67.71,
   },
   {
     "key": "C",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "j8h-Ltha_9w",
     "name": "Freedom",
     "artist": "George Michael",
     "chords": [
       {
         "chord": "I",
-        "seconds": 136.17
+        "seconds": 136.17,
       },
       {
         "chord": "♭VII",
-        "seconds": 138.78
+        "seconds": 138.78,
       },
       {
         "chord": "IV",
-        "seconds": 141.35
+        "seconds": 141.35,
       },
       {
         "chord": "I",
-        "seconds": 143.98
+        "seconds": 143.98,
       },
     ],
-    "endSeconds": 146.9
+    "endSeconds": 146.9,
   },
   {
     "key": "D",
-    "mode": 'major',
+    "mode": Mode.Major,
     "videoId": "ye5BuYf8q4o",
     "name": "Sweet Home Alabama",
     "artist": "Lynyrd Skynyrd",
     "chords": [
       {
         "chord": "I",
-        "seconds": 70.43
+        "seconds": 70.43,
       },
       {
         "chord": "♭VII",
-        "seconds": 71.74
+        "seconds": 71.74,
       },
       {
         "chord": "IV",
-        "seconds": 72.93
+        "seconds": 72.93,
       },
     ],
-    "endSeconds": 75.37
+    "endSeconds": 75.37,
   },
   {
     name: 'Wonderfall',
     artist: 'Oasis',
     key: 'F#',
-    mode: 'minor',
+    mode: Mode.Minor,
     videoId: '6hzrDeceEKc',
     chords: [
       {
@@ -1765,7 +1777,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
     name: 'Boulevard of Broken Dreams',
     artist: 'Green Day',
     key: 'F',
-    mode: 'minor',
+    mode: Mode.Minor,
     videoId: 'Soa3gO7tL-c',
     chords: [
       {
@@ -1795,7 +1807,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
     name: 'Mad World',
     artist: 'Gray Jules',
     key: 'F',
-    mode: 'minor',
+    mode: Mode.Minor,
     videoId: '4N3N1MlvVc4',
     chords: [
       {
@@ -1821,7 +1833,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
     name: 'D\'You Know What I Mean?',
     artist: 'Oasis',
     key: 'B',
-    mode: 'minor',
+    mode: Mode.Minor,
     videoId: 'jyJU2136ym4',
     chords: [
       {
@@ -1851,7 +1863,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
     name: 'Pumped Up Kicks',
     artist: 'Foster The People',
     key: 'F',
-    mode: 'minor',
+    mode: Mode.Minor,
     videoId: 'SDTZ7iX4vTQ',
     chords: [
       {
@@ -1877,7 +1889,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
     name: 'Radioactive',
     artist: 'Imagine dragons',
     key: 'E',
-    mode: 'minor',
+    mode: Mode.Minor,
     videoId: 'ktvTqknDobU',
     chords: [
       {
@@ -1903,7 +1915,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
     name: 'What Goes Around... Comes Around ',
     artist: 'Justin Timberlake',
     key: 'A',
-    mode: 'minor',
+    mode: Mode.Minor,
     videoId: 'm2Kcv-Pmwkg',
     chords: [
       {
@@ -1925,7 +1937,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
       {
         chord: 'i',
         seconds: 75.79,
-      }
+      },
     ],
     endSeconds: 77.52,
   },
@@ -1933,7 +1945,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
     name: 'Can\'t Stop',
     artist: 'Radiohead',
     key: 'E',
-    mode: 'minor',
+    mode: Mode.Minor,
     videoId: '8DyziWtkfBw',
     chords: [
       {
@@ -1958,7 +1970,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'Attention',
     artist: 'Charlie Puth',
-    mode: 'minor',
+    mode: Mode.Minor,
     videoId: 'nfs8NYg7yQM',
     key: 'Eb',
     chords: [
@@ -1979,12 +1991,12 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 113.05,
       },
     ],
-    endSeconds: 115.42 ,
+    endSeconds: 115.42,
   },
   {
     name: 'Sweet Dreams',
     artist: 'Beyoncé',
-    mode: 'minor',
+    mode: Mode.Minor,
     videoId: 'JlxByc0-V40',
     key: 'Eb',
     chords: [
@@ -2005,12 +2017,12 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 79.36,
       },
     ],
-    endSeconds: 81.27 ,
+    endSeconds: 81.27,
   },
   {
     name: 'Can\'t Hold Us',
     artist: 'Macklemore & Ryan Lewis ',
-    mode: 'minor',
+    mode: Mode.Minor,
     videoId: '2zNSgSzhBfM',
     key: 'E',
     chords: [
@@ -2036,7 +2048,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'Hello',
     artist: 'Adele',
-    mode: 'minor',
+    mode: Mode.Minor,
     videoId: 'YQHsXMglC9A',
     section: 'Pre-Chorus',
     key: 'E',
@@ -2075,7 +2087,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'Someone New',
     artist: 'Hozier',
-    mode: 'minor',
+    mode: Mode.Minor,
     videoId: 'bPJSsAr2iu0',
     key: 'E',
     chords: [
@@ -2101,7 +2113,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'The Zephyr Song',
     artist: 'Red Hot Chilli Peppers',
-    mode: 'minor',
+    mode: Mode.Minor,
     videoId: '0fcRa5Z6LmU',
     key: 'A',
     chords: [
@@ -2127,7 +2139,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'Who\'s that Girl',
     artist: 'Eurythmics',
-    mode: 'minor',
+    mode: Mode.Minor,
     videoId: '-5iDKWV6Chg',
     key: 'A',
     chords: [
@@ -2157,7 +2169,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'SOS',
     artist: 'ABBA',
-    mode: 'major',
+    mode: Mode.Major,
     videoId: 'cvChjHcABPA',
     key: 'A',
     chords: [
@@ -2183,7 +2195,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'Believe',
     artist: 'Cher',
-    mode: 'major',
+    mode: Mode.Major,
     videoId: 'nZXRV4MezEw',
     key: 'F#',
     chords: [
@@ -2209,10 +2221,10 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'All Star',
     artist: 'Smash Mouth',
-    mode: 'major',
+    mode: Mode.Major,
     videoId: 'L_jWHffIx5E',
     key: 'F#',
-    chords:  [
+    chords: [
       {
         chord: 'I',
         seconds: 56.23,
@@ -2235,10 +2247,10 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'Singing In My Sleep',
     artist: 'Semisonic',
-    mode: 'major',
+    mode: Mode.Major,
     videoId: 'zhS3YP04Fjk',
     key: 'E',
-    chords:  [
+    chords: [
       {
         chord: 'I',
         seconds: 75.69,
@@ -2261,10 +2273,10 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'Closing Time',
     artist: 'Semisonic',
-    mode: 'major',
+    mode: Mode.Major,
     videoId: 'xGytDsqkQY8',
     key: 'G',
-    chords:  [
+    chords: [
       {
         chord: 'I',
         seconds: 17.49,
@@ -2287,10 +2299,10 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'Hot N Cold',
     artist: 'Katy Perry',
-    mode: 'major',
+    mode: Mode.Major,
     videoId: 'kTHNpusq654',
     key: 'G',
-    chords:  [
+    chords: [
       {
         chord: 'I',
         seconds: 65.38,
@@ -2313,10 +2325,10 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'Archi, Marry Me',
     artist: 'Alvvays',
-    mode: 'major',
+    mode: Mode.Major,
     videoId: 'ZAn3JdtSrnY',
     key: 'G',
-    chords:  [
+    chords: [
       {
         chord: 'I',
         seconds: 51.57,
@@ -2339,10 +2351,10 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'Irreplaceable',
     artist: 'Beyoncé',
-    mode: 'major',
+    mode: Mode.Major,
     videoId: '2EwViQxSJJQ',
     key: 'F',
-    chords:  [
+    chords: [
       {
         chord: 'I',
         seconds: 62.61,
@@ -2365,10 +2377,10 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'Just Like Heaven',
     artist: 'The Cure',
-    mode: 'major',
+    mode: Mode.Major,
     videoId: 'n3nPiBai66M',
     key: 'A',
-    chords:  [
+    chords: [
       {
         chord: 'I',
         seconds: 50.99,
@@ -2391,10 +2403,10 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'I\'m Like A Bird',
     artist: 'Nelly Furtado',
-    mode: 'major',
+    mode: Mode.Major,
     videoId: 'roPQ_M3yJTA',
     key: 'Bb',
-    chords:  [
+    chords: [
       {
         chord: 'I',
         seconds: 55.3,
@@ -2417,10 +2429,10 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'Scott Street',
     artist: 'Pheobe Bridgers',
-    mode: 'major',
+    mode: Mode.Major,
     videoId: 'BBBxzmyeNdw',
     key: 'Bb',
-    chords:  [
+    chords: [
       {
         chord: 'I',
         seconds: 15.87,
@@ -2444,10 +2456,10 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'What\'s my age again?',
     artist: 'blink-182',
-    mode: 'major',
+    mode: Mode.Major,
     videoId: 'K7l5ZeVVoCA',
     key: 'F#',
-    chords:  [
+    chords: [
       {
         chord: 'I',
         seconds: 55.7,
@@ -2470,10 +2482,10 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'Higher Love',
     artist: 'Steve Winwood',
-    mode: 'major',
+    mode: Mode.Major,
     videoId: 'k9olaIio3l8',
     key: 'F',
-    chords:  [
+    chords: [
       {
         chord: 'IV',
         seconds: 50.06,
@@ -2496,10 +2508,10 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'Dragonstea Din Tei',
     artist: 'O-Zone',
-    mode: 'major',
+    mode: Mode.Major,
     videoId: 'YnopHCL1Jk8',
     key: 'C',
-    chords:  [
+    chords: [
       {
         chord: 'IV',
         seconds: 115.05,
@@ -2522,11 +2534,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'Boulevard Of Broken Dreams',
     artist: 'Green Day ',
-    mode: 'major',
+    mode: Mode.Major,
     section: 'Chorus',
     videoId: 'Soa3gO7tL-c',
     key: 'Ab',
-    chords:  [
+    chords: [
       {
         chord: 'IV',
         seconds: 77.69,
@@ -2549,11 +2561,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'Radar Love',
     artist: 'Goldern Earing',
-    mode: 'major',
+    mode: Mode.Major,
     section: 'Chorus',
     videoId: 'ckM51xoTC2U',
     key: 'A',
-    chords:  [
+    chords: [
       {
         chord: 'IV',
         seconds: 79.03,
@@ -2576,11 +2588,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'Elastic Heart',
     artist: 'Sia',
-    mode: 'major',
+    mode: Mode.Major,
     section: 'Chorus',
     videoId: 'KWZGAExj-es',
     key: 'A',
-    chords:  [
+    chords: [
       {
         chord: 'IV',
         seconds: 61.31,
@@ -2603,11 +2615,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'Big Girls Don\'t Cry',
     artist: 'Fergie',
-    mode: 'major',
+    mode: Mode.Major,
     section: 'Chorus',
     videoId: 'agrXgrAgQ0U',
     key: 'G',
-    chords:  [
+    chords: [
       {
         chord: 'IV',
         seconds: 82.61,
@@ -2630,11 +2642,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'Let Her Go',
     artist: 'Passenger',
-    mode: 'major',
+    mode: Mode.Major,
     section: 'Chorus',
     videoId: 'RBumgq5yVrA',
     key: 'G',
-    chords:  [
+    chords: [
       {
         chord: 'IV',
         seconds: 103.67,
@@ -2657,11 +2669,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'Bad Blood',
     artist: 'Taylor Swift',
-    mode: 'major',
+    mode: Mode.Major,
     section: 'Chorus',
     videoId: 'QcIy9NiNbmo',
     key: 'G',
-    chords:  [
+    chords: [
       {
         chord: 'IV',
         seconds: 187,
@@ -2684,11 +2696,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'Mine',
     artist: 'Taylor Swift',
-    mode: 'major',
+    mode: Mode.Major,
     section: 'Chorus',
     videoId: 'XPBwXKgDTdE',
     key: 'G',
-    chords:  [
+    chords: [
       {
         chord: 'IV',
         seconds: 49,
@@ -2711,11 +2723,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'We Are Never Ever Getting Back Together',
     artist: 'Taylor Swift',
-    mode: 'major',
+    mode: Mode.Major,
     section: 'Chorus',
     videoId: 'WA4iX5D9Z64',
     key: 'G',
-    chords:  [
+    chords: [
       {
         chord: 'IV',
         seconds: 43,
@@ -2738,11 +2750,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'Misery Business',
     artist: 'Paramore',
-    mode: 'major',
+    mode: Mode.Major,
     section: 'Chorus',
     videoId: 'aCyGvGEtOwc',
     key: 'Ab',
-    chords:   [
+    chords: [
       {
         chord: 'IV',
         seconds: 36.92,
@@ -2769,11 +2781,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'Good 4 u',
     artist: 'Olivia Rodrigo',
-    mode: 'major',
+    mode: Mode.Major,
     section: 'Chorus',
     videoId: 'gNi_6U5Pm_o',
     key: 'Ab',
-    chords:   [
+    chords: [
       {
         chord: 'IV',
         seconds: 44.74,
@@ -2804,10 +2816,10 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   {
     name: 'Drive By',
     artist: 'Train',
-    mode: 'major',
+    mode: Mode.Major,
     videoId: 'oxqnFJ3lp5k',
     key: 'E',
-    chords:   [
+    chords: [
       {
         chord: 'IV',
         seconds: 48.23,
@@ -2833,15 +2845,15 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 56,
       },
     ],
-    endSeconds: 56.83
+    endSeconds: 56.83,
   },
   {
     name: 'Drive By',
     artist: 'Train',
-    mode: 'major',
+    mode: Mode.Major,
     videoId: 'oxqnFJ3lp5k',
     key: 'E',
-    chords:   [
+    chords: [
       {
         chord: 'IV',
         seconds: 56,
@@ -2859,15 +2871,15 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 61.96,
       },
     ],
-    endSeconds: 63.89
+    endSeconds: 63.89,
   },
   {
     name: 'Drive By',
     artist: 'Train',
-    mode: 'major',
+    mode: Mode.Major,
     videoId: 'oxqnFJ3lp5k',
     key: 'E',
-    chords:   [
+    chords: [
       {
         chord: 'vi',
         seconds: 16.76,
@@ -2885,12 +2897,12 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 22.59,
       },
     ],
-    endSeconds: 24.54
+    endSeconds: 24.54,
   },
   {
     name: 'Half Of My Heart',
     artist: 'John Mayer',
-    mode: 'major',
+    mode: Mode.Major,
     videoId: 'aojTGWAqUIQ',
     key: 'F',
     chords: [
@@ -2911,12 +2923,12 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 56.54,
       },
     ],
-    endSeconds: 57.73
+    endSeconds: 57.73,
   },
   {
     name: 'Castle Of Glass',
     artist: 'Linkin Park',
-    mode: 'major',
+    mode: Mode.Major,
     videoId: 'ScNNfyq3d_w',
     key: 'E',
     chords: [
@@ -2937,12 +2949,12 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 132.83,
       },
     ],
-    endSeconds: 135.13
+    endSeconds: 135.13,
   },
   {
     name: 'Alejandro',
     artist: 'Lady Gaga',
-    mode: 'major',
+    mode: Mode.Major,
     videoId: 'niqrrmev4mA',
     key: 'D',
     chords: [
@@ -2963,6 +2975,6 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 185.87,
       },
     ],
-    endSeconds: 187.1
+    endSeconds: 187.1,
   },
 ]
