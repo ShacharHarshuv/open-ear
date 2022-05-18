@@ -116,7 +116,7 @@ const chordsInC: { chord: ChordSymbol; answer: RomanNumeralChord }[] = [
 export const romanNumeralToChordInC: { [romanNumeral in RomanNumeralChord]?: Chord } = _.mapValues(_.keyBy(chordsInC, 'answer'), chordDescriptor => new Chord(chordDescriptor.chord));
 
 const romanNumeralToResolution: {
-  [scale in 'MINOR' | 'MAJOR']?: {
+  [scale in 'minor' | 'major']?: {
     [romanNumeral in RomanNumeralChord]?: {
       [inversion in 0 | 1 | 2]: ReadonlyArray<{
         romanNumeral: RomanNumeralChord,
@@ -125,7 +125,7 @@ const romanNumeralToResolution: {
     }
   }
 } = {
-  MAJOR: {
+  major: {
     I: {
       0: [],
       1: [],
@@ -361,7 +361,7 @@ const romanNumeralToResolution: {
       ],
     }
   },
-  MINOR: {
+  minor: {
     i: {
       0: [],
       1: [],
@@ -607,8 +607,8 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
       // calculate resolution
       const firstChordRomanNumeral: RomanNumeralChord = question.segments[0].answer;
       const scaleForResolution = {
-        'I IV V I': 'MAJOR',
-        'i iv V i': 'MINOR',
+        'I IV V I': 'major',
+        'i iv V i': 'minor',
       }[this._settings.cadenceType];
       const resolutionConfig = romanNumeralToResolution[scaleForResolution]?.[firstChordRomanNumeral];
       if (resolutionConfig) {

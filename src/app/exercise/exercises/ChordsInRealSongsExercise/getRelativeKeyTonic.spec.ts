@@ -4,11 +4,11 @@ import { getRelativeKeyTonic } from './ChordsInRealSongsExercise';
 describe('getRelativeKeyTonic', () => {
   testPureFunction(getRelativeKeyTonic, [
     {
-      args: ['D', 'MAJOR'],
+      args: ['D', 'major'],
       returnValue: 'B',
     },
     {
-      args: ['D', 'MINOR'],
+      args: ['D', 'minor'],
       returnValue: 'F',
     },
   ])

@@ -45,13 +45,13 @@ const MAJOR_TO_RELATIVE_MINOR: Partial<Record<RomanNumeralChord, RomanNumeralCho
   viiᵒ: 'iiᵒ',
 }
 
-const TO_RELATIVE_MODE: Record<'MAJOR' | 'MINOR', Partial<Record<RomanNumeralChord, RomanNumeralChord>>> = {
-  MAJOR: MAJOR_TO_RELATIVE_MINOR,
-  MINOR: _.invert(MAJOR_TO_RELATIVE_MINOR),
+const TO_RELATIVE_MODE: Record<'major' | 'minor', Partial<Record<RomanNumeralChord, RomanNumeralChord>>> = {
+  major: MAJOR_TO_RELATIVE_MINOR,
+  minor: _.invert(MAJOR_TO_RELATIVE_MINOR),
 }
 
-export function getRelativeKeyTonic(tonic: NoteType, mode: 'MAJOR' | 'MINOR'): NoteType {
-  const differenceToRelativeTonic = mode === 'MAJOR' ? -3 : 3;
+export function getRelativeKeyTonic(tonic: NoteType, mode: 'major' | 'minor'): NoteType {
+  const differenceToRelativeTonic = mode === 'major' ? -3 : 3;
   return toNoteTypeName(mod(toNoteTypeNumber(tonic) + differenceToRelativeTonic, Interval.Octave))
 }
 
@@ -93,7 +93,7 @@ export class ChordsInRealSongsExercise extends BaseExercise<RomanNumeralChord, C
             return {
               ...chordProgression,
               chords: chordsInRelativeKey,
-              mode: chordProgression.mode === 'MAJOR' ? 'MINOR' : 'MAJOR',
+              mode: chordProgression.mode === 'major' ? 'minor' : 'major',
               key: getRelativeKeyTonic(chordProgression.key, chordProgression.mode),
             }
           } else {
@@ -119,9 +119,9 @@ export class ChordsInRealSongsExercise extends BaseExercise<RomanNumeralChord, C
 
   override getQuestion(): Exercise.Question<RomanNumeralChord> {
     const progression: ProgressionInSongFromYouTubeDescriptor = randomFromList(this._getAvailableProgressions())
-    const modeToCadenceInC: Record<'MAJOR' | 'MINOR', NoteEvent[]> = {
-      MAJOR: IV_V_I_CADENCE_IN_C,
-      MINOR: iv_V_i_CADENCE_IN_C,
+    const modeToCadenceInC: Record<'major' | 'minor', NoteEvent[]> = {
+      major: IV_V_I_CADENCE_IN_C,
+      minor: iv_V_i_CADENCE_IN_C,
     }
     return {
       type: 'youtube',
