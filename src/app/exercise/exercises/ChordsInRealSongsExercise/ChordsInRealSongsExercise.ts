@@ -6,7 +6,6 @@ import {
 import {
   chordsInRealSongsDescriptorList,
   ProgressionInSongFromYouTubeDescriptor,
-  Mode,
 } from './chordsInRealSongsDescriptorList';
 import * as _ from 'lodash';
 import {
@@ -31,6 +30,7 @@ import { NoteType } from '../../utility/music/notes/NoteType';
 import {
   Interval,
   RomanNumeralChordSymbol,
+  Mode,
 } from '../../utility';
 
 type ChordsInRealSongsSettings = {
