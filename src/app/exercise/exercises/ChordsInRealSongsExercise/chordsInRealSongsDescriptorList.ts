@@ -1,6 +1,6 @@
 import { NoteType } from '../../utility/music/notes/NoteType';
 import { CadenceType } from '../utility/base-exercises/BaseTonalExercise';
-import { RomanNumeralChord } from '../../utility';
+import { RomanNumeralChordSymbol } from '../../utility';
 
 export enum Mode {
   Ionian = 1,
@@ -24,7 +24,7 @@ export interface ProgressionInSongFromYouTubeDescriptor {
   section?: string;
   chords: {
     seconds: number,
-    chord: RomanNumeralChord,
+    chord: RomanNumeralChordSymbol,
   }[];
   endSeconds: number,
 }

@@ -21,7 +21,7 @@ import {
   Interval,
   toNoteNumber,
   NotesRange,
-  RomanNumeralChord,
+  RomanNumeralChordSymbol,
 } from '../../utility';
 import { transpose } from '../../utility/music/transpose';
 import * as _ from 'lodash';
@@ -38,7 +38,7 @@ type NoteWithChord = `${SolfegeNote}${ChordDegree}`;
 
 const noteWithChordDescriptorMap: {
   [noteWithHarmonicContext in NoteWithChord]?: {
-    chord: RomanNumeralChord,
+    chord: RomanNumeralChordSymbol,
     solfegeNote: SolfegeNote,
   }
 } = {
@@ -289,7 +289,7 @@ export class NotesWithChordsExercise extends BaseTonalExercise<NoteWithChord, No
   getQuestionInC(): Exclude<Exercise.NotesQuestion<NoteWithChord>, "cadence"> {
     const randomAnswer: NoteWithChord = randomFromList(this._settings.includedAnswers)
     const descriptor: {
-      chord: RomanNumeralChord,
+      chord: RomanNumeralChordSymbol,
       solfegeNote: SolfegeNote,
     } | undefined = noteWithChordDescriptorMap[randomAnswer];
 

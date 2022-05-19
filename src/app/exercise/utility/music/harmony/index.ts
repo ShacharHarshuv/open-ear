@@ -1,1 +1,1 @@
-export * from './RomanNumeralChord';
+export * from './RomanNumeralChordSymbol';

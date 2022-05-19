@@ -11,14 +11,14 @@ import {
   CommonChordProgressionsExplanationComponent
 } from './common-chord-progressions-explanation/common-chord-progressions-explanation.component';
 import { CadenceType } from '../utility/base-exercises/BaseTonalExercise';
-import { RomanNumeralChord } from '../../utility';
+import { RomanNumeralChordSymbol } from '../../utility';
 
 type CommonChordProgressionExerciseSettings = BaseRomanAnalysisChordProgressionExerciseSettings & {
   includedProgressions: string[];
 };
 
 interface ProgressionDescriptor {
-  romanNumerals: RomanNumeralChord[],
+  romanNumerals: RomanNumeralChordSymbol[],
   name?: string,
   cadenceType?: CadenceType,
 }
@@ -249,7 +249,7 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
       distinctUntilChanged(),
       takeUntil(this._destroy$),
     ).subscribe(() => {
-      const newIncludedAnswers: RomanNumeralChord[] = _.uniq(_.flatMap(this._getIncludedProgressionsDescriptors(), 'romanNumerals'));
+      const newIncludedAnswers: RomanNumeralChordSymbol[] = _.uniq(_.flatMap(this._getIncludedProgressionsDescriptors(), 'romanNumerals'));
       this.updateSettings({
         ...this._settings,
         includedAnswers: newIncludedAnswers,

@@ -30,14 +30,14 @@ import { mod } from '../../../shared/ts-utility/mod';
 import { NoteType } from '../../utility/music/notes/NoteType';
 import {
   Interval,
-  RomanNumeralChord,
+  RomanNumeralChordSymbol,
 } from '../../utility';
 
 type ChordsInRealSongsSettings = {
-  includedChords: RomanNumeralChord[],
+  includedChords: RomanNumeralChordSymbol[],
 }
 
-const MAJOR_TO_RELATIVE_MINOR: Partial<Record<RomanNumeralChord, RomanNumeralChord>> = {
+const MAJOR_TO_RELATIVE_MINOR: Partial<Record<RomanNumeralChordSymbol, RomanNumeralChordSymbol>> = {
   I: 'bIII',
   ii: 'iv',
   iii: 'v',
@@ -48,7 +48,7 @@ const MAJOR_TO_RELATIVE_MINOR: Partial<Record<RomanNumeralChord, RomanNumeralCho
   viidim: 'iidim',
 }
 
-const TO_RELATIVE_MODE: Record<Mode.Major | Mode.Minor, Partial<Record<RomanNumeralChord, RomanNumeralChord>>> = {
+const TO_RELATIVE_MODE: Record<Mode.Major | Mode.Minor, Partial<Record<RomanNumeralChordSymbol, RomanNumeralChordSymbol>>> = {
   [Mode.Major]: MAJOR_TO_RELATIVE_MINOR,
   [Mode.Minor]: _.invert(MAJOR_TO_RELATIVE_MINOR),
 }
@@ -70,7 +70,7 @@ export function getRelativeKeyTonic(tonic: NoteType, mode: Mode): NoteType {
     answerList: BaseRomanAnalysisChordProgressionExercise.allAnswersList,
   },
 })
-export class ChordsInRealSongsExercise extends BaseExercise<RomanNumeralChord, ChordsInRealSongsSettings> {
+export class ChordsInRealSongsExercise extends BaseExercise<RomanNumeralChordSymbol, ChordsInRealSongsSettings> {
   readonly explanation: Exercise.ExerciseExplanationContent;
   readonly id: string = 'chordsInRealSongs';
   readonly name: string = 'Chord Progressions In Real Songs';
@@ -114,13 +114,13 @@ export class ChordsInRealSongsExercise extends BaseExercise<RomanNumeralChord, C
     return validChordProgressionsDescriptorList;
   }
 
-  override getAnswerList(): Exercise.AnswerList<RomanNumeralChord> {
+  override getAnswerList(): Exercise.AnswerList<RomanNumeralChordSymbol> {
     const progressionsList: ProgressionInSongFromYouTubeDescriptor[] = this._getAvailableProgressions();
-    const includedAnswers: RomanNumeralChord[] = _.uniq(_.flatMap(progressionsList, (progression: ProgressionInSongFromYouTubeDescriptor): RomanNumeralChord[] => progression.chords.map(chordDescriptor => chordDescriptor.chord)))
+    const includedAnswers: RomanNumeralChordSymbol[] = _.uniq(_.flatMap(progressionsList, (progression: ProgressionInSongFromYouTubeDescriptor): RomanNumeralChordSymbol[] => progression.chords.map(chordDescriptor => chordDescriptor.chord)))
     return Exercise.filterIncludedAnswers(BaseRomanAnalysisChordProgressionExercise.allAnswersList, includedAnswers);
   }
 
-  override getQuestion(): Exercise.Question<RomanNumeralChord> {
+  override getQuestion(): Exercise.Question<RomanNumeralChordSymbol> {
     const progression: ProgressionInSongFromYouTubeDescriptor = randomFromList(this._getAvailableProgressions())
     const modeToCadenceInC: Record<Mode.Major | Mode.Minor, NoteEvent[]> = {
       [Mode.Major]: IV_V_I_CADENCE_IN_C,

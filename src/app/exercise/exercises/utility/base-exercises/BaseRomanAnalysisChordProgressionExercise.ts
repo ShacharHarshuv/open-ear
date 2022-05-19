@@ -14,7 +14,7 @@ import { PlayAfterCorrectAnswerSetting } from '../settings/PlayAfterCorrectAnswe
 import { Exercise } from '../../../Exercise';
 import {
   Interval,
-  RomanNumeralChord,
+  RomanNumeralChordSymbol,
   toArray,
   toNoteNumber,
   toSteadyPart,
@@ -23,10 +23,10 @@ import { transpose } from '../../../utility/music/transpose';
 import { NoteEvent } from '../../../../services/player.service';
 
 export type BaseRomanAnalysisChordProgressionExerciseSettings =
-  BaseTonalChordProgressionExerciseSettings<RomanNumeralChord> &
+  BaseTonalChordProgressionExerciseSettings<RomanNumeralChordSymbol> &
   PlayAfterCorrectAnswerSetting;
 
-const chordsInC: { chord: ChordSymbol; answer: RomanNumeralChord }[] = [
+const chordsInC: { chord: ChordSymbol; answer: RomanNumeralChordSymbol }[] = [
   {
     chord: 'D',
     answer: 'II',
@@ -117,13 +117,13 @@ const chordsInC: { chord: ChordSymbol; answer: RomanNumeralChord }[] = [
   }
 ];
 
-export const romanNumeralToChordInC: { [romanNumeral in RomanNumeralChord]?: Chord } = _.mapValues(_.keyBy(chordsInC, 'answer'), chordDescriptor => new Chord(chordDescriptor.chord));
+export const romanNumeralToChordInC: { [romanNumeral in RomanNumeralChordSymbol]?: Chord } = _.mapValues(_.keyBy(chordsInC, 'answer'), chordDescriptor => new Chord(chordDescriptor.chord));
 
 const romanNumeralToResolution: {
   [scale in 'minor' | 'major']?: {
-    [romanNumeral in RomanNumeralChord]?: {
+    [romanNumeral in RomanNumeralChordSymbol]?: {
       [inversion in 0 | 1 | 2]: ReadonlyArray<{
-        romanNumeral: RomanNumeralChord,
+        romanNumeral: RomanNumeralChordSymbol,
         voicingConfig: Omit<Parameters<Chord['getVoicing']>[0], 'withBass'>,
       }>;
     }
@@ -586,21 +586,21 @@ const romanNumeralToResolution: {
 
 
 export type RomanNumeralsChordProgressionQuestion = {
-  chordProgressionInRomanAnalysis: RomanNumeralChord[]
+  chordProgressionInRomanAnalysis: RomanNumeralChordSymbol[]
 };
 
-export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extends BaseRomanAnalysisChordProgressionExerciseSettings> extends BaseTonalChordProgressionExercise<RomanNumeralChord, GSettings> {
-  static allAnswersList: Exercise.AnswerList<RomanNumeralChord> = BaseRomanAnalysisChordProgressionExercise._getAllAnswersList();
+export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extends BaseRomanAnalysisChordProgressionExerciseSettings> extends BaseTonalChordProgressionExercise<RomanNumeralChordSymbol, GSettings> {
+  static allAnswersList: Exercise.AnswerList<RomanNumeralChordSymbol> = BaseRomanAnalysisChordProgressionExercise._getAllAnswersList();
 
   protected abstract _getChordProgressionInRomanNumerals(): RomanNumeralsChordProgressionQuestion;
 
-  protected _getChordProgressionInC(): ChordProgressionQuestion<RomanNumeralChord> {
+  protected _getChordProgressionInC(): ChordProgressionQuestion<RomanNumeralChordSymbol> {
     const chordProgressionQuestion: RomanNumeralsChordProgressionQuestion = this._getChordProgressionInRomanNumerals();
 
-    const question: ChordProgressionQuestion<RomanNumeralChord> = {
+    const question: ChordProgressionQuestion<RomanNumeralChordSymbol> = {
       segments: chordProgressionQuestion.chordProgressionInRomanAnalysis.map((romanNumeral): {
         chord: Chord,
-        answer: RomanNumeralChord,
+        answer: RomanNumeralChordSymbol,
       } => ({
         chord: romanNumeralToChordInC[romanNumeral]!,
         answer: romanNumeral,
@@ -609,7 +609,7 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
 
     if (question.segments.length === 1 && this._settings.playAfterCorrectAnswer) {
       // calculate resolution
-      const firstChordRomanNumeral: RomanNumeralChord = question.segments[0].answer;
+      const firstChordRomanNumeral: RomanNumeralChordSymbol = question.segments[0].answer;
       const scaleForResolution = {
         'I IV V I': 'major',
         'i iv V i': 'minor',
@@ -618,7 +618,7 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
       if (resolutionConfig) {
         question.afterCorrectAnswer = ({firstChordInversion, questionSegments}) => {
           const resolution: {
-            romanNumeral: RomanNumeralChord,
+            romanNumeral: RomanNumeralChordSymbol,
             chordVoicing: Note[],
           }[] | null = [
             {
@@ -664,11 +664,11 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
     };
   }
 
-  protected _getAllAnswersListInC(): Exercise.AnswerList<RomanNumeralChord> {
+  protected _getAllAnswersListInC(): Exercise.AnswerList<RomanNumeralChordSymbol> {
     return BaseRomanAnalysisChordProgressionExercise.allAnswersList;
   }
 
-  private static _getAllAnswersList(): Exercise.AnswerList<RomanNumeralChord> {
+  private static _getAllAnswersList(): Exercise.AnswerList<RomanNumeralChordSymbol> {
     function getPlayOnClickPart(chord: Chord): NoteEvent[] {
       return [{
         notes: chord.getVoicing({topVoicesInversion: TriadInversion.Fifth}),
@@ -677,7 +677,7 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
       }];
     }
 
-    const answerList: { rows: (Exercise.AnswerConfig<RomanNumeralChord> | RomanNumeralChord)[][] } = {
+    const answerList: { rows: (Exercise.AnswerConfig<RomanNumeralChordSymbol> | RomanNumeralChordSymbol)[][] } = {
       rows: [
         [
           {
@@ -737,7 +737,7 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
     }
 
     return {
-      rows: answerList.rows.map(row => row.map((answerOrCellConfig): Exercise.AnswerConfig<RomanNumeralChord> => {
+      rows: answerList.rows.map(row => row.map((answerOrCellConfig): Exercise.AnswerConfig<RomanNumeralChordSymbol> => {
         if (typeof answerOrCellConfig === 'string') {
           return {
             answer: answerOrCellConfig,
