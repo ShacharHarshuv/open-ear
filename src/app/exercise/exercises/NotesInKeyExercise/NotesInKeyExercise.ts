@@ -61,13 +61,13 @@ export class NotesInKeyExercise extends BaseMelodicDictationExercise<NoteInKeySe
     numeral: {
       Do: '1',
       Re: '2',
-      Me: '♭3',
+      Me: 'b3',
       Mi: '3',
       Fa: '4',
       Sol: '5',
-      Le: '♭6',
+      Le: 'b6',
       La: '6',
-      Te: '♭7',
+      Te: 'b7',
       Ti: '7',
     }
   }

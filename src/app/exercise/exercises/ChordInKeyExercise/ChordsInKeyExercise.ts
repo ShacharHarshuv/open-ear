@@ -1,5 +1,8 @@
 import { Exercise } from '../../Exercise';
-import { randomFromList } from '../../utility';
+import {
+  randomFromList,
+  RomanNumeralChordSymbol,
+} from '../../utility';
 import * as _ from 'lodash';
 import {
   numberOfSegmentsControlDescriptorList,
@@ -13,7 +16,6 @@ import {
 import {
   BaseRomanAnalysisChordProgressionExercise,
   BaseRomanAnalysisChordProgressionExerciseSettings,
-  RomanNumeralChord,
   RomanNumeralsChordProgressionQuestion,
 } from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
 import {
@@ -23,12 +25,12 @@ import {
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 
 type ChordInKeySettings =
-  IncludedAnswersSettings<RomanNumeralChord> &
+  IncludedAnswersSettings<RomanNumeralChordSymbol> &
   BaseRomanAnalysisChordProgressionExerciseSettings &
   NumberOfSegmentsSetting &
   PlayAfterCorrectAnswerSetting;
 
-@IncludedAnswersSetting<RomanNumeralChord, ChordInKeySettings>({
+@IncludedAnswersSetting<RomanNumeralChordSymbol, ChordInKeySettings>({
   default: ['I', 'IV', 'V'],
 })
 export class ChordsInKeyExercise extends BaseRomanAnalysisChordProgressionExercise<ChordInKeySettings> {
@@ -39,8 +41,8 @@ export class ChordsInKeyExercise extends BaseRomanAnalysisChordProgressionExerci
 
   protected _getChordProgressionInRomanNumerals(): RomanNumeralsChordProgressionQuestion {
     const numberOfSegments = this._settings.numberOfSegments;
-    const availableChords: RomanNumeralChord[] = this._settings.includedAnswers;
-    const chordProgression: RomanNumeralChord[] = [randomFromList(availableChords)];
+    const availableChords: RomanNumeralChordSymbol[] = this._settings.includedAnswers;
+    const chordProgression: RomanNumeralChordSymbol[] = [randomFromList(availableChords)];
     while (chordProgression.length < numberOfSegments) {
       chordProgression.push(randomFromList(availableChords.filter(chord => chord !== _.last(chordProgression)! || availableChords.length <= 1)));
     }

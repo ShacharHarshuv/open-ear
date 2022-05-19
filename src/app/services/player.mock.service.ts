@@ -40,4 +40,8 @@ export class PlayerMockService implements PublicMembers<PlayerService> {
     return Promise.resolve();
   }
 
+  get lastPlayed(): PartToPlay[] | null {
+    return null;
+  }
+
 }
