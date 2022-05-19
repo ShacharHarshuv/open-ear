@@ -7,10 +7,17 @@ import {
   DiatonicScaleDegree,
   ScaleDegree,
 } from './ScaleDegrees';
+import { RomanNumeralChordSymbol } from './RomanNumeralChordSymbol';
+import { testPureFunction } from '../../../../shared/testing-utility/testPureFunction';
+import {
+  toRelativeMode,
+  Mode,
+} from './Mode';
 
 describe('RomanNumeralBuilder', () => {
   const testCases: {
-    input: ConstructorParameters<typeof RomanNumeralChord>,
+    inputs: ConstructorParameters<typeof RomanNumeralChord>[],
+    romanNumeralChordSymbol: RomanNumeralChordSymbol,
     diatonicDegree: DiatonicScaleDegree,
     scaleDegree: ScaleDegree,
     accidental?: Accidental,
@@ -18,21 +25,33 @@ describe('RomanNumeralBuilder', () => {
     serialized: string,
   }[] = [
     {
-      input: ['I'],
+      inputs: [['I'], [{
+        scaleDegree: '1',
+        type: ChordType.Major,
+      }]],
+      romanNumeralChordSymbol: 'I',
       diatonicDegree: 1,
       scaleDegree: '1',
       type: ChordType.Major,
       serialized: 'I',
     },
     {
-      input: ['ii'],
+      inputs: [['ii'], [{
+        scaleDegree: '2',
+        type: ChordType.Minor,
+      }]],
+      romanNumeralChordSymbol: 'ii',
       diatonicDegree: 2,
       scaleDegree: '2',
       type: ChordType.Minor,
       serialized: 'ii',
     },
     {
-      input: ['bIII'],
+      inputs: [['bIII'], [{
+        scaleDegree: 'b3',
+        type: ChordType.Major,
+      }]],
+      romanNumeralChordSymbol: 'bIII',
       diatonicDegree: 3,
       scaleDegree: 'b3',
       accidental: Accidental.Flat,
@@ -40,7 +59,11 @@ describe('RomanNumeralBuilder', () => {
       serialized: '♭III'
     },
     {
-      input: ['#ivdim'],
+      inputs: [['#ivdim'], [{
+        scaleDegree: '#4',
+        type: ChordType.Diminished,
+      }]],
+      romanNumeralChordSymbol: '#ivdim',
       diatonicDegree: 4,
       scaleDegree: '#4',
       accidental: Accidental.Sharp,
@@ -48,7 +71,11 @@ describe('RomanNumeralBuilder', () => {
       serialized: '♯iv°',
     },
     {
-      input: ['viidim'],
+      inputs: [['viidim'], [{
+        scaleDegree: '7',
+        type: ChordType.Diminished,
+      }]],
+      romanNumeralChordSymbol: 'viidim',
       diatonicDegree: 7,
       scaleDegree: '7',
       type: ChordType.Diminished,
@@ -57,13 +84,48 @@ describe('RomanNumeralBuilder', () => {
   ];
 
   testCases.forEach(testCase => {
-    it(`${JSON.stringify(testCase.input)}`, () => {
-      const romanNumeral = new RomanNumeralChord(...testCase.input);
-      expect(romanNumeral.diatonicDegree).toEqual(testCase.diatonicDegree);
-      expect(romanNumeral.accidental).toEqual(testCase.accidental ?? Accidental.Natural);
-      expect(romanNumeral.type).toEqual(testCase.type);
-      expect(romanNumeral.scaleDegree).toEqual(testCase.scaleDegree);
-      expect(romanNumeral.toString()).toEqual(testCase.serialized);
-    });
+    testCase.inputs.forEach(input => {
+      it(`${JSON.stringify(testCase.inputs)}`, () => {
+        const romanNumeral = new RomanNumeralChord(...input);
+        expect(romanNumeral.diatonicDegree).toEqual(testCase.diatonicDegree);
+        expect(romanNumeral.accidental).toEqual(testCase.accidental ?? Accidental.Natural);
+        expect(romanNumeral.type).toEqual(testCase.type);
+        expect(romanNumeral.scaleDegree).toEqual(testCase.scaleDegree);
+        expect(romanNumeral.toString()).toEqual(testCase.serialized);
+      });
+    })
+  })
+
+  describe('toRelativeMode', () => {
+    testPureFunction(RomanNumeralChord.toRelativeMode, [
+      {
+        args: ['I', Mode.Major, Mode.Minor],
+        returnValue: 'bIII',
+      },
+      {
+        args: ['i', Mode.Minor, Mode.Major],
+        returnValue: 'vi',
+      },
+      {
+        args: ['bVII', Mode.Minor, Mode.Major],
+        returnValue: 'V',
+      },
+      {
+        args: ['V', Mode.Minor, Mode.Major],
+        returnValue: 'III',
+      },
+      {
+        args: ['iii', Mode.Major, Mode.Minor],
+        returnValue: 'v',
+      },
+      {
+        args: ['i', Mode.Dorian, Mode.Major],
+        returnValue: 'ii',
+      },
+      {
+        args: ['I', Mode.Mixolydian, Mode.Major],
+        returnValue: 'V',
+      },
+    ])
   })
 });
