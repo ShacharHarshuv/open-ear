@@ -11,6 +11,7 @@ import * as _ from 'lodash';
 import {
   randomFromList,
   isValueTruthy,
+  LogReturnValue,
 } from '../../../shared/ts-utility';
 import { NoteEvent } from '../../../services/player.service';
 import {
@@ -32,25 +33,10 @@ import {
   RomanNumeralChordSymbol,
   Mode,
 } from '../../utility';
+import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
 
 type ChordsInRealSongsSettings = {
   includedChords: RomanNumeralChordSymbol[],
-}
-
-const MAJOR_TO_RELATIVE_MINOR: Partial<Record<RomanNumeralChordSymbol, RomanNumeralChordSymbol>> = {
-  I: 'bIII',
-  ii: 'iv',
-  iii: 'v',
-  III: 'V',
-  IV: 'bVI',
-  V: 'bVII',
-  vi: 'i',
-  viidim: 'iidim',
-}
-
-const TO_RELATIVE_MODE: Record<Mode.Major | Mode.Minor, Partial<Record<RomanNumeralChordSymbol, RomanNumeralChordSymbol>>> = {
-  [Mode.Major]: MAJOR_TO_RELATIVE_MINOR,
-  [Mode.Minor]: _.invert(MAJOR_TO_RELATIVE_MINOR),
 }
 
 export function getRelativeKeyTonic(tonic: NoteType, mode: Mode): NoteType {
@@ -86,23 +72,25 @@ export class ChordsInRealSongsExercise extends BaseExercise<RomanNumeralChordSym
       .map((chordProgression): ProgressionInSongFromYouTubeDescriptor | null => {
         if (isChordProgressionValid(chordProgression.chords)) {
           return chordProgression;
-        } else {
-          // Trying to see if the relative MAJOR / MINOR progression can be included
+        } else if (chordProgression.mode !== Mode.Major) {
+          // Trying to see if the relative Major progression can be included
           const chordsInRelativeKey = _.map(chordProgression.chords, chord => ({
             ...chord,
-            chord: TO_RELATIVE_MODE[chordProgression.mode][chord.chord]!, // if result it undefined it won't get used anyway, so it's OK
+            chord: RomanNumeralChord.toRelativeMode(chord.chord, chordProgression.mode, Mode.Major),
           }));
           if (isChordProgressionValid(chordsInRelativeKey)) {
             return {
               ...chordProgression,
               chords: chordsInRelativeKey,
-              mode: chordProgression.mode === Mode.Major ? Mode.Minor : Mode.Major,
+              mode: Mode.Major,
               key: getRelativeKeyTonic(chordProgression.key, chordProgression.mode),
             }
           } else {
             // Both MAJOR and MINOR versions can't be included, returning null to signal it's not valid
             return null;
           }
+        } else {
+          return null;
         }
       })
       .filter(isValueTruthy);

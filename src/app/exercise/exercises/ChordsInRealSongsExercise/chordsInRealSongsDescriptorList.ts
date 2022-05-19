@@ -472,7 +472,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "Db",
-    "mode": Mode.Major,
+    "mode": Mode.Mixolydian,
     "videoId": "1w7OgIMMRc4",
     "name": "Sweet Child O' Mine",
     "artist": "Guns N' Roses",
@@ -498,7 +498,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "Db",
-    "mode": Mode.Major,
+    "mode": Mode.Mixolydian,
     "videoId": "1w7OgIMMRc4",
     "name": "Sweet Child O' Mine",
     "artist": "Guns N' Roses",
@@ -1614,7 +1614,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "F",
-    "mode": Mode.Major,
+    "mode": Mode.Mixolydian,
     "videoId": "A_MjCqQoLLA",
     "name": "Hey Jude",
     "artist": "The Beatles",
@@ -1641,7 +1641,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "E",
-    "mode": Mode.Major,
+    "mode": Mode.Mixolydian,
     "videoId": "GgnClrx8N2k",
     "name": "Sympathy for the Devil",
     "artist": "The Rolling Stones",
@@ -1667,7 +1667,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "D",
-    "mode": Mode.Major,
+    "mode": Mode.Mixolydian,
     "videoId": "nlcIKh6sBtc",
     "name": "Royals",
     "artist": "Lorde",
@@ -1689,7 +1689,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "C",
-    "mode": Mode.Major,
+    "mode": Mode.Mixolydian,
     "videoId": "j8h-Ltha_9w",
     "name": "Freedom",
     "artist": "George Michael",
@@ -1715,7 +1715,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
   },
   {
     "key": "D",
-    "mode": Mode.Major,
+    "mode": Mode.Mixolydian,
     "videoId": "ye5BuYf8q4o",
     "name": "Sweet Home Alabama",
     "artist": "Lynyrd Skynyrd",
@@ -1739,7 +1739,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
     name: 'Wonderfall',
     artist: 'Oasis',
     key: 'F#',
-    mode: Mode.Minor,
+    mode: Mode.Dorian,
     videoId: '6hzrDeceEKc',
     chords: [
       {
@@ -1765,7 +1765,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
     name: 'Boulevard of Broken Dreams',
     artist: 'Green Day',
     key: 'F',
-    mode: Mode.Minor,
+    mode: Mode.Dorian,
     videoId: 'Soa3gO7tL-c',
     chords: [
       {
@@ -1795,7 +1795,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
     name: 'Mad World',
     artist: 'Gray Jules',
     key: 'F',
-    mode: Mode.Minor,
+    mode: Mode.Dorian,
     videoId: '4N3N1MlvVc4',
     chords: [
       {
@@ -1821,7 +1821,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
     name: 'D\'You Know What I Mean?',
     artist: 'Oasis',
     key: 'B',
-    mode: Mode.Minor,
+    mode: Mode.Dorian,
     videoId: 'jyJU2136ym4',
     chords: [
       {
@@ -1851,7 +1851,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
     name: 'Pumped Up Kicks',
     artist: 'Foster The People',
     key: 'F',
-    mode: Mode.Minor,
+    mode: Mode.Dorian,
     videoId: 'SDTZ7iX4vTQ',
     chords: [
       {
@@ -1877,7 +1877,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
     name: 'Radioactive',
     artist: 'Imagine dragons',
     key: 'E',
-    mode: Mode.Minor,
+    mode: Mode.Dorian,
     videoId: 'ktvTqknDobU',
     chords: [
       {
@@ -1903,7 +1903,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
     name: 'What Goes Around... Comes Around ',
     artist: 'Justin Timberlake',
     key: 'A',
-    mode: Mode.Minor,
+    mode: Mode.Dorian,
     videoId: 'm2Kcv-Pmwkg',
     chords: [
       {
