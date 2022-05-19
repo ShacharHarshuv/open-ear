@@ -28,7 +28,7 @@ describe('Chord', () => {
       octave: 5,
       expectedResult: {
         root: 'C',
-        type: 'M',
+        type: ChordType.Major,
         intervals: [Interval.Prima, Interval.MajorThird, Interval.PerfectFifth],
         noteTypes: ['C', 'E', 'G'],
         voicing: [
@@ -40,7 +40,7 @@ describe('Chord', () => {
       chordSymbol: 'F',
       expectedResult: {
         root: 'F',
-        type: 'M',
+        type: ChordType.Major,
         intervals: [Interval.Prima, Interval.MajorThird, Interval.PerfectFifth],
         noteTypes: ['F', 'A', 'C'],
         voicing: [
@@ -54,7 +54,7 @@ describe('Chord', () => {
       chordSymbol: 'Bb',
       expectedResult: {
         root: 'Bb',
-        type: 'M',
+        type: ChordType.Major,
         intervals: [Interval.Prima, Interval.MajorThird, Interval.PerfectFifth],
         noteTypes: ['Bb', 'D', 'F'],
         voicing: [
@@ -68,7 +68,7 @@ describe('Chord', () => {
       chordSymbol: 'F#',
       expectedResult: {
         root: 'F#',
-        type: 'M',
+        type: ChordType.Major,
         intervals: [Interval.Prima, Interval.MajorThird, Interval.PerfectFifth],
         noteTypes: ['F#', 'A#', 'C#'],
         voicing: [
@@ -82,7 +82,7 @@ describe('Chord', () => {
       chordSymbol: 'Fm',
       expectedResult: {
         root: 'F',
-        type: 'm',
+        type: ChordType.Minor,
         intervals: [Interval.Prima, Interval.MinorThird, Interval.PerfectFifth],
         noteTypes: ['F', 'Ab', 'C'],
         voicing: [
@@ -96,7 +96,7 @@ describe('Chord', () => {
       chordSymbol: 'Bbm',
       expectedResult: {
         root: 'Bb',
-        type: 'm',
+        type: ChordType.Minor,
         intervals: [Interval.Prima, Interval.MinorThird, Interval.PerfectFifth],
         noteTypes: ['Bb', 'Db', 'F'],
         voicing: [
@@ -110,7 +110,7 @@ describe('Chord', () => {
       chordSymbol: 'F#m',
       expectedResult: {
         root: 'F#',
-        type: 'm',
+        type: ChordType.Minor,
         intervals: [Interval.Prima, Interval.MinorThird, Interval.PerfectFifth],
         noteTypes: ['F#', 'A', 'C#'],
         voicing: [
@@ -124,7 +124,7 @@ describe('Chord', () => {
       chordSymbol: 'Bdim',
       expectedResult: {
         root: 'B',
-        type: 'dim',
+        type: ChordType.Diminished,
         intervals: [Interval.Prima, Interval.MinorThird, Interval.DiminishedFifth],
         noteTypes: ['B', 'D' ,'F'],
         voicing: [

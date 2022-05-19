@@ -6,7 +6,11 @@ import * as _ from 'lodash';
 import { getNoteOctave } from '../../notes/getNoteOctave';
 import { Interval } from '../../intervals/Interval';
 
-export type ChordType = 'M' | 'm' | 'dim';
+export enum ChordType {
+  Major = 'M',
+  Minor = 'm',
+  Diminished = 'dim',
+}
 
 export type ChordSymbol = `${NoteType}${Exclude<ChordType, 'M'> | ''}`;
 
@@ -35,8 +39,8 @@ export class Chord {
   }
 
   private _getChordType(): ChordType {
-    return this.symbol.includes('dim') ? 'dim' :
-      this.symbol.includes('m') ? 'm' : 'M';
+    return this.symbol.includes('dim') ? ChordType.Diminished :
+      this.symbol.includes('m') ? ChordType.Minor : ChordType.Major;
   }
 
   private _getChordIntervals(): Interval[] {

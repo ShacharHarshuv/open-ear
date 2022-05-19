@@ -7,13 +7,13 @@ import {
 import { randomFromList } from '../../../shared/ts-utility';
 import {
   NumberOfSegmentsSetting,
-  numberOfSegmentsControlDescriptorList
+  numberOfSegmentsControlDescriptorList,
 } from '../utility/settings/NumberOfSegmentsSetting';
 import * as _ from 'lodash';
 import {
   BaseTonalChordProgressionExercise,
   ChordProgressionQuestion,
-  BaseTonalChordProgressionExerciseSettings
+  BaseTonalChordProgressionExerciseSettings,
 } from '../utility/base-exercises/BaseTonalChordProgressionExercise';
 import { ChordTypeInKeyExplanationComponent } from './chord-type-in-key-explanation/chord-type-in-key-explanation.component';
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
@@ -62,8 +62,8 @@ export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<Ch
 
   protected _getAllAnswersListInC(): Exercise.AnswerList<ChordType> {
     return [
-      'M',
-      'm',
+      ChordType.Major,
+      ChordType.Minor,
     ];
   }
 

@@ -9,7 +9,6 @@ import {
 import { Exercise } from '../../Exercise';
 import { randomFromList } from '../../../shared/ts-utility';
 import {
-  RomanNumeralChord,
   romanNumeralToChordInC,
 } from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
 import {
@@ -22,6 +21,7 @@ import {
   Interval,
   toNoteNumber,
   NotesRange,
+  RomanNumeralChordSymbol,
 } from '../../utility';
 import { transpose } from '../../utility/music/transpose';
 import * as _ from 'lodash';
@@ -38,7 +38,7 @@ type NoteWithChord = `${SolfegeNote}${ChordDegree}`;
 
 const noteWithChordDescriptorMap: {
   [noteWithHarmonicContext in NoteWithChord]?: {
-    chord: RomanNumeralChord,
+    chord: RomanNumeralChordSymbol,
     solfegeNote: SolfegeNote,
   }
 } = {
@@ -47,7 +47,7 @@ const noteWithChordDescriptorMap: {
     solfegeNote: 'Do',
   },
   Do2: {
-    chord: 'viiᵒ',
+    chord: 'viidim',
     solfegeNote: 'Do',
   },
   Do3: {
@@ -79,7 +79,7 @@ const noteWithChordDescriptorMap: {
     solfegeNote: 'Re',
   },
   Re3: {
-    chord: 'viiᵒ',
+    chord: 'viidim',
     solfegeNote: 'Re',
   },
   Re4: {
@@ -111,7 +111,7 @@ const noteWithChordDescriptorMap: {
     solfegeNote: 'Mi',
   },
   Mi4: {
-    chord: 'viiᵒ',
+    chord: 'viidim',
     solfegeNote: 'Mi',
   },
   Mi5: {
@@ -143,7 +143,7 @@ const noteWithChordDescriptorMap: {
     solfegeNote: 'Fa',
   },
   Fa5: {
-    chord: 'viiᵒ',
+    chord: 'viidim',
     solfegeNote: 'Fa',
   },
   Fa6: {
@@ -175,7 +175,7 @@ const noteWithChordDescriptorMap: {
     solfegeNote: 'Sol',
   },
   Sol6: {
-    chord: 'viiᵒ',
+    chord: 'viidim',
     solfegeNote: 'Sol',
   },
   Sol7: {
@@ -207,7 +207,7 @@ const noteWithChordDescriptorMap: {
     solfegeNote: 'La',
   },
   Ti1: {
-    chord: 'viiᵒ',
+    chord: 'viidim',
     solfegeNote: 'Ti',
   },
   Ti2: {
@@ -289,7 +289,7 @@ export class NotesWithChordsExercise extends BaseTonalExercise<NoteWithChord, No
   getQuestionInC(): Exclude<Exercise.NotesQuestion<NoteWithChord>, "cadence"> {
     const randomAnswer: NoteWithChord = randomFromList(this._settings.includedAnswers)
     const descriptor: {
-      chord: RomanNumeralChord,
+      chord: RomanNumeralChordSymbol,
       solfegeNote: SolfegeNote,
     } | undefined = noteWithChordDescriptorMap[randomAnswer];
 
