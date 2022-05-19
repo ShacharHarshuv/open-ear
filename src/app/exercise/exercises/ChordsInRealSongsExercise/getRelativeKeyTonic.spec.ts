@@ -1,14 +1,15 @@
 import { testPureFunction } from '../../../shared/testing-utility/testPureFunction';
 import { getRelativeKeyTonic } from './ChordsInRealSongsExercise';
+import { Mode } from './chordsInRealSongsDescriptorList';
 
 describe('getRelativeKeyTonic', () => {
   testPureFunction(getRelativeKeyTonic, [
     {
-      args: ['D', 'major'],
+      args: ['D', Mode.Major],
       returnValue: 'B',
     },
     {
-      args: ['D', 'minor'],
+      args: ['D', Mode.Minor],
       returnValue: 'F',
     },
   ])
