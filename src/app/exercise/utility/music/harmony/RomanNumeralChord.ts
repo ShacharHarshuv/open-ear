@@ -1,8 +1,10 @@
 import { ChordType } from '../chords';
 import { RomanNumeralChordSymbol } from './RomanNumeralChordSymbol';
 import * as _ from 'lodash';
-
-export type ScaleDegree = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+import {
+  DiatonicScaleDegree,
+  ScaleDegree,
+} from './ScaleDegrees';
 
 export enum Accidental {
   Natural = '',
@@ -11,12 +13,16 @@ export enum Accidental {
 }
 
 export class RomanNumeralChord {
-  readonly degree: ScaleDegree;
+  readonly diatonicDegree: DiatonicScaleDegree;
   readonly accidental: Accidental;
   readonly type: ChordType;
 
-  static readonly romanNumerals: Record<ScaleDegree, string> = { 1: 'i', 2: 'ii', 3: 'iii', 4: 'iv', 5: 'v', 6: 'vi', 7: 'vii'};
-  static readonly romanNumeralsToScaleDegree: Record<string, ScaleDegree> = _.mapValues(_.invert(RomanNumeralChord.romanNumerals), value => +value as ScaleDegree);
+  get scaleDegree(): ScaleDegree {
+    return (this.accidental + this.diatonicDegree) as ScaleDegree;
+  }
+
+  static readonly romanNumerals: Record<DiatonicScaleDegree, string> = { 1: 'i', 2: 'ii', 3: 'iii', 4: 'iv', 5: 'v', 6: 'vi', 7: 'vii'};
+  static readonly romanNumeralsToScaleDegree: Record<string, DiatonicScaleDegree> = _.mapValues(_.invert(RomanNumeralChord.romanNumerals), value => +value as DiatonicScaleDegree);
 
   static accidentalToString: Record<Accidental, string> = {
     [Accidental.Natural]: '',
@@ -25,12 +31,12 @@ export class RomanNumeralChord {
   }
 
   constructor(romanNumeralInput: RomanNumeralChordSymbol | {
-    degree: ScaleDegree,
+    degree: DiatonicScaleDegree,
     accidental: Accidental, // default is Natural
     type: ChordType, // default is major
   }) {
     if (typeof romanNumeralInput === 'object') {
-      this.degree = romanNumeralInput.degree;
+      this.diatonicDegree = romanNumeralInput.degree;
       this.accidental = romanNumeralInput.accidental;
       this.type = romanNumeralInput.type;
       return;
@@ -45,8 +51,8 @@ export class RomanNumeralChord {
     const romanNumeralString: string | undefined = regexMatch[2];
     const typeString: string | undefined = regexMatch[3];
 
-    this.degree = RomanNumeralChord.romanNumeralsToScaleDegree[romanNumeralString.toLowerCase()];
-    if (!this.degree) {
+    this.diatonicDegree = RomanNumeralChord.romanNumeralsToScaleDegree[romanNumeralString.toLowerCase()];
+    if (!this.diatonicDegree) {
       throw new Error(`${romanNumeralString} is not a valid roman numeral`);
     }
 
@@ -56,7 +62,7 @@ export class RomanNumeralChord {
   }
 
   toString(): string {
-    const romanNumeral: string = RomanNumeralChord.romanNumerals[this.degree];
+    const romanNumeral: string = RomanNumeralChord.romanNumerals[this.diatonicDegree];
     return `${RomanNumeralChord.accidentalToString[this.accidental]}${this.type === ChordType.Major ? romanNumeral.toUpperCase() : romanNumeral}${this.type === ChordType.Diminished ? '°' : ''}`
   }
 }
