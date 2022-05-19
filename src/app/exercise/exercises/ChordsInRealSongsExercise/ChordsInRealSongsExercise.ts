@@ -2,7 +2,6 @@ import { BaseExercise } from '../utility/base-exercises/BaseExercise';
 import { Exercise } from '../../Exercise';
 import {
   BaseRomanAnalysisChordProgressionExercise,
-  RomanNumeralChord,
 } from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
 import {
   chordsInRealSongsDescriptorList,
@@ -29,21 +28,24 @@ import {
 } from '../../utility/music/notes/toNoteTypeNumber';
 import { mod } from '../../../shared/ts-utility/mod';
 import { NoteType } from '../../utility/music/notes/NoteType';
-import { Interval } from '../../utility';
+import {
+  Interval,
+  RomanNumeralChord,
+} from '../../utility';
 
 type ChordsInRealSongsSettings = {
   includedChords: RomanNumeralChord[],
 }
 
 const MAJOR_TO_RELATIVE_MINOR: Partial<Record<RomanNumeralChord, RomanNumeralChord>> = {
-  I: '♭III',
+  I: 'bIII',
   ii: 'iv',
   iii: 'v',
   III: 'V',
-  IV: '♭VI',
-  V: '♭VII',
+  IV: 'bVI',
+  V: 'bVII',
   vi: 'i',
-  viiᵒ: 'iiᵒ',
+  viidim: 'iidim',
 }
 
 const TO_RELATIVE_MODE: Record<Mode.Major | Mode.Minor, Partial<Record<RomanNumeralChord, RomanNumeralChord>>> = {

@@ -1,5 +1,8 @@
 import { Exercise } from '../../Exercise';
-import { randomFromList } from '../../utility';
+import {
+  randomFromList,
+  RomanNumeralChord,
+} from '../../utility';
 import * as _ from 'lodash';
 import {
   numberOfSegmentsControlDescriptorList,
@@ -13,7 +16,6 @@ import {
 import {
   BaseRomanAnalysisChordProgressionExercise,
   BaseRomanAnalysisChordProgressionExerciseSettings,
-  RomanNumeralChord,
   RomanNumeralsChordProgressionQuestion,
 } from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
 import {

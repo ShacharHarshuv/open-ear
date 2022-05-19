@@ -1,22 +1,26 @@
 import {
   BaseTonalChordProgressionExercise,
   BaseTonalChordProgressionExerciseSettings,
-  ChordProgressionQuestion
+  ChordProgressionQuestion,
 } from './BaseTonalChordProgressionExercise';
-import { Chord, ChordSymbol, TriadInversion } from '../../../utility/music/chords';
+import {
+  Chord,
+  ChordSymbol,
+  TriadInversion,
+} from '../../../utility/music/chords';
 import * as _ from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { PlayAfterCorrectAnswerSetting } from '../settings/PlayAfterCorrectAnswerSetting';
 import { Exercise } from '../../../Exercise';
-import { Interval, toArray, toNoteNumber, toSteadyPart } from '../../../utility';
+import {
+  Interval,
+  RomanNumeralChord,
+  toArray,
+  toNoteNumber,
+  toSteadyPart,
+} from '../../../utility';
 import { transpose } from '../../../utility/music/transpose';
 import { NoteEvent } from '../../../../services/player.service';
-
-export type RomanNumeralChord =
-  | 'II' | 'III' | '#IVᵒ' | 'VI' | 'VII'
-  | 'I' | 'ii' | 'iii' | 'IV' | 'V' | 'vi' | 'viiᵒ'
-  | 'i' | 'iiᵒ' | '♭III' | 'iv' | 'v' | '♭VI' | '♭VII'
-  | '♭II' | 'vᵒ' | '♭vii';
 
 export type BaseRomanAnalysisChordProgressionExerciseSettings =
   BaseTonalChordProgressionExerciseSettings<RomanNumeralChord> &
@@ -33,7 +37,7 @@ const chordsInC: { chord: ChordSymbol; answer: RomanNumeralChord }[] = [
   },
   {
     chord: 'F#dim',
-    answer: '#IVᵒ',
+    answer: '#ivdim',
   },
   {
     chord: 'A',
@@ -69,7 +73,7 @@ const chordsInC: { chord: ChordSymbol; answer: RomanNumeralChord }[] = [
   },
   {
     chord: 'Bdim',
-    answer: 'viiᵒ',
+    answer: 'viidim',
   },
   {
     chord: 'Cm',
@@ -77,11 +81,11 @@ const chordsInC: { chord: ChordSymbol; answer: RomanNumeralChord }[] = [
   },
   {
     chord: 'Ddim',
-    answer: 'iiᵒ',
+    answer: 'iidim',
   },
   {
     chord: 'Eb',
-    answer: '♭III',
+    answer: 'bIII',
   },
   {
     chord: 'Fm',
@@ -93,23 +97,23 @@ const chordsInC: { chord: ChordSymbol; answer: RomanNumeralChord }[] = [
   },
   {
     chord: 'Ab',
-    answer: '♭VI'
+    answer: 'bVI'
   },
   {
     chord: 'Bb',
-    answer: '♭VII'
+    answer: 'bVII'
   },
   {
     chord: 'Db',
-    answer: '♭II',
+    answer: 'bII',
   },
   {
     chord: 'Gdim',
-    answer: 'vᵒ',
+    answer: 'vdim',
   },
   {
     chord: 'Bbm',
-    answer: '♭vii',
+    answer: 'bvii',
   }
 ];
 
@@ -333,7 +337,7 @@ const romanNumeralToResolution: {
         },
       ],
     },
-    viiᵒ: {
+    viidim: {
       0: [
         {
           romanNumeral: 'I',
@@ -372,7 +376,7 @@ const romanNumeralToResolution: {
         },
       ],
     },
-    iiᵒ: {
+    iidim: {
       0: [
         {
           romanNumeral: 'i',
@@ -398,7 +402,7 @@ const romanNumeralToResolution: {
         },
       ],
     },
-    '♭III': {
+    'bIII': {
       0: [
         {
           romanNumeral: 'V',
@@ -504,10 +508,10 @@ const romanNumeralToResolution: {
         },
       }],
     },
-    '♭VI': {
+    'bVI': {
       0: [
         {
-          romanNumeral: '♭VII',
+          romanNumeral: 'bVII',
           voicingConfig: {
             topVoicesInversion: TriadInversion.Third,
           },
@@ -521,7 +525,7 @@ const romanNumeralToResolution: {
       ],
       1: [
         {
-          romanNumeral: '♭VII',
+          romanNumeral: 'bVII',
           voicingConfig: {
             topVoicesInversion: TriadInversion.Octave,
           },
@@ -536,7 +540,7 @@ const romanNumeralToResolution: {
       ],
       2: [
         {
-          romanNumeral: '♭VII',
+          romanNumeral: 'bVII',
           voicingConfig: {
             topVoicesInversion: TriadInversion.Octave,
           },
@@ -550,7 +554,7 @@ const romanNumeralToResolution: {
         },
       ],
     },
-    '♭VII': {
+    'bVII': {
       0: [
         {
           romanNumeral: 'i',
@@ -682,7 +686,7 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
           },
           'II',
           'III',
-          '#IVᵒ',
+          '#ivdim',
           {
             answer: null,
             space: 1,
@@ -697,23 +701,23 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
           'IV',
           'V',
           'vi',
-          'viiᵒ',
+          'viidim',
         ],
         [
           'i',
-          'iiᵒ',
-          '♭III',
+          'iidim',
+          'bIII',
           'iv',
           'v',
-          '♭VI',
-          '♭VII',
+          'bVI',
+          'bVII',
         ],
         [
           {
             answer: null,
             space: 1,
           },
-          '♭II',
+          'bII',
           {
             answer: null,
             space: 1,
@@ -722,12 +726,12 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
             answer: null,
             space: 1,
           },
-          'vᵒ',
+          'vdim',
           {
             answer: null,
             space: 1,
           },
-          '♭vii',
+          'bvii',
         ],
       ],
     }

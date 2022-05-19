@@ -1,7 +1,6 @@
 import {
   BaseRomanAnalysisChordProgressionExercise,
   BaseRomanAnalysisChordProgressionExerciseSettings,
-  RomanNumeralChord,
   RomanNumeralsChordProgressionQuestion
 } from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
 import { Exercise } from '../../Exercise';
@@ -12,6 +11,7 @@ import {
   CommonChordProgressionsExplanationComponent
 } from './common-chord-progressions-explanation/common-chord-progressions-explanation.component';
 import { CadenceType } from '../utility/base-exercises/BaseTonalExercise';
+import { RomanNumeralChord } from '../../utility';
 
 type CommonChordProgressionExerciseSettings = BaseRomanAnalysisChordProgressionExerciseSettings & {
   includedProgressions: string[];
@@ -107,41 +107,41 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
       cadenceType: 'i iv V i',
     },
     {
-      romanNumerals: ['i', '♭VII', '♭VI', 'i'],
+      romanNumerals: ['i', 'bVII', 'bVI', 'i'],
       cadenceType: 'i iv V i',
     },
     {
-      romanNumerals: ['♭VI', 'i', '♭VII', 'i'],
+      romanNumerals: ['bVI', 'i', 'bVII', 'i'],
       cadenceType: 'i iv V i',
     },
     {
-      romanNumerals: ['i', '♭VII', '♭VI', '♭VII'],
+      romanNumerals: ['i', 'bVII', 'bVI', 'bVII'],
       cadenceType: 'i iv V i',
     },
     {
-      romanNumerals: ['i', '♭VI', '♭III', '♭VII'],
+      romanNumerals: ['i', 'bVI', 'bIII', 'bVII'],
       cadenceType: 'i iv V i',
     },
     {
-      romanNumerals: ['i', '♭VII', '♭VI', 'V'],
+      romanNumerals: ['i', 'bVII', 'bVI', 'V'],
       name: 'Andalusian Cadence',
       cadenceType: 'i iv V i',
     },
     {
-      romanNumerals: ['i', '♭III', 'iv', '♭VII'],
+      romanNumerals: ['i', 'bIII', 'iv', 'bVII'],
       cadenceType: 'i iv V i',
     },
     {
-      romanNumerals: ['i', '♭III', '♭VI', 'V'],
+      romanNumerals: ['i', 'bIII', 'bVI', 'V'],
       cadenceType: 'i iv V i',
     },
     {
-      romanNumerals: ['iiᵒ', 'V', 'i'],
+      romanNumerals: ['iidim', 'V', 'i'],
       name: 'Minor 2-5-1',
       cadenceType: 'i iv V i',
     },
     {
-      romanNumerals: ['i', 'iv', '♭VI', 'V', 'i'],
+      romanNumerals: ['i', 'iv', 'bVI', 'V', 'i'],
       cadenceType: 'i iv V i',
     },
     {
@@ -149,11 +149,11 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
       cadenceType: 'i iv V i',
     },
     {
-      romanNumerals: ['i', '♭VI', '♭III', 'iv'],
+      romanNumerals: ['i', 'bVI', 'bIII', 'iv'],
       cadenceType: 'i iv V i',
     },
     {
-      romanNumerals: ['i', '♭VII', 'v', '♭VI'],
+      romanNumerals: ['i', 'bVII', 'v', 'bVI'],
       cadenceType: 'i iv V i',
       name: '"Can\'t Stop"'
     },
@@ -164,7 +164,7 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
       name: 'Dorian Vamp'
     },
     {
-      romanNumerals: ['i', '♭III', '♭VI', 'IV'],
+      romanNumerals: ['i', 'bIII', 'bVI', 'IV'],
       cadenceType: 'i iv V i',
       name: 'Plagal Cascade',
     },

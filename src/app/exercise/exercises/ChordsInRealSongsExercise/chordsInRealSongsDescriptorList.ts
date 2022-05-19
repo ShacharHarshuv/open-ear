@@ -1,6 +1,6 @@
 import { NoteType } from '../../utility/music/notes/NoteType';
-import { RomanNumeralChord } from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
 import { CadenceType } from '../utility/base-exercises/BaseTonalExercise';
+import { RomanNumeralChord } from '../../utility';
 
 export enum Mode {
   Ionian = 1,
@@ -372,11 +372,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         "seconds": 27.03,
       },
       {
-        "chord": "♭III",
+        "chord": "bIII",
         "seconds": 28.07,
       },
       {
-        "chord": "♭VI",
+        "chord": "bVI",
         "seconds": 29.1,
       },
       {
@@ -388,11 +388,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         "seconds": 31.17,
       },
       {
-        "chord": "♭III",
+        "chord": "bIII",
         "seconds": 32.21,
       },
       {
-        "chord": "♭VI",
+        "chord": "bVI",
         "seconds": 33.24,
       },
     ],
@@ -414,11 +414,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         "seconds": 59.96,
       },
       {
-        "chord": "♭III",
+        "chord": "bIII",
         "seconds": 60.96,
       },
       {
-        "chord": "♭VI",
+        "chord": "bVI",
         "seconds": 61.97,
       },
       {
@@ -430,11 +430,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         "seconds": 63.99,
       },
       {
-        "chord": "♭III",
+        "chord": "bIII",
         "seconds": 65.06,
       },
       {
-        "chord": "♭VI",
+        "chord": "bVI",
         "seconds": 66.03,
       },
     ],
@@ -448,7 +448,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
     "artist": "Michael Jackson",
     "chords": [
       {
-        "chord": "♭VI",
+        "chord": "bVI",
         "seconds": 71.08,
       },
       {
@@ -456,7 +456,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         "seconds": 72.94,
       },
       {
-        "chord": "♭VI",
+        "chord": "bVI",
         "seconds": 75.02,
       },
       {
@@ -464,7 +464,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         "seconds": 76.99,
       },
       {
-        "chord": "♭VI",
+        "chord": "bVI",
         "seconds": 79.16,
       },
       {
@@ -472,7 +472,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         "seconds": 81.20,
       },
       {
-        "chord": "♭VI",
+        "chord": "bVI",
         "seconds": 83.2,
       },
       {
@@ -495,7 +495,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
       },
       {
         seconds: 34.5,
-        chord: '♭VII',
+        chord: 'bVII',
       },
       {
         seconds: 38.5,
@@ -521,7 +521,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
       },
       {
         seconds: 63,
-        chord: '♭VII',
+        chord: 'bVII',
       },
       {
         seconds: 65,
@@ -958,11 +958,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         "seconds": 9.7,
       },
       {
-        "chord": "♭VII",
+        "chord": "bVII",
         "seconds": 10.49,
       },
       {
-        "chord": "♭VI",
+        "chord": "bVI",
         "seconds": 11.09,
       },
       {
@@ -984,11 +984,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         "seconds": 0.72,
       },
       {
-        "chord": "♭VII",
+        "chord": "bVII",
         "seconds": 3.86,
       },
       {
-        "chord": "♭VI",
+        "chord": "bVI",
         "seconds": 6.99,
       },
       {
@@ -1010,11 +1010,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         "seconds": 471.1,
       },
       {
-        "chord": "♭VII",
+        "chord": "bVII",
         "seconds": 473.44,
       },
       {
-        "chord": "♭VI",
+        "chord": "bVI",
         "seconds": 475.89,
       },
       {
@@ -1036,11 +1036,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         "seconds": 481.70,
       },
       {
-        "chord": "♭VII",
+        "chord": "bVII",
         "seconds": 482.54,
       },
       {
-        "chord": "♭VI",
+        "chord": "bVI",
         "seconds": 484,
       },
       {
@@ -1062,11 +1062,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         "seconds": 16.96,
       },
       {
-        "chord": "♭VII",
+        "chord": "bVII",
         "seconds": 20.66,
       },
       {
-        "chord": "♭VI",
+        "chord": "bVI",
         "seconds": 24.69,
       },
       {
@@ -1088,11 +1088,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         "seconds": 6.96,
       },
       {
-        "chord": "♭VII",
+        "chord": "bVII",
         "seconds": 9.82,
       },
       {
-        "chord": "♭VI",
+        "chord": "bVI",
         "seconds": 12.94,
       },
       {
@@ -1114,15 +1114,15 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         "seconds": 59.6,
       },
       {
-        "chord": "♭VII",
+        "chord": "bVII",
         "seconds": 61.89,
       },
       {
-        "chord": "♭VI",
+        "chord": "bVI",
         "seconds": 64.17,
       },
       {
-        "chord": "♭VII",
+        "chord": "bVII",
         "seconds": 67.6,
       },
     ],
@@ -1140,15 +1140,15 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         "seconds": 18.72,
       },
       {
-        "chord": "♭VII",
+        "chord": "bVII",
         "seconds": 19.8,
       },
       {
-        "chord": "♭VI",
+        "chord": "bVI",
         "seconds": 20.61,
       },
       {
-        "chord": "♭VII",
+        "chord": "bVII",
         "seconds": 22.23,
       },
     ],
@@ -1166,15 +1166,15 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         "seconds": 404,
       },
       {
-        "chord": "♭VII",
+        "chord": "bVII",
         "seconds": 405.15,
       },
       {
-        "chord": "♭VI",
+        "chord": "bVI",
         "seconds": 406.42,
       },
       {
-        "chord": "♭VII",
+        "chord": "bVII",
         "seconds": 408.49,
       },
       {
@@ -1196,15 +1196,15 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         "seconds": 214.68,
       },
       {
-        "chord": "♭VII",
+        "chord": "bVII",
         "seconds": 217.1,
       },
       {
-        "chord": "♭VI",
+        "chord": "bVI",
         "seconds": 219.53,
       },
       {
-        "chord": "♭VII",
+        "chord": "bVII",
         "seconds": 221.95,
       },
     ],
@@ -1222,15 +1222,15 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         "seconds": 93.09,
       },
       {
-        "chord": "♭VII",
+        "chord": "bVII",
         "seconds": 94.03,
       },
       {
-        "chord": "♭VI",
+        "chord": "bVI",
         "seconds": 94.97,
       },
       {
-        "chord": "♭VII",
+        "chord": "bVII",
         "seconds": 95.9,
       },
     ],
@@ -1637,7 +1637,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         "seconds": 258.76,
       },
       {
-        "chord": "♭VII",
+        "chord": "bVII",
         "seconds": 261.92,
       },
       {
@@ -1663,7 +1663,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         "seconds": 21.2,
       },
       {
-        "chord": "♭VII",
+        "chord": "bVII",
         "seconds": 23.23,
       },
       {
@@ -1689,7 +1689,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         "seconds": 56.59,
       },
       {
-        "chord": "♭VII",
+        "chord": "bVII",
         "seconds": 62.12,
       },
       {
@@ -1711,7 +1711,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         "seconds": 136.17,
       },
       {
-        "chord": "♭VII",
+        "chord": "bVII",
         "seconds": 138.78,
       },
       {
@@ -1737,7 +1737,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         "seconds": 70.43,
       },
       {
-        "chord": "♭VII",
+        "chord": "bVII",
         "seconds": 71.74,
       },
       {
@@ -1759,11 +1759,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 65.76,
       },
       {
-        chord: '♭III',
+        chord: 'bIII',
         seconds: 67.11,
       },
       {
-        chord: '♭VII',
+        chord: 'bVII',
         seconds: 68.51,
       },
       {
@@ -1785,11 +1785,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 54.6,
       },
       {
-        chord: '♭III',
+        chord: 'bIII',
         seconds: 56.1,
       },
       {
-        chord: '♭VII',
+        chord: 'bVII',
         seconds: 57.57,
       },
       {
@@ -1815,11 +1815,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 17.42,
       },
       {
-        chord: '♭III',
+        chord: 'bIII',
         seconds: 20.12,
       },
       {
-        chord: '♭VII',
+        chord: 'bVII',
         seconds: 22.75,
       },
       {
@@ -1841,11 +1841,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 76.13,
       },
       {
-        chord: '♭III',
+        chord: 'bIII',
         seconds: 77.5,
       },
       {
-        chord: '♭VII',
+        chord: 'bVII',
         seconds: 78.98,
       },
       {
@@ -1871,11 +1871,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 75.52,
       },
       {
-        chord: '♭III',
+        chord: 'bIII',
         seconds: 77.37,
       },
       {
-        chord: '♭VII',
+        chord: 'bVII',
         seconds: 79.2,
       },
       {
@@ -1897,11 +1897,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 89.6,
       },
       {
-        chord: '♭III',
+        chord: 'bIII',
         seconds: 91.04,
       },
       {
-        chord: '♭VII',
+        chord: 'bVII',
         seconds: 92.83,
       },
       {
@@ -1923,11 +1923,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 69.4,
       },
       {
-        chord: '♭III',
+        chord: 'bIII',
         seconds: 71.05,
       },
       {
-        chord: '♭VII',
+        chord: 'bVII',
         seconds: 72.61,
       },
       {
@@ -1953,7 +1953,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 34.22,
       },
       {
-        chord: '♭VII',
+        chord: 'bVII',
         seconds: 36.29,
       },
       {
@@ -1961,7 +1961,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 38.9,
       },
       {
-        chord: '♭VI',
+        chord: 'bVI',
         seconds: 41.52,
       },
     ],
@@ -1979,7 +1979,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 106,
       },
       {
-        chord: '♭VII',
+        chord: 'bVII',
         seconds: 108.31,
       },
       {
@@ -1987,7 +1987,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 110.61,
       },
       {
-        chord: '♭VI',
+        chord: 'bVI',
         seconds: 113.05,
       },
     ],
@@ -2005,7 +2005,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 73.55,
       },
       {
-        chord: '♭VII',
+        chord: 'bVII',
         seconds: 75.42,
       },
       {
@@ -2013,7 +2013,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 77.33,
       },
       {
-        chord: '♭VI',
+        chord: 'bVI',
         seconds: 79.36,
       },
     ],
@@ -2031,7 +2031,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 165,
       },
       {
-        chord: '♭VII',
+        chord: 'bVII',
         seconds: 166.46,
       },
       {
@@ -2039,7 +2039,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 168.1,
       },
       {
-        chord: '♭VI',
+        chord: 'bVI',
         seconds: 169.74,
       },
     ],
@@ -2058,7 +2058,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 130,
       },
       {
-        chord: '♭VII',
+        chord: 'bVII',
         seconds: 130.79,
       },
       {
@@ -2066,7 +2066,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 132.56,
       },
       {
-        chord: '♭VI',
+        chord: 'bVI',
         seconds: 133.69,
       },
       {
@@ -2074,11 +2074,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 135.72,
       },
       {
-        chord: '♭VII',
+        chord: 'bVII',
         seconds: 136.79,
       },
       {
-        chord: '♭VI',
+        chord: 'bVI',
         seconds: 138.1,
       },
     ],
@@ -2096,7 +2096,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 55,
       },
       {
-        chord: '♭VII',
+        chord: 'bVII',
         seconds: 56.32,
       },
       {
@@ -2104,7 +2104,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 57.58,
       },
       {
-        chord: '♭VI',
+        chord: 'bVI',
         seconds: 58.77,
       },
     ],
@@ -2122,7 +2122,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 17,
       },
       {
-        chord: '♭VII',
+        chord: 'bVII',
         seconds: 18.82,
       },
       {
@@ -2130,7 +2130,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 20.86,
       },
       {
-        chord: '♭VI',
+        chord: 'bVI',
         seconds: 22.88,
       },
     ],
@@ -2148,7 +2148,7 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 68,
       },
       {
-        chord: '♭VII',
+        chord: 'bVII',
         seconds: 69.54,
       },
       {
@@ -2156,11 +2156,11 @@ export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<Progression
         seconds: 71.49,
       },
       {
-        chord: '♭VI',
+        chord: 'bVI',
         seconds: 73.52,
       },
       {
-        chord: '♭VII',
+        chord: 'bVII',
         seconds: 74.48,
       },
     ],
