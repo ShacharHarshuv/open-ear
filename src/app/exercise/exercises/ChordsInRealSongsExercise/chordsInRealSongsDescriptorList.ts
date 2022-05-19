@@ -1,18 +1,6 @@
 import { NoteType } from '../../utility/music/notes/NoteType';
 import { CadenceType } from '../utility/base-exercises/BaseTonalExercise';
-import { RomanNumeralChordSymbol } from '../../utility';
-
-export enum Mode {
-  Ionian = 1,
-  Dorian,
-  Phrygian,
-  Lydian,
-  Mixolydian,
-  Aeolian,
-  Locrian,
-  Major = Ionian,
-  Minor = Aeolian,
-}
+import { Mode, RomanNumeralChordSymbol } from '../../utility';
 
 export interface ProgressionInSongFromYouTubeDescriptor {
   key: NoteType,

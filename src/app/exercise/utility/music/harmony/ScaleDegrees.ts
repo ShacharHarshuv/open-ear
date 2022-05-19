@@ -4,7 +4,7 @@ export type DiatonicScaleDegree = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 export type ScaleDegree = '1' | 'b2' | '2' | 'b3' | '3' | '4' | '#4' | '5' | 'b6' | '6' | 'b7' | '7';
 export type ChromaticScaleDegree = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 
-export const scaleDegreeToSemitone: Record<ScaleDegree, ChromaticScaleDegree> = {
+export const scaleDegreeToChromaticDegree: Record<ScaleDegree, ChromaticScaleDegree> = {
   '1': 1,
   'b2': 2,
   '2': 3,
@@ -19,4 +19,4 @@ export const scaleDegreeToSemitone: Record<ScaleDegree, ChromaticScaleDegree> = 
   '7': 12,
 }
 
-export const semitoneToScaleDegree = _.invert(scaleDegreeToSemitone) as Record<ChromaticScaleDegree, ScaleDegree>;
+export const chromaticDegreeToScaleDegree = _.invert(scaleDegreeToChromaticDegree) as Record<ChromaticScaleDegree, ScaleDegree>;
