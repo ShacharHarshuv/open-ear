@@ -46,7 +46,7 @@ describe('StorageMigrationService', function() {
       },
     ];
     spyOn(storageMigrationService, 'getScriptsToRun').and.returnValue(Promise.resolve(migrationScriptsMock));
-    const runScriptSpy = spyOn(storageMigrationService, 'runScript');
+    const runScriptSpy = spyOn(storageMigrationService, 'runMigrationScript');
     await storageMigrationService.runMigrationScripts();
     expect(runScriptSpy.calls.all()).toEqual(migrationScriptsMock.map(script => jasmine.objectContaining({
       args: [script],
@@ -113,7 +113,7 @@ describe('StorageMigrationService', function() {
     ]
 
     testCases.forEach(testCase => {
-      fit(testCase.name, async () => {
+      it(testCase.name, async () => {
         TestBed.overrideProvider(MIGRATION_SCRIPTS, {
           useValue: mockScripts,
         });
@@ -129,4 +129,61 @@ describe('StorageMigrationService', function() {
       });
     })
   })
+
+  describe('runMigrationScript', function() {
+    beforeEach(() => {
+      storageMigrationService = TestBed.inject(StorageMigrationService);
+    });
+
+    const mockScript: StorageMigrationScript<number> = {
+      ...baseMockScript,
+      storageKey: 'key',
+      getNewData(oldData): number {
+        return oldData + 1;
+      },
+    }
+
+    it('should not run script if \'key\' doesn\'t exist in storage', async () => {
+      const setSpy = spyOn(TestBed.inject(StorageService), 'set');
+      await storageMigrationService.runMigrationScript(mockScript);
+      expect(setSpy).not.toHaveBeenCalled();
+    });
+
+    it('should change the storage', async () => {
+      spyOn(TestBed.inject(StorageService), 'get').and.callFake(async (key) => {
+        if (key === 'key') {
+          return 1;
+        }
+        return undefined;
+      })
+      const setSpy = spyOn(TestBed.inject(StorageService), 'set');
+      await storageMigrationService.runMigrationScript(mockScript);
+      expect(setSpy).toHaveBeenCalledOnceWith('key', 2);
+    });
+
+    it('should change the storage for every key provided', async () => {
+      spyOn(TestBed.inject(StorageService), 'get').and.callFake(async (key) => {
+        if (key === 'key1') {
+          return 1;
+        }
+        if (key === 'key2') {
+          return 2;
+        }
+        return undefined;
+      })
+      const setSpy = spyOn(TestBed.inject(StorageService), 'set');
+      await storageMigrationService.runMigrationScript({
+        ...mockScript,
+        storageKey: ['key1', 'key2'],
+      });
+      expect(setSpy.calls.all()).toEqual([
+        jasmine.objectContaining({
+          args: ['key1', 2]
+        }),
+        jasmine.objectContaining({
+          args: ['key2', 3]
+        }),
+      ])
+    });
+  });
 });

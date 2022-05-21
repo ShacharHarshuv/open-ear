@@ -14,7 +14,7 @@ export class StorageMigrationServiceMock implements PublicMembers<StorageMigrati
     return [];
   }
 
-  async runScript(migrationScript: StorageMigrationScript): Promise<void> {
+  async runMigrationScript(migrationScript: StorageMigrationScript): Promise<void> {
   }
 
   async runMigrationScripts(): Promise<void> {
