@@ -3,10 +3,20 @@ import {
   Provider,
 } from '@angular/core';
 import { PublicMembers } from '../shared/ts-utility/PublicMembers';
-import { StorageMigrationService } from './storage-migration.service';
+import {
+  StorageMigrationScript,
+  StorageMigrationService,
+} from './storage-migration.service';
 
 @Injectable()
 export class StorageMigrationServiceMock implements PublicMembers<StorageMigrationService> {
+  async getScriptsToRun(): Promise<StorageMigrationScript[]> {
+    return [];
+  }
+
+  async runScript(migrationScript: StorageMigrationScript): Promise<void> {
+  }
+
   async runMigrationScripts(): Promise<void> {
   }
 
