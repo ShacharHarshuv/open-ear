@@ -1,13 +1,23 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  TestBed,
+  waitForAsync,
+} from '@angular/core/testing';
 
 import { AppComponent } from './app.component';
+import { IonicTestingModule } from './shared/ionic-testing/ionic-testing.module';
+import { ReleaseNotesTestingModule } from './release-notes/release-notes.testing.module';
 
-xdescribe('AppComponent', () => {
-
+describe('AppComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent],
+      imports: [
+        IonicTestingModule,
+        ReleaseNotesTestingModule,
+      ],
+      declarations: [
+        AppComponent
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
