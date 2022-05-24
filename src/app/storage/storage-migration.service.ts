@@ -38,10 +38,10 @@ export class StorageMigrationService {
   async getScriptsToRun(): Promise<StorageMigrationScript[]> {
     const currentVersion: string = await firstValueFrom(toObservable(await this._versionService.version$));
     const lastVersion: string = await this._storageService.get(this._lastVersionKey);
-    if (!lastVersion) {
+    if (!lastVersion && currentVersion !== 'development') {
       return this._migrationScrips;
     }
-    if (lastVersion === currentVersion) {
+    if (lastVersion === currentVersion || currentVersion === 'development') {
       return [];
     }
     return this._migrationScrips.filter(migrationScript => {

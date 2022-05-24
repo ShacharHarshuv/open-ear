@@ -76,7 +76,7 @@ describe('StorageMigrationService', function() {
     const testCases: {
       name: string;
       currentVersion: string;
-      lastVersionValue: string | undefined;
+      lastVersionValue: string | undefined | null;
       expectedValue: Expected<ArrayLike<StorageMigrationScript>> | ArrayContaining<StorageMigrationScript>;
     }[] = [
       {
@@ -110,6 +110,12 @@ describe('StorageMigrationService', function() {
           }),
         ],
       },
+      {
+        name: 'it should return no scripts in development',
+        currentVersion: 'development',
+        lastVersionValue: null,
+        expectedValue: [],
+      }
     ]
 
     testCases.forEach(testCase => {
