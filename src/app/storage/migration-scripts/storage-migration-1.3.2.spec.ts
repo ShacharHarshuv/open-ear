@@ -6,14 +6,18 @@ describe('storage-migration-1.3.2', () => {
     {
       args: [{
         exercise1: {
-          includedAnswers: ['♭II', 'i', 'iv', '#iv', 'vii°']
-        }
+          exerciseSettings: {
+            includedAnswers: ['♭II', 'i', 'iv', '#iv', 'vii°'],
+          },
+        },
       }],
       returnValue: {
         exercise1: {
-          includedAnswers: ['bII', 'i', 'iv', '#iv', 'viidim']
-        }
-      }
-    }
+          exerciseSettings: {
+            includedAnswers: ['bII', 'i', 'iv', '#iv', 'viidim'],
+          },
+        },
+      },
+    },
   ])
 });

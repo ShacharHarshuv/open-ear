@@ -1,17 +1,24 @@
 import { StorageMigrationScript } from '../storage-migration.service';
 import * as _ from 'lodash';
 
-export const migrationScript_1_3_2: StorageMigrationScript<Record<string, { includedAnswers: any[] }>> = {
+export const migrationScript_1_3_2: StorageMigrationScript<Record<string, { exerciseSettings: { includedAnswers: any[] }
+}>> = {
   storageKey: 'exerciseSettings',
   breakingChangeVersion: '1.3.2',
   getNewData(oldData) {
-    return _.mapValues(oldData, exerciseSettings => {
+    console.log('migrating', oldData);
+    const x = _.mapValues(oldData, exerciseSettings => {
       return {
         ...exerciseSettings,
-        includedAnswers: _.map(exerciseSettings.includedAnswers, answer => {
-          return answer.replace('♭', 'b').replace('°', 'dim');
-        }),
+        exerciseSettings: {
+          ...exerciseSettings,
+          includedAnswers: _.map(exerciseSettings.exerciseSettings.includedAnswers, answer => {
+            return answer.replace('♭', 'b').replace('°', 'dim');
+          }),
+        },
       }
     });
+    console.log('response', x); // todo
+    return x;
   }
 }
