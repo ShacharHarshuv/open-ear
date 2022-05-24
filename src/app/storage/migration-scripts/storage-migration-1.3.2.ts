@@ -15,7 +15,7 @@ export const migrationScript_1_3_2: StorageMigrationScript<Record<string, { exer
         exerciseSettings: {
           ...exerciseSettings.exerciseSettings,
           includedAnswers: _.map(exerciseSettings.exerciseSettings.includedAnswers, answer => {
-            return answer.replace('♭', 'b').replace('°', 'dim');
+            return answer.replace('♭', 'b').replace('ᵒ', 'dim');
           }),
         },
       }

@@ -27,7 +27,7 @@ describe('storage-migration-1.3.2', () => {
       args: [{
         exercise1: {
           exerciseSettings: {
-            includedAnswers: ['♭II', 'i', 'iv', '#iv', 'vii°'],
+            includedAnswers: ['♭II', 'i', 'iv', '#iv', 'viiᵒ'],
           },
         },
       }],
