@@ -25,7 +25,7 @@ export interface YouTubeCallbackDescriptor {
 const TIME_STAMP_POLLING: number = 200;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class YouTubePlayerService extends BaseDestroyable {
   private _isVideoLoading: boolean = false;
@@ -36,7 +36,7 @@ export class YouTubePlayerService extends BaseDestroyable {
   private _callBackQueue = new PriorityQueue<YouTubeCallbackDescriptor>({
     comparator: (a: YouTubeCallbackDescriptor, b: YouTubeCallbackDescriptor) => {
       return a.seconds - b.seconds;
-    }
+    },
   });
 
   get isVideoLoading(): boolean {
@@ -57,7 +57,10 @@ export class YouTubePlayerService extends BaseDestroyable {
 
     // this helps to sync the chords faster
     document.addEventListener('click', async () => {
-      console.log(_.round(await this._youTubePlayer.getCurrentTime(), 2) - 0.3); // compensating for delay
+      const currentTime: number = _.round(await this._youTubePlayer.getCurrentTime() - 0.3 /*compensating for delay*/, 2);
+      if (currentTime > 0) {
+        console.log(currentTime);
+      }
     })
   }
 
