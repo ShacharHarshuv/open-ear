@@ -63,6 +63,10 @@ export class ExerciseStateService implements OnDestroy {
   ) {
   }
 
+  get playerReady(): boolean {
+    return this._notesPlayer.isReady;
+  }
+
   get lastPlayed(): PartToPlay[] | null {
     return this._notesPlayer.lastPlayed;
   }

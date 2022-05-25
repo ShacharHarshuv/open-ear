@@ -92,6 +92,7 @@
     </ng-template>
     <div class="exercise__actions-container">
       <ion-button
+        [disabled]="!state.playerReady"
         (click)="state.playCurrentCadenceAndQuestion()"
       >
         <ion-icon name="repeat"></ion-icon>
@@ -99,6 +100,7 @@
       </ion-button>
       <ion-button
         *ngIf="state.hasCadence"
+        [disabled]="!state.playerReady"
         (click)="state.playCurrentQuestion()"
       >
         <ion-icon name="musical-note"></ion-icon>
