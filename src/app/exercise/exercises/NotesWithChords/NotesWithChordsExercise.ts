@@ -353,7 +353,7 @@ export class NotesWithChordsExercise extends BaseTonalExercise<NoteWithChord, No
     }
   }
 
-  protected _getAllAnswersListInC(): Exercise.AnswerList<NoteWithChord> {
+  protected _getAnswersListInC(): Exercise.AnswerList<NoteWithChord> {
     const solfegeSyllables = ['Do', 'Re', 'Mi', 'Fa', 'Sol', 'La', 'Ti'] as const;
     const chordDegrees = [1, 2, 3, 4, 5, 6, 7] as const;
     return {

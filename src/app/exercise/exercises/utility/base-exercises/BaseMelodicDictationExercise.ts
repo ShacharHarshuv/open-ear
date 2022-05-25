@@ -83,7 +83,7 @@ export abstract class BaseMelodicDictationExercise<GSettings extends BaseMelodic
     return question;
   }
 
-  protected _getAllAnswersListInC(): Exercise.AnswerList<SolfegeNote> {
+  protected _getAnswersListInC(): Exercise.AnswerList<SolfegeNote> {
     return {
       rows: [
         [

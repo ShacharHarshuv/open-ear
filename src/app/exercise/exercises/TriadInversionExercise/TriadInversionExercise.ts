@@ -83,7 +83,7 @@ export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnsw
     }
   }
 
-  protected override _getAllAnswersListInC(): Exercise.AnswerList<TriadInversionAnswer> {
+  protected override _getAnswersListInC(): Exercise.AnswerList<TriadInversionAnswer> {
     return {
       rows: triadInversions.map(triadInversion => [triadInversion]),
     };
