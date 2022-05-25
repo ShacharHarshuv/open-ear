@@ -66,12 +66,19 @@ function getFileArrayBuffer(url: string): Promise<ArrayBuffer> {
 })
 export class PlayerService {
   private _instrumentPromise: Promise<Sampler> = this._getInstrument();
+  private _isReady: boolean = false;
   private _currentlyPlaying: Part | null = null;
   private _currentlyPlayingPartFinishedSchedulerId: number | null = null;
   private _onPartFinished$ = new Subject<void>();
   private _partsToPlay: PartToPlay[] = [];
   private _onAllPartsFinished$ = new Subject<void>();
   private _lastPlayed: PartToPlay[] | null = null;
+
+  constructor() {
+    this._instrumentPromise.then(() => {
+      this._isReady = true;
+    })
+  }
 
   get bpm(): number {
     return Tone.Transport.bpm.value;
@@ -81,7 +88,8 @@ export class PlayerService {
     return this._lastPlayed;
   }
 
-  constructor() {
+  get isReady(): boolean {
+    return this._isReady;
   }
 
   async init() {
