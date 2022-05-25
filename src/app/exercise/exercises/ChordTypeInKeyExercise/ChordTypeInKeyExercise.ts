@@ -60,7 +60,7 @@ export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<Ch
     }
   }
 
-  protected _getAllAnswersListInC(): Exercise.AnswerList<ChordType> {
+  protected _getAnswersListInC(): Exercise.AnswerList<ChordType> {
     return [
       ChordType.Major,
       ChordType.Minor,

@@ -665,7 +665,7 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
     };
   }
 
-  protected _getAllAnswersListInC(): Exercise.AnswerList<RomanNumeralChordSymbol> {
+  protected _getAnswersListInC(): Exercise.AnswerList<RomanNumeralChordSymbol> {
     return BaseRomanAnalysisChordProgressionExercise.allAnswersList;
   }
 

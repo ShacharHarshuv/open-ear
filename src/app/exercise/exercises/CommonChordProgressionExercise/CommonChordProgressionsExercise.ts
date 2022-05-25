@@ -207,7 +207,6 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
 
   constructor() {
     super();
-    this._startIncludedProgressionsChangeHandler();
   }
 
   protected _getChordProgressionInRomanNumerals(): RomanNumeralsChordProgressionQuestion {
@@ -242,19 +241,9 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
     }
   }
 
-  private _startIncludedProgressionsChangeHandler(): void {
-    this._settings$.pipe(
-      map(settings => settings.includedProgressions),
-      startWith(CommonChordProgressionsExercise._defaultProgressions),
-      distinctUntilChanged(),
-      takeUntil(this._destroy$),
-    ).subscribe(() => {
-      const newIncludedAnswers: RomanNumeralChordSymbol[] = _.uniq(_.flatMap(this._getIncludedProgressionsDescriptors(), 'romanNumerals'));
-      this.updateSettings({
-        ...this._settings,
-        includedAnswers: newIncludedAnswers,
-      })
-    })
+  protected override _getAnswersListInC(): Exercise.AnswerList<RomanNumeralChordSymbol> {
+    const includedAnswers: RomanNumeralChordSymbol[] = _.uniq(_.flatMap(this._getIncludedProgressionsDescriptors(), 'romanNumerals'));
+    return Exercise.filterIncludedAnswers(super._getAnswersListInC(), includedAnswers);
   }
 
   private _getIncludedProgressionsDescriptors(): ProgressionDescriptor[] {

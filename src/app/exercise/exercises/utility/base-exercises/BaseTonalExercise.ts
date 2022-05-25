@@ -99,7 +99,7 @@ export abstract class BaseTonalExercise<GAnswer extends string = string, GSettin
   }
 
   override getAnswerList(): Exercise.AnswerList<GAnswer> {
-    const answerListInC: Exercise.AnswerList<GAnswer> = this._getAllAnswersListInC();
+    const answerListInC: Exercise.AnswerList<GAnswer> = this._getAnswersListInC();
     const answerLayout: Exercise.NormalizedAnswerLayout<GAnswer> = Exercise.normalizedAnswerList(answerListInC);
     return {
       rows: answerLayout.rows.map(row => row.map(answerConfig => ({
@@ -112,7 +112,7 @@ export abstract class BaseTonalExercise<GAnswer extends string = string, GSettin
     }
   }
 
-  protected abstract _getAllAnswersListInC(): Exercise.AnswerList<GAnswer>;
+  protected abstract _getAnswersListInC(): Exercise.AnswerList<GAnswer>;
 
   /**
    * Use when you want to limit question heard range

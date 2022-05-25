@@ -4,6 +4,7 @@ import { Provider } from '@angular/core';
 
 export class PlayerMockService implements PublicMembers<PlayerService> {
   private _bpm: number = 120;
+  readonly isReady = true;
 
   constructor() {
   }
@@ -43,5 +44,4 @@ export class PlayerMockService implements PublicMembers<PlayerService> {
   get lastPlayed(): PartToPlay[] | null {
     return null;
   }
-
 }
