@@ -46,8 +46,8 @@ export function IncludedAnswersSetting<GAnswer extends string, GSettings extends
         ];
 
         return [
-          ...super._getSettingsDescriptor(),
           ...settingsDescriptorList,
+          ...super._getSettingsDescriptor(),
         ];
       }
 

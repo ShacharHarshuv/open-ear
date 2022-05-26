@@ -23,6 +23,7 @@ import {
   IncludedAnswersSettings,
 } from '../utility/settings/IncludedAnswersSettings';
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
+import { CadenceTypeSetting } from '../utility/settings/CadenceTypeSetting';
 
 type ChordInKeySettings =
   IncludedAnswersSettings<RomanNumeralChordSymbol> &
@@ -30,6 +31,7 @@ type ChordInKeySettings =
   NumberOfSegmentsSetting &
   PlayAfterCorrectAnswerSetting;
 
+@CadenceTypeSetting<ChordInKeySettings>()
 @IncludedAnswersSetting<RomanNumeralChordSymbol, ChordInKeySettings>({
   default: ['I', 'IV', 'V'],
 })

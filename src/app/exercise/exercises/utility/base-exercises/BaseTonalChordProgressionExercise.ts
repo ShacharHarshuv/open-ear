@@ -158,9 +158,8 @@ export abstract class BaseTonalChordProgressionExercise<GAnswer extends string, 
       },
       {
         key: 'includedPositions' as const,
-        info: 'Limit the included top voices positions. <br> ' +
-          'This does not influence the bass, only the top voices.<br>' +
-          'This works only if "Voice Leading" is set to "Random"',
+        info: 'Limit the included top voices positions.',
+        show: (settings => settings.voiceLeading === 'RANDOM'),
         descriptor: {
           controlType: 'LIST_SELECT',
           label: 'Included Positions (top voices)',
