@@ -28,7 +28,7 @@ export class ExerciseService {
     new ChordTypeInKeyExercise() as unknown as IExercise, // TODO(OE-27)
     new NotesWithChordsExercise() as unknown as IExercise, // TODO(OE-27)
     new TriadInversionExercise() as unknown as IExercise, // TODO(OE-27)
-    new ChordArpeggioExercise() as unknown as IExercise, // TODO(OE-27)
+    // new ChordArpeggioExercise() as unknown as IExercise, // TODO(OE-27)
     new IntervalExercise() as unknown as IExercise, // TODO(OE-27)
   ];
   private readonly _exerciseIdToExercise = _.keyBy(ExerciseService._exerciseList, 'id');
