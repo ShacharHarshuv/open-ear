@@ -1,17 +1,16 @@
 import {
   BaseRomanAnalysisChordProgressionExercise,
   BaseRomanAnalysisChordProgressionExerciseSettings,
-  RomanNumeralsChordProgressionQuestion
+  RomanNumeralsChordProgressionQuestion,
 } from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
 import { Exercise } from '../../Exercise';
 import { randomFromList } from '../../../shared/ts-utility';
-import { distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
 import * as _ from 'lodash';
+import { CommonChordProgressionsExplanationComponent } from './common-chord-progressions-explanation/common-chord-progressions-explanation.component';
 import {
-  CommonChordProgressionsExplanationComponent
-} from './common-chord-progressions-explanation/common-chord-progressions-explanation.component';
-import { CadenceType } from '../utility/base-exercises/BaseTonalExercise';
-import { RomanNumeralChordSymbol } from '../../utility';
+  RomanNumeralChordSymbol,
+  Mode,
+} from '../../utility';
 
 type CommonChordProgressionExerciseSettings = BaseRomanAnalysisChordProgressionExerciseSettings & {
   includedProgressions: string[];
@@ -20,7 +19,7 @@ type CommonChordProgressionExerciseSettings = BaseRomanAnalysisChordProgressionE
 interface ProgressionDescriptor {
   romanNumerals: RomanNumeralChordSymbol[],
   name?: string,
-  cadenceType?: CadenceType,
+  mode?: Mode,
 }
 
 export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgressionExercise<CommonChordProgressionExerciseSettings> {
@@ -53,14 +52,6 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
       name: 'Axis (optimistic)',
     },
     {
-      romanNumerals: ['V', 'vi', 'IV', 'I'],
-      name: 'Axis'
-    },
-    {
-      romanNumerals: ['vi', 'IV', 'I', 'V'],
-      name: 'Axis (pessimistic)',
-    },
-    {
       romanNumerals: ['IV', 'I', 'V', 'vi'],
       name: 'Axis'
     },
@@ -80,13 +71,6 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
       name: 'Circle'
     },
     {
-      romanNumerals: ['I', 'vi', 'iii'],
-      name: 'Circle'
-    },
-    {
-      romanNumerals: ['I', 'vi', 'iii'],
-    },
-    {
       romanNumerals: ['I', 'vi', 'iii', 'IV'],
     },
     {
@@ -95,90 +79,121 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
      // Diatonic Minor (Harmonic / Natural) progressions
     {
       romanNumerals: ['i', 'V', 'i'],
-      cadenceType: 'i iv V i',
+      mode: Mode.Minor,
     },
     {
       romanNumerals: ['i', 'iv', 'i'],
-      cadenceType: 'i iv V i',
+      mode: Mode.Minor,
     },
     {
       romanNumerals: ['i', 'iv', 'V', 'i'],
       name: 'Minor Classical Cadence',
-      cadenceType: 'i iv V i',
+      mode: Mode.Minor,
+    },
+    {
+      romanNumerals: ['i', 'V', 'iv', 'i'],
+      name: 'Minor Blues Cadence',
+      mode: Mode.Minor,
+    },
+    {
+      romanNumerals: ['i', 'V', 'iv', 'V', 'i'],
+      name: 'Minor Blues Cadence',
+      mode: Mode.Minor,
     },
     {
       romanNumerals: ['i', 'bVII', 'bVI', 'i'],
-      cadenceType: 'i iv V i',
-    },
-    {
-      romanNumerals: ['bVI', 'i', 'bVII', 'i'],
-      cadenceType: 'i iv V i',
+      mode: Mode.Minor,
     },
     {
       romanNumerals: ['i', 'bVII', 'bVI', 'bVII'],
-      cadenceType: 'i iv V i',
+      mode: Mode.Minor,
     },
     {
       romanNumerals: ['i', 'bVI', 'bIII', 'bVII'],
-      cadenceType: 'i iv V i',
+      mode: Mode.Minor,
+      name: 'Axis (Pessimistic)'
     },
     {
       romanNumerals: ['i', 'bVII', 'bVI', 'V'],
       name: 'Andalusian Cadence',
-      cadenceType: 'i iv V i',
+      mode: Mode.Minor,
     },
     {
       romanNumerals: ['i', 'bIII', 'iv', 'bVII'],
-      cadenceType: 'i iv V i',
+      mode: Mode.Minor,
     },
     {
       romanNumerals: ['i', 'bIII', 'bVI', 'V'],
-      cadenceType: 'i iv V i',
+      mode: Mode.Minor,
     },
     {
       romanNumerals: ['iidim', 'V', 'i'],
       name: 'Minor 2-5-1',
-      cadenceType: 'i iv V i',
+      mode: Mode.Minor,
+    },
+    {
+      romanNumerals: ['i', 'iidim', 'V', 'i'],
+      name: 'Minor 2-5-1',
+      mode: Mode.Minor,
     },
     {
       romanNumerals: ['i', 'iv', 'bVI', 'V', 'i'],
-      cadenceType: 'i iv V i',
-    },
-    {
-      romanNumerals: ['i', 'iv', 'v'],
-      cadenceType: 'i iv V i',
-    },
-    {
-      romanNumerals: ['i', 'bVI', 'bIII', 'iv'],
-      cadenceType: 'i iv V i',
+      mode: Mode.Minor,
     },
     {
       romanNumerals: ['i', 'bVII', 'v', 'bVI'],
-      cadenceType: 'i iv V i',
+      mode: Mode.Minor,
       name: '"Can\'t Stop"'
     },
     // Diatonic Dorian progressions
     {
       romanNumerals: ['i', 'IV', 'i', 'IV'],
-      cadenceType: 'i iv V i',
+      mode: Mode.Dorian,
       name: 'Dorian Vamp'
     },
     {
       romanNumerals: ['i', 'bIII', 'bVI', 'IV'],
-      cadenceType: 'i iv V i',
+      mode: Mode.Dorian,
       name: 'Plagal Cascade',
     },
+    // Diatonic Mixolydian
+    {
+      romanNumerals: ['I', 'bVI', 'IV', 'I'],
+      name: 'Mixolydian Vamp',
+      mode: Mode.Mixolydian,
+    },
+    {
+      romanNumerals: ['I', 'v', 'v', 'ii'],
+      name: 'Clocks'
+    },
     // Non-diatonic progressions
+    // Modal interchange
     {
       romanNumerals: ['I', 'IV', 'iv', 'I'],
       name: 'Minor Plagal Cadence',
     },
+    {
+      romanNumerals: ['I', 'bVI', 'bVII', 'I'],
+      name: 'Mario Cadence'
+    },
+    {
+      romanNumerals: ['I', 'bVI', 'V', 'I'],
+      name: 'Secondary triton sub'
+    },
+    // secondary dominants
     {
       romanNumerals: ['I', 'III', 'vi', 'IV'],
     },
     {
       romanNumerals: ['I', 'VI', 'ii', 'V'],
     },
+    {
+      romanNumerals: ['I', 'IV', '#ivdim', 'V']
+    },
+    {
+      romanNumerals: ['I', 'V', 'III', 'vi']
+    },
+    
   ]
 
   private static readonly _defaultProgressions: string[] = [
@@ -212,7 +227,12 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
   protected _getChordProgressionInRomanNumerals(): RomanNumeralsChordProgressionQuestion {
     const includedProgressions: ProgressionDescriptor[] = this._getIncludedProgressionsDescriptors();
     const selectedChordProgression = randomFromList(includedProgressions);
-    this._settings.cadenceType = selectedChordProgression.cadenceType ?? 'I IV V I';
+    this._settings.cadenceType = {
+      [Mode.Dorian]: 'i iv V i',
+      [Mode.Minor]: 'i iv V i',
+      [Mode.Major]: 'I IV V I',
+      [Mode.Mixolydian]: 'I IV V I',
+    }[selectedChordProgression.mode ?? Mode.Major];
     return {
       chordProgressionInRomanAnalysis: selectedChordProgression.romanNumerals,
     };
