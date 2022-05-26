@@ -5,6 +5,7 @@ export * from './music/keys/Key';
 export * from './music/intervals/Interval';
 export * from './music/intervals/getInterval';
 export * from './music/harmony';
+export * from './music/MusicSymbol';
 export * from '../../shared/ts-utility';
 export * from './exercise-settings/GlobalExerciseSettings';
 export * from './exercise-settings/ExerciseSettingsData';
