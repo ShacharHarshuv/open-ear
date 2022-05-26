@@ -18,12 +18,11 @@ import { NoteType } from '../../../utility/music/notes/NoteType';
 import { Frequency } from 'tone/Tone/core/type/Units';
 import { BaseExercise } from './BaseExercise';
 import { IncludedAnswersSettings } from '../settings/IncludedAnswersSettings';
+import { CadenceTypeSetting } from '../settings/CadenceTypeSetting';
 
 export type CadenceType = 'I IV V I' | 'i iv V i';
 
-export type TonalExerciseSettings<GAnswer extends string> = IncludedAnswersSettings<GAnswer> & {
-  cadenceType: CadenceType;
-}
+export type TonalExerciseSettings<GAnswer extends string> = IncludedAnswersSettings<GAnswer> & CadenceTypeSetting;
 
 const cadenceTypeToCadence: {
   [k in CadenceType]: NoteEvent[]
@@ -66,30 +65,6 @@ export abstract class BaseTonalExercise<GAnswer extends string = string, GSettin
   }
 
   abstract getQuestionInC(): Exclude<Exercise.NotesQuestion<GAnswer>, 'cadence'>;
-
-  protected override _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<GSettings>[] {
-    return [
-      {
-        key: 'cadenceType',
-        info: 'Choose what chords will be played before the exercise to establish the key',
-        descriptor: {
-          controlType: 'SELECT',
-          label: 'Cadence Type',
-          options: [
-            {
-              value: 'I IV V I',
-              label: 'I IV V I (Major)',
-            },
-            {
-              value: 'i iv V i',
-              label: 'i iv V i (Minor)',
-            },
-          ]
-        },
-      },
-      ...super._getSettingsDescriptor(),
-    ];
-  }
 
   protected override _getDefaultSettings(): GSettings {
     return {

@@ -31,6 +31,7 @@ import {
   IncludedAnswersSettings,
 } from '../utility/settings/IncludedAnswersSettings';
 import { SettingsDescriptors } from '../utility/settings/SettingsDescriptors';
+import { CadenceTypeSetting } from '../utility/settings/CadenceTypeSetting';
 
 type ChordDegree = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
@@ -241,6 +242,13 @@ type NoteWithChordsSettings = TonalExerciseSettings<NoteWithChord> &
   voiceMode: 'soprano' | 'bass';
 };
 
+@IncludedAnswersSetting<NoteWithChord, NoteWithChordsSettings>({
+  default: [
+    'Do1',
+    'Do3',
+    'Do5',
+  ],
+})
 @SettingsDescriptors<NoteWithChordsSettings>({
   key: 'voiceMode',
   info: 'With soprano mode, the note in question will be played on top. \n' +
@@ -260,13 +268,6 @@ type NoteWithChordsSettings = TonalExerciseSettings<NoteWithChord> &
     ],
   },
   defaultValue: 'soprano',
-})
-@IncludedAnswersSetting<NoteWithChord, NoteWithChordsSettings>({
-  default: [
-    'Do1',
-    'Do3',
-    'Do5',
-  ],
 })
 export class NotesWithChordsExercise extends BaseTonalExercise<NoteWithChord, NoteWithChordsSettings> {
   readonly id: string = 'notesWithChords';
