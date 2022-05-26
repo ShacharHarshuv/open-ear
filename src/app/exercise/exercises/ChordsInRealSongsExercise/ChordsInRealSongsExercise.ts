@@ -1,8 +1,6 @@
 import { BaseExercise } from '../utility/base-exercises/BaseExercise';
 import { Exercise } from '../../Exercise';
-import {
-  BaseRomanAnalysisChordProgressionExercise,
-} from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
+import { BaseRomanAnalysisChordProgressionExercise } from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
 import {
   chordsInRealSongsDescriptorList,
   ProgressionInSongFromYouTubeDescriptor,
@@ -11,7 +9,6 @@ import * as _ from 'lodash';
 import {
   randomFromList,
   isValueTruthy,
-  LogReturnValue,
 } from '../../../shared/ts-utility';
 import { NoteEvent } from '../../../services/player.service';
 import {
@@ -34,6 +31,7 @@ import {
   Mode,
 } from '../../utility';
 import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
+import { toMusicalTextDisplay } from '../../utility/music/getMusicTextDisplay';
 
 type ChordsInRealSongsSettings = {
   includedChords: RomanNumeralChordSymbol[],
@@ -127,4 +125,7 @@ export class ChordsInRealSongsExercise extends BaseExercise<RomanNumeralChordSym
     }
   }
 
+  getAnswerDisplay(answer: RomanNumeralChordSymbol): string {
+    return toMusicalTextDisplay(answer);
+  }
 }

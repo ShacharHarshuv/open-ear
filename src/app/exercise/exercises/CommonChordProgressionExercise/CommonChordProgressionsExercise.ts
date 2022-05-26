@@ -11,6 +11,7 @@ import {
   RomanNumeralChordSymbol,
   Mode,
 } from '../../utility';
+import { toMusicalTextDisplay } from '../../utility/music/getMusicTextDisplay';
 
 type CommonChordProgressionExerciseSettings = BaseRomanAnalysisChordProgressionExerciseSettings & {
   includedProgressions: string[];
@@ -247,7 +248,7 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
           label: 'Included Progressions',
           allOptions: CommonChordProgressionsExercise._progression.map(progression => ({
             value: CommonChordProgressionsExercise._getProgressionId(progression),
-            label: CommonChordProgressionsExercise._getProgressionId(progression) + (progression.name ? ` (${progression.name})` : ''),
+            label: toMusicalTextDisplay(CommonChordProgressionsExercise._getProgressionId(progression)) + (progression.name ? ` (${progression.name})` : ''),
           })),
         },
       }

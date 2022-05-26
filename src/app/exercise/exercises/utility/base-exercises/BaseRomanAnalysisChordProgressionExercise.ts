@@ -22,6 +22,7 @@ import {
 import { transpose } from '../../../utility/music/transpose';
 import { NoteEvent } from '../../../../services/player.service';
 import { RomanNumeralChord } from '../../../utility/music/harmony/RomanNumeralChord';
+import { toMusicalTextDisplay } from '../../../utility/music/getMusicTextDisplay';
 
 export type BaseRomanAnalysisChordProgressionExerciseSettings =
   BaseTonalChordProgressionExerciseSettings<RomanNumeralChordSymbol> &
@@ -759,6 +760,6 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
   }
 
   getAnswerDisplay(answer: RomanNumeralChordSymbol): string {
-    return new RomanNumeralChord(answer).toString();
+    return toMusicalTextDisplay(answer);
   }
 }

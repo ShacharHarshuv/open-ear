@@ -28,6 +28,7 @@ import {
   playAfterCorrectAnswerControlDescriptorList,
 } from '../utility/settings/PlayAfterCorrectAnswerSetting';
 import { IncludedAnswersSetting } from '../utility/settings/IncludedAnswersSettings';
+import { toMusicalTextDisplay } from '../../utility/music/getMusicTextDisplay';
 
 type NoteInKeySettings =
   BaseMelodicDictationExerciseSettings &
@@ -118,7 +119,7 @@ export class NotesInKeyExercise extends BaseMelodicDictationExercise<NoteInKeySe
   }
 
   getAnswerDisplay(answer: SolfegeNote): string {
-    return NotesInKeyExercise.displayModeToAnswerDisplayMap[this._settings.displayMode]?.[answer] ?? answer;
+    return toMusicalTextDisplay(NotesInKeyExercise.displayModeToAnswerDisplayMap[this._settings.displayMode]?.[answer] ?? answer);
   }
 
   private _getQuestionOptionsInC(): Note[] {

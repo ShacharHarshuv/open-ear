@@ -9,6 +9,7 @@ import {
   Mode,
   toRelativeMode,
 } from './Mode';
+import { MusicSymbol } from '../MusicSymbol';
 
 export enum Accidental {
   Natural = '',
@@ -35,8 +36,8 @@ export class RomanNumeralChord {
 
   static accidentalToString: Record<Accidental, string> = {
     [Accidental.Natural]: '',
-    [Accidental.Sharp]: '♯',
-    [Accidental.Flat]: '♭',
+    [Accidental.Sharp]: MusicSymbol.Sharp,
+    [Accidental.Flat]: MusicSymbol.Flat,
   }
 
   constructor(romanNumeralInput: RomanNumeralChordSymbol | {
@@ -75,7 +76,7 @@ export class RomanNumeralChord {
 
   toString(): string {
     const romanNumeral: string = RomanNumeralChord.romanNumerals[this.diatonicDegree];
-    return `${RomanNumeralChord.accidentalToString[this.accidental]}${this.type === ChordType.Major ? romanNumeral.toUpperCase() : romanNumeral}${this.type === ChordType.Diminished ? '°' : ''}`
+    return `${RomanNumeralChord.accidentalToString[this.accidental]}${this.type === ChordType.Major ? romanNumeral.toUpperCase() : romanNumeral}${this.type === ChordType.Diminished ? MusicSymbol.Diminished : ''}`
   }
 
   static toRelativeMode(chordSymbol: RomanNumeralChordSymbol, source: Mode, target: Mode): RomanNumeralChordSymbol {
