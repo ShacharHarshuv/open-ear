@@ -13,6 +13,7 @@ import * as Tone from 'tone';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { toSteadyPart } from '../../utility';
 import { TriadInversionExplanationComponent } from './triad-inversion-explanation/triad-inversion-explanation.component';
+import { IncludedAnswersSetting } from '../utility/settings/IncludedAnswersSettings';
 import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 
@@ -29,6 +30,9 @@ export type TriadInversionExerciseSettings = TonalExerciseSettings<TriadInversio
   playRootAfterAnswer: boolean;
 }
 
+@IncludedAnswersSetting<TriadInversionAnswer, TriadInversionExerciseSettings>({
+  default: triadInversions,
+})
 export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnswer, TriadInversionExerciseSettings> {
   readonly id: string = 'triadInversions';
   readonly name: string = 'Triad Inversions';
