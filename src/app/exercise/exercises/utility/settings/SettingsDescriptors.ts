@@ -10,8 +10,8 @@ export function SettingsDescriptors<GSettings extends Exercise.Settings>(...sett
   return function SettingsDescriptorDecorator<GConstructor extends Constructor<BaseExercise<any, GSettings>>>(BaseExercise: GConstructor) {
     // @ts-ignore
     return class extends BaseExercise {
-      constructor() {
-        super();
+      constructor(...params) {
+        super(...params);
       }
 
       // setting the setting's descriptor

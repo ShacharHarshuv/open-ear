@@ -9,6 +9,7 @@ import * as _ from 'lodash';
 import {
   randomFromList,
   isValueTruthy,
+  DeepReadonly,
 } from '../../../shared/ts-utility';
 import { NoteEvent } from '../../../services/player.service';
 import {
@@ -46,7 +47,7 @@ export function getRelativeKeyTonic(tonic: NoteType, mode: Mode): NoteType {
   key: 'includedChords',
   info: 'Limit the types of chords that can appear in the examples.<br><br>' +
     ' Make sure to select enough chords otherwise there might be no song to play that matches only those chords. <br><br>' +
-    'If a song analysis doesn\'t work with the selected chords the application will atempt to convert the analysis to the realtive MAJOR or MAJOR. So if you selected I IV V vi, and a progression was analyzed as i bVI bVII, it will include it as vi V IV.',
+    'If a song analysis doesn\'t work with the selected chords the application will atempt to convert the analysis to the realtive Major scale. So if you selected I IV V vi, and a progression was analyzed as i bVI bVII, it will include it as vi V IV.',
   defaultValue: ['I', 'IV', 'V', 'vi'],
   descriptor: {
     label: 'Included Chords',
@@ -61,13 +62,17 @@ export class ChordsInRealSongsExercise extends BaseExercise<RomanNumeralChordSym
   readonly summary: string = 'Identify chord progressions in real songs, streamed from YouTube';
   readonly blackListPlatform = 'ios'; // currently, this exercise is not working on ios
 
-  private _getAvailableProgressions(): ProgressionInSongFromYouTubeDescriptor[] {
-    const isChordProgressionValid = (chords: ProgressionInSongFromYouTubeDescriptor['chords']): boolean => {
+  constructor(private readonly _progressionList: DeepReadonly<ProgressionInSongFromYouTubeDescriptor[]> = chordsInRealSongsDescriptorList) {
+    super();
+  }
+
+  getAvailableProgressions(): DeepReadonly<ProgressionInSongFromYouTubeDescriptor[]> {
+    const isChordProgressionValid = (chords: DeepReadonly<ProgressionInSongFromYouTubeDescriptor>['chords']): boolean => {
       return _.every(chords, chord => this._settings.includedChords.includes(chord.chord));
     }
 
-    const validChordProgressionsDescriptorList: ProgressionInSongFromYouTubeDescriptor[] = chordsInRealSongsDescriptorList
-      .map((chordProgression): ProgressionInSongFromYouTubeDescriptor | null => {
+    const validChordProgressionsDescriptorList: DeepReadonly<ProgressionInSongFromYouTubeDescriptor[]> = this._progressionList
+      .map((chordProgression): DeepReadonly<ProgressionInSongFromYouTubeDescriptor> | null => {
         if (isChordProgressionValid(chordProgression.chords)) {
           return chordProgression;
         } else if (chordProgression.mode !== Mode.Major) {
@@ -101,16 +106,21 @@ export class ChordsInRealSongsExercise extends BaseExercise<RomanNumeralChordSym
   }
 
   override getAnswerList(): Exercise.AnswerList<RomanNumeralChordSymbol> {
-    const progressionsList: ProgressionInSongFromYouTubeDescriptor[] = this._getAvailableProgressions();
+    const progressionsList: DeepReadonly<ProgressionInSongFromYouTubeDescriptor[]> = this.getAvailableProgressions();
     const includedAnswers: RomanNumeralChordSymbol[] = _.uniq(_.flatMap(progressionsList, (progression: ProgressionInSongFromYouTubeDescriptor): RomanNumeralChordSymbol[] => progression.chords.map(chordDescriptor => chordDescriptor.chord)))
     return Exercise.filterIncludedAnswers(BaseRomanAnalysisChordProgressionExercise.allAnswersList, includedAnswers);
   }
 
   override getQuestion(): Exercise.Question<RomanNumeralChordSymbol> {
-    const progression: ProgressionInSongFromYouTubeDescriptor = randomFromList(this._getAvailableProgressions())
-    const modeToCadenceInC: Record<Mode.Major | Mode.Minor, NoteEvent[]> = {
+    const progression: DeepReadonly<ProgressionInSongFromYouTubeDescriptor> = randomFromList(this.getAvailableProgressions())
+    const modeToCadenceInC: Record<Mode, NoteEvent[]> = {
+      [Mode.Lydian]: IV_V_I_CADENCE_IN_C,
       [Mode.Major]: IV_V_I_CADENCE_IN_C,
+      [Mode.Mixolydian]: IV_V_I_CADENCE_IN_C,
+      [Mode.Dorian]: iv_V_i_CADENCE_IN_C,
       [Mode.Minor]: iv_V_i_CADENCE_IN_C,
+      [Mode.Phrygian]: iv_V_i_CADENCE_IN_C,
+      [Mode.Locrian]: iv_V_i_CADENCE_IN_C,
     }
     return {
       type: 'youtube',

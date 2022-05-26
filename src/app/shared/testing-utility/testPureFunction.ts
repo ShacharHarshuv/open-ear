@@ -1,8 +1,10 @@
+import Expected = jasmine.Expected;
+
 export function testPureFunction<GFunc extends (...args) => any>(
   func: GFunc,
   cases: {
     args: Parameters<GFunc>,
-    returnValue: ReturnType<GFunc>,
+    returnValue: Expected<ReturnType<GFunc>>,
     force?: boolean,
   }[]): void {
   cases.forEach(testCase => {

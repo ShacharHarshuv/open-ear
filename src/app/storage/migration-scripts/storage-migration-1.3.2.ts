@@ -5,8 +5,7 @@ export const migrationScript_1_3_2: StorageMigrationScript<Record<string, { exer
   storageKey: 'exerciseSettings',
   breakingChangeVersion: '1.3.2',
   getNewData(oldData) {
-    console.log('migrating', oldData);
-    const x = _.mapValues(oldData, exerciseSettings => {
+    return _.mapValues(oldData, exerciseSettings => {
       if (!exerciseSettings.exerciseSettings?.includedAnswers) {
         return exerciseSettings;
       }
@@ -20,7 +19,5 @@ export const migrationScript_1_3_2: StorageMigrationScript<Record<string, { exer
         },
       }
     });
-    console.log('response', x); // todo
-    return x;
   }
 }
