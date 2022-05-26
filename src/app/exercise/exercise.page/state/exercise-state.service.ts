@@ -49,7 +49,9 @@ export class ExerciseStateService implements OnDestroy {
   private _currentSegmentToAnswer: number = 0;
   private _destroyed: boolean = false;
   private _message$ = new BehaviorSubject<string | null>(null);
+  private _error$ = new BehaviorSubject<string | null>(null);
   readonly message$ = this._message$.asObservable();
+  readonly error$ = this._error$.asObservable();
   readonly name: string = this.exercise.name;
   answerList: AnswerList = this.exercise.getAnswerList();
 
@@ -243,7 +245,8 @@ export class ExerciseStateService implements OnDestroy {
     try {
       this._currentQuestion = this.exercise.getQuestion();
     } catch (e) {
-      this._message$.next(e);
+      this._error$.next(e);
+      console.error(e);
     }
     this._currentAnswers = this._currentQuestion.segments.map(() => ({
       wasWrong: false,
@@ -268,7 +271,7 @@ export class ExerciseStateService implements OnDestroy {
       this._message$.next(null);
       this.nextQuestion();
     } catch (e) {
-      this._message$.next(e);
+      this._error$.next(e);
     }
   }
 

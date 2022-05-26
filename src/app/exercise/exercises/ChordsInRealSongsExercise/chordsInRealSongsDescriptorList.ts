@@ -1,6 +1,10 @@
 import { NoteType } from '../../utility/music/notes/NoteType';
 import { CadenceType } from '../utility/base-exercises/BaseTonalExercise';
-import { Mode, RomanNumeralChordSymbol } from '../../utility';
+import {
+  Mode,
+  RomanNumeralChordSymbol,
+} from '../../utility';
+import { DeepReadonly } from '../../../shared/ts-utility';
 
 export interface ProgressionInSongFromYouTubeDescriptor {
   key: NoteType,
@@ -17,7 +21,7 @@ export interface ProgressionInSongFromYouTubeDescriptor {
   endSeconds: number,
 }
 
-export const chordsInRealSongsDescriptorList: ReadonlyArray<Readonly<ProgressionInSongFromYouTubeDescriptor>> = [
+export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFromYouTubeDescriptor[]> = [
   {
     key: 'D',
     mode: Mode.Major,

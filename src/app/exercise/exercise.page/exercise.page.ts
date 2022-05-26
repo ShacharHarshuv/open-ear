@@ -16,7 +16,10 @@ import {
   switchMap,
   map,
 } from 'rxjs/operators';
-import { BehaviorSubject } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+} from 'rxjs';
 import AnswerConfig = Exercise.AnswerConfig;
 
 @Component({
@@ -127,8 +130,24 @@ export class ExercisePage extends BaseComponent {
 
   private _handleMessages(): void {
     let lastToaster: HTMLIonToastElement | null = null;
-    this.state.message$
+    combineLatest({
+      message: this.state.message$,
+      error: this.state.error$,
+    })
       .pipe(
+        map(({
+          message,
+          error,
+        }): {
+          text: string,
+          type: 'error' | 'message',
+        } | null => error ? {
+          text: '<p>Ooops... something went wrong! If this persists, please report a bug</p>' + error,
+          type: 'error',
+        } : message ? {
+          text: message,
+          type: 'message',
+        } : null),
         switchMap((message) => {
           return this._hideMessage$
             .pipe(
@@ -151,8 +170,10 @@ export class ExercisePage extends BaseComponent {
         }
 
         this._toastController.create({
-          message: message,
+          message: message.text,
           position: 'middle',
+          color: message.type === 'error' ? 'danger' : 'dark',
+          header: message.type === 'error' ? 'Unexpected Error' : undefined,
         }).then(toaster => {
           // can happen because of a race condition
           if (lastToaster) {
