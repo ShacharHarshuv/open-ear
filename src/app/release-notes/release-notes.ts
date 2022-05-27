@@ -93,4 +93,8 @@ export const releaseNotes: ReleaseNotes = [
     version: '1.3.1',
     notes: 'Enable selection of chords in "Chord Progressions in Real Songs" exercise. (Android only)'
   },
+  {
+    version: '1.4.1',
+    notes: '"Analyze by relative major tonic" option in Common Chord Progressions exercise. Use this to analyze roman numerals in relative major no matter what\'s the progression "real" mode.'
+  }
 ]
