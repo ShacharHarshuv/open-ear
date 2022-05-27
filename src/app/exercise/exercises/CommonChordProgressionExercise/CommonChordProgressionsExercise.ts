@@ -13,6 +13,7 @@ import {
 } from '../../utility';
 import { toMusicalTextDisplay } from '../../utility/music/getMusicTextDisplay';
 import { SettingsDescriptors } from '../utility/settings/SettingsDescriptors';
+import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
 
 type CommonChordProgressionExerciseSettings = BaseRomanAnalysisChordProgressionExerciseSettings & {
   includedProgressions: string[];
@@ -292,6 +293,15 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
   private _getIncludedProgressionsDescriptors(): ProgressionDescriptor[] {
     return CommonChordProgressionsExercise._progression.filter(progression => {
       return this._settings.includedProgressions.includes(CommonChordProgressionsExercise._getProgressionId(progression));
+    }).map(progression => {
+      if (this._settings.tonicForAnalyzing !== 'original' && progression.mode && progression.mode !== Mode.Major) {
+        return {
+          ...progression,
+          mode: Mode.Major,
+          romanNumerals: progression.romanNumerals.map(romanNumeral => RomanNumeralChord.toRelativeMode(romanNumeral, progression.mode!, Mode.Major)),
+        }
+      }
+      return progression;
     })
   }
 }
