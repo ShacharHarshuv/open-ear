@@ -11,7 +11,7 @@ export function CadenceTypeSetting<GSettings extends CadenceTypeSetting>() {
     key: 'cadenceType',
     info: 'Choose what chords will be played before the exercise to establish the key',
     descriptor: {
-      controlType: 'SELECT',
+      controlType: 'select',
       label: 'Cadence Type',
       options: [
         {

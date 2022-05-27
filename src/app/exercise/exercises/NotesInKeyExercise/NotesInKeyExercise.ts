@@ -136,7 +136,7 @@ export class NotesInKeyExercise extends BaseMelodicDictationExercise<NoteInKeySe
         info: 'Choose how the scale degrees are noted. <br>(This setting will apply only after you close the settings page.)',
         descriptor: {
           label: 'Display',
-          controlType: 'SELECT',
+          controlType: 'select',
           options: [
             {
               label: 'Numbers',
@@ -154,7 +154,7 @@ export class NotesInKeyExercise extends BaseMelodicDictationExercise<NoteInKeySe
         info: 'Choose how high or low the notes will be played',
         descriptor: ((): Exercise.SelectControlDescriptor<NoteInKeySettings['notesRange']> => {
           return {
-            controlType: 'SELECT',
+            controlType: 'select',
             label: 'Range',
             options: [
               {

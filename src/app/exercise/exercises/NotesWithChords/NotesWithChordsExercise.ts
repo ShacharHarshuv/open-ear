@@ -255,7 +255,7 @@ type NoteWithChordsSettings = TonalExerciseSettings<NoteWithChord> &
     'With bass mode, the note in question will be played at the bottom (affectively changing the chord inversion)',
   descriptor: {
     label: 'Voice Mode',
-    controlType: 'SELECT',
+    controlType: 'select',
     options: [
       {
         label: 'Soprano',

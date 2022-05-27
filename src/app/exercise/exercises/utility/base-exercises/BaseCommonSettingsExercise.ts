@@ -24,7 +24,7 @@ export abstract class BaseCommonSettingsExercise<GAnswer extends string = string
 
   protected override _getSettingsDescriptor(): SettingsControlDescriptor<GSettings>[] {
     const includedAnswersDescriptor: IncludedAnswersControlDescriptor<GAnswer> = {
-      controlType: 'INCLUDED_ANSWERS',
+      controlType: 'included-answers',
       label: 'Included Options',
       answerList: this._allAnswersList,
     }

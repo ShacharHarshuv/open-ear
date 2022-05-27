@@ -148,14 +148,14 @@ export namespace Exercise {
   }
 
   export interface SliderControlDescriptor extends BaseSettingsControlDescriptor {
-    controlType: 'SLIDER';
+    controlType: 'slider';
     min: number;
     max: number;
     step: number;
   }
 
   export interface SelectControlDescriptor<GValue extends string | number = string | number> extends BaseSettingsControlDescriptor {
-    controlType: 'SELECT',
+    controlType: 'select',
     options: {
       label: string;
       value: GValue,
@@ -163,7 +163,7 @@ export namespace Exercise {
   }
 
   export interface ListSelectControlDescriptor<GValue = string | number> extends BaseSettingsControlDescriptor {
-    controlType: 'LIST_SELECT';
+    controlType: 'list-select';
     allOptions: {
       label: string,
       value: GValue,
@@ -171,11 +171,11 @@ export namespace Exercise {
   }
 
   export interface CheckboxControlDescriptor extends BaseSettingsControlDescriptor {
-    controlType: 'CHECKBOX',
+    controlType: 'checkbox',
   }
 
   export interface IncludedAnswersControlDescriptor<GAnswer extends string = string> extends BaseSettingsControlDescriptor {
-    controlType: 'INCLUDED_ANSWERS',
+    controlType: 'included-answers',
     answerList: AnswerList<GAnswer>;
   }
 

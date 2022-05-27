@@ -64,7 +64,7 @@
         [ngSwitch]="exerciseControlSettings.descriptor.controlType"
       >
         <ion-item
-          *ngSwitchCase="'SELECT'"
+          *ngSwitchCase="'select'"
           @collapseVertical
         >
           <ng-container *ngTemplateOutlet="label"></ng-container>
@@ -81,7 +81,7 @@
           </ion-select>
         </ion-item>
         <ion-item
-          *ngSwitchCase="'SLIDER'"
+          *ngSwitchCase="'slider'"
           class="exercise-settings__item --label-above"
           @collapseVertical
         >
@@ -97,7 +97,7 @@
           </ion-range>
         </ion-item>
         <app-list-select
-          *ngSwitchCase="'LIST_SELECT'"
+          *ngSwitchCase="'list-select'"
           [allAvailableOptions]="exerciseControlSettings.descriptor.allOptions"
           [formControl]="exerciseFormGroup.controls[exerciseControlSettings.key]"
           [label]="exerciseControlSettings.descriptor.label"
@@ -110,7 +110,7 @@
           ></app-field-info>
         </app-list-select>
         <ion-item
-          *ngSwitchCase="'CHECKBOX'"
+          *ngSwitchCase="'checkbox'"
           @collapseVertical
         >
           <ng-container *ngTemplateOutlet="label"></ng-container>
@@ -120,7 +120,7 @@
           ></ion-toggle>
         </ion-item>
         <ion-list
-          *ngSwitchCase="'INCLUDED_ANSWERS'"
+          *ngSwitchCase="'included-answers'"
         >
           <ion-list-header>{{exerciseControlSettings.descriptor.label}}<app-field-info *ngIf="exerciseControlSettings.info" [message]="exerciseControlSettings.info"></app-field-info></ion-list-header>
           <app-included-answers

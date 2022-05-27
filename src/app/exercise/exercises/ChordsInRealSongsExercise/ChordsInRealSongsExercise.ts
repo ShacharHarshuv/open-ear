@@ -51,7 +51,7 @@ export function getRelativeKeyTonic(tonic: NoteType, mode: Mode): NoteType {
   defaultValue: ['I', 'IV', 'V', 'vi'],
   descriptor: {
     label: 'Included Chords',
-    controlType: 'INCLUDED_ANSWERS',
+    controlType: 'included-answers',
     answerList: BaseRomanAnalysisChordProgressionExercise.allAnswersList,
   },
 })

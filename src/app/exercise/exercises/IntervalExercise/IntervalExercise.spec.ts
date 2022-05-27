@@ -36,7 +36,7 @@ describe('IntervalExercise', () => {
         jasmine.objectContaining<Exercise.SettingsControlDescriptor>({
           key: 'includedAnswers',
           descriptor: jasmine.objectContaining({
-            controlType: 'INCLUDED_ANSWERS',
+            controlType: 'included-answers',
             answerList: ExerciseTest.answerListContaining(allIntervals),
           }),
         })

@@ -6,7 +6,7 @@ const settingsDescriptor: Exercise.SettingsControlDescriptor = {
   key: 'mockSettingKey',
   descriptor: {
     label: 'MockSettingsLabel',
-    controlType: 'SELECT',
+    controlType: 'select',
     options: [
       {
         label: 'Mock Option One',

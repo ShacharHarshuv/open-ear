@@ -244,7 +244,7 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
       {
         key: 'includedProgressions',
         descriptor: {
-          controlType: 'LIST_SELECT',
+          controlType: 'list-select',
           label: 'Included Progressions',
           allOptions: CommonChordProgressionsExercise._progression.map(progression => ({
             value: CommonChordProgressionsExercise._getProgressionId(progression),

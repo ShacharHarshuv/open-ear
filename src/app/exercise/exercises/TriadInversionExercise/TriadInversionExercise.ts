@@ -101,7 +101,7 @@ export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnsw
         info: 'When set to a value larger then zero, the chord will be arpeggiated, making it easier to pick up individual notes from it. <br>' +
           'Starter with a large settings and gradually reducing can be a good way to train your ear to pick up individual notes being played harmonically',
         descriptor: {
-          controlType: 'SLIDER',
+          controlType: 'slider',
           label: 'Arpeggiate Speed',
           min: 0,
           max: 100,
@@ -111,7 +111,7 @@ export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnsw
       {
         key: 'playRootAfterAnswer',
         descriptor: {
-          controlType: 'CHECKBOX',
+          controlType: 'checkbox',
           label: 'Play Root After Correct Answer',
         }
       }
