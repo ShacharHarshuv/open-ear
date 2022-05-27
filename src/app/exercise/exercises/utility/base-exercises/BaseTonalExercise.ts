@@ -46,7 +46,7 @@ export abstract class BaseTonalExercise<GAnswer extends string = string, GSettin
     return `Key: ${this.key}`
   }
 
-  getQuestion(): Exercise.Question<GAnswer> {
+  getQuestion(): Exercise.NotesQuestion<GAnswer> {
     const questionInC: Exclude<Exercise.NotesQuestion<GAnswer>, 'cadence'> = this.getQuestionInC();
     const selectedCadence = cadenceTypeToCadence[this._settings.cadenceType];
     return {

@@ -52,7 +52,7 @@ export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<Ch
     }
   }
 
-  override getQuestion(): Exercise.Question<ChordType> {
+  override getQuestion(): Exercise.NotesQuestion<ChordType> {
     return {
       ...super.getQuestion(),
       cadence: undefined,

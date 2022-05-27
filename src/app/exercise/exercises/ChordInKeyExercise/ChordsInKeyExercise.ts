@@ -22,8 +22,8 @@ import {
   IncludedAnswersSetting,
   IncludedAnswersSettings,
 } from '../utility/settings/IncludedAnswersSettings';
-import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 import { CadenceTypeSetting } from '../utility/settings/CadenceTypeSetting';
+import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 
 type ChordInKeySettings =
   IncludedAnswersSettings<RomanNumeralChordSymbol> &

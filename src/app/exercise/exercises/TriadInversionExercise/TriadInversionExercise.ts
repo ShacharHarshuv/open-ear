@@ -80,7 +80,7 @@ export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnsw
     return question;
   }
 
-  override getQuestion(): Exercise.Question<TriadInversionAnswer> {
+  override getQuestion(): Exercise.NotesQuestion<TriadInversionAnswer> {
     return {
       ...super.getQuestion(),
       cadence: undefined,
