@@ -71,6 +71,15 @@ export class ChordsInRealSongsExercise extends BaseExercise<RomanNumeralChordSym
       return _.every(chords, chord => this._settings.includedChords.includes(chord.chord));
     }
 
+    /**
+     * Used for debugging purposes only,
+     * should be empty in real situation
+     * */
+    const soloedProgressions: DeepReadonly<ProgressionInSongFromYouTubeDescriptor[]> = _.filter(this._progressionList, 'solo');
+    if (!_.isEmpty(soloedProgressions)) {
+      return soloedProgressions
+    }
+
     const validChordProgressionsDescriptorList: DeepReadonly<ProgressionInSongFromYouTubeDescriptor[]> = this._progressionList
       .map((chordProgression): DeepReadonly<ProgressionInSongFromYouTubeDescriptor> | null => {
         if (isChordProgressionValid(chordProgression.chords)) {

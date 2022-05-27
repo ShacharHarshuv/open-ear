@@ -19,15 +19,20 @@ export interface ProgressionInSongFromYouTubeDescriptor {
     chord: RomanNumeralChordSymbol,
   }[];
   endSeconds: number,
+  /**
+   * Used for debugging purposes only!
+   * Makes it so only this will be used
+   * */
+  solo?: boolean;
 }
 
 export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFromYouTubeDescriptor[]> = [
   {
+    name: 'Girlfriend',
+    artist: 'Avril Lavigne',
     key: 'D',
     mode: Mode.Major,
     videoId: 'Bg59q4puhmg',
-    name: 'Girlfriend',
-    artist: 'Avril Lavigne',
     chords: [
       {
         seconds: 36,
@@ -49,10 +54,10 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
     endSeconds: 48,
   },
   {
+    name: `It's your love`,
     key: 'G',
     mode: Mode.Major,
     videoId: '2AJ4i4S_fP8',
-    name: `It's your love`,
     artist: 'Tim McGraw',
     chords: [
       {
@@ -1982,6 +1987,10 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
         chord: 'bVI',
         seconds: 113.05,
       },
+      {
+        chord: 'bVI',
+        seconds: 114.71,
+      },
     ],
     endSeconds: 115.42,
   },
@@ -2163,7 +2172,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
     artist: 'ABBA',
     mode: Mode.Major,
     videoId: 'cvChjHcABPA',
-    key: 'A',
+    key: 'F',
     chords: [
       {
         chord: 'I',
@@ -2415,8 +2424,12 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
         chord: 'IV',
         seconds: 63.31,
       },
+      {
+        chord: 'ii',
+        seconds: 64.48,
+      },
     ],
-    endSeconds: 65.95,
+    endSeconds: 66.1,
   },
   {
     name: 'Scott Street',
@@ -2736,8 +2749,12 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
         chord: 'vi',
         seconds: 47.04,
       },
+      {
+        chord: 'V',
+        seconds: 47.79,
+      }
     ],
-    endSeconds: 48.41,
+    endSeconds: 48.71,
   },
   {
     name: 'Misery Business',
