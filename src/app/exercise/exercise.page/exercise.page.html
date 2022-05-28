@@ -7,6 +7,12 @@
       {{state.name}}
     </ion-title>
     <ion-buttons slot="end">
+      <ion-button (click)="editSettings()">
+        <ion-icon
+          slot="icon-only"
+          name="settings-outline"
+        ></ion-icon>
+      </ion-button>
       <ion-button id="menu-button">
         <ion-icon
           slot="icon-only"
@@ -20,12 +26,6 @@
       >
         <ng-template>
           <ion-list>
-            <ion-item
-              (click)="editSettings()"
-              button
-            >
-              Settings
-            </ion-item>
             <ion-item
               (click)="resetStatistics()"
               button
