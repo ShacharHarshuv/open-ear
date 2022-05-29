@@ -10,33 +10,6 @@
 // Be sure that you only ever include this mixin once!
 @include mat.core();
 
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
-$app-primary: mat.define-palette(mat.$indigo-palette);
-$app-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
-
-// The warn palette is optional (defaults to red).
-$app-warn: mat.define-palette(mat.$red-palette);
-
-// Create the theme object. A theme consists of configurations for individual
-// theming systems such as "color" or "typography".
-$app-theme: mat.define-light-theme((
-  color: (
-    primary: $app-primary,
-    accent: $app-accent,
-    warn: $app-warn,
-  )
-));
-
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-@include mat.all-component-themes($app-theme);
-
-// Ionic Variables and Theming. For more info, please see:
-// http://ionicframework.com/docs/theming/
-
 /** Ionic CSS Variables **/
 :root {
   /** primary **/
@@ -46,22 +19,6 @@ $app-theme: mat.define-light-theme((
   --ion-color-primary-contrast-rgb: 133, 51, 255;
   --ion-color-primary-shade: #8533ff;
   --ion-color-primary-tint: #a86eff;
-
-  /** secondary **/
-  //--ion-color-secondary: #3dc2ff;
-  //--ion-color-secondary-rgb: 61, 194, 255;
-  //--ion-color-secondary-contrast: #ffffff;
-  //--ion-color-secondary-contrast-rgb: 255, 255, 255;
-  //--ion-color-secondary-shade: #36abe0;
-  //--ion-color-secondary-tint: #50c8ff;
-
-  /** tertiary **/
-  //--ion-color-tertiary: #5260ff;
-  //--ion-color-tertiary-rgb: 82, 96, 255;
-  //--ion-color-tertiary-contrast: #ffffff;
-  //--ion-color-tertiary-contrast-rgb: 255, 255, 255;
-  //--ion-color-tertiary-shade: #4854e0;
-  //--ion-color-tertiary-tint: #6370ff;
 
   /** success **/
   --ion-color-success: #2dd36f;
@@ -277,6 +234,3 @@ $app-theme: mat.define-light-theme((
 //    --ion-card-background: #1e1e1e;
 //  }
 //}
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

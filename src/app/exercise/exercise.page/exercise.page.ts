@@ -109,6 +109,7 @@ export class ExercisePage extends BaseComponent {
 
   private async _init(): Promise<void> {
     await this.exerciseExplanation.init();
+    this._bdcWalkService.setTaskCompleted('taskViewExplanation', true);
     await this.state.init()
   }
 

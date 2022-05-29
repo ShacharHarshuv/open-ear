@@ -47,14 +47,12 @@
       </ion-popover>
     </ion-buttons>
   </ion-toolbar>
-  <!--TODO?-->
-  <bdc-walk-popup #taskEditSettings name="taskEditSettings">
-    Click on the settings button to adjust the exercise configuration and difficulty level
-  </bdc-walk-popup>
 </ion-header>
 
-<ion-content [fullscreen]="true"
-             [padding]="true">
+<ion-content
+  [fullscreen]="true"
+  [padding]="true"
+>
   <div class="exercise__content-container">
     <section>
       <p class="exercise__stats-container">
@@ -121,3 +119,14 @@
     </div>
   </div>
 </ion-content>
+
+<!--Walk-through popups-->
+<bdc-walk-popup
+  [header]="'Tip!'"
+  name="taskEditSettings"
+  #taskEditSettings
+  [mustCompleted]="{taskViewExplanation: true}"
+  [showButton]="true"
+>
+  Click here for more options and to adjust difficulty level
+</bdc-walk-popup>
