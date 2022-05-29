@@ -1,3 +1,9 @@
+/**
+* TODO: consider cloning this library and replace all angular material components with ionic
+* Since both this library and this code are MIT licensed it shouldn't be a problem
+* (It will also be possible to publish it as a separate node module so it will be useful for others
+* The result will be a more consistent UI without the need for this "workaround" overrides.
+*/
 body {
   div.mat-menu-panel.bdc-walk-popup {
     .title .header {
@@ -14,5 +20,10 @@ body {
       border: none;
       font-weight: inherit;
     }
+  }
+
+  // for some reason this is transparent / white on android
+  .mat-menu-content {
+    color: black;
   }
 }
