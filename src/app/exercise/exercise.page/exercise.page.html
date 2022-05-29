@@ -7,7 +7,10 @@
       {{state.name}}
     </ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="editSettings()">
+      <ion-button
+        (click)="editSettings()"
+        [bdcWalkTriggerFor]="taskEditSettings"
+      >
         <ion-icon
           slot="icon-only"
           name="settings-outline"
@@ -44,6 +47,10 @@
       </ion-popover>
     </ion-buttons>
   </ion-toolbar>
+  <!--TODO?-->
+  <bdc-walk-popup #taskEditSettings name="taskEditSettings">
+    Click on the settings button to adjust the exercise configuration and difficulty level
+  </bdc-walk-popup>
 </ion-header>
 
 <ion-content [fullscreen]="true"

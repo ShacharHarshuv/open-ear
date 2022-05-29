@@ -21,6 +21,7 @@ import {
   combineLatest,
 } from 'rxjs';
 import AnswerConfig = Exercise.AnswerConfig;
+import { BdcWalkService } from 'bdc-walkthrough';
 
 @Component({
   selector: 'app-exercise-page',
@@ -47,11 +48,12 @@ export class ExercisePage extends BaseComponent {
   }
 
   constructor(
-    public state: ExerciseStateService,
-    public exerciseExplanation: ExerciseExplanationService,
-    private _modalController: ModalController,
-    private _alertController: AlertController,
-    private _toastController: ToastController,
+    public readonly state: ExerciseStateService,
+    public readonly exerciseExplanation: ExerciseExplanationService,
+    private readonly _modalController: ModalController,
+    private readonly _alertController: AlertController,
+    private readonly _toastController: ToastController,
+    private readonly _bdcWalkService: BdcWalkService,
   ) {
     super();
     this._init();
@@ -84,6 +86,7 @@ export class ExercisePage extends BaseComponent {
   }
 
   async editSettings(): Promise<void> {
+    this._bdcWalkService.setTaskCompleted('taskEditSettings', true);
     const allAvailableAnswers: string[] = typeof this.state.answerList === 'object' ? _.flatMap(this.state.answerList) : this.state.answerList;
     const modal = await this._modalController.create({
       component: ExerciseSettingsPage,
