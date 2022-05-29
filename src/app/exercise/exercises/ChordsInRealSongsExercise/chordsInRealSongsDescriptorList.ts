@@ -2986,4 +2986,212 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
     ],
     endSeconds: 187.1,
   },
+  {
+    name: 'Stacy\'s Mom',
+    artist: 'Fountains of Wayne',
+    mode: Mode.Major,
+    videoId: 'dZLfasMPOU4',
+    key: 'E',
+    chords: [
+      {
+        chord: 'IV',
+        seconds: 64.9,
+      },
+      {
+        chord: 'I',
+        seconds: 65.78,
+      },
+      {
+        chord: 'V',
+        seconds: 66.84,
+      },
+      {
+        chord: 'vi',
+        seconds: 67.83,
+      },
+    ],
+    endSeconds: 68.87,
+  },
+  {
+    name: 'More than a feeling',
+    artist: 'Boston',
+    mode: Mode.Major,
+    videoId: 'zOILAZHf2pE',
+    key: 'G',
+    chords: [
+      {
+        chord: 'I',
+        seconds: 51.18,
+      },
+      {
+        chord: 'IV',
+        seconds: 52.2,
+      },
+      {
+        chord: 'vi',
+        seconds: 53.36,
+      },
+      {
+        chord: 'V',
+        seconds: 54.34,
+      },
+    ],
+    endSeconds: 55.41,
+  },
+  {
+    name: '1985',
+    artist: 'Bowling For Soup',
+    mode: Mode.Major,
+    videoId: 'K38xNqZvBJI',
+    key: 'G',
+    chords: [
+      {
+        chord: 'I',
+        seconds: 34.54,
+      },
+      {
+        chord: 'IV',
+        seconds: 36.56,
+      },
+      {
+        chord: 'vi',
+        seconds: 38.47,
+      },
+      {
+        chord: 'V',
+        seconds: 40.43,
+      },
+    ],
+    endSeconds: 42.43,
+  },
+  {
+    name: 'Mr. Brightside',
+    artist: 'The Killers',
+    mode: Mode.Major,
+    videoId: 'gGdGFtwCNBE',
+    key: 'Db',
+    chords: [
+      {
+        chord: 'I',
+        seconds: 61.85,
+      },
+      {
+        chord: 'IV',
+        seconds: 63.56,
+      },
+      {
+        chord: 'vi',
+        seconds: 65.16,
+      },
+      {
+        chord: 'V',
+        seconds: 66.76,
+      },
+    ],
+    endSeconds: 68.29,
+  },
+  {
+    name: 'Shut Up and Dance',
+    artist: 'Walk the Moon',
+    mode: Mode.Major,
+    videoId: '6JCLY0Rlx6Q',
+    key: 'Db',
+    chords: [
+      {
+        chord: 'I',
+        seconds: 66,
+      },
+      {
+        chord: 'IV',
+        seconds: 66.86,
+      },
+      {
+        chord: 'vi',
+        seconds: 67.78,
+      },
+      {
+        chord: 'V',
+        seconds: 68.67,
+      },
+    ],
+    endSeconds: 69.53,
+  },
+  {
+    name: 'She Drives Me Crazy',
+    artist: 'Fine Young Cannibals',
+    mode: Mode.Major,
+    videoId: 'UtvmTu4zAMg',
+    key: 'D',
+    chords: [
+      {
+        chord: 'I',
+        seconds: 59.15,
+      },
+      {
+        chord: 'IV',
+        seconds: 60.02,
+      },
+      {
+        chord: 'vi',
+        seconds: 61.21,
+      },
+      {
+        chord: 'V',
+        seconds: 62.18,
+      },
+    ],
+    endSeconds: 63.1,
+  },
+  {
+    name: 'What Makes You Beautiful',
+    artist: 'One Direction',
+    mode: Mode.Major,
+    videoId: 'QJO3ROT-A4E',
+    key: 'E',
+    chords: [
+      {
+        chord: 'I',
+        seconds: 34.7,
+      },
+      {
+        chord: 'IV',
+        seconds: 35.78,
+      },
+      {
+        chord: 'vi',
+        seconds: 36.75,
+      },
+      {
+        chord: 'V',
+        seconds: 37.49,
+      },
+    ],
+    endSeconds: 38.47,
+  },
+  {
+    name: 'Fidelity',
+    artist: 'Regina Spektor',
+    mode: Mode.Major,
+    videoId: 'wigqKfLWjvM',
+    key: 'F',
+    chords: [
+      {
+        chord: 'I',
+        seconds: 78.68,
+      },
+      {
+        chord: 'IV',
+        seconds: 81.23,
+      },
+      {
+        chord: 'vi',
+        seconds: 83.8,
+      },
+      {
+        chord: 'V',
+        seconds: 86.36,
+      },
+    ],
+    endSeconds: 88.94,
+  },
 ]
