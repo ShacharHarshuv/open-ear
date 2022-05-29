@@ -7,6 +7,15 @@
       {{state.name}}
     </ion-title>
     <ion-buttons slot="end">
+      <ion-button
+        (click)="editSettings()"
+        [bdcWalkTriggerFor]="taskEditSettings"
+      >
+        <ion-icon
+          slot="icon-only"
+          name="settings-outline"
+        ></ion-icon>
+      </ion-button>
       <ion-button id="menu-button">
         <ion-icon
           slot="icon-only"
@@ -20,12 +29,6 @@
       >
         <ng-template>
           <ion-list>
-            <ion-item
-              (click)="editSettings()"
-              button
-            >
-              Settings
-            </ion-item>
             <ion-item
               (click)="resetStatistics()"
               button
@@ -46,8 +49,10 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true"
-             [padding]="true">
+<ion-content
+  [fullscreen]="true"
+  [padding]="true"
+>
   <div class="exercise__content-container">
     <section>
       <p class="exercise__stats-container">
@@ -114,3 +119,14 @@
     </div>
   </div>
 </ion-content>
+
+<!--Walk-through popups-->
+<bdc-walk-popup
+  [header]="'Tip!'"
+  name="taskEditSettings"
+  #taskEditSettings
+  [mustCompleted]="{taskViewExplanation: true}"
+  [showButton]="true"
+>
+  Click here for more options and to adjust difficulty level
+</bdc-walk-popup>

@@ -19,6 +19,7 @@ import {
 } from './exercise.page/components/exercise-settings.page/components/included-answers/included-answers.component';
 import { AnswersLayoutComponent } from './exercise.page/components/answers-layout/answers-layout.component';
 import { FieldInfoComponent } from './exercise.page/components/exercise-settings.page/components/field-info/field-info.component';
+import { BdcWalkModule } from 'bdc-walkthrough';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { FieldInfoComponent } from './exercise.page/components/exercise-settings
     ReactiveFormsModule,
     ModalModule,
     ConsoleLogComponentModule,
+    BdcWalkModule,
   ],
 })
 export class ExerciseModule {
