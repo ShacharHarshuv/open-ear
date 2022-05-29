@@ -1,13 +1,6 @@
-// TODO: we might need to update those colors to use the ionic variables
 
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
+// Angular material is needed for bdc-walkthrough to work. For anything else we use the ionic library
 @use '@angular/material' as mat;
-// Plus imports for other components in your app.
-
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
 @include mat.core();
 
 /** Ionic CSS Variables **/
