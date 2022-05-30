@@ -201,7 +201,7 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
       name: 'Minor Plagal Cadence',
     },
     {
-      romanNumerals: ['I', 'bVI', 'bVII', 'I'],
+      romanNumerals: ['bVI', 'bVII', 'I'],
       name: 'Mario Cadence'
     },
     {
