@@ -3194,4 +3194,161 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
     ],
     endSeconds: 88.94,
   },
+  {
+    name: 'Leave The Door Open',
+    artist: 'Bruno Mars',
+    mode: Mode.Major,
+    videoId: 'adLGHcj_fmA',
+    key: 'C',
+    chords:  [
+      {
+        chord: 'IV',
+        seconds: 58.5,
+      },
+      {
+        chord: 'V',
+        seconds: 61.7,
+      },
+      {
+        chord: 'iii',
+        seconds: 64.9,
+      },
+      {
+        chord: 'vi',
+        seconds: 68.17,
+      },
+    ],
+    endSeconds: 71.37,
+  },
+  {
+    name: 'It\'s Gonna Be Me',
+    artist: '*NSYNC',
+    mode: Mode.Major,
+    videoId: 'GQMlWwIXg3M',
+    key: 'Eb',
+    chords:  [
+      {
+        chord: 'IV',
+        seconds: 42.79,
+      },
+      {
+        chord: 'V',
+        seconds: 44.36,
+      },
+      {
+        chord: 'iii',
+        seconds: 45.82,
+      },
+      {
+        chord: 'vi',
+        seconds: 47.2,
+      },
+    ],
+    endSeconds: 48.61,
+  },
+  {
+    name: 'Titanium',
+    artist: 'David Guetta',
+    mode: Mode.Major,
+    videoId: 'JRfuAukYTKg',
+    key: 'Eb',
+    chords:  [
+      {
+        chord: 'IV',
+        seconds: 60.94,
+      },
+      {
+        chord: 'V',
+        seconds: 62.64,
+      },
+      {
+        chord: 'iii',
+        seconds: 64.53,
+      },
+      {
+        chord: 'vi',
+        seconds: 66.44,
+      },
+    ],
+    endSeconds: 68.38,
+  },
+  {
+    name: 'The Show Must Go On',
+    artist: 'Queen',
+    section: 'Bridge',
+    mode: Mode.Major,
+    videoId: 't99KH0TR-J4',
+    key: 'C',
+    chords:  [
+      {
+        chord: 'IV',
+        seconds: 175,
+      },
+      {
+        chord: 'V',
+        seconds: 176.13,
+      },
+      {
+        chord: 'iii',
+        seconds: 177.69,
+      },
+      {
+        chord: 'vi',
+        seconds: 179.06,
+      },
+    ],
+    endSeconds: 179.69,
+  },
+  {
+    name: 'Never Gonna Give You Up',
+    artist: 'Rick Astley',
+    mode: Mode.Major,
+    videoId: 'dQw4w9WgXcQ',
+    key: 'Ab',
+    chords:  [
+      {
+        chord: 'IV',
+        seconds: 43.42,
+      },
+      {
+        chord: 'V',
+        seconds: 44.43,
+      },
+      {
+        chord: 'iii',
+        seconds: 45.46,
+      },
+      {
+        chord: 'vi',
+        seconds: 46.49,
+      },
+    ],
+    endSeconds: 47.46,
+  },
+  {
+    name: 'Together Forever',
+    artist: 'Rick Astley',
+    mode: Mode.Major,
+    videoId: 'yPYZpwSpKmA',
+    key: 'G',
+    chords:  [
+      {
+        chord: 'IV',
+        seconds: 10.61,
+      },
+      {
+        chord: 'V',
+        seconds: 11.11,
+      },
+      {
+        chord: 'iii',
+        seconds: 12.2,
+      },
+      {
+        chord: 'vi',
+        seconds: 13.2,
+      },
+    ],
+    endSeconds: 14.27,
+  },
 ]
