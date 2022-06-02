@@ -6,11 +6,13 @@ OpenEar is an open source ear training app for musicians. It's goal is to provid
 
 Currently includes the following built in exercises:
 
-1. Identify notes & melodies in a tonal context 
-2. Identify chord & chord progressions in a tonal context
-3. Identify chord types (minor / major)
-4. Identify a triad chord inversion in close position
-5. Identify intervals (without context)
+1. Scale degree / melodic recognition for any mode / scale including chromatic notes (fully customizable).
+2. Recognizing of chord functions (Roman numeral analysis) for every triad (major, minor, diminished) in every mode / scale. (fully customizable)
+3. Common progressions - choose out of a set of super common progressions (like I V iv IV) to learn to identify them.
+4. Chord progressions in real songs (currently available for android only) - this will play songs directly from YouTube and ask you to identify to Roman numeral analysis of their chord progression. This is a great way to practice with real music in a fun way. (I've included many very popular songs that uses very popular chord progressions, I hope more can be added in the future)
+6. "Notes with Chords" exercise - this is a less familiar exercise in which you ear both a note in the scale an a chord, and you're required to say what scale degree it is and what chord degree it is. It's incredibly powerful in understanding the different colors a single note can have when it's played over different chords, and in my experience help develop not only melodic recognition but also harmonic recognition.
+7. Recognition of chord types (major / minor) in a diatonic context. This is really useful if the chord functions exercise is a bit too difficult for you. I hope more chord types and customability can be added to this in the future.
+8. Interval recognition - the very popular exercise almost all app has. Although I do not recommend using it as I find it inaffective in confusing, since the intervals are out-of-context.
 
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
      alt="Get it on Google Play"
@@ -21,9 +23,13 @@ Currently includes the following built in exercises:
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
      alt="Get it on F-Droid"
      height="80">](https://f-droid.org/packages/com.openear.www/)
-    
 
 ![screenshots](https://user-images.githubusercontent.com/4821858/142942603-4fb8e1cd-49b7-4029-b8f0-1f60a93e0cab.png)
+
+## Social Links
+
+[<img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white"/>](https://discord.gg/a8g4vFSu)
+[<img src="https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white"/>](https://twitter.com/shuv_har)
 
 ## Donations
 
