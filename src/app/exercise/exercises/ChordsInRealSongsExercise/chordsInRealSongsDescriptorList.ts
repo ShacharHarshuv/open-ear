@@ -1988,7 +1988,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
         seconds: 113.05,
       },
       {
-        chord: 'bVI',
+        chord: 'bVII',
         seconds: 114.71,
       },
     ],
@@ -2402,6 +2402,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
     endSeconds: 57.21,
   },
   {
+    solo: true,
     name: 'I\'m Like A Bird',
     artist: 'Nelly Furtado',
     mode: Mode.Major,
@@ -2410,26 +2411,22 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
     chords: [
       {
         chord: 'I',
-        seconds: 55.3,
+        seconds: 65.98,
       },
       {
         chord: 'V',
-        seconds: 57.88,
+        seconds: 68.63,
       },
       {
         chord: 'ii',
-        seconds: 60.63,
+        seconds: 71.33,
       },
       {
         chord: 'IV',
-        seconds: 63.31,
-      },
-      {
-        chord: 'ii',
-        seconds: 64.48,
+        seconds: 73.97,
       },
     ],
-    endSeconds: 66.1,
+    endSeconds: 76.6,
   },
   {
     name: 'Scott Street',
@@ -2770,19 +2767,19 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
       },
       {
         chord: 'I',
-        seconds: 38.12,
+        seconds: 38.14,
       },
       {
         chord: 'V',
-        seconds: 39.55,
+        seconds: 39.45,
       },
       {
         chord: 'vi',
-        seconds: 40.93,
+        seconds: 40.86,
       },
       {
         chord: 'V',
-        seconds: 41.59,
+        seconds: 41.5,
       },
     ],
     endSeconds: 42.42,
