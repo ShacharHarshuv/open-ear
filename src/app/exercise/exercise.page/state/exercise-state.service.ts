@@ -30,6 +30,8 @@ import { AdaptiveExerciseService } from './adaptive-exercise.service';
 import { BehaviorSubject } from 'rxjs';
 import AnswerList = Exercise.AnswerList;
 import Answer = Exercise.Answer;
+import { BehaviorSubject } from 'rxjs';
+import { AudioPlayerService } from '../../../services/audio-player.service';
 import getAnswerListIterator = Exercise.getAnswerListIterator;
 
 const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
@@ -72,6 +74,7 @@ export class ExerciseStateService implements OnDestroy {
     private readonly _exerciseService: ExerciseService,
     private readonly _notesPlayer: PlayerService,
     private readonly _youtubePlayer: YouTubePlayerService,
+    private readonly _audioPlayer: AudioPlayerService,
     private readonly _exerciseSettingsData: ExerciseSettingsDataService,
     private readonly _adaptiveExerciseService: AdaptiveExerciseService,
     private readonly router: Router,
@@ -240,7 +243,7 @@ export class ExerciseStateService implements OnDestroy {
         await this._notesPlayer.playMultipleParts(cadence);
       }
       await this._playYouTubeQuestion(this._currentQuestion);
-    } else {
+    } else if (this._currentQuestion.type === 'notes') {
       const partsToPlay: PartToPlay[] = this._getCurrentQuestionPartsToPlay();
       if (cadence && (this._globalSettings.playCadence || this._wasKeyChanged)) {
         partsToPlay.forEach(part => {
@@ -254,6 +257,10 @@ export class ExerciseStateService implements OnDestroy {
         partsToPlay.push(...this._getAfterCorrectAnswerParts());
       }
       await this._notesPlayer.playMultipleParts(partsToPlay);
+    } else if (this._currentQuestion.type === 'audio') {
+      await this._playAudioQuestion(this._currentQuestion);
+    } else {
+      throw new Error(`${this._currentQuestion.type} is not a recognizable question type`);
     }
     await this._afterPlaying();
   }
@@ -407,6 +414,15 @@ export class ExerciseStateService implements OnDestroy {
       },
     ]);
     await this._youtubePlayer.onStop();
+  }
+
+  private async _playAudioQuestion(question: Exercise.AudioQuestion): Promise<void> {
+    if (this._destroyed) {
+      return;
+    }
+    for (let segment of question.segments) {
+      await this._audioPlayer.play(segment.pathToAudio);
+    }
   }
 
   private _getCurrentQuestionPartsToPlay(): PartToPlay[] {
