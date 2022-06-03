@@ -101,7 +101,7 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
       romanNumerals: ['I', 'V', 'ii', 'IV']
     },
     {
-      romanNumerals: ['IV', 'IV', 'iii', 'vi'],
+      romanNumerals: ['IV', 'V', 'iii', 'vi'],
       name: 'The Royal Road',
     },
      // Diatonic Minor (Harmonic / Natural) progressions
@@ -180,13 +180,13 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
       name: 'Dorian Vamp'
     },
     {
-      romanNumerals: ['i', 'bIII', 'bVI', 'IV'],
+      romanNumerals: ['i', 'bIII', 'bVII', 'IV'],
       mode: Mode.Dorian,
       name: 'Plagal Cascade',
     },
     // Diatonic Mixolydian
     {
-      romanNumerals: ['I', 'bVI', 'IV', 'I'],
+      romanNumerals: ['I', 'bVII', 'IV', 'I'],
       name: 'Mixolydian Vamp',
       mode: Mode.Mixolydian,
     },
