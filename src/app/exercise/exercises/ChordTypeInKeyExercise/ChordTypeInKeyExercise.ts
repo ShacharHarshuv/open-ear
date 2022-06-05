@@ -17,9 +17,13 @@ import {
 } from '../utility/base-exercises/BaseTonalChordProgressionExercise';
 import { ChordTypeInKeyExplanationComponent } from './chord-type-in-key-explanation/chord-type-in-key-explanation.component';
 import { SettingsDescriptors } from '../utility/settings/SettingsDescriptors';
-import { RomanNumeralChordSymbol } from '../../utility';
+import {
+  RomanNumeralChordSymbol,
+  chromaticDegreeToScaleDegree,
+} from '../../utility';
 import { romanNumeralToChordInC } from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
 import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
+import { toMusicalTextDisplay } from '../../utility/music/getMusicTextDisplay';
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 
 const chordsInC: ChordSymbol[] = [
@@ -42,8 +46,24 @@ type ChordTypeInKeySettings = NumberOfSegmentsSetting &
   descriptor: {
     label: 'Included Chords',
     controlType: 'included-answers',
-    // todo: organize it in the preferred way & support view value
-    answerList: ['I', 'ii', 'iii', 'IV', 'V', 'viidim'],
+    answerList: {
+      rows: [
+        ChordType.Major,
+        ChordType.Minor,
+        ChordType.Diminished,
+      ].map(chordType => {
+        const answers: RomanNumeralChordSymbol[] = [];
+        for (let i = 1; i <= 12; i++) {
+          answers.push(
+            new RomanNumeralChord({
+              scaleDegree: chromaticDegreeToScaleDegree[i],
+              type: chordType,
+            }).romanNumeralChordSymbol,
+          );
+        }
+        return answers;
+      }),
+    },
   }
 })
 export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<ChordType, ChordTypeInKeySettings> {
@@ -51,6 +71,14 @@ export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<Ch
   readonly name: string = 'Chord Types';
   readonly summary: string = 'Identify chord type (major / minor) when all chords are diatonic to the same key';
   readonly explanation: ExerciseExplanationContent = ChordTypeInKeyExplanationComponent;
+
+  /**
+   * Currently this function apply to any included-answers settings,
+   * Even though in this case the roman numerals are not really "answers"
+   * */
+  getAnswerDisplay(answer: ChordType): string {
+    return toMusicalTextDisplay(answer);
+  }
 
   protected _getChordProgressionInC(): ChordProgressionQuestion<ChordType> {
     const chordProgression: RomanNumeralChordSymbol[] = [];
