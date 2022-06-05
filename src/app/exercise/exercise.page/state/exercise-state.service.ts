@@ -55,6 +55,7 @@ export class ExerciseStateService implements OnDestroy {
   private _destroyed: boolean = false;
   private _message$ = new BehaviorSubject<string | null>(null);
   private _error$ = new BehaviorSubject<string | null>(null);
+  private _cadenceWasPlayed: boolean = false;
   readonly message$ = this._message$.asObservable();
   readonly error$ = this._error$.asObservable();
   readonly name: string = this.exercise.name;
@@ -193,6 +194,7 @@ export class ExerciseStateService implements OnDestroy {
 
   async playCurrentCadenceAndQuestion(): Promise<void> {
     await this.stop();
+    this._cadenceWasPlayed = true;
     const cadence: PartToPlay[] | undefined = this._currentQuestion.cadence && [
       {
         partOrTime: toSteadyPart(this._currentQuestion.cadence),
@@ -270,7 +272,7 @@ export class ExerciseStateService implements OnDestroy {
     }));
     this._currentSegmentToAnswer = 0;
 
-    if (this.globalSettings.playCadence === 'ONLY_ON_REPEAT') {
+    if (this.globalSettings.playCadence === 'ONLY_ON_REPEAT' && !!this._cadenceWasPlayed) {
       return this.playCurrentQuestion();
     } else {
       return this.playCurrentCadenceAndQuestion();
