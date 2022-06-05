@@ -3,19 +3,25 @@ import {
   ElementRef,
   Input,
   Output,
-  Injector, forwardRef, Provider, Type,
+  Injector,
+  forwardRef,
+  Provider,
+  Type,
 } from '@angular/core';
 import { BaseComponent } from './base-component';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 import {
   BehaviorSubject,
   ReplaySubject,
   Subject,
   Observable,
   merge,
+  firstValueFrom,
 } from 'rxjs';
 import { publishReplayUntilAndConnect } from '../rxjs';
-import { take } from 'rxjs/operators';
 import * as _ from 'lodash';
 
 export function getNgValueAccessorProvider(type: Type<any>): Provider {
@@ -77,7 +83,7 @@ export abstract class BaseControlValueAccessorComponent<T> extends BaseComponent
   }
 
   getCurrentValuePromise(): Promise<T> {
-    return this.value$.pipe(take(1)).toPromise();
+    return firstValueFrom(this.value$);
   }
 
   //#endregion

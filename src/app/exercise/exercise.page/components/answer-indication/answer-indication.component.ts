@@ -1,9 +1,8 @@
 import {
   Component,
   Input,
-  HostBinding
+  HostBinding,
 } from '@angular/core';
-import { Exercise } from '../../../Exercise';
 
 @Component({
   selector: 'app-answer-indication',
@@ -12,7 +11,7 @@ import { Exercise } from '../../../Exercise';
 })
 export class AnswerIndicationComponent {
   @Input()
-  answer: Exercise.Answer | null = null;
+  answerDisplay: string | null = null;
 
   @HostBinding('class.--focused')
   @Input()

@@ -1,25 +1,40 @@
 import { Exercise } from '../../Exercise';
-import { randomFromList } from '../../utility';
+import {
+  randomFromList,
+  RomanNumeralChordSymbol,
+} from '../../utility';
 import * as _ from 'lodash';
-import { numberOfSegmentsControlDescriptorList, NumberOfSegmentsSetting, } from '../utility/NumberOfSegmentsSetting';
+import {
+  numberOfSegmentsControlDescriptorList,
+  NumberOfSegmentsSetting,
+} from '../utility/settings/NumberOfSegmentsSetting';
 import { ChordInKeyExplanationComponent } from './chord-in-key-explanation/chord-in-key-explanation.component';
 import {
   playAfterCorrectAnswerControlDescriptorList,
-  PlayAfterCorrectAnswerSetting
-} from '../utility/PlayAfterCorrectAnswerSetting';
+  PlayAfterCorrectAnswerSetting,
+} from '../utility/settings/PlayAfterCorrectAnswerSetting';
 import {
   BaseRomanAnalysisChordProgressionExercise,
   BaseRomanAnalysisChordProgressionExerciseSettings,
-  RomanNumeralChord,
-  RomanNumeralsChordProgressionQuestion
-} from '../utility/BaseRomanAnalysisChordProgressionExercise';
+  RomanNumeralsChordProgressionQuestion,
+} from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
+import {
+  IncludedAnswersSetting,
+  IncludedAnswersSettings,
+} from '../utility/settings/IncludedAnswersSettings';
+import { CadenceTypeSetting } from '../utility/settings/CadenceTypeSetting';
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 
 type ChordInKeySettings =
+  IncludedAnswersSettings<RomanNumeralChordSymbol> &
   BaseRomanAnalysisChordProgressionExerciseSettings &
   NumberOfSegmentsSetting &
   PlayAfterCorrectAnswerSetting;
 
+@CadenceTypeSetting<ChordInKeySettings>()
+@IncludedAnswersSetting<RomanNumeralChordSymbol, ChordInKeySettings>({
+  default: ['I', 'IV', 'V'],
+})
 export class ChordsInKeyExercise extends BaseRomanAnalysisChordProgressionExercise<ChordInKeySettings> {
   readonly id: string = 'chordInKey';
   readonly name: string = 'Chord Functions';
@@ -28,10 +43,10 @@ export class ChordsInKeyExercise extends BaseRomanAnalysisChordProgressionExerci
 
   protected _getChordProgressionInRomanNumerals(): RomanNumeralsChordProgressionQuestion {
     const numberOfSegments = this._settings.numberOfSegments;
-    const availableChords: RomanNumeralChord[] = this._settings.includedAnswers;
-    const chordProgression: RomanNumeralChord[] = [randomFromList(availableChords)];
+    const availableChords: RomanNumeralChordSymbol[] = this._settings.includedAnswers;
+    const chordProgression: RomanNumeralChordSymbol[] = [randomFromList(availableChords)];
     while (chordProgression.length < numberOfSegments) {
-      chordProgression.push(randomFromList(availableChords.filter(chord => chord !== _.last(chordProgression)!)));
+      chordProgression.push(randomFromList(availableChords.filter(chord => chord !== _.last(chordProgression)! || availableChords.length <= 1)));
     }
 
     return {

@@ -65,4 +65,36 @@ export const releaseNotes: ReleaseNotes = [
     version: '1.2.7',
     notes: `"Reveal answer after first mistake" option - when checked, correct answer will be revealed after first mistake, so you don't have a "second chance" to find the right answer.`
   },
+  {
+    version: '1.2.9',
+    notes: 'Improve performance for "Chord progressions in real songs" (Android only)',
+  },
+  {
+    version: '1.2.10',
+    notes: 'Enable a selection of range for "Scale Degree" exercise.'
+  },
+  {
+    version: '1.2.11',
+    notes: 'Add the options to reset statistics',
+  },
+  {
+    version: '1.2.12',
+    notes: 'Use numeric display instead of Moveable-Do for scale degrees exercise'
+  },
+  {
+    version: '1.2.14',
+    notes: 'Add more chord degrees options'
+  },
+  {
+    version: '1.3.1',
+    notes: 'Bass voice mode for Notes with Chord: Use it to learn how different bass notes sounds like under different chords. (essentially creating inversions or interesting suspensions)'
+  },
+  {
+    version: '1.3.1',
+    notes: 'Enable selection of chords in "Chord Progressions in Real Songs" exercise. (Android only)'
+  },
+  {
+    version: '1.4.1',
+    notes: '"Analyze by relative major tonic" option in Common Chord Progressions exercise. Use this to analyze roman numerals in relative major no matter what\'s the progression "real" mode.'
+  }
 ]

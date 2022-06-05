@@ -1,4 +1,4 @@
-import { Exercise } from '../../Exercise';
+import { Exercise } from '../../../Exercise';
 
 export type NumberOfSegmentsSetting = {
   numberOfSegments: number;
@@ -8,7 +8,7 @@ export const numberOfSegmentsControlDescriptorList = (name: string): Exercise.Se
   {
     key: 'numberOfSegments',
     descriptor: {
-      controlType: 'SLIDER',
+      controlType: 'slider',
       label: `Number of ${name}`,
       min: 1,
       max: 8,

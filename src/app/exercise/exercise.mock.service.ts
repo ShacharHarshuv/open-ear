@@ -2,15 +2,18 @@ import { PublicMembers } from '../shared/ts-utility/PublicMembers';
 import { ExerciseService } from './exercise.service';
 import { Injectable, Provider } from '@angular/core';
 import { Exercise } from './Exercise';
+import { MockExercise } from './MockExercise';
 
 @Injectable()
 export class ExerciseMockService implements PublicMembers<ExerciseService> {
+  static mockExercise: MockExercise = new MockExercise();
+
   getExercise(id: string): Exercise.IExercise {
-    throw new Error(`ExerciseMockService does not provide mock exercise. Spy on getExercise to pass a mock exercise`)
+    return ExerciseMockService.mockExercise;
   }
 
   getExerciseList(): Exercise.IExercise[] {
-    return [];
+    return [ExerciseMockService.mockExercise];
   }
 
   static providers: Provider[] = [

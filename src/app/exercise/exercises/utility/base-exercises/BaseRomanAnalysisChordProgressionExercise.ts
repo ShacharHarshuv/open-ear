@@ -1,28 +1,33 @@
 import {
   BaseTonalChordProgressionExercise,
   BaseTonalChordProgressionExerciseSettings,
-  ChordProgressionQuestion
+  ChordProgressionQuestion,
 } from './BaseTonalChordProgressionExercise';
-import { Chord, ChordSymbol, TriadInversion } from '../../utility/music/chords';
+import {
+  Chord,
+  ChordSymbol,
+  TriadInversion,
+} from '../../../utility/music/chords';
 import * as _ from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { PlayAfterCorrectAnswerSetting } from './PlayAfterCorrectAnswerSetting';
-import { Exercise } from '../../Exercise';
-import { Interval, toArray, toNoteNumber, toSteadyPart } from '../../utility';
-import { transpose } from '../../utility/music/transpose';
-import { NoteEvent } from '../../../services/player.service';
-
-export type RomanNumeralChord =
-  | 'II' | 'III' | '#IVᵒ' | 'VI' | 'VII'
-  | 'I' | 'ii' | 'iii' | 'IV' | 'V' | 'vi' | 'viiᵒ'
-  | 'i' | 'iiᵒ' | '♭III' | 'iv' | 'v' | '♭VI' | '♭VII'
-  | '♭II' | 'vᵒ' | '♭vii';
+import { PlayAfterCorrectAnswerSetting } from '../settings/PlayAfterCorrectAnswerSetting';
+import { Exercise } from '../../../Exercise';
+import {
+  Interval,
+  RomanNumeralChordSymbol,
+  toArray,
+  toNoteNumber,
+  toSteadyPart,
+} from '../../../utility';
+import { transpose } from '../../../utility/music/transpose';
+import { NoteEvent } from '../../../../services/player.service';
+import { toMusicalTextDisplay } from '../../../utility/music/getMusicTextDisplay';
 
 export type BaseRomanAnalysisChordProgressionExerciseSettings =
-  BaseTonalChordProgressionExerciseSettings<RomanNumeralChord> &
+  BaseTonalChordProgressionExerciseSettings<RomanNumeralChordSymbol> &
   PlayAfterCorrectAnswerSetting;
 
-const chordsInC: { chord: ChordSymbol; answer: RomanNumeralChord }[] = [
+const chordsInC: { chord: ChordSymbol; answer: RomanNumeralChordSymbol }[] = [
   {
     chord: 'D',
     answer: 'II',
@@ -33,7 +38,7 @@ const chordsInC: { chord: ChordSymbol; answer: RomanNumeralChord }[] = [
   },
   {
     chord: 'F#dim',
-    answer: '#IVᵒ',
+    answer: '#ivdim',
   },
   {
     chord: 'A',
@@ -69,7 +74,7 @@ const chordsInC: { chord: ChordSymbol; answer: RomanNumeralChord }[] = [
   },
   {
     chord: 'Bdim',
-    answer: 'viiᵒ',
+    answer: 'viidim',
   },
   {
     chord: 'Cm',
@@ -77,11 +82,11 @@ const chordsInC: { chord: ChordSymbol; answer: RomanNumeralChord }[] = [
   },
   {
     chord: 'Ddim',
-    answer: 'iiᵒ',
+    answer: 'iidim',
   },
   {
     chord: 'Eb',
-    answer: '♭III',
+    answer: 'bIII',
   },
   {
     chord: 'Fm',
@@ -93,39 +98,39 @@ const chordsInC: { chord: ChordSymbol; answer: RomanNumeralChord }[] = [
   },
   {
     chord: 'Ab',
-    answer: '♭VI'
+    answer: 'bVI',
   },
   {
     chord: 'Bb',
-    answer: '♭VII'
+    answer: 'bVII',
   },
   {
     chord: 'Db',
-    answer: '♭II',
+    answer: 'bII',
   },
   {
     chord: 'Gdim',
-    answer: 'vᵒ',
+    answer: 'vdim',
   },
   {
     chord: 'Bbm',
-    answer: '♭vii',
-  }
+    answer: 'bvii',
+  },
 ];
 
-export const romanNumeralToChordInC: { [romanNumeral in RomanNumeralChord]?: Chord } = _.mapValues(_.keyBy(chordsInC, 'answer'), chordDescriptor => new Chord(chordDescriptor.chord));
+export const romanNumeralToChordInC: { [romanNumeral in RomanNumeralChordSymbol]?: Chord } = _.mapValues(_.keyBy(chordsInC, 'answer'), chordDescriptor => new Chord(chordDescriptor.chord));
 
 const romanNumeralToResolution: {
-  [scale in 'MINOR' | 'MAJOR']?: {
-    [romanNumeral in RomanNumeralChord]?: {
+  [scale in 'minor' | 'major']?: {
+    [romanNumeral in RomanNumeralChordSymbol]?: {
       [inversion in 0 | 1 | 2]: ReadonlyArray<{
-        romanNumeral: RomanNumeralChord,
+        romanNumeral: RomanNumeralChordSymbol,
         voicingConfig: Omit<Parameters<Chord['getVoicing']>[0], 'withBass'>,
       }>;
     }
   }
 } = {
-  MAJOR: {
+  major: {
     I: {
       0: [],
       1: [],
@@ -333,14 +338,14 @@ const romanNumeralToResolution: {
         },
       ],
     },
-    viiᵒ: {
+    viidim: {
       0: [
         {
           romanNumeral: 'I',
           voicingConfig: {
             topVoicesInversion: TriadInversion.Fifth,
-          }
-        }
+          },
+        },
       ],
       1: [
         {
@@ -348,20 +353,20 @@ const romanNumeralToResolution: {
           voicingConfig: {
             topVoicesInversion: TriadInversion.Octave,
             octave: 5,
-          }
-        }
+          },
+        },
       ],
       2: [
         {
           romanNumeral: 'I',
           voicingConfig: {
             topVoicesInversion: TriadInversion.Octave,
-          }
-        }
+          },
+        },
       ],
-    }
+    },
   },
-  MINOR: {
+  minor: {
     i: {
       0: [],
       1: [],
@@ -372,7 +377,7 @@ const romanNumeralToResolution: {
         },
       ],
     },
-    iiᵒ: {
+    iidim: {
       0: [
         {
           romanNumeral: 'i',
@@ -398,7 +403,7 @@ const romanNumeralToResolution: {
         },
       ],
     },
-    '♭III': {
+    bIII: {
       0: [
         {
           romanNumeral: 'V',
@@ -485,6 +490,70 @@ const romanNumeralToResolution: {
         },
       ],
     },
+    v: {
+      0: [
+        {
+          romanNumeral: 'bVI',
+          voicingConfig: {
+            topVoicesInversion: TriadInversion.Fifth,
+          },
+        },
+        {
+          romanNumeral: 'bVII',
+          voicingConfig: {
+            topVoicesInversion: TriadInversion.Third,
+          },
+        },
+        {
+          romanNumeral: 'i',
+          voicingConfig: {
+            topVoicesInversion: TriadInversion.Octave,
+          },
+        },
+      ],
+      1: [
+        {
+          romanNumeral: 'bVI',
+          voicingConfig: {
+            topVoicesInversion: TriadInversion.Third,
+          },
+        },
+        {
+          romanNumeral: 'bVII',
+          voicingConfig: {
+            topVoicesInversion: TriadInversion.Third,
+          },
+        },
+        {
+          romanNumeral: 'i',
+          voicingConfig: {
+            topVoicesInversion: TriadInversion.Octave,
+            octave: 1,
+          },
+        },
+      ],
+      2: [
+        {
+          romanNumeral: 'IV',
+          voicingConfig: {
+            topVoicesInversion: TriadInversion.Third,
+          },
+        },
+        {
+          romanNumeral: 'V',
+          voicingConfig: {
+            topVoicesInversion: TriadInversion.Third,
+          },
+        },
+        {
+          romanNumeral: 'I',
+          voicingConfig: {
+            topVoicesInversion: TriadInversion.Octave,
+            octave: 5,
+          },
+        },
+      ],
+    },
     V: {
       0: [{
         romanNumeral: 'i',
@@ -504,10 +573,10 @@ const romanNumeralToResolution: {
         },
       }],
     },
-    '♭VI': {
+    bVI: {
       0: [
         {
-          romanNumeral: '♭VII',
+          romanNumeral: 'bVII',
           voicingConfig: {
             topVoicesInversion: TriadInversion.Third,
           },
@@ -521,7 +590,7 @@ const romanNumeralToResolution: {
       ],
       1: [
         {
-          romanNumeral: '♭VII',
+          romanNumeral: 'bVII',
           voicingConfig: {
             topVoicesInversion: TriadInversion.Octave,
           },
@@ -536,7 +605,7 @@ const romanNumeralToResolution: {
       ],
       2: [
         {
-          romanNumeral: '♭VII',
+          romanNumeral: 'bVII',
           voicingConfig: {
             topVoicesInversion: TriadInversion.Octave,
           },
@@ -550,14 +619,14 @@ const romanNumeralToResolution: {
         },
       ],
     },
-    '♭VII': {
+    bVII: {
       0: [
         {
           romanNumeral: 'i',
           voicingConfig: {
             topVoicesInversion: TriadInversion.Fifth,
-          }
-        }
+          },
+        },
       ],
       1: [
         {
@@ -565,56 +634,64 @@ const romanNumeralToResolution: {
           voicingConfig: {
             topVoicesInversion: TriadInversion.Octave,
             octave: 5,
-          }
-        }
+          },
+        },
       ],
       2: [
         {
           romanNumeral: 'i',
           voicingConfig: {
             topVoicesInversion: TriadInversion.Octave,
-          }
-        }
+          },
+        },
       ],
-    }
-  }
+    },
+  },
 };
-
 
 export type RomanNumeralsChordProgressionQuestion = {
-  chordProgressionInRomanAnalysis: RomanNumeralChord[]
+  chordProgressionInRomanAnalysis: RomanNumeralChordSymbol[]
 };
 
-export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extends BaseRomanAnalysisChordProgressionExerciseSettings> extends BaseTonalChordProgressionExercise<RomanNumeralChord, GSettings> {
-  static allAnswersList: Exercise.AnswerList<RomanNumeralChord> = BaseRomanAnalysisChordProgressionExercise._getAllAnswersList();
+export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extends BaseRomanAnalysisChordProgressionExerciseSettings> extends BaseTonalChordProgressionExercise<RomanNumeralChordSymbol, GSettings> {
+  static allAnswersList: Exercise.AnswerList<RomanNumeralChordSymbol> = BaseRomanAnalysisChordProgressionExercise._getAllAnswersList();
 
   protected abstract _getChordProgressionInRomanNumerals(): RomanNumeralsChordProgressionQuestion;
 
-  protected _getChordProgressionInC(): ChordProgressionQuestion<RomanNumeralChord> {
+  protected _getChordProgressionInC(): ChordProgressionQuestion<RomanNumeralChordSymbol> {
     const chordProgressionQuestion: RomanNumeralsChordProgressionQuestion = this._getChordProgressionInRomanNumerals();
 
-    const question: ChordProgressionQuestion<RomanNumeralChord> = {
+    const question: ChordProgressionQuestion<RomanNumeralChordSymbol> = {
       segments: chordProgressionQuestion.chordProgressionInRomanAnalysis.map((romanNumeral): {
         chord: Chord,
-        answer: RomanNumeralChord,
-      } => ({
-        chord: romanNumeralToChordInC[romanNumeral]!,
-        answer: romanNumeral,
-      })),
+        answer: RomanNumeralChordSymbol,
+      } => {
+        const chordSymbol = romanNumeralToChordInC[romanNumeral];
+        if (!chordSymbol) {
+          throw new Error(`Not chord symbol for ${romanNumeral}!`);
+        }
+        return {
+          chord: romanNumeralToChordInC[romanNumeral]!,
+          answer: romanNumeral,
+        }
+      }),
     };
 
     if (question.segments.length === 1 && this._settings.playAfterCorrectAnswer) {
       // calculate resolution
-      const firstChordRomanNumeral: RomanNumeralChord = question.segments[0].answer;
+      const firstChordRomanNumeral: RomanNumeralChordSymbol = question.segments[0].answer;
       const scaleForResolution = {
-        'I IV V I': 'MAJOR',
-        'i iv V i': 'MINOR',
+        'I IV V I': 'major',
+        'i iv V i': 'minor',
       }[this._settings.cadenceType];
       const resolutionConfig = romanNumeralToResolution[scaleForResolution]?.[firstChordRomanNumeral];
       if (resolutionConfig) {
-        question.afterCorrectAnswer = ({firstChordInversion, questionSegments}) => {
+        question.afterCorrectAnswer = ({
+          firstChordInversion,
+          questionSegments,
+        }) => {
           const resolution: {
-            romanNumeral: RomanNumeralChord,
+            romanNumeral: RomanNumeralChordSymbol,
             chordVoicing: Note[],
           }[] | null = [
             {
@@ -636,9 +713,9 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
           const differenceInOctavesToNormalize: number = _.round((toNoteNumber(toArray(toSteadyPart(questionSegments[0].partToPlay)[0].notes)[0]) - toNoteNumber(resolution[0].chordVoicing[0])) / Interval.Octave);
 
           return resolution.map(({
-                                   romanNumeral,
-                                   chordVoicing,
-                                 }, index) => ({
+            romanNumeral,
+            chordVoicing,
+          }, index) => ({
             answerToHighlight: romanNumeral,
             partToPlay: [{
               notes: chordVoicing.map(note => transpose(note, differenceInOctavesToNormalize * Interval.Octave)),
@@ -660,11 +737,11 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
     };
   }
 
-  protected _getAllAnswersListInC(): Exercise.AnswerList<RomanNumeralChord> {
+  protected _getAnswersListInC(): Exercise.AnswerList<RomanNumeralChordSymbol> {
     return BaseRomanAnalysisChordProgressionExercise.allAnswersList;
   }
 
-  private static _getAllAnswersList(): Exercise.AnswerList<RomanNumeralChord> {
+  private static _getAllAnswersList(): Exercise.AnswerList<RomanNumeralChordSymbol> {
     function getPlayOnClickPart(chord: Chord): NoteEvent[] {
       return [{
         notes: chord.getVoicing({topVoicesInversion: TriadInversion.Fifth}),
@@ -673,7 +750,7 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
       }];
     }
 
-    const answerList: { rows: (Exercise.AnswerConfig<RomanNumeralChord> | RomanNumeralChord)[][] } = {
+    const answerList: { rows: (Exercise.AnswerConfig<RomanNumeralChordSymbol> | RomanNumeralChordSymbol)[][] } = {
       rows: [
         [
           {
@@ -682,7 +759,7 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
           },
           'II',
           'III',
-          '#IVᵒ',
+          '#ivdim',
           {
             answer: null,
             space: 1,
@@ -697,23 +774,23 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
           'IV',
           'V',
           'vi',
-          'viiᵒ',
+          'viidim',
         ],
         [
           'i',
-          'iiᵒ',
-          '♭III',
+          'iidim',
+          'bIII',
           'iv',
           'v',
-          '♭VI',
-          '♭VII',
+          'bVI',
+          'bVII',
         ],
         [
           {
             answer: null,
             space: 1,
           },
-          '♭II',
+          'bII',
           {
             answer: null,
             space: 1,
@@ -722,18 +799,18 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
             answer: null,
             space: 1,
           },
-          'vᵒ',
+          'vdim',
           {
             answer: null,
             space: 1,
           },
-          '♭vii',
+          'bvii',
         ],
       ],
     }
 
     return {
-      rows: answerList.rows.map(row => row.map((answerOrCellConfig): Exercise.AnswerConfig<RomanNumeralChord> => {
+      rows: answerList.rows.map(row => row.map((answerOrCellConfig): Exercise.AnswerConfig<RomanNumeralChordSymbol> => {
         if (typeof answerOrCellConfig === 'string') {
           return {
             answer: answerOrCellConfig,
@@ -749,7 +826,11 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
             return answerOrCellConfig;
           }
         }
-      }))
+      })),
     }
+  }
+
+  getAnswerDisplay(answer: RomanNumeralChordSymbol): string {
+    return toMusicalTextDisplay(answer);
   }
 }

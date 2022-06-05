@@ -66,21 +66,44 @@ function getFileArrayBuffer(url: string): Promise<ArrayBuffer> {
 })
 export class PlayerService {
   private _instrumentPromise: Promise<Sampler> = this._getInstrument();
+  private _isReady: boolean = false;
   private _currentlyPlaying: Part | null = null;
   private _currentlyPlayingPartFinishedSchedulerId: number | null = null;
   private _onPartFinished$ = new Subject<void>();
   private _partsToPlay: PartToPlay[] = [];
+  private _onAllPartsFinished$ = new Subject<void>();
+  private _lastPlayed: PartToPlay[] | null = null;
+
+  constructor() {
+    this._instrumentPromise.then(() => {
+      this._isReady = true;
+    })
+  }
 
   get bpm(): number {
     return Tone.Transport.bpm.value;
   }
 
-  constructor() {
+  get lastPlayed(): PartToPlay[] | null {
+    return this._lastPlayed;
+  }
+
+  get isReady(): boolean {
+    return this._isReady;
   }
 
   async init() {
     await Tone.start();
     await Tone.loaded();
+  }
+
+  // Used this to wait for current playing parts to finish
+  onAllPartsFinished(): Promise<void> {
+    if (this._currentlyPlaying) {
+      return this._onAllPartsFinished$.pipe(take(1)).toPromise();
+    } else {
+      return Promise.resolve();
+    }
   }
 
   private static async _getSampleMap(): Promise<{ [note: string]: AudioBuffer }> {
@@ -111,9 +134,12 @@ export class PlayerService {
     this._partsToPlay = [];
     this._stopCurrentlyPlayingAndClearTransport();
     await this._playPart(noteEventList);
+    this._onAllPartsFinished$.next();
   }
 
   async playMultipleParts(parts: PartToPlay[]): Promise<void> {
+    this._lastPlayed = parts;
+
     // stop previous playMultipleParts if exists
     this._partsToPlay = [];
     this._stopCurrentlyPlayingAndClearTransport();
@@ -149,10 +175,13 @@ export class PlayerService {
       }
       nextPart.afterPlaying?.();
     }
+
+    this._onAllPartsFinished$.next();
   }
 
-  stop(): void {
+  stopAndClearQueue(): void {
     this._stopCurrentlyPlayingAndClearTransport();
+    this._partsToPlay = [];
   }
 
   setBpm(bpm: number): void {

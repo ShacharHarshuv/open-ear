@@ -1,11 +1,12 @@
-import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import {
+  Observable,
+  firstValueFrom,
+} from 'rxjs';
 import { SyncOrAsync } from './SyncOrAsync';
 
 export function toPromise<G>(param: SyncOrAsync<G>): Promise<G> {
   if (param instanceof Observable) {
-    return param.pipe(take(1))
-      .toPromise();
+    return firstValueFrom(param);
   }
 
   if (param instanceof Promise) {

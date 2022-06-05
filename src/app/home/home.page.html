@@ -6,12 +6,11 @@
     <ion-buttons
       slot="end"
     >
-      <!--Payment that are not through "in app purchases" are not allowed in ios.-->
-      <ion-button
-        *ngIf="!platform.is('ios')"
-        [href]="'https://www.paypal.com/donate/?hosted_button_id=2WH25GBMCJTJS'"
-      >
-        <ion-icon slot="icon-only" name="heart-outline"></ion-icon>
+      <ion-button [href]="'https://discord.gg/XdbaSwfz'">
+        <ion-icon slot="icon-only" name="logo-discord"></ion-icon>
+      </ion-button>
+      <ion-button [href]="'https://twitter.com/shuv_har'">
+        <ion-icon slot="icon-only" name="logo-twitter"></ion-icon>
       </ion-button>
       <ion-button [href]="'https://github.com/ShacharHarshuv/open-ear'">
         <ion-icon slot="icon-only" name="logo-github"></ion-icon>

@@ -1,0 +1,20 @@
+<button
+  id="field-info__button{{instanceIndex}}"
+>
+  <ion-icon
+    name="help-outline"
+    slot="icon-only"
+  ></ion-icon>
+</button>
+<ion-popover
+  trigger="field-info__button{{instanceIndex}}"
+  side="bottom"
+>
+  <ng-template>
+    <div
+      class="field-info__content"
+      [innerHTML]="message"
+    >
+    </div>
+  </ng-template>
+</ion-popover>

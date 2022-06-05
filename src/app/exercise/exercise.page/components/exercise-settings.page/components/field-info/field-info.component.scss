@@ -1,0 +1,17 @@
+@use 'main' as *;
+
+:host {
+  color: var(--ion-color-medium);
+  position: relative;
+}
+
+button {
+  background-color: unset;
+  color: inherit;
+  padding: 0;
+}
+
+.field-info__content {
+  padding: 2 * $unit;
+  font-size: 14px;
+}

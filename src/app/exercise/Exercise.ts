@@ -13,7 +13,7 @@ type PartToPlay = NoteEvent[] | OneOrMany<Note>;
 
 export namespace Exercise {
 
-  interface BaseQuestion<GAnswer extends string, GSegment extends {rightAnswer: GAnswer}> {
+  interface BaseQuestion<GAnswer extends string, GSegment extends { rightAnswer: GAnswer }> {
     type?: string, // default: 'notes'
     /**
      * Use more than one segment for serial exercises
@@ -29,6 +29,11 @@ export namespace Exercise {
       partToPlay: NoteEvent[],
       answerToHighlight?: GAnswer,
     }[];
+    // use to display some info about the question to the user (for example, a key)
+    info?: string | {
+      beforeCorrectAnswer: string;
+      afterCorrectAnswer: string;
+    },
   }
 
   export interface NotesQuestion<GAnswer extends string = string> extends BaseQuestion<GAnswer, {
@@ -120,7 +125,7 @@ export namespace Exercise {
 
   export function filterIncludedAnswers<GAnswer extends string>(allAnswerList: Exercise.AnswerList<GAnswer>, includedAnswersList: GAnswer[]) {
     const answerLayout: AnswersLayout<GAnswer> = Array.isArray(allAnswerList) ? {
-      rows: [ allAnswerList ],
+      rows: [allAnswerList],
     } : allAnswerList;
 
     const normalizedAnswerLayout: {
@@ -133,7 +138,7 @@ export namespace Exercise {
       rows: normalizedAnswerLayout.rows.map((row: Required<AnswerConfig<GAnswer>>[]): Required<AnswerConfig<GAnswer>>[] => _.map(row, answerLayoutCellConfig => answerLayoutCellConfig.answer && includedAnswersList.includes(answerLayoutCellConfig.answer) ? answerLayoutCellConfig : {
         ...answerLayoutCellConfig,
         answer: null, // In the future it's possible we'll want to configure a button to be disabled instead of hidden in this case
-      }))
+      })),
     }
   }
 
@@ -143,22 +148,22 @@ export namespace Exercise {
   }
 
   export interface SliderControlDescriptor extends BaseSettingsControlDescriptor {
-    controlType: 'SLIDER';
+    controlType: 'slider';
     min: number;
     max: number;
     step: number;
   }
 
-  export interface SelectControlDescriptor extends BaseSettingsControlDescriptor {
-    controlType: 'SELECT',
+  export interface SelectControlDescriptor<GValue extends string | number = string | number> extends BaseSettingsControlDescriptor {
+    controlType: 'select',
     options: {
       label: string;
-      value: string | number,
+      value: GValue,
     }[],
   }
 
   export interface ListSelectControlDescriptor<GValue = string | number> extends BaseSettingsControlDescriptor {
-    controlType: 'LIST_SELECT';
+    controlType: 'list-select';
     allOptions: {
       label: string,
       value: GValue,
@@ -166,27 +171,29 @@ export namespace Exercise {
   }
 
   export interface CheckboxControlDescriptor extends BaseSettingsControlDescriptor {
-    controlType: 'CHECKBOX',
+    controlType: 'checkbox',
   }
 
   export interface IncludedAnswersControlDescriptor<GAnswer extends string = string> extends BaseSettingsControlDescriptor {
-    controlType: 'INCLUDED_ANSWERS',
+    controlType: 'included-answers',
     answerList: AnswerList<GAnswer>;
   }
 
   export type SettingValueType = number | string | boolean | (string | number)[];
 
-  /*
-   * adding a dummy redundant condition on GKey to force description of (potentially) union type GKey.
-   * Without such description the end result will be never.
+  export type Settings = { [key: string]: SettingValueType };
+
+  /***
+   * Usage of GKey is necessary here to avoid this issue: https://github.com/microsoft/TypeScript/issues/41595
    * */
-  export type SettingsControlDescriptor<GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }/*, GKey extends keyof GSettings = keyof GSettings*/> = /*GKey extends string ?*/
+  export type SettingsControlDescriptor<GSettings extends Settings = Settings, GKey extends keyof GSettings = keyof GSettings> = /*GKey extends string ?*/
     {
-      key: /*GKey*/ keyof GSettings,
+      key: GKey,
       descriptor: /*GSettings[GKey] extends number ? SliderControlDescriptor | SelectControlDescriptor<GSettings[GKey]>
-        : GSettings[GKey] extends Array<any> ? ListSelectControlDescriptor
-          : SelectControlDescriptor<GSettings[GKey]>*/ SliderControlDescriptor | SelectControlDescriptor | ListSelectControlDescriptor | IncludedAnswersControlDescriptor | CheckboxControlDescriptor,
+       : GSettings[GKey] extends Array<any> ? ListSelectControlDescriptor
+       : SelectControlDescriptor<GSettings[GKey]>*/ SliderControlDescriptor | SelectControlDescriptor | ListSelectControlDescriptor | IncludedAnswersControlDescriptor | CheckboxControlDescriptor,
       show?: (settings: GSettings) => boolean;
+      info?: string; // can contain html
     }/* : never*/;
 
   export type ExerciseExplanationContent = string | Type<any>;
@@ -209,6 +216,8 @@ export namespace Exercise {
     updateSettings?(settings: GSettings): void;
 
     getCurrentSettings?(): GSettings;
+
+    getAnswerDisplay?(answer: GAnswer): string;
 
     onDestroy?(): void;
   }

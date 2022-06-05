@@ -1,5 +1,8 @@
-import { Exercise, } from '../../Exercise';
-import { NotesRange, randomFromList } from '../../utility';
+import { Exercise } from '../../Exercise';
+import {
+  NotesRange,
+  randomFromList,
+} from '../../utility';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { getNoteType } from '../../utility/music/notes/getNoteType';
 import { NoteType } from '../../utility/music/notes/NoteType';
@@ -7,35 +10,78 @@ import { getNoteOctave } from '../../utility/music/notes/getNoteOctave';
 import { toNoteTypeNumber } from '../../utility/music/notes/toNoteTypeNumber';
 import { noteTypeToNote } from '../../utility/music/notes/noteTypeToNote';
 import { NotesInKeyExplanationComponent } from './notes-in-key-explanation/notes-in-key-explanation.component';
-import { numberOfSegmentsControlDescriptorList, NumberOfSegmentsSetting } from '../utility/NumberOfSegmentsSetting';
+import { transpose } from '../../utility/music/transpose';
+import { getDistanceOfKeys } from '../../utility/music/keys/getDistanceOfKeys';
 import {
-  playAfterCorrectAnswerControlDescriptorList,
-  PlayAfterCorrectAnswerSetting
-} from '../utility/PlayAfterCorrectAnswerSetting';
-import {
-  BaseMelodicDictationExercise,
   BaseMelodicDictationExerciseSettings,
+  BaseMelodicDictationExercise,
   IMelodicQuestion,
   noteInCToSolfege,
-  SolfegeNote
-} from '../utility/BaseMelodicDictationExercise';
+  SolfegeNote,
+} from '../utility/base-exercises/BaseMelodicDictationExercise';
+import {
+  NumberOfSegmentsSetting,
+  numberOfSegmentsControlDescriptorList,
+} from '../utility/settings/NumberOfSegmentsSetting';
+import {
+  PlayAfterCorrectAnswerSetting,
+  playAfterCorrectAnswerControlDescriptorList,
+} from '../utility/settings/PlayAfterCorrectAnswerSetting';
+import { IncludedAnswersSetting } from '../utility/settings/IncludedAnswersSettings';
+import { toMusicalTextDisplay } from '../../utility/music/getMusicTextDisplay';
+import { CadenceTypeSetting } from '../utility/settings/CadenceTypeSetting';
 
 type NoteInKeySettings =
   BaseMelodicDictationExerciseSettings &
   NumberOfSegmentsSetting &
-  PlayAfterCorrectAnswerSetting;
+  PlayAfterCorrectAnswerSetting & {
+    notesRange: 'high' | 'middle' | 'bass' | 'contrabass',
+    displayMode: 'solfege' | 'numeral',
+  };
 
+type NoteInKeyDisplayMode = 'solfege' | 'numeral';
+
+@CadenceTypeSetting<NoteInKeySettings>()
+@IncludedAnswersSetting<SolfegeNote, NoteInKeySettings>({
+  default: [
+    'Do',
+    'Re',
+    'Mi',
+  ]
+})
 export class NotesInKeyExercise extends BaseMelodicDictationExercise<NoteInKeySettings> {
   readonly id: string = 'noteInKey';
   readonly name: string = `Scale Degrees`;
   readonly summary: string = `Identify monophonic notes based on their tonal context in a particular key`;
   readonly explanation = NotesInKeyExplanationComponent;
-  readonly rangeForKeyOfC = new NotesRange('G2', 'E4');
-  readonly questionOptionsInC: Note[] = this._getQuestionOptionsInC();
+  static readonly rangeOptionToNotesRange: {[range in NoteInKeySettings['notesRange']]: NotesRange} = {
+    high: new NotesRange('C4', 'G6'),
+    middle: new NotesRange('G2', 'E4'),
+    bass: new NotesRange('A1', 'C3'),
+    contrabass: new NotesRange('Eb1', 'Eb2'),
+  }
+  static readonly displayModeToAnswerDisplayMap: {[mode in NoteInKeyDisplayMode]?: {[note in SolfegeNote]: string}} = {
+    numeral: {
+      Do: '1',
+      Re: '2',
+      Me: 'b3',
+      Mi: '3',
+      Fa: '4',
+      Sol: '5',
+      Le: 'b6',
+      La: '6',
+      Te: 'b7',
+      Ti: '7',
+    }
+  }
+
+  private get _rangeForKeyOfC(): NotesRange {
+    return this._getRangeForKeyOfC(NotesInKeyExercise.rangeOptionToNotesRange[this._settings.notesRange]);
+  }
 
   override getMelodicQuestionInC(): IMelodicQuestion {
-    const noteOptions: Note[] = this.questionOptionsInC.filter(questionOption => this._settings.includedAnswers.includes(noteInCToSolfege[getNoteType(questionOption)]!));
-    const randomQuestionsInC: Note[] = Array.from(Array(this._settings.numberOfSegments)).map(() => randomFromList(noteOptions));
+    const noteOptions: Note[] = this._getQuestionOptionsInC().filter(questionOption => this._settings.includedAnswers.includes(noteInCToSolfege[getNoteType(questionOption)]!));
+    let randomQuestionsInC: Note[] = Array.from(Array(this._settings.numberOfSegments)).map(() => randomFromList(noteOptions));
 
     // calculation resolution
     let resolution: Note[] = [];
@@ -74,13 +120,63 @@ export class NotesInKeyExercise extends BaseMelodicDictationExercise<NoteInKeySe
     }
   }
 
+  getAnswerDisplay(answer: SolfegeNote): string {
+    return toMusicalTextDisplay(NotesInKeyExercise.displayModeToAnswerDisplayMap[this._settings.displayMode]?.[answer] ?? answer);
+  }
+
   private _getQuestionOptionsInC(): Note[] {
-    return this.rangeForKeyOfC.getAllNotes().filter((note: Note) => noteInCToSolfege[getNoteType(note)]);
+    return this._rangeForKeyOfC.getAllNotes().filter((note: Note) => noteInCToSolfege[getNoteType(note)]);
   }
 
   protected override _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<NoteInKeySettings>[] {
     return [
       ...super._getSettingsDescriptor(),
+      {
+        key: 'displayMode',
+        info: 'Choose how the scale degrees are noted. <br>(This setting will apply only after you close the settings page.)',
+        descriptor: {
+          label: 'Display',
+          controlType: 'select',
+          options: [
+            {
+              label: 'Numbers',
+              value: 'numeral',
+            },
+            {
+              label: 'Movable-Do',
+              value: 'solfege',
+            }
+          ]
+        }
+      },
+      {
+        key: 'notesRange',
+        info: 'Choose how high or low the notes will be played',
+        descriptor: ((): Exercise.SelectControlDescriptor<NoteInKeySettings['notesRange']> => {
+          return {
+            controlType: 'select',
+            label: 'Range',
+            options: [
+              {
+                label: 'High',
+                value: 'high',
+              },
+              {
+                label: 'Middle',
+                value: 'middle',
+              },
+              {
+                label: 'Bass',
+                value: 'bass',
+              },
+              {
+                label: 'Contra Bass',
+                value: 'contrabass',
+              }
+          ]
+          }
+        })()
+      },
       ...numberOfSegmentsControlDescriptorList('notes'),
       ...playAfterCorrectAnswerControlDescriptorList({
         show: ((settings: NoteInKeySettings) => settings.numberOfSegments === 1),
@@ -93,15 +189,9 @@ export class NotesInKeyExercise extends BaseMelodicDictationExercise<NoteInKeySe
       ...super._getDefaultSettings(),
       numberOfSegments: 1,
       playAfterCorrectAnswer: true,
+      notesRange: 'middle',
+      displayMode: 'numeral',
     };
-  }
-
-  protected override _getDefaultSelectedIncludedAnswers(): SolfegeNote[] {
-    return [
-      'Do',
-      'Re',
-      'Mi',
-    ]
   }
 
   private _detectScale(): NoteType[] {

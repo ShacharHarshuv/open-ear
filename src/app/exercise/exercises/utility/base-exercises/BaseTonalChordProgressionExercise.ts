@@ -1,21 +1,21 @@
-import { BaseTonalExercise, BaseTonalExerciseSettings } from './BaseTonalExercise';
-import { Exercise } from '../../Exercise';
-import { randomFromList, StaticOrGetter, toGetter, } from '../../../shared/ts-utility';
+import { BaseTonalExercise, TonalExerciseSettings } from './BaseTonalExercise';
+import { Exercise } from '../../../Exercise';
+import { randomFromList, StaticOrGetter, toGetter, } from '../../../../shared/ts-utility';
 import * as _ from 'lodash';
-import { Chord, ChordSymbol, voiceChordProgressionWithVoiceLeading, } from '../../utility/music/chords';
+import { Chord, ChordSymbol, voiceChordProgressionWithVoiceLeading, } from '../../../utility/music/chords';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { NoteEvent } from '../../../services/player.service';
-import { getInterval, NotesRange, } from '../../utility';
-import { transpose } from '../../utility/music/transpose';
-import { Interval } from '../../utility/music/intervals/Interval';
+import { NoteEvent } from '../../../../services/player.service';
+import { getInterval, NotesRange, } from '../../../utility';
+import { transpose } from '../../../utility/music/transpose';
+import { Interval } from '../../../utility/music/intervals/Interval';
 
-export type BaseTonalChordProgressionExerciseSettings<GAnswer extends string> = BaseTonalExerciseSettings<GAnswer> & {
+export type BaseTonalChordProgressionExerciseSettings<GAnswer extends string> = TonalExerciseSettings<GAnswer> & {
   voiceLeading: 'RANDOM' | 'CORRECT';
   includedPositions: (0 | 1 | 2)[];
   includeBass: boolean;
 }
 
-export interface ChordProgressionQuestion<GAnswer extends string> {
+export interface ChordProgressionQuestion<GAnswer extends string> extends Omit<Exercise.NotesQuestion, 'segments' | 'afterCorrectAnswer'> {
   segments: {
     chord: Chord;
     answer: GAnswer;
@@ -38,7 +38,7 @@ export abstract class BaseTonalChordProgressionExercise<GAnswer extends string, 
   };
   private readonly _range = new NotesRange('G3', 'E5');
 
-  getQuestionInC(): Exclude<Exercise.Question<GAnswer>, "cadence"> {
+  getQuestionInC(): Exclude<Exercise.NotesQuestion<GAnswer>, "cadence"> {
     const chordProgression: ChordProgressionQuestion<GAnswer> = this._getChordProgressionInC();
 
     const firstChordInversion: 0 | 1 | 2 = randomFromList(this._settings.includedPositions);
@@ -131,8 +131,10 @@ export abstract class BaseTonalChordProgressionExercise<GAnswer extends string, 
       ...super._getSettingsDescriptor(),
       {
         key: 'voiceLeading',
+        info: 'Smooth: voices in the chords will move as little as possible (as usually happens in real music) <br>' +
+          'Random: each chord will have a random position regardless of the previous chord. Choose this if you want to limit the included positions',
         descriptor: {
-          controlType: 'SELECT',
+          controlType: 'select',
           label: 'Voice Leading',
           options: [
             {
@@ -148,15 +150,18 @@ export abstract class BaseTonalChordProgressionExercise<GAnswer extends string, 
       },
       {
         key: 'includeBass',
+        info: 'When turned off, the bass note will not be played',
         descriptor: {
-          controlType: 'CHECKBOX',
+          controlType: 'checkbox',
           label: 'Include Bass',
         }
       },
       {
         key: 'includedPositions' as const,
+        info: 'Limit the included top voices positions.',
+        show: (settings => settings.voiceLeading === 'RANDOM'),
         descriptor: {
-          controlType: 'LIST_SELECT',
+          controlType: 'list-select',
           label: 'Included Positions (top voices)',
           allOptions: [
             {

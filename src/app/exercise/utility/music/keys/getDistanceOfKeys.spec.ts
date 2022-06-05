@@ -8,4 +8,12 @@ describe('getDistanceOfKeys', () => {
   it('F to Bb is 5 semitones', () => {
     expect(getDistanceOfKeys('Bb', 'F')).toEqual(5);
   });
+
+  it('C to Bb should be -2 semitones', () => {
+    expect(getDistanceOfKeys('C', 'Bb')).toEqual(2);
+  });
+
+  it('Bb to C should be 2 semitones', () => {
+    expect(getDistanceOfKeys('Bb', 'C')).toEqual(-2);
+  });
 })

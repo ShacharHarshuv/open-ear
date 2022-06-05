@@ -1,14 +1,14 @@
-import { BaseTonalExercise, BaseTonalExerciseSettings } from './BaseTonalExercise';
-import { NoteType } from '../../utility/music/notes/NoteType';
+import { BaseTonalExercise, TonalExerciseSettings } from './BaseTonalExercise';
+import { NoteType } from '../../../utility/music/notes/NoteType';
 import * as _ from 'lodash';
-import { Exercise } from '../../Exercise';
+import { Exercise } from '../../../Exercise';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { getNoteType } from '../../utility/music/notes/getNoteType';
+import { getNoteType } from '../../../utility/music/notes/getNoteType';
 import { Time } from 'tone/Tone/core/type/Units';
 
 export type SolfegeNote = 'Do' | 'Re' | 'Me' | 'Mi' | 'Fa' | 'Sol' | 'Le' | 'La' | 'Te' | 'Ti';
 
-export type BaseMelodicDictationExerciseSettings = BaseTonalExerciseSettings<SolfegeNote>;
+export type BaseMelodicDictationExerciseSettings = TonalExerciseSettings<SolfegeNote>;
 
 export const solfegeNotesInC: { solfege: SolfegeNote, note: NoteType }[] = [
   {
@@ -55,18 +55,18 @@ export const solfegeNotesInC: { solfege: SolfegeNote, note: NoteType }[] = [
 export const noteInCToSolfege: { [note in NoteType]?: SolfegeNote } = _.mapValues(_.keyBy(solfegeNotesInC, 'note'), 'solfege');
 export const solfegeToNoteInC: { [note in SolfegeNote]?: NoteType } = _.mapValues(_.keyBy(solfegeNotesInC, 'solfege'), 'note');
 
-export interface IMelodicQuestion {
+export interface IMelodicQuestion extends Omit<Exercise.NotesQuestion<SolfegeNote>, 'segments'> {
   segments: Note[],
-  afterCorrectAnswer?: Exercise.Question<SolfegeNote>['afterCorrectAnswer'];
 }
 
 export abstract class BaseMelodicDictationExercise<GSettings extends BaseMelodicDictationExerciseSettings> extends BaseTonalExercise<SolfegeNote, GSettings> {
   readonly noteDuration: Time = '2n';
   abstract getMelodicQuestionInC(): IMelodicQuestion;
 
-  override getQuestionInC(): Exclude<Exercise.Question<SolfegeNote>, 'cadence'> {
+  override getQuestionInC(): Exclude<Exercise.NotesQuestion<SolfegeNote>, 'cadence'> {
     const melodicQuestionInC: IMelodicQuestion = this.getMelodicQuestionInC();
     const question: Exercise.Question<SolfegeNote> = {
+      ..._.omit(melodicQuestionInC, 'segments'),
       segments: melodicQuestionInC.segments.map(randomQuestionInC => ({
         rightAnswer: noteInCToSolfege[getNoteType(randomQuestionInC)]!,
         partToPlay: [{
@@ -83,7 +83,7 @@ export abstract class BaseMelodicDictationExercise<GSettings extends BaseMelodic
     return question;
   }
 
-  protected _getAllAnswersListInC(): Exercise.AnswerList<SolfegeNote> {
+  protected _getAnswersListInC(): Exercise.AnswerList<SolfegeNote> {
     return {
       rows: [
         [
@@ -149,21 +149,4 @@ export abstract class BaseMelodicDictationExercise<GSettings extends BaseMelodic
       ],
     }
   }
-
-  /* Overriding to ensure order is right */
-  protected override _getIncludedAnswersOptions(): SolfegeNote[] {
-    return [
-      'Do',
-      'Re',
-      'Me',
-      'Mi',
-      'Fa',
-      'Sol',
-      'Le',
-      'La',
-      'Te',
-      'Ti',
-    ]
-  }
-
 }

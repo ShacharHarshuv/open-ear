@@ -1,13 +1,15 @@
 import {
   Chord,
   ChordSymbol,
-  ChordType
+  ChordType,
+  Direction,
 } from './Chord';
 import { NoteType } from '../../notes/NoteType';
 import { Interval } from '../../intervals/Interval';
 import { toNoteTypeNumber } from '../../notes/toNoteTypeNumber';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { toNoteNumber } from '../../notes/toNoteName';
+import { testPureFunction } from '../../../../../shared/testing-utility/testPureFunction';
 
 describe('Chord', () => {
   const testCases: {
@@ -26,7 +28,7 @@ describe('Chord', () => {
       octave: 5,
       expectedResult: {
         root: 'C',
-        type: 'M',
+        type: ChordType.Major,
         intervals: [Interval.Prima, Interval.MajorThird, Interval.PerfectFifth],
         noteTypes: ['C', 'E', 'G'],
         voicing: [
@@ -38,7 +40,7 @@ describe('Chord', () => {
       chordSymbol: 'F',
       expectedResult: {
         root: 'F',
-        type: 'M',
+        type: ChordType.Major,
         intervals: [Interval.Prima, Interval.MajorThird, Interval.PerfectFifth],
         noteTypes: ['F', 'A', 'C'],
         voicing: [
@@ -52,7 +54,7 @@ describe('Chord', () => {
       chordSymbol: 'Bb',
       expectedResult: {
         root: 'Bb',
-        type: 'M',
+        type: ChordType.Major,
         intervals: [Interval.Prima, Interval.MajorThird, Interval.PerfectFifth],
         noteTypes: ['Bb', 'D', 'F'],
         voicing: [
@@ -66,7 +68,7 @@ describe('Chord', () => {
       chordSymbol: 'F#',
       expectedResult: {
         root: 'F#',
-        type: 'M',
+        type: ChordType.Major,
         intervals: [Interval.Prima, Interval.MajorThird, Interval.PerfectFifth],
         noteTypes: ['F#', 'A#', 'C#'],
         voicing: [
@@ -80,7 +82,7 @@ describe('Chord', () => {
       chordSymbol: 'Fm',
       expectedResult: {
         root: 'F',
-        type: 'm',
+        type: ChordType.Minor,
         intervals: [Interval.Prima, Interval.MinorThird, Interval.PerfectFifth],
         noteTypes: ['F', 'Ab', 'C'],
         voicing: [
@@ -94,7 +96,7 @@ describe('Chord', () => {
       chordSymbol: 'Bbm',
       expectedResult: {
         root: 'Bb',
-        type: 'm',
+        type: ChordType.Minor,
         intervals: [Interval.Prima, Interval.MinorThird, Interval.PerfectFifth],
         noteTypes: ['Bb', 'Db', 'F'],
         voicing: [
@@ -108,7 +110,7 @@ describe('Chord', () => {
       chordSymbol: 'F#m',
       expectedResult: {
         root: 'F#',
-        type: 'm',
+        type: ChordType.Minor,
         intervals: [Interval.Prima, Interval.MinorThird, Interval.PerfectFifth],
         noteTypes: ['F#', 'A', 'C#'],
         voicing: [
@@ -122,7 +124,7 @@ describe('Chord', () => {
       chordSymbol: 'Bdim',
       expectedResult: {
         root: 'B',
-        type: 'dim',
+        type: ChordType.Diminished,
         intervals: [Interval.Prima, Interval.MinorThird, Interval.DiminishedFifth],
         noteTypes: ['B', 'D' ,'F'],
         voicing: [
@@ -174,5 +176,18 @@ describe('Chord', () => {
         })
       });
     });
-  })
+  });
+
+  describe('invertVoicing', () => {
+    testPureFunction<typeof Chord.invertVoicing>(Chord.invertVoicing, [
+      {
+        args: [['C4', 'E4', 'G4'], Direction.Up],
+        returnValue: ['E4', 'G4', 'C5'],
+      },
+      {
+        args: [['C4', 'E4', 'G4'], Direction.Down],
+        returnValue: ['G3', 'C4', 'E4'],
+      },
+    ])
+  });
 })

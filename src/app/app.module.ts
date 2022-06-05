@@ -14,6 +14,9 @@ import { AppVersion } from '@ionic-native/app-version/ngx';
 import { ModalModule } from './shared/modal/modal.module';
 import { ReleaseNotesModule } from './release-notes/release-notes.module';
 import { SandboxComponent } from './sandbox/sandbox.component';
+import { MIGRATION_SCRIPTS } from './storage/storage-migration.service';
+import { migrationScripts } from './storage/migration-scripts/migration-scripts';
+import { BdcWalkModule } from 'bdc-walkthrough';
 
 @NgModule({
   declarations: [
@@ -34,6 +37,10 @@ import { SandboxComponent } from './sandbox/sandbox.component';
     {
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy,
+    },
+    {
+      provide: MIGRATION_SCRIPTS,
+      useValue: migrationScripts,
     },
     VersionService,
     AppVersion,

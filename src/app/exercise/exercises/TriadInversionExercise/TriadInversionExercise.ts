@@ -1,4 +1,7 @@
-import { BaseTonalExercise, BaseTonalExerciseSettings } from '../utility/BaseTonalExercise';
+import {
+  BaseTonalExercise,
+  TonalExerciseSettings,
+} from '../utility/base-exercises/BaseTonalExercise';
 import { Exercise } from '../../Exercise';
 import {
   ChordSymbol,
@@ -6,13 +9,13 @@ import {
   Chord,
 } from '../../utility/music/chords';
 import { randomFromList } from '../../../shared/ts-utility';
-import { BaseCommonSettingsExerciseSettings } from '../utility/BaseCommonSettingsExercise';
-import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
 import * as Tone from 'tone';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { toSteadyPart } from '../../utility';
-import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 import { TriadInversionExplanationComponent } from './triad-inversion-explanation/triad-inversion-explanation.component';
+import { IncludedAnswersSetting } from '../utility/settings/IncludedAnswersSettings';
+import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
+import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 
 type TriadInversionAnswer = 'Root Position' | '1st Inversion' | '2nd Inversion'
 
@@ -22,18 +25,21 @@ const triadInversions: TriadInversionAnswer[] = [
   '2nd Inversion',
 ];
 
-export type TriadInversionExerciseSettings = BaseTonalExerciseSettings<TriadInversionAnswer> & {
+export type TriadInversionExerciseSettings = TonalExerciseSettings<TriadInversionAnswer> & {
   arpeggiateSpeed: number;
   playRootAfterAnswer: boolean;
 }
 
+@IncludedAnswersSetting<TriadInversionAnswer, TriadInversionExerciseSettings>({
+  default: triadInversions,
+})
 export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnswer, TriadInversionExerciseSettings> {
   readonly id: string = 'triadInversions';
   readonly name: string = 'Triad Inversions';
   readonly summary: string = 'Find the inversion of a triad in close position';
   readonly explanation: ExerciseExplanationContent = TriadInversionExplanationComponent;
 
-  getQuestionInC(): Exclude<Exercise.Question<TriadInversionAnswer>, 'cadence'> {
+  getQuestionInC(): Exclude<Exercise.NotesQuestion<TriadInversionAnswer>, 'cadence'> {
     const chordsInC: ChordSymbol[] = ['C', 'Dm', 'Em', 'F', 'G', 'Am'];
     const randomChordInC: ChordSymbol = randomFromList(chordsInC);
     const invertionOptions: TriadInversion[] = [0, 1, 2].filter(invertionOption => this._settings.includedAnswers.includes(triadInversions[invertionOption]));
@@ -59,6 +65,7 @@ export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnsw
           rightAnswer: answer,
         }
       ],
+      info: '',
     };
 
     if (this._settings.playRootAfterAnswer) {
@@ -73,14 +80,14 @@ export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnsw
     return question;
   }
 
-  override getQuestion(): Exercise.Question<TriadInversionAnswer> {
+  override getQuestion(): Exercise.NotesQuestion<TriadInversionAnswer> {
     return {
       ...super.getQuestion(),
       cadence: undefined,
     }
   }
 
-  protected override _getAllAnswersListInC(): Exercise.AnswerList<TriadInversionAnswer> {
+  protected override _getAnswersListInC(): Exercise.AnswerList<TriadInversionAnswer> {
     return {
       rows: triadInversions.map(triadInversion => [triadInversion]),
     };
@@ -91,8 +98,10 @@ export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnsw
       ...super._getSettingsDescriptor(),
       {
         key: 'arpeggiateSpeed',
+        info: 'When set to a value larger then zero, the chord will be arpeggiated, making it easier to pick up individual notes from it. <br>' +
+          'Starter with a large settings and gradually reducing can be a good way to train your ear to pick up individual notes being played harmonically',
         descriptor: {
-          controlType: 'SLIDER',
+          controlType: 'slider',
           label: 'Arpeggiate Speed',
           min: 0,
           max: 100,
@@ -102,7 +111,7 @@ export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnsw
       {
         key: 'playRootAfterAnswer',
         descriptor: {
-          controlType: 'CHECKBOX',
+          controlType: 'checkbox',
           label: 'Play Root After Correct Answer',
         }
       }
@@ -114,6 +123,7 @@ export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnsw
       ...super._getDefaultSettings(),
       arpeggiateSpeed: 0,
       playRootAfterAnswer: true,
+      includedAnswers: ['Root Position', '1st Inversion', '2nd Inversion'],
     };
   }
 }

@@ -7,14 +7,14 @@ import {
 import { randomFromList } from '../../../shared/ts-utility';
 import {
   NumberOfSegmentsSetting,
-  numberOfSegmentsControlDescriptorList
-} from '../utility/NumberOfSegmentsSetting';
+  numberOfSegmentsControlDescriptorList,
+} from '../utility/settings/NumberOfSegmentsSetting';
 import * as _ from 'lodash';
 import {
   BaseTonalChordProgressionExercise,
   ChordProgressionQuestion,
-  BaseTonalChordProgressionExerciseSettings
-} from '../utility/BaseTonalChordProgressionExercise';
+  BaseTonalChordProgressionExerciseSettings,
+} from '../utility/base-exercises/BaseTonalChordProgressionExercise';
 import { ChordTypeInKeyExplanationComponent } from './chord-type-in-key-explanation/chord-type-in-key-explanation.component';
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 
@@ -52,17 +52,18 @@ export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<Ch
     }
   }
 
-  override getQuestion(): Exercise.Question<ChordType> {
+  override getQuestion(): Exercise.NotesQuestion<ChordType> {
     return {
       ...super.getQuestion(),
       cadence: undefined,
+      info: '',
     }
   }
 
-  protected _getAllAnswersListInC(): Exercise.AnswerList<ChordType> {
+  protected _getAnswersListInC(): Exercise.AnswerList<ChordType> {
     return [
-      'M',
-      'm',
+      ChordType.Major,
+      ChordType.Minor,
     ];
   }
 

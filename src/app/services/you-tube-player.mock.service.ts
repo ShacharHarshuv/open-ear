@@ -3,6 +3,18 @@ import { YouTubeCallbackDescriptor, YouTubePlayerService } from './you-tube-play
 import { Provider } from '@angular/core';
 
 export class YouTubePlayerMockService implements PublicMembers<YouTubePlayerService> {
+  get isVideoLoading(): boolean {
+      return false;
+  }
+
+  get onCurrentVideoLoaded(): Promise<void> {
+      return Promise.resolve();
+  }
+
+  loadVideoById(videoId: string): Promise<void> {
+      return Promise.resolve();
+  }
+
   addCallback(seconds: number, callback: () => void): void {
   }
 
