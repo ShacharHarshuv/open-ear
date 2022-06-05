@@ -2,7 +2,10 @@ import {
   Injectable,
   OnDestroy,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+} from '@angular/router';
 import { ExerciseService } from '../../exercise.service';
 import { Exercise } from '../../Exercise';
 import {
@@ -16,6 +19,7 @@ import {
   ExerciseSettingsData,
   toGetter,
   OneOrMany,
+  timeoutAsPromise,
 } from '../../utility';
 import { ExerciseSettingsDataService } from '../../../services/exercise-settings-data.service';
 import { AdaptiveExercise } from './adaptive-exercise';
@@ -26,7 +30,6 @@ import { AdaptiveExerciseService } from './adaptive-exercise.service';
 import AnswerList = Exercise.AnswerList;
 import Answer = Exercise.Answer;
 import { BehaviorSubject } from 'rxjs';
-import { delay } from 'lodash';
 
 const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   playCadence: true,
@@ -64,7 +67,7 @@ export class ExerciseStateService implements OnDestroy {
     private readonly _youtubePlayer: YouTubePlayerService,
     private readonly _exerciseSettingsData: ExerciseSettingsDataService,
     private readonly _adaptiveExerciseService: AdaptiveExerciseService,
-    private readonly router: Router
+    private readonly router: Router,
   ) {
   }
 
@@ -234,14 +237,17 @@ export class ExerciseStateService implements OnDestroy {
     } else {
       await this._notesPlayer.playMultipleParts(this._getCurrentQuestionPartsToPlay());
     }
-    const currentUrl = this.router.url.split('/').slice(-1).toString();
     this._currentlyPlayingSegment = null;
-    if(this._globalSettings.answerQuestionAutomatically && currentUrl == this._originalExercise.id){//add in settings listening_mode
-      setTimeout(() => {
+    if (
+      this._globalSettings.answerQuestionAutomatically &&
+      !this.isQuestionCompleted &&
+      !this._destroyed
+    ) {
+      await timeoutAsPromise(800);
+      while (!this.isQuestionCompleted) {
         this.answer(this._currentQuestion.segments[this._currentSegmentToAnswer].rightAnswer);
-      }, 800);
+      }
     }
-
   }
 
   nextQuestion(): Promise<void> {

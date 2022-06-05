@@ -27,7 +27,10 @@
       </ion-toggle>
     </ion-item>
     <ion-item>
-      <ion-label>Answer question automatically</ion-label>
+      <ion-label>
+        Answer question automatically
+        <app-field-info message='Current answer will be displayed automatically. Use this together with "resolution" and "move automatically to next question" to create a "listening mode" where questions and resolutions will be played consecutively and help train your musical memory.'></app-field-info>
+      </ion-label>
       <ion-toggle
         [formControl]="generalFormGroup.controls.answerQuestionAutomatically"
       >
