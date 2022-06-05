@@ -166,6 +166,27 @@ describe('Chord', () => {
         ],
       },
     },
+    {
+      chordSymbolOrConfig: 'C7',
+      octave: 4,
+      expectedResult: {
+        root: 'C',
+        type: ChordType.Dominant7th,
+        intervals: [
+          Interval.Prima,
+          Interval.MajorThird,
+          Interval.PerfectFifth,
+          Interval.MinorSeventh,
+        ],
+        voicing: [
+          [0, ['C4', 'E4', 'G4', 'Bb4']],
+          [1, ['E3', 'G3', 'Bb3', 'C4']],
+          [2, ['G3', 'Bb3', 'C4', 'E4']],
+          [3, ['Bb3', 'C4', 'E4', 'G4']],
+        ],
+        noteTypes: ['C', 'E', 'G', 'Bb'],
+      }
+    }
   ];
 
   testCases.forEach(({

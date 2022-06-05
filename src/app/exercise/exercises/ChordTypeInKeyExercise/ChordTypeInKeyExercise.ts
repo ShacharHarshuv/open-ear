@@ -2,7 +2,6 @@ import { Exercise } from '../../Exercise';
 import {
   Chord,
   ChordType,
-  ChordSymbol,
 } from '../../utility/music/chords';
 import { randomFromList } from '../../../shared/ts-utility';
 import {
@@ -42,6 +41,7 @@ type ChordTypeInKeySettings = NumberOfSegmentsSetting &
         ChordType.Major,
         ChordType.Minor,
         ChordType.Diminished,
+        ChordType.Dominant7th,
       ].map(chordType => {
         const answers: RomanNumeralChordSymbol[] = [];
         for (let i = 1; i <= 12; i++) {

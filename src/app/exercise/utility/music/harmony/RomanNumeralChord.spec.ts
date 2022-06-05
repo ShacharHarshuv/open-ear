@@ -18,8 +18,10 @@ import {
 } from './Mode';
 import { Key } from '../keys/Key';
 
-describe('RomanNumeralBuilder', () => {
+// todo
+fdescribe('RomanNumeralBuilder', () => {
   const testCases: {
+    force?: boolean; // for debugging purposes only
     inputs: ConstructorParameters<typeof RomanNumeralChord>[],
     romanNumeralChordSymbol: RomanNumeralChordSymbol,
     diatonicDegree: DiatonicScaleDegree,
@@ -102,11 +104,27 @@ describe('RomanNumeralBuilder', () => {
         'Eb': 'Ddim',
       }
     },
+    {
+      force: true, // todo
+      inputs: [['V7'], [{
+        scaleDegree: '5',
+        type: ChordType.Dominant7th,
+      }]],
+      romanNumeralChordSymbol: 'V7',
+      type: ChordType.Dominant7th,
+      scaleDegree: '5',
+      getChord: {
+        C: 'G7',
+      },
+      accidental: Accidental.Natural,
+      diatonicDegree: 5,
+      serialized: 'V⁷',
+    }
   ];
 
   testCases.forEach(testCase => {
     testCase.inputs.forEach(input => {
-      it(`${JSON.stringify(testCase.inputs)}`, () => {
+      (testCase.force ? fit : it)(`${JSON.stringify(testCase.inputs)}`, () => {
         const romanNumeral = new RomanNumeralChord(...input);
         expect(romanNumeral.diatonicDegree).toEqual(testCase.diatonicDegree);
         expect(romanNumeral.accidental).toEqual(testCase.accidental ?? Accidental.Natural);
