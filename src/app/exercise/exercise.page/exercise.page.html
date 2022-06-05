@@ -55,7 +55,10 @@
 >
   <div class="exercise__content-container">
     <section>
-      <p class="exercise__stats-container">
+      <p
+        *ngIf="!state.globalSettings.answerQuestionAutomatically"
+        class="exercise__stats-container"
+      >
         Correct answers: {{state.totalCorrectAnswers}}/{{state.totalQuestions}}
         ({{correctAnswersPercentage | number: '1.0-2'}}%)
       </p>

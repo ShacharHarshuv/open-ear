@@ -2,7 +2,10 @@ import {
   Injectable,
   OnDestroy,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+} from '@angular/router';
 import { ExerciseService } from '../../exercise.service';
 import { Exercise } from '../../Exercise';
 import {
@@ -16,6 +19,7 @@ import {
   ExerciseSettingsData,
   toGetter,
   OneOrMany,
+  timeoutAsPromise,
 } from '../../utility';
 import { ExerciseSettingsDataService } from '../../../services/exercise-settings-data.service';
 import { AdaptiveExercise } from './adaptive-exercise';
@@ -33,6 +37,7 @@ const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   revealAnswerAfterFirstMistake: false,
   bpm: 120,
   moveToNextQuestionAutomatically: false,
+  answerQuestionAutomatically: false,
 };
 
 interface CurrentAnswer {
@@ -62,6 +67,7 @@ export class ExerciseStateService implements OnDestroy {
     private readonly _youtubePlayer: YouTubePlayerService,
     private readonly _exerciseSettingsData: ExerciseSettingsDataService,
     private readonly _adaptiveExerciseService: AdaptiveExerciseService,
+    private readonly router: Router,
   ) {
   }
 
@@ -232,6 +238,16 @@ export class ExerciseStateService implements OnDestroy {
       await this._notesPlayer.playMultipleParts(this._getCurrentQuestionPartsToPlay());
     }
     this._currentlyPlayingSegment = null;
+    if (
+      this._globalSettings.answerQuestionAutomatically &&
+      !this.isQuestionCompleted &&
+      !this._destroyed
+    ) {
+      await timeoutAsPromise(800);
+      while (!this.isQuestionCompleted) {
+        this.answer(this._currentQuestion.segments[this._currentSegmentToAnswer].rightAnswer);
+      }
+    }
   }
 
   nextQuestion(): Promise<void> {

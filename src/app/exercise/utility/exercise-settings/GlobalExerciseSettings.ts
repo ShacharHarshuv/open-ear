@@ -7,4 +7,5 @@ export interface GlobalExerciseSettings {
   revealAnswerAfterFirstMistake: boolean;
   bpm: number;
   moveToNextQuestionAutomatically: boolean;
+  answerQuestionAutomatically: boolean;
 }
