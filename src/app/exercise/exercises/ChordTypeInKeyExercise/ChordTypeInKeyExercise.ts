@@ -26,15 +26,6 @@ import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord
 import { toMusicalTextDisplay } from '../../utility/music/getMusicTextDisplay';
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 
-const chordsInC: ChordSymbol[] = [
-  'C',
-  'Dm',
-  'Em',
-  'F',
-  'G',
-  'Am',
-]
-
 type ChordTypeInKeySettings = NumberOfSegmentsSetting &
   BaseTonalChordProgressionExerciseSettings<ChordType> & {
     includedRomanNumerals: RomanNumeralChordSymbol[],
