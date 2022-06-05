@@ -81,4 +81,4 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ## Credits
 
-Piano samples used by Jan Frost from [@audio-samples/piano-mp3-*](https://github.com/darosh/samples-piano-mp3]).
+Piano samples used by Jan Frost from [@audio-samples/piano-mp3-*](https://github.com/darosh/samples-piano-mp3).
