@@ -27,11 +27,15 @@ import {
   PlayAfterCorrectAnswerSetting,
   playAfterCorrectAnswerControlDescriptorList,
 } from '../utility/settings/PlayAfterCorrectAnswerSetting';
-import { IncludedAnswersSetting } from '../utility/settings/IncludedAnswersSettings';
+import {
+  IncludedAnswersSetting,
+  IncludedAnswersSettings,
+} from '../utility/settings/IncludedAnswersSettings';
 import { toMusicalTextDisplay } from '../../utility/music/getMusicTextDisplay';
 import { CadenceTypeSetting } from '../utility/settings/CadenceTypeSetting';
 
 type NoteInKeySettings =
+  IncludedAnswersSettings<SolfegeNote> &
   BaseMelodicDictationExerciseSettings &
   NumberOfSegmentsSetting &
   PlayAfterCorrectAnswerSetting & {

@@ -1,6 +1,5 @@
 import {
   Chord,
-  ChordSymbol,
   ChordType,
   Direction,
 } from './Chord';
@@ -13,7 +12,7 @@ import { testPureFunction } from '../../../../../shared/testing-utility/testPure
 
 describe('Chord', () => {
   const testCases: {
-    chordSymbol: ChordSymbol,
+    chordSymbolOrConfig: ConstructorParameters<typeof Chord>[0],
     octave?: number,
     expectedResult: {
       root: NoteType,
@@ -24,7 +23,7 @@ describe('Chord', () => {
     }
   }[] = [
     {
-      chordSymbol: 'C',
+      chordSymbolOrConfig: 'C',
       octave: 5,
       expectedResult: {
         root: 'C',
@@ -37,7 +36,7 @@ describe('Chord', () => {
       }
     },
     {
-      chordSymbol: 'F',
+      chordSymbolOrConfig: 'F',
       expectedResult: {
         root: 'F',
         type: ChordType.Major,
@@ -51,7 +50,7 @@ describe('Chord', () => {
       }
     },
     {
-      chordSymbol: 'Bb',
+      chordSymbolOrConfig: 'Bb',
       expectedResult: {
         root: 'Bb',
         type: ChordType.Major,
@@ -65,7 +64,7 @@ describe('Chord', () => {
       }
     },
     {
-      chordSymbol: 'F#',
+      chordSymbolOrConfig: 'F#',
       expectedResult: {
         root: 'F#',
         type: ChordType.Major,
@@ -79,7 +78,7 @@ describe('Chord', () => {
       }
     },
     {
-      chordSymbol: 'Fm',
+      chordSymbolOrConfig: 'Fm',
       expectedResult: {
         root: 'F',
         type: ChordType.Minor,
@@ -93,7 +92,7 @@ describe('Chord', () => {
       }
     },
     {
-      chordSymbol: 'Bbm',
+      chordSymbolOrConfig: 'Bbm',
       expectedResult: {
         root: 'Bb',
         type: ChordType.Minor,
@@ -107,7 +106,7 @@ describe('Chord', () => {
       }
     },
     {
-      chordSymbol: 'F#m',
+      chordSymbolOrConfig: 'F#m',
       expectedResult: {
         root: 'F#',
         type: ChordType.Minor,
@@ -121,7 +120,7 @@ describe('Chord', () => {
       },
     },
     {
-      chordSymbol: 'Bdim',
+      chordSymbolOrConfig: 'Bdim',
       expectedResult: {
         root: 'B',
         type: ChordType.Diminished,
@@ -133,18 +132,51 @@ describe('Chord', () => {
           [2, ['F3', 'B3', 'D4']],
         ]
       }
-    }
+    },
+    {
+      chordSymbolOrConfig: {
+        root: 'C',
+        type: ChordType.Major
+      },
+      octave: 5,
+      expectedResult: {
+        root: 'C',
+        type: ChordType.Major,
+        intervals: [Interval.Prima, Interval.MajorThird, Interval.PerfectFifth],
+        noteTypes: ['C', 'E', 'G'],
+        voicing: [
+          [1, ['E4', 'G4', 'C5']],
+        ]
+      }
+    },
+    {
+      chordSymbolOrConfig: {
+        root: 'F#',
+        type: ChordType.Minor,
+      },
+      expectedResult: {
+        root: 'F#',
+        type: ChordType.Minor,
+        intervals: [Interval.Prima, Interval.MinorThird, Interval.PerfectFifth],
+        noteTypes: ['F#', 'A', 'C#'],
+        voicing: [
+          [0, ['F#3', 'A3', 'C#4']],
+          [1, ['A3', 'C#4', 'F#4']],
+          [2, ['C#4', 'F#4', 'A4']],
+        ],
+      },
+    },
   ];
 
   testCases.forEach(({
-                       chordSymbol,
+                       chordSymbolOrConfig,
                        octave,
                        expectedResult
                      }) => {
-    describe(`${chordSymbol} chord`, () => {
+    describe(`${chordSymbolOrConfig} chord`, () => {
       let chord: Chord;
       beforeAll(() => {
-        chord = new Chord(chordSymbol);
+        chord = new Chord(chordSymbolOrConfig);
       });
 
       it(`should have a root ${expectedResult.root}`, () => {

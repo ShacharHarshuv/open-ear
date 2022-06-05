@@ -16,6 +16,10 @@ import {
   BaseTonalChordProgressionExerciseSettings,
 } from '../utility/base-exercises/BaseTonalChordProgressionExercise';
 import { ChordTypeInKeyExplanationComponent } from './chord-type-in-key-explanation/chord-type-in-key-explanation.component';
+import { SettingsDescriptors } from '../utility/settings/SettingsDescriptors';
+import { RomanNumeralChordSymbol } from '../../utility';
+import { romanNumeralToChordInC } from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
+import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 
 const chordsInC: ChordSymbol[] = [
@@ -27,8 +31,21 @@ const chordsInC: ChordSymbol[] = [
   'Am',
 ]
 
-type ChordTypeInKeySettings = NumberOfSegmentsSetting & BaseTonalChordProgressionExerciseSettings<ChordType>;
+type ChordTypeInKeySettings = NumberOfSegmentsSetting &
+  BaseTonalChordProgressionExerciseSettings<ChordType> & {
+    includedRomanNumerals: RomanNumeralChordSymbol[],
+  };
 
+@SettingsDescriptors<ChordTypeInKeySettings>({
+  key: 'includedRomanNumerals',
+  defaultValue: ['I', 'ii', 'iii', 'IV', 'V', 'vi'],
+  descriptor: {
+    label: 'Included Chords',
+    controlType: 'included-answers',
+    // todo: organize it in the preferred way & support view value
+    answerList: ['I', 'ii', 'iii', 'IV', 'V', 'viidim'],
+  }
+})
 export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<ChordType, ChordTypeInKeySettings> {
   readonly id: string = 'chordTypeInKey';
   readonly name: string = 'Chord Types';
@@ -36,19 +53,21 @@ export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<Ch
   readonly explanation: ExerciseExplanationContent = ChordTypeInKeyExplanationComponent;
 
   protected _getChordProgressionInC(): ChordProgressionQuestion<ChordType> {
-    const chordProgression: Chord[] = [new Chord(randomFromList(chordsInC))];
+    const chordProgression: RomanNumeralChordSymbol[] = [];
     while (chordProgression.length < this._settings.numberOfSegments) {
-      chordProgression.push(new Chord(randomFromList(chordsInC.filter(chord => chord !== _.last(chordProgression)!.symbol))));
+      const randomRomanNumeral = randomFromList(this._settings.includedRomanNumerals.filter(chord => chord !== _.last(chordProgression)));
+      chordProgression.push(randomRomanNumeral);
     }
 
     return {
       segments: chordProgression
-        .map((chord: Chord): ChordProgressionQuestion<ChordType>['segments'][0] => {
+        .map((romanNumeralSymbol: RomanNumeralChordSymbol): ChordProgressionQuestion<ChordType>['segments'][0] => {
+          const chord: Chord = romanNumeralToChordInC(romanNumeralSymbol);
           return {
             answer: chord.type,
             chord: chord,
           }
-        })
+        }),
     }
   }
 
@@ -61,10 +80,12 @@ export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<Ch
   }
 
   protected _getAnswersListInC(): Exercise.AnswerList<ChordType> {
-    return [
+    const includedTypes = this._settings.includedRomanNumerals.map(romanNumeralSymbol => new RomanNumeralChord(romanNumeralSymbol).type);
+    return Exercise.filterIncludedAnswers([
       ChordType.Major,
       ChordType.Minor,
-    ];
+      ChordType.Diminished,
+    ], includedTypes);
   }
 
   protected override _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordTypeInKeySettings>[] {

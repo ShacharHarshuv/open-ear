@@ -1,15 +1,22 @@
-import { ChordType } from '../chords';
+import {
+  ChordType,
+  Chord,
+} from '../chords';
 import { RomanNumeralChordSymbol } from './RomanNumeralChordSymbol';
 import * as _ from 'lodash';
 import {
   DiatonicScaleDegree,
   ScaleDegree,
+  scaleDegreeToChromaticDegree,
 } from './ScaleDegrees';
 import {
   Mode,
   toRelativeMode,
 } from './Mode';
 import { MusicSymbol } from '../MusicSymbol';
+import { Key } from '../keys/Key';
+import { NoteType } from '../notes/NoteType';
+import { transpose } from '../transpose';
 
 export enum Accidental {
   Natural = '',
@@ -72,6 +79,15 @@ export class RomanNumeralChord {
     this.type = typeString === 'dim' ? ChordType.Diminished : romanNumeralString.toLowerCase() === romanNumeralString ? ChordType.Minor : ChordType.Major;
 
     this.accidental = {'#': Accidental.Sharp, 'b': Accidental.Flat, '': Accidental.Natural}[accidentalString ?? '']!;
+  }
+
+  getChord(key: Key): Chord {
+    const baseNote: NoteType = (transpose(key, scaleDegreeToChromaticDegree[this.diatonicDegree] - 1) + this.accidental) as NoteType;
+
+    return new Chord({
+      root: baseNote,
+      type: this.type,
+    })
   }
 
   toString(): string {

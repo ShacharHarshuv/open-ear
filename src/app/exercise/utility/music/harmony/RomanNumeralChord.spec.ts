@@ -2,7 +2,10 @@ import {
   RomanNumeralChord,
   Accidental,
 } from './RomanNumeralChord';
-import { ChordType } from '../chords';
+import {
+  ChordType,
+  ChordSymbol,
+} from '../chords';
 import {
   DiatonicScaleDegree,
   ScaleDegree,
@@ -13,6 +16,7 @@ import {
   toRelativeMode,
   Mode,
 } from './Mode';
+import { Key } from '../keys/Key';
 
 describe('RomanNumeralBuilder', () => {
   const testCases: {
@@ -23,6 +27,7 @@ describe('RomanNumeralBuilder', () => {
     accidental?: Accidental,
     type: ChordType,
     serialized: string,
+    getChord: Partial<Record<Key, ChordSymbol>>
   }[] = [
     {
       inputs: [['I'], [{
@@ -34,6 +39,10 @@ describe('RomanNumeralBuilder', () => {
       scaleDegree: '1',
       type: ChordType.Major,
       serialized: 'I',
+      getChord: {
+        C: 'C',
+        'A#': 'A#',
+      }
     },
     {
       inputs: [['ii'], [{
@@ -45,6 +54,9 @@ describe('RomanNumeralBuilder', () => {
       scaleDegree: '2',
       type: ChordType.Minor,
       serialized: 'ii',
+      getChord: {
+        C: 'Dm',
+      }
     },
     {
       inputs: [['bIII'], [{
@@ -56,7 +68,10 @@ describe('RomanNumeralBuilder', () => {
       scaleDegree: 'b3',
       accidental: Accidental.Flat,
       type: ChordType.Major,
-      serialized: '♭III'
+      serialized: '♭III',
+      getChord: {
+        C: 'Eb',
+      }
     },
     {
       inputs: [['#ivdim'], [{
@@ -69,6 +84,9 @@ describe('RomanNumeralBuilder', () => {
       accidental: Accidental.Sharp,
       type: ChordType.Diminished,
       serialized: '♯iv°',
+      getChord: {
+        G: 'C#dim'
+      },
     },
     {
       inputs: [['viidim'], [{
@@ -80,6 +98,9 @@ describe('RomanNumeralBuilder', () => {
       scaleDegree: '7',
       type: ChordType.Diminished,
       serialized: 'vii°',
+      getChord: {
+        'Eb': 'Ddim',
+      }
     },
   ];
 
@@ -92,6 +113,9 @@ describe('RomanNumeralBuilder', () => {
         expect(romanNumeral.type).toEqual(testCase.type);
         expect(romanNumeral.scaleDegree).toEqual(testCase.scaleDegree);
         expect(romanNumeral.toString()).toEqual(testCase.serialized);
+        for (let chordKey in testCase.getChord) {
+          expect(romanNumeral.getChord(chordKey as Key).symbol).toEqual(testCase.getChord[chordKey])
+        }
       });
     })
   })

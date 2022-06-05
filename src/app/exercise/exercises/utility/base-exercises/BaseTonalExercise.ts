@@ -17,12 +17,11 @@ import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { NoteType } from '../../../utility/music/notes/NoteType';
 import { Frequency } from 'tone/Tone/core/type/Units';
 import { BaseExercise } from './BaseExercise';
-import { IncludedAnswersSettings } from '../settings/IncludedAnswersSettings';
 import { CadenceTypeSetting } from '../settings/CadenceTypeSetting';
 
 export type CadenceType = 'I IV V I' | 'i iv V i';
 
-export type TonalExerciseSettings<GAnswer extends string> = IncludedAnswersSettings<GAnswer> & CadenceTypeSetting;
+export type TonalExerciseSettings<GAnswer extends string> = CadenceTypeSetting;
 
 const cadenceTypeToCadence: {
   [k in CadenceType]: NoteEvent[]

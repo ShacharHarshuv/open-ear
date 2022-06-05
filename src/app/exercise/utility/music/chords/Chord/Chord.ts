@@ -28,19 +28,37 @@ export enum Direction {
 export class Chord {
   readonly root: NoteType = this._getChordRoot();
   readonly type: ChordType = this._getChordType();
+  readonly symbol: ChordSymbol = this._getChordSymbol();
   readonly intervals: Interval[] = this._getChordIntervals();
   readonly noteTypes: NoteType[] = this._getNoteTypes();
 
-  constructor(public readonly symbol: ChordSymbol) {
+  constructor(private readonly _symbolOrConfig: ChordSymbol | {
+    root: NoteType,
+    type: ChordType,
+  }) {
   }
 
   private _getChordRoot(): NoteType {
-    return this.symbol.match(/^[A-G](?:#|b|)/)?.[0] as NoteType;
+    if (typeof this._symbolOrConfig === 'string') {
+      return this._symbolOrConfig.match(/^[A-G](?:#|b|)/)?.[0] as NoteType;
+    }
+    return this._symbolOrConfig.root;
   }
 
   private _getChordType(): ChordType {
-    return this.symbol.includes('dim') ? ChordType.Diminished :
-      this.symbol.includes('m') ? ChordType.Minor : ChordType.Major;
+    if (typeof this._symbolOrConfig === 'string') {
+      return this._symbolOrConfig.includes('dim') ? ChordType.Diminished :
+        this._symbolOrConfig.includes('m') ? ChordType.Minor : ChordType.Major;
+    }
+    return this._symbolOrConfig.type;
+  }
+
+  private _getChordSymbol(): ChordSymbol {
+    if (typeof this._symbolOrConfig === 'string') {
+      return this._symbolOrConfig;
+    }
+    const chordTypeSuffix: string = this.type === ChordType.Major ? '' : this.type;
+    return `${this.root}${chordTypeSuffix}` as ChordSymbol;
   }
 
   private _getChordIntervals(): Interval[] {
@@ -79,10 +97,10 @@ export class Chord {
   }
 
   getVoicing({
-               topVoicesInversion,
-               withBass = true,
-               octave = 4,
-             }: {
+    topVoicesInversion,
+    withBass = true,
+    octave = 4,
+  }: {
     topVoicesInversion: number,
     withBass?: boolean,
     /**

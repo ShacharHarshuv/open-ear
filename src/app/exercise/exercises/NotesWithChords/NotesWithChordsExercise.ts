@@ -9,9 +9,6 @@ import {
 import { Exercise } from '../../Exercise';
 import { randomFromList } from '../../../shared/ts-utility';
 import {
-  romanNumeralToChordInC,
-} from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
-import {
   Chord,
   Direction,
 } from '../../utility/music/chords';
@@ -32,6 +29,7 @@ import {
 } from '../utility/settings/IncludedAnswersSettings';
 import { SettingsDescriptors } from '../utility/settings/SettingsDescriptors';
 import { CadenceTypeSetting } from '../utility/settings/CadenceTypeSetting';
+import { romanNumeralToChordInC } from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
 
 type ChordDegree = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
@@ -298,7 +296,7 @@ export class NotesWithChordsExercise extends BaseTonalExercise<NoteWithChord, No
       throw new Error(`Missing descriptor for ${randomAnswer}`);
     }
 
-    const chord: Chord = romanNumeralToChordInC[descriptor.chord]!;
+    const chord: Chord = romanNumeralToChordInC(descriptor.chord)!;
     const noteType: NoteType = solfegeToNoteInC[descriptor.solfegeNote]!;
 
     let chordVoicing: Note[] = chord.getVoicing({
