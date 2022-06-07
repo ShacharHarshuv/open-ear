@@ -22,6 +22,7 @@ interface ExerciseSettingsControls {
   // playCadenceEvery: number; // todo(OE-13)
   bpm: number,
   moveToNextQuestionAutomatically: boolean,
+  answerQuestionAutomatically : boolean,
   adaptive: boolean,
   revealAnswerAfterFirstMistake: boolean,
 }
@@ -42,6 +43,7 @@ export class ExerciseSettingsPage {
     revealAnswerAfterFirstMistake: new FormControl<boolean>(false),
     bpm: new FormControl<number>(120),
     moveToNextQuestionAutomatically: new FormControl<boolean>(false),
+    answerQuestionAutomatically: new FormControl<boolean>(false),
   });
 
   exerciseSettingsDescriptor: Exercise.SettingsControlDescriptor[];
@@ -72,6 +74,7 @@ export class ExerciseSettingsPage {
       revealAnswerAfterFirstMistake: currentSettings.revealAnswerAfterFirstMistake,
       bpm: currentSettings.bpm,
       moveToNextQuestionAutomatically: currentSettings.moveToNextQuestionAutomatically,
+      answerQuestionAutomatically: currentSettings.answerQuestionAutomatically,
     })
   }
 
@@ -126,6 +129,7 @@ export class ExerciseSettingsPage {
       revealAnswerAfterFirstMistake: formGroupValue.revealAnswerAfterFirstMistake,
       bpm: formGroupValue.bpm,
       moveToNextQuestionAutomatically: formGroupValue.moveToNextQuestionAutomatically,
+      answerQuestionAutomatically: formGroupValue.answerQuestionAutomatically,
     }
   }
 

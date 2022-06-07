@@ -96,5 +96,9 @@ export const releaseNotes: ReleaseNotes = [
   {
     version: '1.4.1',
     notes: '"Analyze by relative major tonic" option in Common Chord Progressions exercise. Use this to analyze roman numerals in relative major no matter what\'s the progression "real" mode.'
+  },
+  {
+    version: '1.4.5',
+    notes: '"Answer question automatically" - Use this together with "resolution" and "move automatically to next question" to create a "listening mode" where questions and resolutions will be played consecutively and help train your musical memory.'
   }
 ]

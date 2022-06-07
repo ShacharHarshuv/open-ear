@@ -2,7 +2,10 @@ import {
   Injectable,
   OnDestroy,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+} from '@angular/router';
 import { ExerciseService } from '../../exercise.service';
 import { Exercise } from '../../Exercise';
 import {
@@ -16,6 +19,7 @@ import {
   ExerciseSettingsData,
   toGetter,
   OneOrMany,
+  timeoutAsPromise,
 } from '../../utility';
 import { ExerciseSettingsDataService } from '../../../services/exercise-settings-data.service';
 import { AdaptiveExercise } from './adaptive-exercise';
@@ -33,6 +37,7 @@ const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   revealAnswerAfterFirstMistake: false,
   bpm: 120,
   moveToNextQuestionAutomatically: false,
+  answerQuestionAutomatically: false,
 };
 
 interface CurrentAnswer {
@@ -50,6 +55,7 @@ export class ExerciseStateService implements OnDestroy {
   private _destroyed: boolean = false;
   private _message$ = new BehaviorSubject<string | null>(null);
   private _error$ = new BehaviorSubject<string | null>(null);
+  private _cadenceWasPlayed: boolean = false;
   readonly message$ = this._message$.asObservable();
   readonly error$ = this._error$.asObservable();
   readonly name: string = this.exercise.name;
@@ -62,6 +68,7 @@ export class ExerciseStateService implements OnDestroy {
     private readonly _youtubePlayer: YouTubePlayerService,
     private readonly _exerciseSettingsData: ExerciseSettingsDataService,
     private readonly _adaptiveExerciseService: AdaptiveExerciseService,
+    private readonly router: Router,
   ) {
   }
 
@@ -187,6 +194,7 @@ export class ExerciseStateService implements OnDestroy {
 
   async playCurrentCadenceAndQuestion(): Promise<void> {
     await this.stop();
+    this._cadenceWasPlayed = true;
     const cadence: PartToPlay[] | undefined = this._currentQuestion.cadence && [
       {
         partOrTime: toSteadyPart(this._currentQuestion.cadence),
@@ -232,6 +240,16 @@ export class ExerciseStateService implements OnDestroy {
       await this._notesPlayer.playMultipleParts(this._getCurrentQuestionPartsToPlay());
     }
     this._currentlyPlayingSegment = null;
+    if (
+      this._globalSettings.answerQuestionAutomatically &&
+      !this.isQuestionCompleted &&
+      !this._destroyed
+    ) {
+      await timeoutAsPromise(800);
+      while (!this.isQuestionCompleted) {
+        this.answer(this._currentQuestion.segments[this._currentSegmentToAnswer].rightAnswer);
+      }
+    }
   }
 
   nextQuestion(): Promise<void> {
@@ -254,7 +272,7 @@ export class ExerciseStateService implements OnDestroy {
     }));
     this._currentSegmentToAnswer = 0;
 
-    if (this.globalSettings.playCadence === 'ONLY_ON_REPEAT') {
+    if (this.globalSettings.playCadence === 'ONLY_ON_REPEAT' && !!this._cadenceWasPlayed) {
       return this.playCurrentQuestion();
     } else {
       return this.playCurrentCadenceAndQuestion();

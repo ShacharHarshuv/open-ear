@@ -31,6 +31,7 @@ describe('StorageService', function() {
         bpm: 120,
         moveToNextQuestionAutomatically: false,
         revealAnswerAfterFirstMistake: false,
+        answerQuestionAutomatically: false,
       },
       exerciseSettings: {
         a: 1,

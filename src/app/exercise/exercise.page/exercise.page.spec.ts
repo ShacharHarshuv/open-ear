@@ -15,6 +15,7 @@ import { NoteEvent, PlayerService, } from '../../services/player.service';
 import { ExercisePageDebugger } from './exerice.page.debugger.spec';
 import { TestingUtility } from '../../shared/testing-utility';
 import { YouTubePlayerMockService } from '../../services/you-tube-player.mock.service';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ExercisePage', () => {
   const spies: jasmine.Spy[] = [];
@@ -28,6 +29,7 @@ describe('ExercisePage', () => {
         // IonicModule.forRoot({
         //   animated: false,
         // }),
+        NoopAnimationsModule,
         SharedComponentsModule,
         RouterTestingModule,
       ],
@@ -64,9 +66,10 @@ describe('ExercisePage', () => {
       globalSettings: {
         bpm: 120,
         moveToNextQuestionAutomatically: false,
+        revealAnswerAfterFirstMistake: false,
+        answerQuestionAutomatically: false,
         adaptive: false,
         playCadence: true,
-        revealAnswerAfterFirstMistake: false,
       },
       wasExplanationDisplayed: true,
     }
