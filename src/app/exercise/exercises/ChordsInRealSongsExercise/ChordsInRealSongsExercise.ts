@@ -60,7 +60,7 @@ export class ChordsInRealSongsExercise extends BaseExercise<RomanNumeralChordSym
   readonly id: string = 'chordsInRealSongs';
   readonly name: string = 'Chord Progressions In Real Songs';
   readonly summary: string = 'Identify chord progressions in real songs, streamed from YouTube';
-  readonly blackListPlatform = 'ios'; // currently, this exercise is not working on ios
+  // readonly blackListPlatform = 'ios'; // currently, this exercise is not working on ios
 
   constructor(private readonly _progressionList: DeepReadonly<ProgressionInSongFromYouTubeDescriptor[]> = chordsInRealSongsDescriptorList) {
     super();
