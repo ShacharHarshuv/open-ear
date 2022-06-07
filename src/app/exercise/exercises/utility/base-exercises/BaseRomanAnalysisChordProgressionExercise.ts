@@ -668,7 +668,7 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
       } => {
         const chordSymbol = romanNumeralToChordInC[romanNumeral];
         if (!chordSymbol) {
-          throw new Error(`Not chord symbol for ${romanNumeral}!`);
+          throw new Error(`No chord symbol for ${romanNumeral}!`);
         }
         return {
           chord: romanNumeralToChordInC[romanNumeral]!,
