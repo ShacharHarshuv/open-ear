@@ -2402,7 +2402,6 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
     endSeconds: 57.21,
   },
   {
-    solo: true,
     name: 'I\'m Like A Bird',
     artist: 'Nelly Furtado',
     mode: Mode.Major,
