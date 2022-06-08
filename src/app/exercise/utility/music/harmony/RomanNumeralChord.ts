@@ -76,14 +76,6 @@ export class RomanNumeralChord {
     [Accidental.Flat]: MusicSymbol.Flat,
   }
 
-  // TODO
-  // static chordTypeToSuffix: Record<ChordType, string> = {
-  //   [ChordType.Major]: '',
-  //   [ChordType.Minor]: '',
-  //   [ChordType.Diminished]: MusicSymbol.Diminished,
-  //   [ChordType.Dominant7th]: MusicSymbol.Diminished,
-  // }
-
   constructor(romanNumeralInput: RomanNumeralChordSymbol | {
     scaleDegree: ScaleDegree,
     type: ChordType,
