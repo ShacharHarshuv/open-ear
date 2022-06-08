@@ -70,12 +70,25 @@ export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<Ch
   readonly summary: string = 'Identify chord type (major / minor) when all chords are diatonic to the same key';
   readonly explanation: ExerciseExplanationContent = ChordTypeInKeyExplanationComponent;
 
-  /**
-   * Currently this function apply to any included-answers settings,
-   * Even though in this case the roman numerals are not really "answers"
-   * */
   getAnswerDisplay(answer: ChordType): string {
-    return toMusicalTextDisplay(answer);
+    const chordTypeToName: Record<ChordType, string> = {
+      [ChordType.Major]: 'Major Triad',
+      [ChordType.Minor]: 'Minor Triad',
+      [ChordType.Diminished]: 'Diminished Triad',
+      [ChordType.Dominant7th]: 'Dominant 7th',
+      [ChordType.Major7th]: 'Major 7th',
+      [ChordType.Minor7th]: 'Minor 7th',
+      [ChordType.Sus4]: 'Suspended 4th',
+      [ChordType.Sus2]: 'Suspended 2nd',
+      [ChordType.Major6th]: 'Major 6th',
+      [ChordType.Diminished7th]: 'Diminished 7th',
+      [ChordType.HalfDiminished7th]: 'Half Diminished 7th',
+    }
+    /**
+     * Currently this function apply to any included-answers settings,
+     * Even though in this case the roman numerals are not really "answers"
+     * */
+    return chordTypeToName[answer] ?? answer;
   }
 
   protected _getChordProgressionInC(): ChordProgressionQuestion<ChordType> {
