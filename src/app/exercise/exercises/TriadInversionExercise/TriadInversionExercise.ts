@@ -13,7 +13,10 @@ import * as Tone from 'tone';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { toSteadyPart } from '../../utility';
 import { TriadInversionExplanationComponent } from './triad-inversion-explanation/triad-inversion-explanation.component';
-import { IncludedAnswersSetting } from '../utility/settings/IncludedAnswersSettings';
+import {
+  IncludedAnswersSetting,
+  IncludedAnswersSettings,
+} from '../utility/settings/IncludedAnswersSettings';
 import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 
@@ -25,7 +28,8 @@ const triadInversions: TriadInversionAnswer[] = [
   '2nd Inversion',
 ];
 
-export type TriadInversionExerciseSettings = TonalExerciseSettings<TriadInversionAnswer> & {
+export type TriadInversionExerciseSettings = IncludedAnswersSettings<TriadInversionAnswer> &
+  TonalExerciseSettings<TriadInversionAnswer> & {
   arpeggiateSpeed: number;
   playRootAfterAnswer: boolean;
 }
@@ -63,13 +67,13 @@ export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnsw
             }
           }),
           rightAnswer: answer,
-        }
+        },
       ],
       info: '',
     };
 
     if (this._settings.playRootAfterAnswer) {
-      question.afterCorrectAnswer =[
+      question.afterCorrectAnswer = [
         {
           partToPlay: toSteadyPart(voicing[(3 - randomTriadInversion) % 3], '1n', 0.3),
           answerToHighlight: answer,
@@ -106,15 +110,15 @@ export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnsw
           min: 0,
           max: 100,
           step: 1,
-        }
+        },
       },
       {
         key: 'playRootAfterAnswer',
         descriptor: {
           controlType: 'checkbox',
           label: 'Play Root After Correct Answer',
-        }
-      }
+        },
+      },
     ];
   }
 

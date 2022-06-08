@@ -6,8 +6,9 @@ import { Exercise } from '../../Exercise';
 import { Chord, ChordSymbol } from '../../utility/music/chords';
 import { randomFromList } from '../../../shared/ts-utility';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { IncludedAnswersSettings } from '../utility/settings/IncludedAnswersSettings';
 
-export type ChordArpeggioExerciseSettings = BaseMelodicDictationExerciseSettings;
+export type ChordArpeggioExerciseSettings = IncludedAnswersSettings<SolfegeNote> & BaseMelodicDictationExerciseSettings;
 
 export class ChordArpeggioExercise extends BaseMelodicDictationExercise<ChordArpeggioExerciseSettings> {
   readonly id: string = 'chordArpeggio';

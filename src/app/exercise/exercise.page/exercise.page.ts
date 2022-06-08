@@ -178,6 +178,7 @@ export class ExercisePage extends BaseComponent {
           position: 'middle',
           color: message.type === 'error' ? 'danger' : 'dark',
           header: message.type === 'error' ? 'Unexpected Error' : undefined,
+          buttons: ['OK'],
         }).then(toaster => {
           // can happen because of a race condition
           if (lastToaster) {

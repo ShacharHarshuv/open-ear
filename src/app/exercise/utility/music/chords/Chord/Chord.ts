@@ -10,6 +10,14 @@ export enum ChordType {
   Major = 'M',
   Minor = 'm',
   Diminished = 'dim',
+  Dominant7th = '7',
+  Major7th = 'maj7',
+  Minor7th = 'm7',
+  Sus4 = 'sus',
+  Sus2 = 'sus2',
+  Major6th = '6',
+  Diminished7th = 'dim7',
+  HalfDiminished7th = '7b5',
 }
 
 export type ChordSymbol = `${NoteType}${Exclude<ChordType, 'M'> | ''}`;
@@ -26,45 +34,100 @@ export enum Direction {
 }
 
 export class Chord {
-  readonly root: NoteType = this._getChordRoot();
-  readonly type: ChordType = this._getChordType();
-  readonly intervals: Interval[] = this._getChordIntervals();
-  readonly noteTypes: NoteType[] = this._getNoteTypes();
+  readonly root: NoteType;
+  readonly type: ChordType;
+  readonly symbol: ChordSymbol;
+  readonly intervals: Interval[];
+  readonly noteTypes: NoteType[];
 
-  constructor(public readonly symbol: ChordSymbol) {
+  constructor(private readonly _symbolOrConfig: ChordSymbol | {
+    root: NoteType,
+    type: ChordType,
+  }) {
+    if (typeof this._symbolOrConfig === 'string') {
+      const regexMatch = this._symbolOrConfig.match(/([A-G][#b]?)(m|dim|7|maj7|m7|sus|sus2|6|dim7|7b5)?$/);
+      if (!regexMatch) {
+        throw new Error(`${this._symbolOrConfig} is not a valid chord symbol`);
+      }
+      this.root = regexMatch[1] as NoteType;
+      this.type = (regexMatch[2] || ChordType.Major) as ChordType;
+      this.symbol = this._symbolOrConfig;
+    } else {
+      this.root = this._symbolOrConfig.root;
+      this.type = this._symbolOrConfig.type;
+      this.symbol = `${this.root}${this.type === ChordType.Major ? '' : this.type}` as ChordSymbol;
+    }
+    this.intervals = this._getChordIntervals();
+    this.noteTypes = this._getNoteTypes();
   }
 
-  private _getChordRoot(): NoteType {
-    return this.symbol.match(/^[A-G](?:#|b|)/)?.[0] as NoteType;
-  }
+  private static _chordTypeToIntervalList: Record<ChordType, Interval[]> = {
+    [ChordType.Major]: [
+      Interval.Prima,
+      Interval.MajorThird,
+      Interval.PerfectFifth,
+    ],
+    [ChordType.Minor]: [
+      Interval.Prima,
+      Interval.MinorThird,
+      Interval.PerfectFifth,
+    ],
+    [ChordType.Diminished]: [
+      Interval.Prima,
+      Interval.MinorThird,
+      Interval.DiminishedFifth,
+    ],
+    [ChordType.Dominant7th]: [
+      Interval.Prima,
+      Interval.MajorThird,
+      Interval.PerfectFifth,
+      Interval.MinorSeventh,
+    ],
 
-  private _getChordType(): ChordType {
-    return this.symbol.includes('dim') ? ChordType.Diminished :
-      this.symbol.includes('m') ? ChordType.Minor : ChordType.Major;
+    [ChordType.Major7th]: [
+      Interval.Prima,
+      Interval.MajorThird,
+      Interval.PerfectFifth,
+      Interval.MajorSeventh,
+    ],
+    [ChordType.Minor7th]: [
+      Interval.Prima,
+      Interval.MinorThird,
+      Interval.PerfectFifth,
+      Interval.MinorSeventh,
+    ],
+    [ChordType.Sus4]: [
+      Interval.Prima,
+      Interval.PerfectFourth,
+      Interval.PerfectFifth,
+    ],
+    [ChordType.Sus2]: [
+      Interval.Prima,
+      Interval.MajorSecond,
+      Interval.PerfectFifth,
+    ],
+    [ChordType.Major6th]: [
+      Interval.Prima,
+      Interval.MajorThird,
+      Interval.PerfectFifth,
+      Interval.MajorSixth,
+    ],
+    [ChordType.Diminished7th]: [
+      Interval.Prima,
+      Interval.MinorThird,
+      Interval.DiminishedFifth,
+      Interval.DiminishedSeventh,
+    ],
+    [ChordType.HalfDiminished7th]: [
+      Interval.Prima,
+      Interval.MinorThird,
+      Interval.DiminishedFifth,
+      Interval.MinorSeventh,
+    ],
   }
 
   private _getChordIntervals(): Interval[] {
-    const intervals = [Interval.Prima];
-    switch (this.type) {
-      case 'm':
-      case 'dim':
-        intervals.push(Interval.MinorThird);
-        break;
-      case 'M':
-        intervals.push(Interval.MajorThird);
-        break;
-    }
-
-    switch (this.type) {
-      case 'm':
-      case 'M':
-        intervals.push(Interval.PerfectFifth);
-        break;
-      case 'dim':
-        intervals.push(Interval.DiminishedFifth);
-
-    }
-    return intervals;
+    return Chord._chordTypeToIntervalList[this.type];
   }
 
   private _getNoteTypes(): NoteType[] {
@@ -79,10 +142,10 @@ export class Chord {
   }
 
   getVoicing({
-               topVoicesInversion,
-               withBass = true,
-               octave = 4,
-             }: {
+    topVoicesInversion,
+    withBass = true,
+    octave = 4,
+  }: {
     topVoicesInversion: number,
     withBass?: boolean,
     /**

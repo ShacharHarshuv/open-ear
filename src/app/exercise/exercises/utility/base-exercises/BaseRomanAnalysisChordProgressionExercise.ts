@@ -22,103 +22,11 @@ import {
 import { transpose } from '../../../utility/music/transpose';
 import { NoteEvent } from '../../../../services/player.service';
 import { toMusicalTextDisplay } from '../../../utility/music/getMusicTextDisplay';
+import { RomanNumeralChord } from '../../../utility/music/harmony/RomanNumeralChord';
 
 export type BaseRomanAnalysisChordProgressionExerciseSettings =
   BaseTonalChordProgressionExerciseSettings<RomanNumeralChordSymbol> &
   PlayAfterCorrectAnswerSetting;
-
-const chordsInC: { chord: ChordSymbol; answer: RomanNumeralChordSymbol }[] = [
-  {
-    chord: 'D',
-    answer: 'II',
-  },
-  {
-    chord: 'E',
-    answer: 'III',
-  },
-  {
-    chord: 'F#dim',
-    answer: '#ivdim',
-  },
-  {
-    chord: 'A',
-    answer: 'VI',
-  },
-  {
-    chord: 'B',
-    answer: 'VII',
-  },
-  {
-    chord: 'C',
-    answer: 'I',
-  },
-  {
-    chord: 'Dm',
-    answer: 'ii',
-  },
-  {
-    chord: 'Em',
-    answer: 'iii',
-  },
-  {
-    chord: 'F',
-    answer: 'IV',
-  },
-  {
-    chord: 'G',
-    answer: 'V',
-  },
-  {
-    chord: 'Am',
-    answer: 'vi',
-  },
-  {
-    chord: 'Bdim',
-    answer: 'viidim',
-  },
-  {
-    chord: 'Cm',
-    answer: 'i',
-  },
-  {
-    chord: 'Ddim',
-    answer: 'iidim',
-  },
-  {
-    chord: 'Eb',
-    answer: 'bIII',
-  },
-  {
-    chord: 'Fm',
-    answer: 'iv',
-  },
-  {
-    chord: 'Gm',
-    answer: 'v',
-  },
-  {
-    chord: 'Ab',
-    answer: 'bVI',
-  },
-  {
-    chord: 'Bb',
-    answer: 'bVII',
-  },
-  {
-    chord: 'Db',
-    answer: 'bII',
-  },
-  {
-    chord: 'Gdim',
-    answer: 'vdim',
-  },
-  {
-    chord: 'Bbm',
-    answer: 'bvii',
-  },
-];
-
-export const romanNumeralToChordInC: { [romanNumeral in RomanNumeralChordSymbol]?: Chord } = _.mapValues(_.keyBy(chordsInC, 'answer'), chordDescriptor => new Chord(chordDescriptor.chord));
 
 const romanNumeralToResolution: {
   [scale in 'minor' | 'major']?: {
@@ -649,6 +557,10 @@ const romanNumeralToResolution: {
   },
 };
 
+export function romanNumeralToChordInC(romanNumeralSymbol: RomanNumeralChordSymbol): Chord {
+  return new RomanNumeralChord(romanNumeralSymbol).getChord('C');
+}
+
 export type RomanNumeralsChordProgressionQuestion = {
   chordProgressionInRomanAnalysis: RomanNumeralChordSymbol[]
 };
@@ -662,17 +574,13 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
     const chordProgressionQuestion: RomanNumeralsChordProgressionQuestion = this._getChordProgressionInRomanNumerals();
 
     const question: ChordProgressionQuestion<RomanNumeralChordSymbol> = {
-      segments: chordProgressionQuestion.chordProgressionInRomanAnalysis.map((romanNumeral): {
+      segments: chordProgressionQuestion.chordProgressionInRomanAnalysis.map((romanNumeralSymbol): {
         chord: Chord,
         answer: RomanNumeralChordSymbol,
       } => {
-        const chordSymbol = romanNumeralToChordInC[romanNumeral];
-        if (!chordSymbol) {
-          throw new Error(`No chord symbol for ${romanNumeral}!`);
-        }
         return {
-          chord: romanNumeralToChordInC[romanNumeral]!,
-          answer: romanNumeral,
+          chord: romanNumeralToChordInC(romanNumeralSymbol),
+          answer: romanNumeralSymbol,
         }
       }),
     };
@@ -703,7 +611,7 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
             },
             ...resolutionConfig[firstChordInversion].map(chord => ({
               romanNumeral: chord.romanNumeral,
-              chordVoicing: romanNumeralToChordInC[chord.romanNumeral]!.getVoicing({
+              chordVoicing: romanNumeralToChordInC(chord.romanNumeral)!.getVoicing({
                 ...chord.voicingConfig,
                 withBass: this._settings.includeBass,
               }),
@@ -814,13 +722,13 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
         if (typeof answerOrCellConfig === 'string') {
           return {
             answer: answerOrCellConfig,
-            playOnClick: getPlayOnClickPart(romanNumeralToChordInC[answerOrCellConfig]!),
+            playOnClick: getPlayOnClickPart(romanNumeralToChordInC(answerOrCellConfig)),
           }
         } else {
           if (!answerOrCellConfig.playOnClick && answerOrCellConfig.answer) {
             return {
               ...answerOrCellConfig,
-              playOnClick: getPlayOnClickPart(romanNumeralToChordInC[answerOrCellConfig.answer]!),
+              playOnClick: getPlayOnClickPart(romanNumeralToChordInC(answerOrCellConfig.answer)),
             }
           } else {
             return answerOrCellConfig;

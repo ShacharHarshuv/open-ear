@@ -1,5 +1,6 @@
 export enum MusicSymbol {
   Flat = '♭',
   Sharp = '♯',
-  Diminished = '°'
+  Diminished = '°',
+  HalfDiminished = 'ø',
 }
