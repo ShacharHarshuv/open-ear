@@ -187,8 +187,15 @@ export namespace Exercise {
    * Usage of GKey is necessary here to avoid this issue: https://github.com/microsoft/TypeScript/issues/41595
    * */
   export type SettingsControlDescriptor<GSettings extends Settings = Settings, GKey extends keyof GSettings = keyof GSettings> = /*GKey extends string ?*/
-    {
-      key: GKey,
+    ({
+      key: GKey
+      getter?: undefined,
+      onChange?: undefined,
+    } | {
+      key?: undefined,
+      getter: (currentSettings: GSettings) => any,
+      onChange: (newValue: any, prevValue: any, currentSetting: GSettings) => Partial<GSettings>,
+    }) & {
       descriptor: /*GSettings[GKey] extends number ? SliderControlDescriptor | SelectControlDescriptor<GSettings[GKey]>
        : GSettings[GKey] extends Array<any> ? ListSelectControlDescriptor
        : SelectControlDescriptor<GSettings[GKey]>*/ SliderControlDescriptor | SelectControlDescriptor | ListSelectControlDescriptor | IncludedAnswersControlDescriptor | CheckboxControlDescriptor,

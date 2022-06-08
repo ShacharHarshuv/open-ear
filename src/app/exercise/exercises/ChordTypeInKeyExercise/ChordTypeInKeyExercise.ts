@@ -22,53 +22,119 @@ import {
 } from '../../utility';
 import { romanNumeralToChordInC } from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
 import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
-import { toMusicalTextDisplay } from '../../utility/music/getMusicTextDisplay';
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 
 type ChordTypeInKeySettings = NumberOfSegmentsSetting &
   BaseTonalChordProgressionExerciseSettings<ChordType> & {
-    includedRomanNumerals: RomanNumeralChordSymbol[],
-  };
+  includedRomanNumerals: RomanNumeralChordSymbol[],
+};
 
-@SettingsDescriptors<ChordTypeInKeySettings>({
-  key: 'includedRomanNumerals',
-  defaultValue: ['I', 'ii', 'iii', 'IV', 'V', 'vi'],
-  descriptor: {
-    label: 'Included Chords',
-    controlType: 'included-answers',
-    answerList: {
-      rows: [
-        ChordType.Major,
-        ChordType.Minor,
-        ChordType.Diminished,
-        ChordType.Dominant7th,
-        ChordType.Major7th,
-        ChordType.Minor7th,
-        ChordType.Sus4,
-        ChordType.Sus2,
-        ChordType.Major6th,
-        ChordType.Diminished7th,
-        ChordType.HalfDiminished7th,
-      ].map(chordType => {
-        const answers: RomanNumeralChordSymbol[] = [];
+@SettingsDescriptors<ChordTypeInKeySettings>(
+  {
+    descriptor: {
+      label: 'Included Types',
+      answerList: ChordTypeInKeyExercise.chordTypeAnswerList,
+      controlType: 'included-answers',
+    },
+    getter: (currentSettings: ChordTypeInKeySettings) => {
+      return _.uniq(currentSettings.includedRomanNumerals.map(romanNumeralSymbol => new RomanNumeralChord(romanNumeralSymbol).type));
+    },
+    onChange: (newValue: ChordType[], prevValue: ChordType[], currentSettings: ChordTypeInKeySettings): Partial<ChordTypeInKeySettings> => {
+      let selectedChords = _.clone(currentSettings.includedRomanNumerals);
+      const newTypes: ChordType[] = _.difference(prevValue, newValue);
+      for (let newType of newTypes) {
         for (let i = 1; i <= 12; i++) {
-          answers.push(
+          selectedChords.push(
             new RomanNumeralChord({
               scaleDegree: chromaticDegreeToScaleDegree[i],
-              type: chordType,
+              type: newType,
             }).romanNumeralChordSymbol,
           );
         }
-        return answers;
-      }),
+      }
+      const removedTypes: ChordType[] = _.difference(newValue, prevValue);
+      selectedChords = _.filter(selectedChords,romanNumeralSymbol => {
+        return !removedTypes.includes(new RomanNumeralChord(romanNumeralSymbol).type);
+      });
+      return {
+        includedRomanNumerals: _.uniq(selectedChords),
+      };
     },
-  }
-})
+  },
+  {
+    key: 'includedRomanNumerals',
+    info: 'Use this option to specify over which scale degree each chord type can be played. Use this to narrow the options to a more musical selection of chords.',
+    defaultValue: ['I', 'ii', 'iii', 'IV', 'V', 'vi'],
+    descriptor: {
+      label: 'Included Chords (Advanced)',
+      controlType: 'included-answers',
+      answerList: {
+        rows: [
+          ChordType.Major,
+          ChordType.Minor,
+          ChordType.Diminished,
+          ChordType.Dominant7th,
+          ChordType.Major7th,
+          ChordType.Minor7th,
+          ChordType.Sus4,
+          ChordType.Sus2,
+          ChordType.Major6th,
+          ChordType.Diminished7th,
+          ChordType.HalfDiminished7th,
+        ].map(chordType => {
+          const answers: RomanNumeralChordSymbol[] = [];
+          for (let i = 1; i <= 12; i++) {
+            answers.push(
+              new RomanNumeralChord({
+                scaleDegree: chromaticDegreeToScaleDegree[i],
+                type: chordType,
+              }).romanNumeralChordSymbol,
+            );
+          }
+          return answers;
+        }),
+      },
+    },
+  },
+)
 export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<ChordType, ChordTypeInKeySettings> {
   readonly id: string = 'chordTypeInKey';
   readonly name: string = 'Chord Types';
   readonly summary: string = 'Identify chord type (major / minor) when all chords are diatonic to the same key';
   readonly explanation: ExerciseExplanationContent = ChordTypeInKeyExplanationComponent;
+
+  static readonly chordTypeAnswerList: Exercise.AnswerList<ChordType> = {
+    rows: [
+      [
+        ChordType.Major,
+        ChordType.Minor,
+      ],
+      [
+        ChordType.Sus4,
+        ChordType.Sus2,
+      ],
+      [
+        ChordType.Major6th,
+        null, // ChordType.Minor6th
+      ],
+      [
+        ChordType.Diminished,
+        ChordType.Dominant7th,
+      ],
+      [
+        ChordType.Minor7th,
+        ChordType.Major7th,
+      ],
+      [
+        null, // ChordType.MinorMajor7th,
+        null, // ChordType.Augmented5th,
+      ],
+      [
+        ChordType.Diminished7th,
+        ChordType.HalfDiminished7th,
+      ],
+    ],
+  };
 
   getAnswerDisplay(answer: ChordType): string {
     const chordTypeToName: Record<ChordType, string> = {
@@ -120,38 +186,7 @@ export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<Ch
 
   protected _getAnswersListInC(): Exercise.AnswerList<ChordType> {
     const includedTypes = this._settings.includedRomanNumerals.map(romanNumeralSymbol => new RomanNumeralChord(romanNumeralSymbol).type);
-    return Exercise.filterIncludedAnswers({
-      rows: [
-        [
-          ChordType.Major,
-          ChordType.Minor,
-        ],
-        [
-          ChordType.Sus4,
-          ChordType.Sus2,
-        ],
-        [
-          ChordType.Major6th,
-          null, // ChordType.Minor6th
-        ],
-        [
-          ChordType.Diminished,
-          ChordType.Dominant7th,
-        ],
-        [
-          ChordType.Minor7th,
-          ChordType.Major7th,
-        ],
-        [
-          null, // ChordType.MinorMajor7th,
-          null, // ChordType.Augmented5th,
-        ],
-        [
-          ChordType.Diminished7th,
-          ChordType.HalfDiminished7th,
-        ],
-      ]
-    }, includedTypes);
+    return Exercise.filterIncludedAnswers(ChordTypeInKeyExercise.chordTypeAnswerList, includedTypes);
   }
 
   protected override _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordTypeInKeySettings>[] {

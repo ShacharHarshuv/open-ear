@@ -20,6 +20,7 @@ import {
 import { AnswersLayoutComponent } from './exercise.page/components/answers-layout/answers-layout.component';
 import { FieldInfoComponent } from './exercise.page/components/exercise-settings.page/components/field-info/field-info.component';
 import { BdcWalkModule } from 'bdc-walkthrough';
+import { ExerciseControlDirective } from './exercise.page/components/exercise-settings.page/directives/exercise-control.directive';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { BdcWalkModule } from 'bdc-walkthrough';
     PureFunctionPipe,
     AnswersLayoutComponent,
     FieldInfoComponent,
+    ExerciseControlDirective,
   ],
   imports: [
     CommonModule,
