@@ -11,10 +11,10 @@ export enum ChordType {
   Minor = 'm',
   Diminished = 'dim',
   Dominant7th = '7',
-  Major7th = 'M7',
+  Major7th = 'maj7',
   Minor7th = 'm7',
-  sus4 = 'sus',
-  sus2 = 'sus2',
+  Sus4 = 'sus',
+  Sus2 = 'sus2',
   Major6th = '6',
   Diminished7th = 'dim7',
   HalfDiminished7th = '7b5',
@@ -45,7 +45,7 @@ export class Chord {
     type: ChordType,
   }) {
     if (typeof this._symbolOrConfig === 'string') {
-      const regexMatch = this._symbolOrConfig.match(/([A-G][#b]?)(m|dim|7|M7|m7|sus|sus2|6|dim7|7b5)?/);
+      const regexMatch = this._symbolOrConfig.match(/([A-G][#b]?)(m|dim|7|maj7|m7|sus|sus2|6|dim7|7b5)?/);
       if (!regexMatch) {
         throw new Error(`${this._symbolOrConfig} is not a valid chord symbol`);
       }
@@ -96,12 +96,12 @@ export class Chord {
       Interval.PerfectFifth,
       Interval.MinorSeventh,
     ],
-    [ChordType.sus4]: [
+    [ChordType.Sus4]: [
       Interval.Prima,
       Interval.PerfectFourth,
       Interval.PerfectFifth,
     ],
-    [ChordType.sus2]: [
+    [ChordType.Sus2]: [
       Interval.Prima,
       Interval.MajorSecond,
       Interval.PerfectFifth,

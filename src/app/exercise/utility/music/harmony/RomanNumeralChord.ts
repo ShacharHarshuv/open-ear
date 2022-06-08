@@ -17,6 +17,7 @@ import { MusicSymbol } from '../MusicSymbol';
 import { Key } from '../keys/Key';
 import { NoteType } from '../notes/NoteType';
 import { transpose } from '../transpose';
+import { SupertextDigit } from '../SupertextDigit';
 
 export enum Accidental {
   Natural = '',
@@ -44,14 +45,14 @@ export class RomanNumeralChord {
       [ChordType.Major7th]: false,
       [ChordType.Minor7th]: true,
       [ChordType.Major6th]: false,
-      [ChordType.sus4]: false,
-      [ChordType.sus2]: false,
+      [ChordType.Sus4]: false,
+      [ChordType.Sus2]: false,
     };
     return chordTypeToIsLowerCase[this.type];
   }
 
   get romanNumeralChordSymbol(): RomanNumeralChordSymbol {
-    const suffix = [ChordType.Major, ChordType.Minor].includes(this.type) ? '' : ChordType;
+    const suffix = [ChordType.Major, ChordType.Minor].includes(this.type) ? '' : this.type;
     const romanNumeral: string = RomanNumeralChord.romanNumerals[this.diatonicDegree];
     return `${this.accidental}${this._isLowercase ? romanNumeral.toLowerCase() : romanNumeral.toUpperCase()}${suffix}` as RomanNumeralChordSymbol;
   }
@@ -88,7 +89,7 @@ export class RomanNumeralChord {
       return;
     }
 
-    const regexMatch: RegExpMatchArray | null = romanNumeralInput.match(/(b|#)?([ivIV]+)(dim|7|M7|sus|sus2|6|dim7|7b5)?/);
+    const regexMatch: RegExpMatchArray | null = romanNumeralInput.match(/(b|#)?([ivIV]+)(dim|7|maj7|sus|sus2|6|dim7|7b5)?$/);
     if (!regexMatch) {
       throw new Error(`RomanNumeralChordSymbol: ${romanNumeralInput} is not a valid input`);
     }
@@ -125,18 +126,8 @@ export class RomanNumeralChord {
         case undefined:
           this.type = ChordType.Major;
           break;
-        case '7':
-          this.type = ChordType.Dominant7th;
-          break;
-        case 'M7':
-          this.type = ChordType.Major7th;
-          break;
-        case 'sus':
-          this.type = ChordType.sus4;
-          break;
-        case 'sus2':
-          this.type = ChordType.sus2;
-          break;
+        default:
+          this.type = typeString as ChordType;
       }
     }
 
@@ -158,7 +149,35 @@ export class RomanNumeralChord {
 
   toString(): string {
     const romanNumeral: string = RomanNumeralChord.romanNumerals[this.diatonicDegree];
-    return `${RomanNumeralChord.accidentalToString[this.accidental]}${this._isLowercase ? romanNumeral.toLowerCase() : romanNumeral.toUpperCase()}${this.type === ChordType.Diminished ? MusicSymbol.Diminished : ''}`
+    let postfix: string = '';
+    switch (this.type) {
+      case ChordType.Diminished:
+        postfix = MusicSymbol.Diminished;
+        break;
+      case ChordType.Dominant7th:
+      case ChordType.Minor7th:
+        postfix = SupertextDigit[7];
+        break;
+      case ChordType.Diminished7th:
+        postfix = MusicSymbol.Diminished + SupertextDigit[7];
+        break;
+      case ChordType.HalfDiminished7th:
+        postfix = MusicSymbol.HalfDiminished;
+        break;
+      case ChordType.Major6th:
+        postfix = SupertextDigit[6];
+        break;
+      case ChordType.Major7th:
+        postfix = `maj${SupertextDigit[7]}`;
+        break;
+      case ChordType.Sus4:
+        postfix = ChordType.Sus4;
+        break;
+      case ChordType.Sus2:
+        postfix = ChordType.Sus2;
+        break;
+    }
+    return `${RomanNumeralChord.accidentalToString[this.accidental]}${this._isLowercase ? romanNumeral.toLowerCase() : romanNumeral.toUpperCase()}${postfix}`
   }
 
   static toRelativeMode(chordSymbol: RomanNumeralChordSymbol, source: Mode, target: Mode): RomanNumeralChordSymbol {
