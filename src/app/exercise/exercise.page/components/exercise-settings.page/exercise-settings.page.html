@@ -135,7 +135,7 @@
           <ion-list-header>{{exerciseControlSettings.descriptor.label}}<app-field-info *ngIf="exerciseControlSettings.info" [message]="exerciseControlSettings.info"></app-field-info></ion-list-header>
           <app-included-answers
             [answerList]="exerciseControlSettings.descriptor.answerList"
-            [formControl]="exerciseFormGroup.controls[exerciseControlSettings.key]"
+            [appExerciseControl]="exerciseControlSettings"
             [getAnswerDisplay]="getAnswerDisplay"
           ></app-included-answers>
         </ion-list>

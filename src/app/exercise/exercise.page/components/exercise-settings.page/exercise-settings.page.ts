@@ -91,7 +91,9 @@ export class ExerciseSettingsPage {
     this.exerciseSettingsDescriptor = settingsDescriptor;
     const controls: TAbstractControlsOf<{[key: string]: any}, {}> = {};
     for (let settingsControlDescriptor of settingsDescriptor) {
-      controls[settingsControlDescriptor.key] = new FormControl();
+      if (settingsControlDescriptor.key) {
+        controls[settingsControlDescriptor.key] = new FormControl();
+      }
     }
     this.exerciseFormGroup = new FormGroup(controls);
   }
