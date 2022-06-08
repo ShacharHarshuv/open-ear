@@ -93,6 +93,32 @@ describe('voiceChordProgressionWithVoiceLeading', function () {
           ],
         }
       ],
+    },
+    {
+      progression: ['C', 'Fmaj7'],
+      startingInversion: 0,
+      expectedResultsOptions: [
+        {
+          randomlyChosenIndexesList: [0],
+          expectedResult: [
+            ['C2', 'C3', 'C4', 'E4', 'G4'],
+            ['F2', 'F3', 'C4', 'E4', 'F4', 'A4'],
+          ]
+        }
+      ]
+    },
+    {
+      progression: ['Fmaj7', 'C'],
+      startingInversion: 0,
+      expectedResultsOptions: [
+        {
+          randomlyChosenIndexesList: [0],
+          expectedResult: [
+            ['F2', 'F3', 'F3', 'A3', 'C4', 'E4'],
+            ['C2', 'C3', 'G3', 'C4', 'E4'],
+          ]
+        }
+      ]
     }
   ]
 
