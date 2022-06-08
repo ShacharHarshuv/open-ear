@@ -10,7 +10,7 @@ export enum Interval {
   PerfectFifth = 7,
   MinorSixth = 8,
   MajorSixth = 9,
-  DoubleDiminishedSeventh = 9,
+  DiminishedSeventh = 9,
   MinorSeventh = 10,
   MajorSeventh = 11,
   Octave = 12,

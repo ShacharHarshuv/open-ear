@@ -45,7 +45,7 @@ export class Chord {
     type: ChordType,
   }) {
     if (typeof this._symbolOrConfig === 'string') {
-      const regexMatch = this._symbolOrConfig.match(/([A-G][#b]?)(m|dim|7|maj7|m7|sus|sus2|6|dim7|7b5)?/);
+      const regexMatch = this._symbolOrConfig.match(/([A-G][#b]?)(m|dim|7|maj7|m7|sus|sus2|6|dim7|7b5)?$/);
       if (!regexMatch) {
         throw new Error(`${this._symbolOrConfig} is not a valid chord symbol`);
       }
@@ -116,13 +116,13 @@ export class Chord {
       Interval.Prima,
       Interval.MinorThird,
       Interval.DiminishedFifth,
-      Interval.DoubleDiminishedSeventh,
+      Interval.DiminishedSeventh,
     ],
     [ChordType.HalfDiminished7th]: [
       Interval.Prima,
       Interval.MinorThird,
       Interval.DiminishedFifth,
-      Interval.DoubleDiminishedSeventh,
+      Interval.MinorSeventh,
     ],
   }
 
