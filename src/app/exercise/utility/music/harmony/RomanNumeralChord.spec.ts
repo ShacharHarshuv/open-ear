@@ -18,8 +18,7 @@ import {
 } from './Mode';
 import { Key } from '../keys/Key';
 
-// todo
-fdescribe('RomanNumeralBuilder', () => {
+describe('RomanNumeralBuilder', () => {
   const testCases: {
     force?: boolean; // for debugging purposes only
     inputs: ConstructorParameters<typeof RomanNumeralChord>[],
