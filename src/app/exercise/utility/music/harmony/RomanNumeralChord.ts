@@ -52,7 +52,17 @@ export class RomanNumeralChord {
   }
 
   get romanNumeralChordSymbol(): RomanNumeralChordSymbol {
-    const suffix = [ChordType.Major, ChordType.Minor].includes(this.type) ? '' : this.type;
+    const suffix = (() => {
+      switch (this.type) {
+        case ChordType.Major:
+        case ChordType.Minor:
+          return '';
+        case ChordType.Minor7th:
+          return '7';
+        default:
+          return this.type as ChordType;
+      }
+    })();
     const romanNumeral: string = RomanNumeralChord.romanNumerals[this.diatonicDegree];
     return `${this.accidental}${this._isLowercase ? romanNumeral.toLowerCase() : romanNumeral.toUpperCase()}${suffix}` as RomanNumeralChordSymbol;
   }

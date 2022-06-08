@@ -250,6 +250,10 @@ describe('RomanNumeralBuilder', () => {
           expect(romanNumeral.scaleDegree).toEqual(testCase.scaleDegree);
         });
 
+        it('chordSymbol', () => {
+          expect(romanNumeral.romanNumeralChordSymbol).toEqual(testCase.romanNumeralChordSymbol);
+        })
+
         it('serialized', () => {
           expect(romanNumeral.toString()).toEqual(testCase.serialized);
         });

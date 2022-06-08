@@ -42,6 +42,13 @@ type ChordTypeInKeySettings = NumberOfSegmentsSetting &
         ChordType.Minor,
         ChordType.Diminished,
         ChordType.Dominant7th,
+        ChordType.Major7th,
+        ChordType.Minor7th,
+        ChordType.Sus4,
+        ChordType.Sus2,
+        ChordType.Major6th,
+        ChordType.Diminished7th,
+        ChordType.HalfDiminished7th,
       ].map(chordType => {
         const answers: RomanNumeralChordSymbol[] = [];
         for (let i = 1; i <= 12; i++) {
@@ -100,11 +107,38 @@ export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<Ch
 
   protected _getAnswersListInC(): Exercise.AnswerList<ChordType> {
     const includedTypes = this._settings.includedRomanNumerals.map(romanNumeralSymbol => new RomanNumeralChord(romanNumeralSymbol).type);
-    return Exercise.filterIncludedAnswers([
-      ChordType.Major,
-      ChordType.Minor,
-      ChordType.Diminished,
-    ], includedTypes);
+    return Exercise.filterIncludedAnswers({
+      rows: [
+        [
+          ChordType.Major,
+          ChordType.Minor,
+        ],
+        [
+          ChordType.Sus4,
+          ChordType.Sus2,
+        ],
+        [
+          ChordType.Major6th,
+          null, // ChordType.Minor6th
+        ],
+        [
+          ChordType.Diminished,
+          ChordType.Dominant7th,
+        ],
+        [
+          ChordType.Minor7th,
+          ChordType.Major7th,
+        ],
+        [
+          null, // ChordType.MinorMajor7th,
+          null, // ChordType.Augmented5th,
+        ],
+        [
+          ChordType.Diminished7th,
+          ChordType.HalfDiminished7th,
+        ],
+      ]
+    }, includedTypes);
   }
 
   protected override _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordTypeInKeySettings>[] {
