@@ -1,12 +1,15 @@
 @import 'main';
 
 :host {
-  width: 5 * $unit;
+  min-width: 5 * $unit;
+  max-width: 10 * $unit;
   height: 5 * $unit;
   border-radius: 4px;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0.5 * $unit;
+  text-align: center;
 
   &.--focused {
     border: 4px solid #c6ddff;
