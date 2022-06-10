@@ -67,7 +67,20 @@ export class RomanNumeralChord {
     return `${this.accidental}${this._isLowercase ? romanNumeral.toLowerCase() : romanNumeral.toUpperCase()}${suffix}` as RomanNumeralChordSymbol;
   }
 
-  static readonly romanNumerals: Record<DiatonicScaleDegree, string> = { 1: 'i', 2: 'ii', 3: 'iii', 4: 'iv', 5: 'v', 6: 'vi', 7: 'vii'};
+  get isDiatonic(): boolean {
+    const chordInC = this.getChord('C');
+    return _.every(chordInC.noteTypes, noteType => ['C', 'D', 'E', 'F', 'G', 'A', 'B'].includes(noteType));
+  }
+
+  static readonly romanNumerals: Record<DiatonicScaleDegree, string> = {
+    1: 'i',
+    2: 'ii',
+    3: 'iii',
+    4: 'iv',
+    5: 'v',
+    6: 'vi',
+    7: 'vii',
+  };
   static readonly romanNumeralsToScaleDegree: Record<string, DiatonicScaleDegree> = _.mapValues(_.invert(RomanNumeralChord.romanNumerals), value => +value as DiatonicScaleDegree);
 
   static accidentalToString: Record<Accidental, string> = {
@@ -137,7 +150,11 @@ export class RomanNumeralChord {
       throw new Error(`Unable to determine type of ${this.romanNumeralChordSymbol}`);
     }
 
-    this.accidental = {'#': Accidental.Sharp, 'b': Accidental.Flat, '': Accidental.Natural}[accidentalString ?? '']!;
+    this.accidental = {
+      '#': Accidental.Sharp,
+      'b': Accidental.Flat,
+      '': Accidental.Natural,
+    }[accidentalString ?? '']!;
   }
 
   getChord(key: Key): Chord {
