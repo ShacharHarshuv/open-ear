@@ -201,6 +201,7 @@ export namespace Exercise {
        : SelectControlDescriptor<GSettings[GKey]>*/ SliderControlDescriptor | SelectControlDescriptor | ListSelectControlDescriptor | IncludedAnswersControlDescriptor | CheckboxControlDescriptor,
       show?: (settings: GSettings) => boolean;
       info?: string; // can contain html
+      isDisabled?: (settings: GSettings, currentValue: any) => boolean;
     }/* : never*/;
 
   export type ExerciseExplanationContent = string | Type<any>;

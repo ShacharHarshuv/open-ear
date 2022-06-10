@@ -28,7 +28,8 @@ describe('RomanNumeralBuilder', () => {
     accidental?: Accidental,
     type: ChordType,
     serialized: string,
-    getChord: Partial<Record<Key, ChordSymbol>>
+    getChord: Partial<Record<Key, ChordSymbol>>,
+    isDiatonic: boolean,
   }[] = [
     {
       inputs: [['I'], [{
@@ -44,6 +45,7 @@ describe('RomanNumeralBuilder', () => {
         C: 'C',
         'A#': 'A#',
       },
+      isDiatonic: true,
     },
     {
       inputs: [['ii'], [{
@@ -58,6 +60,7 @@ describe('RomanNumeralBuilder', () => {
       getChord: {
         C: 'Dm',
       },
+      isDiatonic: true,
     },
     {
       inputs: [['bIII'], [{
@@ -73,6 +76,7 @@ describe('RomanNumeralBuilder', () => {
       getChord: {
         C: 'Eb',
       },
+      isDiatonic: false,
     },
     {
       inputs: [['#ivdim'], [{
@@ -88,6 +92,7 @@ describe('RomanNumeralBuilder', () => {
       getChord: {
         G: 'C#dim',
       },
+      isDiatonic: false,
     },
     {
       inputs: [['viidim'], [{
@@ -102,6 +107,7 @@ describe('RomanNumeralBuilder', () => {
       getChord: {
         'Eb': 'Ddim',
       },
+      isDiatonic: true,
     },
     {
       inputs: [['V7'], [{
@@ -117,6 +123,7 @@ describe('RomanNumeralBuilder', () => {
       accidental: Accidental.Natural,
       diatonicDegree: 5,
       serialized: 'V⁷',
+      isDiatonic: true,
     },
     {
       inputs: [['IVmaj7'], [{
@@ -132,6 +139,7 @@ describe('RomanNumeralBuilder', () => {
       accidental: Accidental.Natural,
       diatonicDegree: 4,
       serialized: 'IVmaj⁷',
+      isDiatonic: true,
     },
     {
       inputs: [['ii7'], [{
@@ -147,6 +155,7 @@ describe('RomanNumeralBuilder', () => {
       accidental: Accidental.Natural,
       diatonicDegree: 2,
       serialized: 'ii⁷',
+      isDiatonic: true,
     },
     {
       inputs: [['Vsus'], [{
@@ -162,6 +171,7 @@ describe('RomanNumeralBuilder', () => {
       accidental: Accidental.Natural,
       diatonicDegree: 5,
       serialized: 'Vsus',
+      isDiatonic: true,
     },
     {
       inputs: [['Isus2'], [{
@@ -177,6 +187,7 @@ describe('RomanNumeralBuilder', () => {
       accidental: Accidental.Natural,
       diatonicDegree: 1,
       serialized: 'Isus2',
+      isDiatonic: true,
     },
     {
       inputs: [['I6'], [{
@@ -192,6 +203,7 @@ describe('RomanNumeralBuilder', () => {
       accidental: Accidental.Natural,
       diatonicDegree: 1,
       serialized: 'I⁶',
+      isDiatonic: true,
     },
     {
       inputs: [['viidim7'], [{
@@ -207,6 +219,7 @@ describe('RomanNumeralBuilder', () => {
       accidental: Accidental.Natural,
       diatonicDegree: 7,
       serialized: 'vii°⁷',
+      isDiatonic: false,
     },
     {
       inputs: [['vii7b5'], [{
@@ -222,6 +235,7 @@ describe('RomanNumeralBuilder', () => {
       accidental: Accidental.Natural,
       diatonicDegree: 7,
       serialized: 'viiø',
+      isDiatonic: true,
     },
   ];
 
@@ -263,6 +277,10 @@ describe('RomanNumeralBuilder', () => {
             expect(romanNumeral.getChord(chordKey as Key).symbol).toEqual(testCase.getChord[chordKey])
           }
         });
+
+        it('isDiatonic', () => {
+          expect(romanNumeral.isDiatonic).toEqual(testCase.isDiatonic);
+        })
       });
     })
   })

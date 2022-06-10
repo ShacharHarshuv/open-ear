@@ -12,13 +12,13 @@ import {
 import {
   takeUntil,
   map,
-  distinctUntilChanged,
   pairwise,
   startWith,
 } from 'rxjs/operators';
 import { BaseComponent } from '../../../../../shared/ts-utility';
 import { Observable } from 'rxjs';
 import * as _ from 'lodash';
+import { shareReplayUntil } from '../../../../../shared/ts-utility/rxjs/shareReplayUntil';
 
 @Directive({
   selector: '[appExerciseControl]',
@@ -34,7 +34,7 @@ export class ExerciseControlDirective extends BaseComponent {
         });
         control.value$
           .pipe(
-            takeUntil(this._destroy$)
+            takeUntil(this._destroy$),
           )
           .subscribe(value => {
             valueAccessor.writeValue(value)
@@ -42,20 +42,35 @@ export class ExerciseControlDirective extends BaseComponent {
       }
     } else {
       for (let valueAccessor of this._valueAccessors) {
-        new Observable(subscriber => {
+        const updateDisabledState = (settings, value) => {
+          valueAccessor.setDisabledState?.(exerciseControlSettings.isDisabled?.(settings, value) ?? false);
+        }
+        const controlValue$ = new Observable(subscriber => {
           valueAccessor.registerOnChange((value) => subscriber.next(value));
         })
           .pipe(
             startWith(exerciseControlSettings.getter?.(this._exerciseSettingsPage.exerciseFormGroup.value)),
-            pairwise(),
-            map(([newValue, prevValue]) => exerciseControlSettings.onChange?.(newValue, prevValue, this._exerciseSettingsPage.exerciseFormGroup.value)),
-            distinctUntilChanged(_.isEqual),
-            takeUntil(this._destroy$)
-          )
-          .subscribe(newSettings => {
-            this._exerciseSettingsPage.exerciseFormGroup.patchValue(newSettings);
-          })
+            shareReplayUntil(this._destroy$),
+          );
 
+        // Update settings on change
+        controlValue$
+          .pipe(
+            pairwise(),
+            map(([newValue, prevValue]) => ({
+              newSettings: exerciseControlSettings.onChange?.(newValue, prevValue, this._exerciseSettingsPage.exerciseFormGroup.value),
+              newValue,
+            })),
+            takeUntil(this._destroy$),
+          )
+          .subscribe(({newSettings, newValue}) => {
+            if (newSettings && !_.isEqual(newSettings, this._exerciseSettingsPage.exerciseFormGroup.value)) {
+              this._exerciseSettingsPage.exerciseFormGroup.patchValue(newSettings);
+              updateDisabledState(newSettings, newValue)
+            }
+          });
+
+        // Update control value on setting's change
         this._exerciseSettingsPage.exerciseFormGroup.value$
           .pipe(
             map(settings => exerciseControlSettings.getter?.(settings)),
@@ -63,6 +78,7 @@ export class ExerciseControlDirective extends BaseComponent {
           )
           .subscribe(newValue => {
             valueAccessor.writeValue(newValue);
+            updateDisabledState(this._exerciseSettingsPage.exerciseFormGroup.value, newValue);
           });
       }
     }

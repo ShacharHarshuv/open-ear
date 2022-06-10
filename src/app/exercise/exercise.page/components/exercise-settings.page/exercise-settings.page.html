@@ -79,7 +79,7 @@
         >
           <ng-container *ngTemplateOutlet="label"></ng-container>
           <ion-select
-            [formControl]="exerciseFormGroup.controls[exerciseControlSettings.key]"
+            [appExerciseControl]="exerciseControlSettings"
             [interface]="'popover'"
           >
             <ion-select-option
@@ -97,7 +97,7 @@
         >
           <ng-container *ngTemplateOutlet="label"></ng-container>
           <ion-range
-            [formControl]="exerciseFormGroup.controls[exerciseControlSettings.key]"
+            [appExerciseControl]="exerciseControlSettings"
             [max]="exerciseControlSettings.descriptor.max"
             [min]="exerciseControlSettings.descriptor.min"
             [snaps]="true"
@@ -109,7 +109,7 @@
         <app-list-select
           *ngSwitchCase="'list-select'"
           [allAvailableOptions]="exerciseControlSettings.descriptor.allOptions"
-          [formControl]="exerciseFormGroup.controls[exerciseControlSettings.key]"
+          [appExerciseControl]="exerciseControlSettings"
           [label]="exerciseControlSettings.descriptor.label"
           @collapseVertical
         >
@@ -125,7 +125,7 @@
         >
           <ng-container *ngTemplateOutlet="label"></ng-container>
           <ion-toggle
-            [formControl]="exerciseFormGroup.controls[exerciseControlSettings.key]"
+            [appExerciseControl]="exerciseControlSettings"
             slot="end"
           ></ion-toggle>
         </ion-item>

@@ -62,6 +62,27 @@ type ChordTypeInKeySettings = NumberOfSegmentsSetting &
     },
   },
   {
+    info: 'When turned on, only chords that includes only notes from the same scale will be played. Note - some chord types (like the diminished 7ths) cannot be included in one scale.',
+    descriptor: {
+      label: 'Diatonic',
+      controlType: 'checkbox',
+    },
+    getter: (settings: ChordTypeInKeySettings): boolean => {
+      return _.every(settings.includedRomanNumerals, romanNumeralChordSymbol => new RomanNumeralChord(romanNumeralChordSymbol).isDiatonic);
+    },
+    onChange: (newValue: boolean, prevValue: boolean, currentSettings: ChordTypeInKeySettings): Partial<ChordTypeInKeySettings> => {
+      if (newValue) {
+        return {
+          includedRomanNumerals: currentSettings.includedRomanNumerals.filter(romanNumeralChordSymbol => new RomanNumeralChord(romanNumeralChordSymbol).isDiatonic)
+        }
+      }
+      return {};
+    },
+    isDisabled: (settings, newValue: boolean): boolean => {
+      return newValue;
+    }
+  },
+  {
     key: 'includedRomanNumerals',
     info: 'Use this option to specify over which scale degree each chord type can be played. Use this to narrow the options to a more musical selection of chords.',
     defaultValue: ['I', 'ii', 'iii', 'IV', 'V', 'vi'],
