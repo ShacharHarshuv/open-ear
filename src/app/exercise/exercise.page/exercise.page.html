@@ -72,7 +72,7 @@
     <div class="exercise__answers-container">
       <app-answer-indication
         *ngFor="let answer of state.currentAnswers; let i = index"
-        [answerDisplay]="state.getAnswerDisplay(answer.answer)"
+        [answerDisplay]="state.answerToLabelStringMap[answer.answer]"
         [isFocused]="state.currentlyPlayingSegment === i"
         [wasAnsweredWrong]="answer.wasWrong"
       ></app-answer-indication>
@@ -95,7 +95,7 @@
         [class.--wrong]="wrongAnswers.includes(answer)"
         [color]="'light'"
       >
-        {{state.getAnswerDisplay(answer)}}
+        {{answerConfig.displayLabel}}
       </ion-button>
     </ng-template>
     <div class="exercise__actions-container">

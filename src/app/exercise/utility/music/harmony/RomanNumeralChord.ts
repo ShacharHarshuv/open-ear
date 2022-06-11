@@ -166,7 +166,7 @@ export class RomanNumeralChord {
     })
   }
 
-  toString(): string {
+  toViewString(): string {
     const romanNumeral: string = RomanNumeralChord.romanNumerals[this.diatonicDegree];
     let postfix: string = '';
     switch (this.type) {

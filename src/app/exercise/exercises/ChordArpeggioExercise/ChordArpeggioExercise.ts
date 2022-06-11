@@ -44,7 +44,7 @@ export class ChordArpeggioExercise extends BaseMelodicDictationExercise<ChordArp
     }
   }
 
-  protected override _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordArpeggioExerciseSettings>[] {
+  override getSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordArpeggioExerciseSettings>[] {
     return [
       // todo: add chord selection, inversion selection etc
     ];

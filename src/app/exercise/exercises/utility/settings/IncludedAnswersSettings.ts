@@ -32,7 +32,7 @@ export function IncludedAnswersSetting<GAnswer extends string, GSettings extends
       }
 
       // setting the setting's descriptor
-      protected override _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<GSettings>[] {
+      override getSettingsDescriptor(): Exercise.SettingsControlDescriptor<GSettings>[] {
         const includedAnswersDescriptor: Exercise.IncludedAnswersControlDescriptor<GAnswer> = {
           controlType: 'included-answers',
           label: 'Included Options',
@@ -47,7 +47,7 @@ export function IncludedAnswersSetting<GAnswer extends string, GSettings extends
 
         return [
           ...settingsDescriptorList,
-          ...super._getSettingsDescriptor(),
+          ...super.getSettingsDescriptor(),
         ];
       }
 

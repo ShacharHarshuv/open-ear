@@ -15,10 +15,10 @@ export function SettingsDescriptors<GSettings extends Exercise.Settings>(...sett
       }
 
       // setting the setting's descriptor
-      protected override _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<GSettings>[] {
+      override getSettingsDescriptor(): Exercise.SettingsControlDescriptor<GSettings>[] {
         return [
           ...settingDescriptorList,
-          ...super._getSettingsDescriptor(),
+          ...super.getSettingsDescriptor(),
         ];
       }
 

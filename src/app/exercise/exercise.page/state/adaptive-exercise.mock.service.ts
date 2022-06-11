@@ -15,7 +15,7 @@ export class AdaptiveExerciseMock implements PublicMembers<AdaptiveExercise> {
   id: string = ''
   name: string = '';
   explanation: Exercise.ExerciseExplanationContent = '';
-  settingsDescriptor: Exercise.SettingsControlDescriptor<{ [key: string]: Exercise.SettingValueType; }>[] | undefined;
+  getSettingsDescriptor: (() => Exercise.SettingsControlDescriptor<{ [key: string]: Exercise.SettingValueType; }, string | number>[]) | undefined;
 
   updateSettings(settings: { [key: string]: Exercise.SettingValueType; }): void {
   }

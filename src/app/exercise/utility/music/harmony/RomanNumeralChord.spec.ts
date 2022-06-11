@@ -269,7 +269,7 @@ describe('RomanNumeralBuilder', () => {
         })
 
         it('serialized', () => {
-          expect(romanNumeral.toString()).toEqual(testCase.serialized);
+          expect(romanNumeral.toViewString()).toEqual(testCase.serialized);
         });
 
         it('getChord', () => {

@@ -54,9 +54,9 @@ export class ChordsInKeyExercise extends BaseRomanAnalysisChordProgressionExerci
     };
   }
 
-  protected override _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordInKeySettings>[] {
+  override getSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordInKeySettings>[] {
     return [
-      ...super._getSettingsDescriptor(),
+      ...super.getSettingsDescriptor(),
       ...numberOfSegmentsControlDescriptorList('chords'),
       ...playAfterCorrectAnswerControlDescriptorList({
         show: ((settings: ChordInKeySettings) => settings.numberOfSegments === 1),

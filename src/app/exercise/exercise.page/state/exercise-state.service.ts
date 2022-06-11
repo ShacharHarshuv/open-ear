@@ -7,7 +7,9 @@ import {
   Router,
 } from '@angular/router';
 import { ExerciseService } from '../../exercise.service';
-import { Exercise } from '../../Exercise';
+import {
+  Exercise,
+} from '../../Exercise';
 import {
   PlayerService,
   PartToPlay,
@@ -30,6 +32,7 @@ import { AdaptiveExerciseService } from './adaptive-exercise.service';
 import AnswerList = Exercise.AnswerList;
 import Answer = Exercise.Answer;
 import { BehaviorSubject } from 'rxjs';
+import getAnswerListIterator = Exercise.getAnswerListIterator;
 
 const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   playCadence: true,
@@ -60,6 +63,7 @@ export class ExerciseStateService implements OnDestroy {
   readonly error$ = this._error$.asObservable();
   readonly name: string = this.exercise.name;
   answerList: AnswerList = this.exercise.getAnswerList();
+  private _answerToLabelStringMap: Record<string, string> = this._getAnswerToLabelStringMap();
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
@@ -125,7 +129,7 @@ export class ExerciseStateService implements OnDestroy {
   }
 
   get exerciseSettingsDescriptor(): Exercise.SettingsControlDescriptor[] {
-    const settingsDescriptor: Exercise.SettingsControlDescriptor[] | undefined = this.exercise.settingsDescriptor;
+    const settingsDescriptor: Exercise.SettingsControlDescriptor[] | undefined = this.exercise.getSettingsDescriptor?.();
     return settingsDescriptor || [];
   }
 
@@ -153,6 +157,10 @@ export class ExerciseStateService implements OnDestroy {
 
   get exercise(): Exercise.IExercise {
     return this._globalSettings.adaptive ? this._adaptiveExercise : this._originalExercise;
+  }
+
+  get answerToLabelStringMap(): Record<string, string> {
+    return this._answerToLabelStringMap;
   }
 
   answer(answer: string): boolean {
@@ -331,13 +339,6 @@ export class ExerciseStateService implements OnDestroy {
     this._destroyed = true; // used to prevent playing of pending actions
   }
 
-  getAnswerDisplay(answer: string | null): string | null {
-    if (!this._originalExercise.getAnswerDisplay) {
-      return answer;
-    }
-    return answer ? this._originalExercise.getAnswerDisplay(answer) : null;
-  }
-
   private _showMessage(message: string) {
     this._message$.next(message);
   }
@@ -401,6 +402,7 @@ export class ExerciseStateService implements OnDestroy {
     }
     this.exercise.updateSettings(exerciseSettings);
     this.answerList = this.exercise.getAnswerList();
+    this._answerToLabelStringMap = this._getAnswerToLabelStringMap();
     this._adaptiveExercise.reset();
   }
 
@@ -428,5 +430,16 @@ export class ExerciseStateService implements OnDestroy {
 
     await this._notesPlayer.playMultipleParts(afterCorrectAnswerParts);
     this._highlightedAnswer = null;
+  }
+
+  private _getAnswerToLabelStringMap(): Record<string, string> {
+    const map: Record<string, string> = {};
+    for (let answerConfig of getAnswerListIterator(this.answerList)) {
+      const normalizedAnswerConfig = Exercise.normalizeAnswerConfig(answerConfig);
+      if (normalizedAnswerConfig.answer) {
+        map[normalizedAnswerConfig.answer] = normalizedAnswerConfig.displayLabel;
+      }
+    }
+    return map;
   }
 }

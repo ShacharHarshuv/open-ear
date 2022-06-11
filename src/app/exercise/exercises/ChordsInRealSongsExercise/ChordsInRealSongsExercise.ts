@@ -143,8 +143,4 @@ export class ChordsInRealSongsExercise extends BaseExercise<RomanNumeralChordSym
       info: `${progression.name ?? ''}${progression.artist ? ` by ${progression.artist} ` : ''}(${progression.key} ${TitleCasePipe.prototype.transform(Mode[progression.mode])})`,
     }
   }
-
-  getAnswerDisplay(answer: RomanNumeralChordSymbol): string {
-    return toMusicalTextDisplay(answer);
-  }
 }

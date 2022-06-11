@@ -1,6 +1,7 @@
 import { Exercise } from '../../Exercise';
 import Heap from 'heap-js';
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
+import IExercise = Exercise.IExercise;
 
 interface QuestionToRepeat {
   timeToReAsk?: number; // null means the question was asked for the first time
@@ -13,7 +14,7 @@ export class AdaptiveExercise implements Exercise.IExercise {
   readonly id: string = this._exercise.id;
   readonly name: string = this._exercise.name;
   readonly explanation: ExerciseExplanationContent = this._exercise.explanation;
-  settingsDescriptor: Exercise.SettingsControlDescriptor<{ [key: string]: Exercise.SettingValueType; }>[] | undefined = this._exercise.settingsDescriptor;
+  readonly getSettingsDescriptor: IExercise['getSettingsDescriptor'] = this._exercise.getSettingsDescriptor;
   private _lastQuestion: QuestionToRepeat | null = null;
   private _wrongQuestionsHeap = new Heap<Required<QuestionToRepeat>>((a: Required<QuestionToRepeat>, b: Required<QuestionToRepeat>) => a.timeToReAsk - b.timeToReAsk);
   private _questionIndex: number = -1;

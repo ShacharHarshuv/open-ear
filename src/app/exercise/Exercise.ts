@@ -58,6 +58,7 @@ export namespace Exercise {
 
   export interface AnswerConfig<GAnswer extends string> {
     answer: Answer<GAnswer> | null;
+    displayLabel?: string;
     playOnClick?: StaticOrGetter<PartToPlay | null, [Question<GAnswer>]>,
     space?: number; // 1 (Default) means all cells takes the same space
   }
@@ -87,6 +88,7 @@ export namespace Exercise {
     if (!cell || typeof cell !== 'object') {
       return {
         answer: cell,
+        displayLabel: cell ?? '',
         space: 1,
         playOnClick: null,
       };
@@ -95,32 +97,20 @@ export namespace Exercise {
     return {
       space: cell.space ?? 1,
       answer: cell.answer,
+      displayLabel: cell.displayLabel ?? cell.answer ?? '',
       playOnClick: cell.playOnClick ?? null,
     };
   }
 
+  // consider making this an input for a class, as it seems like it has many "methods"
   export type AnswerList<GAnswer extends string = string> =
     (Answer<GAnswer> | AnswerConfig<GAnswer>)[]
     | AnswersLayout<GAnswer>;
 
   export function flatAnswerList<GAnswer extends string>(answerList: AnswerList<GAnswer>): GAnswer[] {
-    if (Array.isArray(answerList)) {
-      return answerList.map((answerOrAnswerConfig): GAnswer | null => {
-        if (typeof answerOrAnswerConfig === 'object') {
-          return answerOrAnswerConfig.answer;
-        } else {
-          return answerOrAnswerConfig;
-        }
-      }).filter(isValueTruthy);
-    } else {
-      return _.flatMap<GAnswer | null | undefined>(answerList.rows.map(row => row.map(cellConfig => {
-        if (typeof cellConfig === 'object') {
-          return cellConfig?.answer;
-        } else {
-          return cellConfig
-        }
-      }))).filter(isValueTruthy);
-    }
+    return Array.from(getAnswerListIterator(answerList))
+      .map((answerConfig): GAnswer | null => answerConfig.answer)
+      .filter(isValueTruthy);
   }
 
   export function filterIncludedAnswers<GAnswer extends string>(allAnswerList: Exercise.AnswerList<GAnswer>, includedAnswersList: GAnswer[]) {
@@ -140,6 +130,59 @@ export namespace Exercise {
         answer: null, // In the future it's possible we'll want to configure a button to be disabled instead of hidden in this case
       })),
     }
+  }
+
+  export function* getAnswerListIterator<GAnswer extends string>(answerList: AnswerList<GAnswer>): Generator<Required<AnswerConfig<GAnswer>>> {
+    if (Array.isArray(answerList)) {
+      for (let cell of answerList) {
+        const normalizedAnswerConfig = normalizeAnswerConfig(cell);
+        if (normalizedAnswerConfig.answer) {
+          yield normalizedAnswerConfig;
+        }
+      }
+    } else {
+      for (let row of answerList.rows) {
+        for (let cell of row) {
+          const normalizedAnswerConfig = normalizeAnswerConfig(cell);
+          if (normalizedAnswerConfig.answer) {
+            yield normalizedAnswerConfig;
+          }
+        }
+      }
+    }
+  }
+
+  export function mapAnswerList<GAnswer extends string = string>(answerList: Exercise.AnswerList<GAnswer>, callback: (answerConfig: AnswerConfig<GAnswer>) => AnswerConfig<GAnswer>): Exercise.AnswerList<GAnswer> {
+    function mapAnswerCellList(answerCellList: (Answer<GAnswer> | AnswerConfig<GAnswer>)[]): (Answer<GAnswer> | AnswerConfig<GAnswer>)[];
+    function mapAnswerCellList(answerCellList: (Answer<GAnswer> | AnswerConfig<GAnswer> | null)[]): (Answer<GAnswer> | AnswerConfig<GAnswer> | null)[];
+    function mapAnswerCellList(answerCellList: (Answer<GAnswer> | AnswerConfig<GAnswer> | null)[]): (Answer<GAnswer> | AnswerConfig<GAnswer> | null)[] {
+      return _.map(answerCellList, answerCell => {
+        if (!answerCell) {
+          return null;
+        } else if (typeof answerCell === 'string') {
+          return callback({
+            answer: answerCell,
+          })
+        } else {
+          return callback(answerCell);
+        }
+      });
+    }
+
+    if (typeof answerList === 'object') {
+      return {
+        rows: (answerList as AnswersLayout<GAnswer>).rows.map(row => mapAnswerCellList(row)),
+      }
+    } else {
+      return mapAnswerCellList(answerList);
+    }
+  }
+
+  export function addViewLabelToAnswerList<GAnswer extends string>(answerList: Exercise.AnswerList<GAnswer>, getAnswerViewLabel: (answer: GAnswer) => string): AnswerList<GAnswer> {
+    return mapAnswerList(answerList, answerConfig => answerConfig.answer ? {
+      ...answerConfig,
+      displayLabel: getAnswerViewLabel(answerConfig.answer)
+    } : answerConfig);
   }
 
   export interface BaseSettingsControlDescriptor {
@@ -214,18 +257,17 @@ export namespace Exercise {
     readonly name: string;
     readonly summary: string;
     readonly explanation: ExerciseExplanationContent;
-    readonly settingsDescriptor?: SettingsControlDescriptor<GSettings>[];
     readonly blackListPlatform?: Platforms;
 
     getAnswerList(): AnswerList<GAnswer>;
 
     getQuestion(): Question<GAnswer>;
 
+    getSettingsDescriptor?(): SettingsControlDescriptor<GSettings>[];
+
     updateSettings?(settings: GSettings): void;
 
     getCurrentSettings?(): GSettings;
-
-    getAnswerDisplay?(answer: GAnswer): string;
 
     onDestroy?(): void;
   }

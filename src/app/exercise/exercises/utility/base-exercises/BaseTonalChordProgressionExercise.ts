@@ -126,9 +126,9 @@ export abstract class BaseTonalChordProgressionExercise<GAnswer extends string, 
 
   protected abstract _getChordProgressionInC(): ChordProgressionQuestion<GAnswer>;
 
-  protected override _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<GSettings>[] {
+  override getSettingsDescriptor(): Exercise.SettingsControlDescriptor<GSettings>[] {
     return [
-      ...super._getSettingsDescriptor(),
+      ...super.getSettingsDescriptor(),
       {
         key: 'voiceLeading',
         info: 'Smooth: voices in the chords will move as little as possible (as usually happens in real music) <br>' +
