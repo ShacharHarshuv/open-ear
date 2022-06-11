@@ -59,5 +59,34 @@ describe('ExerciseStateService', function() {
       exerciseStateService.resetStatistics();
       expect(moveToNextQuestionSpy).toHaveBeenCalledOnceWith();
     })
-  })
+  });
+
+  describe('answerToLabelStringMap', function() {
+    // Ideally we'll check this works on initialization but this is easier to set up
+    it('should be updated after updating settings', () => {
+      spyOn(exerciseStateService.exercise, 'getAnswerList').and.returnValue({
+        rows: [
+          [
+            {
+              answer: 'Answer 1',
+              displayLabel: 'Answer 1 :)',
+            },
+            {
+              answer: 'Answer 2',
+              displayLabel: 'Answer 2 :)',
+            }
+          ]
+        ]
+      });
+
+      exerciseStateService.updateSettings({
+        globalSettings: exerciseStateService.globalSettings,
+        exerciseSettings: exerciseStateService.exerciseSettings,
+      });
+      expect(exerciseStateService.answerToLabelStringMap).toEqual({
+        'Answer 1': 'Answer 1 :)',
+        'Answer 2': 'Answer 2 :)',
+      });
+    });
+  });
 });

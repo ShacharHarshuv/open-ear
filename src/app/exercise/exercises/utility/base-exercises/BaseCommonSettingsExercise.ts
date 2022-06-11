@@ -22,7 +22,7 @@ export abstract class BaseCommonSettingsExercise<GAnswer extends string = string
 
   protected abstract _getAllAnswersList(): AnswerList<GAnswer>;
 
-  protected override _getSettingsDescriptor(): SettingsControlDescriptor<GSettings>[] {
+  override getSettingsDescriptor(): SettingsControlDescriptor<GSettings>[] {
     const includedAnswersDescriptor: IncludedAnswersControlDescriptor<GAnswer> = {
       controlType: 'included-answers',
       label: 'Included Options',

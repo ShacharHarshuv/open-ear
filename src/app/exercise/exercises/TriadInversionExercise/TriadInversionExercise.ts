@@ -97,9 +97,9 @@ export class TriadInversionExercise extends BaseTonalExercise<TriadInversionAnsw
     };
   }
 
-  protected override _getSettingsDescriptor(): SettingsControlDescriptor<TriadInversionExerciseSettings>[] {
+  override getSettingsDescriptor(): SettingsControlDescriptor<TriadInversionExerciseSettings>[] {
     return [
-      ...super._getSettingsDescriptor(),
+      ...super.getSettingsDescriptor(),
       {
         key: 'arpeggiateSpeed',
         info: 'When set to a value larger then zero, the chord will be arpeggiated, making it easier to pick up individual notes from it. <br>' +

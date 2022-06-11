@@ -1,4 +1,7 @@
-import { BaseTonalExercise, TonalExerciseSettings } from './BaseTonalExercise';
+import {
+  BaseTonalExercise,
+  TonalExerciseSettings,
+} from './BaseTonalExercise';
 import { NoteType } from '../../../utility/music/notes/NoteType';
 import * as _ from 'lodash';
 import { Exercise } from '../../../Exercise';
@@ -8,7 +11,11 @@ import { Time } from 'tone/Tone/core/type/Units';
 
 export type SolfegeNote = 'Do' | 'Re' | 'Me' | 'Mi' | 'Fa' | 'Sol' | 'Le' | 'La' | 'Te' | 'Ti';
 
-export type BaseMelodicDictationExerciseSettings = TonalExerciseSettings<SolfegeNote>;
+type NoteInKeyDisplayMode = 'solfege' | 'numeral';
+
+export type BaseMelodicDictationExerciseSettings = TonalExerciseSettings<SolfegeNote> & {
+  displayMode: NoteInKeyDisplayMode,
+};
 
 export const solfegeNotesInC: { solfege: SolfegeNote, note: NoteType }[] = [
   {
@@ -63,6 +70,33 @@ export abstract class BaseMelodicDictationExercise<GSettings extends BaseMelodic
   readonly noteDuration: Time = '2n';
   abstract getMelodicQuestionInC(): IMelodicQuestion;
 
+  static readonly displayModeToAnswerDisplayMap: {[mode in NoteInKeyDisplayMode]: {[note in SolfegeNote]: string}} = {
+    numeral: {
+      Do: '1',
+      Re: '2',
+      Me: 'b3',
+      Mi: '3',
+      Fa: '4',
+      Sol: '5',
+      Le: 'b6',
+      La: '6',
+      Te: 'b7',
+      Ti: '7',
+    },
+    solfege: {
+      Do: 'Do',
+      Re: 'Re',
+      Me: 'Me',
+      Mi: 'Mi',
+      Fa: 'Fa',
+      Sol: 'Sol',
+      Le: 'Le',
+      La: 'La',
+      Te: 'Te',
+      Ti: 'Ti',
+    }
+  }
+
   override getQuestionInC(): Exclude<Exercise.NotesQuestion<SolfegeNote>, 'cadence'> {
     const melodicQuestionInC: IMelodicQuestion = this.getMelodicQuestionInC();
     const question: Exercise.Question<SolfegeNote> = {
@@ -84,7 +118,7 @@ export abstract class BaseMelodicDictationExercise<GSettings extends BaseMelodic
   }
 
   protected _getAnswersListInC(): Exercise.AnswerList<SolfegeNote> {
-    return {
+    return Exercise.addViewLabelToAnswerList({
       rows: [
         [
           {
@@ -147,6 +181,6 @@ export abstract class BaseMelodicDictationExercise<GSettings extends BaseMelodic
           },
         ],
       ],
-    }
+    }, (answer: SolfegeNote) => BaseMelodicDictationExercise.displayModeToAnswerDisplayMap[this._settings.displayMode][answer])
   }
 }

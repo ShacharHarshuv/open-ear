@@ -38,7 +38,7 @@ describe('SettingsDescriptor', () => {
       mockSettingKey: 'mockSettingValue',
     });
 
-    expect(exercise.settingsDescriptor).toEqual([
+    expect(exercise?.getSettingsDescriptor()).toEqual([
       jasmine.objectContaining(settingsDescriptor),
     ])
   });

@@ -98,9 +98,6 @@ export class ExerciseSettingsPage {
     this.exerciseFormGroup = new FormGroup(controls);
   }
 
-  @Input()
-  getAnswerDisplay: (answer: string | null) => string | null;
-
   constructor(
     private _modalController: ModalController,
   ) {

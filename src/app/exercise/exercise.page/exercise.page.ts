@@ -96,7 +96,6 @@ export class ExercisePage extends BaseComponent {
         exerciseSettingsDescriptorInput: this.state.exerciseSettingsDescriptor, // must be before currentExerciseSettings
         currentExerciseSettings: this.state.exerciseSettings,
         allAvailableAnswers: allAvailableAnswers,
-        getAnswerDisplay: (answer: string | null): string | null => this.state.getAnswerDisplay(answer),
       },
     });
     this._hideMessage$.next(true);
@@ -178,7 +177,7 @@ export class ExercisePage extends BaseComponent {
           position: 'middle',
           color: message.type === 'error' ? 'danger' : 'dark',
           header: message.type === 'error' ? 'Unexpected Error' : undefined,
-          buttons: ['OK'],
+          buttons: message.type === 'error' ? ['OK'] : [],
         }).then(toaster => {
           // can happen because of a race condition
           if (lastToaster) {

@@ -5,7 +5,6 @@ import {
 } from './BaseTonalChordProgressionExercise';
 import {
   Chord,
-  ChordSymbol,
   TriadInversion,
 } from '../../../utility/music/chords';
 import * as _ from 'lodash';
@@ -21,7 +20,6 @@ import {
 } from '../../../utility';
 import { transpose } from '../../../utility/music/transpose';
 import { NoteEvent } from '../../../../services/player.service';
-import { toMusicalTextDisplay } from '../../../utility/music/getMusicTextDisplay';
 import { RomanNumeralChord } from '../../../utility/music/harmony/RomanNumeralChord';
 
 export type BaseRomanAnalysisChordProgressionExerciseSettings =
@@ -717,7 +715,7 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
       ],
     }
 
-    return {
+    return Exercise.addViewLabelToAnswerList({
       rows: answerList.rows.map(row => row.map((answerOrCellConfig): Exercise.AnswerConfig<RomanNumeralChordSymbol> => {
         if (typeof answerOrCellConfig === 'string') {
           return {
@@ -735,10 +733,6 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
           }
         }
       })),
-    }
-  }
-
-  getAnswerDisplay(answer: RomanNumeralChordSymbol): string {
-    return toMusicalTextDisplay(answer);
+    }, answer => new RomanNumeralChord(answer).toViewString());
   }
 }

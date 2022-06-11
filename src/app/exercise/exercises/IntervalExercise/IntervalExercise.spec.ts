@@ -32,7 +32,7 @@ describe('IntervalExercise', () => {
 
   describe('settings', () => {
     it('should have the "included answers" settings', () => {
-      expect(exercise.settingsDescriptor).toEqual(jasmine.arrayContaining([
+      expect(exercise.getSettingsDescriptor?.()).toEqual(jasmine.arrayContaining([
         jasmine.objectContaining<Exercise.SettingsControlDescriptor>({
           key: 'includedAnswers',
           descriptor: jasmine.objectContaining({

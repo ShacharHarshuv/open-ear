@@ -3,7 +3,9 @@ import {
   Chord,
   ChordType,
 } from '../../utility/music/chords';
-import { randomFromList } from '../../../shared/ts-utility';
+import {
+  randomFromList,
+} from '../../../shared/ts-utility';
 import {
   NumberOfSegmentsSetting,
   numberOfSegmentsControlDescriptorList,
@@ -103,16 +105,18 @@ type ChordTypeInKeySettings = NumberOfSegmentsSetting &
           ChordType.Diminished7th,
           ChordType.HalfDiminished7th,
         ].map(chordType => {
-          const answers: RomanNumeralChordSymbol[] = [];
+          const options: Exercise.AnswerConfig<RomanNumeralChordSymbol>[] = [];
           for (let i = 1; i <= 12; i++) {
-            answers.push(
-              new RomanNumeralChord({
-                scaleDegree: chromaticDegreeToScaleDegree[i],
-                type: chordType,
-              }).romanNumeralChordSymbol,
-            );
+            const romanNumeralChord = new RomanNumeralChord({
+              scaleDegree: chromaticDegreeToScaleDegree[i],
+              type: chordType,
+            });
+            options.push({
+              answer: romanNumeralChord.romanNumeralChordSymbol,
+              displayLabel: romanNumeralChord.toViewString(),
+            });
           }
-          return answers;
+          return options;
         }),
       },
     },
@@ -127,56 +131,68 @@ export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<Ch
   static readonly chordTypeAnswerList: Exercise.AnswerList<ChordType> = {
     rows: [
       [
-        ChordType.Major,
-        ChordType.Minor,
+        {
+          answer: ChordType.Major,
+          displayLabel: 'Major Triad',
+        },
+        {
+          answer: ChordType.Minor,
+          displayLabel: 'Minor Triad',
+        },
       ],
       [
-        ChordType.Sus4,
-        ChordType.Sus2,
+        {
+          answer: ChordType.Sus4,
+          displayLabel: 'Suspended 4th',
+        },
+        {
+          answer: ChordType.Sus2,
+          displayLabel: 'Suspended 2nd',
+        },
       ],
       [
-        ChordType.Major6th,
-        null, // ChordType.Minor6th
+        {
+          answer: ChordType.Major6th,
+          displayLabel: 'Major 6th',
+        },
+        null, // Minor6th
       ],
       [
-        ChordType.Diminished,
-        ChordType.Dominant7th,
+        {
+          answer: ChordType.Diminished,
+          displayLabel: 'Diminished Triad',
+        },
+        {
+          answer: ChordType.Dominant7th,
+          displayLabel: 'Dominant 7th',
+        },
       ],
       [
-        ChordType.Minor7th,
-        ChordType.Major7th,
+        {
+          answer: ChordType.Minor7th,
+          displayLabel: 'Minor 7th',
+        },
+        {
+          answer: ChordType.Major7th,
+          displayLabel: 'Major 7th',
+        },
       ],
       [
-        null, // ChordType.MinorMajor7th,
-        null, // ChordType.Augmented5th,
+        null, // MinorMajor7th,
+        null, // Augmented5th,
       ],
       [
-        ChordType.Diminished7th,
-        ChordType.HalfDiminished7th,
+        {
+          answer: ChordType.Diminished7th,
+          displayLabel: 'Diminished 7ths',
+        },
+        {
+          answer: ChordType.HalfDiminished7th,
+          displayLabel: 'Half Diminished 7th',
+        },
       ],
     ],
   };
-
-  getAnswerDisplay(answer: ChordType): string {
-    const chordTypeToName: Record<ChordType, string> = {
-      [ChordType.Major]: 'Major Triad',
-      [ChordType.Minor]: 'Minor Triad',
-      [ChordType.Diminished]: 'Diminished Triad',
-      [ChordType.Dominant7th]: 'Dominant 7th',
-      [ChordType.Major7th]: 'Major 7th',
-      [ChordType.Minor7th]: 'Minor 7th',
-      [ChordType.Sus4]: 'Suspended 4th',
-      [ChordType.Sus2]: 'Suspended 2nd',
-      [ChordType.Major6th]: 'Major 6th',
-      [ChordType.Diminished7th]: 'Diminished 7th',
-      [ChordType.HalfDiminished7th]: 'Half Diminished 7th',
-    }
-    /**
-     * Currently this function apply to any included-answers settings,
-     * Even though in this case the roman numerals are not really "answers"
-     * */
-    return chordTypeToName[answer] ?? answer;
-  }
 
   protected _getChordProgressionInC(): ChordProgressionQuestion<ChordType> {
     const chordProgression: RomanNumeralChordSymbol[] = [];
@@ -210,9 +226,9 @@ export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<Ch
     return Exercise.filterIncludedAnswers(ChordTypeInKeyExercise.chordTypeAnswerList, includedTypes);
   }
 
-  protected override _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordTypeInKeySettings>[] {
+  override getSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordTypeInKeySettings>[] {
     return [
-      ...super._getSettingsDescriptor(),
+      ...super.getSettingsDescriptor(),
       ...numberOfSegmentsControlDescriptorList('chords'),
     ]
   }

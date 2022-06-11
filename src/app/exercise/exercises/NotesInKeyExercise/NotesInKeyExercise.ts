@@ -40,10 +40,7 @@ type NoteInKeySettings =
   NumberOfSegmentsSetting &
   PlayAfterCorrectAnswerSetting & {
     notesRange: 'high' | 'middle' | 'bass' | 'contrabass',
-    displayMode: 'solfege' | 'numeral',
   };
-
-type NoteInKeyDisplayMode = 'solfege' | 'numeral';
 
 @CadenceTypeSetting<NoteInKeySettings>()
 @IncludedAnswersSetting<SolfegeNote, NoteInKeySettings>({
@@ -63,20 +60,6 @@ export class NotesInKeyExercise extends BaseMelodicDictationExercise<NoteInKeySe
     middle: new NotesRange('G2', 'E4'),
     bass: new NotesRange('A1', 'C3'),
     contrabass: new NotesRange('Eb1', 'Eb2'),
-  }
-  static readonly displayModeToAnswerDisplayMap: {[mode in NoteInKeyDisplayMode]?: {[note in SolfegeNote]: string}} = {
-    numeral: {
-      Do: '1',
-      Re: '2',
-      Me: 'b3',
-      Mi: '3',
-      Fa: '4',
-      Sol: '5',
-      Le: 'b6',
-      La: '6',
-      Te: 'b7',
-      Ti: '7',
-    }
   }
 
   private get _rangeForKeyOfC(): NotesRange {
@@ -124,17 +107,13 @@ export class NotesInKeyExercise extends BaseMelodicDictationExercise<NoteInKeySe
     }
   }
 
-  getAnswerDisplay(answer: SolfegeNote): string {
-    return toMusicalTextDisplay(NotesInKeyExercise.displayModeToAnswerDisplayMap[this._settings.displayMode]?.[answer] ?? answer);
-  }
-
   private _getQuestionOptionsInC(): Note[] {
     return this._rangeForKeyOfC.getAllNotes().filter((note: Note) => noteInCToSolfege[getNoteType(note)]);
   }
 
-  protected override _getSettingsDescriptor(): Exercise.SettingsControlDescriptor<NoteInKeySettings>[] {
+  override getSettingsDescriptor(): Exercise.SettingsControlDescriptor<NoteInKeySettings>[] {
     return [
-      ...super._getSettingsDescriptor(),
+      ...super.getSettingsDescriptor(),
       {
         key: 'displayMode',
         info: 'Choose how the scale degrees are noted. <br>(This setting will apply only after you close the settings page.)',
