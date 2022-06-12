@@ -7,6 +7,7 @@ import Spy = jasmine.Spy;
 
 describe('voiceChordProgressionWithVoiceLeading', function () {
   const testCases: {
+    force?: true,
     progression: ChordSymbol[],
     startingInversion: number,
     expectedResultsOptions: {
@@ -99,7 +100,7 @@ describe('voiceChordProgressionWithVoiceLeading', function () {
       startingInversion: 0,
       expectedResultsOptions: [
         {
-          randomlyChosenIndexesList: [0],
+          randomlyChosenIndexesList: [1],
           expectedResult: [
             ['C2', 'C3', 'C4', 'E4', 'G4'],
             ['F2', 'F3', 'C4', 'E4', 'F4', 'A4'],
@@ -112,11 +113,25 @@ describe('voiceChordProgressionWithVoiceLeading', function () {
       startingInversion: 0,
       expectedResultsOptions: [
         {
-          randomlyChosenIndexesList: [0],
+          randomlyChosenIndexesList: [1],
           expectedResult: [
             ['F2', 'F3', 'F3', 'A3', 'C4', 'E4'],
             ['C2', 'C3', 'G3', 'C4', 'E4'],
           ]
+        }
+      ]
+    },
+    {
+      progression: ['F#maj7', 'Fmaj7', 'Ab'],
+      startingInversion: 0,
+      expectedResultsOptions: [
+        {
+          randomlyChosenIndexesList: [1, 0],
+          expectedResult: [
+            ['F#2', 'F#3', 'F#3', 'A#3', 'C#4', 'F4'],
+            ['F2', 'F3', 'A3', 'C4', 'E4', 'F4'],
+            ['Ab2', 'Ab3', 'G#3', 'C4', 'D#4'],
+          ],
         }
       ]
     }
@@ -129,7 +144,7 @@ describe('voiceChordProgressionWithVoiceLeading', function () {
   })
 
   testCases.forEach((testCase) => {
-    describe(`Voicing of ${testCase.progression.join(', ')} starting with ${testCase.startingInversion}`, () => {
+    (testCase.force ? fdescribe: describe)(`Voicing of ${testCase.progression.join(', ')} starting with ${testCase.startingInversion}`, () => {
       testCase.expectedResultsOptions.forEach((voicingOption, index) => {
         it(`Option ${index++}`, () => {
           spy.and.returnValues(...voicingOption.randomlyChosenIndexesList);

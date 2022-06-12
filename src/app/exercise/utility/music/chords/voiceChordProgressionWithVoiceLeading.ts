@@ -27,41 +27,39 @@ function voiceNextChord(currentChordVoicing: Note[], nextChord: Chord): Note[] {
     voicingOptionsForNextChord.push(possibleVoicing);
   }
 
-  /* Double some voices so the two voicings will have equal number of voices*/
-  function balanceVoicing(voicing1: ReadonlyArray<Note>, voicing2: ReadonlyArray<Note>): [ReadonlyArray<Note>, ReadonlyArray<Note>] {
+  /*
+  * Double some voices so the two voicings will have equal number of voices
+  * [Returns an array as there may be more than one option]
+  * */
+  function balanceVoicing(voicing1: ReadonlyArray<Note>, voicing2: ReadonlyArray<Note>): [ReadonlyArray<Note>, ReadonlyArray<Note>][] {
     if (voicing1.length === voicing2.length) {
-      return [voicing1, voicing2];
+      return [[voicing1, voicing2]];
     } else if (voicing1.length > voicing2.length) {
-      return _.reverse(balanceVoicing(voicing2, voicing1));
+      return balanceVoicing(voicing2, voicing1).map(_.reverse);
     } else { // voicing1.length < voicing2.length
-      const balancedVoicing1: Note[] = [...voicing1];
-      const balanceVoicing2: Note[] = [...voicing2];
-      while(balancedVoicing1.length != balanceVoicing2.length) {
-        for (let i = 0; i < balancedVoicing1.length; i++) {
-          if (!balanceVoicing2.includes(balancedVoicing1[i])) {
-            balancedVoicing1.splice(i, 0, balancedVoicing1[i]);
-            i++; // advance i to avoid duplicating the same note again
-
-            if (balancedVoicing1.length === balanceVoicing2.length) {
-              break;
-            }
-          }
-        }
-      }
-
-      return [balancedVoicing1, balanceVoicing2];
+      return voicing1.map((voiceToDouble, i): [ReadonlyArray<Note>, ReadonlyArray<Note>] => {
+        const voicingWithDoubling = [...voicing1];
+        voicingWithDoubling.splice(i, 0, voicingWithDoubling[i]);
+        return [voicingWithDoubling, voicing2];
+      });
     }
   }
 
   // filter valid voicing (that has small movements in voices)
   const validVoicingOptions: Note[][] = voicingOptionsForNextChord.filter((voicingOption: Note[]): boolean => {
-    const [_voicingOption, _currentVoicing] = balanceVoicing(voicingOption, currentChordVoicing);
-    const rank: number = _.sum(_voicingOption.map((voice: Note, index: number): number => {
-      return Math.abs(toNoteNumber(voice) - toNoteNumber(_currentVoicing[index]));
-    }));
+    return _.some(balanceVoicing(voicingOption, currentChordVoicing), ([_voicingOption, _currentChordVoicing]) => {
+      const rank: number = _.sum(_voicingOption.map((voice: Note, index: number): number => {
+        return Math.abs(toNoteNumber(voice) - toNoteNumber(_currentChordVoicing[index]));
+      }));
 
-    return (rank / voicingOption.length <= MAX_AVG_VOICE_MOVEMENT);
+      return (rank / voicingOption.length <= MAX_AVG_VOICE_MOVEMENT);
+    });
   });
+
+  if (_.isEmpty(validVoicingOptions)) {
+    console.warn(`No valid voicing was found for ${nextChord.symbol} giving ${currentChordVoicing}. Picking one at random.`);
+    return randomFromList(voicingOptionsForNextChord);
+  }
 
   return randomFromList(validVoicingOptions);
 }
@@ -80,7 +78,7 @@ export function voiceChordProgressionWithVoiceLeading(chordOrChordSymbolList: (C
   for (let i = 1; i < chordList.length; i++) {
     const nextChordVoicing: Note[] = voiceNextChord(chordVoicingWithoutBass[i - 1], chordList[i]);
     if (!nextChordVoicing) {
-      throw new Error(`Voicing is undefined`);
+      throw new Error(`Voicing is undefined. Chord progression: ${chordOrChordSymbolList.map(chord => chord instanceof Chord ? chord.symbol : chord).join(' ')}`);
     }
     chordVoicingWithoutBass.push(nextChordVoicing);
   }
