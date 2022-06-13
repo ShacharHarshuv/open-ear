@@ -152,10 +152,10 @@ export namespace Exercise {
     }
   }
 
-  export function mapAnswerList<GAnswer extends string = string>(answerList: Exercise.AnswerList<GAnswer>, callback: (answerConfig: AnswerConfig<GAnswer>) => AnswerConfig<GAnswer>): Exercise.AnswerList<GAnswer> {
-    function mapAnswerCellList(answerCellList: (Answer<GAnswer> | AnswerConfig<GAnswer>)[]): (Answer<GAnswer> | AnswerConfig<GAnswer>)[];
-    function mapAnswerCellList(answerCellList: (Answer<GAnswer> | AnswerConfig<GAnswer> | null)[]): (Answer<GAnswer> | AnswerConfig<GAnswer> | null)[];
-    function mapAnswerCellList(answerCellList: (Answer<GAnswer> | AnswerConfig<GAnswer> | null)[]): (Answer<GAnswer> | AnswerConfig<GAnswer> | null)[] {
+  export function mapAnswerList<GInputAnswer extends string = string, GOutputAnswer extends string = GInputAnswer>(answerList: Exercise.AnswerList<GInputAnswer>, callback: (answerConfig: AnswerConfig<GInputAnswer>) => AnswerConfig<GOutputAnswer>): Exercise.AnswerList<GOutputAnswer> {
+    function mapAnswerCellList(answerCellList: (Answer<GInputAnswer> | AnswerConfig<GInputAnswer>)[]): (Answer<GOutputAnswer> | AnswerConfig<GOutputAnswer>)[];
+    function mapAnswerCellList(answerCellList: (Answer<GInputAnswer> | AnswerConfig<GInputAnswer> | null)[]): (Answer<GOutputAnswer> | AnswerConfig<GOutputAnswer> | null)[];
+    function mapAnswerCellList(answerCellList: (Answer<GInputAnswer> | AnswerConfig<GInputAnswer> | null)[]): (Answer<GOutputAnswer> | AnswerConfig<GOutputAnswer> | null)[] {
       return _.map(answerCellList, answerCell => {
         if (!answerCell) {
           return null;
@@ -171,7 +171,7 @@ export namespace Exercise {
 
     if (typeof answerList === 'object') {
       return {
-        rows: (answerList as AnswersLayout<GAnswer>).rows.map(row => mapAnswerCellList(row)),
+        rows: (answerList as AnswersLayout<GInputAnswer>).rows.map(row => mapAnswerCellList(row)),
       }
     } else {
       return mapAnswerCellList(answerList);

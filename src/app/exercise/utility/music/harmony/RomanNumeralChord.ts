@@ -8,7 +8,7 @@ import {
   DiatonicScaleDegree,
   ScaleDegree,
   scaleDegreeToChromaticDegree,
-} from './ScaleDegrees';
+} from '../scale-degrees';
 import {
   Mode,
   toRelativeMode,
