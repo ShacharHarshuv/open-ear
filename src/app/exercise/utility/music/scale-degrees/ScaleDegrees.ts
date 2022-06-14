@@ -1,4 +1,8 @@
 import * as _ from 'lodash';
+import { Key } from '../keys/Key';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { transpose } from '../transpose';
+import { noteTypeToNote } from '../notes/noteTypeToNote';
 
 export type DiatonicScaleDegree = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 export type ScaleDegree = '1' | 'b2' | '2' | 'b3' | '3' | '4' | '#4' | '5' | 'b6' | '6' | 'b7' | '7';
@@ -20,3 +24,7 @@ export const scaleDegreeToChromaticDegree: Record<ScaleDegree, ChromaticScaleDeg
 }
 
 export const chromaticDegreeToScaleDegree = _.invert(scaleDegreeToChromaticDegree) as Record<ChromaticScaleDegree, ScaleDegree>;
+
+export function getScaleDegreeNote(key: Key, scaleDegree: ScaleDegree, octave: number = 4): Note {
+  return noteTypeToNote(transpose(key, scaleDegreeToChromaticDegree[scaleDegree] - 1), octave);
+}

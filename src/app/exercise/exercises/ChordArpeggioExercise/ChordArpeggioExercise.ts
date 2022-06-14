@@ -1,12 +1,13 @@
 import {
   BaseMelodicDictationExercise,
-  BaseMelodicDictationExerciseSettings, IMelodicQuestion, SolfegeNote
+  BaseMelodicDictationExerciseSettings, IMelodicQuestion,
 } from '../utility/base-exercises/BaseMelodicDictationExercise';
 import { Exercise } from '../../Exercise';
 import { Chord, ChordSymbol } from '../../utility/music/chords';
 import { randomFromList } from '../../../shared/ts-utility';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { IncludedAnswersSettings } from '../utility/settings/IncludedAnswersSettings';
+import { SolfegeNote } from '../../utility';
 
 export type ChordArpeggioExerciseSettings = IncludedAnswersSettings<SolfegeNote> & BaseMelodicDictationExerciseSettings;
 

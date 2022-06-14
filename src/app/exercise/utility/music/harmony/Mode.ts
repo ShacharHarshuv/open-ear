@@ -2,7 +2,7 @@ import {
   ScaleDegree,
   scaleDegreeToChromaticDegree,
   chromaticDegreeToScaleDegree,
-} from './ScaleDegrees';
+} from '../scale-degrees';
 import { mod } from '../../../../shared/ts-utility/mod';
 
 export enum Mode {

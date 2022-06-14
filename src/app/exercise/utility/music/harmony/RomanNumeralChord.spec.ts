@@ -9,7 +9,7 @@ import {
 import {
   DiatonicScaleDegree,
   ScaleDegree,
-} from './ScaleDegrees';
+} from '../scale-degrees';
 import { RomanNumeralChordSymbol } from './RomanNumeralChordSymbol';
 import { testPureFunction } from '../../../../shared/testing-utility/testPureFunction';
 import {

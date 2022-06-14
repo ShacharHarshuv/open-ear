@@ -1,8 +1,4 @@
 import {
-  SolfegeNote,
-  solfegeToNoteInC,
-} from '../utility/base-exercises/BaseMelodicDictationExercise';
-import {
   BaseTonalExercise,
   TonalExerciseSettings,
 } from '../utility/base-exercises/BaseTonalExercise';
@@ -19,6 +15,8 @@ import {
   toNoteNumber,
   NotesRange,
   RomanNumeralChordSymbol,
+  SolfegeNote,
+  solfegeNoteToScaleDegree,
 } from '../../utility';
 import { transpose } from '../../utility/music/transpose';
 import * as _ from 'lodash';
@@ -28,8 +26,8 @@ import {
   IncludedAnswersSettings,
 } from '../utility/settings/IncludedAnswersSettings';
 import { SettingsDescriptors } from '../utility/settings/SettingsDescriptors';
-import { CadenceTypeSetting } from '../utility/settings/CadenceTypeSetting';
 import { romanNumeralToChordInC } from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
+import { scaleDegreeToNoteType } from '../../utility/music/scale-degrees/scaleDegreeToNoteType';
 
 type ChordDegree = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
@@ -297,7 +295,7 @@ export class NotesWithChordsExercise extends BaseTonalExercise<NoteWithChord, No
     }
 
     const chord: Chord = romanNumeralToChordInC(descriptor.chord)!;
-    const noteType: NoteType = solfegeToNoteInC[descriptor.solfegeNote]!;
+    const noteType: NoteType = scaleDegreeToNoteType(solfegeNoteToScaleDegree[descriptor.solfegeNote]!, 'C');
 
     let chordVoicing: Note[] = chord.getVoicing({
       topVoicesInversion: randomFromList([0, 1, 2]),
