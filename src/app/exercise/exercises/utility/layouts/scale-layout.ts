@@ -18,7 +18,6 @@ export const scaleLayout: Exercise.AnswersLayout<ScaleDegree> = {
         answer: null,
         space: 0.58,
       },
-      null,
     ],
     [
       '1',
@@ -28,7 +27,6 @@ export const scaleLayout: Exercise.AnswersLayout<ScaleDegree> = {
       '5',
       '6',
       '7',
-      '1',
     ],
   ],
 }

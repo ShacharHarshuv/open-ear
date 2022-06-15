@@ -1,6 +1,5 @@
 import {
   Chord,
-  ChordType,
   Direction,
 } from './Chord';
 import { NoteType } from '../../notes/NoteType';
@@ -9,6 +8,7 @@ import { toNoteTypeNumber } from '../../notes/toNoteTypeNumber';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { toNoteNumber } from '../../notes/toNoteName';
 import { testPureFunction } from '../../../../../shared/testing-utility/testPureFunction';
+import { ChordType } from './ChordType';
 
 describe('Chord', () => {
   const testCases: {

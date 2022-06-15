@@ -95,7 +95,9 @@
         [class.--wrong]="wrongAnswers.includes(answer)"
         [color]="'light'"
       >
-        {{answerConfig.displayLabel}}
+        <span
+          [innerHTML]="answerConfig.displayLabel"
+        ></span>
       </ion-button>
     </ng-template>
     <div class="exercise__actions-container">

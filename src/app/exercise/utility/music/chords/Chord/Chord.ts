@@ -5,20 +5,10 @@ import { noteTypeToNote } from '../../notes/noteTypeToNote';
 import * as _ from 'lodash';
 import { getNoteOctave } from '../../notes/getNoteOctave';
 import { Interval } from '../../intervals/Interval';
-
-export enum ChordType {
-  Major = 'M',
-  Minor = 'm',
-  Diminished = 'dim',
-  Dominant7th = '7',
-  Major7th = 'maj7',
-  Minor7th = 'm7',
-  Sus4 = 'sus',
-  Sus2 = 'sus2',
-  Major6th = '6',
-  Diminished7th = 'dim7',
-  HalfDiminished7th = '7b5',
-}
+import {
+  ChordType,
+  chordTypeConfigMap,
+} from './ChordType';
 
 export type ChordSymbol = `${NoteType}${Exclude<ChordType, 'M'> | ''}`;
 
@@ -61,73 +51,8 @@ export class Chord {
     this.noteTypes = this._getNoteTypes();
   }
 
-  private static _chordTypeToIntervalList: Record<ChordType, Interval[]> = {
-    [ChordType.Major]: [
-      Interval.Prima,
-      Interval.MajorThird,
-      Interval.PerfectFifth,
-    ],
-    [ChordType.Minor]: [
-      Interval.Prima,
-      Interval.MinorThird,
-      Interval.PerfectFifth,
-    ],
-    [ChordType.Diminished]: [
-      Interval.Prima,
-      Interval.MinorThird,
-      Interval.DiminishedFifth,
-    ],
-    [ChordType.Dominant7th]: [
-      Interval.Prima,
-      Interval.MajorThird,
-      Interval.PerfectFifth,
-      Interval.MinorSeventh,
-    ],
-
-    [ChordType.Major7th]: [
-      Interval.Prima,
-      Interval.MajorThird,
-      Interval.PerfectFifth,
-      Interval.MajorSeventh,
-    ],
-    [ChordType.Minor7th]: [
-      Interval.Prima,
-      Interval.MinorThird,
-      Interval.PerfectFifth,
-      Interval.MinorSeventh,
-    ],
-    [ChordType.Sus4]: [
-      Interval.Prima,
-      Interval.PerfectFourth,
-      Interval.PerfectFifth,
-    ],
-    [ChordType.Sus2]: [
-      Interval.Prima,
-      Interval.MajorSecond,
-      Interval.PerfectFifth,
-    ],
-    [ChordType.Major6th]: [
-      Interval.Prima,
-      Interval.MajorThird,
-      Interval.PerfectFifth,
-      Interval.MajorSixth,
-    ],
-    [ChordType.Diminished7th]: [
-      Interval.Prima,
-      Interval.MinorThird,
-      Interval.DiminishedFifth,
-      Interval.DiminishedSeventh,
-    ],
-    [ChordType.HalfDiminished7th]: [
-      Interval.Prima,
-      Interval.MinorThird,
-      Interval.DiminishedFifth,
-      Interval.MinorSeventh,
-    ],
-  }
-
   private _getChordIntervals(): Interval[] {
-    return Chord._chordTypeToIntervalList[this.type];
+    return chordTypeConfigMap[this.type].intervalList;
   }
 
   private _getNoteTypes(): NoteType[] {

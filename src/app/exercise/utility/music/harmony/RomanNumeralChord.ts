@@ -17,7 +17,7 @@ import { MusicSymbol } from '../MusicSymbol';
 import { Key } from '../keys/Key';
 import { NoteType } from '../notes/NoteType';
 import { transpose } from '../transpose';
-import { SupertextDigit } from '../SupertextDigit';
+import { chordTypeConfigMap } from '../chords/Chord/ChordType';
 
 export enum Accidental {
   Natural = '',
@@ -35,20 +35,7 @@ export class RomanNumeralChord {
   }
 
   private get _isLowercase(): boolean {
-    const chordTypeToIsLowerCase: Record<ChordType, boolean> = {
-      [ChordType.Major]: false,
-      [ChordType.Minor]: true,
-      [ChordType.Diminished]: true,
-      [ChordType.HalfDiminished7th]: true,
-      [ChordType.Diminished7th]: true,
-      [ChordType.Dominant7th]: false,
-      [ChordType.Major7th]: false,
-      [ChordType.Minor7th]: true,
-      [ChordType.Major6th]: false,
-      [ChordType.Sus4]: false,
-      [ChordType.Sus2]: false,
-    };
-    return chordTypeToIsLowerCase[this.type];
+    return chordTypeConfigMap[this.type].romanNumeral.isLowercase;
   }
 
   get romanNumeralChordSymbol(): RomanNumeralChordSymbol {
@@ -168,34 +155,7 @@ export class RomanNumeralChord {
 
   toViewString(): string {
     const romanNumeral: string = RomanNumeralChord.romanNumerals[this.diatonicDegree];
-    let postfix: string = '';
-    switch (this.type) {
-      case ChordType.Diminished:
-        postfix = MusicSymbol.Diminished;
-        break;
-      case ChordType.Dominant7th:
-      case ChordType.Minor7th:
-        postfix = SupertextDigit[7];
-        break;
-      case ChordType.Diminished7th:
-        postfix = MusicSymbol.Diminished + SupertextDigit[7];
-        break;
-      case ChordType.HalfDiminished7th:
-        postfix = MusicSymbol.HalfDiminished;
-        break;
-      case ChordType.Major6th:
-        postfix = SupertextDigit[6];
-        break;
-      case ChordType.Major7th:
-        postfix = `maj${SupertextDigit[7]}`;
-        break;
-      case ChordType.Sus4:
-        postfix = ChordType.Sus4;
-        break;
-      case ChordType.Sus2:
-        postfix = ChordType.Sus2;
-        break;
-    }
+    let postfix: string = chordTypeConfigMap[this.type].romanNumeral.postfix;
     return `${RomanNumeralChord.accidentalToString[this.accidental]}${this._isLowercase ? romanNumeral.toLowerCase() : romanNumeral.toUpperCase()}${postfix}`
   }
 

@@ -75,15 +75,13 @@ export abstract class BaseTonalExercise<GAnswer extends string = string, GSettin
   override getAnswerList(): Exercise.AnswerList<GAnswer> {
     const answerListInC: Exercise.AnswerList<GAnswer> = this._getAnswersListInC();
     const answerLayout: Exercise.NormalizedAnswerLayout<GAnswer> = Exercise.normalizedAnswerList(answerListInC);
-    return {
-      rows: answerLayout.rows.map(row => row.map(answerConfig => ({
-        ...answerConfig,
-        playOnClick: answerConfig.playOnClick ? (question: Exercise.Question<GAnswer>) => {
-          const partToPlayInC: NoteEvent[] | OneOrMany<Note> | null = toGetter(answerConfig.playOnClick)(question);
-          return partToPlayInC && this._transposeToKey(partToPlayInC)
-        } : null,
-      })))
-    }
+    return Exercise.mapAnswerList(answerLayout, answerConfig => ({
+      ...answerConfig,
+      playOnClick: answerConfig.playOnClick ? (question: Exercise.Question<GAnswer>) => {
+        const partToPlayInC: NoteEvent[] | OneOrMany<Note> | null = toGetter(answerConfig.playOnClick!)(question);
+        return partToPlayInC && this._transposeToKey(partToPlayInC)
+      } : null,
+    }));
   }
 
   protected abstract _getAnswersListInC(): Exercise.AnswerList<GAnswer>;
