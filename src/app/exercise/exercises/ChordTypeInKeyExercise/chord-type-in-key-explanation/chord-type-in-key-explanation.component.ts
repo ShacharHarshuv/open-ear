@@ -1,13 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Chord } from '../../../utility/music/chords';
+import { OneOrMany } from '../../../../shared/ts-utility';
+import { NoteNumberOrName } from '../../../utility/music/notes/NoteNumberOrName';
+import { NoteEvent } from '../../../../services/player.service';
+import { Exercise } from '../../../Exercise';
+import { ChordTypeInKeyExercise } from '../ChordTypeInKeyExercise';
+import { chordTypeConfigMap } from '../../../utility/music/chords/Chord/ChordType';
 
 @Component({
   selector: 'app-chord-type-in-key-explanation',
   templateUrl: './chord-type-in-key-explanation.component.html',
 })
-export class ChordTypeInKeyExplanationComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {}
-
+export class ChordTypeInKeyExplanationComponent {
+  chords: {
+    displayName: string;
+    notesInC: string[];
+    toPlay: OneOrMany<OneOrMany<NoteNumberOrName> | NoteEvent>;
+  }[] = Exercise.flatAnswerList(ChordTypeInKeyExercise.chordTypeAnswerList).map(chordType => {
+    const chordInC = new Chord({
+      type: chordType,
+      root: 'C',
+    });
+    return {
+      displayName: chordTypeConfigMap[chordType].displayName,
+      notesInC: chordInC.noteTypes,
+      toPlay: {
+        notes: chordInC.getVoicing({
+          topVoicesInversion: 0,
+        }),
+        velocity: 0.3,
+        duration: '1n',
+      },
+    }
+  });
 }
