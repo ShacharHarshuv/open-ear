@@ -25,6 +25,7 @@
     gap: $unit / 2;
     margin-bottom: $unit / 2;
     height: 4.5 * $unit;
+    align-items: center;
 
     > * {
       min-width: 0;

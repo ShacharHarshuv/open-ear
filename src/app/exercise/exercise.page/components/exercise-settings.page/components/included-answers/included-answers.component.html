@@ -14,7 +14,9 @@
       [class.--included]="value.includes(answer)"
       (click)="toggleInclusion(answer)"
     >
-      {{answerConfig.displayLabel}}
+      <span
+        [innerHTML]="answerConfig.displayLabel"
+      ></span>
     </ion-button>
   </ng-template>
 

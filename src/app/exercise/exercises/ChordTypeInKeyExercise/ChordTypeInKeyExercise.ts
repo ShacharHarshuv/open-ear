@@ -21,10 +21,15 @@ import { SettingsDescriptors } from '../utility/settings/SettingsDescriptors';
 import {
   RomanNumeralChordSymbol,
   chromaticDegreeToScaleDegree,
+  ScaleDegree,
 } from '../../utility';
 import { romanNumeralToChordInC } from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
 import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
+import flatAnswerList = Exercise.flatAnswerList;
+import { scaleLayout } from '../utility/layouts/scale-layout';
+import normalizedAnswerList = Exercise.normalizedAnswerList;
+import { chordTypeConfigMap } from '../../utility/music/chords/Chord/ChordType';
 
 type ChordTypeInKeySettings = NumberOfSegmentsSetting &
   BaseTonalChordProgressionExerciseSettings<ChordType> & {
@@ -55,7 +60,7 @@ type ChordTypeInKeySettings = NumberOfSegmentsSetting &
         }
       }
       const removedTypes: ChordType[] = _.difference(newValue, prevValue);
-      selectedChords = _.filter(selectedChords,romanNumeralSymbol => {
+      selectedChords = _.filter(selectedChords, romanNumeralSymbol => {
         return !removedTypes.includes(new RomanNumeralChord(romanNumeralSymbol).type);
       });
       return {
@@ -75,14 +80,14 @@ type ChordTypeInKeySettings = NumberOfSegmentsSetting &
     onChange: (newValue: boolean, prevValue: boolean, currentSettings: ChordTypeInKeySettings): Partial<ChordTypeInKeySettings> => {
       if (newValue) {
         return {
-          includedRomanNumerals: currentSettings.includedRomanNumerals.filter(romanNumeralChordSymbol => new RomanNumeralChord(romanNumeralChordSymbol).isDiatonic)
+          includedRomanNumerals: currentSettings.includedRomanNumerals.filter(romanNumeralChordSymbol => new RomanNumeralChord(romanNumeralChordSymbol).isDiatonic),
         }
       }
       return {};
     },
     isDisabled: (settings, newValue: boolean): boolean => {
       return newValue;
-    }
+    },
   },
   {
     key: 'includedRomanNumerals',
@@ -92,32 +97,30 @@ type ChordTypeInKeySettings = NumberOfSegmentsSetting &
       label: 'Included Chords (Advanced)',
       controlType: 'included-answers',
       answerList: {
-        rows: [
-          ChordType.Major,
-          ChordType.Minor,
-          ChordType.Diminished,
-          ChordType.Dominant7th,
-          ChordType.Major7th,
-          ChordType.Minor7th,
-          ChordType.Sus4,
-          ChordType.Sus2,
-          ChordType.Major6th,
-          ChordType.Diminished7th,
-          ChordType.HalfDiminished7th,
-        ].map(chordType => {
-          const options: Exercise.AnswerConfig<RomanNumeralChordSymbol>[] = [];
-          for (let i = 1; i <= 12; i++) {
-            const romanNumeralChord = new RomanNumeralChord({
-              scaleDegree: chromaticDegreeToScaleDegree[i],
-              type: chordType,
-            });
-            options.push({
-              answer: romanNumeralChord.romanNumeralChordSymbol,
-              displayLabel: romanNumeralChord.toViewString(),
-            });
-          }
-          return options;
-        }),
+        rows: _.chain(flatAnswerList(ChordTypeInKeyExercise.chordTypeAnswerList))
+          .flatMap((chordType): Exercise.AnswersLayout<RomanNumeralChordSymbol>['rows'] => {
+            const scaleRows = normalizedAnswerList(Exercise.mapAnswerList(scaleLayout, (answerConfig: Exercise.AnswerConfig<ScaleDegree>): Exercise.AnswerConfig<RomanNumeralChordSymbol> => {
+              if (!answerConfig.answer) {
+                return {
+                  ...answerConfig as Exercise.AnswerConfig<string>,
+                  answer: null,
+                }
+              }
+              const romanNumeralChord = new RomanNumeralChord({
+                type: chordType,
+                scaleDegree: answerConfig.answer,
+              });
+              return {
+                ...answerConfig as Exercise.AnswerConfig<string>,
+                answer: romanNumeralChord.romanNumeralChordSymbol,
+                displayLabel: romanNumeralChord.toViewString(),
+              }
+            })).rows;
+            return [
+              chordTypeConfigMap[chordType].displayName,
+              ...scaleRows,
+            ]
+          }).value(),
       },
     },
   },
@@ -128,71 +131,41 @@ export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<Ch
   readonly summary: string = 'Identify chord type (major / minor) when all chords are diatonic to the same key';
   readonly explanation: ExerciseExplanationContent = ChordTypeInKeyExplanationComponent;
 
-  static readonly chordTypeAnswerList: Exercise.AnswerList<ChordType> = {
+  static readonly chordTypeAnswerList: Exercise.AnswerList<ChordType> = Exercise.mapAnswerList({
     rows: [
       [
-        {
-          answer: ChordType.Major,
-          displayLabel: 'Major Triad',
-        },
-        {
-          answer: ChordType.Minor,
-          displayLabel: 'Minor Triad',
-        },
+        ChordType.Major,
+        ChordType.Minor,
       ],
       [
-        {
-          answer: ChordType.Sus4,
-          displayLabel: 'Suspended 4th',
-        },
-        {
-          answer: ChordType.Sus2,
-          displayLabel: 'Suspended 2nd',
-        },
+        ChordType.Sus4,
+        ChordType.Sus2,
       ],
       [
-        {
-          answer: ChordType.Major6th,
-          displayLabel: 'Major 6th',
-        },
+        ChordType.Major6th,
         null, // Minor6th
       ],
       [
-        {
-          answer: ChordType.Diminished,
-          displayLabel: 'Diminished Triad',
-        },
-        {
-          answer: ChordType.Dominant7th,
-          displayLabel: 'Dominant 7th',
-        },
+        ChordType.Diminished,
+        ChordType.Dominant7th,
       ],
       [
-        {
-          answer: ChordType.Minor7th,
-          displayLabel: 'Minor 7th',
-        },
-        {
-          answer: ChordType.Major7th,
-          displayLabel: 'Major 7th',
-        },
+        ChordType.Minor7th,
+        ChordType.Major7th,
       ],
       [
         null, // MinorMajor7th,
         null, // Augmented5th,
       ],
       [
-        {
-          answer: ChordType.Diminished7th,
-          displayLabel: 'Diminished 7ths',
-        },
-        {
-          answer: ChordType.HalfDiminished7th,
-          displayLabel: 'Half Diminished 7th',
-        },
+        ChordType.Diminished7th,
+        ChordType.HalfDiminished7th,
       ],
     ],
-  };
+  }, ((answerConfig: Exercise.AnswerConfig<ChordType>) => ({
+    answer: answerConfig.answer,
+    displayLabel: answerConfig.answer ? chordTypeConfigMap[answerConfig.answer].displayName : undefined,
+  })));
 
   protected _getChordProgressionInC(): ChordProgressionQuestion<ChordType> {
     const chordProgression: RomanNumeralChordSymbol[] = [];

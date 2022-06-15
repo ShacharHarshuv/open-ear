@@ -67,11 +67,11 @@ export namespace Exercise {
     /**
      * Null means an empty space
      * */
-    rows: (Answer<GAnswer> | null | AnswerConfig<GAnswer>)[][];
+    rows: ((Answer<GAnswer> | null | AnswerConfig<GAnswer>)[] | string)[];
   }
 
   export interface NormalizedAnswerLayout<GAnswer extends string = string> extends Required<AnswersLayout<GAnswer>> {
-    rows: Required<AnswerConfig<GAnswer>>[][];
+    rows: (Required<AnswerConfig<GAnswer>>[] | string)[];
   }
 
   export function normalizedAnswerList<GAnswer extends string = string>(answerList: AnswerList<GAnswer>): NormalizedAnswerLayout<GAnswer> {
@@ -80,7 +80,13 @@ export namespace Exercise {
     } : answerList;
 
     return {
-      rows: answerLayout.rows.map(row => row.map(answerConfig => normalizeAnswerConfig(answerConfig))),
+      rows: answerLayout.rows.map(row => {
+        if (typeof row === 'string') {
+          return row;
+        } else {
+          return row.map(answerConfig => normalizeAnswerConfig(answerConfig));
+        }
+      }),
     }
   }
 
@@ -114,15 +120,7 @@ export namespace Exercise {
   }
 
   export function filterIncludedAnswers<GAnswer extends string>(allAnswerList: Exercise.AnswerList<GAnswer>, includedAnswersList: GAnswer[]) {
-    const answerLayout: AnswersLayout<GAnswer> = Array.isArray(allAnswerList) ? {
-      rows: [allAnswerList],
-    } : allAnswerList;
-
-    const normalizedAnswerLayout: {
-      rows: Required<AnswerConfig<GAnswer>>[][],
-    } = {
-      rows: answerLayout.rows.map((row): Required<AnswerConfig<GAnswer>>[] => row.map(normalizeAnswerConfig)),
-    }
+    const normalizedAnswerLayout: NormalizedAnswerLayout<GAnswer> = normalizedAnswerList(allAnswerList);
 
     return {
       rows: normalizedAnswerLayout.rows.map((row: Required<AnswerConfig<GAnswer>>[]): Required<AnswerConfig<GAnswer>>[] => _.map(row, answerLayoutCellConfig => answerLayoutCellConfig.answer && includedAnswersList.includes(answerLayoutCellConfig.answer) ? answerLayoutCellConfig : {
@@ -142,6 +140,9 @@ export namespace Exercise {
       }
     } else {
       for (let row of answerList.rows) {
+        if (typeof row === 'string') {
+          continue;
+        }
         for (let cell of row) {
           const normalizedAnswerConfig = normalizeAnswerConfig(cell);
           if (normalizedAnswerConfig.answer) {
@@ -171,7 +172,7 @@ export namespace Exercise {
 
     if (typeof answerList === 'object') {
       return {
-        rows: (answerList as AnswersLayout<GInputAnswer>).rows.map(row => mapAnswerCellList(row)),
+        rows: (answerList as AnswersLayout<GInputAnswer>).rows.map(row => typeof row === 'string' ? row : mapAnswerCellList(row)),
       }
     } else {
       return mapAnswerCellList(answerList);
@@ -181,7 +182,7 @@ export namespace Exercise {
   export function addViewLabelToAnswerList<GAnswer extends string>(answerList: Exercise.AnswerList<GAnswer>, getAnswerViewLabel: (answer: GAnswer) => string): AnswerList<GAnswer> {
     return mapAnswerList(answerList, answerConfig => answerConfig.answer ? {
       ...answerConfig,
-      displayLabel: getAnswerViewLabel(answerConfig.answer)
+      displayLabel: getAnswerViewLabel(answerConfig.answer),
     } : answerConfig);
   }
 
@@ -239,13 +240,13 @@ export namespace Exercise {
       getter: (currentSettings: GSettings) => any,
       onChange: (newValue: any, prevValue: any, currentSetting: GSettings) => Partial<GSettings>,
     }) & {
-      descriptor: /*GSettings[GKey] extends number ? SliderControlDescriptor | SelectControlDescriptor<GSettings[GKey]>
-       : GSettings[GKey] extends Array<any> ? ListSelectControlDescriptor
-       : SelectControlDescriptor<GSettings[GKey]>*/ SliderControlDescriptor | SelectControlDescriptor | ListSelectControlDescriptor | IncludedAnswersControlDescriptor | CheckboxControlDescriptor,
-      show?: (settings: GSettings) => boolean;
-      info?: string; // can contain html
-      isDisabled?: (settings: GSettings, currentValue: any) => boolean;
-    }/* : never*/;
+    descriptor: /*GSettings[GKey] extends number ? SliderControlDescriptor | SelectControlDescriptor<GSettings[GKey]>
+     : GSettings[GKey] extends Array<any> ? ListSelectControlDescriptor
+     : SelectControlDescriptor<GSettings[GKey]>*/ SliderControlDescriptor | SelectControlDescriptor | ListSelectControlDescriptor | IncludedAnswersControlDescriptor | CheckboxControlDescriptor,
+    show?: (settings: GSettings) => boolean;
+    info?: string; // can contain html
+    isDisabled?: (settings: GSettings, currentValue: any) => boolean;
+  }/* : never*/;
 
   export type ExerciseExplanationContent = string | Type<any>;
 

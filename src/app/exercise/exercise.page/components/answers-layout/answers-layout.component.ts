@@ -20,4 +20,7 @@ export class AnswersLayoutComponent<GAnswer extends string = string> {
 
   readonly normalizeAnswerLayoutCellConfig = Exercise.normalizeAnswerConfig;
 
+  isString(row: (Exercise.Answer<GAnswer> | Exercise.AnswerConfig<GAnswer> | null)[] | string): row is string {
+    return typeof row === 'string';
+  }
 }

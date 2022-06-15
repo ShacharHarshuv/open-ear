@@ -7,11 +7,14 @@
       *ngFor="let row of answerList.rows"
       class="answers-layout__answers-row"
     >
-      <ng-container
-        *ngFor="let answerCellConfig of row"
-        [ngTemplateOutlet]="cellTemplate"
-        [ngTemplateOutletContext]="{$implicit: normalizeAnswerLayoutCellConfig | pureFunction: answerCellConfig}"
-      ></ng-container>
+      <span *ngIf="isString(row); else notStringRow">{{row}}</span>
+      <ng-template #notStringRow>
+        <ng-container
+          *ngFor="let answerCellConfig of row"
+          [ngTemplateOutlet]="cellTemplate"
+          [ngTemplateOutletContext]="{$implicit: normalizeAnswerLayoutCellConfig | pureFunction: answerCellConfig}"
+        ></ng-container>
+      </ng-template>
     </div>
   </div>
   <div
