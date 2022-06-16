@@ -17,20 +17,33 @@ describe('adaptive exercise', function() {
     };
   }
 
+  class MockExercise implements IExercise {
+    name: '';
+    id: '';
+    summary: '';
+    explanation: '';
+
+    // used to test for incorrect reference to "this"
+    private _innerGetMethod(): any[] {
+      return [];
+    }
+
+    getAnswerList(): Exercise.AnswerList<string> {
+      return ['CORRECT', 'WRONG'];
+    }
+
+    getQuestion(): Exercise.Question<string> {
+      return generateQuestion(questionIndex++);
+    }
+
+    getSettingsDescriptor(): Exercise.SettingsControlDescriptor<{ [p: string]: Exercise.SettingValueType }>[] {
+      return this._innerGetMethod();
+    }
+  }
+
   beforeEach(() => {
     questionIndex = 0;
-    baseExercise = {
-      name: '',
-      id: '',
-      summary: '',
-      explanation: '',
-      getAnswerList(): Exercise.AnswerList<string> {
-        return ['CORRECT', 'WRONG'];
-      },
-      getQuestion(): Exercise.Question<string> {
-        return generateQuestion(questionIndex++);
-      },
-    };
+    baseExercise = new MockExercise();
     adaptiveExercise = new AdaptiveExercise(baseExercise);
   });
 
@@ -97,5 +110,9 @@ describe('adaptive exercise', function() {
       [3, true],
       [5, true],
     ]);
+  })
+
+  it('should proxy settings', () => {
+    expect(adaptiveExercise.getSettingsDescriptor?.()).toEqual([]);
   })
 });

@@ -14,12 +14,15 @@ export class AdaptiveExercise implements Exercise.IExercise {
   readonly id: string = this._exercise.id;
   readonly name: string = this._exercise.name;
   readonly explanation: ExerciseExplanationContent = this._exercise.explanation;
-  readonly getSettingsDescriptor: IExercise['getSettingsDescriptor'] = this._exercise.getSettingsDescriptor;
   private _lastQuestion: QuestionToRepeat | null = null;
   private _wrongQuestionsHeap = new Heap<Required<QuestionToRepeat>>((a: Required<QuestionToRepeat>, b: Required<QuestionToRepeat>) => a.timeToReAsk - b.timeToReAsk);
   private _questionIndex: number = -1;
 
   constructor(private _exercise: Exercise.IExercise) {
+  }
+
+  getSettingsDescriptor(): Exercise.SettingsControlDescriptor<{ [p: string]: Exercise.SettingValueType }>[] {
+    return this._exercise.getSettingsDescriptor?.() ?? [];
   }
 
   updateSettings(settings: { [key: string]: Exercise.SettingValueType; }): void {
