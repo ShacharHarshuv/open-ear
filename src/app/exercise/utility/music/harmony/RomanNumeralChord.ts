@@ -17,7 +17,10 @@ import { MusicSymbol } from '../MusicSymbol';
 import { Key } from '../keys/Key';
 import { NoteType } from '../notes/NoteType';
 import { transpose } from '../transpose';
-import { chordTypeConfigMap } from '../chords/Chord/ChordType';
+import {
+  chordTypeConfigMap,
+  romanNumeralChordTypeParserMap,
+} from '../chords/Chord/ChordType';
 
 export enum Accidental {
   Natural = '',
@@ -39,19 +42,8 @@ export class RomanNumeralChord {
   }
 
   get romanNumeralChordSymbol(): RomanNumeralChordSymbol {
-    const suffix = (() => {
-      switch (this.type) {
-        case ChordType.Major:
-        case ChordType.Minor:
-          return '';
-        case ChordType.Minor7th:
-          return '7';
-        default:
-          return this.type as ChordType;
-      }
-    })();
     const romanNumeral: string = RomanNumeralChord.romanNumerals[this.diatonicDegree];
-    return `${this.accidental}${this._isLowercase ? romanNumeral.toLowerCase() : romanNumeral.toUpperCase()}${suffix}` as RomanNumeralChordSymbol;
+    return `${this.accidental}${this._isLowercase ? romanNumeral.toLowerCase() : romanNumeral.toUpperCase()}${chordTypeConfigMap[this.type].romanNumeral.postfix}` as RomanNumeralChordSymbol;
   }
 
   get isDiatonic(): boolean {
@@ -106,35 +98,10 @@ export class RomanNumeralChord {
     }
 
     const isLowercase = romanNumeralString.toLowerCase() === romanNumeralString;
-    if (isLowercase) {
-      switch (typeString) {
-        case undefined:
-          this.type = ChordType.Minor;
-          break;
-        case '7':
-          this.type = ChordType.Minor7th;
-          break;
-        case 'dim':
-          this.type = ChordType.Diminished;
-          break;
-        case 'dim7':
-          this.type = ChordType.Diminished7th;
-          break;
-        case '7b5':
-          this.type = ChordType.HalfDiminished7th;
-      }
-    } else {
-      switch (typeString) {
-        case undefined:
-          this.type = ChordType.Major;
-          break;
-        default:
-          this.type = typeString as ChordType;
-      }
-    }
+    this.type = romanNumeralChordTypeParserMap[isLowercase ? 'lowercase' : 'uppercase'][typeString ?? ''];
 
     if (!this.type) {
-      throw new Error(`Unable to determine type of ${this.romanNumeralChordSymbol}`);
+      throw new Error(`Unable to determine type of ${romanNumeralInput}`);
     }
 
     this.accidental = {
@@ -155,7 +122,7 @@ export class RomanNumeralChord {
 
   toViewString(): string {
     const romanNumeral: string = RomanNumeralChord.romanNumerals[this.diatonicDegree];
-    let postfix: string = chordTypeConfigMap[this.type].romanNumeral.postfix;
+    let postfix: string = chordTypeConfigMap[this.type].romanNumeral.viewPostfix;
     return `${RomanNumeralChord.accidentalToString[this.accidental]}${this._isLowercase ? romanNumeral.toLowerCase() : romanNumeral.toUpperCase()}${postfix}`
   }
 

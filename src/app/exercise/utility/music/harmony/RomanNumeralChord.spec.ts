@@ -122,7 +122,7 @@ describe('RomanNumeralBuilder', () => {
       },
       accidental: Accidental.Natural,
       diatonicDegree: 5,
-      serialized: 'V⁷',
+      serialized: 'V<sup>7</sup>',
       isDiatonic: true,
     },
     {
@@ -138,7 +138,7 @@ describe('RomanNumeralBuilder', () => {
       },
       accidental: Accidental.Natural,
       diatonicDegree: 4,
-      serialized: 'IVmaj⁷',
+      serialized: 'IV<sup>M7</sup>',
       isDiatonic: true,
     },
     {
@@ -154,7 +154,7 @@ describe('RomanNumeralBuilder', () => {
       },
       accidental: Accidental.Natural,
       diatonicDegree: 2,
-      serialized: 'ii⁷',
+      serialized: 'ii<sup>7</sup>',
       isDiatonic: true,
     },
     {
@@ -170,7 +170,7 @@ describe('RomanNumeralBuilder', () => {
       },
       accidental: Accidental.Natural,
       diatonicDegree: 5,
-      serialized: 'Vsus',
+      serialized: 'V<sub>sus</sub>',
       isDiatonic: true,
     },
     {
@@ -186,7 +186,7 @@ describe('RomanNumeralBuilder', () => {
       },
       accidental: Accidental.Natural,
       diatonicDegree: 1,
-      serialized: 'Isus2',
+      serialized: 'I<sub>sus2</sub>',
       isDiatonic: true,
     },
     {
@@ -202,7 +202,7 @@ describe('RomanNumeralBuilder', () => {
       },
       accidental: Accidental.Natural,
       diatonicDegree: 1,
-      serialized: 'I⁶',
+      serialized: 'I<sup>6</sup>',
       isDiatonic: true,
     },
     {
@@ -218,7 +218,7 @@ describe('RomanNumeralBuilder', () => {
       },
       accidental: Accidental.Natural,
       diatonicDegree: 7,
-      serialized: 'vii°⁷',
+      serialized: 'vii°<sup>7</sup>',
       isDiatonic: false,
     },
     {
