@@ -332,6 +332,30 @@ describe('Chord', () => {
           [0, ['C3', 'Eb3', 'G3', 'B3', 'D4']]
         ]
       }
+    },
+    {
+      chordSymbolOrConfig: 'Cadd9',
+      octave: 4,
+      expectedResult: {
+        root: 'C',
+        type: ChordType.MajorAdd9,
+        noteTypes: ['C', 'E', 'G', 'D'],
+        voicing: [
+          [0, ['C3', 'E3', 'G3', 'D4']]
+        ]
+      }
+    },
+    {
+      chordSymbolOrConfig: 'Cmadd9',
+      octave: 4,
+      expectedResult: {
+        root: 'C',
+        type: ChordType.MinorAdd9,
+        noteTypes: ['C', 'Eb', 'G', 'D'],
+        voicing: [
+          [0, ['C3', 'Eb3', 'G3', 'D4']]
+        ]
+      }
     }
   ];
 

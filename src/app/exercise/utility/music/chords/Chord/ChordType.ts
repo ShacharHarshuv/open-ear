@@ -22,6 +22,8 @@ export enum ChordType {
   HalfDiminished7th = '7b5',
   MinorMajor7th = 'mM7',
   MinorMajor9th = 'mM9',
+  MajorAdd9 = 'add9',
+  MinorAdd9 = 'madd9',
 }
 
 interface IChordTypeConfig {
@@ -226,6 +228,32 @@ export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
       Interval.MinorThird,
       Interval.PerfectFifth,
       Interval.MajorSeventh,
+      Interval.MajorNinth,
+    ],
+  },
+  [ChordType.MajorAdd9]: {
+    displayName: 'Major Add 9',
+    romanNumeral: {
+      isLowercase: false,
+      postfix: 'add9',
+      viewPostfix: '<sup>add9</sup>'
+    },
+    intervalList: [
+      Interval.MajorThird,
+      Interval.PerfectFifth,
+      Interval.MajorNinth,
+    ],
+  },
+  [ChordType.MinorAdd9]: {
+    displayName: 'Minor Add 9',
+    romanNumeral: {
+      isLowercase: true,
+      postfix: 'add9',
+      viewPostfix: '<sup>add9</sup>'
+    },
+    intervalList: [
+      Interval.MinorThird,
+      Interval.PerfectFifth,
       Interval.MajorNinth,
     ],
   }

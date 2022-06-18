@@ -227,12 +227,36 @@ describe('RomanNumeralBuilder', () => {
       type: ChordType.MinorMajor9th,
       isDiatonic: false,
       scaleDegree: '1',
+      diatonicDegree: 1,
+      accidental: Accidental.Natural,
       getChord: {
         C: 'CmM9',
       },
-      accidental: Accidental.Natural,
-      diatonicDegree: 1,
       serialized: 'i<sup>M9</sup>'
+    },
+    {
+      romanNumeralChordSymbol: 'Iadd9',
+      type: ChordType.MajorAdd9,
+      isDiatonic: true,
+      scaleDegree: '1',
+      diatonicDegree: 1,
+      accidental: Accidental.Natural,
+      getChord: {
+        C: 'Cadd9',
+      },
+      serialized: 'I<sup>add9</sup>'
+    },
+    {
+      romanNumeralChordSymbol: 'viadd9',
+      type: ChordType.MinorAdd9,
+      isDiatonic: true,
+      scaleDegree: '6',
+      diatonicDegree: 6,
+      accidental: Accidental.Natural,
+      getChord: {
+        C: 'Amadd9',
+      },
+      serialized: 'vi<sup>add9</sup>'
     }
   ];
 
