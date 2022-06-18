@@ -19,12 +19,13 @@ export enum ChordType {
   Major6th = '6',
   Minor6th = 'm6',
   Diminished7th = 'dim7',
+  Dominant7thSharp9th = '7#9',
+  Dominant9th = '9',
   HalfDiminished7th = '7b5',
   MinorMajor7th = 'mM7',
   MinorMajor9th = 'mM9',
   MajorAdd9 = 'add9',
   MinorAdd9 = 'madd9',
-  Dominant7thSharp9th = '7#9',
 }
 
 interface IChordTypeConfig {
@@ -101,6 +102,20 @@ export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
       isLowercase: false,
       postfix: '7',
       viewPostfix: `<sup>7</sup>`,
+    },
+  },
+  [ChordType.Dominant9th]: {
+    intervalList: [
+      Interval.MajorThird,
+      Interval.PerfectFifth,
+      Interval.MinorSeventh,
+      Interval.MajorNinth,
+    ],
+    displayName: 'Dominant 9th',
+    romanNumeral: {
+      isLowercase: false,
+      postfix: '9',
+      viewPostfix: `<sup>9</sup>`,
     },
   },
   [ChordType.Dominant7thSharp9th]: {

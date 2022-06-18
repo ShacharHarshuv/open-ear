@@ -175,6 +175,18 @@ describe('Chord', () => {
       },
     },
     {
+      chordSymbolOrConfig: 'C9',
+      octave: 5,
+      expectedResult: {
+        root: 'C',
+        type: ChordType.Dominant9th,
+        noteTypes: ['C', 'E', 'G', 'Bb', 'D'],
+        voicing: [
+          [0, ['C4', 'E4', 'G4', 'Bb4', 'D5']],
+        ],
+      },
+    },
+    {
       chordSymbolOrConfig: 'C7#9',
       octave: 5,
       expectedResult: {
