@@ -83,7 +83,7 @@ export class RomanNumeralChord {
       return;
     }
 
-    const regexMatch: RegExpMatchArray | null = romanNumeralInput.match(/(b|#)?([ivIV]+)(dim|7|maj7|sus|sus2|6|dim7|7b5)?$/);
+    const regexMatch: RegExpMatchArray | null = romanNumeralInput.match(/(b|#)?([ivIV]+)(dim|7|maj7|sus|sus2|6|dim7|7b5|\+|M7)?$/);
     if (!regexMatch) {
       throw new Error(`RomanNumeralChordSymbol: ${romanNumeralInput} is not a valid input`);
     }

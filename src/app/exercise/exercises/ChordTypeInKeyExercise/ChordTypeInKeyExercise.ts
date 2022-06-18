@@ -3,9 +3,7 @@ import {
   Chord,
   ChordType,
 } from '../../utility/music/chords';
-import {
-  randomFromList,
-} from '../../../shared/ts-utility';
+import { randomFromList } from '../../../shared/ts-utility';
 import {
   NumberOfSegmentsSetting,
   numberOfSegmentsControlDescriptorList,
@@ -25,11 +23,11 @@ import {
 } from '../../utility';
 import { romanNumeralToChordInC } from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
 import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
+import { scaleLayout } from '../utility/layouts/scale-layout';
+import { chordTypeConfigMap } from '../../utility/music/chords/Chord/ChordType';
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 import flatAnswerList = Exercise.flatAnswerList;
-import { scaleLayout } from '../utility/layouts/scale-layout';
 import normalizedAnswerList = Exercise.normalizedAnswerList;
-import { chordTypeConfigMap } from '../../utility/music/chords/Chord/ChordType';
 
 type ChordTypeInKeySettings = NumberOfSegmentsSetting &
   BaseTonalChordProgressionExerciseSettings<ChordType> & {
@@ -143,7 +141,7 @@ export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<Ch
       ],
       [
         ChordType.Major6th,
-        null, // Minor6th
+        ChordType.Minor6th,
       ],
       [
         ChordType.Diminished,
@@ -154,8 +152,8 @@ export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<Ch
         ChordType.Major7th,
       ],
       [
-        null, // MinorMajor7th,
-        null, // Augmented5th,
+        ChordType.MinorMajor7th,
+        ChordType.Augmented,
       ],
       [
         ChordType.Diminished7th,

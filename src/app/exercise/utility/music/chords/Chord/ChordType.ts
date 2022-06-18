@@ -10,14 +10,17 @@ export enum ChordType {
   Major = 'M',
   Minor = 'm',
   Diminished = 'dim',
+  Augmented = '+',
   Dominant7th = '7',
   Major7th = 'maj7',
   Minor7th = 'm7',
   Sus4 = 'sus',
   Sus2 = 'sus2',
   Major6th = '6',
+  Minor6th = 'm6',
   Diminished7th = 'dim7',
   HalfDiminished7th = '7b5',
+  MinorMajor7th = 'mM7',
 }
 
 interface IChordTypeConfig {
@@ -156,6 +159,20 @@ export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
       viewPostfix: `<sup>6</sup>`,
     },
   },
+  [ChordType.Minor6th]: {
+    intervalList: [
+      Interval.Prima,
+      Interval.MinorThird,
+      Interval.PerfectFifth,
+      Interval.MinorSixth,
+    ],
+    displayName: 'Minor 6th',
+    romanNumeral: {
+      isLowercase: true,
+      postfix: '6',
+      viewPostfix: `<sup>6</sup>`
+    }
+  },
   [ChordType.Diminished7th]: {
     intervalList: [
       Interval.Prima,
@@ -184,6 +201,33 @@ export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
       viewPostfix: MusicSymbol.HalfDiminished,
     },
   },
+  [ChordType.MinorMajor7th]: {
+    displayName: 'Minor Major 7th',
+    intervalList: [
+      Interval.Prima,
+      Interval.MinorThird,
+      Interval.PerfectFifth,
+      Interval.MajorSeventh,
+    ],
+    romanNumeral: {
+      isLowercase: true,
+      postfix: 'maj7',
+      viewPostfix: `<sup>M7</sup>`
+    }
+  },
+  [ChordType.Augmented]: {
+    intervalList: [
+      Interval.Prima,
+      Interval.MajorThird,
+      Interval.AugmentedFifth,
+    ],
+    displayName: 'Augmented Triad',
+    romanNumeral: {
+      isLowercase: false,
+      postfix: '+',
+      viewPostfix: '+',
+    }
+  }
 }
 
 type RomanNumeralChordTypeParserMap =
