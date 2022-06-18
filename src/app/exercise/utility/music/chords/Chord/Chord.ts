@@ -23,7 +23,7 @@ export enum Direction {
   Down = -1,
 }
 
-const chordSymbolRegex = new RegExp(`([A-G][#b]?)(${Object.keys(chordTypeConfigMap).join('|')})?$`);
+const chordSymbolRegex = new RegExp(`([A-G][#b]?)(${Object.keys(chordTypeConfigMap).map(_.escapeRegExp).join('|')})?$`);
 
 export class Chord {
   private readonly _intervals: Interval[];
