@@ -8,6 +8,7 @@ export enum Interval {
   AugmentedForth = 6,
   DiminishedFifth = 6,
   PerfectFifth = 7,
+  AugmentedFifth = 8,
   MinorSixth = 8,
   MajorSixth = 9,
   DiminishedSeventh = 9,
