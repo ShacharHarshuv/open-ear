@@ -222,6 +222,18 @@ describe('RomanNumeralBuilder', () => {
       diatonicDegree: 6,
       serialized: 'vi<sup>M7</sup>',
     },
+    {
+      romanNumeralChordSymbol: 'iM9',
+      type: ChordType.MinorMajor9th,
+      isDiatonic: false,
+      scaleDegree: '1',
+      getChord: {
+        C: 'CmM9',
+      },
+      accidental: Accidental.Natural,
+      diatonicDegree: 1,
+      serialized: 'i<sup>M9</sup>'
+    }
   ];
 
   it('should cover all chord types', () => {

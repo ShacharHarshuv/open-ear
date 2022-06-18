@@ -320,6 +320,18 @@ describe('Chord', () => {
         type: ChordType.Augmented,
         noteTypes: ['C', 'E', 'G#'],
       }
+    },
+    {
+      chordSymbolOrConfig: 'CmM9',
+      octave: 4,
+      expectedResult: {
+        root: 'C',
+        type: ChordType.MinorMajor9th,
+        noteTypes: ['C', 'Eb', 'G', 'B', 'D'],
+        voicing: [
+          [0, ['C3', 'Eb3', 'G3', 'B3', 'D4']]
+        ]
+      }
     }
   ];
 

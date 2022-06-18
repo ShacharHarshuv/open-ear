@@ -54,7 +54,10 @@ export class Chord {
   }
 
   private _getChordIntervals(): Interval[] {
-    return chordTypeConfigMap[this.type].intervalList;
+    return [
+      Interval.Prima,
+      ...chordTypeConfigMap[this.type].intervalList,
+    ];
   }
 
   private _getNoteTypes(): NoteType[] {
