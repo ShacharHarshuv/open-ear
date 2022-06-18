@@ -17,11 +17,12 @@ import {
   Mode,
 } from './Mode';
 import { Key } from '../keys/Key';
+import { chordTypeConfigMap } from '../chords/Chord/ChordType';
+import * as _ from 'lodash';
 
 describe('RomanNumeralBuilder', () => {
   const testCases: {
     force?: boolean; // for debugging purposes only
-    inputs: ConstructorParameters<typeof RomanNumeralChord>[],
     romanNumeralChordSymbol: RomanNumeralChordSymbol,
     diatonicDegree: DiatonicScaleDegree,
     scaleDegree: ScaleDegree,
@@ -32,10 +33,6 @@ describe('RomanNumeralBuilder', () => {
     isDiatonic: boolean,
   }[] = [
     {
-      inputs: [['I'], [{
-        scaleDegree: '1',
-        type: ChordType.Major,
-      }]],
       romanNumeralChordSymbol: 'I',
       diatonicDegree: 1,
       scaleDegree: '1',
@@ -48,10 +45,6 @@ describe('RomanNumeralBuilder', () => {
       isDiatonic: true,
     },
     {
-      inputs: [['ii'], [{
-        scaleDegree: '2',
-        type: ChordType.Minor,
-      }]],
       romanNumeralChordSymbol: 'ii',
       diatonicDegree: 2,
       scaleDegree: '2',
@@ -63,10 +56,6 @@ describe('RomanNumeralBuilder', () => {
       isDiatonic: true,
     },
     {
-      inputs: [['bIII'], [{
-        scaleDegree: 'b3',
-        type: ChordType.Major,
-      }]],
       romanNumeralChordSymbol: 'bIII',
       diatonicDegree: 3,
       scaleDegree: 'b3',
@@ -79,10 +68,6 @@ describe('RomanNumeralBuilder', () => {
       isDiatonic: false,
     },
     {
-      inputs: [['#ivdim'], [{
-        scaleDegree: '#4',
-        type: ChordType.Diminished,
-      }]],
       romanNumeralChordSymbol: '#ivdim',
       diatonicDegree: 4,
       scaleDegree: '#4',
@@ -95,10 +80,6 @@ describe('RomanNumeralBuilder', () => {
       isDiatonic: false,
     },
     {
-      inputs: [['viidim'], [{
-        scaleDegree: '7',
-        type: ChordType.Diminished,
-      }]],
       romanNumeralChordSymbol: 'viidim',
       diatonicDegree: 7,
       scaleDegree: '7',
@@ -110,10 +91,6 @@ describe('RomanNumeralBuilder', () => {
       isDiatonic: true,
     },
     {
-      inputs: [['V7'], [{
-        scaleDegree: '5',
-        type: ChordType.Dominant7th,
-      }]],
       romanNumeralChordSymbol: 'V7',
       type: ChordType.Dominant7th,
       scaleDegree: '5',
@@ -126,10 +103,6 @@ describe('RomanNumeralBuilder', () => {
       isDiatonic: true,
     },
     {
-      inputs: [['IVmaj7'], [{
-        scaleDegree: '4',
-        type: ChordType.Major7th,
-      }]],
       romanNumeralChordSymbol: 'IVmaj7',
       type: ChordType.Major7th,
       scaleDegree: '4',
@@ -142,10 +115,6 @@ describe('RomanNumeralBuilder', () => {
       isDiatonic: true,
     },
     {
-      inputs: [['ii7'], [{
-        scaleDegree: '2',
-        type: ChordType.Minor7th,
-      }]],
       romanNumeralChordSymbol: 'ii7',
       type: ChordType.Minor7th,
       scaleDegree: '2',
@@ -158,10 +127,6 @@ describe('RomanNumeralBuilder', () => {
       isDiatonic: true,
     },
     {
-      inputs: [['Vsus'], [{
-        scaleDegree: '5',
-        type: ChordType.Sus4,
-      }]],
       romanNumeralChordSymbol: 'Vsus',
       type: ChordType.Sus4,
       scaleDegree: '5',
@@ -174,10 +139,6 @@ describe('RomanNumeralBuilder', () => {
       isDiatonic: true,
     },
     {
-      inputs: [['Isus2'], [{
-        scaleDegree: '1',
-        type: ChordType.Sus2,
-      }]],
       romanNumeralChordSymbol: 'Isus2',
       type: ChordType.Sus2,
       scaleDegree: '1',
@@ -190,10 +151,6 @@ describe('RomanNumeralBuilder', () => {
       isDiatonic: true,
     },
     {
-      inputs: [['I6'], [{
-        scaleDegree: '1',
-        type: ChordType.Major6th,
-      }]],
       romanNumeralChordSymbol: 'I6',
       type: ChordType.Major6th,
       scaleDegree: '1',
@@ -206,10 +163,18 @@ describe('RomanNumeralBuilder', () => {
       isDiatonic: true,
     },
     {
-      inputs: [['viidim7'], [{
-        scaleDegree: '7',
-        type: ChordType.Diminished7th,
-      }]],
+      romanNumeralChordSymbol: 'vi6',
+      type: ChordType.Minor6th,
+      scaleDegree: '6',
+      getChord: {
+        C: 'Am6',
+      },
+      accidental: Accidental.Natural,
+      diatonicDegree: 6,
+      serialized: 'vi<sup>6</sup>',
+      isDiatonic: true,
+    },
+    {
       romanNumeralChordSymbol: 'viidim7',
       type: ChordType.Diminished7th,
       scaleDegree: '7',
@@ -222,10 +187,6 @@ describe('RomanNumeralBuilder', () => {
       isDiatonic: false,
     },
     {
-      inputs: [['vii7b5'], [{
-        scaleDegree: '7',
-        type: ChordType.HalfDiminished7th,
-      }]],
       romanNumeralChordSymbol: 'vii7b5',
       type: ChordType.HalfDiminished7th,
       scaleDegree: '7',
@@ -237,11 +198,49 @@ describe('RomanNumeralBuilder', () => {
       serialized: 'viiø',
       isDiatonic: true,
     },
+    {
+      romanNumeralChordSymbol: 'bVI+',
+      type: ChordType.Augmented,
+      scaleDegree: 'b6',
+      serialized: '♭VI+',
+      diatonicDegree: 6,
+      accidental: Accidental.Flat,
+      getChord: {
+        C: 'Ab+',
+      },
+      isDiatonic: false,
+    },
+    {
+      romanNumeralChordSymbol: 'vimaj7',
+      type: ChordType.MinorMajor7th,
+      isDiatonic: false,
+      scaleDegree: '6',
+      getChord: {
+        C: 'AmM7',
+      },
+      accidental: Accidental.Natural,
+      diatonicDegree: 6,
+      serialized: 'vi<sup>M7</sup>',
+    },
   ];
 
+  it('should cover all chord types', () => {
+    const existingChordTypes: ChordType[] = _.keys(chordTypeConfigMap) as (keyof typeof chordTypeConfigMap)[];
+    const coveredChordTypes: ChordType[] = _.chain(testCases).map('type').uniq().value();
+    const missingChordTypes: ChordType[] = _.difference(existingChordTypes, coveredChordTypes);
+    expect(missingChordTypes).toEqual([]);
+  })
+
   testCases.forEach(testCase => {
-    testCase.inputs.forEach(input => {
-      (testCase.force ? fdescribe : describe)(`${JSON.stringify(testCase.inputs)}`, () => {
+    const inputs: ConstructorParameters<typeof RomanNumeralChord>[] = [
+      [testCase.romanNumeralChordSymbol],
+      [{
+        scaleDegree: testCase.scaleDegree,
+        type: testCase.type,
+      }],
+    ]
+    inputs.forEach(input => {
+      (testCase.force ? fdescribe : describe)(`${JSON.stringify(inputs)}`, () => {
         let romanNumeral: RomanNumeralChord;
 
         beforeEach(() => {

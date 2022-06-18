@@ -26,10 +26,10 @@ export enum Direction {
 const chordSymbolRegex = new RegExp(`([A-G][#b]?)(${Object.keys(chordTypeConfigMap).join('|')})?$`);
 
 export class Chord {
+  private readonly _intervals: Interval[];
   readonly root: NoteType;
   readonly type: ChordType;
   readonly symbol: ChordSymbol;
-  readonly intervals: Interval[];
   readonly noteTypes: NoteType[];
 
   constructor(private readonly _symbolOrConfig: ChordSymbol | {
@@ -49,7 +49,7 @@ export class Chord {
       this.type = this._symbolOrConfig.type;
       this.symbol = `${this.root}${this.type === ChordType.Major ? '' : this.type}` as ChordSymbol;
     }
-    this.intervals = this._getChordIntervals();
+    this._intervals = this._getChordIntervals();
     this.noteTypes = this._getNoteTypes();
   }
 
@@ -58,7 +58,7 @@ export class Chord {
   }
 
   private _getNoteTypes(): NoteType[] {
-    return this.intervals.map(interval => transpose(this.root, interval));
+    return this._intervals.map(interval => transpose(this.root, interval));
   }
 
   getBass(): Note[] {
@@ -86,7 +86,7 @@ export class Chord {
 
     // first build the chord without inversions
     const rootNote: Note = noteTypeToNote(this.root, 1);
-    let chordVoicing: Note[] = this.intervals.map(interval => transpose(rootNote, interval));
+    let chordVoicing: Note[] = this._intervals.map(interval => transpose(rootNote, interval));
 
     while (topVoicesInversion) {
       const lowestNote: Note = chordVoicing.shift()!;
