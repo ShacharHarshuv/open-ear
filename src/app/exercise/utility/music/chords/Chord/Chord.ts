@@ -23,6 +23,8 @@ export enum Direction {
   Down = -1,
 }
 
+const chordSymbolRegex = new RegExp(`([A-G][#b]?)(${Object.keys(chordTypeConfigMap).join('|')})?$`);
+
 export class Chord {
   readonly root: NoteType;
   readonly type: ChordType;
@@ -35,7 +37,7 @@ export class Chord {
     type: ChordType,
   }) {
     if (typeof this._symbolOrConfig === 'string') {
-      const regexMatch = this._symbolOrConfig.match(/([A-G][#b]?)(m|dim|7|maj7|m7|sus|sus2|6|dim7|7b5)?$/);
+      const regexMatch = this._symbolOrConfig.match(chordSymbolRegex);
       if (!regexMatch) {
         throw new Error(`${this._symbolOrConfig} is not a valid chord symbol`);
       }

@@ -28,6 +28,9 @@ export enum Accidental {
   Flat = 'b',
 }
 
+const allRomanNumeralPostfix: string[] = _.map(chordTypeConfigMap, (chordTypeConfig) => chordTypeConfig.romanNumeral.postfix);
+const romanNumeralChordSymbolRegex = new RegExp(`(b|#)?([ivIV]+)(${allRomanNumeralPostfix.join('|')})?$`);
+
 export class RomanNumeralChord {
   readonly diatonicDegree: DiatonicScaleDegree;
   readonly accidental: Accidental;
@@ -83,7 +86,7 @@ export class RomanNumeralChord {
       return;
     }
 
-    const regexMatch: RegExpMatchArray | null = romanNumeralInput.match(/(b|#)?([ivIV]+)(dim|7|maj7|sus|sus2|6|dim7|7b5)?$/);
+    const regexMatch: RegExpMatchArray | null = romanNumeralInput.match(romanNumeralChordSymbolRegex);
     if (!regexMatch) {
       throw new Error(`RomanNumeralChordSymbol: ${romanNumeralInput} is not a valid input`);
     }
