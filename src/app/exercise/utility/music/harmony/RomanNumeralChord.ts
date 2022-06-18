@@ -29,7 +29,7 @@ export enum Accidental {
 }
 
 const allRomanNumeralPostfix: string[] = _.map(chordTypeConfigMap, (chordTypeConfig) => chordTypeConfig.romanNumeral.postfix);
-const romanNumeralChordSymbolRegex = new RegExp(`(b|#)?([ivIV]+)(${allRomanNumeralPostfix.join('|')})?$`);
+const romanNumeralChordSymbolRegex = new RegExp(`(b|#)?([ivIV]+)(${allRomanNumeralPostfix.map(_.escapeRegExp).join('|')})?$`);
 
 export class RomanNumeralChord {
   readonly diatonicDegree: DiatonicScaleDegree;
