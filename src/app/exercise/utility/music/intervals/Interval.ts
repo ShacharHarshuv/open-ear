@@ -17,4 +17,5 @@ export enum Interval {
   Octave = 12,
   MinorNinth = 13,
   MajorNinth = 14,
+  AugmentedNinth = 15,
 }
