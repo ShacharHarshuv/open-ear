@@ -380,7 +380,19 @@ describe('Chord', () => {
           [0, ['C3', 'Eb3', 'G3', 'D4']]
         ]
       }
-    }
+    },
+    {
+      chordSymbolOrConfig: 'Cadd#4',
+      octave: 4,
+      expectedResult: {
+        root: 'C',
+        type: ChordType.MajorAddSharp4,
+        noteTypes: ['C', 'E', 'F#', 'G'],
+        voicing: [
+          [0, ['C4', 'E4', 'F#4',  'G4']]
+        ]
+      }
+    },
   ];
 
   testCases.forEach(({

@@ -26,6 +26,7 @@ export enum ChordType {
   MinorMajor9th = 'mM9',
   MajorAdd9 = 'add9',
   MinorAdd9 = 'madd9',
+  MajorAddSharp4 = 'add#4'
 }
 
 interface IChordTypeConfig {
@@ -286,7 +287,20 @@ export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
       Interval.PerfectFifth,
       Interval.MajorNinth,
     ],
-  }
+  },
+  [ChordType.MajorAddSharp4]: {
+    intervalList: [
+      Interval.MajorThird,
+      Interval.AugmentedForth,
+      Interval.PerfectFifth,
+    ],
+    displayName: `Major Add ${MusicSymbol.Sharp}4`,
+    romanNumeral: {
+      isLowercase: false,
+      postfix: 'add#4',
+      viewPostfix: `<sup>add#4</sup>`,
+    },
+  },
 }
 
 type RomanNumeralChordTypeParserMap =

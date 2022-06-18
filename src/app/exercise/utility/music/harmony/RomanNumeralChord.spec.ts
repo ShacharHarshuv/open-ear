@@ -281,6 +281,18 @@ describe('RomanNumeralBuilder', () => {
         C: 'Amadd9',
       },
       serialized: 'vi<sup>add9</sup>'
+    },
+    {
+      romanNumeralChordSymbol: 'Iadd#4',
+      type: ChordType.MajorAddSharp4,
+      isDiatonic: false,
+      scaleDegree: '1',
+      diatonicDegree: 1,
+      accidental: Accidental.Natural,
+      getChord: {
+        C: 'Cadd#4',
+      },
+      serialized: 'I<sup>add#4</sup>'
     }
   ];
 
