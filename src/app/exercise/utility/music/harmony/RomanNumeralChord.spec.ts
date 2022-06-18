@@ -103,6 +103,30 @@ describe('RomanNumeralBuilder', () => {
       isDiatonic: true,
     },
     {
+      romanNumeralChordSymbol: 'V9',
+      type: ChordType.Dominant9th,
+      scaleDegree: '5',
+      getChord: {
+        C: 'G9',
+      },
+      accidental: Accidental.Natural,
+      diatonicDegree: 5,
+      serialized: 'V<sup>9</sup>',
+      isDiatonic: true,
+    },
+    {
+      romanNumeralChordSymbol: 'V7#9',
+      type: ChordType.Dominant7thSharp9th,
+      scaleDegree: '5',
+      getChord: {
+        C: 'G7#9',
+      },
+      accidental: Accidental.Natural,
+      diatonicDegree: 5,
+      serialized: 'V<sup>7(♯9)</sup>',
+      isDiatonic: false,
+    },
+    {
       romanNumeralChordSymbol: 'IVmaj7',
       type: ChordType.Major7th,
       scaleDegree: '4',
@@ -222,6 +246,54 @@ describe('RomanNumeralBuilder', () => {
       diatonicDegree: 6,
       serialized: 'vi<sup>M7</sup>',
     },
+    {
+      romanNumeralChordSymbol: 'iM9',
+      type: ChordType.MinorMajor9th,
+      isDiatonic: false,
+      scaleDegree: '1',
+      diatonicDegree: 1,
+      accidental: Accidental.Natural,
+      getChord: {
+        C: 'CmM9',
+      },
+      serialized: 'i<sup>M9</sup>'
+    },
+    {
+      romanNumeralChordSymbol: 'Iadd9',
+      type: ChordType.MajorAdd9,
+      isDiatonic: true,
+      scaleDegree: '1',
+      diatonicDegree: 1,
+      accidental: Accidental.Natural,
+      getChord: {
+        C: 'Cadd9',
+      },
+      serialized: 'I<sup>add9</sup>'
+    },
+    {
+      romanNumeralChordSymbol: 'viadd9',
+      type: ChordType.MinorAdd9,
+      isDiatonic: true,
+      scaleDegree: '6',
+      diatonicDegree: 6,
+      accidental: Accidental.Natural,
+      getChord: {
+        C: 'Amadd9',
+      },
+      serialized: 'vi<sup>add9</sup>'
+    },
+    {
+      romanNumeralChordSymbol: 'Iadd#4',
+      type: ChordType.MajorAddSharp4,
+      isDiatonic: false,
+      scaleDegree: '1',
+      diatonicDegree: 1,
+      accidental: Accidental.Natural,
+      getChord: {
+        C: 'Cadd#4',
+      },
+      serialized: 'I<sup>add#4</sup>'
+    }
   ];
 
   it('should cover all chord types', () => {

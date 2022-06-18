@@ -175,6 +175,30 @@ describe('Chord', () => {
       },
     },
     {
+      chordSymbolOrConfig: 'C9',
+      octave: 5,
+      expectedResult: {
+        root: 'C',
+        type: ChordType.Dominant9th,
+        noteTypes: ['C', 'E', 'G', 'Bb', 'D'],
+        voicing: [
+          [0, ['C4', 'E4', 'G4', 'Bb4', 'D5']],
+        ],
+      },
+    },
+    {
+      chordSymbolOrConfig: 'C7#9',
+      octave: 5,
+      expectedResult: {
+        root: 'C',
+        type: ChordType.Dominant7thSharp9th,
+        noteTypes: ['C', 'E', 'G', 'Bb', 'D#'],
+        voicing: [
+          [0, ['C4', 'E4', 'G4', 'Bb4', 'D#5']],
+        ],
+      },
+    },
+    {
       chordSymbolOrConfig: 'Cmaj7',
       octave: 4,
       expectedResult: {
@@ -320,7 +344,55 @@ describe('Chord', () => {
         type: ChordType.Augmented,
         noteTypes: ['C', 'E', 'G#'],
       }
-    }
+    },
+    {
+      chordSymbolOrConfig: 'CmM9',
+      octave: 4,
+      expectedResult: {
+        root: 'C',
+        type: ChordType.MinorMajor9th,
+        noteTypes: ['C', 'Eb', 'G', 'B', 'D'],
+        voicing: [
+          [0, ['C3', 'Eb3', 'G3', 'B3', 'D4']]
+        ]
+      }
+    },
+    {
+      chordSymbolOrConfig: 'Cadd9',
+      octave: 4,
+      expectedResult: {
+        root: 'C',
+        type: ChordType.MajorAdd9,
+        noteTypes: ['C', 'E', 'G', 'D'],
+        voicing: [
+          [0, ['C3', 'E3', 'G3', 'D4']]
+        ]
+      }
+    },
+    {
+      chordSymbolOrConfig: 'Cmadd9',
+      octave: 4,
+      expectedResult: {
+        root: 'C',
+        type: ChordType.MinorAdd9,
+        noteTypes: ['C', 'Eb', 'G', 'D'],
+        voicing: [
+          [0, ['C3', 'Eb3', 'G3', 'D4']]
+        ]
+      }
+    },
+    {
+      chordSymbolOrConfig: 'Cadd#4',
+      octave: 4,
+      expectedResult: {
+        root: 'C',
+        type: ChordType.MajorAddSharp4,
+        noteTypes: ['C', 'E', 'F#', 'G'],
+        voicing: [
+          [0, ['C4', 'E4', 'F#4',  'G4']]
+        ]
+      }
+    },
   ];
 
   testCases.forEach(({
