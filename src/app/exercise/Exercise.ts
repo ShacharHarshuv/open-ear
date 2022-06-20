@@ -227,6 +227,8 @@ export namespace Exercise {
 
   export type Settings = { [key: string]: SettingValueType };
 
+  export type ControlDescriptor = SliderControlDescriptor | SelectControlDescriptor | ListSelectControlDescriptor | IncludedAnswersControlDescriptor | CheckboxControlDescriptor;
+
   /***
    * Usage of GKey is necessary here to avoid this issue: https://github.com/microsoft/TypeScript/issues/41595
    * */
@@ -242,7 +244,7 @@ export namespace Exercise {
     }) & {
     descriptor: /*GSettings[GKey] extends number ? SliderControlDescriptor | SelectControlDescriptor<GSettings[GKey]>
      : GSettings[GKey] extends Array<any> ? ListSelectControlDescriptor
-     : SelectControlDescriptor<GSettings[GKey]>*/ SliderControlDescriptor | SelectControlDescriptor | ListSelectControlDescriptor | IncludedAnswersControlDescriptor | CheckboxControlDescriptor,
+     : SelectControlDescriptor<GSettings[GKey]>*/ StaticOrGetter<ControlDescriptor, [GSettings]>,
     show?: (settings: GSettings) => boolean;
     info?: string; // can contain html
     isDisabled?: (settings: GSettings, currentValue: any) => boolean;
