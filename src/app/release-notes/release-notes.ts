@@ -100,5 +100,9 @@ export const releaseNotes: ReleaseNotes = [
   {
     version: '1.4.5',
     notes: '"Answer question automatically" - Use this together with "resolution" and "move automatically to next question" to create a "listening mode" where questions and resolutions will be played consecutively and help train your musical memory.'
+  },
+  {
+    version: '1.5.1',
+    notes: 'Adding more chords to Chord Types exercise (Currently supports 18 chord types)'
   }
 ]
