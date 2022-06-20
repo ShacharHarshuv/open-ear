@@ -159,6 +159,15 @@ export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<Ch
         ChordType.Diminished7th,
         ChordType.HalfDiminished7th,
       ],
+      [
+        ChordType.MajorAdd9,
+        ChordType.MinorAdd9,
+      ],
+      [
+        ChordType.Dominant9th,
+        ChordType.MajorAddSharp4
+      ],
+
     ],
   }, ((answerConfig: Exercise.AnswerConfig<ChordType>) => ({
     answer: answerConfig.answer,
