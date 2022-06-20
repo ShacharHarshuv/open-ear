@@ -12,10 +12,21 @@ import { Exercise } from '../../../Exercise';
 import {
   ExerciseSettingsData,
   GlobalExerciseSettings,
+  toGetter,
 } from '../../../utility';
 import * as _ from 'lodash';
 import { collapseVertical } from '../../../../shared/animations';
 import SettingValueType = Exercise.SettingValueType;
+import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
+import {
+  Observable,
+  of,
+} from 'rxjs';
+import {
+  map,
+  distinctUntilChanged,
+} from 'rxjs/operators';
+import { tapLogValue } from '../../../../shared/ts-utility/rxjs/tapLogValue';
 
 interface ExerciseSettingsControls {
   playCadenceOptions: 'ALWAYS' | 'ONLY_ON_REPEAT' | /*'EVERY_NEW_KEY' TODO(OE-12) |*/ 'NEVER' /*| 'EVERY TODO(OE-13)'*/;
@@ -85,6 +96,20 @@ export class ExerciseSettingsPage {
 
   @Input()
   allAvailableAnswers: string[];
+
+  getControlDescriptorStream = (settings: SettingsControlDescriptor): Observable<Exercise.ControlDescriptor> => {
+    if (settings.descriptor instanceof Function) {
+      return this.exerciseFormGroup.value$
+        .pipe(
+          map(value => {
+            return toGetter(settings.descriptor)(value)
+          }),
+          distinctUntilChanged(_.isEqual),
+        );
+    }
+
+    return of(settings.descriptor);
+  }
 
   @Input('exerciseSettingsDescriptor')
   set exerciseSettingsDescriptorInput(settingsDescriptor: Exercise.SettingsControlDescriptor[]) {

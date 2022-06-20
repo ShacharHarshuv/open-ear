@@ -66,78 +66,80 @@
 
   <ion-list *ngIf="exerciseFormGroup">
     <ng-container *ngFor="let exerciseControlSettings of exerciseSettingsDescriptor">
-      <ng-template #label>
-        <ion-label>{{exerciseControlSettings.descriptor.label}}<app-field-info *ngIf="exerciseControlSettings.info" [message]="exerciseControlSettings.info"></app-field-info></ion-label>
-      </ng-template>
-      <ng-container
-        *ngIf="isShowExerciseControl(exerciseControlSettings)"
-        [ngSwitch]="exerciseControlSettings.descriptor.controlType"
-      >
-        <ion-item
-          *ngSwitchCase="'select'"
-          @collapseVertical
+      <ng-container *ngIf="((getControlDescriptorStream | pureFunction: exerciseControlSettings) | async) as descriptor">
+        <ng-template #label>
+          <ion-label>{{descriptor.label}}<app-field-info *ngIf="exerciseControlSettings.info" [message]="exerciseControlSettings.info"></app-field-info></ion-label>
+        </ng-template>
+        <ng-container
+          *ngIf="isShowExerciseControl(exerciseControlSettings)"
+          [ngSwitch]="descriptor.controlType"
         >
-          <ng-container *ngTemplateOutlet="label"></ng-container>
-          <ion-select
-            [appExerciseControl]="exerciseControlSettings"
-            [interface]="'popover'"
+          <ion-item
+            *ngSwitchCase="'select'"
+            @collapseVertical
           >
-            <ion-select-option
-              *ngFor="let option of exerciseControlSettings.descriptor.options"
-              [value]="option.value"
+            <ng-container *ngTemplateOutlet="label"></ng-container>
+            <ion-select
+              [appExerciseControl]="exerciseControlSettings"
+              [interface]="'popover'"
             >
-              {{option.label}}
-            </ion-select-option>
-          </ion-select>
-        </ion-item>
-        <ion-item
-          *ngSwitchCase="'slider'"
-          class="exercise-settings__item --label-above"
-          @collapseVertical
-        >
-          <ng-container *ngTemplateOutlet="label"></ng-container>
-          <ion-range
-            [appExerciseControl]="exerciseControlSettings"
-            [max]="exerciseControlSettings.descriptor.max"
-            [min]="exerciseControlSettings.descriptor.min"
-            [snaps]="true"
-            [step]="exerciseControlSettings.descriptor.step"
-            pin
+              <ion-select-option
+                *ngFor="let option of descriptor.options"
+                [value]="option.value"
+              >
+                {{option.label}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item
+            *ngSwitchCase="'slider'"
+            class="exercise-settings__item --label-above"
+            @collapseVertical
           >
-          </ion-range>
-        </ion-item>
-        <app-list-select
-          *ngSwitchCase="'list-select'"
-          [allAvailableOptions]="exerciseControlSettings.descriptor.allOptions"
-          [appExerciseControl]="exerciseControlSettings"
-          [label]="exerciseControlSettings.descriptor.label"
-          @collapseVertical
-        >
-          <app-field-info
-            *ngIf="exerciseControlSettings.info"
-            [message]="exerciseControlSettings.info"
-            list-select-proj__after-label
-          ></app-field-info>
-        </app-list-select>
-        <ion-item
-          *ngSwitchCase="'checkbox'"
-          @collapseVertical
-        >
-          <ng-container *ngTemplateOutlet="label"></ng-container>
-          <ion-toggle
+            <ng-container *ngTemplateOutlet="label"></ng-container>
+            <ion-range
+              [appExerciseControl]="exerciseControlSettings"
+              [max]="descriptor.max"
+              [min]="descriptor.min"
+              [snaps]="true"
+              [step]="descriptor.step"
+              pin
+            >
+            </ion-range>
+          </ion-item>
+          <app-list-select
+            *ngSwitchCase="'list-select'"
+            [allAvailableOptions]="descriptor.allOptions"
             [appExerciseControl]="exerciseControlSettings"
-            slot="end"
-          ></ion-toggle>
-        </ion-item>
-        <ion-list
-          *ngSwitchCase="'included-answers'"
-        >
-          <ion-list-header>{{exerciseControlSettings.descriptor.label}}<app-field-info *ngIf="exerciseControlSettings.info" [message]="exerciseControlSettings.info"></app-field-info></ion-list-header>
-          <app-included-answers
-            [answerList]="exerciseControlSettings.descriptor.answerList"
-            [appExerciseControl]="exerciseControlSettings"
-          ></app-included-answers>
-        </ion-list>
+            [label]="descriptor.label"
+            @collapseVertical
+          >
+            <app-field-info
+              *ngIf="exerciseControlSettings.info"
+              [message]="exerciseControlSettings.info"
+              list-select-proj__after-label
+            ></app-field-info>
+          </app-list-select>
+          <ion-item
+            *ngSwitchCase="'checkbox'"
+            @collapseVertical
+          >
+            <ng-container *ngTemplateOutlet="label"></ng-container>
+            <ion-toggle
+              [appExerciseControl]="exerciseControlSettings"
+              slot="end"
+            ></ion-toggle>
+          </ion-item>
+          <ion-list
+            *ngSwitchCase="'included-answers'"
+          >
+            <ion-list-header>{{descriptor.label}}<app-field-info *ngIf="exerciseControlSettings.info" [message]="exerciseControlSettings.info"></app-field-info></ion-list-header>
+            <app-included-answers
+              [answerList]="descriptor.answerList"
+              [appExerciseControl]="exerciseControlSettings"
+            ></app-included-answers>
+          </ion-list>
+        </ng-container>
       </ng-container>
     </ng-container>
   </ion-list>

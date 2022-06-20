@@ -8,7 +8,6 @@ import {
   NumberOfSegmentsSetting,
   numberOfSegmentsControlDescriptorList,
 } from '../utility/settings/NumberOfSegmentsSetting';
-import * as _ from 'lodash';
 import {
   BaseTonalChordProgressionExercise,
   ChordProgressionQuestion,
@@ -25,6 +24,12 @@ import { romanNumeralToChordInC } from '../utility/base-exercises/BaseRomanAnaly
 import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
 import { scaleLayout } from '../utility/layouts/scale-layout';
 import { chordTypeConfigMap } from '../../utility/music/chords/Chord/ChordType';
+import {
+  flow,
+  flatMap,
+  filter,
+} from 'lodash/fp';
+import * as _ from 'lodash';
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 import flatAnswerList = Exercise.flatAnswerList;
 import normalizedAnswerList = Exercise.normalizedAnswerList;
@@ -91,12 +96,13 @@ type ChordTypeInKeySettings = NumberOfSegmentsSetting &
     key: 'includedRomanNumerals',
     info: 'Use this option to specify over which scale degree each chord type can be played. Use this to narrow the options to a more musical selection of chords.',
     defaultValue: ['I', 'ii', 'iii', 'IV', 'V', 'vi'],
-    descriptor: {
+    descriptor: (settings: ChordTypeInKeySettings) => ({
       label: 'Included Chords (Advanced)',
       controlType: 'included-answers',
       answerList: {
-        rows: _.chain(flatAnswerList(ChordTypeInKeyExercise.chordTypeAnswerList))
-          .flatMap((chordType): Exercise.AnswersLayout<RomanNumeralChordSymbol>['rows'] => {
+        rows: flow(
+          filter(chordType => _.some(settings.includedRomanNumerals, romanNumeralChordSymbol => new RomanNumeralChord(romanNumeralChordSymbol).type === chordType)),
+          flatMap((chordType: ChordType): Exercise.AnswersLayout<RomanNumeralChordSymbol>['rows'] => {
             const scaleRows = normalizedAnswerList(Exercise.mapAnswerList(scaleLayout, (answerConfig: Exercise.AnswerConfig<ScaleDegree>): Exercise.AnswerConfig<RomanNumeralChordSymbol> => {
               if (!answerConfig.answer) {
                 return {
@@ -118,9 +124,10 @@ type ChordTypeInKeySettings = NumberOfSegmentsSetting &
               chordTypeConfigMap[chordType].displayName,
               ...scaleRows,
             ]
-          }).value(),
+          }),
+        )(flatAnswerList(ChordTypeInKeyExercise.chordTypeAnswerList)),
       },
-    },
+    }),
   },
 )
 export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<ChordType, ChordTypeInKeySettings> {
@@ -165,7 +172,7 @@ export class ChordTypeInKeyExercise extends BaseTonalChordProgressionExercise<Ch
       ],
       [
         ChordType.Dominant9th,
-        ChordType.MajorAddSharp4
+        ChordType.MajorAddSharp4,
       ],
 
     ],
