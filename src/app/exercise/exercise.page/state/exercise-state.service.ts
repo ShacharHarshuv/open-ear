@@ -187,10 +187,10 @@ export class ExerciseStateService implements OnDestroy {
         this._afterCorrectAnswer()
           .then(async () => {
             if (this._globalSettings.moveToNextQuestionAutomatically) {
-              // Make sure we are still in the same question (i.e. "Next" wasn't clicked by user)
+              await this.onQuestionPlayingFinished();
+              // Make sure we are still in the same question and nothing is playing (i.e. "Next" wasn't clicked by user)
               const numberOfAnsweredSegments = this._currentAnswers.filter(answer => !!answer.answer).length;
               if (numberOfAnsweredSegments === this._currentQuestion.segments.length) {
-                await this.onQuestionPlayingFinished();
                 this.nextQuestion();
               }
             }
