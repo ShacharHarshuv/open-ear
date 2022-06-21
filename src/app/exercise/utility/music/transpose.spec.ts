@@ -25,11 +25,22 @@ describe('transpose', function() {
   describe('multiple notes', function() {
     it('[C4, E4] + 3', () => {
       expect(transpose(['C4', 'E4'], 3)).toEqual(['D#4', 'G4']);
-    })
+    });
 
     it('[D2, G2] - 4', () => {
       expect(transpose(['D2', 'G2'], -4)).toEqual(['A#1', 'D#2']);
-    })
+    });
+
+    it('should fail gracefully when some of the notes are out of range', () => {
+      const consoleErrorSpy = spyOn(console, 'error');
+      expect(transpose(['D#1', 'D#2'], -12)).toEqual(['D#1']);
+      expect(consoleErrorSpy).toHaveBeenCalledTimes(1);
+      consoleErrorSpy.and.callThrough();
+    });
+
+    it('should fail fatally when all of the notes are out of range', () => {
+      expect(() => transpose(['D#1'], -12)).toThrow();
+    });
   });
 
   describe('note events', function() {
@@ -92,6 +103,44 @@ describe('transpose', function() {
         },
       ]);
     })
+
+    it('should fail gracefully when some notes in the same event are out of range', () => {
+      const consoleErrorSpy = spyOn(console, 'error');
+      expect(transpose([
+        {
+          notes: ['D#1', 'D#2'],
+          time: 0,
+          duration: '4n',
+          velocity: 0.8,
+        }
+      ], -12)).toEqual([
+        {
+          notes: ['D#1'],
+          time: 0,
+          duration: '4n',
+          velocity: 0.8,
+        }
+      ]);
+      expect(consoleErrorSpy).toHaveBeenCalledTimes(1);
+      consoleErrorSpy.and.callThrough();
+    });
+
+    it('should fail fatally when all notes in one event are out of range', () => {
+      expect(() => transpose([
+        {
+          notes: ['D#1'],
+          time: 0,
+          duration: '4n',
+          velocity: 0.8,
+        },
+        {
+          notes: ['D#2'],
+          time: 0,
+          duration: '4n',
+          velocity: 0.8,
+        }
+      ], -12)).toThrow();
+    });
   });
 
   describe('note range', function() {

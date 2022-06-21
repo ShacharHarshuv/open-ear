@@ -14,7 +14,10 @@ import {
   toNoteTypeName,
   toNoteTypeNumber,
 } from './notes/toNoteTypeNumber';
-import { OneOrMany } from '../../../shared/ts-utility';
+import {
+  OneOrMany,
+  isValueTruthy,
+} from '../../../shared/ts-utility';
 import { Interval } from './intervals/Interval';
 import { NotesRange } from './NotesRange';
 
@@ -50,7 +53,23 @@ export function transpose(partOrNotes: NoteEvent[] | Note[] | Note | NoteType | 
 
   if (typeof partOrNotes[0] === 'string') {
     const noteList: Note[] = partOrNotes as Note[];
-    return _.map(noteList, (note: Note) => transpose(note, semitones));
+    const errors: any[] = [];
+    const transposedNotes = _.map(noteList, (note: Note) => {
+      try {
+        return transpose(note, semitones)
+      } catch(e) {
+        errors.push(e);
+        return null;
+      }
+    }).filter(isValueTruthy);
+    if (_.isEmpty(transposedNotes)) {
+      throw errors[0];
+    } else {
+      for (let error of errors) {
+        console.error(error);
+      }
+      return transposedNotes;
+    }
   }
 
   const noteEventList: NoteEvent[] = partOrNotes as NoteEvent[];
