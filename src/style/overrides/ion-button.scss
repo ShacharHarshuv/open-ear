@@ -3,6 +3,10 @@ ion-button {
   text-transform: none;
   flex-shrink: 0;
 
+  &.ios {
+    height: 2.4em;
+  }
+
   &::part(native) {
     padding: unset;
   }
