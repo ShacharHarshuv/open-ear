@@ -4,12 +4,18 @@ import {
   randomFromList,
   SolfegeNote,
   scaleDegreeToSolfegeNote,
+  getResolutionFromScaleDegree,
+  getScaleDegreeFromNote,
+  solfegeNoteToScaleDegree,
+  ScaleDegree,
+  DeepReadonly,
+  getDiatonicScaleDegreeWithAccidental,
+  Interval,
 } from '../../utility';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { getNoteType } from '../../utility/music/notes/getNoteType';
 import { NoteType } from '../../utility/music/notes/NoteType';
 import { getNoteOctave } from '../../utility/music/notes/getNoteOctave';
-import { toNoteTypeNumber } from '../../utility/music/notes/toNoteTypeNumber';
 import { noteTypeToNote } from '../../utility/music/notes/noteTypeToNote';
 import { NotesInKeyExplanationComponent } from './notes-in-key-explanation/notes-in-key-explanation.component';
 import {
@@ -31,14 +37,16 @@ import {
 } from '../utility/settings/IncludedAnswersSettings';
 import { CadenceTypeSetting } from '../utility/settings/CadenceTypeSetting';
 import { noteTypeToScaleDegree } from '../../utility/music/scale-degrees/noteTypeToScaleDegree';
+import { scaleDegreeToNoteType } from '../../utility/music/scale-degrees/scaleDegreeToNoteType';
+import { transpose } from '../../utility/music/transpose';
 
 type NoteInKeySettings =
   IncludedAnswersSettings<SolfegeNote> &
   BaseMelodicDictationExerciseSettings &
   NumberOfSegmentsSetting &
   PlayAfterCorrectAnswerSetting & {
-    notesRange: 'high' | 'middle' | 'bass' | 'contrabass',
-  };
+  notesRange: 'high' | 'middle' | 'bass' | 'contrabass',
+};
 
 @CadenceTypeSetting<NoteInKeySettings>()
 @IncludedAnswersSetting<SolfegeNote, NoteInKeySettings>({
@@ -46,14 +54,14 @@ type NoteInKeySettings =
     'Do',
     'Re',
     'Mi',
-  ]
+  ],
 })
 export class NotesInKeyExercise extends BaseMelodicDictationExercise<NoteInKeySettings> {
   readonly id: string = 'noteInKey';
   readonly name: string = `Scale Degrees`;
   readonly summary: string = `Identify monophonic notes based on their tonal context in a particular key`;
   readonly explanation = NotesInKeyExplanationComponent;
-  static readonly rangeOptionToNotesRange: {[range in NoteInKeySettings['notesRange']]: NotesRange} = {
+  static readonly rangeOptionToNotesRange: { [range in NoteInKeySettings['notesRange']]: NotesRange } = {
     high: new NotesRange('C4', 'G6'),
     middle: new NotesRange('G2', 'E4'),
     bass: new NotesRange('A1', 'C3'),
@@ -75,25 +83,23 @@ export class NotesInKeyExercise extends BaseMelodicDictationExercise<NoteInKeySe
     // calculation resolution
     let resolution: Note[] = [];
     if (this._settings.numberOfSegments === 1 && this._settings.playAfterCorrectAnswer) {
-      const randomQuestionInC: Note = randomQuestionsInC[0];
+      const note: Note = randomQuestionsInC[0];
 
+      const scaleDegree: ScaleDegree = getScaleDegreeFromNote('C', note);
+      const resolutionInScaleDegrees: DeepReadonly<ScaleDegree[]> = getResolutionFromScaleDegree(
+        scaleDegree,
+        this._settings.includedAnswers.map(solfege => solfegeNoteToScaleDegree[solfege]),
+        this._settings.cadenceType,
+      );
+      const resolutionInNoteTypes: NoteType[] = resolutionInScaleDegrees.map(scaleDegree => scaleDegreeToNoteType(scaleDegree, 'C'));
+      let octaveNumber = getNoteOctave(note);
+      resolution = resolutionInNoteTypes.map(noteType => noteTypeToNote(noteType, octaveNumber));
       /**
-       * Temporary solution, in the future we should either automatically detect it, or enable the user to set it in the setting
+       * For resolutions up the last note should be an octave above
+       * (It's not ideal that this needs to be done manually. We should reconsider this)
        * */
-      const detectedScale: NoteType[] = this._detectScale();
-
-      const noteOctave: number = getNoteOctave(randomQuestionInC);
-      const noteType: NoteType = getNoteType(randomQuestionInC);
-      if (toNoteTypeNumber(noteType) < toNoteTypeNumber('G')) {
-        const range = new NotesRange(noteTypeToNote('C', noteOctave), randomQuestionInC);
-        resolution = range.getAllNotes(detectedScale).reverse();
-      } else {
-        const range = new NotesRange(randomQuestionInC, noteTypeToNote('C', noteOctave + 1));
-        resolution = range.getAllNotes(detectedScale);
-      }
-
-      if (resolution[0] !== randomQuestionInC) {
-        resolution.unshift(randomQuestionInC);
+      if (getDiatonicScaleDegreeWithAccidental(scaleDegree).diatonicScaleDegree >= 5) {
+        resolution[resolution.length - 1] = transpose(resolution[resolution.length - 1], Interval.Octave);
       }
     }
 
@@ -130,9 +136,9 @@ export class NotesInKeyExercise extends BaseMelodicDictationExercise<NoteInKeySe
             {
               label: 'Movable-Do',
               value: 'solfege',
-            }
-          ]
-        }
+            },
+          ],
+        },
       },
       {
         key: 'notesRange',
@@ -157,10 +163,10 @@ export class NotesInKeyExercise extends BaseMelodicDictationExercise<NoteInKeySe
               {
                 label: 'Contra Bass',
                 value: 'contrabass',
-              }
-          ]
+              },
+            ],
           }
-        })()
+        })(),
       },
       ...numberOfSegmentsControlDescriptorList('notes'),
       ...playAfterCorrectAnswerControlDescriptorList({
@@ -177,17 +183,5 @@ export class NotesInKeyExercise extends BaseMelodicDictationExercise<NoteInKeySe
       notesRange: 'middle',
       displayMode: 'numeral',
     };
-  }
-
-  private _detectScale(): NoteType[] {
-    if (this._settings.cadenceType === 'I IV V I') {
-      return ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
-    } else {
-      if (this._settings.includedAnswers.includes('Te')) {
-        return ['C', 'D', 'Eb', 'F', 'G', 'Ab', 'Bb'];
-      } else {
-        return ['C', 'D', 'Eb', 'F', 'G', 'Ab', 'B'];
-      }
-    }
   }
 }

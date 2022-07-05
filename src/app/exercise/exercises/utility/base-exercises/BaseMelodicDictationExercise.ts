@@ -13,7 +13,7 @@ import {
   ScaleDegree,
   SolfegeNote,
   scaleDegreeToSolfegeNote,
-  getScaleDegreeNote,
+  getNoteFromScaleDegree,
 } from '../../../utility';
 import { noteTypeToScaleDegree } from '../../../utility/music/scale-degrees/noteTypeToScaleDegree';
 
@@ -27,7 +27,7 @@ export interface IMelodicQuestion extends Omit<Exercise.NotesQuestion<SolfegeNot
   segments: Note[],
 }
 
-export abstract class BaseMelodicDictationExercise<GSettings extends BaseMelodicDictationExerciseSettings> extends BaseTonalExercise<SolfegeNote, GSettings> {
+export abstract class BaseMelodicDictationExercise<GSettings extends BaseMelodicDictationExerciseSettings> extends BaseTonalExercise<SolfegeNote, GSettings> { // Consider using "ScaleDegree" in code instead for clarity
   readonly noteDuration: Time = '2n';
   abstract getMelodicQuestionInC(): IMelodicQuestion;
 
@@ -57,7 +57,7 @@ export abstract class BaseMelodicDictationExercise<GSettings extends BaseMelodic
       const answerConfig: Exercise.AnswerConfig<SolfegeNote> = {
         ..._answerConfig as Exercise.AnswerConfig<string>,
         answer: scaleDegree ? scaleDegreeToSolfegeNote[scaleDegree] : null,
-        playOnClick: scaleDegree && getScaleDegreeNote('C', scaleDegree),
+        playOnClick: scaleDegree && getNoteFromScaleDegree('C', scaleDegree),
       }
 
       if (scaleDegree && this._settings.displayMode === 'numeral') {
