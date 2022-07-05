@@ -8,6 +8,7 @@ import {
   DiatonicScaleDegree,
   ScaleDegree,
   scaleDegreeToChromaticDegree,
+  getDiatonicScaleDegreeWithAccidental,
 } from '../scale-degrees';
 import {
   Mode,
@@ -77,12 +78,9 @@ export class RomanNumeralChord {
   }) {
     if (typeof romanNumeralInput === 'object') {
       this.type = romanNumeralInput.type;
-      const regexMatch: RegExpMatchArray | null = romanNumeralInput.scaleDegree.match(/(b|#)?([1-7])/);
-      if (!regexMatch) {
-        throw new Error(`${romanNumeralInput.scaleDegree} is not a valid scale degree`);
-      }
-      this.diatonicDegree = +regexMatch[2] as DiatonicScaleDegree;
-      this.accidental = regexMatch[1] as Accidental ?? Accidental.Natural;
+      const diatonicDegreeWithAccidental = getDiatonicScaleDegreeWithAccidental(romanNumeralInput.scaleDegree);
+      this.diatonicDegree = diatonicDegreeWithAccidental.diatonicScaleDegree;
+      this.accidental = diatonicDegreeWithAccidental.accidental;
       return;
     }
 
