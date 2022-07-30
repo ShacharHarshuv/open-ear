@@ -53,7 +53,7 @@
   [fullscreen]="true"
   [padding]="true"
 >
-  <div class="exercise__content-container">
+  <div class="exercise__content-container" cdkDropListGroup>
     <section>
       <p
         *ngIf="!state.globalSettings.answerQuestionAutomatically"
@@ -75,6 +75,8 @@
         [answerDisplay]="state.answerToLabelStringMap[answer.answer]"
         [isFocused]="state.currentlyPlayingSegment === i"
         [wasAnsweredWrong]="answer.wasWrong"
+        cdkDropList
+        [cdkDropListData]="i"
       ></app-answer-indication>
     </div>
     <app-answers-layout
@@ -85,20 +87,26 @@
       let-answerConfig
       #answerButton
     >
-      <ion-button
-        *ngIf="answerConfig.answer as answer"
-        class="exercise__answer-button"
-        (click)="onAnswerClick(answerConfig)"
-        [disabled]="!state.isAnswerEnabled"
-        [class.--right]="answer === rightAnswer"
-        [class.--highlighted]="answer === state.highlightedAnswer"
-        [class.--wrong]="wrongAnswers.includes(answer)"
-        [color]="'light'"
-      >
-        <span
-          [innerHTML]="answerConfig.displayLabel"
-        ></span>
-      </ion-button>
+      <div cdkDropList>
+        <ion-button
+          cdkDrag
+          [cdkDragData]="answerConfig"
+          (cdkDragDropped)="onDragDropped($event)"
+          *ngIf="answerConfig.answer as answer"
+          class="exercise__answer-button"
+          (click)="onAnswerClick(answerConfig)"
+          [disabled]="!state.isAnswerEnabled"
+          [class.--right]="answer === rightAnswer"
+          [class.--highlighted]="answer === state.highlightedAnswer"
+          [class.--wrong]="wrongAnswers.includes(answer)"
+          [color]="'light'"
+        >
+          <ng-container *cdkDragPlaceholder></ng-container>
+          <span
+            [innerHTML]="answerConfig.displayLabel"
+          ></span>
+        </ion-button>
+      </div>
     </ng-template>
     <div class="exercise__actions-container">
       <ion-button

@@ -20,8 +20,9 @@ import {
   BehaviorSubject,
   combineLatest,
 } from 'rxjs';
-import AnswerConfig = Exercise.AnswerConfig;
 import { BdcWalkService } from 'bdc-walkthrough';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import AnswerConfig = Exercise.AnswerConfig;
 
 @Component({
   selector: 'app-exercise-page',
@@ -207,5 +208,14 @@ export class ExercisePage extends BaseComponent {
     } else {
       this._developerModeActivationCount++;
     }
+  }
+
+  onDragDropped(dragDropEvent: CdkDragDrop<number | undefined>): void {
+    const answerIndex: number | undefined = dragDropEvent.container.data;
+    if (_.isNil(answerIndex)) {
+      return;
+    }
+    const answerConfig: AnswerConfig<string> = dragDropEvent.item.data;
+    console.log(`Answer ${answerConfig.answer} was dragged to index ${answerIndex}`)
   }
 }

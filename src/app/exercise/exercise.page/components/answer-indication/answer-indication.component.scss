@@ -18,6 +18,10 @@
   &.--wrong {
     color: var(--ion-color-danger);
   }
+
+  &.cdk-drop-list-dragging {
+    background-color: #efefef;
+  }
 }
 
 .no-answer {
