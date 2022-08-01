@@ -243,7 +243,9 @@ export class ExerciseStateService implements OnDestroy {
         await this._notesPlayer.playMultipleParts(cadence);
       }
       await this._playYouTubeQuestion(this._currentQuestion);
-    } else if (this._currentQuestion.type === 'notes') {
+    } else if (this._currentQuestion.type === 'audio') {
+      await this._playAudioQuestion(this._currentQuestion);
+    } else {
       const partsToPlay: PartToPlay[] = this._getCurrentQuestionPartsToPlay();
       if (cadence && (this._globalSettings.playCadence || this._wasKeyChanged)) {
         partsToPlay.forEach(part => {
@@ -257,10 +259,6 @@ export class ExerciseStateService implements OnDestroy {
         partsToPlay.push(...this._getAfterCorrectAnswerParts());
       }
       await this._notesPlayer.playMultipleParts(partsToPlay);
-    } else if (this._currentQuestion.type === 'audio') {
-      await this._playAudioQuestion(this._currentQuestion);
-    } else {
-      throw new Error(`${this._currentQuestion.type} is not a recognizable question type`);
     }
     await this._afterPlaying();
   }
