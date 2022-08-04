@@ -22,6 +22,7 @@ import { transpose } from '../../../utility/music/transpose';
 import { NoteEvent } from '../../../../services/player.service';
 import { RomanNumeralChord } from '../../../utility/music/harmony/RomanNumeralChord';
 
+// todo: drop the "base"
 export type BaseRomanAnalysisChordProgressionExerciseSettings =
   BaseTonalChordProgressionExerciseSettings<RomanNumeralChordSymbol> &
   PlayAfterCorrectAnswerSetting;

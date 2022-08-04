@@ -4,6 +4,7 @@ import {
   randomFromList,
   toGetter,
   NotesRange,
+  StaticOrGetter,
 } from '../../../utility';
 import { Exercise } from '../../../Exercise';
 import { transpose } from '../../../utility/music/transpose';
@@ -16,8 +17,13 @@ import { NoteEvent } from '../../../../services/player.service';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { NoteType } from '../../../utility/music/notes/NoteType';
 import { Frequency } from 'tone/Tone/core/type/Units';
-import { BaseExercise } from './BaseExercise';
+import {
+  BaseExercise,
+  createExercise,
+  CreateExerciseParams,
+} from './BaseExercise';
 import { CadenceTypeSetting } from '../settings/CadenceTypeSetting';
+import AnswerList = Exercise.AnswerList;
 
 export type CadenceType = 'I IV V I' | 'i iv V i';
 
@@ -29,6 +35,41 @@ const cadenceTypeToCadence: {
   'I IV V I': IV_V_I_CADENCE_IN_C,
   'i iv V i': iv_V_i_CADENCE_IN_C,
 }
+
+/**
+ * TODO: remove BaseTonalExercise
+ * Use this function instead
+ * */
+
+// todo: consider using pick
+export type TonalExerciseParams<GAnswer extends string, GSettings extends Exercise.Settings> = {
+  getQuestionInC: (settings: GSettings) => Exercise.Question<GAnswer>;
+  answerList: StaticOrGetter<AnswerList<GAnswer>, [GSettings]>,
+};
+
+// todo: consider if we want to use createExercise directly inside this function, as we assume it should always be used
+// pros: easier to use
+// cons: more dependencies, harder to test
+// another option will be to have two functions, one that doesn't use the create exercise, and another that compose the two into one, we will need to consider naming though
+export function tonalExercise<GAnswer extends string, GSettings extends Exercise.Settings>(params: TonalExerciseParams<GAnswer, GSettings>): Pick<CreateExerciseParams<GAnswer, GSettings>, 'getQuestion' | 'answerList'> {
+  throw new Error('Not implemented');
+}
+
+// usage example:
+// const exercise: Exercise.IExercise = createExercise({
+//   ...tonalExercise({
+//     getQuestionInC: (settings): Exercise.Question => ({
+//
+//     }),
+//     answerList: [],
+//   }),
+//   id: 'id',
+//   ...
+// })
+
+/**
+ * Generation for key and other utility methods can still be added to the object for state managment.
+ * */
 
 export abstract class BaseTonalExercise<GAnswer extends string = string, GSettings extends TonalExerciseSettings<GAnswer> = TonalExerciseSettings<GAnswer>> extends BaseExercise<GAnswer, GSettings> {
   key: Key;

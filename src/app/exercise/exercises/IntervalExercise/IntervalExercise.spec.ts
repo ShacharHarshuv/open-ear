@@ -1,18 +1,19 @@
 import { Exercise } from '../../Exercise';
 import {
-  IntervalExercise,
   IntervalName,
   IntervalExerciseSettings,
+  intervalExercise,
+  intervalDescriptorList,
 } from './IntervalExercise';
 import * as _ from 'lodash';
 import { ExerciseTest } from '../../ExerciseTest';
 
 describe('IntervalExercise', () => {
   let exercise: Exercise.IExercise<IntervalName, IntervalExerciseSettings>;
-  const allIntervals: IntervalName[] = _.map(IntervalExercise.intervalDescriptorList, 'name');
+  const allIntervals: IntervalName[] = _.map(intervalDescriptorList, 'name');
 
   beforeEach(() => {
-    exercise = new IntervalExercise();
+    exercise = intervalExercise();
   });
 
   describe('getAnswersList', () => {

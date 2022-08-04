@@ -8,7 +8,9 @@ import { NoteEvent } from '../../../../services/player.service';
 import { getInterval, NotesRange, } from '../../../utility';
 import { transpose } from '../../../utility/music/transpose';
 import { Interval } from '../../../utility/music/intervals/Interval';
+import { CreateExerciseParams } from './BaseExercise';
 
+// todo: drop the "base" and "tonal"
 export type BaseTonalChordProgressionExerciseSettings<GAnswer extends string> = TonalExerciseSettings<GAnswer> & {
   voiceLeading: 'RANDOM' | 'CORRECT';
   includedPositions: (0 | 1 | 2)[];
@@ -28,6 +30,20 @@ export interface ChordProgressionQuestion<GAnswer extends string> extends Omit<E
     questionSegments: Exercise.NotesQuestion<GAnswer>['segments'],
   }]>;
 }
+
+// todo: remove the class and create those functions instead
+// let's create this method so it doesn't HAVE to be "tonal"
+
+export type ChordProgressionExerciseParams<GAnswer extends string, GSettings extends Exercise.Settings> = {
+  getChordProgression: (settings: GSettings) => ChordProgressionQuestion<GAnswer>;
+}
+
+export function chordProgressionExercise<GAnswer extends string, GSettings extends Exercise.Settings>(params: ChordProgressionExerciseParams<GAnswer, GSettings>): CreateExerciseParams<GAnswer, GSettings & BaseTonalChordProgressionExerciseSettings<GAnswer>> {
+  throw new Error(`Not implemented`);
+}
+
+// todo: this function will compose chordProgressionExercise and tonalExercise
+// export function tonalChordProgression
 
 export abstract class BaseTonalChordProgressionExercise<GAnswer extends string, GSettings extends BaseTonalChordProgressionExerciseSettings<GAnswer>> extends BaseTonalExercise<GAnswer, GSettings> {
   protected override _settings: GSettings = {

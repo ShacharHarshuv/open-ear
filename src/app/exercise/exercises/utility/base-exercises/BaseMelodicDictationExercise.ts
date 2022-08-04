@@ -1,6 +1,7 @@
 import {
   BaseTonalExercise,
   TonalExerciseSettings,
+  TonalExerciseParams,
 } from './BaseTonalExercise';
 import * as _ from 'lodash';
 import { Exercise } from '../../../Exercise';
@@ -19,12 +20,23 @@ import { noteTypeToScaleDegree } from '../../../utility/music/scale-degrees/note
 
 type NoteInKeyDisplayMode = 'solfege' | 'numeral';
 
+// todo: drop the "base"
 export type BaseMelodicDictationExerciseSettings = TonalExerciseSettings<SolfegeNote> & {
   displayMode: NoteInKeyDisplayMode,
 };
 
 export interface IMelodicQuestion extends Omit<Exercise.NotesQuestion<SolfegeNote>, 'segments'> {
   segments: Note[],
+}
+
+/**
+ * TODO: replace this class with the following function
+ * */
+
+export function melodicExercise<GSettings extends BaseMelodicDictationExerciseSettings>(params: {
+  getMelodicQuestionInC: (settings: GSettings) => IMelodicQuestion;
+}): TonalExerciseParams<SolfegeNote, GSettings> {
+  throw new Error('Not implemented');
 }
 
 export abstract class BaseMelodicDictationExercise<GSettings extends BaseMelodicDictationExerciseSettings> extends BaseTonalExercise<SolfegeNote, GSettings> { // Consider using "ScaleDegree" in code instead for clarity

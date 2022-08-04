@@ -2,6 +2,8 @@ import { SettingsDescriptors } from './SettingsDescriptors';
 import { Exercise } from '../../../Exercise';
 import { MockExercise } from '../../../MockExercise';
 
+// TODO: remove
+
 const settingsDescriptor: Exercise.SettingsControlDescriptor = {
   key: 'mockSettingKey',
   descriptor: {

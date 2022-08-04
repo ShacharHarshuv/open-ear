@@ -6,10 +6,44 @@ export type IncludedAnswersSettings<GAnswer extends string> = {
   includedAnswers: GAnswer[];
 }
 
+// todo: remove
 type IncludedAnswersBaseExercise<GAnswer extends string, GSettings extends IncludedAnswersSettings<GAnswer>> = BaseExercise<GAnswer, GSettings> & {
   getAnswerList(): Exercise.AnswerList<GAnswer>;
 }
 
+// todo: move this to a dedicated file
+export type SettingsParams<GSettings extends Exercise.Settings> = {
+  // todo: consider supplying the default value as a separate map, to make sure any settings property has a value
+  readonly settingsDescriptors: Exercise.SettingsControlDescriptor<GSettings>[];
+  readonly defaultSettings: GSettings,
+}
+
+// todo: add tests
+export function includedAnswersSetting<GAnswer extends string>(params: {
+  defaultSelectedAnswers: GAnswer[],
+  answerList: Exercise.AnswerList<GAnswer>,
+}): SettingsParams<IncludedAnswersSettings<GAnswer>> {
+  return {
+    defaultSettings: {
+      includedAnswers: params.defaultSelectedAnswers,
+    },
+    settingsDescriptors: [
+      {
+        key: 'includedAnswers',
+        descriptor: {
+          controlType: 'included-answers',
+          label: 'Included Options',
+          answerList: params.answerList,
+        },
+      },
+    ],
+  }
+}
+
+// todo: convert to object (not functions) and use directly
+// namespace IncludedAnswersSettings {
+//   const descriptor = () => ...
+// }
 export function IncludedAnswersSetting<GAnswer extends string, GSettings extends IncludedAnswersSettings<GAnswer>>(params: {
   default: GAnswer[],
 }) {

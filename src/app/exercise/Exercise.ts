@@ -252,6 +252,7 @@ export namespace Exercise {
 
   export type ExerciseExplanationContent = string | Type<any>;
 
+  // TODO: use "type" instead of interface. There is no need to use "implements"
   export interface IExercise<GAnswer extends string = string, GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }> {
     /**
      * Do not change the keys for the same exercise between versions, as it will break the persistent storage

@@ -5,6 +5,10 @@ export type CadenceTypeSetting = {
   cadenceType: CadenceType;
 }
 
+// todo: convert to object (not functions) and use directly
+// namespace CadenceTypeSetting {
+//   const descriptor = () => ...
+// }
 export function CadenceTypeSetting<GSettings extends CadenceTypeSetting>() {
   return SettingsDescriptors<GSettings>({
     defaultValue: 'I IV V I' as any, // it's unclear why this doesn't work without it

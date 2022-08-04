@@ -8,7 +8,7 @@ export type BaseCommonSettingsExerciseSettings<GAnswer extends string> = {
   includedAnswers: GAnswer[];
 }
 
-// TODO: replace this with the new decorator
+// TODO: remove usage of this
 export abstract class BaseCommonSettingsExercise<GAnswer extends string = string, GSettings extends BaseCommonSettingsExerciseSettings<GAnswer> = BaseCommonSettingsExerciseSettings<GAnswer>> extends BaseExercise<GAnswer, GSettings> {
   protected _allAnswersList: AnswerList<GAnswer> = this._getAllAnswersList();
 

@@ -3,7 +3,9 @@ import {
   Type,
 } from '@angular/core';
 import * as _ from 'lodash';
-import { IntervalExercise } from './exercises/IntervalExercise/IntervalExercise';
+import {
+  intervalExercise,
+} from './exercises/IntervalExercise/IntervalExercise';
 import { Exercise } from './Exercise';
 import { ChordsInKeyExercise } from './exercises/ChordInKeyExercise/ChordsInKeyExercise';
 import { NotesInKeyExercise } from './exercises/NotesInKeyExercise/NotesInKeyExercise';
@@ -29,7 +31,7 @@ export class ExerciseService {
     new NotesWithChordsExercise() as unknown as IExercise, // TODO(OE-27)
     new TriadInversionExercise() as unknown as IExercise, // TODO(OE-27)
     // new ChordArpeggioExercise() as unknown as IExercise, // TODO(OE-27)
-    new IntervalExercise() as unknown as IExercise, // TODO(OE-27)
+    intervalExercise(),
   ];
   private readonly _exerciseIdToExercise = _.keyBy(ExerciseService._exerciseList, 'id');
   static readonly ngComponents: Type<any>[] = ExerciseService._exerciseList
