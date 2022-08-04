@@ -216,6 +216,9 @@ export class ExercisePage extends BaseComponent {
       return;
     }
     const answerConfig: AnswerConfig<string> = dragDropEvent.item.data;
-    console.log(`Answer ${answerConfig.answer} was dragged to index ${answerIndex}`)
+    if (_.isNil(answerConfig.answer)) {
+      return;
+    }
+    this.state.answer(answerConfig.answer, answerIndex)
   }
 }
