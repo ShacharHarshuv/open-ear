@@ -163,22 +163,28 @@ export class ExerciseStateService implements OnDestroy {
     return this._answerToLabelStringMap;
   }
 
-  answer(answer: string): boolean {
-    const rightAnswer = this._currentQuestion.segments[this._currentSegmentToAnswer].rightAnswer;
+  answer(answer: string, answerIndex?: number): boolean {
+    answerIndex = answerIndex ?? this._currentSegmentToAnswer;
+    if (this._currentAnswers[answerIndex].answer) {
+      return this._currentAnswers[answerIndex].answer === answer;
+    }
+    const rightAnswer = this._currentQuestion.segments[answerIndex].rightAnswer;
     const isRight = rightAnswer === answer;
     if (!isRight) {
-      this._currentAnswers[this._currentSegmentToAnswer].wasWrong = true;
+      this._currentAnswers[answerIndex].wasWrong = true;
     }
     if (isRight || this._globalSettings.revealAnswerAfterFirstMistake) {
       this._totalQuestions++;
-      if (!this._currentAnswers[this._currentSegmentToAnswer].wasWrong) {
+      if (!this._currentAnswers[answerIndex].wasWrong) {
         this._totalCorrectAnswers++;
       }
-      this._currentAnswers[this._currentSegmentToAnswer].answer = rightAnswer;
-      this._currentSegmentToAnswer++;
+      this._currentAnswers[answerIndex].answer = rightAnswer;
+      while (!!this._currentAnswers[this._currentSegmentToAnswer]?.answer) {
+        this._currentSegmentToAnswer++;
+      }
 
       // Last segment was answered
-      if (this._currentSegmentToAnswer === this._currentQuestion.segments.length) {
+      if (_.every(this._currentAnswers, currentAnswer => !!currentAnswer.answer)) {
         // if not all answers are correct
         if (this._globalSettings.adaptive) {
           const areAllSegmentsCorrect: boolean = !this._currentAnswers.filter(answerSegment => answerSegment.wasWrong).length;

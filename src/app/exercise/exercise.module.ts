@@ -21,6 +21,7 @@ import { AnswersLayoutComponent } from './exercise.page/components/answers-layou
 import { FieldInfoComponent } from './exercise.page/components/exercise-settings.page/components/field-info/field-info.component';
 import { BdcWalkModule } from 'bdc-walkthrough';
 import { ExerciseControlDirective } from './exercise.page/components/exercise-settings.page/directives/exercise-control.directive';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { ExerciseControlDirective } from './exercise.page/components/exercise-se
     ModalModule,
     ConsoleLogComponentModule,
     BdcWalkModule,
+    DragDropModule,
   ],
 })
 export class ExerciseModule {
