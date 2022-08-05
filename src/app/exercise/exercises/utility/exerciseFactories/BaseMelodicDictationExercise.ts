@@ -2,7 +2,7 @@ import {
   BaseTonalExercise,
   TonalExerciseSettings,
   TonalExerciseParams,
-} from './BaseTonalExercise';
+} from './tonalExercise';
 import * as _ from 'lodash';
 import { Exercise } from '../../../Exercise';
 import { Note } from 'tone/Tone/core/type/NoteUnits';

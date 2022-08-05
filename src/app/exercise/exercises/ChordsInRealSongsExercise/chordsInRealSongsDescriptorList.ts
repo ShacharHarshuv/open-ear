@@ -1,5 +1,5 @@
 import { NoteType } from '../../utility/music/notes/NoteType';
-import { CadenceType } from '../utility/base-exercises/BaseTonalExercise';
+import { CadenceType } from '../utility/exerciseFactories/tonalExercise';
 import {
   Mode,
   RomanNumeralChordSymbol,

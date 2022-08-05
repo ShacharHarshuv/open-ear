@@ -17,7 +17,7 @@ import {
   BaseRomanAnalysisChordProgressionExercise,
   BaseRomanAnalysisChordProgressionExerciseSettings,
   RomanNumeralsChordProgressionQuestion,
-} from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
+} from '../utility/exerciseFactories/BaseRomanAnalysisChordProgressionExercise';
 import {
   IncludedAnswersSetting,
   IncludedAnswersSettings,

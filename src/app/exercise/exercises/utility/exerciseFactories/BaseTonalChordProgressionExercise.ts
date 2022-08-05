@@ -1,4 +1,4 @@
-import { BaseTonalExercise, TonalExerciseSettings } from './BaseTonalExercise';
+import { BaseTonalExercise, TonalExerciseSettings } from './tonalExercise';
 import { Exercise } from '../../../Exercise';
 import { randomFromList, StaticOrGetter, toGetter, } from '../../../../shared/ts-utility';
 import * as _ from 'lodash';
@@ -8,7 +8,7 @@ import { NoteEvent } from '../../../../services/player.service';
 import { getInterval, NotesRange, } from '../../../utility';
 import { transpose } from '../../../utility/music/transpose';
 import { Interval } from '../../../utility/music/intervals/Interval';
-import { CreateExerciseParams } from './BaseExercise';
+import { CreateExerciseParams } from './createExercise';
 
 // todo: drop the "base" and "tonal"
 export type BaseTonalChordProgressionExerciseSettings<GAnswer extends string> = TonalExerciseSettings<GAnswer> & {

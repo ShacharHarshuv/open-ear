@@ -1,5 +1,5 @@
 import { Exercise } from '../../../Exercise';
-import { BaseExercise } from './BaseExercise';
+import { BaseExercise } from './createExercise';
 import AnswerList = Exercise.AnswerList;
 import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
 import IncludedAnswersControlDescriptor = Exercise.IncludedAnswersControlDescriptor;

@@ -5,15 +5,14 @@ import {
   ReplaySubject,
   Subject,
 } from 'rxjs';
-import AnswerList = Exercise.AnswerList;
-import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
-import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
 import {
   StaticOrGetter,
   toGetter,
-  LogReturnValue,
 } from '../../../../shared/ts-utility';
-import { SettingsParams } from '../settings/IncludedAnswersSettings';
+import { SettingsParams } from '../settings/SettingsParams';
+import AnswerList = Exercise.AnswerList;
+import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
+import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
 
 /**
  * TODO: replace with the following function.
@@ -33,6 +32,7 @@ export type CreateExerciseParams<GAnswer extends string, GSettings extends Exerc
   readonly getQuestion: (settings: GSettings) => Exercise.Question<GAnswer>,
 } & SettingsParams<GSettings>;
 
+// todo: add tests
 export function createExercise<GAnswer extends string, GSettings extends Exercise.Settings>(params: CreateExerciseParams<GAnswer, GSettings>): Exercise.IExercise<GAnswer, GSettings> {
   const settings: GSettings = params.defaultSettings;
   return {
@@ -40,11 +40,6 @@ export function createExercise<GAnswer extends string, GSettings extends Exercis
     summary: params.summary,
     name: params.name,
     explanation: params.explanation,
-    getAnswerList: () => {
-      console.log('getAnswerList', settings); // todo
-      return toGetter(params.answerList)(settings);
-    },
-    getQuestion: () => params.getQuestion(settings),
     getSettingsDescriptor: () => params.settingsDescriptors,
     updateSettings: (_settings: GSettings): void => {
       for (let key in _settings) {
@@ -54,6 +49,10 @@ export function createExercise<GAnswer extends string, GSettings extends Exercis
     getCurrentSettings: (): GSettings => {
       return settings;
     },
+    getAnswerList: () => {
+      return toGetter(params.answerList)(settings);
+    },
+    getQuestion: () => params.getQuestion(settings),
   }
 }
 

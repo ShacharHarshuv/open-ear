@@ -1,7 +1,7 @@
 import {
   BaseTonalExercise,
   TonalExerciseSettings,
-} from '../utility/base-exercises/BaseTonalExercise';
+} from '../utility/exerciseFactories/tonalExercise';
 import { Exercise } from '../../Exercise';
 import { randomFromList } from '../../../shared/ts-utility';
 import {
@@ -26,7 +26,7 @@ import {
   IncludedAnswersSettings,
 } from '../utility/settings/IncludedAnswersSettings';
 import { SettingsDescriptors } from '../utility/settings/SettingsDescriptors';
-import { romanNumeralToChordInC } from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
+import { romanNumeralToChordInC } from '../utility/exerciseFactories/BaseRomanAnalysisChordProgressionExercise';
 import { scaleDegreeToNoteType } from '../../utility/music/scale-degrees/scaleDegreeToNoteType';
 
 type ChordDegree = 1 | 2 | 3 | 4 | 5 | 6 | 7;

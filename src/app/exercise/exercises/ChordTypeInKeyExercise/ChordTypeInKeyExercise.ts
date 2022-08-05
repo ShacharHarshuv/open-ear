@@ -12,7 +12,7 @@ import {
   BaseTonalChordProgressionExercise,
   ChordProgressionQuestion,
   BaseTonalChordProgressionExerciseSettings,
-} from '../utility/base-exercises/BaseTonalChordProgressionExercise';
+} from '../utility/exerciseFactories/BaseTonalChordProgressionExercise';
 import { ChordTypeInKeyExplanationComponent } from './chord-type-in-key-explanation/chord-type-in-key-explanation.component';
 import { SettingsDescriptors } from '../utility/settings/SettingsDescriptors';
 import {
@@ -20,7 +20,7 @@ import {
   chromaticDegreeToScaleDegree,
   ScaleDegree,
 } from '../../utility';
-import { romanNumeralToChordInC } from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
+import { romanNumeralToChordInC } from '../utility/exerciseFactories/BaseRomanAnalysisChordProgressionExercise';
 import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
 import { scaleLayout } from '../utility/layouts/scale-layout';
 import { chordTypeConfigMap } from '../../utility/music/chords/Chord/ChordType';

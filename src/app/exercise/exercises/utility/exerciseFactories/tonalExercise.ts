@@ -17,13 +17,14 @@ import { NoteEvent } from '../../../../services/player.service';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { NoteType } from '../../../utility/music/notes/NoteType';
 import { Frequency } from 'tone/Tone/core/type/Units';
+import { CreateExerciseParams } from './createExercise';
 import {
-  BaseExercise,
-  createExercise,
-  CreateExerciseParams,
-} from './BaseExercise';
-import { CadenceTypeSetting } from '../settings/CadenceTypeSetting';
+  CadenceTypeSetting,
+  cadenceTypeSettings,
+} from '../settings/CadenceTypeSetting';
+import { BaseExercise } from './createExercise';
 import AnswerList = Exercise.AnswerList;
+import { SettingsParams } from '../settings/SettingsParams';
 
 export type CadenceType = 'I IV V I' | 'i iv V i';
 
@@ -42,17 +43,67 @@ const cadenceTypeToCadence: {
  * */
 
 // todo: consider using pick
+// todo: consider adding a flag to denote whether to include the cade type settings or not, and if not what the defulat should be
 export type TonalExerciseParams<GAnswer extends string, GSettings extends Exercise.Settings> = {
-  getQuestionInC: (settings: GSettings) => Exercise.Question<GAnswer>;
-  answerList: StaticOrGetter<AnswerList<GAnswer>, [GSettings]>,
+  getQuestionInC: (settings: GSettings) => Exercise.NotesQuestion<GAnswer>;
+  answerListInC: StaticOrGetter<AnswerList<GAnswer>, [GSettings]>,
 };
 
 // todo: consider if we want to use createExercise directly inside this function, as we assume it should always be used
 // pros: easier to use
 // cons: more dependencies, harder to test
 // another option will be to have two functions, one that doesn't use the create exercise, and another that compose the two into one, we will need to consider naming though
-export function tonalExercise<GAnswer extends string, GSettings extends Exercise.Settings>(params: TonalExerciseParams<GAnswer, GSettings>): Pick<CreateExerciseParams<GAnswer, GSettings>, 'getQuestion' | 'answerList'> {
-  throw new Error('Not implemented');
+export function tonalExercise<GAnswer extends string, GSettings extends Exercise.Settings>(
+  params: TonalExerciseParams<GAnswer, GSettings>,
+): Pick<CreateExerciseParams<GAnswer, GSettings & TonalExerciseSettings<GAnswer>>, 'getQuestion' | 'answerList'> & SettingsParams<TonalExerciseSettings<GAnswer>> {
+  const key: Key = randomFromList(['C', 'G', 'D', 'A', 'E', 'B', 'F#', 'Db', 'Ab', 'Eb', 'Bb', 'F']);
+
+  function keyInfo(): string {
+    return `Key: ${key}`
+  }
+
+  function transposeToKey(partOrNotes: Note): Note;
+  function transposeToKey(partOrNotes: NoteType): NoteType;
+  function transposeToKey(partOrNotes: Note[]): Note[];
+  function transposeToKey(partOrNotes: Note | Note[]): Note | Note[];
+  function transposeToKey(partOrNotes: NoteEvent[]): NoteEvent[];
+  function transposeToKey(partOrNotes: NoteEvent[] | OneOrMany<Note>): NoteEvent[] | OneOrMany<Note>;
+  function transposeToKey(partOrNotes: NoteEvent[] | Note[] | Note | NoteType): NoteEvent[] | Frequency[] | Frequency | NoteType {
+    return transpose(partOrNotes, getDistanceOfKeys(key, 'C'));
+  }
+
+  return {
+    getQuestion(settings: GSettings & TonalExerciseSettings<GAnswer>): Exercise.NotesQuestion<GAnswer> {
+      const questionInC: Exclude<Exercise.NotesQuestion<GAnswer>, 'cadence'> = params.getQuestionInC(settings);
+      console.log('cadenceType', settings.cadenceType); // todo
+      const selectedCadence = cadenceTypeToCadence[settings.cadenceType];
+      return {
+        info: keyInfo(),
+        ...questionInC,
+        segments: questionInC.segments.map(segment => ({
+          rightAnswer: segment.rightAnswer,
+          partToPlay: transposeToKey(segment.partToPlay),
+        })),
+        cadence: transposeToKey(selectedCadence),
+        afterCorrectAnswer: questionInC.afterCorrectAnswer?.map(afterCorrectAnswerSegment => ({
+          answerToHighlight: afterCorrectAnswerSegment.answerToHighlight,
+          partToPlay: transposeToKey(afterCorrectAnswerSegment.partToPlay),
+        })),
+      }
+    },
+    answerList: (settings: GSettings) => {
+      const answerListInC: Exercise.AnswerList<GAnswer> = toGetter(params.answerListInC)(settings);
+      const answerLayout: Exercise.NormalizedAnswerLayout<GAnswer> = Exercise.normalizedAnswerList(answerListInC);
+      return Exercise.mapAnswerList(answerLayout, answerConfig => ({
+        ...answerConfig,
+        playOnClick: answerConfig.playOnClick ? (question: Exercise.Question<GAnswer>) => {
+          const partToPlayInC: NoteEvent[] | OneOrMany<Note> | null = toGetter(answerConfig.playOnClick!)(question);
+          return partToPlayInC && transposeToKey(partToPlayInC)
+        } : null,
+      }));
+    },
+    ...cadenceTypeSettings(),
+  }
 }
 
 // usage example:

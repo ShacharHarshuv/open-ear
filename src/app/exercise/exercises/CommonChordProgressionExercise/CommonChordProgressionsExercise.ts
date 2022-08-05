@@ -2,7 +2,7 @@ import {
   BaseRomanAnalysisChordProgressionExercise,
   BaseRomanAnalysisChordProgressionExerciseSettings,
   RomanNumeralsChordProgressionQuestion,
-} from '../utility/base-exercises/BaseRomanAnalysisChordProgressionExercise';
+} from '../utility/exerciseFactories/BaseRomanAnalysisChordProgressionExercise';
 import { Exercise } from '../../Exercise';
 import { randomFromList } from '../../../shared/ts-utility';
 import * as _ from 'lodash';

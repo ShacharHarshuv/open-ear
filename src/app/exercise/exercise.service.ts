@@ -3,16 +3,13 @@ import {
   Type,
 } from '@angular/core';
 import * as _ from 'lodash';
-import {
-  intervalExercise,
-} from './exercises/IntervalExercise/IntervalExercise';
+import { intervalExercise } from './exercises/IntervalExercise/IntervalExercise';
 import { Exercise } from './Exercise';
 import { ChordsInKeyExercise } from './exercises/ChordInKeyExercise/ChordsInKeyExercise';
 import { NotesInKeyExercise } from './exercises/NotesInKeyExercise/NotesInKeyExercise';
 import { ChordTypeInKeyExercise } from './exercises/ChordTypeInKeyExercise/ChordTypeInKeyExercise';
-import { TriadInversionExercise } from './exercises/TriadInversionExercise/TriadInversionExercise';
+import { triadInversionExercise } from './exercises/TriadInversionExercise/TriadInversionExercise';
 import { CommonChordProgressionsExercise } from './exercises/CommonChordProgressionExercise/CommonChordProgressionsExercise';
-import { ChordArpeggioExercise } from './exercises/ChordArpeggioExercise/ChordArpeggioExercise';
 import { NotesWithChordsExercise } from './exercises/NotesWithChords/NotesWithChordsExercise';
 import { ChordsInRealSongsExercise } from './exercises/ChordsInRealSongsExercise/ChordsInRealSongsExercise';
 import { Platform } from '@ionic/angular';
@@ -29,7 +26,7 @@ export class ExerciseService {
     new ChordsInRealSongsExercise(),
     new ChordTypeInKeyExercise() as unknown as IExercise, // TODO(OE-27)
     new NotesWithChordsExercise() as unknown as IExercise, // TODO(OE-27)
-    new TriadInversionExercise() as unknown as IExercise, // TODO(OE-27)
+    triadInversionExercise(),
     // new ChordArpeggioExercise() as unknown as IExercise, // TODO(OE-27)
     intervalExercise(),
   ];

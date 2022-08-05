@@ -13,7 +13,7 @@ import { IntervalExerciseExplanationComponent } from "./interval-exercise-explan
 import { NoteEvent } from '../../../services/player.service';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { transpose } from '../../utility/music/transpose';
-import { createExercise } from '../utility/base-exercises/BaseExercise';
+import { createExercise } from '../utility/exerciseFactories/createExercise';
 import {
   IncludedAnswersSettings,
   includedAnswersSetting,
@@ -121,6 +121,7 @@ export const intervalExercise = (): Exercise.IExercise<IntervalName, IntervalExe
     name: 'Intervals',
     summary: 'Identify intervals chromatically (no key)',
     explanation: IntervalExerciseExplanationComponent,
+    // todo: this filtering should be somehow reused together with includedAnswersSetting
     answerList: (settings: IntervalExerciseSettings) => filterIncludedAnswers(allAnswersList, settings.includedAnswers),
     getQuestion(settings: IntervalExerciseSettings): Exercise.Question<IntervalName> {
       const randomIntervalDescriptor: IIntervalDescriptor = randomFromList(intervalDescriptorList.filter(intervalDescriptor => settings.includedAnswers.includes(intervalDescriptor.name)));

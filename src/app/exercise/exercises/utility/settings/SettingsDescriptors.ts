@@ -3,7 +3,7 @@ import {
   AtLeastOne,
 } from '../../../../shared/ts-utility';
 import { Exercise } from '../../../Exercise';
-import { BaseExercise } from '../base-exercises/BaseExercise';
+import { BaseExercise } from '../exerciseFactories/createExercise';
 import { collectionChain } from '../../../../shared/ts-utility/collectionChain';
 
 // todo: remove, use base constructor instead
