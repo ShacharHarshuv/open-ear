@@ -9,6 +9,6 @@ export function combineSettings<GSettings extends Exercise.Settings>(...settings
   const defaultSettings: GSettings[] = _.map(settingsParams, p => p.defaultSettings);
   return {
     settingsDescriptors: _.flatMap(settingsParams, p => p.settingsDescriptors),
-    defaultSettings: _.merge(defaultSettings[0], defaultSettings.splice(0)),
+    defaultSettings: _.merge(defaultSettings[0], ...defaultSettings.splice(0)),
   };
 }
