@@ -121,8 +121,6 @@ export const intervalExercise = (): Exercise.IExercise<IntervalName, IntervalExe
     name: 'Intervals',
     summary: 'Identify intervals chromatically (no key)',
     explanation: IntervalExerciseExplanationComponent,
-    // todo: this filtering should be somehow reused together with includedAnswersSetting
-    answerList: (settings: IntervalExerciseSettings) => filterIncludedAnswers(allAnswersList, settings.includedAnswers),
     getQuestion(settings: IntervalExerciseSettings): Exercise.Question<IntervalName> {
       const randomIntervalDescriptor: IIntervalDescriptor = randomFromList(intervalDescriptorList.filter(intervalDescriptor => settings.includedAnswers.includes(intervalDescriptor.name)));
       const randomStartingNoteNumber: NoteNumber = _.random(range.lowestNoteNumber, range.highestNoteNumber - randomIntervalDescriptor.semitones);

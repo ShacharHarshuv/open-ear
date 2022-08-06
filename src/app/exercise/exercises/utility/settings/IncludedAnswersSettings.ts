@@ -1,7 +1,11 @@
 import { Exercise } from '../../../Exercise';
 import { Constructor } from '../../../../shared/ts-utility';
-import { BaseExercise } from '../exerciseFactories/createExercise';
+import {
+  BaseExercise,
+  CreateExerciseParams,
+} from '../exerciseFactories/createExercise';
 import { SettingsParams } from './SettingsParams';
+import filterIncludedAnswers = Exercise.filterIncludedAnswers;
 
 export type IncludedAnswersSettings<GAnswer extends string> = {
   includedAnswers: GAnswer[];
@@ -12,11 +16,12 @@ type IncludedAnswersBaseExercise<GAnswer extends string, GSettings extends Inclu
   getAnswerList(): Exercise.AnswerList<GAnswer>;
 }
 
+// todo: add tests
 export function includedAnswersSetting<GAnswer extends string>(params: {
   // todo: support setting this to "all" by default if not provided.
   defaultSelectedAnswers: GAnswer[],
   answerList: Exercise.AnswerList<GAnswer>,
-}): SettingsParams<IncludedAnswersSettings<GAnswer>> {
+}): SettingsParams<IncludedAnswersSettings<GAnswer>> & Pick<CreateExerciseParams<GAnswer, IncludedAnswersSettings<GAnswer>>, 'answerList'> {
   return {
     defaultSettings: {
       includedAnswers: params.defaultSelectedAnswers,
@@ -31,9 +36,9 @@ export function includedAnswersSetting<GAnswer extends string>(params: {
         },
       },
     ],
+    answerList: (settings: IncludedAnswersSettings<GAnswer>) => filterIncludedAnswers(params.answerList, settings.includedAnswers),
   }
 }
-// todo: add tests
 
 // TODO: remove
 export function IncludedAnswersSetting<GAnswer extends string, GSettings extends IncludedAnswersSettings<GAnswer>>(params: {

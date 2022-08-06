@@ -44,9 +44,16 @@ const cadenceTypeToCadence: {
 
 // todo: consider using pick
 // todo: consider adding a flag to denote whether to include the cade type settings or not, and if not what the defulat should be
+// todo: consider using Pick from CreateExerciseParams.
 export type TonalExerciseParams<GAnswer extends string, GSettings extends Exercise.Settings> = {
-  getQuestionInC: (settings: GSettings) => Exercise.NotesQuestion<GAnswer>;
-  answerListInC: StaticOrGetter<AnswerList<GAnswer>, [GSettings]>,
+  /*
+   * question in C
+   * */
+  getQuestion: (settings: GSettings) => Exercise.NotesQuestion<GAnswer>;
+  /**
+   * answerList in C
+   * */
+  answerList: StaticOrGetter<AnswerList<GAnswer>, [GSettings]>,
 };
 
 // todo: consider if we want to use createExercise directly inside this function, as we assume it should always be used
@@ -74,7 +81,7 @@ export function tonalExercise<GAnswer extends string, GSettings extends Exercise
 
   return {
     getQuestion(settings: GSettings & TonalExerciseSettings<GAnswer>): Exercise.NotesQuestion<GAnswer> {
-      const questionInC: Exclude<Exercise.NotesQuestion<GAnswer>, 'cadence'> = params.getQuestionInC(settings);
+      const questionInC: Exclude<Exercise.NotesQuestion<GAnswer>, 'cadence'> = params.getQuestion(settings);
       console.log('cadenceType', settings.cadenceType); // todo
       const selectedCadence = cadenceTypeToCadence[settings.cadenceType];
       return {
@@ -92,7 +99,7 @@ export function tonalExercise<GAnswer extends string, GSettings extends Exercise
       }
     },
     answerList: (settings: GSettings) => {
-      const answerListInC: Exercise.AnswerList<GAnswer> = toGetter(params.answerListInC)(settings);
+      const answerListInC: Exercise.AnswerList<GAnswer> = toGetter(params.answerList)(settings);
       const answerLayout: Exercise.NormalizedAnswerLayout<GAnswer> = Exercise.normalizedAnswerList(answerListInC);
       return Exercise.mapAnswerList(answerLayout, answerConfig => ({
         ...answerConfig,

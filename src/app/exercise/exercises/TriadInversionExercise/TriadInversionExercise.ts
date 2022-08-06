@@ -32,6 +32,7 @@ const triadInversions: TriadInversionAnswer[] = [
 export type TriadInversionExerciseSettings =
   CadenceTypeSetting &
   IncludedAnswersSettings<TriadInversionAnswer> & { // todo: includedAnswersSettings should probably be removed
+  // todo: arpeggiate speed can be a generic plugable settings (and reused across different exercise)
   arpeggiateSpeed: number;
   playRootAfterAnswer: boolean;
 }
@@ -47,8 +48,8 @@ export const triadInversionExercise = () => {
     summary: 'Find the inversion of a triad in close position',
     explanation: TriadInversionExplanationComponent,
     // todo: this filtering should be someone reused together with includedAnswersSetting
-    answerListInC: (settings: IncludedAnswersSettings<TriadInversionAnswer>) => filterIncludedAnswers(allAnswersList, settings.includedAnswers),
-    getQuestionInC(settings: TriadInversionExerciseSettings): Exclude<Exercise.NotesQuestion<TriadInversionAnswer>, 'cadence'> {
+    answerList: (settings: IncludedAnswersSettings<TriadInversionAnswer>) => filterIncludedAnswers(allAnswersList, settings.includedAnswers),
+    getQuestion(settings: TriadInversionExerciseSettings): Exclude<Exercise.NotesQuestion<TriadInversionAnswer>, 'cadence'> {
       const chordsInC: ChordSymbol[] = ['C', 'Dm', 'Em', 'F', 'G', 'Am'];
       const randomChordInC: ChordSymbol = randomFromList(chordsInC);
       const invertionOptions: TriadInversion[] = [0, 1, 2].filter(invertionOption => settings.includedAnswers.includes(triadInversions[invertionOption]));
