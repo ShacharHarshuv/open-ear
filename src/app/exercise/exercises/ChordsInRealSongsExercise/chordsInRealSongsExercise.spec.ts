@@ -1,4 +1,6 @@
-import { ChordsInRealSongsExercise } from './ChordsInRealSongsExercise';
+import {
+  chordsInRealSongsExercise,
+} from './ChordsInRealSongsExercise';
 import { testPureFunction } from '../../../shared/testing-utility/testPureFunction';
 import {
   ProgressionInSongFromYouTubeDescriptor,
@@ -14,7 +16,7 @@ import { testExercise } from '../testing-utility/test.exercise';
 
 describe('ChordsInRealSongsExercise', () => {
   const context = testExercise({
-    getExercise: () => new ChordsInRealSongsExercise(),
+    getExercise: chordsInRealSongsExercise,
     settingDescriptorList: [
       'Included Chords',
     ],
@@ -23,8 +25,8 @@ describe('ChordsInRealSongsExercise', () => {
   describe('Songs', () => {
     chordsInRealSongsDescriptorList.forEach(chordProgressionDescriptor => {
       it(chordProgressionDescriptor.name ?? 'Anonymous Song', () => {
-        const exercise = new ChordsInRealSongsExercise([chordProgressionDescriptor])
-        exercise.updateSettings({
+        const exercise = chordsInRealSongsExercise([chordProgressionDescriptor])
+        exercise.updateSettings?.({
           includedChords: _.map(chordProgressionDescriptor.chords, 'chord'),
         })
         expect(exercise.getQuestion()).toBeTruthy();
@@ -33,7 +35,7 @@ describe('ChordsInRealSongsExercise', () => {
   });
 
   describe('included progressions', () => {
-    let exercise: ChordsInRealSongsExercise;
+    let exercise: ReturnType<typeof chordsInRealSongsExercise>;
 
     function generateMockProgressionDescriptor(progression: RomanNumeralChordSymbol[]): ProgressionInSongFromYouTubeDescriptor {
       return {
@@ -54,7 +56,7 @@ describe('ChordsInRealSongsExercise', () => {
     const progression_i_bVII_bVI = generateMockProgressionDescriptor(['i', 'bVII', 'bVI']);
 
     beforeEach(() => {
-      exercise = new ChordsInRealSongsExercise([
+      exercise = chordsInRealSongsExercise([
         progression_I_IV_V,
         progression_I_V_vi_IV,
         progression_I_ii_V_I,
@@ -63,11 +65,11 @@ describe('ChordsInRealSongsExercise', () => {
     });
 
     testPureFunction((selected: RomanNumeralChordSymbol[]): DeepReadonly<ProgressionInSongFromYouTubeDescriptor[]> => {
-      exercise.updateSettings({
-        ...exercise.getCurrentSettings(),
+      exercise.updateSettings?.({
+        ...exercise.getCurrentSettings?.(),
         includedChords: selected,
       })
-      return exercise.getAvailableProgressions();
+      return exercise.getAvailableProgressions(exercise.getCurrentSettings?.()!);
     }, [
       {
         args: [['I', 'IV', 'V']],

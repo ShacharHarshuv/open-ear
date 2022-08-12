@@ -10,10 +10,10 @@ import { NotesInKeyExercise } from './exercises/NotesInKeyExercise/NotesInKeyExe
 import { ChordTypeInKeyExercise } from './exercises/ChordTypeInKeyExercise/ChordTypeInKeyExercise';
 import { CommonChordProgressionsExercise } from './exercises/CommonChordProgressionExercise/CommonChordProgressionsExercise';
 import { NotesWithChordsExercise } from './exercises/NotesWithChords/NotesWithChordsExercise';
-import { ChordsInRealSongsExercise } from './exercises/ChordsInRealSongsExercise/ChordsInRealSongsExercise';
 import { Platform } from '@ionic/angular';
 import IExercise = Exercise.Exercise;
 import { triadInversionExercise } from './exercises/TriadInversionExercise/TriadInversionExercise';
+import { chordsInRealSongsExercise } from './exercises/ChordsInRealSongsExercise/ChordsInRealSongsExercise';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +23,7 @@ export class ExerciseService {
     new NotesInKeyExercise() as unknown as IExercise, // TODO(OE-27)
     new ChordsInKeyExercise() as unknown as IExercise, // TODO(OE-27)
     new CommonChordProgressionsExercise() as unknown as IExercise, // TODO(OE-27)
-    new ChordsInRealSongsExercise(),
+    chordsInRealSongsExercise(),
     new ChordTypeInKeyExercise() as unknown as IExercise, // TODO(OE-27)
     new NotesWithChordsExercise() as unknown as IExercise, // TODO(OE-27)
     triadInversionExercise(),

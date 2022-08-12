@@ -1,7 +1,6 @@
 import { Exercise } from '../../../Exercise';
 import * as _ from 'lodash';
 import {
-  Observable,
   ReplaySubject,
   Subject,
 } from 'rxjs';
@@ -10,6 +9,7 @@ import {
   toGetter,
 } from '../../../../shared/ts-utility';
 import { SettingsParams } from '../settings/SettingsParams';
+import { Platforms } from '@ionic/core/dist/types/utils/platform';
 import AnswerList = Exercise.AnswerList;
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
@@ -18,9 +18,10 @@ export type CreateExerciseParams<GAnswer extends string, GSettings extends Exerc
   readonly id: string,
   readonly summary: string,
   readonly name: string,
-  readonly explanation: ExerciseExplanationContent,
+  readonly explanation?: ExerciseExplanationContent,
   readonly answerList: StaticOrGetter<AnswerList<GAnswer>, [GSettings]>,
   readonly getQuestion: (settings: GSettings) => Exercise.Question<GAnswer>,
+  readonly blackListPlatform?: Platforms,
 } & SettingsParams<GSettings>;
 
 // todo: add tests
@@ -31,6 +32,7 @@ export function createExercise<GAnswer extends string, GSettings extends Exercis
     summary: params.summary,
     name: params.name,
     explanation: params.explanation,
+    blackListPlatform: params.blackListPlatform,
     getSettingsDescriptor: () => params.settingsDescriptors ?? [],
     updateSettings: (_settings: GSettings): void => {
       for (let key in _settings) {

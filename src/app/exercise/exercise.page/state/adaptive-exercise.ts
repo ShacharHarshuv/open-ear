@@ -13,7 +13,7 @@ export class AdaptiveExercise implements Exercise.Exercise {
   readonly summary: string = this._exercise.summary;
   readonly id: string = this._exercise.id;
   readonly name: string = this._exercise.name;
-  readonly explanation: ExerciseExplanationContent = this._exercise.explanation;
+  readonly explanation: ExerciseExplanationContent | undefined = this._exercise.explanation;
   private _lastQuestion: QuestionToRepeat | null = null;
   private _wrongQuestionsHeap = new Heap<Required<QuestionToRepeat>>((a: Required<QuestionToRepeat>, b: Required<QuestionToRepeat>) => a.timeToReAsk - b.timeToReAsk);
   private _questionIndex: number = -1;
