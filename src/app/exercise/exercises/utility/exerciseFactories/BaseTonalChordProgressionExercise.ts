@@ -11,7 +11,7 @@ import { Interval } from '../../../utility/music/intervals/Interval';
 import { CreateExerciseParams } from './createExercise';
 
 // todo: drop the "base" and "tonal"
-export type BaseTonalChordProgressionExerciseSettings<GAnswer extends string> = TonalExerciseSettings<GAnswer> & {
+export type BaseTonalChordProgressionExerciseSettings<GAnswer extends string> = TonalExerciseSettings & {
   voiceLeading: 'RANDOM' | 'CORRECT';
   includedPositions: (0 | 1 | 2)[];
   includeBass: boolean;

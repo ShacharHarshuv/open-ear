@@ -62,7 +62,7 @@ describe('compose with merge', function() {
     },
   });
 
-  it('should use the merge function in case of a conflict', () => {
+  it('should use the merge function in case of a conflict of fn1 return and fn2 return', () => {
     const returnValue = compose(
       (p: { n: number }) => ({
         dictionary: {
@@ -81,5 +81,48 @@ describe('compose with merge', function() {
         b: 2,
       }
     })
+  });
+
+  it('should use the merge function in case of conflict of params and fn1 return', () => {
+    const returnValue = compose(
+      (p: {array: string[]}) => {
+        return {
+          array: [p.array.length.toString()],
+        };
+      },
+      (p: {array: string[]}) => {
+        return {
+          finalList: p.array,
+        };
+      },
+     )({
+      array: ['2'],
+    });
+
+    expect(returnValue).toEqual({
+      array: ['1'],
+      finalList: ['1', '2'],
+    })
   })
+
+  it('should enable to pass optional parameters to fn2 even if fn1 returns them if they have a merge function', () => {
+    const myFunc = compose(
+      (p: {a: number}): {array: string[]} => ({
+        array: [p.a.toString()],
+      }),
+      (p: {array: string[]}): {b: string[]} => ({
+        b: p.array,
+      }),
+    );
+
+    expect(myFunc({a: 1})).toEqual({
+      array: ['1'],
+      b: ['1'],
+    });
+
+    expect(myFunc({a: 1, array: ['2']})).toEqual({
+      array: ['1'],
+      b: ['1', '2']
+    });
+  });
 });

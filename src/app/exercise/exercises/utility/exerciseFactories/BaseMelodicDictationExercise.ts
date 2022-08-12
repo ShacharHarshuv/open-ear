@@ -21,7 +21,7 @@ import { noteTypeToScaleDegree } from '../../../utility/music/scale-degrees/note
 type NoteInKeyDisplayMode = 'solfege' | 'numeral';
 
 // todo: drop the "base"
-export type BaseMelodicDictationExerciseSettings = TonalExerciseSettings<SolfegeNote> & {
+export type BaseMelodicDictationExerciseSettings = TonalExerciseSettings & {
   displayMode: NoteInKeyDisplayMode,
 };
 

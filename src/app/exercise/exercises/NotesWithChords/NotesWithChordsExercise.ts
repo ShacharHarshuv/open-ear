@@ -233,7 +233,7 @@ const noteWithChordDescriptorMap: {
   },
 }
 
-type NoteWithChordsSettings = TonalExerciseSettings<NoteWithChord> &
+type NoteWithChordsSettings = TonalExerciseSettings &
   IncludedAnswersSettings<NoteWithChord> & {
   voiceMode: 'soprano' | 'bass';
 };

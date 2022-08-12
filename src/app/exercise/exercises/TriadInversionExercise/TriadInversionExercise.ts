@@ -13,13 +13,18 @@ import {
   IncludedAnswersSettings,
   includedAnswersSetting,
 } from '../utility/settings/IncludedAnswersSettings';
-import { createTonalExercise } from '../utility/exerciseFactories/createTonalExercise';
 import { combineSettings } from '../utility/settings/combineSettings';
 import {
   cadenceTypeSettings,
   CadenceTypeSetting,
 } from '../utility/settings/CadenceTypeSetting';
 import filterIncludedAnswers = Exercise.filterIncludedAnswers;
+import { composeExercise } from '../utility/exerciseFactories/composeExercise';
+import {
+  tonalExercise,
+  TonalExerciseSettings,
+} from '../utility/exerciseFactories/tonalExercise';
+import { defaultSettings } from '../utility/exerciseFactories/defaultSettings';
 
 type TriadInversionAnswer = 'Root Position' | '1st Inversion' | '2nd Inversion'
 
@@ -30,7 +35,6 @@ const triadInversions: TriadInversionAnswer[] = [
 ];
 
 export type TriadInversionExerciseSettings =
-  CadenceTypeSetting &
   IncludedAnswersSettings<TriadInversionAnswer> & { // todo: includedAnswersSettings should probably be removed
   // todo: arpeggiate speed can be a generic plugable settings (and reused across different exercise)
   arpeggiateSpeed: number;
@@ -42,12 +46,14 @@ export const triadInversionExercise = () => {
     rows: triadInversions.map(triadInversion => [triadInversion]),
   };
 
-  return createTonalExercise<TriadInversionAnswer, TriadInversionExerciseSettings>({
+  return composeExercise(
+    tonalExercise,
+  )({
     id: 'triadInversions',
     name: 'Triad Inversions',
     summary: 'Find the inversion of a triad in close position',
     explanation: TriadInversionExplanationComponent,
-    // todo: this filtering should be someone reused together with includedAnswersSetting
+    // todo: this filtering should be somehow reused together with includedAnswersSetting
     answerList: (settings: IncludedAnswersSettings<TriadInversionAnswer>) => filterIncludedAnswers(allAnswersList, settings.includedAnswers),
     getQuestion(settings: TriadInversionExerciseSettings): Exclude<Exercise.NotesQuestion<TriadInversionAnswer>, 'cadence'> {
       const chordsInC: ChordSymbol[] = ['C', 'Dm', 'Em', 'F', 'G', 'Am'];
@@ -64,7 +70,7 @@ export const triadInversionExercise = () => {
         segments: [
           {
             partToPlay: voicing.map((note, index) => {
-              const noteDelay = index * settings.arpeggiateSpeed / 100;
+              const noteDelay = index * /*settings.arpeggiateSpeed*/ 0 / 100;
               return {
                 notes: note,
                 velocity: 0.3,
@@ -78,20 +84,25 @@ export const triadInversionExercise = () => {
         info: '',
       };
 
-      if (settings.playRootAfterAnswer) {
-        question.afterCorrectAnswer = [
-          {
-            partToPlay: toSteadyPart(voicing[(3 - randomTriadInversion) % 3], '1n', 0.3),
-            answerToHighlight: answer,
-          },
-        ]
-      }
+      // if (settings.playRootAfterAnswer) {
+      //   question.afterCorrectAnswer = [
+      //     {
+      //       partToPlay: toSteadyPart(voicing[(3 - randomTriadInversion) % 3], '1n', 0.3),
+      //       answerToHighlight: answer,
+      //     },
+      //   ]
+      // }
 
       return question;
     },
-    // TODO: consider if tonalExercise should keep the values provided here and add to it, right now it overrides
+    // ...defaultSettings<TriadInversionExerciseSettings>({
+    //   includedAnswers: ['Root Position', '1st Inversion', '2nd Inversion'],
+    //   // todo: check if those were the previous defaults
+    //   arpeggiateSpeed: 0,
+    //   playRootAfterAnswer: true,
+    // }),
+    // todo: remove this, composeExercise should work properly
     ...combineSettings(
-      cadenceTypeSettings(),
       includedAnswersSetting({
         answerList: allAnswersList,
         defaultSelectedAnswers: ['Root Position', '1st Inversion', '2nd Inversion'],
@@ -124,5 +135,5 @@ export const triadInversionExercise = () => {
         },
       },
     ),
-  });
+  })
 }

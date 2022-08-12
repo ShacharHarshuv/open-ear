@@ -28,7 +28,7 @@ import { SettingsParams } from '../settings/SettingsParams';
 
 export type CadenceType = 'I IV V I' | 'i iv V i';
 
-export type TonalExerciseSettings<GAnswer extends string> = CadenceTypeSetting;
+export type TonalExerciseSettings = CadenceTypeSetting;
 
 const cadenceTypeToCadence: {
   [k in CadenceType]: NoteEvent[]
@@ -49,7 +49,7 @@ export type TonalExerciseParams<GAnswer extends string, GSettings extends Exerci
   /*
    * question in C
    * */
-  getQuestion: (settings: GSettings) => Exercise.NotesQuestion<GAnswer>;
+  getQuestion: (settings: GSettings) => Omit<Exercise.NotesQuestion<GAnswer>, 'cadence'>;
   /**
    * answerList in C
    * */
@@ -62,7 +62,7 @@ export type TonalExerciseParams<GAnswer extends string, GSettings extends Exerci
 // another option will be to have two functions, one that doesn't use the create exercise, and another that compose the two into one, we will need to consider naming though
 export function tonalExercise<GAnswer extends string, GSettings extends Exercise.Settings>(
   params: TonalExerciseParams<GAnswer, GSettings>,
-): Pick<CreateExerciseParams<GAnswer, GSettings & TonalExerciseSettings<GAnswer>>, 'getQuestion' | 'answerList'> & SettingsParams<TonalExerciseSettings<GAnswer>> {
+): Pick<CreateExerciseParams<GAnswer, GSettings & TonalExerciseSettings>, 'getQuestion' | 'answerList'> & SettingsParams<TonalExerciseSettings> & { defaultSettings: TonalExerciseSettings } { // todo
   const key: Key = randomFromList(['C', 'G', 'D', 'A', 'E', 'B', 'F#', 'Db', 'Ab', 'Eb', 'Bb', 'F']);
 
   function keyInfo(): string {
@@ -80,7 +80,7 @@ export function tonalExercise<GAnswer extends string, GSettings extends Exercise
   }
 
   return {
-    getQuestion(settings: GSettings & TonalExerciseSettings<GAnswer>): Exercise.NotesQuestion<GAnswer> {
+    getQuestion(settings: GSettings & TonalExerciseSettings): Exercise.NotesQuestion<GAnswer> {
       const questionInC: Exclude<Exercise.NotesQuestion<GAnswer>, 'cadence'> = params.getQuestion(settings);
       console.log('cadenceType', settings.cadenceType); // todo
       const selectedCadence = cadenceTypeToCadence[settings.cadenceType];
@@ -109,7 +109,7 @@ export function tonalExercise<GAnswer extends string, GSettings extends Exercise
         } : null,
       }));
     },
-    ...cadenceTypeSettings(),
+    ...cadenceTypeSettings(), // todo: we should probably separate it so tonal exercise can work without it
   }
 }
 
@@ -129,7 +129,7 @@ export function tonalExercise<GAnswer extends string, GSettings extends Exercise
  * Generation for key and other utility methods can still be added to the object for state managment.
  * */
 
-export abstract class BaseTonalExercise<GAnswer extends string = string, GSettings extends TonalExerciseSettings<GAnswer> = TonalExerciseSettings<GAnswer>> extends BaseExercise<GAnswer, GSettings> {
+export abstract class BaseTonalExercise<GAnswer extends string = string, GSettings extends TonalExerciseSettings = TonalExerciseSettings> extends BaseExercise<GAnswer, GSettings> {
   key: Key;
 
   constructor() {

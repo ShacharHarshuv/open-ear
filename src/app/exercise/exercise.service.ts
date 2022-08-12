@@ -8,7 +8,6 @@ import { Exercise } from './Exercise';
 import { ChordsInKeyExercise } from './exercises/ChordInKeyExercise/ChordsInKeyExercise';
 import { NotesInKeyExercise } from './exercises/NotesInKeyExercise/NotesInKeyExercise';
 import { ChordTypeInKeyExercise } from './exercises/ChordTypeInKeyExercise/ChordTypeInKeyExercise';
-import { triadInversionExercise } from './exercises/TriadInversionExercise/TriadInversionExercise';
 import { CommonChordProgressionsExercise } from './exercises/CommonChordProgressionExercise/CommonChordProgressionsExercise';
 import { NotesWithChordsExercise } from './exercises/NotesWithChords/NotesWithChordsExercise';
 import { ChordsInRealSongsExercise } from './exercises/ChordsInRealSongsExercise/ChordsInRealSongsExercise';
@@ -26,7 +25,7 @@ export class ExerciseService {
     new ChordsInRealSongsExercise(),
     new ChordTypeInKeyExercise() as unknown as IExercise, // TODO(OE-27)
     new NotesWithChordsExercise() as unknown as IExercise, // TODO(OE-27)
-    triadInversionExercise(),
+    // triadInversionExercise(), // todo
     // new ChordArpeggioExercise() as unknown as IExercise, // TODO(OE-27)
     intervalExercise(),
   ];
