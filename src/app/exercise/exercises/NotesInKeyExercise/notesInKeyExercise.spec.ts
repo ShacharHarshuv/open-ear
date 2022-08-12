@@ -1,8 +1,7 @@
-import { Exercise } from '../../Exercise';
 import { NotesInKeyExercise } from './NotesInKeyExercise';
 import { testExercise } from '../testing-utility/test.exercise';
 
-describe('NotesInKeyExercise', () => {
+describe('notesInKeyExercise', () => {
   const context = testExercise({
     getExercise: () => new NotesInKeyExercise(),
     settingDescriptorList: [

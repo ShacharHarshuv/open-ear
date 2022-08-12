@@ -1,9 +1,9 @@
-import { NotesWithChordsExercise } from './NotesWithChordsExercise';
 import { testExercise } from '../testing-utility/test.exercise';
+import { notesWithChordsExercise } from './NotesWithChordsExercise';
 
-describe('NotesWithChordsExercise', () => {
+describe('notesWithChordsExercise', () => {
   testExercise({
-    getExercise: () => new NotesWithChordsExercise(),
+    getExercise: notesWithChordsExercise,
     settingDescriptorList: [
       'Included Options',
       'Voice Mode',

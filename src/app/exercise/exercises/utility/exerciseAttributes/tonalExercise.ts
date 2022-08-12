@@ -40,11 +40,15 @@ const cadenceTypeToCadence: {
   'i iv V i': iv_V_i_CADENCE_IN_C,
 }
 
+export type TonalExerciseUtils = {
+  getRangeForKeyOfC(rangeForPlaying: NotesRange): NotesRange;
+}
+
 export type TonalExerciseParams<GAnswer extends string, GSettings extends Exercise.Settings> = {
   /*
    * question in C
    * */
-  getQuestion: (settings: GSettings) => Omit<Exercise.NotesQuestion<GAnswer>, 'cadence'>;
+  getQuestion: StaticOrGetter<Omit<Exercise.NotesQuestion<GAnswer>, 'cadence'>, [GSettings, TonalExerciseUtils]>;
   /**
    * answerList in C
    * */
@@ -52,36 +56,47 @@ export type TonalExerciseParams<GAnswer extends string, GSettings extends Exerci
 };
 
 type TonalExerciseConfig = {
-  playCadence?: boolean,
+  playCadence?: true,
+  cadenceTypeSelection?: boolean,
+} | {
+  playCadence: false,
+  cadenceTypeSelection?: false,
 }
 
 export function tonalExercise<GAnswer extends string, GSettings extends Exercise.Settings>(config?: TonalExerciseConfig) {
   const fullConfig: Required<TonalExerciseConfig> = _.defaults(config, {
     playCadence: true,
+    cadenceTypeSelection: config?.playCadence ?? true,
   });
+
+  const key: Key = randomFromList(['C', 'G', 'D', 'A', 'E', 'B', 'F#', 'Db', 'Ab', 'Eb', 'Bb', 'F']);
+
+  function keyInfo(): string {
+    return `Key: ${key}`
+  }
+
+  function transposeToKey(partOrNotes: Note): Note;
+  function transposeToKey(partOrNotes: NoteType): NoteType;
+  function transposeToKey(partOrNotes: Note[]): Note[];
+  function transposeToKey(partOrNotes: Note | Note[]): Note | Note[];
+  function transposeToKey(partOrNotes: NoteEvent[]): NoteEvent[];
+  function transposeToKey(partOrNotes: NoteEvent[] | OneOrMany<Note>): NoteEvent[] | OneOrMany<Note>;
+  function transposeToKey(partOrNotes: NoteEvent[] | Note[] | Note | NoteType): NoteEvent[] | Frequency[] | Frequency | NoteType {
+    return transpose(partOrNotes, getDistanceOfKeys(key, 'C'));
+  }
+
+  function getRangeForKeyOfC(rangeForPlaying: NotesRange): NotesRange {
+    return transpose(rangeForPlaying, getDistanceOfKeys('C', key));
+  }
 
   return function (
     params: TonalExerciseParams<GAnswer, GSettings>,
   ): Pick<CreateExerciseParams<GAnswer, GSettings & TonalExerciseSettings>, 'getQuestion' | 'answerList'> & SettingsParams<TonalExerciseSettings> & { defaultSettings: TonalExerciseSettings } {
-    const key: Key = randomFromList(['C', 'G', 'D', 'A', 'E', 'B', 'F#', 'Db', 'Ab', 'Eb', 'Bb', 'F']);
-
-    function keyInfo(): string {
-      return `Key: ${key}`
-    }
-
-    function transposeToKey(partOrNotes: Note): Note;
-    function transposeToKey(partOrNotes: NoteType): NoteType;
-    function transposeToKey(partOrNotes: Note[]): Note[];
-    function transposeToKey(partOrNotes: Note | Note[]): Note | Note[];
-    function transposeToKey(partOrNotes: NoteEvent[]): NoteEvent[];
-    function transposeToKey(partOrNotes: NoteEvent[] | OneOrMany<Note>): NoteEvent[] | OneOrMany<Note>;
-    function transposeToKey(partOrNotes: NoteEvent[] | Note[] | Note | NoteType): NoteEvent[] | Frequency[] | Frequency | NoteType {
-      return transpose(partOrNotes, getDistanceOfKeys(key, 'C'));
-    }
-
     return {
       getQuestion(settings: GSettings & TonalExerciseSettings): Exercise.NotesQuestion<GAnswer> {
-        const questionInC: Exclude<Exercise.NotesQuestion<GAnswer>, 'cadence'> = params.getQuestion(settings);
+        const questionInC: Exclude<Exercise.NotesQuestion<GAnswer>, 'cadence'> = toGetter(params.getQuestion)(settings,{
+          getRangeForKeyOfC,
+        });
         const selectedCadence = cadenceTypeToCadence[settings.cadenceType];
         return {
           info: keyInfo(),
@@ -111,7 +126,7 @@ export function tonalExercise<GAnswer extends string, GSettings extends Exercise
       defaultSettings: {
         cadenceType: 'I IV V I',
       },
-      settingsDescriptors: fullConfig.playCadence ? cadenceTypeSettingsDescriptors() : [],
+      settingsDescriptors: fullConfig.cadenceTypeSelection ? cadenceTypeSettingsDescriptors() : [],
     }
   }
 }

@@ -8,7 +8,7 @@ import { ExerciseTest } from '../../ExerciseTest';
 import { testExercise } from '../testing-utility/test.exercise';
 import { Exercise } from '../../Exercise';
 
-describe('IntervalExercise', () => {
+describe('intervalExercise', () => {
   const context = testExercise({
     getExercise: intervalExercise,
     settingDescriptorList: [

@@ -14,7 +14,7 @@ import {
 import * as _ from 'lodash';
 import { testExercise } from '../testing-utility/test.exercise';
 
-describe('ChordsInRealSongsExercise', () => {
+describe('chordsInRealSongsExercise', () => {
   const context = testExercise({
     getExercise: chordsInRealSongsExercise,
     settingDescriptorList: [
