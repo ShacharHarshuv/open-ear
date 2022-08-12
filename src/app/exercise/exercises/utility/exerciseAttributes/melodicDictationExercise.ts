@@ -9,7 +9,7 @@ import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { getNoteType } from '../../../utility/music/notes/getNoteType';
 import { Time } from 'tone/Tone/core/type/Units';
 import { toMusicalTextDisplay } from '../../../utility/music/getMusicTextDisplay';
-import { scaleLayout } from '../layouts/scale-layout';
+import { scaleLayout } from '../answer-layouts/scale-layout';
 import {
   ScaleDegree,
   SolfegeNote,

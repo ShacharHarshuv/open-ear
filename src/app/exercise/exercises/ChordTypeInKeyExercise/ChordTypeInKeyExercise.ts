@@ -22,7 +22,7 @@ import {
 } from '../../utility';
 import { romanNumeralToChordInC } from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
 import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
-import { scaleLayout } from '../utility/layouts/scale-layout';
+import { scaleLayout } from '../utility/answer-layouts/scale-layout';
 import { chordTypeConfigMap } from '../../utility/music/chords/Chord/ChordType';
 import {
   flow,
