@@ -11,6 +11,8 @@ import { Platforms } from '@ionic/core/dist/types/utils/platform';
 
 type PartToPlay = NoteEvent[] | OneOrMany<Note>;
 
+// TODO: split this file to multiple files
+
 export namespace Exercise {
 
   interface BaseQuestion<GAnswer extends string, GSegment extends { rightAnswer: GAnswer }> {
