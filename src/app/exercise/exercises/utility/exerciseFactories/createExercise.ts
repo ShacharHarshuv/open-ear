@@ -14,15 +14,6 @@ import AnswerList = Exercise.AnswerList;
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
 
-/**
- * TODO: replace with the following function.
- * Instead of classes, we'll create factory functions.
- * Each exercise will be a factory function with zero parameters
- * Instead of base classes we'll create utility function that will assist with the creation
- *
- * This is better because it's easier to test and to compose
- * */
-
 export type CreateExerciseParams<GAnswer extends string, GSettings extends Exercise.Settings> = {
   readonly id: string,
   readonly summary: string,
@@ -56,13 +47,12 @@ export function createExercise<GAnswer extends string, GSettings extends Exercis
   }
 }
 
+// todo: remove
 export abstract class BaseExercise<GAnswer extends string = string, GSettings extends Exercise.Settings = Exercise.Settings> implements Exercise.Exercise<GAnswer, GSettings> {
   private _settingsChangeSubject = new ReplaySubject<GSettings>(1);
 
   protected _destroy$ = new Subject<void>();
   protected _settings: GSettings = this._getDefaultSettings();
-  // todo: remove if not used
-  protected _settings$: Observable<GSettings> = this._settingsChangeSubject.asObservable();
 
   abstract readonly id: string;
   abstract readonly summary: string;

@@ -1,8 +1,8 @@
 import {
   BaseTonalChordProgressionExercise,
-  BaseTonalChordProgressionExerciseSettings,
+  ChordProgressionExerciseSettings,
   ChordProgressionQuestion,
-} from './BaseTonalChordProgressionExercise';
+} from './chordProgressionExercise';
 import {
   Chord,
   TriadInversion,
@@ -23,8 +23,8 @@ import { NoteEvent } from '../../../../services/player.service';
 import { RomanNumeralChord } from '../../../utility/music/harmony/RomanNumeralChord';
 
 // todo: drop the "base"
-export type BaseRomanAnalysisChordProgressionExerciseSettings =
-  BaseTonalChordProgressionExerciseSettings<RomanNumeralChordSymbol> &
+export type RomanAnalysisChordProgressionExerciseSettings =
+  ChordProgressionExerciseSettings<RomanNumeralChordSymbol> &
   PlayAfterCorrectAnswerSetting;
 
 const romanNumeralToResolution: {
@@ -564,7 +564,7 @@ export type RomanNumeralsChordProgressionQuestion = {
   chordProgressionInRomanAnalysis: RomanNumeralChordSymbol[]
 };
 
-export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extends BaseRomanAnalysisChordProgressionExerciseSettings> extends BaseTonalChordProgressionExercise<RomanNumeralChordSymbol, GSettings> {
+export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extends RomanAnalysisChordProgressionExerciseSettings> extends BaseTonalChordProgressionExercise<RomanNumeralChordSymbol, GSettings> {
   static allAnswersList: Exercise.AnswerList<RomanNumeralChordSymbol> = BaseRomanAnalysisChordProgressionExercise._getAllAnswersList();
 
   protected abstract _getChordProgressionInRomanNumerals(): RomanNumeralsChordProgressionQuestion;

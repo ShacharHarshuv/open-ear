@@ -1,6 +1,6 @@
 import { Exercise } from '../../Exercise';
 import { ChordsInKeyExercise } from './ChordsInKeyExercise';
-import { BaseRomanAnalysisChordProgressionExercise } from '../utility/exerciseFactories/BaseRomanAnalysisChordProgressionExercise';
+import { BaseRomanAnalysisChordProgressionExercise } from '../utility/exerciseFactories/romanAnalysisChordProgressionExercise';
 
 describe('ChordsInKeyExercise', () => {
   let exercise: ChordsInKeyExercise;

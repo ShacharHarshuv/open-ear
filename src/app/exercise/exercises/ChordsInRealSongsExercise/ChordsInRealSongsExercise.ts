@@ -1,5 +1,5 @@
 import { Exercise } from '../../Exercise';
-import { BaseRomanAnalysisChordProgressionExercise } from '../utility/exerciseFactories/BaseRomanAnalysisChordProgressionExercise';
+import { BaseRomanAnalysisChordProgressionExercise } from '../utility/exerciseFactories/romanAnalysisChordProgressionExercise';
 import {
   chordsInRealSongsDescriptorList,
   ProgressionInSongFromYouTubeDescriptor,

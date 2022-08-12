@@ -15,9 +15,9 @@ import {
 } from '../utility/settings/PlayAfterCorrectAnswerSetting';
 import {
   BaseRomanAnalysisChordProgressionExercise,
-  BaseRomanAnalysisChordProgressionExerciseSettings,
+  RomanAnalysisChordProgressionExerciseSettings,
   RomanNumeralsChordProgressionQuestion,
-} from '../utility/exerciseFactories/BaseRomanAnalysisChordProgressionExercise';
+} from '../utility/exerciseFactories/romanAnalysisChordProgressionExercise';
 import {
   IncludedAnswersSetting,
   IncludedAnswersSettings,
@@ -27,7 +27,7 @@ import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 
 type ChordInKeySettings =
   IncludedAnswersSettings<RomanNumeralChordSymbol> &
-  BaseRomanAnalysisChordProgressionExerciseSettings &
+  RomanAnalysisChordProgressionExerciseSettings &
   NumberOfSegmentsSetting &
   PlayAfterCorrectAnswerSetting;
 

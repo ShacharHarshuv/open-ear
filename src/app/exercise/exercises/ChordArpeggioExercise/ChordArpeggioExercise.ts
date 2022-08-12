@@ -1,6 +1,6 @@
 import {
   BaseMelodicDictationExercise,
-  BaseMelodicDictationExerciseSettings, IMelodicQuestion,
+  MelodicDictationExerciseSettings, IMelodicQuestion,
 } from '../utility/exerciseFactories/BaseMelodicDictationExercise';
 import { Exercise } from '../../Exercise';
 import { Chord, ChordSymbol } from '../../utility/music/chords';
@@ -9,7 +9,7 @@ import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { IncludedAnswersSettings } from '../utility/settings/IncludedAnswersSettings';
 import { SolfegeNote } from '../../utility';
 
-export type ChordArpeggioExerciseSettings = IncludedAnswersSettings<SolfegeNote> & BaseMelodicDictationExerciseSettings;
+export type ChordArpeggioExerciseSettings = IncludedAnswersSettings<SolfegeNote> & MelodicDictationExerciseSettings;
 
 export class ChordArpeggioExercise extends BaseMelodicDictationExercise<ChordArpeggioExerciseSettings> {
   readonly id: string = 'chordArpeggio';

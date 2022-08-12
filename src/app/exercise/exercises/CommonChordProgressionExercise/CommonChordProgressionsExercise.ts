@@ -1,8 +1,8 @@
 import {
   BaseRomanAnalysisChordProgressionExercise,
-  BaseRomanAnalysisChordProgressionExerciseSettings,
+  RomanAnalysisChordProgressionExerciseSettings,
   RomanNumeralsChordProgressionQuestion,
-} from '../utility/exerciseFactories/BaseRomanAnalysisChordProgressionExercise';
+} from '../utility/exerciseFactories/romanAnalysisChordProgressionExercise';
 import { Exercise } from '../../Exercise';
 import { randomFromList } from '../../../shared/ts-utility';
 import * as _ from 'lodash';
@@ -15,7 +15,7 @@ import { toMusicalTextDisplay } from '../../utility/music/getMusicTextDisplay';
 import { SettingsDescriptors } from '../utility/settings/SettingsDescriptors';
 import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
 
-type CommonChordProgressionExerciseSettings = BaseRomanAnalysisChordProgressionExerciseSettings & {
+type CommonChordProgressionExerciseSettings = RomanAnalysisChordProgressionExerciseSettings & {
   includedProgressions: string[];
   tonicForAnalyzing: 'major' | 'original';
 };

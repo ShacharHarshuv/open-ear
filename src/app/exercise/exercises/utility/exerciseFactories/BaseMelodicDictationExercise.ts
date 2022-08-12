@@ -20,8 +20,7 @@ import { noteTypeToScaleDegree } from '../../../utility/music/scale-degrees/note
 
 type NoteInKeyDisplayMode = 'solfege' | 'numeral';
 
-// todo: drop the "base"
-export type BaseMelodicDictationExerciseSettings = TonalExerciseSettings & {
+export type MelodicDictationExerciseSettings = TonalExerciseSettings & {
   displayMode: NoteInKeyDisplayMode,
 };
 
@@ -33,13 +32,13 @@ export interface IMelodicQuestion extends Omit<Exercise.NotesQuestion<SolfegeNot
  * TODO: replace this class with the following function
  * */
 
-export function melodicExercise<GSettings extends BaseMelodicDictationExerciseSettings>(params: {
+export function melodicExercise<GSettings extends MelodicDictationExerciseSettings>(params: {
   getMelodicQuestionInC: (settings: GSettings) => IMelodicQuestion;
 }): TonalExerciseParams<SolfegeNote, GSettings> {
   throw new Error('Not implemented');
 }
 
-export abstract class BaseMelodicDictationExercise<GSettings extends BaseMelodicDictationExerciseSettings> extends BaseTonalExercise<SolfegeNote, GSettings> { // Consider using "ScaleDegree" in code instead for clarity
+export abstract class BaseMelodicDictationExercise<GSettings extends MelodicDictationExerciseSettings> extends BaseTonalExercise<SolfegeNote, GSettings> { // Consider using "ScaleDegree" in code instead for clarity
   readonly noteDuration: Time = '2n';
   abstract getMelodicQuestionInC(): IMelodicQuestion;
 

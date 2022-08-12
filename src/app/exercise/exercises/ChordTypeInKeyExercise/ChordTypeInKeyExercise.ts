@@ -11,8 +11,8 @@ import {
 import {
   BaseTonalChordProgressionExercise,
   ChordProgressionQuestion,
-  BaseTonalChordProgressionExerciseSettings,
-} from '../utility/exerciseFactories/BaseTonalChordProgressionExercise';
+  ChordProgressionExerciseSettings,
+} from '../utility/exerciseFactories/chordProgressionExercise';
 import { ChordTypeInKeyExplanationComponent } from './chord-type-in-key-explanation/chord-type-in-key-explanation.component';
 import { SettingsDescriptors } from '../utility/settings/SettingsDescriptors';
 import {
@@ -20,7 +20,7 @@ import {
   chromaticDegreeToScaleDegree,
   ScaleDegree,
 } from '../../utility';
-import { romanNumeralToChordInC } from '../utility/exerciseFactories/BaseRomanAnalysisChordProgressionExercise';
+import { romanNumeralToChordInC } from '../utility/exerciseFactories/romanAnalysisChordProgressionExercise';
 import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
 import { scaleLayout } from '../utility/layouts/scale-layout';
 import { chordTypeConfigMap } from '../../utility/music/chords/Chord/ChordType';
@@ -35,7 +35,7 @@ import flatAnswerList = Exercise.flatAnswerList;
 import normalizedAnswerList = Exercise.normalizedAnswerList;
 
 type ChordTypeInKeySettings = NumberOfSegmentsSetting &
-  BaseTonalChordProgressionExerciseSettings<ChordType> & {
+  ChordProgressionExerciseSettings<ChordType> & {
   includedRomanNumerals: RomanNumeralChordSymbol[],
 };
 

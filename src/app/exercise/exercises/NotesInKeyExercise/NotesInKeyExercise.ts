@@ -19,7 +19,7 @@ import { getNoteOctave } from '../../utility/music/notes/getNoteOctave';
 import { noteTypeToNote } from '../../utility/music/notes/noteTypeToNote';
 import { NotesInKeyExplanationComponent } from './notes-in-key-explanation/notes-in-key-explanation.component';
 import {
-  BaseMelodicDictationExerciseSettings,
+  MelodicDictationExerciseSettings,
   BaseMelodicDictationExercise,
   IMelodicQuestion,
 } from '../utility/exerciseFactories/BaseMelodicDictationExercise';
@@ -42,7 +42,7 @@ import { transpose } from '../../utility/music/transpose';
 
 type NoteInKeySettings =
   IncludedAnswersSettings<SolfegeNote> &
-  BaseMelodicDictationExerciseSettings &
+  MelodicDictationExerciseSettings &
   NumberOfSegmentsSetting &
   PlayAfterCorrectAnswerSetting & {
   notesRange: 'high' | 'middle' | 'bass' | 'contrabass',
