@@ -29,7 +29,7 @@ export function cadenceTypeSettingsDescriptors<GAnswer extends string>(): Exerci
   ];
 }
 
-// TODO: remove
+// TODO: remove (decorator)
 export function CadenceTypeSetting<GSettings extends CadenceTypeSetting>() {
   return SettingsDescriptors<GSettings>({
     defaultValue: 'I IV V I' as any, // it's unclear why this doesn't work without it

@@ -28,16 +28,13 @@ export interface IMelodicQuestion extends Omit<Exercise.NotesQuestion<SolfegeNot
   segments: Note[],
 }
 
-/**
- * TODO: replace this class with the following function
- * */
-
 export function melodicExercise<GSettings extends MelodicDictationExerciseSettings>(params: {
   getMelodicQuestionInC: (settings: GSettings) => IMelodicQuestion;
 }): TonalExerciseParams<SolfegeNote, GSettings> {
   throw new Error('Not implemented');
 }
 
+// todo: remove
 export abstract class BaseMelodicDictationExercise<GSettings extends MelodicDictationExerciseSettings> extends BaseTonalExercise<SolfegeNote, GSettings> { // Consider using "ScaleDegree" in code instead for clarity
   readonly noteDuration: Time = '2n';
   abstract getMelodicQuestionInC(): IMelodicQuestion;

@@ -6,7 +6,7 @@ import { Exercise } from '../../../Exercise';
 import { BaseExercise } from '../exerciseFactories/createExercise';
 import { collectionChain } from '../../../../shared/ts-utility/collectionChain';
 
-// todo: remove, use base constructor instead
+// todo: remove
 export function SettingsDescriptors<GSettings extends Exercise.Settings>(...settingDescriptorList: AtLeastOne<Exercise.SettingsControlDescriptor<GSettings> & { defaultValue?: GSettings[keyof GSettings] }>) {
   return function SettingsDescriptorDecorator<GConstructor extends Constructor<BaseExercise<any, GSettings>>>(BaseExercise: GConstructor) {
     // @ts-ignore

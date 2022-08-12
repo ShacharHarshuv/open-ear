@@ -40,14 +40,6 @@ const cadenceTypeToCadence: {
   'i iv V i': iv_V_i_CADENCE_IN_C,
 }
 
-/**
- * TODO: remove BaseTonalExercise
- * Use this function instead
- * */
-
-// todo: consider using pick
-// todo: consider adding a flag to denote whether to include the cade type settings or not, and if not what the defulat should be
-// todo: consider using Pick from CreateExerciseParams.
 export type TonalExerciseParams<GAnswer extends string, GSettings extends Exercise.Settings> = {
   /*
    * question in C
@@ -70,7 +62,7 @@ export function tonalExercise<GAnswer extends string, GSettings extends Exercise
 
   return function (
     params: TonalExerciseParams<GAnswer, GSettings>,
-  ): Pick<CreateExerciseParams<GAnswer, GSettings & TonalExerciseSettings>, 'getQuestion' | 'answerList'> & SettingsParams<TonalExerciseSettings> & { defaultSettings: TonalExerciseSettings } { // todo
+  ): Pick<CreateExerciseParams<GAnswer, GSettings & TonalExerciseSettings>, 'getQuestion' | 'answerList'> & SettingsParams<TonalExerciseSettings> & { defaultSettings: TonalExerciseSettings } {
     const key: Key = randomFromList(['C', 'G', 'D', 'A', 'E', 'B', 'F#', 'Db', 'Ab', 'Eb', 'Bb', 'F']);
 
     function keyInfo(): string {
@@ -90,7 +82,6 @@ export function tonalExercise<GAnswer extends string, GSettings extends Exercise
     return {
       getQuestion(settings: GSettings & TonalExerciseSettings): Exercise.NotesQuestion<GAnswer> {
         const questionInC: Exclude<Exercise.NotesQuestion<GAnswer>, 'cadence'> = params.getQuestion(settings);
-        console.log('cadenceType', settings.cadenceType); // todo
         const selectedCadence = cadenceTypeToCadence[settings.cadenceType];
         return {
           info: keyInfo(),

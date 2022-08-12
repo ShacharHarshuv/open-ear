@@ -4,10 +4,6 @@ export type PlayAfterCorrectAnswerSetting = {
   playAfterCorrectAnswer: boolean;
 }
 
-// todo: convert to object (not functions) and use directly
-// namespace CadenceTypeSetting {
-//   const descriptor = (param) => ...
-// }
 export const playAfterCorrectAnswerControlDescriptorList = <GSettings extends PlayAfterCorrectAnswerSetting>(param?: {
   show?: (settings: GSettings) => boolean,
 }): Exercise.SettingsControlDescriptor<PlayAfterCorrectAnswerSetting>[] => ([

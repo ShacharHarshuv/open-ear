@@ -84,7 +84,6 @@ export abstract class BaseExercise<GAnswer extends string = string, GSettings ex
     return [];
   }
 
-  // todo: get from "getSettingsDescriptor" and make private
   protected _getDefaultSettings(): GSettings {
     return {} as GSettings; // couldn't find a better way around it, it means that extending classes will have the responsibility to override this property
   }
