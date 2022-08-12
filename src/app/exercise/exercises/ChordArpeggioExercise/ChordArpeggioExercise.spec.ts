@@ -1,14 +1,10 @@
-import { Exercise } from '../../Exercise';
 import { ChordArpeggioExercise } from './ChordArpeggioExercise';
+import { testExercise } from '../testing-utility/test.exercise';
 
 describe('ChordArpeggioExercise', () => {
-  let exercise: Exercise.Exercise;
-
-  beforeEach(() => {
-    exercise = new ChordArpeggioExercise();
-  });
-
-  it('getQuestion should return a truthy value', () => {
-    expect(exercise.getQuestion()).toBeTruthy();
+  const context = testExercise({
+    getExercise: () => new ChordArpeggioExercise(),
+    settingDescriptorList: [
+    ],
   })
 })

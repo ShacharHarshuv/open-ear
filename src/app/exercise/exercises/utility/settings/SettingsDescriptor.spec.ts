@@ -42,6 +42,6 @@ describe('SettingsDescriptor', () => {
 
     expect(exercise?.getSettingsDescriptor()).toEqual([
       jasmine.objectContaining(settingsDescriptor),
-    ])
+    ]);
   });
 });

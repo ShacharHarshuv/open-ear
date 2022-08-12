@@ -1,14 +1,12 @@
-import { Exercise } from '../../Exercise';
 import { NotesWithChordsExercise } from './NotesWithChordsExercise';
+import { testExercise } from '../testing-utility/test.exercise';
 
 describe('NotesWithChordsExercise', () => {
-  let exercise: Exercise.Exercise;
-
-  beforeEach(() => {
-    exercise = new NotesWithChordsExercise();
-  });
-
-  it('getQuestion should return a truthy value', () => {
-    expect(exercise.getQuestion()).toBeTruthy();
+  testExercise({
+    getExercise: () => new NotesWithChordsExercise(),
+    settingDescriptorList: [
+      'Included Options',
+      'Voice Mode',
+    ],
   })
 })

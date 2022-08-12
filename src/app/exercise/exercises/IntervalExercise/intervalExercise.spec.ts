@@ -11,8 +11,8 @@ import { Exercise } from '../../Exercise';
 describe('IntervalExercise', () => {
   const context = testExercise({
     getExercise: intervalExercise,
-    settingDescriptorKeyList: [
-      'includedAnswers',
+    settingDescriptorList: [
+      'Included Options', // todo: consider making it "Included Intervals"
     ],
   })
   const allIntervals: IntervalName[] = _.map(intervalDescriptorList, 'name');

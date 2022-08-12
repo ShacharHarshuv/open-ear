@@ -1,14 +1,18 @@
 import { Exercise } from '../../Exercise';
 import { ChordTypeInKeyExercise } from './ChordTypeInKeyExercise';
+import { testExercise } from '../testing-utility/test.exercise';
 
 describe('ChordTypeInKeyExercise', () => {
-  let exercise: Exercise.Exercise;
-
-  beforeEach(() => {
-    exercise = new ChordTypeInKeyExercise();
-  });
-
-  it('getQuestion should return a truthy value', () => {
-    expect(exercise.getQuestion()).toBeTruthy();
+  const context = testExercise({
+    getExercise: () => new ChordTypeInKeyExercise(),
+    settingDescriptorList: [
+      'Included Types',
+      'Diatonic',
+      'Included Chords (Advanced)',
+      'Voice Leading',
+      'Include Bass',
+      'Included Positions (top voices)',
+      'Number of chords',
+    ],
   })
 })

@@ -4,10 +4,10 @@ import { triadInversionExercise } from './triadInversionExercise';
 describe('TriadInversionExercise', () => {
   const context = testExercise({
     getExercise: triadInversionExercise,
-    settingDescriptorKeyList: [
-      'includedAnswers',
-      'arpeggiateSpeed',
-      'playRootAfterAnswer',
+    settingDescriptorList: [
+      'Included Options',
+      'Arpeggiate Speed',
+      'Play Root After Correct Answer',
     ],
   });
 })

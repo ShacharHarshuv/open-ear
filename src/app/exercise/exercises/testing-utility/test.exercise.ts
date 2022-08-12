@@ -1,8 +1,10 @@
 import { Exercise } from '../../Exercise';
+import Expected = jasmine.Expected;
+import { toGetter } from '../../../shared/ts-utility';
 
 export function testExercise(p: {
   getExercise: () => Exercise.Exercise,
-  settingDescriptorKeyList: string[],
+  settingDescriptorList: (string | Expected<Exercise.SettingsControlDescriptor>)[],
 }): {
   readonly exercise: Exercise.Exercise;
 } {
@@ -17,8 +19,22 @@ export function testExercise(p: {
   });
 
   it('should have the right settings', () => {
-    const settingsDescriptorList = exercise.getSettingsDescriptor?.();
-    const expected = p.settingDescriptorKeyList.map(key => jasmine.objectContaining({key}));
+    const settingsDescriptorList = exercise.getSettingsDescriptor?.()?.map(descriptor => ({
+      ...descriptor,
+      descriptor: toGetter(descriptor.descriptor)(exercise.getCurrentSettings?.()!)
+    }));
+    const expected = p.settingDescriptorList.map((expected) => {
+      if (typeof expected === 'string') {
+        return jasmine.objectContaining<Exercise.SettingsControlDescriptor>({
+          descriptor: jasmine.objectContaining({
+            label: expected,
+          }),
+        });
+      }
+
+      return expected;
+    })
+    // @ts-ignore
     expect(settingsDescriptorList).toEqual(expected);
   })
 

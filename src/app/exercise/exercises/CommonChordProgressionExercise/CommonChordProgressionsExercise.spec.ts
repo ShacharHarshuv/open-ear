@@ -1,26 +1,25 @@
 import { CommonChordProgressionsExercise } from './CommonChordProgressionsExercise';
 import { Exercise } from '../../Exercise';
+import { testExercise } from '../testing-utility/test.exercise';
 
 describe('CommonChordProgressionsExercise', () => {
-  let exercise: CommonChordProgressionsExercise;
-
-  beforeEach(() => {
-    exercise = new CommonChordProgressionsExercise();
-  });
-
-  it('getQuestion should return a truthy value', () => {
-    expect(exercise.getQuestion()).toBeTruthy();
-  });
+  const context = testExercise({
+    getExercise: () => new CommonChordProgressionsExercise(),
+    settingDescriptorList: [
+      'Analyze By',
+      'Included Progressions',
+    ],
+  })
 
   describe('getAllAnswers', function() {
     it('should contain only chords from the selected progressions', () => {
-      exercise.updateSettings({
-        ...exercise.getCurrentSettings(),
+      context.exercise.updateSettings?.({
+        ...context.exercise.getCurrentSettings?.(),
         includedProgressions: [
           'I IV V I',
         ],
       });
-      expect(Exercise.flatAnswerList(exercise.getAnswerList())).toEqual(jasmine.arrayWithExactContents(['I', 'IV', 'V']))
+      expect(Exercise.flatAnswerList(context.exercise.getAnswerList())).toEqual(jasmine.arrayWithExactContents(['I', 'IV', 'V']))
     })
   });
 })

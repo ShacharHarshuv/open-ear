@@ -10,22 +10,20 @@ import {
   DeepReadonly,
 } from '../../utility';
 import * as _ from 'lodash';
+import { testExercise } from '../testing-utility/test.exercise';
 
 describe('ChordsInRealSongsExercise', () => {
-  let exercise: ChordsInRealSongsExercise;
-
-  beforeEach(() => {
-    exercise = new ChordsInRealSongsExercise();
-  });
-
-  it('getQuestion should return a truthy value', () => {
-    expect(exercise.getQuestion()).toBeTruthy();
-  });
+  const context = testExercise({
+    getExercise: () => new ChordsInRealSongsExercise(),
+    settingDescriptorList: [
+      'Included Chords',
+    ],
+  })
 
   describe('Songs', () => {
     chordsInRealSongsDescriptorList.forEach(chordProgressionDescriptor => {
       it(chordProgressionDescriptor.name ?? 'Anonymous Song', () => {
-        exercise = new ChordsInRealSongsExercise([chordProgressionDescriptor])
+        const exercise = new ChordsInRealSongsExercise([chordProgressionDescriptor])
         exercise.updateSettings({
           includedChords: _.map(chordProgressionDescriptor.chords, 'chord'),
         })
@@ -35,6 +33,8 @@ describe('ChordsInRealSongsExercise', () => {
   });
 
   describe('included progressions', () => {
+    let exercise: ChordsInRealSongsExercise;
+
     function generateMockProgressionDescriptor(progression: RomanNumeralChordSymbol[]): ProgressionInSongFromYouTubeDescriptor {
       return {
         videoId: '',
