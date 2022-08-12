@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {
-  IIntervalDescriptor,
+  IntervalDescriptor,
   intervalDescriptorList,
 } from "../IntervalExercise";
 import { NoteEvent } from "../../../../services/player.service";
@@ -15,7 +15,7 @@ import { NoteNumberOrName } from "../../../utility/music/notes/NoteNumberOrName"
   templateUrl: './interval-exercise-explanation.component.html',
 })
 export class IntervalExerciseExplanationComponent {
-  readonly intervalDescriptorList: (IIntervalDescriptor & { toPlay: OneOrMany<OneOrMany<NoteNumberOrName> | NoteEvent> })[] = intervalDescriptorList.map(interval => ({
+  readonly intervalDescriptorList: (IntervalDescriptor & { toPlay: OneOrMany<OneOrMany<NoteNumberOrName> | NoteEvent> })[] = intervalDescriptorList.map(interval => ({
     ...interval,
     toPlay: ['C4', toNoteNumber('C4') + interval.semitones],
   }));

@@ -23,14 +23,14 @@ import AnswerList = Exercise.AnswerList;
 
 export type IntervalName = 'Minor 2nd' | 'Major 2nd' | 'Minor 3rd' | 'Major 3rd' | 'Perfect 4th' | 'Aug 4th' | 'Perfect 5th' | 'Minor 6th' | 'Major 6th' | 'Minor 7th' | 'Major 7th' | 'Octave';
 
-export interface IIntervalDescriptor {
+export type IntervalDescriptor = {
   name: IntervalName;
   semitones: number;
 }
 
 export type IntervalExerciseSettings = IncludedAnswersSettings<IntervalName>
 
-export const intervalDescriptorList: DeepReadonly<IIntervalDescriptor[]> = [
+export const intervalDescriptorList: DeepReadonly<IntervalDescriptor[]> = [
   {
     name: 'Minor 2nd',
     semitones: 1,
@@ -81,7 +81,7 @@ export const intervalDescriptorList: DeepReadonly<IIntervalDescriptor[]> = [
   },
 ]
 
-const intervalNameToIntervalDescriptor: Record<IntervalName, IIntervalDescriptor>  = _.keyBy(intervalDescriptorList, 'name') as Record<IntervalName, IIntervalDescriptor>;
+const intervalNameToIntervalDescriptor: Record<IntervalName, IntervalDescriptor>  = _.keyBy(intervalDescriptorList, 'name') as Record<IntervalName, IntervalDescriptor>;
 
 export const intervalExercise = () => {
   const allAnswersList: AnswerList<IntervalName> = {
@@ -127,7 +127,7 @@ export const intervalExercise = () => {
     summary: 'Identify intervals chromatically (no key)',
     explanation: IntervalExerciseExplanationComponent,
     getQuestion(settings: IntervalExerciseSettings): Exercise.Question<IntervalName> {
-      const randomIntervalDescriptor: IIntervalDescriptor = randomFromList(intervalDescriptorList.filter(intervalDescriptor => settings.includedAnswers.includes(intervalDescriptor.name)));
+      const randomIntervalDescriptor: IntervalDescriptor = randomFromList(intervalDescriptorList.filter(intervalDescriptor => settings.includedAnswers.includes(intervalDescriptor.name)));
       const randomStartingNoteNumber: NoteNumber = _.random(range.lowestNoteNumber, range.highestNoteNumber - randomIntervalDescriptor.semitones);
       const startNoteName = toNoteName(randomStartingNoteNumber);
       const endNoteName = toNoteName(randomStartingNoteNumber + randomIntervalDescriptor.semitones);
