@@ -28,10 +28,14 @@ export interface IMelodicQuestion extends Omit<Exercise.NotesQuestion<SolfegeNot
   segments: Note[],
 }
 
-export function melodicExercise<GSettings extends MelodicDictationExerciseSettings>(params: {
-  getMelodicQuestionInC: (settings: GSettings) => IMelodicQuestion;
-}): TonalExerciseParams<SolfegeNote, GSettings> {
-  throw new Error('Not implemented');
+export function melodicExercise<GSettings extends MelodicDictationExerciseSettings>() {
+  return function (params: {
+    getMelodicQuestionInC: (settings: GSettings) => IMelodicQuestion;
+  }): {
+    getQuestion: (settings: GSettings) => Exercise.NotesQuestion<SolfegeNote>,
+  } {
+    throw new Error('Not implemented');
+  }
 }
 
 // todo: remove
