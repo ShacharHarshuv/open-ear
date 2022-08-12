@@ -16,9 +16,10 @@ import { transpose } from '../../utility/music/transpose';
 import { createExercise } from '../utility/exerciseFactories/createExercise';
 import {
   IncludedAnswersSettings,
-  includedAnswersSetting,
+  includedAnswersSettings,
 } from '../utility/settings/IncludedAnswersSettings';
-import filterIncludedAnswers = Exercise.filterIncludedAnswers;
+import { composeExercise } from '../utility/exerciseFactories/composeExercise';
+import AnswerList = Exercise.AnswerList;
 
 export type IntervalName = 'Minor 2nd' | 'Major 2nd' | 'Minor 3rd' | 'Major 3rd' | 'Perfect 4th' | 'Aug 4th' | 'Perfect 5th' | 'Minor 6th' | 'Major 6th' | 'Minor 7th' | 'Major 7th' | 'Octave';
 
@@ -82,8 +83,8 @@ export const intervalDescriptorList: DeepReadonly<IIntervalDescriptor[]> = [
 
 const intervalNameToIntervalDescriptor: Record<IntervalName, IIntervalDescriptor>  = _.keyBy(intervalDescriptorList, 'name') as Record<IntervalName, IIntervalDescriptor>;
 
-export const intervalExercise = (): Exercise.IExercise<IntervalName, IntervalExerciseSettings> => {
-  const allAnswersList = {
+export const intervalExercise = () => {
+  const allAnswersList: AnswerList<IntervalName> = {
     rows: [
       ['Minor 2nd', 'Major 2nd'],
       ['Minor 3rd', 'Major 3rd'],
@@ -116,7 +117,11 @@ export const intervalExercise = (): Exercise.IExercise<IntervalName, IntervalExe
     })),
   };
   const range = new NotesRange('C3', 'E5');
-  return createExercise({
+
+  return composeExercise(
+    includedAnswersSettings(),
+    createExercise,
+  )({
     id: 'interval',
     name: 'Intervals',
     summary: 'Identify intervals chromatically (no key)',
@@ -137,22 +142,6 @@ export const intervalExercise = (): Exercise.IExercise<IntervalName, IntervalExe
         },
       }
     },
-    ...includedAnswersSetting({
-      answerList: allAnswersList,
-      defaultSelectedAnswers: [
-        'Minor 2nd',
-        'Major 2nd',
-        'Minor 3rd',
-        'Major 3rd',
-        'Perfect 4th',
-        'Aug 4th',
-        'Perfect 5th',
-        'Minor 6th',
-        'Major 6th',
-        'Minor 7th',
-        'Major 7th',
-        'Octave',
-      ],
-    }),
+    answerList: allAnswersList,
   })
 }

@@ -11,20 +11,11 @@ import { toSteadyPart } from '../../utility';
 import { TriadInversionExplanationComponent } from './triad-inversion-explanation/triad-inversion-explanation.component';
 import {
   IncludedAnswersSettings,
-  includedAnswersSetting,
+  includedAnswersSettings,
 } from '../utility/settings/IncludedAnswersSettings';
-import { combineSettings } from '../utility/settings/combineSettings';
-import {
-  cadenceTypeSettings,
-  CadenceTypeSetting,
-} from '../utility/settings/CadenceTypeSetting';
-import filterIncludedAnswers = Exercise.filterIncludedAnswers;
 import { composeExercise } from '../utility/exerciseFactories/composeExercise';
-import {
-  tonalExercise,
-  TonalExerciseSettings,
-} from '../utility/exerciseFactories/tonalExercise';
-import { defaultSettings } from '../utility/exerciseFactories/defaultSettings';
+import { tonalExercise } from '../utility/exerciseFactories/tonalExercise';
+import { createExercise } from '../utility/exerciseFactories/createExercise';
 
 type TriadInversionAnswer = 'Root Position' | '1st Inversion' | '2nd Inversion'
 
@@ -35,7 +26,7 @@ const triadInversions: TriadInversionAnswer[] = [
 ];
 
 export type TriadInversionExerciseSettings =
-  IncludedAnswersSettings<TriadInversionAnswer> & { // todo: includedAnswersSettings should probably be removed
+  IncludedAnswersSettings<TriadInversionAnswer> & {
   // todo: arpeggiate speed can be a generic plugable settings (and reused across different exercise)
   arpeggiateSpeed: number;
   playRootAfterAnswer: boolean;
@@ -47,14 +38,15 @@ export const triadInversionExercise = () => {
   };
 
   return composeExercise(
+    includedAnswersSettings(),
     tonalExercise,
+    createExercise,
   )({
     id: 'triadInversions',
     name: 'Triad Inversions',
     summary: 'Find the inversion of a triad in close position',
     explanation: TriadInversionExplanationComponent,
-    // todo: this filtering should be somehow reused together with includedAnswersSetting
-    answerList: (settings: IncludedAnswersSettings<TriadInversionAnswer>) => filterIncludedAnswers(allAnswersList, settings.includedAnswers),
+    answerList: allAnswersList,
     getQuestion(settings: TriadInversionExerciseSettings): Exclude<Exercise.NotesQuestion<TriadInversionAnswer>, 'cadence'> {
       const chordsInC: ChordSymbol[] = ['C', 'Dm', 'Em', 'F', 'G', 'Am'];
       const randomChordInC: ChordSymbol = randomFromList(chordsInC);
@@ -70,7 +62,7 @@ export const triadInversionExercise = () => {
         segments: [
           {
             partToPlay: voicing.map((note, index) => {
-              const noteDelay = index * /*settings.arpeggiateSpeed*/ 0 / 100;
+              const noteDelay = index * settings.arpeggiateSpeed / 100;
               return {
                 notes: note,
                 velocity: 0.3,
@@ -84,56 +76,41 @@ export const triadInversionExercise = () => {
         info: '',
       };
 
-      // if (settings.playRootAfterAnswer) {
-      //   question.afterCorrectAnswer = [
-      //     {
-      //       partToPlay: toSteadyPart(voicing[(3 - randomTriadInversion) % 3], '1n', 0.3),
-      //       answerToHighlight: answer,
-      //     },
-      //   ]
-      // }
+      if (settings.playRootAfterAnswer) {
+        question.afterCorrectAnswer = [
+          {
+            partToPlay: toSteadyPart(voicing[(3 - randomTriadInversion) % 3], '1n', 0.3),
+            answerToHighlight: answer,
+          },
+        ]
+      }
 
       return question;
     },
-    // ...defaultSettings<TriadInversionExerciseSettings>({
-    //   includedAnswers: ['Root Position', '1st Inversion', '2nd Inversion'],
-    //   // todo: check if those were the previous defaults
-    //   arpeggiateSpeed: 0,
-    //   playRootAfterAnswer: true,
-    // }),
-    // todo: remove this, composeExercise should work properly
-    ...combineSettings(
-      includedAnswersSetting({
-        answerList: allAnswersList,
-        defaultSelectedAnswers: ['Root Position', '1st Inversion', '2nd Inversion'],
-      }),
+    settingsDescriptors: [
       {
-        settingsDescriptors: [
-          {
-            key: 'arpeggiateSpeed',
-            info: 'When set to a value larger then zero, the chord will be arpeggiated, making it easier to pick up individual notes from it. <br>' +
-              'Starter with a large settings and gradually reducing can be a good way to train your ear to pick up individual notes being played harmonically',
-            descriptor: {
-              controlType: 'slider',
-              label: 'Arpeggiate Speed',
-              min: 0,
-              max: 100,
-              step: 1,
-            },
-          },
-          {
-            key: 'playRootAfterAnswer',
-            descriptor: {
-              controlType: 'checkbox',
-              label: 'Play Root After Correct Answer',
-            },
-          },
-        ],
-        defaultSettings: {
-          arpeggiateSpeed: 0,
-          playRootAfterAnswer: true,
+        key: 'arpeggiateSpeed',
+        info: 'When set to a value larger then zero, the chord will be arpeggiated, making it easier to pick up individual notes from it. <br>' +
+          'Starter with a large settings and gradually reducing can be a good way to train your ear to pick up individual notes being played harmonically',
+        descriptor: {
+          controlType: 'slider',
+          label: 'Arpeggiate Speed',
+          min: 0,
+          max: 100,
+          step: 1,
         },
       },
-    ),
+      {
+        key: 'playRootAfterAnswer',
+        descriptor: {
+          controlType: 'checkbox',
+          label: 'Play Root After Correct Answer',
+        },
+      },
+    ],
+    defaultSettings: {
+      arpeggiateSpeed: 0,
+      playRootAfterAnswer: true,
+    },
   })
 }

@@ -49,7 +49,7 @@ export function createExercise<GAnswer extends string, GSettings extends Exercis
     getCurrentSettings: (): GSettings => {
       return settings;
     },
-    getAnswerList: () => {
+    getAnswerList: (): AnswerList<GAnswer> => {
       return toGetter(params.answerList)(settings);
     },
     getQuestion: () => params.getQuestion(settings),

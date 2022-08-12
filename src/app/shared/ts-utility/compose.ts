@@ -4,7 +4,7 @@ export type ComposableFunction = (params: object) => object;
 
 type ComposedParamsForTwoFns<MergeMap extends PropertiesMergeConfig<object>, Fn1 extends ComposableFunction, Fn2 extends ComposableFunction> =
   Parameters<Fn1>[0] &
-  Omit<Parameters<Fn2>[0], keyof ReturnType<Fn1>> & // require parameters that Fn2 needs and Fn1 doesn't supply
+  Omit<Parameters<Fn2>[0], keyof ReturnType<Fn1>> &  // require parameters that Fn2 needs and Fn1 doesn't supply
   Partial<Pick<Parameters<Fn2>[0], keyof MergeMap & keyof Parameters<Fn2>[0]>>; // optional parameters that Fn2 needs even if Fn1 supplies them as long as they can be merged
 
 type ComposedReturnForTwoFns<Fn1 extends ComposableFunction, Fn2 extends ComposableFunction> = ReturnType<Fn1> & ReturnType<Fn2>;
@@ -29,7 +29,7 @@ export function composeWithMerge<MergeMap extends PropertiesMergeConfig<object>>
       let returnValue = _.cloneDeep(value1);
       for(let key in value2) {
         if (value1[key] && keyToMergeFn[key]) {
-          returnValue[key] = keyToMergeFn[key](value1[key], value2[key]);
+          returnValue[key] = keyToMergeFn[key](value2[key], value1[key]);
         } else {
           returnValue[key] = value2[key];
         }
@@ -43,7 +43,8 @@ export function composeWithMerge<MergeMap extends PropertiesMergeConfig<object>>
       }
 
       const fn1Return = fn1(params);
-      const fn2Return = fn2(mergeValues(fn1Return, params));
+      const fn2Params = mergeValues(params, fn1Return);
+      const fn2Return = fn2(fn2Params);
 
       return mergeValues(fn1Return, fn2Return) as ComposedReturn<MergeMap, Fn1, Fn2, FnList>;
     }

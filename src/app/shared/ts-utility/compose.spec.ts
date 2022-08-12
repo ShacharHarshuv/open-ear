@@ -35,7 +35,7 @@ describe('compose', function() {
     })
   });
 
-  it('should work with three functions', () => {
+  it('should work with 3 functions', () => {
     const returnValue = compose(fn1, fn2, fn3)({
       a: 1,
       c: 1,

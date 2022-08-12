@@ -6,6 +6,7 @@ import {
 } from '../exerciseFactories/createExercise';
 import { SettingsParams } from './SettingsParams';
 import filterIncludedAnswers = Exercise.filterIncludedAnswers;
+import AnswerList = Exercise.AnswerList;
 
 export type IncludedAnswersSettings<GAnswer extends string> = {
   includedAnswers: GAnswer[];
@@ -16,31 +17,31 @@ type IncludedAnswersBaseExercise<GAnswer extends string, GSettings extends Inclu
   getAnswerList(): Exercise.AnswerList<GAnswer>;
 }
 
-// todo: add tests
-export function includedAnswersSetting<GAnswer extends string>(params: {
-  // todo: support setting this to "all" by default if not provided.
-  defaultSelectedAnswers: GAnswer[],
-  answerList: Exercise.AnswerList<GAnswer>,
-}): SettingsParams<IncludedAnswersSettings<GAnswer>> & Pick<CreateExerciseParams<GAnswer, IncludedAnswersSettings<GAnswer>>, 'answerList'> {
-  return {
-    defaultSettings: {
-      includedAnswers: params.defaultSelectedAnswers,
-    },
-    settingsDescriptors: [
-      {
-        key: 'includedAnswers',
-        descriptor: {
-          controlType: 'included-answers',
-          label: 'Included Options',
-          answerList: params.answerList,
-        },
+export function includedAnswersSettings<GAnswer extends string>(defaultSelectedAnswers?: GAnswer[]) {
+  return function (params: {
+    answerList: Exercise.AnswerList<GAnswer>,
+  }): SettingsParams<IncludedAnswersSettings<GAnswer>> & Pick<CreateExerciseParams<GAnswer, IncludedAnswersSettings<GAnswer>>, 'answerList'> {
+    return {
+      defaultSettings: {
+        includedAnswers: defaultSelectedAnswers ?? Exercise.flatAnswerList(params.answerList),
       },
-    ],
-    answerList: (settings: IncludedAnswersSettings<GAnswer>) => filterIncludedAnswers(params.answerList, settings.includedAnswers),
+      // todo: consider separating the descriptor from the logic, so we don't have to use it
+      settingsDescriptors: [
+        {
+          key: 'includedAnswers',
+          descriptor: {
+            controlType: 'included-answers',
+            label: 'Included Options',
+            answerList: params.answerList,
+          },
+        },
+      ],
+      answerList: (settings: IncludedAnswersSettings<GAnswer>): AnswerList<GAnswer> => filterIncludedAnswers(params.answerList, settings.includedAnswers),
+    }
   }
 }
 
-// TODO: remove
+// TODO: remove (decorator)
 export function IncludedAnswersSetting<GAnswer extends string, GSettings extends IncludedAnswersSettings<GAnswer>>(params: {
   default: GAnswer[],
 }) {
