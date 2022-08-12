@@ -3,7 +3,7 @@ import {
   getDiatonicScaleDegreeWithAccidental,
   DiatonicScaleDegree,
 } from './ScaleDegrees';
-import { CadenceType } from '../../../exercises/utility/exerciseFactories/tonalExercise';
+import { CadenceType } from '../../../exercises/utility/exerciseAttributes/tonalExercise';
 import * as _ from 'lodash';
 import { DeepReadonly } from '../../../../shared/ts-utility';
 

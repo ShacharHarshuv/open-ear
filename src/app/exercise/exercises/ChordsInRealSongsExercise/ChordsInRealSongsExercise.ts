@@ -1,5 +1,5 @@
 import { Exercise } from '../../Exercise';
-import { BaseRomanAnalysisChordProgressionExercise } from '../utility/exerciseFactories/romanAnalysisChordProgressionExercise';
+import { BaseRomanAnalysisChordProgressionExercise } from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
 import {
   chordsInRealSongsDescriptorList,
   ProgressionInSongFromYouTubeDescriptor,
@@ -31,7 +31,7 @@ import {
   Mode,
 } from '../../utility';
 import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
-import { BaseExercise } from '../utility/exerciseFactories/createExercise';
+import { BaseExercise } from '../utility/exerciseAttributes/createExercise';
 
 type ChordsInRealSongsSettings = {
   includedChords: RomanNumeralChordSymbol[],

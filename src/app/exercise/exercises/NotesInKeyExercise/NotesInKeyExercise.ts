@@ -22,7 +22,7 @@ import {
   MelodicDictationExerciseSettings,
   BaseMelodicDictationExercise,
   IMelodicQuestion,
-} from '../utility/exerciseFactories/BaseMelodicDictationExercise';
+} from '../utility/exerciseAttributes/melodicDictationExercise';
 import {
   NumberOfSegmentsSetting,
   numberOfSegmentsControlDescriptorList,

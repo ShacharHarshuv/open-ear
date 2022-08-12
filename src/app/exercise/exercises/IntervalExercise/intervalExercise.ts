@@ -13,12 +13,12 @@ import { IntervalExerciseExplanationComponent } from "./interval-exercise-explan
 import { NoteEvent } from '../../../services/player.service';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { transpose } from '../../utility/music/transpose';
-import { createExercise } from '../utility/exerciseFactories/createExercise';
+import { createExercise } from '../utility/exerciseAttributes/createExercise';
 import {
   IncludedAnswersSettings,
   includedAnswersSettings,
 } from '../utility/settings/IncludedAnswersSettings';
-import { composeExercise } from '../utility/exerciseFactories/composeExercise';
+import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
 import AnswerList = Exercise.AnswerList;
 
 export type IntervalName = 'Minor 2nd' | 'Major 2nd' | 'Minor 3rd' | 'Major 3rd' | 'Perfect 4th' | 'Aug 4th' | 'Perfect 5th' | 'Minor 6th' | 'Major 6th' | 'Minor 7th' | 'Major 7th' | 'Octave';

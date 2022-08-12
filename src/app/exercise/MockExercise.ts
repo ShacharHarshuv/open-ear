@@ -4,7 +4,7 @@ import {
   PartToPlay,
   NoteEvent,
 } from '../services/player.service';
-import { BaseExercise } from './exercises/utility/exerciseFactories/createExercise';
+import { BaseExercise } from './exercises/utility/exerciseAttributes/createExercise';
 import MatchableArgs = jasmine.MatchableArgs;
 
 export class MockExercise extends BaseExercise {

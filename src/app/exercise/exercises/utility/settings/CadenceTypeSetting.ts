@@ -1,5 +1,5 @@
 import { SettingsDescriptors } from './SettingsDescriptors';
-import { CadenceType } from '../exerciseFactories/tonalExercise';
+import { CadenceType } from '../exerciseAttributes/tonalExercise';
 import { Exercise } from '../../../Exercise';
 
 export type CadenceTypeSetting = {

@@ -1,7 +1,7 @@
 import {
   BaseMelodicDictationExercise,
   MelodicDictationExerciseSettings, IMelodicQuestion,
-} from '../utility/exerciseFactories/BaseMelodicDictationExercise';
+} from '../utility/exerciseAttributes/melodicDictationExercise';
 import { Exercise } from '../../Exercise';
 import { Chord, ChordSymbol } from '../../utility/music/chords';
 import { randomFromList } from '../../../shared/ts-utility';

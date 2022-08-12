@@ -13,9 +13,9 @@ import {
   IncludedAnswersSettings,
   includedAnswersSettings,
 } from '../utility/settings/IncludedAnswersSettings';
-import { composeExercise } from '../utility/exerciseFactories/composeExercise';
-import { tonalExercise } from '../utility/exerciseFactories/tonalExercise';
-import { createExercise } from '../utility/exerciseFactories/createExercise';
+import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
+import { tonalExercise } from '../utility/exerciseAttributes/tonalExercise';
+import { createExercise } from '../utility/exerciseAttributes/createExercise';
 
 type TriadInversionAnswer = 'Root Position' | '1st Inversion' | '2nd Inversion'
 

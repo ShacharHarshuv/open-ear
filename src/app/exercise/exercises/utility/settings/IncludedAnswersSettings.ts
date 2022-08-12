@@ -3,7 +3,7 @@ import { Constructor } from '../../../../shared/ts-utility';
 import {
   BaseExercise,
   CreateExerciseParams,
-} from '../exerciseFactories/createExercise';
+} from '../exerciseAttributes/createExercise';
 import { SettingsParams } from './SettingsParams';
 import filterIncludedAnswers = Exercise.filterIncludedAnswers;
 import AnswerList = Exercise.AnswerList;
