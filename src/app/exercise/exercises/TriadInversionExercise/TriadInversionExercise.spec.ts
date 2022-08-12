@@ -16,7 +16,6 @@ describe('TriadInversionExercise', () => {
     const settingsDescriptorList = exercise.getSettingsDescriptor?.();
     console.log(settingsDescriptorList);
     expect(settingsDescriptorList).toEqual([
-      jasmine.objectContaining({key: 'cadenceType'}), // todo: cadence type should not appear in this exercise
       jasmine.objectContaining({key: 'includedAnswers'}),
       jasmine.objectContaining({key: 'arpeggiateSpeed'}),
       jasmine.objectContaining({key: 'playRootAfterAnswer'}),

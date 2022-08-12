@@ -1,37 +1,32 @@
 import { SettingsDescriptors } from './SettingsDescriptors';
 import { CadenceType } from '../exerciseFactories/tonalExercise';
-import { SettingsParams } from './SettingsParams';
+import { Exercise } from '../../../Exercise';
 
 export type CadenceTypeSetting = {
   cadenceType: CadenceType;
 }
 
-export function cadenceTypeSettings<GAnswer extends string>(): SettingsParams<CadenceTypeSetting> {
-  return {
-    settingsDescriptors: [
-      {
-        key: 'cadenceType',
-        info: 'Choose what chords will be played before the exercise to establish the key',
-        descriptor: {
-          controlType: 'select',
-          label: 'Cadence Type',
-          options: [
-            {
-              value: 'I IV V I',
-              label: 'I IV V I (Major)',
-            },
-            {
-              value: 'i iv V i',
-              label: 'i iv V i (Minor)',
-            },
-          ],
-        },
+export function cadenceTypeSettingsDescriptors<GAnswer extends string>(): Exercise.SettingsControlDescriptor<CadenceTypeSetting>[] {
+  return [
+    {
+      key: 'cadenceType',
+      info: 'Choose what chords will be played before the exercise to establish the key',
+      descriptor: {
+        controlType: 'select',
+        label: 'Cadence Type',
+        options: [
+          {
+            value: 'I IV V I',
+            label: 'I IV V I (Major)',
+          },
+          {
+            value: 'i iv V i',
+            label: 'i iv V i (Minor)',
+          },
+        ],
       },
-    ],
-    defaultSettings: {
-      cadenceType: 'I IV V I',
-    }
-  }
+    },
+  ];
 }
 
 // TODO: remove
