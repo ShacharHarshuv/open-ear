@@ -2,7 +2,7 @@ import { Exercise } from '../../Exercise';
 import { ChordTypeInKeyExercise } from './ChordTypeInKeyExercise';
 
 describe('ChordTypeInKeyExercise', () => {
-  let exercise: Exercise.IExercise;
+  let exercise: Exercise.Exercise;
 
   beforeEach(() => {
     exercise = new ChordTypeInKeyExercise();

@@ -12,7 +12,7 @@ import { CommonChordProgressionsExercise } from './exercises/CommonChordProgress
 import { NotesWithChordsExercise } from './exercises/NotesWithChords/NotesWithChordsExercise';
 import { ChordsInRealSongsExercise } from './exercises/ChordsInRealSongsExercise/ChordsInRealSongsExercise';
 import { Platform } from '@ionic/angular';
-import IExercise = Exercise.IExercise;
+import IExercise = Exercise.Exercise;
 import { triadInversionExercise } from './exercises/TriadInversionExercise/TriadInversionExercise';
 
 @Injectable({

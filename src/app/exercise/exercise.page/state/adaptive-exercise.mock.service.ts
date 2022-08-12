@@ -55,7 +55,7 @@ export class AdaptiveExerciseMockService implements PublicMembers<AdaptiveExerci
 
   static adaptiveExerciseMock: AdaptiveExerciseMock = new AdaptiveExerciseMock();
 
-  createAdaptiveExercise(exercise: Exercise.IExercise): AdaptiveExercise {
+  createAdaptiveExercise(exercise: Exercise.Exercise): AdaptiveExercise {
     return AdaptiveExerciseMockService.adaptiveExerciseMock as AdaptiveExercise;
   }
 

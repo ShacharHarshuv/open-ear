@@ -3,7 +3,7 @@ import {
   Input
 } from '@angular/core';
 import { Exercise } from '../../../exercise/Exercise';
-import IExercise = Exercise.IExercise;
+import IExercise = Exercise.Exercise;
 import { PlayerService } from '../../../services/player.service';
 
 @Component({

@@ -2,7 +2,7 @@ import { Exercise } from '../../Exercise';
 import { ChordArpeggioExercise } from './ChordArpeggioExercise';
 
 describe('ChordArpeggioExercise', () => {
-  let exercise: Exercise.IExercise;
+  let exercise: Exercise.Exercise;
 
   beforeEach(() => {
     exercise = new ChordArpeggioExercise();

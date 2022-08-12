@@ -6,7 +6,7 @@ import { AdaptiveExercise } from './adaptive-exercise';
   providedIn: 'root'
 })
 export class AdaptiveExerciseService {
-  createAdaptiveExercise(exercise: Exercise.IExercise): AdaptiveExercise {
+  createAdaptiveExercise(exercise: Exercise.Exercise): AdaptiveExercise {
     return new AdaptiveExercise(exercise);
   }
 }

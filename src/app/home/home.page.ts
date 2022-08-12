@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { PlayerService } from '../services/player.service';
 import { ExerciseService } from '../exercise/exercise.service';
 import { Exercise } from '../exercise/Exercise';
-import IExercise = Exercise.IExercise;
+import IExercise = Exercise.Exercise;
 
 @Component({
   selector: 'app-home',

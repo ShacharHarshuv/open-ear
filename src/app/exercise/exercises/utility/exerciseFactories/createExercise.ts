@@ -33,7 +33,7 @@ export type CreateExerciseParams<GAnswer extends string, GSettings extends Exerc
 } & SettingsParams<GSettings>;
 
 // todo: add tests
-export function createExercise<GAnswer extends string, GSettings extends Exercise.Settings>(params: CreateExerciseParams<GAnswer, GSettings>): Exercise.IExercise<GAnswer, GSettings> {
+export function createExercise<GAnswer extends string, GSettings extends Exercise.Settings>(params: CreateExerciseParams<GAnswer, GSettings>): Exercise.Exercise<GAnswer, GSettings> {
   const settings: GSettings = params.defaultSettings;
   return {
     id: params.id,
@@ -56,7 +56,7 @@ export function createExercise<GAnswer extends string, GSettings extends Exercis
   }
 }
 
-export abstract class BaseExercise<GAnswer extends string = string, GSettings extends Exercise.Settings = Exercise.Settings> implements Exercise.IExercise<GAnswer, GSettings> {
+export abstract class BaseExercise<GAnswer extends string = string, GSettings extends Exercise.Settings = Exercise.Settings> implements Exercise.Exercise<GAnswer, GSettings> {
   private _settingsChangeSubject = new ReplaySubject<GSettings>(1);
 
   protected _destroy$ = new Subject<void>();

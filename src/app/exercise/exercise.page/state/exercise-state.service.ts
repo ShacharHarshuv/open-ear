@@ -50,7 +50,7 @@ interface CurrentAnswer {
 
 @Injectable()
 export class ExerciseStateService implements OnDestroy {
-  private readonly _originalExercise: Exercise.IExercise = this._exerciseService.getExercise(this._activatedRoute.snapshot.params['id']!);
+  private readonly _originalExercise: Exercise.Exercise = this._exerciseService.getExercise(this._activatedRoute.snapshot.params['id']!);
   private _globalSettings: GlobalExerciseSettings = DEFAULT_EXERCISE_SETTINGS;
   private _adaptiveExercise: AdaptiveExercise = this._adaptiveExerciseService.createAdaptiveExercise(this._originalExercise);
   private _currentQuestion: Exercise.Question = this.exercise.getQuestion();
@@ -155,7 +155,7 @@ export class ExerciseStateService implements OnDestroy {
     return !this._currentAnswers.filter(answer => answer.answer === null).length
   }
 
-  get exercise(): Exercise.IExercise {
+  get exercise(): Exercise.Exercise {
     return this._globalSettings.adaptive ? this._adaptiveExercise : this._originalExercise;
   }
 

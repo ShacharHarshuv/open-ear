@@ -8,11 +8,11 @@ import { MockExercise } from './MockExercise';
 export class ExerciseMockService implements PublicMembers<ExerciseService> {
   static mockExercise: MockExercise = new MockExercise();
 
-  getExercise(id: string): Exercise.IExercise {
+  getExercise(id: string): Exercise.Exercise {
     return ExerciseMockService.mockExercise;
   }
 
-  getExerciseList(): Exercise.IExercise[] {
+  getExerciseList(): Exercise.Exercise[] {
     return [ExerciseMockService.mockExercise];
   }
 

@@ -2,7 +2,7 @@ import { Exercise } from '../../Exercise';
 import { NotesInKeyExercise } from './NotesInKeyExercise';
 
 describe('NotesInKeyExercise', () => {
-  let exercise: Exercise.IExercise;
+  let exercise: Exercise.Exercise;
 
   beforeEach(() => {
     exercise = new NotesInKeyExercise();
