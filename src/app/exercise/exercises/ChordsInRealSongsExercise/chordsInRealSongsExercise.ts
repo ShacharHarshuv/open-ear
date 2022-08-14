@@ -19,26 +19,15 @@ import { transpose } from '../../utility/music/transpose';
 import { getDistanceOfKeys } from '../../utility/music/keys/getDistanceOfKeys';
 import { TitleCasePipe } from '@angular/common';
 import {
-  toNoteTypeNumber,
-  toNoteTypeName,
-} from '../../utility/music/notes/toNoteTypeNumber';
-import { mod } from '../../../shared/ts-utility/mod';
-import { NoteType } from '../../utility/music/notes/NoteType';
-import {
-  Interval,
   RomanNumeralChordSymbol,
   Mode,
 } from '../../utility';
 import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
 import { createExercise } from '../utility/exerciseAttributes/createExercise';
+import { getRelativeKeyTonic } from '../../utility/music/harmony/getRelativeKeyTonic';
 
 type ChordsInRealSongsSettings = {
   includedChords: RomanNumeralChordSymbol[],
-}
-
-export function getRelativeKeyTonic(tonic: NoteType, mode: Mode): NoteType {
-  const differenceToRelativeTonic = mode === Mode.Major ? -3 : 3;
-  return toNoteTypeName(mod(toNoteTypeNumber(tonic) + differenceToRelativeTonic, Interval.Octave))
 }
 
 export function chordsInRealSongsExercise(progressionList: DeepReadonly<ProgressionInSongFromYouTubeDescriptor[]> = chordsInRealSongsDescriptorList) {

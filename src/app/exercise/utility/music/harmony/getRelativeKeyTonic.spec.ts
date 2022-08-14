@@ -1,6 +1,6 @@
-import { testPureFunction } from '../../../shared/testing-utility/testPureFunction';
-import { getRelativeKeyTonic } from './ChordsInRealSongsExercise';
-import { Mode } from '../../utility';
+import { getRelativeKeyTonic } from './getRelativeKeyTonic';
+import { testPureFunction } from '../../../../shared/testing-utility/testPureFunction';
+import { Mode } from './Mode';
 
 describe(getRelativeKeyTonic.name, () => {
   testPureFunction(getRelativeKeyTonic, [
