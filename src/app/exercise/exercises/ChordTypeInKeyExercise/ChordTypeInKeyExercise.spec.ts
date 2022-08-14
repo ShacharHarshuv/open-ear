@@ -1,7 +1,7 @@
 import { ChordTypeInKeyExercise } from './ChordTypeInKeyExercise';
 import { testExercise } from '../testing-utility/test.exercise';
 
-describe('chordTypeInKeyExercise', () => {
+describe(ChordTypeInKeyExercise.name, () => {
   const context = testExercise({
     getExercise: () => new ChordTypeInKeyExercise(),
     settingDescriptorList: [

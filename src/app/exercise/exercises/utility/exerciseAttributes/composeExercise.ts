@@ -8,8 +8,10 @@ export const composeExercise = composeWithMerge({
     ...value1,
     ...value2,
   }),
-  settingsDescriptors: (value1: Exercise.SettingsControlDescriptor<Exercise.Settings>[], value2: Exercise.SettingsControlDescriptor<Exercise.Settings>[]) => [
-    ...value1,
-    ...value2,
-  ],
+  settingsDescriptors: (value1: Exercise.SettingsControlDescriptor<Exercise.Settings>[], value2: Exercise.SettingsControlDescriptor<Exercise.Settings>[]) => {
+    return [
+      ...value1,
+      ...value2,
+    ];
+  },
 });

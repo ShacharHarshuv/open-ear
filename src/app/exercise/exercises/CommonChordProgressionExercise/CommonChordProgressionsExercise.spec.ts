@@ -2,7 +2,7 @@ import { CommonChordProgressionsExercise } from './CommonChordProgressionsExerci
 import { Exercise } from '../../Exercise';
 import { testExercise } from '../testing-utility/test.exercise';
 
-describe('CommonChordProgressionsExercise', () => {
+describe(CommonChordProgressionsExercise.name, () => {
   const context = testExercise({
     getExercise: () => new CommonChordProgressionsExercise(),
     settingDescriptorList: [

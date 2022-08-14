@@ -55,7 +55,7 @@ export type TonalExerciseParams<GAnswer extends string, GSettings extends Exerci
   answerList: StaticOrGetter<AnswerList<GAnswer>, [GSettings]>,
 };
 
-type TonalExerciseConfig = {
+export type TonalExerciseConfig = {
   playCadence?: true,
   cadenceTypeSelection?: boolean,
 } | {

@@ -1,7 +1,7 @@
 import { testExercise } from '../testing-utility/test.exercise';
 import { triadInversionExercise } from './triadInversionExercise';
 
-describe('triadInversionExercise', () => {
+describe(triadInversionExercise.name, () => {
   const context = testExercise({
     getExercise: triadInversionExercise,
     settingDescriptorList: [

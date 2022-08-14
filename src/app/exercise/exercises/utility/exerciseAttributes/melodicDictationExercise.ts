@@ -1,7 +1,8 @@
 import {
-  BaseTonalExercise,
   TonalExerciseSettings,
-  TonalExerciseParams,
+  TonalExerciseUtils,
+  tonalExercise,
+  TonalExerciseConfig,
 } from './tonalExercise';
 import * as _ from 'lodash';
 import { Exercise } from '../../../Exercise';
@@ -15,6 +16,8 @@ import {
   SolfegeNote,
   scaleDegreeToSolfegeNote,
   getNoteFromScaleDegree,
+  StaticOrGetter,
+  toGetter,
 } from '../../../utility';
 import { noteTypeToScaleDegree } from '../../../utility/music/scale-degrees/noteTypeToScaleDegree';
 
@@ -28,55 +31,46 @@ export interface IMelodicQuestion extends Omit<Exercise.NotesQuestion<SolfegeNot
   segments: Note[],
 }
 
-export function melodicExercise<GSettings extends MelodicDictationExerciseSettings>() {
+export function melodicExercise<GSettings extends MelodicDictationExerciseSettings>(config?: TonalExerciseConfig) {
+  const noteDuration: Time = '2n';
+
   return function (params: {
-    getMelodicQuestionInC: (settings: GSettings) => IMelodicQuestion;
-  }): {
-    getQuestion: (settings: GSettings) => Exercise.NotesQuestion<SolfegeNote>,
-  } {
-    throw new Error('Not implemented');
-  }
-}
+    getMelodicQuestionInC: StaticOrGetter<IMelodicQuestion, [GSettings, TonalExerciseUtils]>;
+  }) {
+    return tonalExercise(config)({
+      getQuestion(settings: GSettings, tonalExerciseUtils: TonalExerciseUtils): Exclude<Exercise.NotesQuestion<SolfegeNote>, 'cadence'> {
+        const melodicQuestionInC: IMelodicQuestion = toGetter(params.getMelodicQuestionInC)(settings, tonalExerciseUtils);
+        const question: Exercise.Question<SolfegeNote> = {
+          ..._.omit(melodicQuestionInC, 'segments'),
+          segments: melodicQuestionInC.segments.map(randomQuestionInC => ({
+            rightAnswer: scaleDegreeToSolfegeNote[noteTypeToScaleDegree(getNoteType(randomQuestionInC), 'C')],
+            partToPlay: [{
+              notes: randomQuestionInC,
+              duration: noteDuration,
+            }],
+          })),
+        }
 
-// todo: remove
-export abstract class BaseMelodicDictationExercise<GSettings extends MelodicDictationExerciseSettings> extends BaseTonalExercise<SolfegeNote, GSettings> { // Consider using "ScaleDegree" in code instead for clarity
-  readonly noteDuration: Time = '2n';
-  abstract getMelodicQuestionInC(): IMelodicQuestion;
+        if (melodicQuestionInC.afterCorrectAnswer) {
+          question.afterCorrectAnswer = melodicQuestionInC.afterCorrectAnswer;
+        }
 
-  override getQuestionInC(): Exclude<Exercise.NotesQuestion<SolfegeNote>, 'cadence'> {
-    const melodicQuestionInC: IMelodicQuestion = this.getMelodicQuestionInC();
-    const question: Exercise.Question<SolfegeNote> = {
-      ..._.omit(melodicQuestionInC, 'segments'),
-      segments: melodicQuestionInC.segments.map(randomQuestionInC => ({
-        rightAnswer: scaleDegreeToSolfegeNote[noteTypeToScaleDegree(getNoteType(randomQuestionInC), 'C')],
-        partToPlay: [{
-          notes: randomQuestionInC,
-          duration: this.noteDuration,
-        }],
-      })),
-    }
+        return question;
+      },
+      answerList: (settings: GSettings) => Exercise.mapAnswerList(scaleLayout, (_answerConfig: Exercise.AnswerConfig<ScaleDegree>): Exercise.AnswerConfig<SolfegeNote> => {
+        const scaleDegree: ScaleDegree | null = _answerConfig.answer;
+        const answerConfig: Exercise.AnswerConfig<SolfegeNote> = {
+          ..._answerConfig as Exercise.AnswerConfig<string>,
+          answer: scaleDegree ? scaleDegreeToSolfegeNote[scaleDegree] : null,
+          playOnClick: scaleDegree && getNoteFromScaleDegree('C', scaleDegree),
+        }
 
-    if (melodicQuestionInC.afterCorrectAnswer) {
-      question.afterCorrectAnswer = melodicQuestionInC.afterCorrectAnswer;
-    }
+        if (scaleDegree && settings.displayMode === 'numeral') {
+          answerConfig.displayLabel = toMusicalTextDisplay(scaleDegree);
+        }
 
-    return question;
-  }
-
-  protected _getAnswersListInC(): Exercise.AnswerList<SolfegeNote> {
-    return Exercise.mapAnswerList(scaleLayout, (_answerConfig: Exercise.AnswerConfig<ScaleDegree>): Exercise.AnswerConfig<SolfegeNote> => {
-      const scaleDegree: ScaleDegree | null = _answerConfig.answer;
-      const answerConfig: Exercise.AnswerConfig<SolfegeNote> = {
-        ..._answerConfig as Exercise.AnswerConfig<string>,
-        answer: scaleDegree ? scaleDegreeToSolfegeNote[scaleDegree] : null,
-        playOnClick: scaleDegree && getNoteFromScaleDegree('C', scaleDegree),
-      }
-
-      if (scaleDegree && this._settings.displayMode === 'numeral') {
-        answerConfig.displayLabel = toMusicalTextDisplay(scaleDegree);
-      }
-
-      return answerConfig;
+        return answerConfig;
+      })
     })
   }
 }

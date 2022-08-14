@@ -3,7 +3,7 @@ import { ChordsInKeyExercise } from './ChordsInKeyExercise';
 import { BaseRomanAnalysisChordProgressionExercise } from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
 import { testExercise } from '../testing-utility/test.exercise';
 
-describe('chordsInKeyExercise', () => {
+describe(ChordsInKeyExercise.name, () => {
   const context = testExercise({
     getExercise: () => new ChordsInKeyExercise(),
     settingDescriptorList: [

@@ -25,11 +25,15 @@ export type PropertiesMergeConfig<Params extends object> = {[Key in keyof Params
 
 export function composeWithMerge<MergeMap extends PropertiesMergeConfig<object>>(keyToMergeFn: MergeMap) {
   return function compose<Fn1 extends ComposableFunction, Fn2 extends ComposableFunction, FnList extends ComposableFunction[]>(fn1: Fn1, fn2: Fn2, ...fnList: FnList) {
-    function mergeValues(value1: object, value2: object): object {
+    function mergeValues(value1: object, value2: object, flipMergeOrder: boolean = false): object {
       let returnValue = _.cloneDeep(value1);
       for(let key in value2) {
         if (value1[key] && keyToMergeFn[key]) {
-          returnValue[key] = keyToMergeFn[key](value2[key], value1[key]);
+          /**
+           * for mergable fields we want the merge order to be Fn1, Fn2, params,
+           * for non-mergeable fields we want the override order to be params, Fn1, Fn2
+           * */
+          returnValue[key] = flipMergeOrder ? keyToMergeFn[key](value2[key], value1[key]) : keyToMergeFn[key](value1[key], value2[key]);
         } else {
           returnValue[key] = value2[key];
         }
@@ -43,7 +47,7 @@ export function composeWithMerge<MergeMap extends PropertiesMergeConfig<object>>
       }
 
       const fn1Return = fn1(params);
-      const fn2Params = mergeValues(params, fn1Return);
+      const fn2Params = mergeValues(params, fn1Return, true);
       const fn2Return = fn2(fn2Params);
 
       return mergeValues(fn1Return, fn2Return) as ComposedReturn<MergeMap, Fn1, Fn2, FnList>;

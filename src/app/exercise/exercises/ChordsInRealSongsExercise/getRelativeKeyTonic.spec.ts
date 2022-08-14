@@ -2,7 +2,7 @@ import { testPureFunction } from '../../../shared/testing-utility/testPureFuncti
 import { getRelativeKeyTonic } from './ChordsInRealSongsExercise';
 import { Mode } from '../../utility';
 
-describe('getRelativeKeyTonic', () => {
+describe(getRelativeKeyTonic.name, () => {
   testPureFunction(getRelativeKeyTonic, [
     {
       args: ['D', Mode.Major],
