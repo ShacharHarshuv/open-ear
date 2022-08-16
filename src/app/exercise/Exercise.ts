@@ -11,7 +11,7 @@ import { Platforms } from '@ionic/core/dist/types/utils/platform';
 
 type PartToPlay = NoteEvent[] | OneOrMany<Note>;
 
-// TODO: split this file to multiple files
+// TODO(#166): split this file to multiple files
 
 export namespace Exercise {
 
