@@ -13,7 +13,7 @@ describe(chordInKeyExercise.name, () => {
     getExercise: chordInKeyExercise,
     settingDescriptorList: [
       'Cadence Type',
-      'Included Options',
+      'Included Roman Numerals',
       ...expectedVoicingSettings,
       'Number of chords',
       'Play Resolution',

@@ -12,7 +12,7 @@ describe(intervalExercise.name, () => {
   const context = testExercise({
     getExercise: intervalExercise,
     settingDescriptorList: [
-      'Included Options', // todo: consider making it "Included Intervals"
+      'Included Intervals',
     ],
   })
   const allIntervals: IntervalName[] = _.map(intervalDescriptorList, 'name');

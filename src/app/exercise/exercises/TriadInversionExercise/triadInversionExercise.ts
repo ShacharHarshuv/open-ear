@@ -38,7 +38,9 @@ export const triadInversionExercise = () => {
   };
 
   return composeExercise(
-    includedAnswersSettings(),
+    includedAnswersSettings({
+      name: 'Inversions',
+    }),
     tonalExercise({
       playCadence: false,
     }),

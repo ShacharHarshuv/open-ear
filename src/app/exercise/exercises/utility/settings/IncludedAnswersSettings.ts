@@ -20,21 +20,24 @@ type IncludedAnswersBaseExercise<GAnswer extends string, GSettings extends Inclu
   getAnswerList(): Exercise.AnswerList<GAnswer>;
 }
 
-export function includedAnswersSettings<GAnswer extends string>(defaultSelectedAnswers?: GAnswer[]) {
+export function includedAnswersSettings<GAnswer extends string>(config?: {
+  defaultSelectedAnswers?: GAnswer[],
+  name?: string,
+}) {
   return function (
     params: Pick<CreateExerciseParams<GAnswer, Exercise.Settings>, 'answerList'> &
       Partial<Pick<SettingsParams<Exercise.Settings>, 'defaultSettings'>>
   ): SettingsParams<IncludedAnswersSettings<GAnswer>> & Pick<CreateExerciseParams<GAnswer, IncludedAnswersSettings<GAnswer>>, 'answerList'> {
     return {
       defaultSettings: {
-        includedAnswers: defaultSelectedAnswers ?? Exercise.flatAnswerList(toGetter(params.answerList)(params.defaultSettings ?? {})),
+        includedAnswers: config?.defaultSelectedAnswers ?? Exercise.flatAnswerList(toGetter(params.answerList)(params.defaultSettings ?? {})),
       },
       settingsDescriptors: (settings) => [
         {
           key: 'includedAnswers',
           descriptor: {
             controlType: 'included-answers',
-            label: 'Included Options',
+            label: 'Included ' + (config?.name ?? 'Options'),
             answerList: toGetter(params.answerList)(settings),
           },
         },

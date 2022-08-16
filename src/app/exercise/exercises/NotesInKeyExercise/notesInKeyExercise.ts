@@ -64,7 +64,10 @@ export function notesInKeyExercise() {
 
   return composeExercise(
     melodicExercise(),
-    includedAnswersSettings<SolfegeNote>(['Do', 'Re', 'Mi']),
+    includedAnswersSettings<SolfegeNote>({
+      defaultSelectedAnswers: ['Do', 'Re', 'Mi'],
+      name: 'Scale Degrees',
+    }),
     createExercise,
   )({
     id: 'noteInKey',

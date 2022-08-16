@@ -5,7 +5,7 @@ describe(triadInversionExercise.name, () => {
   const context = testExercise({
     getExercise: triadInversionExercise,
     settingDescriptorList: [
-      'Included Options',
+      'Included Inversions',
       'Arpeggiate Speed',
       'Play Root After Correct Answer',
     ],

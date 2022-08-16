@@ -6,7 +6,7 @@ describe(notesInKeyExercise.name, () => {
     getExercise: notesInKeyExercise,
     settingDescriptorList: [
       'Cadence Type',
-      'Included Options',
+      'Included Scale Degrees',
       'Display',
       'Range',
       'Number of notes',

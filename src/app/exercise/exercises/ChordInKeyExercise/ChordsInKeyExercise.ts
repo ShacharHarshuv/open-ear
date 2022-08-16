@@ -39,7 +39,10 @@ export function chordInKeyExercise() {
     romanAnalysisChordProgressionExercise({
       voicingSettings: false,
     }),
-    includedAnswersSettings(['I', 'IV', 'V']),
+    includedAnswersSettings({
+      defaultSelectedAnswers: ['I', 'IV', 'V'],
+      name: 'Roman Numerals',
+    }),
     chordVoicingSettings(),
     createExercise,
   )({

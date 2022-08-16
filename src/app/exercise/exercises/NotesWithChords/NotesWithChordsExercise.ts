@@ -249,7 +249,9 @@ export function notesWithChordsExercise() {
     bass: new NotesRange('G2', 'B3'),
   };
   return composeExercise(
-    includedAnswersSettings<NoteWithChord>(['Do1', 'Do3', 'Do5']),
+    includedAnswersSettings<NoteWithChord>({
+      defaultSelectedAnswers: ['Do1', 'Do3', 'Do5'],
+    }),
     tonalExercise({
       cadenceTypeSelection: false,
     }),

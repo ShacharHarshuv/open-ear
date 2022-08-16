@@ -81,7 +81,7 @@ export const intervalDescriptorList: DeepReadonly<IntervalDescriptor[]> = [
   },
 ]
 
-const intervalNameToIntervalDescriptor: Record<IntervalName, IntervalDescriptor>  = _.keyBy(intervalDescriptorList, 'name') as Record<IntervalName, IntervalDescriptor>;
+const intervalNameToIntervalDescriptor: Record<IntervalName, IntervalDescriptor> = _.keyBy(intervalDescriptorList, 'name') as Record<IntervalName, IntervalDescriptor>;
 
 export const intervalExercise = () => {
   const allAnswersList: AnswerList<IntervalName> = {
@@ -119,7 +119,9 @@ export const intervalExercise = () => {
   const range = new NotesRange('C3', 'E5');
 
   return composeExercise(
-    includedAnswersSettings(),
+    includedAnswersSettings({
+      name: 'Intervals',
+    }),
     createExercise,
   )({
     id: 'interval',
