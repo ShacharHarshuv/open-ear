@@ -28,6 +28,7 @@ import {
 } from './tonalExercise';
 import { composeExercise } from './composeExercise';
 import { withSettings } from '../settings/withSettings';
+import { romanNumeralToChordInC } from '../../../utility/music/harmony/romanNumeralToChordInC';
 
 export type RomanAnalysisChordProgressionExerciseSettings =
   TonalExerciseSettings &
@@ -563,10 +564,6 @@ const romanNumeralToResolution: {
   },
 };
 
-// todo: split to a different file (possibly creating a more generic function + carrying the key)
-export function romanNumeralToChordInC(romanNumeralSymbol: RomanNumeralChordSymbol): Chord {
-  return new RomanNumeralChord(romanNumeralSymbol).getChord('C');
-}
 
 export type RomanNumeralsChordProgressionQuestion = {
   chordProgressionInRomanAnalysis: RomanNumeralChordSymbol[]

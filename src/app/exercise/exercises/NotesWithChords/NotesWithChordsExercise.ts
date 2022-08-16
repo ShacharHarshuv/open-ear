@@ -26,10 +26,10 @@ import {
   IncludedAnswersSettings,
   includedAnswersSettings,
 } from '../utility/settings/IncludedAnswersSettings';
-import { romanNumeralToChordInC } from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
 import { scaleDegreeToNoteType } from '../../utility/music/scale-degrees/scaleDegreeToNoteType';
 import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
 import { createExercise } from '../utility/exerciseAttributes/createExercise';
+import { romanNumeralToChordInC } from '../../utility/music/harmony/romanNumeralToChordInC';
 
 type ChordDegree = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 

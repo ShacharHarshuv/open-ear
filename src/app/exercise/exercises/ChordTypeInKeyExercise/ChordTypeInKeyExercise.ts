@@ -19,7 +19,6 @@ import {
   chromaticDegreeToScaleDegree,
   ScaleDegree,
 } from '../../utility';
-import { romanNumeralToChordInC } from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
 import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
 import { scaleLayout } from '../utility/answer-layouts/scale-layout';
 import { chordTypeConfigMap } from '../../utility/music/chords/Chord/ChordType';
@@ -38,6 +37,7 @@ import {
 import { withSettings } from '../utility/settings/withSettings';
 import flatAnswerList = Exercise.flatAnswerList;
 import normalizedAnswerList = Exercise.normalizedAnswerList;
+import { romanNumeralToChordInC } from '../../utility/music/harmony/romanNumeralToChordInC';
 
 export const chordTypeAnswerList: Exercise.AnswerList<ChordType> = Exercise.mapAnswerList({
   rows: [

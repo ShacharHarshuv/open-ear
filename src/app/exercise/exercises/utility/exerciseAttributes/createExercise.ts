@@ -19,7 +19,6 @@ export type CreateExerciseParams<GAnswer extends string, GSettings extends Exerc
   readonly blackListPlatform?: Platforms,
 } & SettingsParams<GSettings>;
 
-// todo: add tests
 export function createExercise<GAnswer extends string, GSettings extends Exercise.Settings>(params: CreateExerciseParams<GAnswer, GSettings>): Exercise.Exercise<GAnswer, GSettings> {
   const settings: GSettings = params.defaultSettings;
   return {
