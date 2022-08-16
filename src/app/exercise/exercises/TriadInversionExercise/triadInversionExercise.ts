@@ -27,7 +27,7 @@ const triadInversions: TriadInversionAnswer[] = [
 
 export type TriadInversionExerciseSettings =
   IncludedAnswersSettings<TriadInversionAnswer> & {
-  // todo: arpeggiate speed can be a generic plugable settings (and reused across different exercise)
+  // todo(#167): arpeggio speed can be a generic pluggable settings (and reused across different exercise)
   arpeggiateSpeed: number;
   playRootAfterAnswer: boolean;
 }
