@@ -19,6 +19,10 @@ export function testExercise<GSettings extends Exercise.Settings>(p: {
     expect(exercise.getQuestion()).toBeTruthy();
   });
 
+  it('getAnswerList should return a truthy value', () => {
+    expect(exercise.getAnswerList()).toBeTruthy();
+  });
+
   it('should have the right settings', () => {
     const settingsDescriptorList = exercise.getSettingsDescriptor?.()?.map(descriptor => ({
       ...descriptor,

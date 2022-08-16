@@ -33,7 +33,7 @@ export function createExercise<GAnswer extends string, GSettings extends Exercis
     name: params.name,
     explanation: params.explanation,
     blackListPlatform: params.blackListPlatform,
-    getSettingsDescriptor: () => params.settingsDescriptors ?? [],
+    getSettingsDescriptor: () => params.settingsDescriptors ? toGetter(params.settingsDescriptors)(settings) : [],
     updateSettings: (_settings: GSettings): void => {
       for (let key in _settings) {
         settings[key] = _.isNil(_settings[key]) ? _settings[key] : _settings[key];

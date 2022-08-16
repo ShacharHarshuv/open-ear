@@ -1,5 +1,8 @@
 import { Exercise } from '../../../Exercise';
-import { Constructor } from '../../../../shared/ts-utility';
+import {
+  Constructor,
+  toGetter,
+} from '../../../../shared/ts-utility';
 import {
   BaseExercise,
   CreateExerciseParams,
@@ -18,25 +21,27 @@ type IncludedAnswersBaseExercise<GAnswer extends string, GSettings extends Inclu
 }
 
 export function includedAnswersSettings<GAnswer extends string>(defaultSelectedAnswers?: GAnswer[]) {
-  return function (params: {
-    answerList: Exercise.AnswerList<GAnswer>,
-  }): SettingsParams<IncludedAnswersSettings<GAnswer>> & Pick<CreateExerciseParams<GAnswer, IncludedAnswersSettings<GAnswer>>, 'answerList'> {
+  return function (
+    params: Pick<CreateExerciseParams<GAnswer, Exercise.Settings>, 'answerList'> &
+      Partial<Pick<SettingsParams<Exercise.Settings>, 'defaultSettings'>>
+  ): SettingsParams<IncludedAnswersSettings<GAnswer>> & Pick<CreateExerciseParams<GAnswer, IncludedAnswersSettings<GAnswer>>, 'answerList'> {
     return {
       defaultSettings: {
-        includedAnswers: defaultSelectedAnswers ?? Exercise.flatAnswerList(params.answerList),
+        includedAnswers: defaultSelectedAnswers ?? Exercise.flatAnswerList(toGetter(params.answerList)(params.defaultSettings ?? {})),
       },
-      // todo: consider separating the descriptor from the logic, so we don't have to use it
-      settingsDescriptors: [
+      settingsDescriptors: (settings) => [
         {
           key: 'includedAnswers',
           descriptor: {
             controlType: 'included-answers',
             label: 'Included Options',
-            answerList: params.answerList,
+            answerList: toGetter(params.answerList)(settings),
           },
         },
       ],
-      answerList: (settings: IncludedAnswersSettings<GAnswer>): AnswerList<GAnswer> => filterIncludedAnswers(params.answerList, settings.includedAnswers),
+      answerList: (settings: IncludedAnswersSettings<GAnswer>): AnswerList<GAnswer> => {
+        return filterIncludedAnswers(toGetter(params.answerList)(settings), settings.includedAnswers);
+      },
     }
   }
 }

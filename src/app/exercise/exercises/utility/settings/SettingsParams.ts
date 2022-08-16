@@ -1,6 +1,7 @@
 import { Exercise } from '../../../Exercise';
+import { StaticOrGetter } from '../../../../shared/ts-utility';
 
 export type SettingsParams<GSettings extends Exercise.Settings> = {
-  readonly settingsDescriptors?: Exercise.SettingsControlDescriptor<GSettings>[];
+  readonly settingsDescriptors?: StaticOrGetter<Exercise.SettingsControlDescriptor<GSettings>[], [GSettings]>;
   readonly defaultSettings: GSettings,
 }
