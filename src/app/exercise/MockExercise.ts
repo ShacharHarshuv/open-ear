@@ -4,12 +4,13 @@ import {
   PartToPlay,
   NoteEvent,
 } from '../services/player.service';
-import { BaseExercise } from './exercises/utility/exerciseAttributes/createExercise';
 import MatchableArgs = jasmine.MatchableArgs;
+import { createExercise } from './exercises/utility/exerciseAttributes/createExercise';
 
-export class MockExercise extends BaseExercise {
-  static instance: Readonly<MockExercise> = new MockExercise();
-  static mockQuestion: Exercise.Question<string> = {
+export namespace MockExercise {
+  export const instance = create();
+
+  export const mockQuestion: Exercise.Question<string> = {
     segments: [
       {
         rightAnswer: 'Answer 1',
@@ -23,21 +24,19 @@ export class MockExercise extends BaseExercise {
     cadence: 'E4',
   };
 
-  readonly explanation: Exercise.ExerciseExplanationContent = 'This is my exercise explanation';
-  readonly id: string = this._id || 'mockExerciseId';
-  readonly name: string = 'mockExerciseName';
-  readonly summary: string = 'mockExerciseSummary';
-
-  constructor(private _id?: string) {
-    super();
-  }
-
-  getAnswerList(): Exercise.AnswerList<string> {
-    return [];
-  }
-
-  getQuestion(): Exercise.Question<string> {
-    return MockExercise.mockQuestion;
+  export function create(id? : string) {
+    return createExercise<string, Exercise.Settings>({
+      explanation: 'This is my exercise explanation',
+      id: id || 'mockExerciseId',
+      name: 'mockExerciseName',
+      summary: 'mockExerciseSummary',
+      answerList: [],
+      getQuestion(): Exercise.Question<string> {
+        return mockQuestion;
+      },
+      settingsDescriptors: [],
+      defaultSettings: {},
+    });
   }
 
   /**
@@ -45,7 +44,7 @@ export class MockExercise extends BaseExercise {
    * For example, there are multiple ways to pass in time
    * (Like a custom matcher?)
    */
-  static cadenceToPlayExpectation: MatchableArgs<PlayerService['playMultipleParts']>[0][] = [
+  export const cadenceToPlayExpectation: MatchableArgs<PlayerService['playMultipleParts']>[0][] = [
     // cadence
     jasmine.objectContaining<PartToPlay>({
       partOrTime: [
@@ -60,7 +59,7 @@ export class MockExercise extends BaseExercise {
     }),
   ]
 
-  static questionToPlayExpectation: MatchableArgs<PlayerService['playMultipleParts']>[0][] = [
+  export const questionToPlayExpectation: MatchableArgs<PlayerService['playMultipleParts']>[0][] = [
     // first segment
     jasmine.objectContaining<PartToPlay>({
       partOrTime: [

@@ -1,7 +1,3 @@
-import {
-  BaseTonalExercise,
-  TonalExerciseSettings,
-} from './tonalExercise';
 import { Exercise } from '../../../Exercise';
 import {
   randomFromList,

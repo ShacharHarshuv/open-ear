@@ -1,5 +1,4 @@
 import {
-  BaseTonalExercise,
   TonalExerciseSettings,
   tonalExercise,
   TonalExerciseUtils,
@@ -24,11 +23,9 @@ import { transpose } from '../../utility/music/transpose';
 import * as _ from 'lodash';
 import { NotesWithChordsExplanationComponent } from './notes-with-chords-explanation/notes-with-chords-explanation.component';
 import {
-  IncludedAnswersSetting,
   IncludedAnswersSettings,
   includedAnswersSettings,
 } from '../utility/settings/IncludedAnswersSettings';
-import { SettingsDescriptors } from '../utility/settings/SettingsDescriptors';
 import { romanNumeralToChordInC } from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
 import { scaleDegreeToNoteType } from '../../utility/music/scale-degrees/scaleDegreeToNoteType';
 import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
