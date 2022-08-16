@@ -5,7 +5,7 @@ export type ComposableFunction = (params: object) => object;
 type ComposedParamsForTwoFns<MergeMap extends PropertiesMergeConfig<object>, Fn1 extends ComposableFunction, Fn2 extends ComposableFunction> =
   Parameters<Fn1>[0] &
   Omit<Parameters<Fn2>[0], keyof ReturnType<Fn1>> &  // require parameters that Fn2 needs and Fn1 doesn't supply
-  Partial<Pick<Parameters<Fn2>[0], keyof MergeMap & keyof Parameters<Fn2>[0]>>; // optional parameters that Fn2 needs even if Fn1 supplies them as long as they can be merged
+  Partial<Omit<Parameters<Fn2>[0], keyof Parameters<Fn1>[0]>>; // optional parameters that Fn2 needs even if Fn1 supplies them
 
 type ComposedReturnForTwoFns<Fn1 extends ComposableFunction, Fn2 extends ComposableFunction> = ReturnType<Fn1> & ReturnType<Fn2>;
 

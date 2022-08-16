@@ -25,6 +25,7 @@ import {
 import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
 import { createExercise } from '../utility/exerciseAttributes/createExercise';
 import { chordVoicingSettings } from '../utility/exerciseAttributes/chordProgressionExercise';
+import { cadenceTypeSettings } from '../utility/settings/CadenceTypeSetting';
 
 type ChordInKeySettings =
   IncludedAnswersSettings<RomanNumeralChordSymbol> &
@@ -34,6 +35,7 @@ type ChordInKeySettings =
 
 export function chordInKeyExercise() {
   return composeExercise(
+    cadenceTypeSettings(),
     romanAnalysisChordProgressionExercise({
       voicingSettings: false,
     }),

@@ -1,11 +1,13 @@
 import { Exercise } from '../../Exercise';
 import { toGetter } from '../../../shared/ts-utility';
 import Expected = jasmine.Expected;
+import { ExerciseTest } from '../../ExerciseTest';
 
 export function testExercise<GSettings extends Exercise.Settings>(p: {
   readonly getExercise: () => Exercise.Exercise,
   readonly settingDescriptorList: (string | Expected<Exercise.SettingsControlDescriptor>)[],
   readonly defaultSettings?: Readonly<GSettings>,
+  readonly defaultAnswers?: ReadonlyArray<string>,
 }): {
   readonly exercise: Exercise.Exercise;
 } {
@@ -26,7 +28,7 @@ export function testExercise<GSettings extends Exercise.Settings>(p: {
   it('should have the right settings', () => {
     const settingsDescriptorList = exercise.getSettingsDescriptor?.()?.map(descriptor => ({
       ...descriptor,
-      descriptor: toGetter(descriptor.descriptor)(exercise.getCurrentSettings?.()!)
+      descriptor: toGetter(descriptor.descriptor)(exercise.getCurrentSettings?.()!),
     }));
     const expected = p.settingDescriptorList.map((expected) => {
       if (typeof expected === 'string') {
@@ -51,9 +53,15 @@ export function testExercise<GSettings extends Exercise.Settings>(p: {
     });
   }
 
+  if (p.defaultAnswers) {
+    it('should have the correct default answers', () => {
+      expect(exercise.getAnswerList()).toEqual(ExerciseTest.answerListContaining(p.defaultAnswers!))
+    })
+  }
+
   return {
     get exercise() {
       return exercise;
-    }
+    },
   }
 }

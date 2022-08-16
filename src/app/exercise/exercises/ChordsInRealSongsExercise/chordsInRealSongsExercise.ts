@@ -1,6 +1,5 @@
 import { Exercise } from '../../Exercise';
 import {
-  BaseRomanAnalysisChordProgressionExercise,
   allRomanNumeralAnswerList,
 } from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
 import {

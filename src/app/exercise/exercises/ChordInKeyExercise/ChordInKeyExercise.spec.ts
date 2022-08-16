@@ -3,10 +3,10 @@ import {
   chordInKeyExercise,
 } from './ChordsInKeyExercise';
 import {
-  BaseRomanAnalysisChordProgressionExercise,
   allRomanNumeralAnswerList,
 } from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
 import { testExercise } from '../testing-utility/test-exercise.spec';
+import { expectedVoicingSettings } from '../utility/exerciseAttributes/chordProgressionExercise.spec';
 
 describe(chordInKeyExercise.name, () => {
   const context = testExercise({
@@ -14,9 +14,7 @@ describe(chordInKeyExercise.name, () => {
     settingDescriptorList: [
       'Cadence Type',
       'Included Options',
-      'Voice Leading',
-      'Include Bass',
-      'Included Positions (top voices)',
+      ...expectedVoicingSettings,
       'Number of chords',
       'Play Resolution',
     ],

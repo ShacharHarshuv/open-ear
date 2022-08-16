@@ -283,7 +283,7 @@ export function notesWithChordsExercise() {
     name: 'Notes with Chords',
     summary: 'Identify scale degrees in the context of different diatonic chords',
     explanation: NotesWithChordsExplanationComponent,
-    getQuestion: (settings: NoteWithChordsSettings, tonalExerciseUtils: TonalExerciseUtils): Exclude<Exercise.NotesQuestion<NoteWithChord>, "cadence"> => {
+    getQuestion(settings: NoteWithChordsSettings, tonalExerciseUtils: TonalExerciseUtils): Exclude<Exercise.NotesQuestion<NoteWithChord>, "cadence"> {
       const randomAnswer: NoteWithChord = randomFromList(settings.includedAnswers)
       const descriptor: {
         chord: RomanNumeralChordSymbol,

@@ -3,6 +3,7 @@ import {
   chordTypeExercise,
 } from './ChordTypeInKeyExercise';
 import { testExercise } from '../testing-utility/test-exercise.spec';
+import { expectedVoicingSettings } from '../utility/exerciseAttributes/chordProgressionExercise.spec';
 
 describe(chordTypeExercise.name, () => {
   const context = testExercise<ChordTypeInKeySettings>({
@@ -11,9 +12,7 @@ describe(chordTypeExercise.name, () => {
       'Included Types',
       'Diatonic',
       'Included Chords (Advanced)',
-      'Voice Leading',
-      'Include Bass',
-      'Included Positions (top voices)',
+      ...expectedVoicingSettings,
       'Number of chords',
     ],
     defaultSettings: {

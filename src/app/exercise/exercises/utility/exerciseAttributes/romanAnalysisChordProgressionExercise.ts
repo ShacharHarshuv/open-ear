@@ -1,5 +1,4 @@
 import {
-  BaseTonalChordProgressionExercise,
   ChordProgressionExerciseSettings,
   ChordProgressionQuestion,
   chordProgressionExercise,
@@ -29,7 +28,6 @@ import {
 } from './tonalExercise';
 import { composeExercise } from './composeExercise';
 import { withSettings } from '../settings/withSettings';
-import { cadenceTypeSettings } from '../settings/CadenceTypeSetting';
 
 export type RomanAnalysisChordProgressionExerciseSettings =
   TonalExerciseSettings &
@@ -668,7 +666,6 @@ export function romanAnalysisChordProgressionExercise<GSettings extends Exercise
     getChordProgressionInRomanNumerals(settings: GSettings): RomanNumeralsChordProgressionQuestion,
   }) {
     return composeExercise(
-      cadenceTypeSettings(),
       chordProgressionExercise(config),
       tonalExercise({
         cadenceTypeSelection: false,
@@ -748,91 +745,5 @@ export function romanAnalysisChordProgressionExercise<GSettings extends Exercise
       },
       answerList: allRomanNumeralAnswerList,
     })
-  }
-}
-
-// todo: remove
-export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extends RomanAnalysisChordProgressionExerciseSettings & TonalExerciseSettings> extends BaseTonalChordProgressionExercise<RomanNumeralChordSymbol, GSettings> {
-  static allAnswersList: Exercise.AnswerList<RomanNumeralChordSymbol> = allRomanNumeralAnswerList;
-
-  protected abstract _getChordProgressionInRomanNumerals(): RomanNumeralsChordProgressionQuestion;
-
-  protected _getChordProgressionInC(): ChordProgressionQuestion<RomanNumeralChordSymbol> {
-    const chordProgressionQuestion: RomanNumeralsChordProgressionQuestion = this._getChordProgressionInRomanNumerals();
-
-    const question: ChordProgressionQuestion<RomanNumeralChordSymbol> = {
-      segments: chordProgressionQuestion.chordProgressionInRomanAnalysis.map((romanNumeralSymbol): {
-        chord: Chord,
-        answer: RomanNumeralChordSymbol,
-      } => {
-        return {
-          chord: romanNumeralToChordInC(romanNumeralSymbol),
-          answer: romanNumeralSymbol,
-        }
-      }),
-    };
-
-    if (question.segments.length === 1 && this._settings.playAfterCorrectAnswer) {
-      // calculate resolution
-      const firstChordRomanNumeral: RomanNumeralChordSymbol = question.segments[0].answer;
-      const scaleForResolution = {
-        'I IV V I': 'major',
-        'i iv V i': 'minor',
-      }[this._settings.cadenceType];
-      const resolutionConfig = romanNumeralToResolution[scaleForResolution]?.[firstChordRomanNumeral];
-      if (resolutionConfig) {
-        question.afterCorrectAnswer = ({
-          firstChordInversion,
-          questionSegments,
-        }) => {
-          const resolution: {
-            romanNumeral: RomanNumeralChordSymbol,
-            chordVoicing: Note[],
-          }[] | null = [
-            {
-              romanNumeral: firstChordRomanNumeral,
-              chordVoicing: question.segments[0].chord.getVoicing({
-                topVoicesInversion: firstChordInversion,
-                withBass: this._settings.includeBass,
-              }),
-            },
-            ...resolutionConfig[firstChordInversion].map(chord => ({
-              romanNumeral: chord.romanNumeral,
-              chordVoicing: romanNumeralToChordInC(chord.romanNumeral)!.getVoicing({
-                ...chord.voicingConfig,
-                withBass: this._settings.includeBass,
-              }),
-            })),
-          ];
-
-          const differenceInOctavesToNormalize: number = _.round((toNoteNumber(toArray(toSteadyPart(questionSegments[0].partToPlay)[0].notes)[0]) - toNoteNumber(resolution[0].chordVoicing[0])) / Interval.Octave);
-
-          return resolution.map(({
-            romanNumeral,
-            chordVoicing,
-          }, index) => ({
-            answerToHighlight: romanNumeral,
-            partToPlay: [{
-              notes: chordVoicing.map(note => transpose(note, differenceInOctavesToNormalize * Interval.Octave)),
-              duration: index === resolution.length - 1 ? '2n' : '4n',
-              velocity: 0.3,
-            }],
-          }));
-        };
-      }
-    }
-
-    return question;
-  }
-
-  protected override _getDefaultSettings(): GSettings {
-    return {
-      ...super._getDefaultSettings(),
-      playAfterCorrectAnswer: false,
-    };
-  }
-
-  protected _getAnswersListInC(): Exercise.AnswerList<RomanNumeralChordSymbol> {
-    return allRomanNumeralAnswerList;
   }
 }
