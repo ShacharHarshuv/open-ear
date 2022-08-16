@@ -23,6 +23,7 @@ import {
   IncludedAnswersSettings,
 } from '../utility/settings/IncludedAnswersSettings';
 import { CadenceTypeSetting } from '../utility/settings/CadenceTypeSetting';
+import { TonalExerciseSettings } from '../utility/exerciseAttributes/tonalExercise';
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 
 type ChordInKeySettings =
@@ -31,11 +32,27 @@ type ChordInKeySettings =
   NumberOfSegmentsSetting &
   PlayAfterCorrectAnswerSetting;
 
-@CadenceTypeSetting<ChordInKeySettings>()
+// export function chordInKeyExercise() {
+//   return composeExercise(
+//     chordProgressionExercise(),
+//     includedAnswersSettings(['I', 'IV', 'V']),
+//     tonalExercise(),
+//     createExercise,
+//   )({
+//     id: 'chordInKey',
+//     name: 'Chord Functions',
+//     summary: 'Identify chords based on their tonal context in a key',
+//     explanation: ExerciseExplanationContent,
+//   })
+// }
+
+// todo: remove
+@CadenceTypeSetting<ChordInKeySettings & TonalExerciseSettings>()
+// @ts-ignore
 @IncludedAnswersSetting<RomanNumeralChordSymbol, ChordInKeySettings>({
   default: ['I', 'IV', 'V'],
 })
-export class ChordsInKeyExercise extends BaseRomanAnalysisChordProgressionExercise<ChordInKeySettings> {
+export class ChordsInKeyExercise extends BaseRomanAnalysisChordProgressionExercise<ChordInKeySettings & TonalExerciseSettings> {
   readonly id: string = 'chordInKey';
   readonly name: string = 'Chord Functions';
   readonly summary: string = 'Identify chords based on their tonal context in a key';
@@ -54,7 +71,7 @@ export class ChordsInKeyExercise extends BaseRomanAnalysisChordProgressionExerci
     };
   }
 
-  override getSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordInKeySettings>[] {
+  override getSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordInKeySettings & TonalExerciseSettings>[] {
     return [
       ...super.getSettingsDescriptor(),
       ...numberOfSegmentsControlDescriptorList('chords'),
@@ -64,7 +81,7 @@ export class ChordsInKeyExercise extends BaseRomanAnalysisChordProgressionExerci
     ];
   }
 
-  protected override _getDefaultSettings(): ChordInKeySettings {
+  protected override _getDefaultSettings(): ChordInKeySettings & TonalExerciseSettings {
     return {
       ...super._getDefaultSettings(),
       numberOfSegments: 1,

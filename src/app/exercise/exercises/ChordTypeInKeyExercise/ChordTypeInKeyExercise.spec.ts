@@ -1,9 +1,12 @@
-import { ChordTypeInKeyExercise } from './ChordTypeInKeyExercise';
-import { testExercise } from '../testing-utility/test.exercise';
+import {
+  ChordTypeInKeySettings,
+  chordTypeExercise,
+} from './ChordTypeInKeyExercise';
+import { testExercise } from '../testing-utility/test-exercise.spec';
 
-describe(ChordTypeInKeyExercise.name, () => {
-  const context = testExercise({
-    getExercise: () => new ChordTypeInKeyExercise(),
+describe(chordTypeExercise.name, () => {
+  const context = testExercise<ChordTypeInKeySettings>({
+    getExercise: () => chordTypeExercise(),
     settingDescriptorList: [
       'Included Types',
       'Diatonic',
@@ -13,5 +16,13 @@ describe(ChordTypeInKeyExercise.name, () => {
       'Included Positions (top voices)',
       'Number of chords',
     ],
+    defaultSettings: {
+      includeBass: true,
+      includedRomanNumerals: ['I', 'ii', 'iii', 'IV', 'V', 'vi'],
+      numberOfSegments: 1,
+      includedPositions: [0, 1, 2],
+      voiceLeading: 'CORRECT',
+      cadenceType: 'I IV V I',
+    },
   })
 })

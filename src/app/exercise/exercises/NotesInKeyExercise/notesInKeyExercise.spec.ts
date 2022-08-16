@@ -1,4 +1,4 @@
-import { testExercise } from '../testing-utility/test.exercise';
+import { testExercise } from '../testing-utility/test-exercise.spec';
 import { notesInKeyExercise } from './notesInKeyExercise';
 
 describe(notesInKeyExercise.name, () => {

@@ -65,6 +65,10 @@ function voiceNextChord(currentChordVoicing: Note[], nextChord: Chord): Note[] {
 }
 
 export function voiceChordProgressionWithVoiceLeading(chordOrChordSymbolList: (ChordSymbol | Chord)[], startingTopVoicesInversion: number = 0, options: { withBass: boolean } = {withBass: true}): Note[][] {
+  if (_.isEmpty(chordOrChordSymbolList)) {
+    throw new Error(`chordOrChordSymbolList is empty`);
+  }
+
   const chordList: Chord[] = chordOrChordSymbolList.map((chordOrChordSymbol): Chord => {
     if (chordOrChordSymbol instanceof Chord) {
       return chordOrChordSymbol;

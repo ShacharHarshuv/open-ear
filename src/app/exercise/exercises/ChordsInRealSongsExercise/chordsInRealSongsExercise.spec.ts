@@ -12,7 +12,7 @@ import {
   DeepReadonly,
 } from '../../utility';
 import * as _ from 'lodash';
-import { testExercise } from '../testing-utility/test.exercise';
+import { testExercise } from '../testing-utility/test-exercise.spec';
 
 describe('chordsInRealSongsExercise', () => {
   const context = testExercise({

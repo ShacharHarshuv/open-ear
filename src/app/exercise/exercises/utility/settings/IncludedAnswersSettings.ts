@@ -9,7 +9,7 @@ import filterIncludedAnswers = Exercise.filterIncludedAnswers;
 import AnswerList = Exercise.AnswerList;
 
 export type IncludedAnswersSettings<GAnswer extends string> = {
-  includedAnswers: GAnswer[];
+  readonly includedAnswers: GAnswer[];
 }
 
 // todo: remove

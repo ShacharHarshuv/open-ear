@@ -48,11 +48,11 @@ export type TonalExerciseParams<GAnswer extends string, GSettings extends Exerci
   /*
    * question in C
    * */
-  getQuestion: StaticOrGetter<Omit<Exercise.NotesQuestion<GAnswer>, 'cadence'>, [GSettings, TonalExerciseUtils]>;
+  readonly getQuestion: StaticOrGetter<Omit<Exercise.NotesQuestion<GAnswer>, 'cadence'>, [GSettings, TonalExerciseUtils]>;
   /**
    * answerList in C
    * */
-  answerList: StaticOrGetter<AnswerList<GAnswer>, [GSettings]>,
+  readonly answerList: StaticOrGetter<AnswerList<GAnswer>, [GSettings]>,
 };
 
 export type TonalExerciseConfig = {
@@ -89,7 +89,7 @@ export function tonalExercise<GAnswer extends string, GSettings extends Exercise
     return transpose(rangeForPlaying, getDistanceOfKeys('C', key));
   }
 
-  return function (
+  return function(
     params: TonalExerciseParams<GAnswer, GSettings>,
   ): Pick<CreateExerciseParams<GAnswer, GSettings & TonalExerciseSettings>, 'getQuestion' | 'answerList'> & SettingsParams<TonalExerciseSettings> & { defaultSettings: TonalExerciseSettings } {
     return {

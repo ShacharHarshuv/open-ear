@@ -1,16 +1,32 @@
-import { BaseTonalExercise, TonalExerciseSettings } from './tonalExercise';
+import {
+  BaseTonalExercise,
+  TonalExerciseSettings,
+} from './tonalExercise';
 import { Exercise } from '../../../Exercise';
-import { randomFromList, StaticOrGetter, toGetter, } from '../../../../shared/ts-utility';
+import {
+  randomFromList,
+  StaticOrGetter,
+  toGetter,
+} from '../../../../shared/ts-utility';
 import * as _ from 'lodash';
-import { Chord, ChordSymbol, voiceChordProgressionWithVoiceLeading, } from '../../../utility/music/chords';
+import {
+  Chord,
+  ChordSymbol,
+  voiceChordProgressionWithVoiceLeading,
+} from '../../../utility/music/chords';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { NoteEvent } from '../../../../services/player.service';
-import { getInterval, NotesRange, } from '../../../utility';
+import {
+  getInterval,
+  NotesRange,
+} from '../../../utility';
 import { transpose } from '../../../utility/music/transpose';
 import { Interval } from '../../../utility/music/intervals/Interval';
 import { CreateExerciseParams } from './createExercise';
+import { SettingsParams } from '../settings/SettingsParams';
+import { ChordTypeInKeySettings } from '../../ChordTypeInKeyExercise/ChordTypeInKeyExercise';
 
-export type ChordProgressionExerciseSettings<GAnswer extends string> = TonalExerciseSettings & {
+export type ChordProgressionExerciseSettings<GAnswer extends string> = {
   voiceLeading: 'RANDOM' | 'CORRECT';
   includedPositions: (0 | 1 | 2)[];
   includeBass: boolean;
@@ -34,12 +50,159 @@ export type ChordProgressionExerciseParams<GAnswer extends string, GSettings ext
   getChordProgression: (settings: GSettings) => ChordProgressionQuestion<GAnswer>;
 }
 
-export function chordProgressionExercise<GAnswer extends string, GSettings extends Exercise.Settings>(params: ChordProgressionExerciseParams<GAnswer, GSettings>): CreateExerciseParams<GAnswer, GSettings & ChordProgressionExerciseSettings<GAnswer>> {
-  throw new Error(`Not implemented`);
+export function chordProgressionExercise<GAnswer extends string, GSettings extends Exercise.Settings>() {
+  return function(params: ChordProgressionExerciseParams<GAnswer, GSettings>): Pick<CreateExerciseParams<GAnswer, GSettings>, 'getQuestion'> & SettingsParams<ChordProgressionExerciseSettings<GAnswer>> {
+    const range = new NotesRange('G3', 'E5');
+
+    return {
+      settingsDescriptors: [
+        {
+          key: 'voiceLeading',
+          info: 'Smooth: voices in the chords will move as little as possible (as usually happens in real music) <br>' +
+            'Random: each chord will have a random position regardless of the previous chord. Choose this if you want to limit the included positions',
+          descriptor: {
+            controlType: 'select',
+            label: 'Voice Leading',
+            options: [
+              {
+                label: 'Random',
+                value: 'RANDOM',
+              },
+              {
+                label: 'Smooth',
+                value: 'CORRECT',
+              },
+            ],
+          },
+        },
+        {
+          key: 'includeBass',
+          info: 'When turned off, the bass note will not be played',
+          descriptor: {
+            controlType: 'checkbox',
+            label: 'Include Bass',
+          },
+        },
+        {
+          key: 'includedPositions' as const,
+          info: 'Limit the included top voices positions.',
+          show: (settings => settings.voiceLeading === 'RANDOM'),
+          descriptor: {
+            controlType: 'list-select',
+            label: 'Included Positions (top voices)',
+            allOptions: [
+              {
+                value: 0,
+                label: 'Root Position',
+              },
+              {
+                value: 1,
+                label: '1st Inversion',
+              },
+              {
+                value: 2,
+                label: '2nd Inversion',
+              },
+            ],
+          },
+        },
+      ],
+      defaultSettings: {
+        voiceLeading: 'CORRECT',
+        includedPositions: [0, 1, 2],
+        includeBass: true,
+      },
+      getQuestion(settings: GSettings & ChordTypeInKeySettings): Exercise.NotesQuestion<GAnswer> {
+        const chordProgression: ChordProgressionQuestion<GAnswer> = params.getChordProgression(settings);
+
+        const firstChordInversion: 0 | 1 | 2 = randomFromList(settings.includedPositions);
+
+        const voiceChordProgression = (chordOrChordSymbolList: (ChordSymbol | Chord)[]): Note[][] => {
+          if (settings.voiceLeading === 'CORRECT') {
+            return voiceChordProgressionWithVoiceLeading(chordOrChordSymbolList, firstChordInversion, {
+              withBass: settings.includeBass,
+            });
+          }
+
+          const getAllVoicingsInRange = (chord: Chord, params: Parameters<Chord['getVoicing']>[0]): Note[][] => {
+            const voicing: Note[] = chord.getVoicing(params);
+            const bassNotes: Note[] = [];
+            if (params.withBass) {
+              bassNotes.push(voicing.shift()!);
+              bassNotes.push(voicing.shift()!);
+            }
+
+            let lowestVoicing = voicing;
+
+            while (range.isInRange(transpose(lowestVoicing, -Interval.Octave))) {
+              lowestVoicing = transpose(lowestVoicing, -Interval.Octave);
+            }
+
+            const possibleVoicingList = [lowestVoicing];
+
+            while (range.isInRange(transpose(_.last(possibleVoicingList)!, +Interval.Octave))) {
+              possibleVoicingList.push(transpose(_.last(possibleVoicingList)!, +Interval.Octave));
+            }
+
+            return possibleVoicingList.map(possibleVoicing => [
+              ...bassNotes,
+              ...possibleVoicing,
+            ]);
+          }
+
+          const voicingList: Note[][] = [randomFromList(getAllVoicingsInRange(chordProgression.segments[0].chord, {
+            topVoicesInversion: firstChordInversion,
+            withBass: settings.includeBass,
+          }))];
+
+          for (let i = 1; voicingList.length < chordProgression.segments.length; i++) {
+            const lastVoicing: Note[] = voicingList[i - 1];
+            const possibleNextVoicingList: (Note[])[] = getAllVoicingsInRange(chordProgression.segments[i].chord, {
+              topVoicesInversion: randomFromList(settings.includedPositions),
+              withBass: settings.includeBass,
+            });
+
+            const validNextVoicingList: (Note[])[] = possibleNextVoicingList.filter(possibleNextVoicing => {
+              const lastVoicingHighestNote: Note = _.last(lastVoicing)!;
+              const nextVoicingHighestNote: Note = _.last(possibleNextVoicing)!;
+              return getInterval(lastVoicingHighestNote, nextVoicingHighestNote) <= Interval.PerfectFifth;
+            })
+
+            voicingList.push(randomFromList(_.isEmpty(validNextVoicingList) ? possibleNextVoicingList : validNextVoicingList));
+          }
+
+          return voicingList;
+        }
+
+        const question: Exclude<Exercise.Question<GAnswer>, "cadence"> = {
+          segments: voiceChordProgression(_.map(chordProgression.segments, 'chord'))
+            .map((voicing: Note[], index: number): Exercise.NotesQuestion<GAnswer>['segments'][0] => {
+              return {
+                rightAnswer: chordProgression.segments[index].answer,
+                partToPlay: [{
+                  notes: voicing,
+                  velocity: 0.3,
+                  duration: '2n',
+                }],
+              }
+            }),
+        }
+
+        if (chordProgression.afterCorrectAnswer) {
+          question.afterCorrectAnswer = toGetter(chordProgression.afterCorrectAnswer)({
+            firstChordInversion: firstChordInversion,
+            questionSegments: question.segments,
+          });
+        }
+
+        return question;
+      }
+    }
+  }
 }
 
 // todo: remove
-export abstract class BaseTonalChordProgressionExercise<GAnswer extends string, GSettings extends ChordProgressionExerciseSettings<GAnswer>> extends BaseTonalExercise<GAnswer, GSettings> {
+export abstract class BaseTonalChordProgressionExercise<GAnswer extends string, GSettings extends ChordProgressionExerciseSettings<GAnswer> & TonalExerciseSettings> extends BaseTonalExercise<GAnswer, GSettings> {
   protected override _settings: GSettings = {
     ...this._settings,
     voiceLeading: 'CORRECT',
@@ -104,7 +267,7 @@ export abstract class BaseTonalChordProgressionExercise<GAnswer extends string, 
           return getInterval(lastVoicingHighestNote, nextVoicingHighestNote) <= Interval.PerfectFifth;
         })
 
-        voicingList.push(randomFromList(_.isEmpty(validNextVoicingList) ? possibleNextVoicingList: validNextVoicingList));
+        voicingList.push(randomFromList(_.isEmpty(validNextVoicingList) ? possibleNextVoicingList : validNextVoicingList));
       }
 
       return voicingList;
@@ -154,7 +317,7 @@ export abstract class BaseTonalChordProgressionExercise<GAnswer extends string, 
             {
               label: 'Smooth',
               value: 'CORRECT',
-            }
+            },
           ],
         },
       },
@@ -164,7 +327,7 @@ export abstract class BaseTonalChordProgressionExercise<GAnswer extends string, 
         descriptor: {
           controlType: 'checkbox',
           label: 'Include Bass',
-        }
+        },
       },
       {
         key: 'includedPositions' as const,
@@ -180,12 +343,12 @@ export abstract class BaseTonalChordProgressionExercise<GAnswer extends string, 
             },
             {
               value: 1,
-              label: '1st Inversion'
+              label: '1st Inversion',
             },
             {
               value: 2,
               label: '2nd Inversion',
-            }
+            },
           ],
         },
       },

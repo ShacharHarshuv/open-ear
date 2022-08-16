@@ -14,6 +14,7 @@ import {
 import { toMusicalTextDisplay } from '../../utility/music/getMusicTextDisplay';
 import { SettingsDescriptors } from '../utility/settings/SettingsDescriptors';
 import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
+import { TonalExerciseSettings } from '../utility/exerciseAttributes/tonalExercise';
 
 type CommonChordProgressionExerciseSettings = RomanAnalysisChordProgressionExerciseSettings & {
   includedProgressions: string[];
@@ -46,7 +47,7 @@ interface ProgressionDescriptor {
     ]
   }
 })
-export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgressionExercise<CommonChordProgressionExerciseSettings> {
+export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgressionExercise<CommonChordProgressionExerciseSettings & TonalExerciseSettings> {
   private static readonly _progression: ProgressionDescriptor[] = [
     // Diatonic Major progressions
     {
@@ -282,7 +283,7 @@ export class CommonChordProgressionsExercise extends BaseRomanAnalysisChordProgr
     ];
   }
 
-  protected override _getDefaultSettings(): CommonChordProgressionExerciseSettings {
+  protected override _getDefaultSettings(): CommonChordProgressionExerciseSettings & TonalExerciseSettings {
     return {
       ...super._getDefaultSettings(),
       includedProgressions: CommonChordProgressionsExercise._defaultProgressions,

@@ -1,7 +1,7 @@
 import { Exercise } from '../../Exercise';
 import { ChordsInKeyExercise } from './ChordsInKeyExercise';
 import { BaseRomanAnalysisChordProgressionExercise } from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
-import { testExercise } from '../testing-utility/test.exercise';
+import { testExercise } from '../testing-utility/test-exercise.spec';
 
 describe(ChordsInKeyExercise.name, () => {
   const context = testExercise({

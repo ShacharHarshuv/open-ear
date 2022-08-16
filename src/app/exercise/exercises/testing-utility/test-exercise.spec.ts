@@ -1,10 +1,11 @@
 import { Exercise } from '../../Exercise';
-import Expected = jasmine.Expected;
 import { toGetter } from '../../../shared/ts-utility';
+import Expected = jasmine.Expected;
 
-export function testExercise(p: {
-  getExercise: () => Exercise.Exercise,
-  settingDescriptorList: (string | Expected<Exercise.SettingsControlDescriptor>)[],
+export function testExercise<GSettings extends Exercise.Settings>(p: {
+  readonly getExercise: () => Exercise.Exercise,
+  readonly settingDescriptorList: (string | Expected<Exercise.SettingsControlDescriptor>)[],
+  readonly defaultSettings?: Readonly<GSettings>,
 }): {
   readonly exercise: Exercise.Exercise;
 } {
@@ -37,6 +38,14 @@ export function testExercise(p: {
     // @ts-ignore
     expect(settingsDescriptorList).toEqual(expected);
   })
+
+  // todo: consider making this required
+  if (p.defaultSettings) {
+    it('should have the correct default settings', () => {
+      const currentSettings = exercise.getCurrentSettings?.();
+      expect(currentSettings).toEqual(p.defaultSettings);
+    });
+  }
 
   return {
     get exercise() {

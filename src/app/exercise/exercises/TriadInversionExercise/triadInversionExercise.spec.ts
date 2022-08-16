@@ -1,5 +1,5 @@
-import { testExercise } from '../testing-utility/test.exercise';
 import { triadInversionExercise } from './triadInversionExercise';
+import { testExercise } from '../testing-utility/test-exercise.spec';
 
 describe(triadInversionExercise.name, () => {
   const context = testExercise({

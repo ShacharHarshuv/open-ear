@@ -1,6 +1,6 @@
 import { CommonChordProgressionsExercise } from './CommonChordProgressionsExercise';
 import { Exercise } from '../../Exercise';
-import { testExercise } from '../testing-utility/test.exercise';
+import { testExercise } from '../testing-utility/test-exercise.spec';
 
 describe(CommonChordProgressionsExercise.name, () => {
   const context = testExercise({

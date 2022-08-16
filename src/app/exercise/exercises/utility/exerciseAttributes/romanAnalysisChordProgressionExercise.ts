@@ -21,6 +21,7 @@ import {
 import { transpose } from '../../../utility/music/transpose';
 import { NoteEvent } from '../../../../services/player.service';
 import { RomanNumeralChord } from '../../../utility/music/harmony/RomanNumeralChord';
+import { TonalExerciseSettings } from './tonalExercise';
 
 export type RomanAnalysisChordProgressionExerciseSettings =
   ChordProgressionExerciseSettings<RomanNumeralChordSymbol> &
@@ -563,7 +564,7 @@ export type RomanNumeralsChordProgressionQuestion = {
   chordProgressionInRomanAnalysis: RomanNumeralChordSymbol[]
 };
 
-export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extends RomanAnalysisChordProgressionExerciseSettings> extends BaseTonalChordProgressionExercise<RomanNumeralChordSymbol, GSettings> {
+export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extends RomanAnalysisChordProgressionExerciseSettings & TonalExerciseSettings> extends BaseTonalChordProgressionExercise<RomanNumeralChordSymbol, GSettings> {
   static allAnswersList: Exercise.AnswerList<RomanNumeralChordSymbol> = BaseRomanAnalysisChordProgressionExercise._getAllAnswersList();
 
   protected abstract _getChordProgressionInRomanNumerals(): RomanNumeralsChordProgressionQuestion;
