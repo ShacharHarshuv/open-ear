@@ -1,11 +1,16 @@
 import { Exercise } from '../../Exercise';
-import { ChordsInKeyExercise } from './ChordsInKeyExercise';
-import { BaseRomanAnalysisChordProgressionExercise } from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
+import {
+  chordInKeyExercise,
+} from './ChordsInKeyExercise';
+import {
+  BaseRomanAnalysisChordProgressionExercise,
+  allRomanNumeralAnswerList,
+} from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
 import { testExercise } from '../testing-utility/test-exercise.spec';
 
-describe(ChordsInKeyExercise.name, () => {
+describe(chordInKeyExercise.name, () => {
   const context = testExercise({
-    getExercise: () => new ChordsInKeyExercise(),
+    getExercise: chordInKeyExercise,
     settingDescriptorList: [
       'Cadence Type',
       'Included Options',
@@ -18,7 +23,7 @@ describe(ChordsInKeyExercise.name, () => {
   })
 
   describe('Every roman numeral selection should work', () => {
-    Exercise.flatAnswerList(BaseRomanAnalysisChordProgressionExercise.allAnswersList).forEach(romanNumeral => {
+    Exercise.flatAnswerList(allRomanNumeralAnswerList).forEach(romanNumeral => {
       it(romanNumeral, () => {
         context.exercise.updateSettings?.({
           ...context.exercise.getCurrentSettings?.(),

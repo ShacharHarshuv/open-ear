@@ -1,5 +1,8 @@
 import { Exercise } from '../../Exercise';
-import { BaseRomanAnalysisChordProgressionExercise } from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
+import {
+  BaseRomanAnalysisChordProgressionExercise,
+  allRomanNumeralAnswerList,
+} from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
 import {
   chordsInRealSongsDescriptorList,
   ProgressionInSongFromYouTubeDescriptor,
@@ -94,7 +97,7 @@ export function chordsInRealSongsExercise(progressionList: DeepReadonly<Progress
           descriptor: {
             label: 'Included Chords',
             controlType: 'included-answers',
-            answerList: BaseRomanAnalysisChordProgressionExercise.allAnswersList,
+            answerList: allRomanNumeralAnswerList,
           },
         }
       ],
@@ -104,7 +107,7 @@ export function chordsInRealSongsExercise(progressionList: DeepReadonly<Progress
       answerList(settings: ChordsInRealSongsSettings): Exercise.AnswerList<RomanNumeralChordSymbol> {
         const progressionsList: DeepReadonly<ProgressionInSongFromYouTubeDescriptor[]> = getAvailableProgressions(settings);
         const includedAnswers: RomanNumeralChordSymbol[] = _.uniq(_.flatMap(progressionsList, (progression: ProgressionInSongFromYouTubeDescriptor): RomanNumeralChordSymbol[] => progression.chords.map(chordDescriptor => chordDescriptor.chord)))
-        return Exercise.filterIncludedAnswers(BaseRomanAnalysisChordProgressionExercise.allAnswersList, includedAnswers);
+        return Exercise.filterIncludedAnswers(allRomanNumeralAnswerList, includedAnswers);
       },
       getQuestion(settings: ChordsInRealSongsSettings): Exercise.Question<RomanNumeralChordSymbol> {
         const progression: DeepReadonly<ProgressionInSongFromYouTubeDescriptor> = randomFromList(getAvailableProgressions(settings))

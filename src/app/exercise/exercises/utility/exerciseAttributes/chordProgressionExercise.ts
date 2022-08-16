@@ -25,6 +25,7 @@ import { Interval } from '../../../utility/music/intervals/Interval';
 import { CreateExerciseParams } from './createExercise';
 import { SettingsParams } from '../settings/SettingsParams';
 import { ChordTypeInKeySettings } from '../../ChordTypeInKeyExercise/ChordTypeInKeyExercise';
+import { withSettings } from '../settings/withSettings';
 
 export type ChordProgressionExerciseSettings<GAnswer extends string> = {
   voiceLeading: 'RANDOM' | 'CORRECT';
@@ -50,68 +51,89 @@ export type ChordProgressionExerciseParams<GAnswer extends string, GSettings ext
   getChordProgression: (settings: GSettings) => ChordProgressionQuestion<GAnswer>;
 }
 
-export function chordProgressionExercise<GAnswer extends string, GSettings extends Exercise.Settings>() {
+export type ChordProgressionExerciseConfig = {
+  voicingSettings?: boolean,
+}
+
+export function chordVoicingSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordProgressionExerciseSettings<string>>[] {
+  return [
+    {
+      key: 'voiceLeading',
+      info: 'Smooth: voices in the chords will move as little as possible (as usually happens in real music) <br>' +
+        'Random: each chord will have a random position regardless of the previous chord. Choose this if you want to limit the included positions',
+      descriptor: {
+        controlType: 'select',
+        label: 'Voice Leading',
+        options: [
+          {
+            label: 'Random',
+            value: 'RANDOM',
+          },
+          {
+            label: 'Smooth',
+            value: 'CORRECT',
+          },
+        ],
+      },
+    },
+    {
+      key: 'includeBass',
+      info: 'When turned off, the bass note will not be played',
+      descriptor: {
+        controlType: 'checkbox',
+        label: 'Include Bass',
+      },
+    },
+    {
+      key: 'includedPositions' as const,
+      info: 'Limit the included top voices positions.',
+      show: (settings => settings.voiceLeading === 'RANDOM'),
+      descriptor: {
+        controlType: 'list-select',
+        label: 'Included Positions (top voices)',
+        allOptions: [
+          {
+            value: 0,
+            label: 'Root Position',
+          },
+          {
+            value: 1,
+            label: '1st Inversion',
+          },
+          {
+            value: 2,
+            label: '2nd Inversion',
+          },
+        ],
+      },
+    },
+  ];
+}
+
+export const chordVoicingDefaultSettings: ChordProgressionExerciseSettings<string> = {
+  voiceLeading: 'CORRECT',
+  includedPositions: [0, 1, 2],
+  includeBass: true,
+};
+
+export function chordVoicingSettings() {
+  return withSettings({
+    settingsDescriptors: chordVoicingSettingsDescriptor(),
+    defaultSettings: chordVoicingDefaultSettings,
+  });
+}
+
+export function chordProgressionExercise<GAnswer extends string, GSettings extends Exercise.Settings>(config?: ChordProgressionExerciseConfig) {
+  const fullConfig: Required<ChordProgressionExerciseConfig> = _.defaults(config, {
+    voicingSettings: true,
+  })
+
   return function(params: ChordProgressionExerciseParams<GAnswer, GSettings>): Pick<CreateExerciseParams<GAnswer, GSettings>, 'getQuestion'> & SettingsParams<ChordProgressionExerciseSettings<GAnswer>> {
     const range = new NotesRange('G3', 'E5');
 
     return {
-      settingsDescriptors: [
-        {
-          key: 'voiceLeading',
-          info: 'Smooth: voices in the chords will move as little as possible (as usually happens in real music) <br>' +
-            'Random: each chord will have a random position regardless of the previous chord. Choose this if you want to limit the included positions',
-          descriptor: {
-            controlType: 'select',
-            label: 'Voice Leading',
-            options: [
-              {
-                label: 'Random',
-                value: 'RANDOM',
-              },
-              {
-                label: 'Smooth',
-                value: 'CORRECT',
-              },
-            ],
-          },
-        },
-        {
-          key: 'includeBass',
-          info: 'When turned off, the bass note will not be played',
-          descriptor: {
-            controlType: 'checkbox',
-            label: 'Include Bass',
-          },
-        },
-        {
-          key: 'includedPositions' as const,
-          info: 'Limit the included top voices positions.',
-          show: (settings => settings.voiceLeading === 'RANDOM'),
-          descriptor: {
-            controlType: 'list-select',
-            label: 'Included Positions (top voices)',
-            allOptions: [
-              {
-                value: 0,
-                label: 'Root Position',
-              },
-              {
-                value: 1,
-                label: '1st Inversion',
-              },
-              {
-                value: 2,
-                label: '2nd Inversion',
-              },
-            ],
-          },
-        },
-      ],
-      defaultSettings: {
-        voiceLeading: 'CORRECT',
-        includedPositions: [0, 1, 2],
-        includeBass: true,
-      },
+      settingsDescriptors: fullConfig.voicingSettings ? chordVoicingSettingsDescriptor() : [],
+      defaultSettings: chordVoicingDefaultSettings,
       getQuestion(settings: GSettings & ChordTypeInKeySettings): Exercise.NotesQuestion<GAnswer> {
         const chordProgression: ChordProgressionQuestion<GAnswer> = params.getChordProgression(settings);
 

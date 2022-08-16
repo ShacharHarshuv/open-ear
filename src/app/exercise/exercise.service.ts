@@ -5,7 +5,6 @@ import {
 import * as _ from 'lodash';
 import { intervalExercise } from './exercises/IntervalExercise/IntervalExercise';
 import { Exercise } from './Exercise';
-import { ChordsInKeyExercise } from './exercises/ChordInKeyExercise/ChordsInKeyExercise';
 import { CommonChordProgressionsExercise } from './exercises/CommonChordProgressionExercise/CommonChordProgressionsExercise';
 import { Platform } from '@ionic/angular';
 import IExercise = Exercise.Exercise;
@@ -14,6 +13,7 @@ import { chordsInRealSongsExercise } from './exercises/ChordsInRealSongsExercise
 import { notesWithChordsExercise } from './exercises/NotesWithChords/NotesWithChordsExercise';
 import { notesInKeyExercise } from './exercises/NotesInKeyExercise/notesInKeyExercise';
 import { chordTypeExercise } from './exercises/ChordTypeInKeyExercise/ChordTypeInKeyExercise';
+import { chordInKeyExercise } from './exercises/ChordInKeyExercise/ChordsInKeyExercise';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,7 @@ import { chordTypeExercise } from './exercises/ChordTypeInKeyExercise/ChordTypeI
 export class ExerciseService {
   static readonly _exerciseList: IExercise[] = [
     notesInKeyExercise(),
-    new ChordsInKeyExercise() as unknown as IExercise, // TODO(OE-27)
+    chordInKeyExercise(),
     new CommonChordProgressionsExercise() as unknown as IExercise, // TODO(OE-27)
     chordsInRealSongsExercise(),
     chordTypeExercise(),

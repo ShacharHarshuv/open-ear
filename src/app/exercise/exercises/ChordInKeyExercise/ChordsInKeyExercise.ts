@@ -14,17 +14,17 @@ import {
   PlayAfterCorrectAnswerSetting,
 } from '../utility/settings/PlayAfterCorrectAnswerSetting';
 import {
-  BaseRomanAnalysisChordProgressionExercise,
   RomanAnalysisChordProgressionExerciseSettings,
   RomanNumeralsChordProgressionQuestion,
+  romanAnalysisChordProgressionExercise,
 } from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
 import {
-  IncludedAnswersSetting,
   IncludedAnswersSettings,
+  includedAnswersSettings,
 } from '../utility/settings/IncludedAnswersSettings';
-import { CadenceTypeSetting } from '../utility/settings/CadenceTypeSetting';
-import { TonalExerciseSettings } from '../utility/exerciseAttributes/tonalExercise';
-import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
+import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
+import { createExercise } from '../utility/exerciseAttributes/createExercise';
+import { chordVoicingSettings } from '../utility/exerciseAttributes/chordProgressionExercise';
 
 type ChordInKeySettings =
   IncludedAnswersSettings<RomanNumeralChordSymbol> &
@@ -32,61 +32,41 @@ type ChordInKeySettings =
   NumberOfSegmentsSetting &
   PlayAfterCorrectAnswerSetting;
 
-// export function chordInKeyExercise() {
-//   return composeExercise(
-//     chordProgressionExercise(),
-//     includedAnswersSettings(['I', 'IV', 'V']),
-//     tonalExercise(),
-//     createExercise,
-//   )({
-//     id: 'chordInKey',
-//     name: 'Chord Functions',
-//     summary: 'Identify chords based on their tonal context in a key',
-//     explanation: ExerciseExplanationContent,
-//   })
-// }
+export function chordInKeyExercise() {
+  return composeExercise(
+    romanAnalysisChordProgressionExercise({
+      voicingSettings: false,
+    }),
+    includedAnswersSettings(['I', 'IV', 'V']),
+    chordVoicingSettings(),
+    createExercise,
+  )({
+    id: 'chordInKey',
+    name: 'Chord Functions',
+    summary: 'Identify chords based on their tonal context in a key',
+    explanation: ChordInKeyExplanationComponent,
+    getChordProgressionInRomanNumerals(settings: ChordInKeySettings): RomanNumeralsChordProgressionQuestion {
+      const numberOfSegments = settings.numberOfSegments;
+      const availableChords: RomanNumeralChordSymbol[] = settings.includedAnswers;
+      const chordProgression: RomanNumeralChordSymbol[] = [randomFromList(availableChords)];
+      while (chordProgression.length < numberOfSegments) {
+        chordProgression.push(randomFromList(availableChords.filter(chord => chord !== _.last(chordProgression)! || availableChords.length <= 1)));
+      }
 
-// todo: remove
-@CadenceTypeSetting<ChordInKeySettings & TonalExerciseSettings>()
-// @ts-ignore
-@IncludedAnswersSetting<RomanNumeralChordSymbol, ChordInKeySettings>({
-  default: ['I', 'IV', 'V'],
-})
-export class ChordsInKeyExercise extends BaseRomanAnalysisChordProgressionExercise<ChordInKeySettings & TonalExerciseSettings> {
-  readonly id: string = 'chordInKey';
-  readonly name: string = 'Chord Functions';
-  readonly summary: string = 'Identify chords based on their tonal context in a key';
-  readonly explanation: ExerciseExplanationContent = ChordInKeyExplanationComponent;
-
-  protected _getChordProgressionInRomanNumerals(): RomanNumeralsChordProgressionQuestion {
-    const numberOfSegments = this._settings.numberOfSegments;
-    const availableChords: RomanNumeralChordSymbol[] = this._settings.includedAnswers;
-    const chordProgression: RomanNumeralChordSymbol[] = [randomFromList(availableChords)];
-    while (chordProgression.length < numberOfSegments) {
-      chordProgression.push(randomFromList(availableChords.filter(chord => chord !== _.last(chordProgression)! || availableChords.length <= 1)));
-    }
-
-    return {
-      chordProgressionInRomanAnalysis: chordProgression,
-    };
-  }
-
-  override getSettingsDescriptor(): Exercise.SettingsControlDescriptor<ChordInKeySettings & TonalExerciseSettings>[] {
-    return [
-      ...super.getSettingsDescriptor(),
+      return {
+        chordProgressionInRomanAnalysis: chordProgression,
+      };
+    },
+    settingsDescriptors: [
       ...numberOfSegmentsControlDescriptorList('chords'),
       ...playAfterCorrectAnswerControlDescriptorList({
         show: ((settings: ChordInKeySettings) => settings.numberOfSegments === 1),
       }),
-    ];
-  }
-
-  protected override _getDefaultSettings(): ChordInKeySettings & TonalExerciseSettings {
-    return {
-      ...super._getDefaultSettings(),
+    ],
+    defaultSettings: {
       numberOfSegments: 1,
       playAfterCorrectAnswer: true,
       includedAnswers: ['I', 'IV', 'V'],
-    };
-  }
+    },
+  });
 }

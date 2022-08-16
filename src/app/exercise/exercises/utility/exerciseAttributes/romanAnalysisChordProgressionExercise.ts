@@ -2,6 +2,8 @@ import {
   BaseTonalChordProgressionExercise,
   ChordProgressionExerciseSettings,
   ChordProgressionQuestion,
+  chordProgressionExercise,
+  ChordProgressionExerciseConfig,
 } from './chordProgressionExercise';
 import {
   Chord,
@@ -21,9 +23,16 @@ import {
 import { transpose } from '../../../utility/music/transpose';
 import { NoteEvent } from '../../../../services/player.service';
 import { RomanNumeralChord } from '../../../utility/music/harmony/RomanNumeralChord';
-import { TonalExerciseSettings } from './tonalExercise';
+import {
+  TonalExerciseSettings,
+  tonalExercise,
+} from './tonalExercise';
+import { composeExercise } from './composeExercise';
+import { withSettings } from '../settings/withSettings';
+import { cadenceTypeSettings } from '../settings/CadenceTypeSetting';
 
 export type RomanAnalysisChordProgressionExerciseSettings =
+  TonalExerciseSettings &
   ChordProgressionExerciseSettings<RomanNumeralChordSymbol> &
   PlayAfterCorrectAnswerSetting;
 
@@ -556,6 +565,7 @@ const romanNumeralToResolution: {
   },
 };
 
+// todo: split to a different file (possibly creating a more generic function + carrying the key)
 export function romanNumeralToChordInC(romanNumeralSymbol: RomanNumeralChordSymbol): Chord {
   return new RomanNumeralChord(romanNumeralSymbol).getChord('C');
 }
@@ -564,8 +574,186 @@ export type RomanNumeralsChordProgressionQuestion = {
   chordProgressionInRomanAnalysis: RomanNumeralChordSymbol[]
 };
 
+export const allRomanNumeralAnswerList: Exercise.AnswerList<RomanNumeralChordSymbol> = (() => {
+  function getPlayOnClickPart(chord: Chord): NoteEvent[] {
+    return [{
+      notes: chord.getVoicing({topVoicesInversion: TriadInversion.Fifth}),
+      velocity: 0.3,
+      duration: '2n',
+    }];
+  }
+
+  const answerList: { rows: (Exercise.AnswerConfig<RomanNumeralChordSymbol> | RomanNumeralChordSymbol)[][] } = {
+    rows: [
+      [
+        {
+          answer: null,
+          space: 1,
+        },
+        'II',
+        'III',
+        '#ivdim',
+        {
+          answer: null,
+          space: 1,
+        },
+        'VI',
+        'VII',
+      ],
+      [
+        'I',
+        'ii',
+        'iii',
+        'IV',
+        'V',
+        'vi',
+        'viidim',
+      ],
+      [
+        'i',
+        'iidim',
+        'bIII',
+        'iv',
+        'v',
+        'bVI',
+        'bVII',
+      ],
+      [
+        {
+          answer: null,
+          space: 1,
+        },
+        'bII',
+        {
+          answer: null,
+          space: 1,
+        },
+        {
+          answer: null,
+          space: 1,
+        },
+        'vdim',
+        {
+          answer: null,
+          space: 1,
+        },
+        'bvii',
+      ],
+    ],
+  }
+
+  return Exercise.addViewLabelToAnswerList({
+    rows: answerList.rows.map(row => row.map((answerOrCellConfig): Exercise.AnswerConfig<RomanNumeralChordSymbol> => {
+      if (typeof answerOrCellConfig === 'string') {
+        return {
+          answer: answerOrCellConfig,
+          playOnClick: getPlayOnClickPart(romanNumeralToChordInC(answerOrCellConfig)),
+        }
+      } else {
+        if (!answerOrCellConfig.playOnClick && answerOrCellConfig.answer) {
+          return {
+            ...answerOrCellConfig,
+            playOnClick: getPlayOnClickPart(romanNumeralToChordInC(answerOrCellConfig.answer)),
+          }
+        } else {
+          return answerOrCellConfig;
+        }
+      }
+    })),
+  }, answer => new RomanNumeralChord(answer).toViewString());
+})()
+
+export function romanAnalysisChordProgressionExercise<GSettings extends Exercise.Settings>(config?: ChordProgressionExerciseConfig) {
+  return function(p: {
+    getChordProgressionInRomanNumerals(settings: GSettings): RomanNumeralsChordProgressionQuestion,
+  }) {
+    return composeExercise(
+      cadenceTypeSettings(),
+      chordProgressionExercise(config),
+      tonalExercise({
+        cadenceTypeSelection: false,
+      }),
+      withSettings({
+        defaultSettings: {
+          playAfterCorrectAnswer: false,
+        }
+      })
+    )({
+      getChordProgression(settings: RomanAnalysisChordProgressionExerciseSettings & GSettings): ChordProgressionQuestion<RomanNumeralChordSymbol> {
+        const chordProgressionQuestion: RomanNumeralsChordProgressionQuestion = p.getChordProgressionInRomanNumerals(settings);
+
+        const question: ChordProgressionQuestion<RomanNumeralChordSymbol> = {
+          segments: chordProgressionQuestion.chordProgressionInRomanAnalysis.map((romanNumeralSymbol): {
+            chord: Chord,
+            answer: RomanNumeralChordSymbol,
+          } => {
+            return {
+              chord: romanNumeralToChordInC(romanNumeralSymbol),
+              answer: romanNumeralSymbol,
+            }
+          }),
+        };
+
+        if (question.segments.length === 1 && settings.playAfterCorrectAnswer) {
+          // calculate resolution
+          const firstChordRomanNumeral: RomanNumeralChordSymbol = question.segments[0].answer;
+          const scaleForResolution = {
+            'I IV V I': 'major',
+            'i iv V i': 'minor',
+          }[settings.cadenceType];
+          const resolutionConfig = romanNumeralToResolution[scaleForResolution]?.[firstChordRomanNumeral];
+          if (resolutionConfig) {
+            question.afterCorrectAnswer = ({
+              firstChordInversion,
+              questionSegments,
+            }) => {
+              const resolution: {
+                romanNumeral: RomanNumeralChordSymbol,
+                chordVoicing: Note[],
+              }[] | null = [
+                {
+                  romanNumeral: firstChordRomanNumeral,
+                  chordVoicing: question.segments[0].chord.getVoicing({
+                    topVoicesInversion: firstChordInversion,
+                    withBass: settings.includeBass,
+                  }),
+                },
+                ...resolutionConfig[firstChordInversion].map(chord => ({
+                  romanNumeral: chord.romanNumeral,
+                  chordVoicing: romanNumeralToChordInC(chord.romanNumeral)!.getVoicing({
+                    ...chord.voicingConfig,
+                    withBass: settings.includeBass,
+                  }),
+                })),
+              ];
+
+              const differenceInOctavesToNormalize: number = _.round((toNoteNumber(toArray(toSteadyPart(questionSegments[0].partToPlay)[0].notes)[0]) - toNoteNumber(resolution[0].chordVoicing[0])) / Interval.Octave);
+
+              return resolution.map(({
+                romanNumeral,
+                chordVoicing,
+              }, index) => ({
+                answerToHighlight: romanNumeral,
+                partToPlay: [{
+                  notes: chordVoicing.map(note => transpose(note, differenceInOctavesToNormalize * Interval.Octave)),
+                  duration: index === resolution.length - 1 ? '2n' : '4n',
+                  velocity: 0.3,
+                }],
+              }));
+            };
+          }
+        }
+
+        return question;
+      },
+      answerList: allRomanNumeralAnswerList,
+    })
+  }
+}
+
+// todo: remove
 export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extends RomanAnalysisChordProgressionExerciseSettings & TonalExerciseSettings> extends BaseTonalChordProgressionExercise<RomanNumeralChordSymbol, GSettings> {
-  static allAnswersList: Exercise.AnswerList<RomanNumeralChordSymbol> = BaseRomanAnalysisChordProgressionExercise._getAllAnswersList();
+  static allAnswersList: Exercise.AnswerList<RomanNumeralChordSymbol> = allRomanNumeralAnswerList;
 
   protected abstract _getChordProgressionInRomanNumerals(): RomanNumeralsChordProgressionQuestion;
 
@@ -645,95 +833,6 @@ export abstract class BaseRomanAnalysisChordProgressionExercise<GSettings extend
   }
 
   protected _getAnswersListInC(): Exercise.AnswerList<RomanNumeralChordSymbol> {
-    return BaseRomanAnalysisChordProgressionExercise.allAnswersList;
-  }
-
-  private static _getAllAnswersList(): Exercise.AnswerList<RomanNumeralChordSymbol> {
-    function getPlayOnClickPart(chord: Chord): NoteEvent[] {
-      return [{
-        notes: chord.getVoicing({topVoicesInversion: TriadInversion.Fifth}),
-        velocity: 0.3,
-        duration: '2n',
-      }];
-    }
-
-    const answerList: { rows: (Exercise.AnswerConfig<RomanNumeralChordSymbol> | RomanNumeralChordSymbol)[][] } = {
-      rows: [
-        [
-          {
-            answer: null,
-            space: 1,
-          },
-          'II',
-          'III',
-          '#ivdim',
-          {
-            answer: null,
-            space: 1,
-          },
-          'VI',
-          'VII',
-        ],
-        [
-          'I',
-          'ii',
-          'iii',
-          'IV',
-          'V',
-          'vi',
-          'viidim',
-        ],
-        [
-          'i',
-          'iidim',
-          'bIII',
-          'iv',
-          'v',
-          'bVI',
-          'bVII',
-        ],
-        [
-          {
-            answer: null,
-            space: 1,
-          },
-          'bII',
-          {
-            answer: null,
-            space: 1,
-          },
-          {
-            answer: null,
-            space: 1,
-          },
-          'vdim',
-          {
-            answer: null,
-            space: 1,
-          },
-          'bvii',
-        ],
-      ],
-    }
-
-    return Exercise.addViewLabelToAnswerList({
-      rows: answerList.rows.map(row => row.map((answerOrCellConfig): Exercise.AnswerConfig<RomanNumeralChordSymbol> => {
-        if (typeof answerOrCellConfig === 'string') {
-          return {
-            answer: answerOrCellConfig,
-            playOnClick: getPlayOnClickPart(romanNumeralToChordInC(answerOrCellConfig)),
-          }
-        } else {
-          if (!answerOrCellConfig.playOnClick && answerOrCellConfig.answer) {
-            return {
-              ...answerOrCellConfig,
-              playOnClick: getPlayOnClickPart(romanNumeralToChordInC(answerOrCellConfig.answer)),
-            }
-          } else {
-            return answerOrCellConfig;
-          }
-        }
-      })),
-    }, answer => new RomanNumeralChord(answer).toViewString());
+    return allRomanNumeralAnswerList;
   }
 }

@@ -1,6 +1,7 @@
 import { SettingsDescriptors } from './SettingsDescriptors';
 import { CadenceType } from '../exerciseAttributes/tonalExercise';
 import { Exercise } from '../../../Exercise';
+import { withSettings } from './withSettings';
 
 export type CadenceTypeSetting = {
   cadenceType: CadenceType;
@@ -27,6 +28,15 @@ export function cadenceTypeSettingsDescriptors<GAnswer extends string>(): Exerci
       },
     },
   ];
+}
+
+export function cadenceTypeSettings<GAnswer extends string>() {
+  return withSettings<CadenceTypeSetting>({
+    settingsDescriptors: cadenceTypeSettingsDescriptors<GAnswer>(),
+    defaultSettings: {
+      cadenceType: 'I IV V I',
+    },
+  });
 }
 
 // TODO: remove (decorator)
