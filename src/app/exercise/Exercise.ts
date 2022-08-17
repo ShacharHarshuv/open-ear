@@ -11,6 +11,8 @@ import { Platforms } from '@ionic/core/dist/types/utils/platform';
 
 type PartToPlay = NoteEvent[] | OneOrMany<Note>;
 
+// TODO(#166): split this file to multiple files
+
 export namespace Exercise {
 
   interface BaseQuestion<GAnswer extends string, GSegment extends { rightAnswer: GAnswer }> {
@@ -119,7 +121,7 @@ export namespace Exercise {
       .filter(isValueTruthy);
   }
 
-  export function filterIncludedAnswers<GAnswer extends string>(allAnswerList: Exercise.AnswerList<GAnswer>, includedAnswersList: GAnswer[]) {
+  export function filterIncludedAnswers<GAnswer extends string>(allAnswerList: Exercise.AnswerList<GAnswer>, includedAnswersList: GAnswer[]): AnswerList<GAnswer> {
     const normalizedAnswerLayout: NormalizedAnswerLayout<GAnswer> = normalizedAnswerList(allAnswerList);
 
     return {
@@ -252,14 +254,14 @@ export namespace Exercise {
 
   export type ExerciseExplanationContent = string | Type<any>;
 
-  export interface IExercise<GAnswer extends string = string, GSettings extends { [key: string]: SettingValueType } = { [key: string]: SettingValueType }> {
+  export type Exercise<GAnswer extends string = string, GSettings extends Exercise.Settings = Exercise.Settings> = {
     /**
      * Do not change the keys for the same exercise between versions, as it will break the persistent storage
      * */
     readonly id: string;
     readonly name: string;
     readonly summary: string;
-    readonly explanation: ExerciseExplanationContent;
+    readonly explanation?: ExerciseExplanationContent;
     readonly blackListPlatform?: Platforms;
 
     getAnswerList(): AnswerList<GAnswer>;

@@ -1,7 +1,7 @@
 import { AdaptiveExercise } from './adaptive-exercise';
 import { Exercise } from '../../Exercise';
 import { toNoteName } from '../../utility';
-import IExercise = Exercise.IExercise;
+import IExercise = Exercise.Exercise;
 
 describe('adaptive exercise', function() {
   let questionIndex: number;

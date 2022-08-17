@@ -16,6 +16,7 @@
     "strictNullChecks": true,
     "skipLibCheck": true,
     "noImplicitOverride": true,
+    "noImplicitThis": true,
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

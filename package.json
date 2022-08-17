@@ -1,6 +1,6 @@
 {
   "name": "open-ear",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
   "scripts": {
@@ -67,6 +67,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/js-priority-queue": "^0.0.6",
     "@types/lodash": "^4.14.172",
+    "@types/lodash-es": "^4.17.6",
     "@types/node": "^12.11.1",
     "@types/youtube": "^0.0.46",
     "@types/youtube-player": "^5.5.6",

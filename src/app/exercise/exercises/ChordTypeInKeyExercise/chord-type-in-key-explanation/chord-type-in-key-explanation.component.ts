@@ -4,8 +4,8 @@ import { OneOrMany } from '../../../../shared/ts-utility';
 import { NoteNumberOrName } from '../../../utility/music/notes/NoteNumberOrName';
 import { NoteEvent } from '../../../../services/player.service';
 import { Exercise } from '../../../Exercise';
-import { ChordTypeInKeyExercise } from '../ChordTypeInKeyExercise';
 import { chordTypeConfigMap } from '../../../utility/music/chords/Chord/ChordType';
+import { chordTypeAnswerList } from '../chordTypeInKeyExercise';
 
 @Component({
   selector: 'app-chord-type-in-key-explanation',
@@ -16,7 +16,7 @@ export class ChordTypeInKeyExplanationComponent {
     displayName: string;
     notesInC: string[];
     toPlay: OneOrMany<OneOrMany<NoteNumberOrName> | NoteEvent>;
-  }[] = Exercise.flatAnswerList(ChordTypeInKeyExercise.chordTypeAnswerList).map(chordType => {
+  }[] = Exercise.flatAnswerList(chordTypeAnswerList).map(chordType => {
     const chordInC = new Chord({
       type: chordType,
       root: 'C',
