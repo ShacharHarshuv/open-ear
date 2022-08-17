@@ -1,4 +1,4 @@
-import { notesWithChordsExercise } from './NotesWithChordsExercise';
+import { notesWithChordsExercise } from './notesWithChordsExercise';
 import { testExercise } from '../testing-utility/test-exercise.spec';
 
 describe(notesWithChordsExercise.name, () => {

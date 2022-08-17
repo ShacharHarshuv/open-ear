@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {
   IntervalDescriptor,
   intervalDescriptorList,
-} from "../IntervalExercise";
+} from "../intervalExercise";
 import { NoteEvent } from "../../../../services/player.service";
 import {
   OneOrMany,

@@ -20,7 +20,6 @@ import { transpose } from '../../../utility/music/transpose';
 import { Interval } from '../../../utility/music/intervals/Interval';
 import { CreateExerciseParams } from './createExercise';
 import { SettingsParams } from '../settings/SettingsParams';
-import { ChordTypeInKeySettings } from '../../ChordTypeInKeyExercise/ChordTypeInKeyExercise';
 import { withSettings } from '../settings/withSettings';
 
 export type ChordProgressionExerciseSettings<GAnswer extends string> = {
@@ -130,7 +129,7 @@ export function chordProgressionExercise<GAnswer extends string, GSettings exten
     return {
       settingsDescriptors: fullConfig.voicingSettings ? chordVoicingSettingsDescriptor() : [],
       defaultSettings: chordVoicingDefaultSettings,
-      getQuestion(settings: GSettings & ChordTypeInKeySettings): Exercise.NotesQuestion<GAnswer> {
+      getQuestion(settings: GSettings & ChordProgressionExerciseSettings<GAnswer>): Exercise.NotesQuestion<GAnswer> {
         const chordProgression: ChordProgressionQuestion<GAnswer> = params.getChordProgression(settings);
 
         const firstChordInversion: 0 | 1 | 2 = randomFromList(settings.includedPositions);

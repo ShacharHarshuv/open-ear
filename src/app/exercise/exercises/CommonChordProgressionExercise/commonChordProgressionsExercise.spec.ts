@@ -1,4 +1,4 @@
-import { commonChordProgressionExercise } from './CommonChordProgressionsExercise';
+import { commonChordProgressionExercise } from './commonChordProgressionsExercise';
 import { Exercise } from '../../Exercise';
 import { testExercise } from '../testing-utility/test-exercise.spec';
 import { expectedVoicingSettings } from '../utility/exerciseAttributes/chordProgressionExercise.spec';
