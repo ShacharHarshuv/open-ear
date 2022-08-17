@@ -5,7 +5,7 @@ import { NoteNumberOrName } from '../../../utility/music/notes/NoteNumberOrName'
 import { NoteEvent } from '../../../../services/player.service';
 import { Exercise } from '../../../Exercise';
 import { chordTypeConfigMap } from '../../../utility/music/chords/Chord/ChordType';
-import { chordTypeAnswerList } from '../ChordTypeInKeyExercise';
+import { chordTypeAnswerList } from '../chordTypeInKeyExercise';
 
 @Component({
   selector: 'app-chord-type-in-key-explanation',

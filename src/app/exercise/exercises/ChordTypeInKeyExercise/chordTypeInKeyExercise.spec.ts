@@ -1,7 +1,7 @@
 import {
   ChordTypeInKeySettings,
   chordTypeExercise,
-} from './ChordTypeInKeyExercise';
+} from './chordTypeInKeyExercise';
 import { testExercise } from '../testing-utility/test-exercise.spec';
 import { expectedVoicingSettings } from '../utility/exerciseAttributes/chordProgressionExercise.spec';
 

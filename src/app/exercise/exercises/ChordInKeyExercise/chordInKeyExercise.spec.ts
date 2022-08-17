@@ -1,7 +1,7 @@
 import { Exercise } from '../../Exercise';
 import {
   chordInKeyExercise,
-} from './ChordsInKeyExercise';
+} from './chordsInKeyExercise';
 import {
   allRomanNumeralAnswerList,
 } from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
