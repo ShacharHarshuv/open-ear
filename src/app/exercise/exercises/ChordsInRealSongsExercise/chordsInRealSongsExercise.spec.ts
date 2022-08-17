@@ -1,6 +1,6 @@
 import {
   chordsInRealSongsExercise,
-} from './ChordsInRealSongsExercise';
+} from './chordsInRealSongsExercise';
 import { testPureFunction } from '../../../shared/testing-utility/testPureFunction';
 import {
   ProgressionInSongFromYouTubeDescriptor,
@@ -14,7 +14,7 @@ import {
 import * as _ from 'lodash';
 import { testExercise } from '../testing-utility/test-exercise.spec';
 
-describe('chordsInRealSongsExercise', () => {
+describe(chordsInRealSongsExercise.name, () => {
   const context = testExercise({
     getExercise: chordsInRealSongsExercise,
     settingDescriptorList: [

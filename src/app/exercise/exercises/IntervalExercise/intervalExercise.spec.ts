@@ -2,7 +2,7 @@ import {
   IntervalName,
   intervalExercise,
   intervalDescriptorList,
-} from './IntervalExercise';
+} from './intervalExercise';
 import * as _ from 'lodash';
 import { ExerciseTest } from '../../ExerciseTest';
 import { testExercise } from '../testing-utility/test-exercise.spec';
