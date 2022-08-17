@@ -148,7 +148,7 @@ export class ExerciseStateService implements OnDestroy {
   }
 
   get isQuestionCompleted(): boolean {
-    return !!this._currentAnswers[this._currentAnswers.length - 1]?.answer;
+    return _.every(this._currentAnswers, answer => answer.answer);
   }
 
   private get _areAllSegmentsAnswered(): boolean {
