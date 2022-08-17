@@ -50,8 +50,8 @@ To contribute follow the following steps.
 * Run `yarn start`
 * App should be served in the browser!
 
-To implement new exercises, you need to write a class that implements `Exercise.IExercise` interface. See examples in src/app/exercise/exercises.
-After implementing this class you will need to add it to `ExerciseService#_exerciseList`.
+To implement new exercises, you need to implement the type `Exercise.IExercise` interface. This is typically done by writing a factory function that uses utility functions like createExercise and composeExercise. See examples of using the factory functions under src/app/exercise/exercises.
+After implementing you will need to add it to `ExerciseService#_exerciseList`.
 
 If you would like to contribute in adding some features to the core infra of the app, you can do so as well. Here is a quick description of the infra:
 - PlayerService is a wrapper on Tone.js that enables playing parts and return a promise that resolves when the part completed playing.
