@@ -25,10 +25,15 @@ import {
 import { SettingsParams } from '../settings/SettingsParams';
 import * as _ from 'lodash';
 import AnswerList = Exercise.AnswerList;
+import {
+  keySelectionSettingsDescriptors,
+  KeySelectionSettings,
+} from '../settings/keySelectionSettingsDescriptors';
+import { mod } from '../../../../shared/ts-utility/mod';
 
 export type CadenceType = 'I IV V I' | 'i iv V i';
 
-export type TonalExerciseSettings = CadenceTypeSetting;
+export type TonalExerciseSettings = CadenceTypeSetting & KeySelectionSettings;
 
 const cadenceTypeToCadence: {
   [k in CadenceType]: NoteEvent[]
@@ -52,21 +57,42 @@ export type TonalExerciseParams<GAnswer extends string, GSettings extends Exerci
   readonly answerList: StaticOrGetter<AnswerList<GAnswer>, [GSettings]>,
 };
 
-export type TonalExerciseConfig = {
+export type TonalExerciseConfig = ({
   playCadence?: true,
   cadenceTypeSelection?: boolean,
 } | {
   playCadence: false,
   cadenceTypeSelection?: false,
+}) & {
+  keySelection?: boolean,
 }
 
 export function tonalExercise<GAnswer extends string, GSettings extends Exercise.Settings>(config?: TonalExerciseConfig) {
   const fullConfig: Required<TonalExerciseConfig> = _.defaults(config, {
     playCadence: true,
     cadenceTypeSelection: config?.playCadence ?? true,
+    keySelection: true,
   });
 
-  const key: Key = randomFromList(['C', 'G', 'D', 'A', 'E', 'B', 'F#', 'Db', 'Ab', 'Eb', 'Bb', 'F']);
+  let questionCount = 0;
+  let key: Key;
+
+  function getKey(settings: KeySelectionSettings): Key {
+    function randomKey(exclude?: Key): Key {
+      const allKeys: Key[] = ['C', 'G', 'D', 'A', 'E', 'B', 'F#', 'Db', 'Ab', 'Eb', 'Bb', 'F'];
+      return randomFromList(allKeys.filter((key) => key !== exclude));
+    }
+
+    if (settings.key !== 'random') {
+      return settings.key;
+    }
+
+    if (settings.newKeyEvery && mod(questionCount, settings.newKeyEvery) === 0) {
+      return randomKey();
+    }
+
+    return key ?? randomKey();
+  }
 
   function keyInfo(): string {
     return `Key: ${key}`
@@ -91,6 +117,8 @@ export function tonalExercise<GAnswer extends string, GSettings extends Exercise
   ): Pick<CreateExerciseParams<GAnswer, GSettings & TonalExerciseSettings>, 'getQuestion' | 'answerList'> & SettingsParams<TonalExerciseSettings> & { defaultSettings: TonalExerciseSettings } {
     return {
       getQuestion(settings: GSettings & TonalExerciseSettings): Exercise.NotesQuestion<GAnswer> {
+        key = getKey(settings);
+        questionCount++;
         const questionInC: Exclude<Exercise.NotesQuestion<GAnswer>, 'cadence'> = toGetter(params.getQuestion)(settings,{
           getRangeForKeyOfC,
         });
@@ -103,6 +131,7 @@ export function tonalExercise<GAnswer extends string, GSettings extends Exercise
             partToPlay: transposeToKey(segment.partToPlay),
           })),
           cadence: fullConfig.playCadence ? transposeToKey(selectedCadence) : undefined,
+          key, // necessary to enforce cadence playback in case of key change
           afterCorrectAnswer: questionInC.afterCorrectAnswer?.map(afterCorrectAnswerSegment => ({
             answerToHighlight: afterCorrectAnswerSegment.answerToHighlight,
             partToPlay: transposeToKey(afterCorrectAnswerSegment.partToPlay),
@@ -122,8 +151,13 @@ export function tonalExercise<GAnswer extends string, GSettings extends Exercise
       },
       defaultSettings: {
         cadenceType: 'I IV V I',
+        key: 'random',
+        newKeyEvery: 0,
       },
-      settingsDescriptors: fullConfig.cadenceTypeSelection ? cadenceTypeSettingsDescriptors() : [],
+      settingsDescriptors: [
+        ...(fullConfig.cadenceTypeSelection ? cadenceTypeSettingsDescriptors() : []),
+        ...(fullConfig.keySelection ? keySelectionSettingsDescriptors() : []),
+      ],
     }
   }
 }

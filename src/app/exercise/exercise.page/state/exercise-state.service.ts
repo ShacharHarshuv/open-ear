@@ -7,9 +7,7 @@ import {
   Router,
 } from '@angular/router';
 import { ExerciseService } from '../../exercise.service';
-import {
-  Exercise,
-} from '../../Exercise';
+import { Exercise } from '../../Exercise';
 import {
   PlayerService,
   PartToPlay,
@@ -29,9 +27,9 @@ import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { YouTubePlayerService } from '../../../services/you-tube-player.service';
 import * as _ from 'lodash';
 import { AdaptiveExerciseService } from './adaptive-exercise.service';
+import { BehaviorSubject } from 'rxjs';
 import AnswerList = Exercise.AnswerList;
 import Answer = Exercise.Answer;
-import { BehaviorSubject } from 'rxjs';
 import getAnswerListIterator = Exercise.getAnswerListIterator;
 
 const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
@@ -53,7 +51,10 @@ export class ExerciseStateService implements OnDestroy {
   private readonly _originalExercise: Exercise.Exercise = this._exerciseService.getExercise(this._activatedRoute.snapshot.params['id']!);
   private _globalSettings: GlobalExerciseSettings = DEFAULT_EXERCISE_SETTINGS;
   private _adaptiveExercise: AdaptiveExercise = this._adaptiveExerciseService.createAdaptiveExercise(this._originalExercise);
-  private _currentQuestion: Exercise.Question = this.exercise.getQuestion();
+  private _currentQuestion: Exercise.Question = {
+    segments: [],
+  };
+  private _wasKeyChanged: boolean = true;
   private _currentSegmentToAnswer: number = 0;
   private _destroyed: boolean = false;
   private _message$ = new BehaviorSubject<string | null>(null);
@@ -235,7 +236,7 @@ export class ExerciseStateService implements OnDestroy {
       await this._playYouTubeQuestion(this._currentQuestion);
     } else {
       const partsToPlay: PartToPlay[] = this._getCurrentQuestionPartsToPlay();
-      if (cadence && this._globalSettings.playCadence) {
+      if (cadence && (this._globalSettings.playCadence || this._wasKeyChanged)) {
         partsToPlay.unshift(...cadence);
       }
       if (this._areAllSegmentsAnswered && this._currentQuestion.afterCorrectAnswer) {
@@ -247,6 +248,7 @@ export class ExerciseStateService implements OnDestroy {
   }
 
   async playCurrentQuestion(): Promise<void> {
+    console.log('playCurrentQuestion');
     await this.stop();
     if (this._currentQuestion.type === 'youtube') {
       await this._playYouTubeQuestion(this._currentQuestion);
@@ -275,7 +277,9 @@ export class ExerciseStateService implements OnDestroy {
       }
     }
     try {
-      this._currentQuestion = this.exercise.getQuestion();
+      const newQuestion = this.exercise.getQuestion();
+      this._wasKeyChanged = newQuestion.key !== this._currentQuestion.key;
+      this._currentQuestion = newQuestion;
     } catch (e) {
       this._error$.next(e);
       console.error(e);
@@ -286,7 +290,7 @@ export class ExerciseStateService implements OnDestroy {
     }));
     this._currentSegmentToAnswer = 0;
 
-    if (this.globalSettings.playCadence === 'ONLY_ON_REPEAT' && !!this._cadenceWasPlayed) {
+    if (!this._wasKeyChanged && this.globalSettings.playCadence === 'ONLY_ON_REPEAT' && !!this._cadenceWasPlayed) {
       return this.playCurrentQuestion();
     } else {
       return this.playCurrentCadenceAndQuestion();
