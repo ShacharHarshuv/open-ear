@@ -15,6 +15,9 @@ export class ModalFrameComponent {
   padding: boolean = true;
 
   @Input()
+  closeIcon: string = 'close-outline';
+
+  @Input()
   onClose: () => Promise<any>;
 
   constructor(
