@@ -59,13 +59,26 @@ const romanNumeralToResolution: {
     ii: {
       0: [
         {
+          romanNumeral: 'V',
+          voicingConfig: {
+            topVoicesInversion: TriadInversion.Third,
+          }
+        },
+        {
           romanNumeral: 'I',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Fifth,
+            topVoicesInversion: TriadInversion.Octave,
+            octave: 5,
           },
         },
       ],
       1: [
+        {
+          romanNumeral: 'V',
+          voicingConfig: {
+            topVoicesInversion: TriadInversion.Fifth
+          }
+        },
         {
           romanNumeral: 'I',
           voicingConfig: {
@@ -75,9 +88,15 @@ const romanNumeralToResolution: {
       ],
       2: [
         {
+          romanNumeral: 'V',
+          voicingConfig: {
+            topVoicesInversion: TriadInversion.Octave
+          }
+        },
+        {
           romanNumeral: 'I',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Third,
+            topVoicesInversion: TriadInversion.Fifth,
           },
         },
       ],
