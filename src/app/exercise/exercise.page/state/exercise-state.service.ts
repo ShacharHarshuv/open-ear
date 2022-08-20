@@ -248,7 +248,6 @@ export class ExerciseStateService implements OnDestroy {
   }
 
   async playCurrentQuestion(): Promise<void> {
-    console.log('playCurrentQuestion');
     await this.stop();
     if (this._currentQuestion.type === 'youtube') {
       await this._playYouTubeQuestion(this._currentQuestion);
