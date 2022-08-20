@@ -104,5 +104,9 @@ export const releaseNotes: ReleaseNotes = [
   {
     version: '1.5.1',
     notes: 'Adding more chords to Chord Types exercise (Currently supports 18 chord types)'
+  },
+  {
+    version: '1.5.6',
+    notes: 'Enabled randomizing the key every X questions. Relevant for all tonal-based questions.'
   }
 ]
