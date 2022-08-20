@@ -1,7 +1,8 @@
 import { commonChordProgressionExercise } from './commonChordProgressionsExercise';
 import { Exercise } from '../../Exercise';
 import { testExercise } from '../testing-utility/test-exercise.spec';
-import { expectedVoicingSettings } from '../utility/exerciseAttributes/chordProgressionExercise.spec';
+import { expectedVoicingSettingsDescriptors } from '../utility/exerciseAttributes/chordProgressionExercise.spec';
+import { expectedKeySelectionSettingsDescriptors } from '../utility/settings/keySelectionSettingsDescriptors.spec';
 
 describe(commonChordProgressionExercise.name, () => {
   const context = testExercise({
@@ -9,7 +10,8 @@ describe(commonChordProgressionExercise.name, () => {
     settingDescriptorList: [
       'Analyze By',
       'Included Progressions',
-      ...expectedVoicingSettings,
+      ...expectedKeySelectionSettingsDescriptors,
+      ...expectedVoicingSettingsDescriptors,
     ],
     defaultAnswers: ['I', 'IV', 'V', 'vi'],
   })

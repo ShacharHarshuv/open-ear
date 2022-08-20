@@ -1,11 +1,12 @@
 import { testExercise } from '../testing-utility/test-exercise.spec';
 import { notesInKeyExercise } from './notesInKeyExercise';
+import { expectedTonalExerciseSettingsDescriptors } from '../utility/exerciseAttributes/tonalExercise.spec';
 
 describe(notesInKeyExercise.name, () => {
   const context = testExercise({
     getExercise: notesInKeyExercise,
     settingDescriptorList: [
-      'Cadence Type',
+      ...expectedTonalExerciseSettingsDescriptors,
       'Included Scale Degrees',
       'Display',
       'Range',
