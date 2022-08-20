@@ -6,15 +6,16 @@ import {
   allRomanNumeralAnswerList,
 } from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
 import { testExercise } from '../testing-utility/test-exercise.spec';
-import { expectedVoicingSettings } from '../utility/exerciseAttributes/chordProgressionExercise.spec';
+import { expectedVoicingSettingsDescriptors } from '../utility/exerciseAttributes/chordProgressionExercise.spec';
+import { expectedTonalExerciseSettingsDescriptors } from '../utility/exerciseAttributes/tonalExercise.spec';
 
 describe(chordInKeyExercise.name, () => {
   const context = testExercise({
     getExercise: chordInKeyExercise,
     settingDescriptorList: [
-      'Cadence Type',
+      ...expectedTonalExerciseSettingsDescriptors,
       'Included Roman Numerals',
-      ...expectedVoicingSettings,
+      ...expectedVoicingSettingsDescriptors,
       'Number of chords',
       'Play Resolution',
     ],

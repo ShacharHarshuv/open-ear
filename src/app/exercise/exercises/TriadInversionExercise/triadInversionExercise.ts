@@ -43,6 +43,7 @@ export const triadInversionExercise = () => {
     }),
     tonalExercise({
       playCadence: false,
+      keySelection: false,
     }),
     createExercise,
   )({

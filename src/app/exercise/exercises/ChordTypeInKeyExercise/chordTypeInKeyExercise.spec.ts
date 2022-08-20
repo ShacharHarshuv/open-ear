@@ -3,7 +3,8 @@ import {
   chordTypeExercise,
 } from './chordTypeInKeyExercise';
 import { testExercise } from '../testing-utility/test-exercise.spec';
-import { expectedVoicingSettings } from '../utility/exerciseAttributes/chordProgressionExercise.spec';
+import { expectedVoicingSettingsDescriptors } from '../utility/exerciseAttributes/chordProgressionExercise.spec';
+import { defaultTonalExerciseSettings } from '../utility/exerciseAttributes/tonalExercise.spec';
 
 describe(chordTypeExercise.name, () => {
   const context = testExercise<ChordTypeInKeySettings>({
@@ -12,7 +13,7 @@ describe(chordTypeExercise.name, () => {
       'Included Types',
       'Diatonic',
       'Included Chords (Advanced)',
-      ...expectedVoicingSettings,
+      ...expectedVoicingSettingsDescriptors,
       'Number of chords',
     ],
     defaultSettings: {
@@ -21,7 +22,7 @@ describe(chordTypeExercise.name, () => {
       numberOfSegments: 1,
       includedPositions: [0, 1, 2],
       voiceLeading: 'CORRECT',
-      cadenceType: 'I IV V I',
+      ...defaultTonalExerciseSettings,
     },
   })
 })

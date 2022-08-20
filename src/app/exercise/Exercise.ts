@@ -8,6 +8,7 @@ import { Note } from 'tone/Tone/core/type/NoteUnits';
 import * as _ from 'lodash';
 import { Type } from '@angular/core';
 import { Platforms } from '@ionic/core/dist/types/utils/platform';
+import { Key } from './utility';
 
 type PartToPlay = NoteEvent[] | OneOrMany<Note>;
 
@@ -27,6 +28,8 @@ export namespace Exercise {
      * Then the part can be played separately or with the cadence
      * */
     cadence?: PartToPlay;
+    // used to enforce cadence playback in case of key change
+    key?: Key;
     afterCorrectAnswer?: {
       partToPlay: NoteEvent[],
       answerToHighlight?: GAnswer,

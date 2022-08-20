@@ -171,6 +171,8 @@ describe('ExercisePage', () => {
     it('exercise question should be played without cadence when clicking musical note icon', fakeAsync(() => {
       createComponent();
       flush();
+      exercisePageDebugger.detectChanges();
+
       const playMultiplePartsSpy: jasmine.Spy = createPlayMultiplePartsSpy();
       expect(playMultiplePartsSpy).not.toHaveBeenCalled();
       exercisePageDebugger.clickOnMusicalNote();

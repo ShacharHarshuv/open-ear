@@ -191,6 +191,7 @@ export function chordTypeExercise() {
     chordProgressionExercise(),
     tonalExercise({
       cadenceTypeSelection: false,
+      keySelection: false,
       playCadence: false,
     }),
     numberOfSegmentsSettings('chords'),
