@@ -51,7 +51,7 @@ export const chordTypeAnswerList: Exercise.AnswerList<ChordType> = Exercise.mapA
     ],
     [
       ChordType.Major6th,
-      ChordType.Minor6th,
+      ChordType.Minorb6th,
     ],
     [
       ChordType.Diminished,
