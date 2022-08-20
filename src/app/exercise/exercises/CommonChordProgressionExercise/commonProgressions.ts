@@ -66,6 +66,10 @@ export const commonProgressionDescriptorList: ProgressionDescriptor[] = [
     romanNumerals: ['IV', 'V', 'iii', 'vi'],
     name: 'The Royal Road',
   },
+  {
+    romanNumerals: ['I', 'V', 'vi', 'iii', 'IV', 'I', 'IV', 'V'],
+    name: 'Pachelbel Canon'
+  },
   // Diatonic Minor (Harmonic / Natural) progressions
   {
     romanNumerals: ['i', 'V', 'i'],
