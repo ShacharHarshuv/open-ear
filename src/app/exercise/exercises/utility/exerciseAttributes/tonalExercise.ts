@@ -88,7 +88,7 @@ export function tonalExercise<GAnswer extends string, GSettings extends Exercise
     }
 
     if (settings.newKeyEvery && mod(questionCount, settings.newKeyEvery) === 0) {
-      return randomKey();
+      return randomKey(key);
     }
 
     return key ?? randomKey();
@@ -114,7 +114,9 @@ export function tonalExercise<GAnswer extends string, GSettings extends Exercise
 
   return function(
     params: TonalExerciseParams<GAnswer, GSettings>,
-  ): Pick<CreateExerciseParams<GAnswer, GSettings & TonalExerciseSettings>, 'getQuestion' | 'answerList'> & SettingsParams<TonalExerciseSettings> & { defaultSettings: TonalExerciseSettings } {
+  ): Pick<CreateExerciseParams<GAnswer, GSettings & TonalExerciseSettings>, 'answerList'> & {
+      readonly getQuestion: (settings: GSettings & TonalExerciseSettings) => Exercise.NotesQuestion<GAnswer>,
+    } & SettingsParams<TonalExerciseSettings> & { defaultSettings: TonalExerciseSettings } {
     return {
       getQuestion(settings: GSettings & TonalExerciseSettings): Exercise.NotesQuestion<GAnswer> {
         key = getKey(settings);
