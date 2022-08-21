@@ -17,7 +17,7 @@ export enum ChordType {
   Sus4 = 'sus',
   Sus2 = 'sus2',
   Major6th = '6',
-  Minor6th = 'm6',
+  Minorb6th = 'mb6',
   Diminished7th = 'dim7',
   Dominant7thSharp9th = '7#9',
   Dominant9th = '9',
@@ -196,13 +196,13 @@ export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
       viewPostfix: `<sup>6</sup>`,
     },
   },
-  [ChordType.Minor6th]: {
+  [ChordType.Minorb6th]: {
     intervalList: [
       Interval.MinorThird,
       Interval.PerfectFifth,
       Interval.MinorSixth,
     ],
-    displayName: 'Minor 6th',
+    displayName: `Minor ${MusicSymbol.Flat}6th`,
     romanNumeral: {
       isLowercase: true,
       postfix: '6',

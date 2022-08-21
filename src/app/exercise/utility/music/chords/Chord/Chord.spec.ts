@@ -302,7 +302,7 @@ describe('Chord', () => {
       },
     },
     {
-      chordSymbolOrConfig: 'Dm6',
+      chordSymbolOrConfig: 'Dmb6',
       octave: 4,
       expectedResult: {
         root: 'D',
@@ -313,7 +313,7 @@ describe('Chord', () => {
           [2, ['A3', 'Bb3', 'D4', 'F4']],
           [3, ['Bb3', 'D4', 'F4', 'A4']],
         ],
-        type: ChordType.Minor6th,
+        type: ChordType.Minorb6th,
       }
     },
     {
