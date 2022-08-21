@@ -8,6 +8,7 @@
     "start": "ionic serve",
     "build": "ng build && capacitor copy android && cordova-res android --skip-config --copy && capacitor open android",
     "open-android": "capacitor open android",
+    "release": "npx ts-node release-automation/main",
     "generate-resources": "cordova-res android --skip-config --copy",
     "test": "ng test",
     "ci": "ng test --sourceMap=false --browsers=ChromeHeadless --watch=false",
