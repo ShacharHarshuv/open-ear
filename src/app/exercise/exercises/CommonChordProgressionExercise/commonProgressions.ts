@@ -60,6 +60,16 @@ export const commonProgressionDescriptorList: ProgressionDescriptor[] = [
     romanNumerals: ['I', 'vi', 'iii', 'IV'],
   },
   {
+    romanNumerals: ['ii', 'V', 'I'],
+    name: 'Major 2-5-1',
+    mode: Mode.Major,
+  },
+  {
+    romanNumerals: ['I', 'ii', 'V', 'I'],
+    name: 'Major 2-5-1',
+    mode: Mode.Major,
+  },
+  {
     romanNumerals: ['I', 'V', 'ii', 'IV']
   },
   {
