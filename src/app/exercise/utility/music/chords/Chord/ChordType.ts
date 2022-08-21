@@ -1,10 +1,10 @@
-import { Interval } from '../../intervals/Interval';
 import { MusicSymbol } from '../../MusicSymbol';
 import {
   MajorChordTypesPostfix,
   MinorChordTypesPostfix,
 } from '../../harmony';
 import * as _ from 'lodash';
+import { EnharmonicScaleDegree } from '../../scale-degrees';
 
 export enum ChordType {
   Major = 'M',
@@ -31,7 +31,7 @@ export enum ChordType {
 
 interface IChordTypeConfig {
   displayName: string;
-  intervalList: Interval[];
+  scaleDegreeList: EnharmonicScaleDegree[];
   romanNumeral: ({
     isLowercase: true;
     postfix: `${MinorChordTypesPostfix}`,
@@ -45,10 +45,7 @@ interface IChordTypeConfig {
 
 export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
   [ChordType.Major]: {
-    intervalList: [
-      Interval.MajorThird,
-      Interval.PerfectFifth,
-    ],
+    scaleDegreeList: ['3', '5'],
     displayName: 'Major Triad',
     romanNumeral: {
       isLowercase: false,
@@ -57,10 +54,7 @@ export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
     },
   },
   [ChordType.Minor]: {
-    intervalList: [
-      Interval.MinorThird,
-      Interval.PerfectFifth,
-    ],
+    scaleDegreeList: ['b3', '5'],
     displayName: 'Minor Triad',
     romanNumeral: {
       isLowercase: true,
@@ -69,10 +63,7 @@ export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
     },
   },
   [ChordType.Diminished]: {
-    intervalList: [
-      Interval.MinorThird,
-      Interval.DiminishedFifth,
-    ],
+    scaleDegreeList: ['b3', 'b5'],
     displayName: 'Diminished Triad',
     romanNumeral: {
       isLowercase: true,
@@ -81,23 +72,16 @@ export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
     },
   },
   [ChordType.Augmented]: {
-    intervalList: [
-      Interval.MajorThird,
-      Interval.AugmentedFifth,
-    ],
+    scaleDegreeList: ['3', '#5'],
     displayName: 'Augmented Triad',
     romanNumeral: {
       isLowercase: false,
       postfix: '+',
       viewPostfix: '+',
-    }
+    },
   },
   [ChordType.Dominant7th]: {
-    intervalList: [
-      Interval.MajorThird,
-      Interval.PerfectFifth,
-      Interval.MinorSeventh,
-    ],
+    scaleDegreeList: ['3', '5', 'b7'],
     displayName: 'Dominant 7th',
     romanNumeral: {
       isLowercase: false,
@@ -106,12 +90,7 @@ export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
     },
   },
   [ChordType.Dominant9th]: {
-    intervalList: [
-      Interval.MajorThird,
-      Interval.PerfectFifth,
-      Interval.MinorSeventh,
-      Interval.MajorNinth,
-    ],
+    scaleDegreeList: ['3', '5', 'b7', '9'],
     displayName: 'Dominant 9th',
     romanNumeral: {
       isLowercase: false,
@@ -120,12 +99,7 @@ export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
     },
   },
   [ChordType.Dominant7thSharp9th]: {
-    intervalList: [
-      Interval.MajorThird,
-      Interval.PerfectFifth,
-      Interval.MinorSeventh,
-      Interval.AugmentedNinth,
-    ],
+    scaleDegreeList: ['3', '5', 'b7', '#9'],
     displayName: 'Dominant 7th',
     romanNumeral: {
       isLowercase: false,
@@ -134,11 +108,7 @@ export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
     },
   },
   [ChordType.Major7th]: {
-    intervalList: [
-      Interval.MajorThird,
-      Interval.PerfectFifth,
-      Interval.MajorSeventh,
-    ],
+    scaleDegreeList: ['3', '5', '7'],
     displayName: 'Major 7th',
     romanNumeral: {
       isLowercase: false,
@@ -147,11 +117,7 @@ export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
     },
   },
   [ChordType.Minor7th]: {
-    intervalList: [
-      Interval.MinorThird,
-      Interval.PerfectFifth,
-      Interval.MinorSeventh,
-    ],
+    scaleDegreeList: ['b3', '5', 'b7'],
     displayName: 'Minor 7th',
     romanNumeral: {
       isLowercase: true,
@@ -160,10 +126,7 @@ export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
     },
   },
   [ChordType.Sus4]: {
-    intervalList: [
-      Interval.PerfectFourth,
-      Interval.PerfectFifth,
-    ],
+    scaleDegreeList: ['4', '5'],
     displayName: 'Suspended 4th',
     romanNumeral: {
       isLowercase: false,
@@ -172,10 +135,7 @@ export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
     },
   },
   [ChordType.Sus2]: {
-    intervalList: [
-      Interval.MajorSecond,
-      Interval.PerfectFifth,
-    ],
+    scaleDegreeList: ['2', '5'],
     displayName: 'Suspended 2nd',
     romanNumeral: {
       isLowercase: false,
@@ -184,11 +144,7 @@ export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
     },
   },
   [ChordType.Major6th]: {
-    intervalList: [
-      Interval.MajorThird,
-      Interval.PerfectFifth,
-      Interval.MajorSixth,
-    ],
+    scaleDegreeList: ['3', '5', '6'],
     displayName: 'Major 6th',
     romanNumeral: {
       isLowercase: false,
@@ -197,24 +153,16 @@ export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
     },
   },
   [ChordType.Minorb6th]: {
-    intervalList: [
-      Interval.MinorThird,
-      Interval.PerfectFifth,
-      Interval.MinorSixth,
-    ],
+    scaleDegreeList: ['b3', '5', 'b6'],
     displayName: `Minor ${MusicSymbol.Flat}6th`,
     romanNumeral: {
       isLowercase: true,
       postfix: '6',
-      viewPostfix: `<sup>6</sup>`
-    }
+      viewPostfix: `<sup>6</sup>`,
+    },
   },
   [ChordType.Diminished7th]: {
-    intervalList: [
-      Interval.MinorThird,
-      Interval.DiminishedFifth,
-      Interval.DiminishedSeventh,
-    ],
+    scaleDegreeList: ['b3', 'b5', 'bb7'],
     displayName: 'Diminished 7th',
     romanNumeral: {
       isLowercase: true,
@@ -223,11 +171,7 @@ export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
     },
   },
   [ChordType.HalfDiminished7th]: {
-    intervalList: [
-      Interval.MinorThird,
-      Interval.DiminishedFifth,
-      Interval.MinorSeventh,
-    ],
+    scaleDegreeList: ['b3', 'b5', 'b7'],
     displayName: 'Half Diminished 7th',
     romanNumeral: {
       isLowercase: true,
@@ -237,16 +181,12 @@ export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
   },
   [ChordType.MinorMajor7th]: {
     displayName: 'Minor Major 7th',
-    intervalList: [
-      Interval.MinorThird,
-      Interval.PerfectFifth,
-      Interval.MajorSeventh,
-    ],
+    scaleDegreeList: ['b3', '5', '7'],
     romanNumeral: {
       isLowercase: true,
       postfix: 'maj7',
-      viewPostfix: `<sup>M7</sup>`
-    }
+      viewPostfix: `<sup>M7</sup>`,
+    },
   },
   [ChordType.MinorMajor9th]: {
     displayName: 'Minor Major 9th',
@@ -255,45 +195,29 @@ export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
       postfix: 'M9',
       viewPostfix: `<sup>M9</sup>`,
     },
-    intervalList: [
-      Interval.MinorThird,
-      Interval.PerfectFifth,
-      Interval.MajorSeventh,
-      Interval.MajorNinth,
-    ],
+    scaleDegreeList: ['b3', '5', '7',
+      '9'],
   },
   [ChordType.MajorAdd9]: {
     displayName: 'Major Add 9',
     romanNumeral: {
       isLowercase: false,
       postfix: 'add9',
-      viewPostfix: '<sup>add9</sup>'
+      viewPostfix: '<sup>add9</sup>',
     },
-    intervalList: [
-      Interval.MajorThird,
-      Interval.PerfectFifth,
-      Interval.MajorNinth,
-    ],
+    scaleDegreeList: ['3', '5', '9'],
   },
   [ChordType.MinorAdd9]: {
     displayName: 'Minor Add 9',
     romanNumeral: {
       isLowercase: true,
       postfix: 'add9',
-      viewPostfix: '<sup>add9</sup>'
+      viewPostfix: '<sup>add9</sup>',
     },
-    intervalList: [
-      Interval.MinorThird,
-      Interval.PerfectFifth,
-      Interval.MajorNinth,
-    ],
+    scaleDegreeList: ['b3', '5', '9'],
   },
   [ChordType.MajorAddSharp4]: {
-    intervalList: [
-      Interval.MajorThird,
-      Interval.AugmentedForth,
-      Interval.PerfectFifth,
-    ],
+    scaleDegreeList: ['3', '#4', '5'],
     displayName: `Major Add ${MusicSymbol.Sharp}4`,
     romanNumeral: {
       isLowercase: false,
@@ -307,7 +231,7 @@ type RomanNumeralChordTypeParserMap =
   Record<'lowercase', Record<MinorChordTypesPostfix, ChordType>> &
   Record<'uppercase', Record<MajorChordTypesPostfix, ChordType>>;
 
-export const romanNumeralChordTypeParserMap: RomanNumeralChordTypeParserMap=
+export const romanNumeralChordTypeParserMap: RomanNumeralChordTypeParserMap =
   _.reduce(chordTypeConfigMap, (map, config, type) => {
     const key = config.romanNumeral.isLowercase ? 'lowercase' : 'uppercase';
     if (!map[key]) {
