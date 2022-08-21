@@ -302,7 +302,7 @@ describe('Chord', () => {
       },
     },
     {
-      chordSymbolOrConfig: 'Dm6',
+      chordSymbolOrConfig: 'Dmb6',
       octave: 4,
       expectedResult: {
         root: 'D',

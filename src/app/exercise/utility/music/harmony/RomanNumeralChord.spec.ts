@@ -191,7 +191,7 @@ describe('RomanNumeralBuilder', () => {
       type: ChordType.Minorb6th,
       scaleDegree: '6',
       getChord: {
-        C: 'Am6',
+        C: 'Amb6',
       },
       accidental: Accidental.Natural,
       diatonicDegree: 6,
