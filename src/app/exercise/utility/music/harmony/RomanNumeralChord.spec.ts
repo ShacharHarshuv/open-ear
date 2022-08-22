@@ -1,6 +1,5 @@
 import {
   RomanNumeralChord,
-  Accidental,
 } from './RomanNumeralChord';
 import {
   ChordType,
@@ -9,6 +8,7 @@ import {
 import {
   DiatonicScaleDegree,
   ScaleDegree,
+  Accidental,
 } from '../scale-degrees';
 import { RomanNumeralChordSymbol } from './RomanNumeralChordSymbol';
 import { testPureFunction } from '../../../../shared/testing-utility/testPureFunction';

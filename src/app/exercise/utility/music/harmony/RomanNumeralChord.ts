@@ -9,6 +9,7 @@ import {
   ScaleDegree,
   scaleDegreeToChromaticDegree,
   getDiatonicScaleDegreeWithAccidental,
+  Accidental,
 } from '../scale-degrees';
 import {
   Mode,
@@ -22,12 +23,6 @@ import {
   chordTypeConfigMap,
   romanNumeralChordTypeParserMap,
 } from '../chords/Chord/ChordType';
-
-export enum Accidental {
-  Natural = '',
-  Sharp = '#',
-  Flat = 'b',
-}
 
 const allRomanNumeralPostfix: string[] = _.map(chordTypeConfigMap, (chordTypeConfig) => chordTypeConfig.romanNumeral.postfix);
 const romanNumeralChordSymbolRegex = new RegExp(`(b|#)?([ivIV]+)(${allRomanNumeralPostfix.map(_.escapeRegExp).join('|')})?$`);

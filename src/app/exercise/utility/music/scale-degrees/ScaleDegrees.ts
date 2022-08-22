@@ -3,16 +3,23 @@ import { Key } from '../keys/Key';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { transpose } from '../transpose';
 import { noteTypeToNote } from '../notes/noteTypeToNote';
-import { Accidental } from '../harmony/RomanNumeralChord';
 import { getDistanceOfKeys } from '../keys/getDistanceOfKeys';
 import { getNoteType } from '../notes/getNoteType';
 import { Interval } from '../intervals/Interval';
 import { mod } from '../../../../shared/ts-utility/mod';
 
+export enum Accidental {
+  Natural = '',
+  Sharp = '#',
+  Flat = 'b',
+}
 export type DiatonicScaleDegree = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+// Each chromatic note is spelled once, for all enharmonic alternatives use ExpandedScaleDegree
 export type ScaleDegree = '1' | 'b2' | '2' | 'b3' | '3' | '4' | '#4' | '5' | 'b6' | '6' | 'b7' | '7';
-export type ChromaticScaleDegree = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+// Contains enharmonic alternative to ScaleDegree's values
+export type EnharmonicScaleDegree = ScaleDegree | 'b5' | '#5' | 'bb7' | '8' | '9' | '#9';
 
+export type ChromaticScaleDegree = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16;
 export const scaleDegreeToChromaticDegree: Record<ScaleDegree, ChromaticScaleDegree> = {
   '1': 1,
   'b2': 2,
@@ -26,6 +33,16 @@ export const scaleDegreeToChromaticDegree: Record<ScaleDegree, ChromaticScaleDeg
   '6': 10,
   'b7': 11,
   '7': 12,
+}
+
+export const expandedScaleDegreeToChromaticDegree: Record<EnharmonicScaleDegree, ChromaticScaleDegree> = {
+  ...scaleDegreeToChromaticDegree,
+  'b5': 7,
+  '#5': 9,
+  'bb7': 10,
+  '8': 13,
+  '9': 15,
+  '#9': 16,
 }
 
 export const chromaticDegreeToScaleDegree = _.invert(scaleDegreeToChromaticDegree) as Record<ChromaticScaleDegree, ScaleDegree>;

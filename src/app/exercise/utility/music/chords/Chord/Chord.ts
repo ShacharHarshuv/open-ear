@@ -1,3 +1,4 @@
+import { expandedScaleDegreeToChromaticDegree } from '../../scale-degrees';
 import { NoteType } from '../../notes/NoteType';
 import { transpose } from '../../transpose';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
@@ -56,7 +57,9 @@ export class Chord {
   private _getChordIntervals(): Interval[] {
     return [
       Interval.Prima,
-      ...chordTypeConfigMap[this.type].intervalList,
+      ...chordTypeConfigMap[this.type].scaleDegreeList.map(scaleDegree => {
+        return expandedScaleDegreeToChromaticDegree[scaleDegree] - 1;
+      }),
     ];
   }
 

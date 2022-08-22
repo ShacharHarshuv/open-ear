@@ -4,6 +4,6 @@ export * from './NotesRange';
 export * from './keys/Key';
 export * from './intervals/Interval';
 export * from './intervals/getInterval';
+export * from './scale-degrees'
 export * from './harmony';
 export * from './MusicSymbol';
-export * from './scale-degrees'
