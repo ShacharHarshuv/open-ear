@@ -244,7 +244,7 @@ export class ExerciseStateService implements OnDestroy {
       }
       await this._notesPlayer.playMultipleParts(partsToPlay);
     }
-    this._currentlyPlayingSegment = null;
+    await this._afterPlaying();
   }
 
   async playCurrentQuestion(): Promise<void> {
@@ -254,6 +254,10 @@ export class ExerciseStateService implements OnDestroy {
     } else {
       await this._notesPlayer.playMultipleParts(this._getCurrentQuestionPartsToPlay());
     }
+    await this._afterPlaying();
+  }
+
+  private async _afterPlaying(): Promise<void> {
     this._currentlyPlayingSegment = null;
     if (
       this._globalSettings.answerQuestionAutomatically &&
