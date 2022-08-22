@@ -14,7 +14,7 @@ export enum Accidental {
   Flat = 'b',
 }
 export type DiatonicScaleDegree = 1 | 2 | 3 | 4 | 5 | 6 | 7;
-// Each chromatic note is spelled once, for all enharmonic alternatives use ExpandedScaleDegree
+// Each chromatic note is spelled once, for all enharmonic alternatives use EnharmonicScaleDegree
 export type ScaleDegree = '1' | 'b2' | '2' | 'b3' | '3' | '4' | '#4' | '5' | 'b6' | '6' | 'b7' | '7';
 // Contains enharmonic alternative to ScaleDegree's values
 export type EnharmonicScaleDegree = ScaleDegree | 'b5' | '#5' | 'bb7' | '8' | '9' | '#9';
