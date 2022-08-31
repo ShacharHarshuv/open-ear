@@ -131,16 +131,13 @@ export const intervalExercise = () => {
     getQuestion(settings: IntervalExerciseSettings): Exercise.Question<IntervalName> {
       const randomIntervalDescriptor: IntervalDescriptor = randomFromList(intervalDescriptorList.filter(intervalDescriptor => settings.includedAnswers.includes(intervalDescriptor.name)));
       const randomStartingNoteNumber: NoteNumber = _.random(range.lowestNoteNumber, range.highestNoteNumber - randomIntervalDescriptor.semitones);
-      let startNoteName = toNoteName(randomStartingNoteNumber);
-      let endNoteName = toNoteName(randomStartingNoteNumber + randomIntervalDescriptor.semitones);
-      let partToPlayArray = _.shuffle([startNoteName, endNoteName]);
-      if (partToPlayArray[0] !== startNoteName) {
-        [startNoteName, endNoteName] = [endNoteName, startNoteName];
-      }
+      let lowNoteName = toNoteName(randomStartingNoteNumber);
+      let highNoteName = toNoteName(randomStartingNoteNumber + randomIntervalDescriptor.semitones);
+      let [startNoteName, endNoteName] = _.shuffle([lowNoteName, highNoteName])
       return {
         segments: [{
           rightAnswer: randomIntervalDescriptor.name,
-          partToPlay: partToPlayArray,
+          partToPlay: [startNoteName, endNoteName],
         }],
         info: {
           beforeCorrectAnswer: `Notes played: ${startNoteName} - ?`,
