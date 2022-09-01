@@ -30,6 +30,7 @@ export type TriadInversionExerciseSettings =
   // todo(#167): arpeggio speed can be a generic pluggable settings (and reused across different exercise)
   arpeggiateSpeed: number;
   playRootAfterAnswer: boolean;
+  arpeggiatePlayMode: string;
 }
 
 export const triadInversionExercise = () => {
@@ -58,11 +59,26 @@ export const triadInversionExercise = () => {
       const invertionOptions: TriadInversion[] = [0, 1, 2].filter(invertionOption => settings.includedAnswers.includes(triadInversions[invertionOption]));
       const randomTriadInversion: TriadInversion = randomFromList(invertionOptions);
       const answer = triadInversions[randomTriadInversion];
-      const voicing: Note[] = new Chord(randomChordInC).getVoicing({
+      let voicing: Note[] = new Chord(randomChordInC).getVoicing({
         topVoicesInversion: randomTriadInversion,
         withBass: false,
         octave: 3, // picking a lower octave as a high one is more difficult
       });
+      let temp: Note[];
+      const root: Note = Array.from(voicing)[(3 - randomTriadInversion) % 3];
+      switch (settings.arpeggiatePlayMode) {
+        case 'descending':
+          voicing = voicing.reverse();
+          break;
+        case 'ascendingCycle':
+          temp = Array.from(voicing);
+          voicing = voicing.concat(temp.reverse());
+          break;
+        case 'descendingCycle':
+          temp = Array.from(voicing.reverse());
+          voicing = voicing.concat(temp.reverse());
+          break;
+      }
       const question: Exercise.Question<TriadInversionAnswer> = {
         segments: [
           {
@@ -84,7 +100,7 @@ export const triadInversionExercise = () => {
       if (settings.playRootAfterAnswer) {
         question.afterCorrectAnswer = [
           {
-            partToPlay: toSteadyPart(voicing[(3 - randomTriadInversion) % 3], '1n', 0.3),
+            partToPlay: toSteadyPart(root, '1n', 0.3),
             answerToHighlight: answer,
           },
         ]
@@ -112,10 +128,38 @@ export const triadInversionExercise = () => {
           label: 'Play Root After Correct Answer',
         },
       },
+      {
+        key: 'arpeggiatePlayMode',
+        info: 'Ascending , the note in question will be played from lower to higher. \n' +
+          'Descending, the note in question will be played from higher to lower. ',
+        descriptor: {
+          label: 'Arpeggiate Play Mode',
+          controlType: 'select',
+          options: [
+            {
+              label: 'Ascending',
+              value: 'ascending',
+            },
+            {
+              label: 'Descending',
+              value: 'descending',
+            },
+            {
+              label: 'Ascending+Descending',
+              value: 'ascendingCycle',
+            },
+            {
+              label: 'Descending+Ascending',
+              value: 'descendingCycle',
+            },
+          ],
+        },
+      },
     ],
     defaultSettings: {
       arpeggiateSpeed: 0,
       playRootAfterAnswer: true,
+      arpeggiatePlayMode: 'ascending',
     },
   })
 }

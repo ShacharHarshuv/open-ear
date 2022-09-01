@@ -8,6 +8,7 @@ describe(triadInversionExercise.name, () => {
       'Included Inversions',
       'Arpeggiate Speed',
       'Play Root After Correct Answer',
+      'Arpeggiate Play Mode',
     ],
   });
 })
