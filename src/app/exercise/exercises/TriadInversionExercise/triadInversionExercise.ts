@@ -30,6 +30,7 @@ export type TriadInversionExerciseSettings =
   // todo(#167): arpeggio speed can be a generic pluggable settings (and reused across different exercise)
   arpeggiateSpeed: number;
   playRootAfterAnswer: boolean;
+  arpeggioDirection: 'ascending' | 'descending' | 'ascendingAndDescending' | 'descendingAndAscending'; 
 }
 
 export const triadInversionExercise = () => {
@@ -58,11 +59,25 @@ export const triadInversionExercise = () => {
       const invertionOptions: TriadInversion[] = [0, 1, 2].filter(invertionOption => settings.includedAnswers.includes(triadInversions[invertionOption]));
       const randomTriadInversion: TriadInversion = randomFromList(invertionOptions);
       const answer = triadInversions[randomTriadInversion];
-      const voicing: Note[] = new Chord(randomChordInC).getVoicing({
+      let voicing: Note[] = new Chord(randomChordInC).getVoicing({
         topVoicesInversion: randomTriadInversion,
         withBass: false,
         octave: 3, // picking a lower octave as a high one is more difficult
       });
+      const root: Note = voicing[(3 - randomTriadInversion) % 3];
+      if (settings.arpeggiateSpeed !== 0) {
+        switch (settings.arpeggioDirection) {
+          case 'descending':
+            voicing = voicing.reverse();
+            break;
+          case 'ascendingAndDescending':
+            voicing = voicing.concat([...voicing].reverse());
+            break;
+          case 'descendingAndAscending':
+            voicing = voicing.reverse().concat([...voicing].reverse());
+            break;
+        }
+      }
       const question: Exercise.Question<TriadInversionAnswer> = {
         segments: [
           {
@@ -70,7 +85,7 @@ export const triadInversionExercise = () => {
               const noteDelay = index * settings.arpeggiateSpeed / 100;
               return {
                 notes: note,
-                velocity: 0.3,
+                velocity,
                 duration: Tone.Time('1n').toSeconds() + (voicing.length - 1) * settings.arpeggiateSpeed / 100 - Tone.Time(noteDelay).toSeconds(),
                 time: noteDelay,
               }
@@ -84,7 +99,7 @@ export const triadInversionExercise = () => {
       if (settings.playRootAfterAnswer) {
         question.afterCorrectAnswer = [
           {
-            partToPlay: toSteadyPart(voicing[(3 - randomTriadInversion) % 3], '1n', 0.3),
+            partToPlay: toSteadyPart(root, '1n', 0.3),
             answerToHighlight: answer,
           },
         ]
@@ -110,6 +125,33 @@ export const triadInversionExercise = () => {
         descriptor: {
           controlType: 'checkbox',
           label: 'Play Root After Correct Answer',
+        },
+      },
+      {
+        key: 'arpeggioDirection',
+        info: 'Ascending - the chord will be arpeggiated from bottom to top. \n' +
+          'Descending - the chord will be arpeggiated from top to bottom',
+        descriptor: {
+          label: 'Arpeggio Direction',
+          controlType: 'select',
+          options: [
+            {
+              label: 'Ascending',
+              value: 'ascending',
+            },
+            {
+              label: 'Descending',
+              value: 'descending',
+            },
+            {
+              label: 'Ascending & Descending',
+              value: 'ascendingAndDescending',
+            },
+            {
+              label: 'Descending & Ascending',
+              value: 'descendingAndAscending',
+            },
+          ],
         },
       },
     ],
