@@ -30,7 +30,7 @@ export type TriadInversionExerciseSettings =
   // todo(#167): arpeggio speed can be a generic pluggable settings (and reused across different exercise)
   arpeggiateSpeed: number;
   playRootAfterAnswer: boolean;
-  arpeggioDirection: 'ascending' | 'descending' | 'ascendingAndDescending' | 'descendingAndAscending'; 
+  arpeggioDirection: 'ascending' | 'descending' | 'ascendingAndDescending' | 'descendingAndAscending';
 }
 
 export const triadInversionExercise = () => {
@@ -85,7 +85,7 @@ export const triadInversionExercise = () => {
               const noteDelay = index * settings.arpeggiateSpeed / 100;
               return {
                 notes: note,
-                velocity,
+                velocity: 0.3,
                 duration: Tone.Time('1n').toSeconds() + (voicing.length - 1) * settings.arpeggiateSpeed / 100 - Tone.Time(noteDelay).toSeconds(),
                 time: noteDelay,
               }
