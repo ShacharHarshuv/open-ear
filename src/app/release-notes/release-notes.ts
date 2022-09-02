@@ -108,5 +108,9 @@ export const releaseNotes: ReleaseNotes = [
   {
     version: '1.5.6',
     notes: 'Enabled randomizing the key every X questions. Relevant for all tonal-based questions.'
+  },
+  {
+    version: '1.5.7',
+    notes: 'Enable a selection of arpeggio direction for "Triad Inversion" exercise'
   }
 ]
