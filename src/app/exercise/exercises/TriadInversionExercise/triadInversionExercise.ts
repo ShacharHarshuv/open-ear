@@ -65,29 +65,24 @@ export const triadInversionExercise = () => {
         octave: 3, // picking a lower octave as a high one is more difficult
       });
       const root: Note = voicing[(3 - randomTriadInversion) % 3];
-      switch (settings.arpeggioDirection) {
-        case 'descending':
-          voicing = voicing.reverse();
-          break;
-        case 'ascendingAndDescending':
-          voicing = voicing.concat([...voicing].reverse());
-          break;
-        case 'descendingAndAscending':
-          voicing = voicing.reverse().concat([...voicing].reverse());
-          break;
+      if (settings.arpeggiateSpeed !== 0) {
+        switch (settings.arpeggioDirection) {
+          case 'descending':
+            voicing = voicing.reverse();
+            break;
+          case 'ascendingAndDescending':
+            voicing = voicing.concat([...voicing].reverse());
+            break;
+          case 'descendingAndAscending':
+            voicing = voicing.reverse().concat([...voicing].reverse());
+            break;
+        }
       }
       const question: Exercise.Question<TriadInversionAnswer> = {
         segments: [
           {
             partToPlay: voicing.map((note, index) => {
               const noteDelay = index * settings.arpeggiateSpeed / 100;
-              let velocity = 0.3;
-              if ((settings.arpeggioDirection === 'ascendingAndDescending' || 
-                   settings.arpeggioDirection === 'descendingAndAscending') &&
-                   settings.arpeggiateSpeed === 0) //playing whole note at the same time is too loud
-              {
-                velocity /= 2;
-              }
               return {
                 notes: note,
                 velocity,
