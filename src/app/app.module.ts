@@ -17,6 +17,7 @@ import { SandboxComponent } from './sandbox/sandbox.component';
 import { MIGRATION_SCRIPTS } from './storage/storage-migration.service';
 import { migrationScripts } from './storage/migration-scripts/migration-scripts';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { AppRate } from '@awesome-cordova-plugins/app-rate/ngx';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     },
     VersionService,
     AppVersion,
+    AppRate,
   ],
   bootstrap: [AppComponent],
   exports: [],

@@ -2,5 +2,8 @@
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">localhost</domain>
+        <domain includeSubdomains="true">https://192.168.68.149:8101</domain>
+        <domain includeSubdomains="true">http://192.168.68.149:8101</domain>
+        <domain includeSubdomains="true">192.168.68.149:8101</domain>
     </domain-config>
 </network-security-config>

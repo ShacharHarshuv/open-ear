@@ -6,5 +6,9 @@
     <param name="android-package" value="uk.co.whiteoctober.cordova.AppVersion"/>
   </feature>
 
+  <feature name="AppRate">
+    <param name="android-package" value="org.pushandplay.cordova.apprate.AppRate"/>
+  </feature>
+
   
 </widget>

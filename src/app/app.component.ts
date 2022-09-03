@@ -9,6 +9,7 @@ import { ReleaseNotesService } from './release-notes/release-notes.service';
 import { toPromise } from './shared/ts-utility/rxjs/toPromise';
 import * as _ from 'lodash';
 import { StorageMigrationService } from './storage/storage-migration.service';
+import { AppRate } from '@awesome-cordova-plugins/app-rate/ngx';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,10 @@ export class AppComponent {
     private readonly _alertController: AlertController,
     private readonly _platform: Platform,
     private readonly _storageMigrationService: StorageMigrationService,
+    private readonly _appRate: AppRate,
+
   ) {
+    console.log('AppComponent Ctor'); // todo
     this.showReleaseNotes();
     this._storageMigrationService.runMigrationScripts();
 
@@ -33,6 +37,33 @@ export class AppComponent {
         buttons: ['Silent mode is off'],
       }).then(alert => alert.present());
     }
+
+    function log(msg: string) {
+      return () => console.log(msg);
+    }
+
+    this._appRate.setPreferences({
+      storeAppURL: {
+        ios: '1616537214',
+        android: 'market://details?id=com.openear.www'
+      },
+      callbacks: {
+        done: log('done'),
+        handleNegativeFeedback: log('handleNegativeFeedback'),
+        onButtonClicked: log('onButtonClicked'),
+        onRateDialogShow: log('onRateDialogShow'),
+      },
+      displayAppName: 'OpenEar',
+      customLocale: {
+        title: 'Love OpenEar? Pay it forward!',
+        message: 'Rate us on the store to help bring this to more people',
+        cancelButtonLabel: 'No, thanks',
+        laterButtonLabel: 'Remind me later',
+        rateButtonLabel: 'Sure!',
+      }
+    });
+
+    this._appRate.promptForRating(true); // todo
   }
 
   async showReleaseNotes(): Promise<void> {

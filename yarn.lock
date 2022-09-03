@@ -301,6 +301,20 @@
   resolved "https://registry.npmjs.org/@audio-samples/piano-mp3-velocity10/-/piano-mp3-velocity10-1.0.5.tgz"
   integrity sha512-ut8UnuZ1vOEd/xR3E/twTLPmPgr62n87XnI3o6ibLuZgL6SRK+dahkzp2B2HGHlkl7CenRhd/naYEjIB5mGDXQ==
 
+"@awesome-cordova-plugins/app-rate@^5.44.0":
+  version "5.44.0"
+  resolved "https://registry.yarnpkg.com/@awesome-cordova-plugins/app-rate/-/app-rate-5.44.0.tgz#8460e357138cd1f7a4305531aea49f6d1c4f2b93"
+  integrity sha512-H2IAgfqkBRg8Qzeukx1tYPHAZhde0EZe4V94DgWxMVxPtNhP2PWCcVgX7b7miKAzypZlQT6+t/BUwjUIu22nOQ==
+  dependencies:
+    "@types/cordova" latest
+
+"@awesome-cordova-plugins/core@^5.44.0":
+  version "5.44.0"
+  resolved "https://registry.yarnpkg.com/@awesome-cordova-plugins/core/-/core-5.44.0.tgz#7e90fa629ed2c9d2e53d9ee3bb39d2093e810364"
+  integrity sha512-LFa0RQyKoiMoh8GiFTOUh+SHdxs6XiozCAzOqq0YUrAAGb/sQRwZ+pDtqw0RTSQqN7DV3FH8ayeuHX8LEm3bNA==
+  dependencies:
+    "@types/cordova" latest
+
 "@babel/code-frame@7.12.11":
   version "7.12.11"
   resolved "https://registry.npmjs.org/@babel/code-frame/-/code-frame-7.12.11.tgz"
@@ -3696,6 +3710,11 @@ cordova-plugin-app-version@^0.1.12:
   version "0.1.12"
   resolved "https://registry.npmjs.org/cordova-plugin-app-version/-/cordova-plugin-app-version-0.1.12.tgz"
   integrity sha512-P+0d9+h9HasanKuMd8tcEpuJJlsVmClie3Mbq16v3TV/VroDrgYB6Ea8Imkc/WjjMVSBCjWB+pji1LoupWlddA==
+
+cordova-plugin-apprate@^1.7.2:
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-apprate/-/cordova-plugin-apprate-1.7.2.tgz#09b693bca879c66865fc238804d4e34c5b4d09e7"
+  integrity sha512-kW92o//7EVr+heGRp3J6BUPE1w5zQaJdh3ZEdE5EBrr95yVarhJ8W9NN4CoMM+YlgF8flUqWD+vN+reBv+RZrg==
 
 cordova-res@^0.15.4:
   version "0.15.4"
