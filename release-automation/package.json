@@ -1,0 +1,6 @@
+{
+  "name": "open-ear-automation",
+  "scripts": {
+    "release": "npx ts-node main.ts"
+  }
+}
