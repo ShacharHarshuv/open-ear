@@ -28,7 +28,7 @@ Currently includes the following built in exercises:
 
 ## Social Links
 
-[<img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white"/>](https://discord.gg/a8g4vFSu)
+[<img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white"/>](https://discord.gg/FzHGnU4zeE)
 [<img src="https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white"/>](https://twitter.com/shuv_har)
 
 ## Donations
