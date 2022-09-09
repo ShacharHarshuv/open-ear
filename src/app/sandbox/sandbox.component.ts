@@ -38,15 +38,14 @@ export class SandboxComponent {
           beforePlaying: () => this._playingNotesSet.add('E4'),
           afterPlaying: () => this._playingNotesSet.delete('E4'),
         },
-      ],
-      [
         {
+          playAfter: 0,
           partOrTime: [{
-            notes: 'A3',
+            notes: 'G4',
             duration: '2n',
           }],
-          beforePlaying: () => this._playingNotesSet.add('A3'),
-          afterPlaying: () => this._playingNotesSet.delete('A3'),
+          beforePlaying: () => this._playingNotesSet.add('G4'),
+          afterPlaying: () => this._playingNotesSet.delete('G4'),
         },
       ],
     );
