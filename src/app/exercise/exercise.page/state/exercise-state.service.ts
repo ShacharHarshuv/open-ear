@@ -81,7 +81,7 @@ export class ExerciseStateService implements OnDestroy {
     return this._notesPlayer.isReady;
   }
 
-  get lastPlayed(): PartToPlay[] | null {
+  get lastPlayed() {
     return this._notesPlayer.lastPlayed;
   }
 

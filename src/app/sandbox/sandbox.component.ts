@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { YouTubePlayerService } from '../services/you-tube-player.service';
+import { PlayerService } from '../services/player.service';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
 
 @Component({
   selector: 'app-sandbox',
@@ -7,17 +8,55 @@ import { YouTubePlayerService } from '../services/you-tube-player.service';
   styleUrls: ['./sandbox.component.scss'],
 })
 export class SandboxComponent {
+  private _playingNotesSet = new Set<Note>();
 
+  get currentlyPlaying(): string {
+    return Array.from(this._playingNotesSet).join(', ');
+  }
 
   constructor(
-    public youTubePlayerService: YouTubePlayerService,
+    public readonly playerService: PlayerService,
   ) {
+  }
 
-    this.youTubePlayerService.addCallback(51, () => {
-      console.log('second chord');
-    });
-    this.youTubePlayerService.addCallback(60, async () => {
-      await this.youTubePlayerService.stop();
-    });
+  play(): void {
+    this.playerService.playMultipleParts(
+      [
+        {
+          partOrTime: [{
+            notes: 'C4',
+            duration: '4n',
+          }],
+          beforePlaying: () => this._playingNotesSet.add('C4'),
+          afterPlaying: () => this._playingNotesSet.delete('C4'),
+        },
+        {
+          partOrTime: [{
+            notes: 'E4',
+            duration: '2n',
+          }],
+          beforePlaying: () => this._playingNotesSet.add('E4'),
+          afterPlaying: () => this._playingNotesSet.delete('E4'),
+        },
+      ],
+      [
+        {
+          partOrTime: [{
+            notes: 'A3',
+            duration: '2n',
+          }],
+          beforePlaying: () => this._playingNotesSet.add('A3'),
+          afterPlaying: () => this._playingNotesSet.delete('A3'),
+        },
+      ],
+    );
+  }
+
+  playSimplePart() {
+    this.playerService.playPart([
+      {
+        notes: 'C4',
+      }
+    ])
   }
 }
