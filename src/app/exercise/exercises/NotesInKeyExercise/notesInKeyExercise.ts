@@ -84,12 +84,16 @@ export function notesInKeyExercise() {
       }
 
       const noteOptions: Note[] = getQuestionOptionsInC().filter(questionOption => settings.includedAnswers.includes(getSolfegeNoteOfNoteInC(questionOption)));
-      let randomQuestionsInC: Note[] = Array.from(Array(settings.numberOfSegments)).map(() => randomFromList(noteOptions));
+      let randomNotesInC: Note[] = Array.from(Array(settings.numberOfSegments)).map(() => randomFromList(noteOptions));
+      const randomQuestionInC: Note[][] = [
+        randomNotesInC,
+        ['C3'] // todo: this should be the second voice
+      ]
 
       // calculation resolution
       let resolution: Note[] = [];
-      if (settings.numberOfSegments === 1 && settings.playAfterCorrectAnswer) {
-        const note: Note = randomQuestionsInC[0];
+      if (settings.numberOfSegments === 1 && settings.playAfterCorrectAnswer) { // todo: this should be only if using one voice
+        const note: Note = randomNotesInC[0];
 
         const scaleDegree: ScaleDegree = getScaleDegreeFromNote('C', note);
         const resolutionInScaleDegrees: DeepReadonly<ScaleDegree[]> = getResolutionFromScaleDegree(
@@ -110,7 +114,7 @@ export function notesInKeyExercise() {
       }
 
       return {
-        segments: randomQuestionsInC,
+        segments: randomQuestionInC,
         afterCorrectAnswer: resolution.map((note, index) => ({
           partToPlay: [{
             notes: note,

@@ -148,10 +148,10 @@ export class PlayerService {
   }
 
   async playMultipleParts(parts: PartToPlay[]): Promise<void> {
+    console.log(parts); // todo
     this._lastPlayed = parts;
 
     // stop previous playMultipleParts if exists
-
     this.stopAndClearQueue();
     /*
      * Stop current call stuck so previous call to playMultipleParts can return.

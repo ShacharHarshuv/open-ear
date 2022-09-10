@@ -18,6 +18,7 @@ import {
   getNoteFromScaleDegree,
   StaticOrGetter,
   toGetter,
+  OneOrMany,
 } from '../../../utility';
 import { noteTypeToScaleDegree } from '../../../utility/music/scale-degrees/noteTypeToScaleDegree';
 
@@ -28,27 +29,42 @@ export type MelodicDictationExerciseSettings = TonalExerciseSettings & {
 };
 
 export interface IMelodicQuestion extends Omit<Exercise.NotesQuestion<SolfegeNote>, 'segments'> {
-  segments: Note[],
+  /**
+   * Use array of arrays for multiple voices
+   * */
+  segments: OneOrMany<Note[]>, // todo?
 }
 
 export function melodicExercise<GSettings extends MelodicDictationExerciseSettings>(config?: TonalExerciseConfig) {
   const noteDuration: Time = '2n';
 
-  return function (params: {
+  return function(params: {
     getMelodicQuestionInC: StaticOrGetter<IMelodicQuestion, [GSettings, TonalExerciseUtils]>;
   }) {
     return tonalExercise(config)({
       getQuestion(settings: GSettings, tonalExerciseUtils: TonalExerciseUtils): Exclude<Exercise.NotesQuestion<SolfegeNote>, 'cadence'> {
         const melodicQuestionInC: IMelodicQuestion = toGetter(params.getMelodicQuestionInC)(settings, tonalExerciseUtils);
+        console.log('melodicQuestionInC', melodicQuestionInC); // todo
+        // TODO: improve typings and remove this cast
+        const notesByVoice: Note[][] = Array.isArray(melodicQuestionInC.segments[0]) ?
+          melodicQuestionInC.segments as Note[][] :
+          [melodicQuestionInC.segments] as Note[][];
+        const segments: Exercise.NotesQuestion<SolfegeNote>['segments'] = [];
+        notesByVoice.forEach(voice => {
+          voice.forEach((note, index) => {
+            segments.push({
+              rightAnswer: scaleDegreeToSolfegeNote[noteTypeToScaleDegree(getNoteType(note), 'C')],
+              partToPlay: [{
+                notes: note,
+                duration: noteDuration,
+              }],
+              playAfter: index === 0 ? 0 : undefined,
+            });
+          })
+        });
         const question: Exercise.Question<SolfegeNote> = {
           ..._.omit(melodicQuestionInC, 'segments'),
-          segments: melodicQuestionInC.segments.map(randomQuestionInC => ({
-            rightAnswer: scaleDegreeToSolfegeNote[noteTypeToScaleDegree(getNoteType(randomQuestionInC), 'C')],
-            partToPlay: [{
-              notes: randomQuestionInC,
-              duration: noteDuration,
-            }],
-          })),
+          segments,
         }
 
         if (melodicQuestionInC.afterCorrectAnswer) {
@@ -70,7 +86,7 @@ export function melodicExercise<GSettings extends MelodicDictationExerciseSettin
         }
 
         return answerConfig;
-      })
+      }),
     })
   }
 }

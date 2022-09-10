@@ -70,14 +70,17 @@
       </p>
     </section>
     <div class="exercise__answers-container">
-      <app-answer-indication
-        *ngFor="let answer of state.currentAnswers; let i = index"
-        [answerDisplay]="state.answerToLabelStringMap[answer.answer]"
-        [isFocused]="state.currentlyPlayingSegment === i"
-        [wasAnsweredWrong]="answer.wasWrong"
-        cdkDropList
-        [cdkDropListData]="i"
-      ></app-answer-indication>
+      <!--TODO: that causes a change detection issue-->
+      <div *ngFor="let answersPlayedTogether of (getCurrentAnswersLayout | pureFunction: state.currentAnswers : state.currentQuestion)">
+        <app-answer-indication
+          *ngFor="let answer of answersPlayedTogether"
+          [answerDisplay]="state.answerToLabelStringMap[answer.answer]"
+          [isFocused]="state.currentlyPlayingSegments.has(answer.index)"
+          [wasAnsweredWrong]="answer.wasWrong"
+          cdkDropList
+          [cdkDropListData]="answer.index"
+        ></app-answer-indication>
+      </div>
     </div>
     <app-answers-layout
       [answerList]="state.answerList"
