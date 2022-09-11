@@ -44,6 +44,7 @@ const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
 export interface CurrentAnswer {
   answer: Answer | null;
   wasWrong: boolean;
+  playAfter?: number;
 }
 
 @Injectable()
@@ -170,6 +171,7 @@ export class ExerciseStateService implements OnDestroy {
 
   answer(answer: string, answerIndex?: number): boolean {
     answerIndex = answerIndex ?? this._currentSegmentToAnswer;
+    this._currentAnswers = _.cloneDeep(this._currentAnswers); // creating new reference to trigger change detection
     if (this._currentAnswers[answerIndex].answer) {
       return this._currentAnswers[answerIndex].answer === answer;
     }
@@ -296,9 +298,10 @@ export class ExerciseStateService implements OnDestroy {
       this._error$.next(e);
       console.error(e);
     }
-    this._currentAnswers = this._currentQuestion.segments.map(() => ({
+    this._currentAnswers = this._currentQuestion.segments.map((segment): CurrentAnswer => ({
       wasWrong: false,
       answer: null,
+      playAfter: segment.playAfter,
     }));
     this._currentSegmentToAnswer = 0;
 

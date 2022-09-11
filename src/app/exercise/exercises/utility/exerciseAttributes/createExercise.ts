@@ -39,11 +39,6 @@ export function createExercise<GAnswer extends string, GSettings extends Exercis
     getAnswerList: (): AnswerList<GAnswer> => {
       return toGetter(params.answerList)(settings);
     },
-    getQuestion: () => {
-      // todo: revert
-      const question = params.getQuestion(settings);
-      console.log('question', question)
-      return question;
-    },
+    getQuestion: () => params.getQuestion(settings),
   }
 }

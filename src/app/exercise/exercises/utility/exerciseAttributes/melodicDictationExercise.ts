@@ -44,11 +44,14 @@ export function melodicExercise<GSettings extends MelodicDictationExerciseSettin
     return tonalExercise(config)({
       getQuestion(settings: GSettings, tonalExerciseUtils: TonalExerciseUtils): Exclude<Exercise.NotesQuestion<SolfegeNote>, 'cadence'> {
         const melodicQuestionInC: IMelodicQuestion = toGetter(params.getMelodicQuestionInC)(settings, tonalExerciseUtils);
-        console.log('melodicQuestionInC', melodicQuestionInC); // todo
-        // TODO: improve typings and remove this cast
-        const notesByVoice: Note[][] = Array.isArray(melodicQuestionInC.segments[0]) ?
-          melodicQuestionInC.segments as Note[][] :
-          [melodicQuestionInC.segments] as Note[][];
+
+        function isManyVoices(segments: OneOrMany<Note[]>): segments is Note[][] {
+          return Array.isArray(segments[0]);
+        }
+
+        const notesByVoice: Note[][] = isManyVoices(melodicQuestionInC.segments) ?
+          melodicQuestionInC.segments :
+          [melodicQuestionInC.segments];
         const segments: Exercise.NotesQuestion<SolfegeNote>['segments'] = [];
         notesByVoice.forEach(voice => {
           voice.forEach((note, index) => {

@@ -1,11 +1,9 @@
 import { CurrentAnswer } from '../state/exercise-state.service';
-import { Exercise } from '../../Exercise';
 import * as _ from 'lodash';
 
 // todo: it's probably better to group by voice, as later we might want to give each answer a different duration for different contrapuntal scenarios
 export function getCurrentAnswersLayout(
   currentAnswers: CurrentAnswer[],
-  currentQuestion: Exercise.Question,
 ) {
   /**
    * Using "playAfter" to calculate the desired layout of the answers, to reflect musical timing
@@ -17,9 +15,9 @@ export function getCurrentAnswersLayout(
 
   let columnIndex = 0; // the visual horizontal position of the answer
 
-  currentQuestion.segments.forEach((segment, segmentIndex) => {
-    if (!_.isNil(segment.playAfter)) {
-      columnIndex = segment.playAfter;
+  currentAnswers.forEach((currentAnswer, answerIndex) => {
+    if (!_.isNil(currentAnswer.playAfter)) {
+      columnIndex = currentAnswer.playAfter;
     }
 
     if (!currentAnswersLayout[columnIndex]) {
@@ -27,8 +25,8 @@ export function getCurrentAnswersLayout(
     }
 
     currentAnswersLayout[columnIndex].push({
-      ...currentAnswers[segmentIndex],
-      index: segmentIndex,
+      ...currentAnswer,
+      index: answerIndex,
     });
     columnIndex++;
   });

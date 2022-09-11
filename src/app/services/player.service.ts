@@ -148,7 +148,6 @@ export class PlayerService {
   }
 
   async playMultipleParts(parts: PartToPlay[]): Promise<void> {
-    console.log(parts); // todo
     this._lastPlayed = parts;
 
     // stop previous playMultipleParts if exists

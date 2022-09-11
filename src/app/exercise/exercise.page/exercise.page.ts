@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
-import {
-  ExerciseStateService,
-  CurrentAnswer,
-} from './state/exercise-state.service';
+import { ExerciseStateService } from './state/exercise-state.service';
 import {
   ModalController,
   AlertController,
@@ -25,10 +22,8 @@ import {
 } from 'rxjs';
 import { BdcWalkService } from 'bdc-walkthrough';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import AnswerConfig = Exercise.AnswerConfig;
-import { listenToChanges } from '../../shared/ts-utility/rxjs/listen-to-changes';
 import { getCurrentAnswersLayout } from './utility/getCurrentAnswersLayout';
-import { pureFunction } from '../../shared/ts-utility/pure-function';
+import AnswerConfig = Exercise.AnswerConfig;
 
 @Component({
   selector: 'app-exercise-page',
@@ -216,7 +211,7 @@ export class ExercisePage extends BaseComponent {
     }
   }
 
-  readonly getCurrentAnswersLayout = pureFunction(getCurrentAnswersLayout);
+  readonly getCurrentAnswersLayout = getCurrentAnswersLayout;
 
   onDragDropped(dragDropEvent: CdkDragDrop<number | undefined>): void {
     const answerIndex: number | undefined = dragDropEvent.container.data;

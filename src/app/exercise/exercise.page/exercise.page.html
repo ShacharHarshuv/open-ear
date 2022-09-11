@@ -53,7 +53,8 @@
   [fullscreen]="true"
   [padding]="true"
 >
-  <div class="exercise__content-container" cdkDropListGroup>
+  <div class="exercise__content-container"
+       cdkDropListGroup>
     <section>
       <p
         *ngIf="!state.globalSettings.answerQuestionAutomatically"
@@ -70,8 +71,7 @@
       </p>
     </section>
     <div class="exercise__answers-container">
-      <!--TODO: that causes a change detection issue-->
-      <div *ngFor="let answersPlayedTogether of (getCurrentAnswersLayout | pureFunction: state.currentAnswers : state.currentQuestion)">
+      <div *ngFor="let answersPlayedTogether of (getCurrentAnswersLayout | pureFunction: state.currentAnswers)">
         <app-answer-indication
           *ngFor="let answer of answersPlayedTogether"
           [answerDisplay]="state.answerToLabelStringMap[answer.answer]"
