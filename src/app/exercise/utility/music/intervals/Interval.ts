@@ -1,5 +1,5 @@
 export enum Interval {
-  Prima = 0,
+  Unison = 0,
   MinorSecond = 1,
   MajorSecond = 2,
   MinorThird = 3,
