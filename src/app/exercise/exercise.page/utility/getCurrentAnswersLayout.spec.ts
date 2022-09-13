@@ -9,6 +9,7 @@ describe(getCurrentAnswersLayout.name, () => {
           {
             answer: '1',
             wasWrong: false,
+            playAfter: 0,
           },
           {
             answer: '2',
@@ -17,60 +18,38 @@ describe(getCurrentAnswersLayout.name, () => {
           {
             answer: '3',
             wasWrong: false,
+            playAfter: 0,
           },
           {
             answer: '4',
             wasWrong: false,
           }
         ],
-        {
-          type: 'notes',
-          segments: [
-            {
-              rightAnswer: '1',
-              partToPlay: 'C4',
-              playAfter: 0,
-            },
-            {
-              rightAnswer: '2',
-              partToPlay: 'C4',
-            },
-            {
-              rightAnswer: '3',
-              partToPlay: 'C4',
-              playAfter: 0,
-            },
-            {
-              rightAnswer: '4',
-              partToPlay: 'C4',
-            }
-          ],
-        }
       ],
       returnValue: [
         [
-          {
+          jasmine.objectContaining({
             answer: '1',
             wasWrong: false,
             index: 0,
-          },
-          {
+          }),
+          jasmine.objectContaining({
             answer: '3',
             wasWrong: false,
             index: 2,
-          },
+          }),
         ],
         [
-          {
+          jasmine.objectContaining({
             answer: '2',
             wasWrong: false,
             index: 1,
-          },
-          {
+          }),
+          jasmine.objectContaining({
             answer: '4',
             wasWrong: false,
             index: 3,
-          },
+          }),
         ]
       ]
     }
