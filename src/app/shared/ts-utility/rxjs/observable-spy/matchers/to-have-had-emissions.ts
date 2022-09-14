@@ -7,7 +7,6 @@ import { ObservableSpy } from '../observable-spy';
 
 declare global {
   namespace jasmine {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     interface ObservableMatchers<G> extends jasmine.Matchers<any> {
       toHaveHadEmissions(): boolean;
     }

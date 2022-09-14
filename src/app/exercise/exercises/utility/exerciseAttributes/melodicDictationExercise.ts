@@ -32,7 +32,7 @@ export interface IMelodicQuestion extends Omit<Exercise.NotesQuestion<SolfegeNot
   /**
    * Use array of arrays for multiple voices
    * */
-  segments: OneOrMany<Note[]>, // todo?
+  segments: OneOrMany<Note[]>,
 }
 
 export function melodicExercise<GSettings extends MelodicDictationExerciseSettings>(config?: TonalExerciseConfig) {

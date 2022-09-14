@@ -8,7 +8,6 @@ declare global {
   function expect<G>(spy: Observable<G>): jasmine.ObservableMatchers<G>;
 
   namespace jasmine {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     interface ObservableMatchers<G> extends jasmine.Matchers<any> {
       not: ObservableMatchers<G>;
     }

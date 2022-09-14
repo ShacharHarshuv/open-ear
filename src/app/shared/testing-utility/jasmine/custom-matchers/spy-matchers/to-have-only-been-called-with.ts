@@ -7,7 +7,6 @@ import CustomMatcherResult = jasmine.CustomMatcherResult;
 
 declare global {
   namespace jasmine {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     interface SpyMatchers<Fn extends Func> extends jasmine.FunctionMatchers<Fn> {
       toHaveOnlyBeenCalledWith(...params: MatchableArgs<Fn>): boolean;
     }

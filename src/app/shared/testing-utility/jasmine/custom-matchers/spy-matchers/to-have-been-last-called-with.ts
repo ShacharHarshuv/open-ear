@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import MatchersUtil = jasmine.MatchersUtil;
 import CustomEqualityTester = jasmine.CustomEqualityTester;
 import CustomMatcher = jasmine.CustomMatcher;

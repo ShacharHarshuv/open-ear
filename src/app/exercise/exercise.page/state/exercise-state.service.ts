@@ -396,7 +396,7 @@ export class ExerciseStateService implements OnDestroy {
         seconds: segment.seconds,
         callback: () => {
           this._currentlyPlayingSegments.clear();
-          this._currentlyPlayingSegments.add(i); // todo: check youtube exercise
+          this._currentlyPlayingSegments.add(i);
         },
       })),
       {
@@ -413,7 +413,7 @@ export class ExerciseStateService implements OnDestroy {
     const partsToPlay: PartToPlay[] = this._currentQuestion.segments.map((segment, i: number): PartToPlay => ({
       partOrTime: toSteadyPart(segment.partToPlay),
       beforePlaying: () => {
-        this._currentlyPlayingSegments.add(i); // todo
+        this._currentlyPlayingSegments.add(i);
         if (i === 0) {
           this._isAnsweringEnabled = true;
         }

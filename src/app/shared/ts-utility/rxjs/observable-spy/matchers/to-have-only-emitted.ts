@@ -8,7 +8,6 @@ import { compareEquality } from '../../../../testing-utility/jasmine/custom-matc
 
 declare global {
   namespace jasmine {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     interface ObservableMatchers<G> extends jasmine.Matchers<any> {
       toHaveOnlyEmitted(value: G): boolean;
     }

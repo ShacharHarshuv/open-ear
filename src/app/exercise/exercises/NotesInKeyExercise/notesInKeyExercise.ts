@@ -126,7 +126,7 @@ export function notesInKeyExercise() {
           const options: Note[] = noteOptionsForLowerVoice
             .filter(option => {
               const interval: number = toNoteNumber(note) - toNoteNumber(option);
-              // since all intervals are positive, this also verify the new voice is lower
+              // since all intervals are positive, this also verifies the new voice is lower
               return permittedHarmonicIntervals.includes(interval);
             });
           if (_.isEmpty(options)) {
@@ -236,6 +236,7 @@ export function notesInKeyExercise() {
         },
       },
       {
+        show: (settings: NoteInKeySettings) => settings.numberOfVoices > 1,
         key: 'harmonicIntervals',
         info: 'Choose which intervals can be played harmonically (between voices)\n' +
           'Note that the intervals are tonal, so 3<sup>rd</sup> can be both a major 3<sup>rd</sup> and a minor 3<sup>rd</sup>.',

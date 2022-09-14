@@ -202,14 +202,11 @@ export class PlayerService {
     }
     await Promise.all(playPartResponseList.map(response => response.onPartFinishedPromise));
 
-    // await Promise.all(parts.map((_, voiceIndex) => playVoice(voiceIndex))); // todo?
-
     this._onAllPartsFinished$.next();
   }
 
   stopAndClearQueue(): void {
     this._stopCurrentlyPlayingAndClearTransport();
-    // Clearing each voice individually as each one is in a separate async "while" loop
     this._voicesToPlay = [];
   }
 
