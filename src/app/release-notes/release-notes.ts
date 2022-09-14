@@ -112,5 +112,9 @@ export const releaseNotes: ReleaseNotes = [
   {
     version: '1.5.7',
     notes: 'Enable a selection of arpeggio direction for "Triad Inversion" exercise'
+  },
+  {
+    version: '1.5.8',
+    notes: 'Support multiple simultaneous voices for "Scale Degrees" exercise',
   }
 ]
