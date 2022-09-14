@@ -6,6 +6,7 @@ import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting
 } from '@angular/platform-browser-dynamic/testing';
+import { initCustomMatchers } from './app/shared/testing-utility/jasmine/custom-matchers/init-custom-matchers';
 
 declare const require: {
   context(path: string, deep?: boolean, filter?: RegExp): {
@@ -21,6 +22,9 @@ getTestBed().initTestEnvironment(
     teardown: { destroyAfterEach: false }
 }
 );
+
+initCustomMatchers();
+
 // Then we find all the tests.
 const context = require.context('./', true, /\.spec\.ts$/);
 // And load the modules.

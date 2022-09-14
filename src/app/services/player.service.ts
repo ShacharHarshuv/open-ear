@@ -3,7 +3,7 @@ import * as Tone from 'tone';
 import {
   Sampler,
   Part,
-  Transport
+  Transport,
 } from 'tone';
 import * as _ from 'lodash';
 import { Subject } from 'rxjs';
@@ -43,6 +43,12 @@ export type PartToPlay = {
   beforePlaying?: () => void,
   afterPlaying?: () => void,
   bpm?: number; // if provided, overrides the general settings for this part only
+  /**
+   * by the default, the part will play after the previous part in the array
+   * Passing 0 means it will play together with the first part in the array,
+   * Passing 1 means it will play after the first part in the array and so on
+   * */
+  playAfter?: number;
 };
 
 function getFileArrayBuffer(url: string): Promise<ArrayBuffer> {
@@ -53,7 +59,7 @@ function getFileArrayBuffer(url: string): Promise<ArrayBuffer> {
     request.onload = function() {
       const reader = new FileReader();
       reader.readAsArrayBuffer(request.response);
-      reader.onload =  function(e){
+      reader.onload = function(e) {
         resolve(e.target?.result as ArrayBuffer);
       };
     };
@@ -61,17 +67,22 @@ function getFileArrayBuffer(url: string): Promise<ArrayBuffer> {
   })
 }
 
+type PlayPartResponse = {
+  expectedFinishTimeInSeconds: number;
+  onPartFinishedPromise: Promise<void>;
+};
+
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PlayerService {
   private _instrumentPromise: Promise<Sampler> = this._getInstrument();
   private _isReady: boolean = false;
-  private _currentlyPlaying: Part | null = null;
-  private _currentlyPlayingPartFinishedSchedulerId: number | null = null;
-  private _onPartFinished$ = new Subject<void>();
-  private _partsToPlay: PartToPlay[] = [];
+  private _currentlyPlaying = new Set<Part>();
+  private _onPartFinished$Set = new Set<Subject<void>>();
+  private _voicesToPlay: PartToPlay[] = [];
   private _onAllPartsFinished$ = new Subject<void>();
+  // used for debugging
   private _lastPlayed: PartToPlay[] | null = null;
 
   constructor() {
@@ -84,7 +95,7 @@ export class PlayerService {
     return Tone.Transport.bpm.value;
   }
 
-  get lastPlayed(): PartToPlay[] | null {
+  get lastPlayed() {
     return this._lastPlayed;
   }
 
@@ -99,7 +110,7 @@ export class PlayerService {
 
   // Used this to wait for current playing parts to finish
   onAllPartsFinished(): Promise<void> {
-    if (this._currentlyPlaying) {
+    if (this._currentlyPlaying.size) {
       return this._onAllPartsFinished$.pipe(take(1)).toPromise();
     } else {
       return Promise.resolve();
@@ -131,9 +142,8 @@ export class PlayerService {
    * If you need to play multiple parts in a row please use playMultipleParts to avoid event clashes in case of an event in them middle of the parts
    * */
   async playPart(noteEventList: NoteEvent[]): Promise<void> {
-    this._partsToPlay = [];
-    this._stopCurrentlyPlayingAndClearTransport();
-    await this._playPart(noteEventList);
+    this.stopAndClearQueue();
+    await (await this._playPart(noteEventList)).onPartFinishedPromise;
     this._onAllPartsFinished$.next();
   }
 
@@ -141,47 +151,63 @@ export class PlayerService {
     this._lastPlayed = parts;
 
     // stop previous playMultipleParts if exists
-    this._partsToPlay = [];
-    this._stopCurrentlyPlayingAndClearTransport();
+    this.stopAndClearQueue();
     /*
-    * Stop current call stuck so previous call to playMultipleParts can return.
-    * Otherwise previous call will return playing this started, causing a clash in playing order
-    * */
+     * Stop current call stuck so previous call to playMultipleParts can return.
+     * Otherwise previous call will return playing this started, causing a clash in playing order
+     * */
     await timeoutAsPromise();
 
-    this._partsToPlay = _.clone(parts);
+    this._voicesToPlay = _.cloneDeep(parts);
 
-    while(this._partsToPlay.length) {
-      const nextPart: PartToPlay = this._partsToPlay.shift()!;
-      nextPart.beforePlaying?.();
+    const playPartResponseList: PlayPartResponse[] = [{
+      onPartFinishedPromise: Promise.resolve(),
+      expectedFinishTimeInSeconds: 0,
+    }];
+    // accessing the voice by index as it might be changed by stopAndClearQueue
+    while (this._voicesToPlay.length) {
+      const nextPart: PartToPlay = this._voicesToPlay.shift()!;
+      const lastPartPlayResponse = playPartResponseList[nextPart.playAfter ?? (playPartResponseList.length - 1)];
+      lastPartPlayResponse.onPartFinishedPromise.then(() => {
+        nextPart.beforePlaying?.();
+      });
       if (typeof nextPart.partOrTime === 'number') {
-        await timeoutAsPromise(nextPart.partOrTime);
+        const delayInMs = nextPart.partOrTime;
+        playPartResponseList.push({
+          onPartFinishedPromise: lastPartPlayResponse.onPartFinishedPromise.then(() => {
+            return timeoutAsPromise(delayInMs);
+          }),
+          expectedFinishTimeInSeconds: lastPartPlayResponse.expectedFinishTimeInSeconds + delayInMs / 1e3,
+        });
       } else {
         /*
-        * This can be stopped in the following cases:
-        * - Part was finished (thus playing was stopped and transport cleared)
-        * - public playPart was called (thus playing was stopped and transport cleared)
-        * - playMultipleParts was called (thus playing was stopped and transport cleared)
-        * */
+         * This can be stopped in the following cases:
+         * - Part was finished (thus playing was stopped and transport cleared)
+         * - public playPart was called (thus playing was stopped and transport cleared)
+         * - playMultipleParts was called (thus playing was stopped and transport cleared)
+         * */
         const lastBpm = this.bpm;
         if (nextPart.bpm && lastBpm != nextPart.bpm) {
           this.setBpm(nextPart.bpm);
-          console.log('set bpm');
         }
-        await this._playPart(nextPart.partOrTime);
+        const playPartResponse = await this._playPart(nextPart.partOrTime, lastPartPlayResponse.expectedFinishTimeInSeconds);
+        playPartResponse.onPartFinishedPromise.then(() => {
+          nextPart.afterPlaying?.();
+        });
+        playPartResponseList.push(playPartResponse);
         if (nextPart.bpm) {
           this.setBpm(lastBpm);
         }
       }
-      nextPart.afterPlaying?.();
     }
+    await Promise.all(playPartResponseList.map(response => response.onPartFinishedPromise));
 
     this._onAllPartsFinished$.next();
   }
 
   stopAndClearQueue(): void {
     this._stopCurrentlyPlayingAndClearTransport();
-    this._partsToPlay = [];
+    this._voicesToPlay = [];
   }
 
   setBpm(bpm: number): void {
@@ -193,19 +219,23 @@ export class PlayerService {
   private _stopCurrentlyPlayingAndClearTransport(): void {
     Tone.Transport.stop();
 
-    if (this._currentlyPlaying) {
-      this._currentlyPlaying.dispose();
-      this._currentlyPlaying = null;
+    for (let currentlyPlaying of this._currentlyPlaying) {
+      currentlyPlaying.dispose();
     }
+    this._currentlyPlaying.clear();
 
-    if (!_.isNil(this._currentlyPlayingPartFinishedSchedulerId)) {
-      Transport.clear(this._currentlyPlayingPartFinishedSchedulerId);
+    // clearing all existing events on the Transport
+    Transport.cancel(0);
+
+    // Signal finish of all playing parts
+    for (let onPartFinished$ of this._onPartFinished$Set) {
+      onPartFinished$.next();
     }
-
-    this._onPartFinished$.next();
+    this._onPartFinished$Set.clear();
   }
 
-  private async _playPart(noteEventList: NoteEvent[]) {
+  // returns the expected finish time in seconds
+  private async _playPart(noteEventList: NoteEvent[], startTimeInSeconds: number = 0): Promise<PlayPartResponse> {
     const instrument = await this._instrumentPromise;
     let lastTime: Time = 0;
     const normalizedNoteEventList: Required<NoteEvent>[] = noteEventList.map((noteEvent: NoteEvent): Required<NoteEvent> => {
@@ -219,21 +249,31 @@ export class PlayerService {
       return normalizedNoteEvent;
     });
 
-    this._currentlyPlaying = new Tone.Part<Required<NoteEvent>>(((time, noteEvent: Required<NoteEvent>) => {
+    const currentlyPlaying = new Tone.Part<Required<NoteEvent>>(((time, noteEvent: Required<NoteEvent>) => {
       instrument.triggerAttackRelease(noteEvent.notes, noteEvent.duration, time, noteEvent.velocity);
-    }), normalizedNoteEventList).start(0);
+    }), normalizedNoteEventList).start(startTimeInSeconds);
+    this._currentlyPlaying.add(currentlyPlaying);
 
-    const stoppingTime: Seconds = _.max(normalizedNoteEventList.map(noteEvent => Tone.Time(noteEvent.time).toSeconds() + Tone.Time(noteEvent.duration).toSeconds()))!;
+    const stoppingTime: Seconds = startTimeInSeconds + _.max(normalizedNoteEventList.map(noteEvent => Tone.Time(noteEvent.time).toSeconds() + Tone.Time(noteEvent.duration).toSeconds()))!;
 
-    this._currentlyPlayingPartFinishedSchedulerId = Tone.Transport.schedule(() => {
-      this._stopCurrentlyPlayingAndClearTransport();
+    const onPartFinished$ = new Subject<void>();
+    this._onPartFinished$Set.add(onPartFinished$);
+
+    Tone.Transport.schedule(() => {
+      onPartFinished$.next();
+      this._onPartFinished$Set.delete(onPartFinished$);
     }, stoppingTime);
-    Tone.Transport.start();
+    if (Tone.Transport.state !== 'started') {
+      Tone.Transport.start();
+    }
 
-    return this._onPartFinished$
-      .pipe(
-        take(1),
-      ).toPromise();
+    return {
+      expectedFinishTimeInSeconds: stoppingTime,
+      onPartFinishedPromise: onPartFinished$
+        .pipe(
+          take(1),
+        ).toPromise(),
+    };
   }
 
   private async _getInstrument(): Promise<Sampler> {

@@ -16,13 +16,19 @@ type PartToPlay = NoteEvent[] | OneOrMany<Note>;
 
 export namespace Exercise {
 
-  interface BaseQuestion<GAnswer extends string, GSegment extends { rightAnswer: GAnswer }> {
+  interface BaseQuestion<GAnswer extends string, GSegment> {
     type?: string, // default: 'notes'
     /**
      * Use more than one segment for serial exercises
      * Example: in a melodic dictation each note is a segment, it has its own answer
      * */
-    segments: GSegment[],
+    segments: (GSegment & {
+      rightAnswer: GAnswer,
+      /**
+       * See PartToPlay#playAfter
+       * */
+      playAfter?: number,
+    })[],
     /**
      * To be played to give the listener a context of the part,
      * Then the part can be played separately or with the cadence
@@ -42,14 +48,12 @@ export namespace Exercise {
   }
 
   export interface NotesQuestion<GAnswer extends string = string> extends BaseQuestion<GAnswer, {
-    rightAnswer: GAnswer;
     partToPlay: PartToPlay;
   }> {
     type?: 'notes',
   }
 
   export interface YouTubeQuestion<GAnswer extends string = string> extends BaseQuestion<GAnswer, {
-    rightAnswer: GAnswer,
     seconds: number,
   }> {
     type: 'youtube',

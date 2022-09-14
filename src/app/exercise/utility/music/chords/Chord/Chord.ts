@@ -56,7 +56,7 @@ export class Chord {
 
   private _getChordIntervals(): Interval[] {
     return [
-      Interval.Prima,
+      Interval.Unison,
       ...chordTypeConfigMap[this.type].scaleDegreeList.map(scaleDegree => {
         return expandedScaleDegreeToChromaticDegree[scaleDegree] - 1;
       }),

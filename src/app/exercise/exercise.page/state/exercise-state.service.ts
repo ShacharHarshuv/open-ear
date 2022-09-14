@@ -41,9 +41,10 @@ const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   answerQuestionAutomatically: false,
 };
 
-interface CurrentAnswer {
+export interface CurrentAnswer {
   answer: Answer | null;
   wasWrong: boolean;
+  playAfter?: number;
 }
 
 @Injectable()
@@ -81,7 +82,7 @@ export class ExerciseStateService implements OnDestroy {
     return this._notesPlayer.isReady;
   }
 
-  get lastPlayed(): PartToPlay[] | null {
+  get lastPlayed() {
     return this._notesPlayer.lastPlayed;
   }
 
@@ -109,14 +110,18 @@ export class ExerciseStateService implements OnDestroy {
 
   private _currentAnswers: CurrentAnswer[] = [];
 
-  get currentAnswers(): CurrentAnswer[] {
+  get currentAnswers() {
     return this._currentAnswers;
   }
 
-  private _currentlyPlayingSegment: number | null = null;
+  get currentQuestion() {
+    return this._currentQuestion;
+  }
 
-  get currentlyPlayingSegment(): number | null {
-    return this._currentlyPlayingSegment;
+  private _currentlyPlayingSegments = new Set<number>();
+
+  get currentlyPlayingSegments(): Set<number> {
+    return this._currentlyPlayingSegments;
   }
 
   private _highlightedAnswer: string | null = null;
@@ -166,6 +171,7 @@ export class ExerciseStateService implements OnDestroy {
 
   answer(answer: string, answerIndex?: number): boolean {
     answerIndex = answerIndex ?? this._currentSegmentToAnswer;
+    this._currentAnswers = _.cloneDeep(this._currentAnswers); // creating new reference to trigger change detection
     if (this._currentAnswers[answerIndex].answer) {
       return this._currentAnswers[answerIndex].answer === answer;
     }
@@ -237,6 +243,11 @@ export class ExerciseStateService implements OnDestroy {
     } else {
       const partsToPlay: PartToPlay[] = this._getCurrentQuestionPartsToPlay();
       if (cadence && (this._globalSettings.playCadence || this._wasKeyChanged)) {
+        partsToPlay.forEach(part => {
+          if (!_.isNil(part.playAfter)) {
+            part.playAfter += cadence.length;
+          }
+        });
         partsToPlay.unshift(...cadence);
       }
       if (this._areAllSegmentsAnswered && this._currentQuestion.afterCorrectAnswer) {
@@ -258,7 +269,7 @@ export class ExerciseStateService implements OnDestroy {
   }
 
   private async _afterPlaying(): Promise<void> {
-    this._currentlyPlayingSegment = null;
+    this._currentlyPlayingSegments.clear();
     if (
       this._globalSettings.answerQuestionAutomatically &&
       !this.isQuestionCompleted &&
@@ -287,9 +298,10 @@ export class ExerciseStateService implements OnDestroy {
       this._error$.next(e);
       console.error(e);
     }
-    this._currentAnswers = this._currentQuestion.segments.map(() => ({
+    this._currentAnswers = this._currentQuestion.segments.map((segment): CurrentAnswer => ({
       wasWrong: false,
       answer: null,
+      playAfter: segment.playAfter,
     }));
     this._currentSegmentToAnswer = 0;
 
@@ -383,7 +395,8 @@ export class ExerciseStateService implements OnDestroy {
       ...question.segments.map((segment, i) => ({
         seconds: segment.seconds,
         callback: () => {
-          this._currentlyPlayingSegment = i;
+          this._currentlyPlayingSegments.clear();
+          this._currentlyPlayingSegments.add(i);
         },
       })),
       {
@@ -397,14 +410,18 @@ export class ExerciseStateService implements OnDestroy {
   }
 
   private _getCurrentQuestionPartsToPlay(): PartToPlay[] {
-    const partsToPlay: PartToPlay[] = this._currentQuestion.segments.map((segment, i): PartToPlay => ({
+    const partsToPlay: PartToPlay[] = this._currentQuestion.segments.map((segment, i: number): PartToPlay => ({
       partOrTime: toSteadyPart(segment.partToPlay),
       beforePlaying: () => {
-        this._currentlyPlayingSegment = i;
+        this._currentlyPlayingSegments.add(i);
         if (i === 0) {
           this._isAnsweringEnabled = true;
         }
       },
+      afterPlaying: () => {
+        this._currentlyPlayingSegments.delete(i);
+      },
+      playAfter: segment.playAfter,
     }));
     return partsToPlay;
   }

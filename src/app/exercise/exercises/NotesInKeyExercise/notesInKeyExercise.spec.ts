@@ -1,9 +1,12 @@
 import { testExercise } from '../testing-utility/test-exercise.spec';
-import { notesInKeyExercise } from './notesInKeyExercise';
+import {
+  notesInKeyExercise,
+  NoteInKeySettings,
+} from './notesInKeyExercise';
 import { expectedTonalExerciseSettingsDescriptors } from '../utility/exerciseAttributes/tonalExercise.spec';
 
 describe(notesInKeyExercise.name, () => {
-  const context = testExercise({
+  const context = testExercise<NoteInKeySettings>({
     getExercise: notesInKeyExercise,
     settingDescriptorList: [
       ...expectedTonalExerciseSettingsDescriptors,
@@ -11,7 +14,29 @@ describe(notesInKeyExercise.name, () => {
       'Display',
       'Range',
       'Number of notes',
+      'Number of voices',
       'Play Resolution',
-    ]
-  })
+    ],
+  });
+
+  describe(`getQuestion with multiple voices`, () => {
+    console.log('context', context);
+    const defaultSettings = context.exercise.getCurrentSettings?.();
+    const settings: NoteInKeySettings = {
+      ...defaultSettings!,
+      key: 'random',
+      newKeyEvery: 1,
+    }
+
+    for (let range of ['high', 'middle', 'bass', 'contrabass'] as const) {
+      for (let numberOfVoices of [2, 3] as const) {
+        context.exercise.updateSettings?.({
+          ...settings,
+          notesRange: range,
+          numberOfVoices,
+        });
+        expect(() => context.exercise.getQuestion()).not.toThrow();
+      }
+    }
+  });
 })

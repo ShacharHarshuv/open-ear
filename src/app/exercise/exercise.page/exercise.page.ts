@@ -22,6 +22,7 @@ import {
 } from 'rxjs';
 import { BdcWalkService } from 'bdc-walkthrough';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { getCurrentAnswersLayout } from './utility/getCurrentAnswersLayout';
 import AnswerConfig = Exercise.AnswerConfig;
 
 @Component({
@@ -209,6 +210,8 @@ export class ExercisePage extends BaseComponent {
       this._developerModeActivationCount++;
     }
   }
+
+  readonly getCurrentAnswersLayout = getCurrentAnswersLayout;
 
   onDragDropped(dragDropEvent: CdkDragDrop<number | undefined>): void {
     const answerIndex: number | undefined = dragDropEvent.container.data;

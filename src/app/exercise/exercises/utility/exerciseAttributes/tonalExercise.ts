@@ -129,6 +129,7 @@ export function tonalExercise<GAnswer extends string, GSettings extends Exercise
           info: keyInfo(),
           ...questionInC,
           segments: questionInC.segments.map(segment => ({
+            ...segment,
             rightAnswer: segment.rightAnswer,
             partToPlay: transposeToKey(segment.partToPlay),
           })),

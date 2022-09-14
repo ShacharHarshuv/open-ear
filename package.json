@@ -47,6 +47,7 @@
     "lodash": "^4.17.21",
     "lodash-decorators": "^6.0.1",
     "rxjs": "^7.5.5",
+    "sharp": "^0.31.0",
     "tone": "^14.7.77",
     "tslib": "^2.2.0",
     "youtube-player": "^5.5.2",
