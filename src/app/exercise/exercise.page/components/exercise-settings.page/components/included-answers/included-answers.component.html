@@ -8,17 +8,31 @@
     let-answerConfig
     #buttonTemplate
   >
-    <ion-button
+    <ng-container
       *ngIf="answerConfig.answer as answer"
-      [color]="'light'"
-      [class.--included]="value.includes(answer)"
-      (click)="toggleInclusion(answer)"
-      (long-press)="onLongPress()"
     >
+      <ion-button
+        id="answer-btn-{{answer}}"
+        [color]="'light'"
+        [class.--included]="value.includes(answer)"
+        (click)="toggleInclusion(answer)"
+        (long-press)="ionPopover.present()"
+      >
       <span
         [innerHTML]="answerConfig.displayLabel"
       ></span>
-    </ion-button>
+      </ion-button>
+      <ion-popover
+        trigger="answer-btn-{{answer}}"
+        #ionPopover
+      >
+        <ng-template>
+          <ion-content class="ion-padding">
+            Hello!
+          </ion-content>
+        </ng-template>
+      </ion-popover>
+    </ng-container>
   </ng-template>
 
 </ng-container>
