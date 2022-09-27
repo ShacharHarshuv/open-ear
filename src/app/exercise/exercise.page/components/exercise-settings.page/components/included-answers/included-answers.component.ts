@@ -25,4 +25,8 @@ export class IncludedAnswersComponent<GAnswer extends string> extends BaseContro
       ]);
     }
   }
+
+  onLongPress(): void {
+    console.log('long press'); // todo
+  }
 }

@@ -13,6 +13,7 @@
       [color]="'light'"
       [class.--included]="value.includes(answer)"
       (click)="toggleInclusion(answer)"
+      (long-press)="onLongPress()"
     >
       <span
         [innerHTML]="answerConfig.displayLabel"

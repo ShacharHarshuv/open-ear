@@ -14,14 +14,13 @@ import { ExerciseService } from './exercise.service';
 import { ModalModule } from '../shared/modal/modal.module';
 import { PureFunctionPipe } from '../shared/ng-utilities/pure-function-pipe/pure-function.pipe';
 import { ConsoleLogComponentModule } from '../shared/ng-utilities/console-log-component/console-log-component.module';
-import {
-  IncludedAnswersComponent
-} from './exercise.page/components/exercise-settings.page/components/included-answers/included-answers.component';
+import { IncludedAnswersComponent } from './exercise.page/components/exercise-settings.page/components/included-answers/included-answers.component';
 import { AnswersLayoutComponent } from './exercise.page/components/answers-layout/answers-layout.component';
 import { FieldInfoComponent } from './exercise.page/components/exercise-settings.page/components/field-info/field-info.component';
 import { BdcWalkModule } from 'bdc-walkthrough';
 import { ExerciseControlDirective } from './exercise.page/components/exercise-settings.page/directives/exercise-control.directive';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { LongPressModule } from '../shared/ng-utilities/long-press/long-press.module';
 
 @NgModule({
   declarations: [
@@ -48,6 +47,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     ConsoleLogComponentModule,
     BdcWalkModule,
     DragDropModule,
+    LongPressModule,
   ],
 })
 export class ExerciseModule {
