@@ -30,7 +30,6 @@ import { AdaptiveExerciseService } from './adaptive-exercise.service';
 import { BehaviorSubject } from 'rxjs';
 import AnswerList = Exercise.AnswerList;
 import Answer = Exercise.Answer;
-import { BehaviorSubject } from 'rxjs';
 import { AudioPlayerService } from '../../../services/audio-player.service';
 import getAnswerListIterator = Exercise.getAnswerListIterator;
 
