@@ -61,7 +61,14 @@ export namespace Exercise {
     endSeconds: number,
   }
 
-  export type Question<GAnswer extends string = string> = NotesQuestion<GAnswer> | YouTubeQuestion<GAnswer>;
+  export interface AudioQuestion<GAnswer extends string = string> extends BaseQuestion<GAnswer, {
+    rightAnswer: GAnswer,
+    pathToAudio: string,
+  }> {
+    type: 'audio',
+  }
+
+  export type Question<GAnswer extends string = string> = NotesQuestion<GAnswer> | YouTubeQuestion<GAnswer> | AudioQuestion<GAnswer>;
 
   export type Answer<GAnswer extends string = string> = GAnswer;
 
