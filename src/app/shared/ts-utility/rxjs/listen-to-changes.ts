@@ -8,7 +8,15 @@ const errorMsg = (key): string => `Cannot listen to changes for property ${Strin
 export function listenToChanges<G, K extends keyof G>(
   object: G,
   key: K,
-): Observable<G[K]> {
+): Observable<G[K]>;
+export function listenToChanges<G, K extends keyof G>(
+  object: any,
+  key: string,
+): Observable<any>;
+export function listenToChanges<G, K extends keyof G>(
+  object: any,
+  key: string,
+): Observable<any> {
   const subject$ = new BehaviorSubject<G[K]>(object[key]);
   function getPropertyDescriptor(_object): PropertyDescriptor | undefined {
     if (!_object) {

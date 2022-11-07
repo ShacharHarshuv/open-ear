@@ -15,6 +15,7 @@ describe(notesInKeyExercise.name, () => {
       'Range',
       'Number of notes',
       'Number of voices',
+      'Harmonic Intervals',
       'Play Resolution',
     ],
   });

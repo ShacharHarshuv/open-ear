@@ -120,5 +120,9 @@ export const releaseNotes: ReleaseNotes = [
   {
     version: '1.5.10',
     notes: 'Relative minor cadence',
+  },
+  {
+    version: '1.5.11',
+    notes: 'Support tonic drone for tonal exercises',
   }
 ]

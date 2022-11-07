@@ -17,18 +17,18 @@ export const defaultTonalExerciseSettings: TonalExerciseSettings = {
   cadenceType: 'I IV V I',
   key: 'random',
   newKeyEvery: 0,
+  drone: false,
 }
 
 export const expectedTonalExerciseSettingsDescriptors: string[] = [
   'Cadence Type',
   ...expectedKeySelectionSettingsDescriptors,
+  'Drone',
 ];
 
 describe(tonalExercise.name, function() {
   const mockSettings: TonalExerciseSettings = {
-    cadenceType: 'I IV V I',
-    key: 'random',
-    newKeyEvery: 0,
+    ...defaultTonalExerciseSettings,
   };
 
   function mockQuestion(note: 'C4' | 'D4'): typeof questionToReturn {
