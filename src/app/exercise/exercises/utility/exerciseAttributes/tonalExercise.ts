@@ -24,14 +24,17 @@ import {
 } from '../settings/CadenceTypeSetting';
 import { SettingsParams } from '../settings/SettingsParams';
 import * as _ from 'lodash';
-import AnswerList = Exercise.AnswerList;
 import {
   keySelectionSettingsDescriptors,
   KeySelectionSettings,
 } from '../settings/keySelectionSettingsDescriptors';
 import { mod } from '../../../../shared/ts-utility/mod';
+import AnswerList = Exercise.AnswerList;
 
-export type CadenceType = 'I IV V I' | 'i iv V i';
+export type CadenceType =
+  'I IV V I' |
+  'i iv V i' |
+  'vi ii III vi';
 
 export type TonalExerciseSettings = CadenceTypeSetting & KeySelectionSettings;
 
@@ -40,6 +43,7 @@ const cadenceTypeToCadence: {
 } = {
   'I IV V I': IV_V_I_CADENCE_IN_C,
   'i iv V i': iv_V_i_CADENCE_IN_C,
+  'vi ii III vi': transpose(iv_V_i_CADENCE_IN_C, getDistanceOfKeys('A', 'C')),
 }
 
 export type TonalExerciseUtils = {

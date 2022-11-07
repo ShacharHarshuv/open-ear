@@ -23,6 +23,10 @@ export function cadenceTypeSettingsDescriptors<GAnswer extends string>(): Exerci
             value: 'i iv V i',
             label: 'i iv V i (Minor)',
           },
+          {
+            value: 'vi ii III vi',
+            label: 'vi ii III vi (Relative Minor)',
+          },
         ],
       },
     },
