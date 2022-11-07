@@ -116,5 +116,9 @@ export const releaseNotes: ReleaseNotes = [
   {
     version: '1.5.8',
     notes: 'Support multiple simultaneous voices for "Scale Degrees" exercise',
+  },
+  {
+    version: '1.5.10',
+    notes: 'Relative minor cadence',
   }
 ]
