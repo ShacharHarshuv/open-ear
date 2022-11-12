@@ -145,6 +145,7 @@ export class PlayerService {
     this.stopAndClearQueue();
     await (await this._playPart(noteEventList)).onPartFinishedPromise;
     this._onAllPartsFinished$.next();
+    this._currentlyPlaying.clear();
   }
 
   async playMultipleParts(parts: PartToPlay[]): Promise<void> {
@@ -203,6 +204,7 @@ export class PlayerService {
     await Promise.all(playPartResponseList.map(response => response.onPartFinishedPromise));
 
     this._onAllPartsFinished$.next();
+    this._currentlyPlaying.clear();
   }
 
   stopAndClearQueue(): void {
