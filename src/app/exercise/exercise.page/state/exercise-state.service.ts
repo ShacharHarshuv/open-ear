@@ -91,7 +91,7 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
     listenToChanges(this, '_currentQuestion')
       .pipe(
         filter(isValueTruthy),
-        map((question: this['currentQuestion']) => question?.drone),
+        map((question: this['currentQuestion']) => question?.drone ?? null),
         takeUntil(this._destroy$),
       )
       .subscribe((drone) => {
