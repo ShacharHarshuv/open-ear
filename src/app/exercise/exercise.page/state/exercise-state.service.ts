@@ -20,6 +20,8 @@ import {
   toGetter,
   OneOrMany,
   timeoutAsPromise,
+  BaseDestroyable,
+  isValueTruthy,
 } from '../../utility';
 import { ExerciseSettingsDataService } from '../../../services/exercise-settings-data.service';
 import { AdaptiveExercise } from './adaptive-exercise';
@@ -28,6 +30,13 @@ import { YouTubePlayerService } from '../../../services/you-tube-player.service'
 import * as _ from 'lodash';
 import { AdaptiveExerciseService } from './adaptive-exercise.service';
 import { BehaviorSubject } from 'rxjs';
+import { DronePlayerService } from '../../../services/drone-player.service';
+import { listenToChanges } from '../../../shared/ts-utility/rxjs/listen-to-changes';
+import {
+  map,
+  takeUntil,
+  filter,
+} from 'rxjs/operators';
 import AnswerList = Exercise.AnswerList;
 import Answer = Exercise.Answer;
 import getAnswerListIterator = Exercise.getAnswerListIterator;
@@ -48,7 +57,7 @@ export interface CurrentAnswer {
 }
 
 @Injectable()
-export class ExerciseStateService implements OnDestroy {
+export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
   private readonly _originalExercise: Exercise.Exercise = this._exerciseService.getExercise(this._activatedRoute.snapshot.params['id']!);
   private _globalSettings: GlobalExerciseSettings = DEFAULT_EXERCISE_SETTINGS;
   private _adaptiveExercise: AdaptiveExercise = this._adaptiveExerciseService.createAdaptiveExercise(this._originalExercise);
@@ -72,10 +81,26 @@ export class ExerciseStateService implements OnDestroy {
     private readonly _exerciseService: ExerciseService,
     private readonly _notesPlayer: PlayerService,
     private readonly _youtubePlayer: YouTubePlayerService,
+    private readonly _dronePlayer: DronePlayerService,
     private readonly _exerciseSettingsData: ExerciseSettingsDataService,
     private readonly _adaptiveExerciseService: AdaptiveExerciseService,
     private readonly router: Router,
   ) {
+    super();
+
+    listenToChanges(this, '_currentQuestion')
+      .pipe(
+        filter(isValueTruthy),
+        map((question: this['currentQuestion']) => question?.drone),
+        takeUntil(this._destroy$),
+      )
+      .subscribe((drone) => {
+        if (drone) {
+          this._dronePlayer.startDrone(drone);
+        } else {
+          this._dronePlayer.stopDrone();
+        }
+      })
   }
 
   get playerReady(): boolean {
@@ -359,7 +384,8 @@ export class ExerciseStateService implements OnDestroy {
     this.nextQuestion();
   }
 
-  ngOnDestroy(): void {
+  override ngOnDestroy(): void {
+    super.ngOnDestroy();
     this.stop();
     this._destroyed = true; // used to prevent playing of pending actions
   }

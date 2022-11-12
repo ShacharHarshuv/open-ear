@@ -35,9 +35,9 @@ import {
   TonalExerciseSettings,
 } from '../utility/exerciseAttributes/tonalExercise';
 import { withSettings } from '../utility/settings/withSettings';
+import { romanNumeralToChordInC } from '../../utility/music/harmony/romanNumeralToChordInC';
 import flatAnswerList = Exercise.flatAnswerList;
 import normalizedAnswerList = Exercise.normalizedAnswerList;
-import { romanNumeralToChordInC } from '../../utility/music/harmony/romanNumeralToChordInC';
 
 export const chordTypeAnswerList: Exercise.AnswerList<ChordType> = Exercise.mapAnswerList({
   rows: [
@@ -193,6 +193,7 @@ export function chordTypeExercise() {
       cadenceTypeSelection: false,
       keySelection: false,
       playCadence: false,
+      droneSelection: false,
     }),
     numberOfSegmentsSettings('chords'),
     createExercise,

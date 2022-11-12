@@ -8,6 +8,7 @@ describe(notesWithChordsExercise.name, () => {
     settingDescriptorList: [
       'Included Options',
       ...expectedKeySelectionSettingsDescriptors,
+      'Drone',
       'Voice Mode',
     ],
   })

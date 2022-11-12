@@ -11,6 +11,7 @@ describe(commonChordProgressionExercise.name, () => {
       'Analyze By',
       'Included Progressions',
       ...expectedKeySelectionSettingsDescriptors,
+      'Drone',
       ...expectedVoicingSettingsDescriptors,
     ],
     defaultAnswers: ['I', 'IV', 'V', 'vi'],

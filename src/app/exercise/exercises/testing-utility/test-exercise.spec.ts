@@ -1,7 +1,7 @@
 import { Exercise } from '../../Exercise';
 import { toGetter } from '../../../shared/ts-utility';
-import Expected = jasmine.Expected;
 import { ExerciseTest } from '../../ExerciseTest';
+import Expected = jasmine.Expected;
 
 export function testExercise<GSettings extends Exercise.Settings>(p: {
   readonly getExercise: () => Exercise.Exercise,
@@ -11,10 +11,14 @@ export function testExercise<GSettings extends Exercise.Settings>(p: {
 }): {
   readonly exercise: Exercise.Exercise<string, GSettings>;
 } {
-  let exercise: Exercise.Exercise<string, GSettings>;
+  function getExercise(): Exercise.Exercise<string, GSettings> {
+    return p.getExercise() as Exercise.Exercise<string, GSettings>;
+  }
+
+  let exercise: Exercise.Exercise<string, GSettings> = getExercise();
 
   beforeEach(() => {
-    exercise = p.getExercise() as Exercise.Exercise<string, GSettings>;
+    exercise = getExercise();
   });
 
   it('getQuestion should return a truthy value', () => {

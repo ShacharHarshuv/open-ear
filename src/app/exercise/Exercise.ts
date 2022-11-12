@@ -36,6 +36,7 @@ export namespace Exercise {
     cadence?: PartToPlay;
     // used to enforce cadence playback in case of key change
     key?: Key;
+    drone?: Note | null;
     afterCorrectAnswer?: {
       partToPlay: NoteEvent[],
       answerToHighlight?: GAnswer,
@@ -207,7 +208,7 @@ export namespace Exercise {
     step: number;
   }
 
-  export interface SelectControlDescriptor<GValue extends string | number = string | number> extends BaseSettingsControlDescriptor {
+  export interface SelectControlDescriptor<GValue = any> extends BaseSettingsControlDescriptor {
     controlType: 'select',
     options: {
       label: string;

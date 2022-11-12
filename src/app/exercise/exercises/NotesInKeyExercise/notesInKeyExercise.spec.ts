@@ -15,11 +15,12 @@ describe(notesInKeyExercise.name, () => {
       'Range',
       'Number of notes',
       'Number of voices',
+      'Harmonic Intervals',
       'Play Resolution',
     ],
   });
 
-  describe(`getQuestion with multiple voices`, () => {
+  it(`getQuestion with multiple voices`, () => {
     console.log('context', context);
     const defaultSettings = context.exercise.getCurrentSettings?.();
     const settings: NoteInKeySettings = {
