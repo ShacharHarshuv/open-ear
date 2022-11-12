@@ -62,7 +62,7 @@ export function notesInKeyExercise() {
     contrabass: new NotesRange('Eb1', 'Eb2'),
   };
 
-  const voiceRangeGap: Interval = Interval.MajorThird
+  const voiceRangeGap: Interval = Interval.MajorThird;
 
   function getSolfegeNoteOfNoteInC(note: Note): SolfegeNote {
     return scaleDegreeToSolfegeNote[noteTypeToScaleDegree(getNoteType(note), 'C')];
@@ -88,8 +88,8 @@ export function notesInKeyExercise() {
 
       const notesRange: NotesRange = rangeOptionToNotesRange[settings.notesRange];
       // if we want to add more voices below, we need to limit how low the top voice can go
-      const topVoiceRange: NotesRange = new NotesRange(transpose(notesRange.lowestNoteName, -voiceRangeGap * (settings.numberOfVoices - 1)), notesRange.highestNoteName);
-      const noteOptions: Note[] = getNoteOptionsFromRange(notesRange);
+      const topVoiceRange: NotesRange = new NotesRange(transpose(notesRange.lowestNoteName, voiceRangeGap * (settings.numberOfVoices - 1)), notesRange.highestNoteName);
+      const noteOptions: Note[] = getNoteOptionsFromRange(topVoiceRange);
       let randomNotesInC: Note[] = Array.from(Array(settings.numberOfSegments)).map(() => randomFromList(noteOptions));
       const randomQuestionInC: Note[][] = [
         randomNotesInC,

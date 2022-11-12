@@ -20,6 +20,10 @@ import {
 } from '../../../shared/ts-utility';
 import { Interval } from './intervals/Interval';
 import { NotesRange } from './NotesRange';
+import {
+  MAX_NOTE_NUMBER,
+  MIN_NOTE_NUMBER,
+} from './notes/consts';
 
 export function transpose(partOrNotes: Note, semitones: number): Note;
 export function transpose(partOrNotes: NoteType, semitones: number): NoteType;
@@ -31,7 +35,11 @@ export function transpose(partOrNotes: NotesRange, semitones: number): NotesRang
 export function transpose(partOrNotes: NoteEvent[] | Note[] | Note | NoteType, semitones: number): NoteEvent[] | Frequency[] | Frequency | NoteType;
 export function transpose(partOrNotes: NoteEvent[] | Note[] | Note | NoteType | NotesRange, semitones: number): NoteEvent[] | Frequency[] | Frequency | NoteType | NotesRange {
   if (partOrNotes instanceof NotesRange) {
-    return new NotesRange(transpose(partOrNotes.lowestNoteName, semitones), transpose(partOrNotes.highestNoteName, semitones))
+    // in the case the range goes out of available range, we'll trim it
+    const minSemitonesToTranspose = MIN_NOTE_NUMBER - partOrNotes.lowestNoteNumber;
+    const maxSemitonesToTranspose = MAX_NOTE_NUMBER - partOrNotes.highestNoteNumber;
+    const semitonesToTranspose = Math.max(minSemitonesToTranspose, Math.min(maxSemitonesToTranspose, semitones));
+    return new NotesRange(transpose(partOrNotes.lowestNoteName, semitonesToTranspose), transpose(partOrNotes.highestNoteName, semitonesToTranspose))
   }
 
   if (!Array.isArray(partOrNotes)) {
@@ -41,7 +49,7 @@ export function transpose(partOrNotes: NoteEvent[] | Note[] | Note | NoteType | 
     }
 
     const newNoteNumber: number = toNoteNumber(note as Note) + semitones;
-    if (newNoteNumber > 127 || newNoteNumber < 21) {
+    if (newNoteNumber > MAX_NOTE_NUMBER || newNoteNumber < MIN_NOTE_NUMBER) {
       throw new Error(`Out of range. Cannot transpose ${partOrNotes} by ${semitones} semitones`);
     }
     return toNoteName(newNoteNumber);

@@ -11,10 +11,14 @@ export function testExercise<GSettings extends Exercise.Settings>(p: {
 }): {
   readonly exercise: Exercise.Exercise<string, GSettings>;
 } {
-  let exercise: Exercise.Exercise<string, GSettings>;
+  function getExercise(): Exercise.Exercise<string, GSettings> {
+    return p.getExercise() as Exercise.Exercise<string, GSettings>;
+  }
+
+  let exercise: Exercise.Exercise<string, GSettings> = getExercise();
 
   beforeEach(() => {
-    exercise = p.getExercise() as Exercise.Exercise<string, GSettings>;
+    exercise = getExercise();
   });
 
   it('getQuestion should return a truthy value', () => {

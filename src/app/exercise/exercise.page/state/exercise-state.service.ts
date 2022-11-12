@@ -95,7 +95,6 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
         takeUntil(this._destroy$),
       )
       .subscribe((drone) => {
-        console.log('drone', drone);
         if (drone) {
           this._dronePlayer.startDrone(drone);
         } else {

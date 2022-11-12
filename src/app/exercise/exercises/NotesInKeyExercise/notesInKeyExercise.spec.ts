@@ -20,7 +20,7 @@ describe(notesInKeyExercise.name, () => {
     ],
   });
 
-  describe(`getQuestion with multiple voices`, () => {
+  it(`getQuestion with multiple voices`, () => {
     console.log('context', context);
     const defaultSettings = context.exercise.getCurrentSettings?.();
     const settings: NoteInKeySettings = {
