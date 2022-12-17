@@ -1940,7 +1940,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
   },
   {
     name: 'Can\'t Stop',
-    artist: 'Radiohead',
+    artist: 'Red Hot Chili Peppers',
     key: 'E',
     mode: Mode.Minor,
     videoId: '8DyziWtkfBw',
