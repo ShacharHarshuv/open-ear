@@ -3347,4 +3347,183 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
     ],
     endSeconds: 14.27,
   },
+  {
+  "name": "Santa Monica",
+  "artist": "Theory of a Deadman",
+  "key": "E",
+  "mode": 6,
+  "videoId": "jcryyvQAqc8",
+  "chords": [
+    {
+      "seconds": 48.48,
+      "chord": "i"
+    },
+    {
+      "seconds": 52.45,
+      "chord": "bIII"
+    },
+    {
+      "seconds": 56.45,
+      "chord": "bVII"
+    },
+    {
+      "seconds": 60.36,
+      "chord": "IV"
+    }
+  ],
+  "endSeconds": 63.76,
+  "section": "chorus"
+},
+
+{
+  "name": "Broken",
+  "artist": "Seether ft. Amy Lee",
+  "key": "Eb",
+  "mode": 6,
+  "videoId": "hPC2Fp7IT7o",
+  "chords": [
+    {
+      "seconds": 17.72,
+      "chord": "i"
+    },
+    {
+      "seconds": 20.3,
+      "chord": "bVI"
+    },
+    {
+      "seconds": 22.85,
+      "chord": "i"
+    },
+    {
+      "seconds": 24.39,
+      "chord": "bVI"
+    },
+    {
+      "seconds": 26.56,
+      "chord": "i"
+    },
+    {
+      "chord": "bVI",
+      "seconds": 28.14
+    },
+    {
+      "chord": "bVII",
+      "seconds": 30.6
+    }
+  ],
+  "endSeconds": 34.01,
+  "section": "verse"
+},
+
+{
+  "name": "Broken",
+  "artist": "Seether ft. Amy Lee",
+  "key": "Eb",
+  "mode": 6,
+  "videoId": "hPC2Fp7IT7o",
+  "chords": [
+    {
+      "seconds": 112.03,
+      "chord": "bVI"
+    },
+    {
+      "seconds": 113.54,
+      "chord": "i"
+    },
+    {
+      "seconds": 115.94,
+      "chord": "bVI"
+    },
+    {
+      "seconds": 118,
+      "chord": "i"
+    }
+  ],
+  "endSeconds": 118.73,
+  "section": "chorus"
+},
+
+{
+  "name": "When The Sun Goes Down",
+  "artist": "Arctic Monkeys",
+  "key": "B",
+  "mode": 1,
+  "videoId": "yUatH8zI6Qc",
+  "chords": [
+    {
+      "seconds": 0,
+      "chord": "I"
+    },
+    {
+      "seconds": 2.64,
+      "chord": "III"
+    },
+    {
+      "seconds": 4.23,
+      "chord": "IV"
+    },
+    {
+      "seconds": 6.01,
+      "chord": "iii"
+    },
+    {
+      "chord": "IV",
+      "seconds": 8.24
+    },
+    {
+      "chord": "iii",
+      "seconds": 10.02
+    },
+    {
+      "chord": "ii",
+      "seconds": 11.95
+    }
+  ],
+  "endSeconds": "13.6",
+  "section": "intro"
+},
+
+{
+  "name": "When The Sun Goes Down",
+  "artist": "Arctic Monkeys",
+  "key": "B",
+  "mode": 6,
+  "videoId": "yUatH8zI6Qc",
+  "chords": [
+    {
+      "seconds": 104.57,
+      "chord": "iv"
+    },
+    {
+      "seconds": 105.41,
+      "chord": "v"
+    },
+    {
+      "seconds": 106,
+      "chord": "i"
+    },
+    {
+      "seconds": 107.73,
+      "chord": "iv"
+    },
+    {
+      "chord": "v",
+      "seconds": 108.41
+    },
+    {
+      "chord": "i",
+      "seconds": 108.99
+    },
+    {
+      "chord": "bVII",
+      "seconds": 110.49
+    },
+    {
+      "seconds": 112.03,
+      "chord": "V"
+    }
+  ],
+  "endSeconds": "113.2",
+  "section": "chorus"
+},
 ]
