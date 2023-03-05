@@ -3368,7 +3368,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
     },
     {
       "seconds": 60.36,
-      "chord": "IV"
+      "chord": "bVI"
     }
   ],
   "endSeconds": 63.76,
@@ -3383,7 +3383,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
   "videoId": "hPC2Fp7IT7o",
   "chords": [
     {
-      "seconds": 17.72,
+      "seconds": 18.7,
       "chord": "i"
     },
     {
