@@ -3479,7 +3479,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
       "seconds": 11.95
     }
   ],
-  "endSeconds": "13.6",
+  "endSeconds": 13.6,
   "section": "intro"
 },
 
@@ -3523,7 +3523,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
       "chord": "V"
     }
   ],
-  "endSeconds": "113.2",
+  "endSeconds": 113.2,
   "section": "chorus"
 },
 ]
