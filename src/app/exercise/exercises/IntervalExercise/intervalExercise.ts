@@ -136,16 +136,14 @@ export const intervalExercise = () => {
       let lowNoteName = toNoteName(randomStartingNoteNumber);
       let highNoteName = toNoteName(randomStartingNoteNumber + randomIntervalDescriptor.semitones);
       let [startNoteName, endNoteName] = _.shuffle([lowNoteName, highNoteName]);
-      let toPlay;
-      if (settings.intervalType === 'melodic')
-        toPlay = [{ notes: startNoteName }, { notes: endNoteName } ]
-      else
-        toPlay = [{ notes: [startNoteName, endNoteName] }]
+      const partToPlay = settings.intervalType === 'melodic' ?
+        [{ notes: startNoteName }, { notes: endNoteName } ] :
+        [{ notes: [startNoteName, endNoteName] }];
 
       return {
         segments: [{
           rightAnswer: randomIntervalDescriptor.name,
-          partToPlay: toPlay
+          partToPlay: partToPlay
         }],
         info: {
           beforeCorrectAnswer: `Notes played: ${startNoteName} - ?`,
