@@ -124,5 +124,9 @@ export const releaseNotes: ReleaseNotes = [
   {
     version: '1.5.11',
     notes: 'Support tonic drone for tonal exercises',
+  },
+  {
+    version: '1.5.12',
+    notes: 'Support for harmonic intervals in interval excercise. Can switch betwen melodic or harmonic in the configuration of the interval excercise.'
   }
 ]

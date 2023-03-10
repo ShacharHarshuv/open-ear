@@ -28,7 +28,9 @@ export type IntervalDescriptor = {
   semitones: number;
 }
 
-export type IntervalExerciseSettings = IncludedAnswersSettings<IntervalName>
+export type IntervalExerciseSettings = IncludedAnswersSettings<IntervalName> & {
+  intervalType: 'melodic' | 'harmonic';
+}
 
 export const intervalDescriptorList: DeepReadonly<IntervalDescriptor[]> = [
   {
@@ -133,11 +135,15 @@ export const intervalExercise = () => {
       const randomStartingNoteNumber: NoteNumber = _.random(range.lowestNoteNumber, range.highestNoteNumber - randomIntervalDescriptor.semitones);
       let lowNoteName = toNoteName(randomStartingNoteNumber);
       let highNoteName = toNoteName(randomStartingNoteNumber + randomIntervalDescriptor.semitones);
-      let [startNoteName, endNoteName] = _.shuffle([lowNoteName, highNoteName])
+      let [startNoteName, endNoteName] = _.shuffle([lowNoteName, highNoteName]);
+      const partToPlay = settings.intervalType === 'melodic' ?
+        [{ notes: startNoteName }, { notes: endNoteName } ] :
+        [{ notes: [startNoteName, endNoteName] }];
+
       return {
         segments: [{
           rightAnswer: randomIntervalDescriptor.name,
-          partToPlay: [startNoteName, endNoteName],
+          partToPlay: partToPlay
         }],
         info: {
           beforeCorrectAnswer: `Notes played: ${startNoteName} - ?`,
@@ -146,5 +152,28 @@ export const intervalExercise = () => {
       }
     },
     answerList: allAnswersList,
+    settingsDescriptors: [
+      {
+        key: 'intervalType',
+        info: 'Whether two notes are played sequentially or simultaneously.',
+        descriptor: {
+          label: 'Interval Type',
+          controlType: 'select',
+          options: [
+            {
+              label: 'Melodic',
+              value: 'melodic',
+            },
+            {
+              label: 'Harmonic',
+              value: 'harmonic',
+            },
+          ],
+        },
+      },
+    ],
+    defaultSettings: {
+      intervalType: 'melodic',
+    },
   })
 }

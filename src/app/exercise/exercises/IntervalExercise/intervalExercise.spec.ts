@@ -13,6 +13,7 @@ describe(intervalExercise.name, () => {
     getExercise: intervalExercise,
     settingDescriptorList: [
       'Included Intervals',
+      'Interval Type'
     ],
   })
   const allIntervals: IntervalName[] = _.map(intervalDescriptorList, 'name');
