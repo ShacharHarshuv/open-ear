@@ -1,5 +1,5 @@
 import { AdaptiveExercise } from './adaptive-exercise';
-import { Exercise } from '../../Exercise';
+import Exercise from '../../Exercise';
 import { toNoteName } from '../../utility';
 import IExercise = Exercise.Exercise;
 

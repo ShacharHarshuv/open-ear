@@ -5,7 +5,7 @@ import {
   FormGroup,
   TAbstractControlsOf,
 } from '../../../../shared/reactive-forms';
-import { Exercise } from '../../../Exercise';
+import Exercise from '../../../Exercise';
 import {
   ExerciseSettingsData,
   GlobalExerciseSettings,

@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ExerciseService } from '../../exercise.service';
-import { Exercise } from '../../Exercise';
+import Exercise from '../../Exercise';
 import {
   PlayerService,
   PartToPlay,

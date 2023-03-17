@@ -8,7 +8,7 @@ import { Chord, TriadInversion } from '../../../utility/music/chords';
 import * as _ from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { PlayAfterCorrectAnswerSetting } from '../settings/PlayAfterCorrectAnswerSetting';
-import { Exercise } from '../../../Exercise';
+import Exercise from '../../../Exercise';
 import {
   Interval,
   RomanNumeralChordSymbol,

@@ -3,7 +3,7 @@ import {
   TestingUtility,
 } from '../../shared/testing-utility';
 import { ExercisePage } from './exercise.page';
-import { Exercise } from '../Exercise';
+import Exercise from '../Exercise';
 import { flush } from '@angular/core/testing';
 
 export class ExercisePageDebugger extends BaseComponentDebugger<ExercisePage> {

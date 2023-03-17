@@ -1,8 +1,13 @@
-import { testPureFunction } from '../shared/testing-utility/testPureFunction';
-import { Exercise } from './Exercise';
-import getAnswerListIterator = Exercise.getAnswerListIterator;
+import {
+  AnswerList,
+  mapAnswerList,
+  addViewLabelToAnswerList,
+  getAnswerListIterator,
+  flatAnswerList,
+} from './Exercise';
+import { testPureFunction } from '../../shared/testing-utility/testPureFunction';
 
-const mockAnswerList: Exercise.AnswerList = {
+const mockAnswerList: AnswerList = {
   rows: [
     [
       'Answer 1',
@@ -16,7 +21,7 @@ const mockAnswerList: Exercise.AnswerList = {
 };
 
 describe('mapAnswerList', function () {
-  testPureFunction(Exercise.mapAnswerList, [
+  testPureFunction(mapAnswerList, [
     {
       args: [
         mockAnswerList,
@@ -48,7 +53,7 @@ describe('mapAnswerList', function () {
 });
 
 describe('addViewLabelToAnswerList', function () {
-  testPureFunction(Exercise.addViewLabelToAnswerList, [
+  testPureFunction(addViewLabelToAnswerList, [
     {
       args: [mockAnswerList, (answer) => answer.toUpperCase()],
       returnValue: {
@@ -97,7 +102,7 @@ describe('getAnswerListIterator', () => {
 });
 
 describe('flatAnswerList', () => {
-  testPureFunction(Exercise.flatAnswerList, [
+  testPureFunction(flatAnswerList, [
     {
       args: [mockAnswerList],
       returnValue: ['Answer 1', 'Answer 2', 'Answer 3'],

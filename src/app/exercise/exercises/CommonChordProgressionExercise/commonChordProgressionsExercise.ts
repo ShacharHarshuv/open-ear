@@ -4,7 +4,7 @@ import {
   romanAnalysisChordProgressionExercise,
   allRomanNumeralAnswerList,
 } from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
-import { Exercise } from '../../Exercise';
+import Exercise from '../../Exercise';
 import { randomFromList } from '../../../shared/ts-utility';
 import * as _ from 'lodash';
 import { CommonChordProgressionsExplanationComponent } from './common-chord-progressions-explanation/common-chord-progressions-explanation.component';

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Exercise } from '../../../exercise/Exercise';
+import Exercise from '../../../exercise/Exercise';
 import { PlayerService } from '../../../services/player.service';
 import IExercise = Exercise.Exercise;
 

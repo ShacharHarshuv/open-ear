@@ -4,7 +4,7 @@ import {
   Input,
   TemplateRef,
 } from '@angular/core';
-import { Exercise } from '../../../Exercise';
+import Exercise from '../../../Exercise';
 
 @Component({
   selector: 'app-answers-layout',

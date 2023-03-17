@@ -6,7 +6,7 @@ import {
 import * as _ from 'lodash';
 import { ExerciseTest } from '../../ExerciseTest';
 import { testExercise } from '../testing-utility/test-exercise.spec';
-import { Exercise } from '../../Exercise';
+import Exercise from '../../Exercise';
 
 describe(intervalExercise.name, () => {
   const context = testExercise({

@@ -8,7 +8,7 @@ import {
 import { ExerciseSettingsPage } from './components/exercise-settings.page/exercise-settings.page';
 import * as _ from 'lodash';
 import { ExerciseExplanationService } from './state/exercise-explanation.service';
-import { Exercise } from '../Exercise';
+import Exercise from '../Exercise';
 import { BaseComponent } from '../../shared/ts-utility';
 import { takeUntil, finalize, switchMap, map } from 'rxjs/operators';
 import { BehaviorSubject, combineLatest } from 'rxjs';

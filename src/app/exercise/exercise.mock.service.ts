@@ -1,7 +1,7 @@
 import { PublicMembers } from '../shared/ts-utility/PublicMembers';
 import { ExerciseService } from './exercise.service';
 import { Injectable, Provider } from '@angular/core';
-import { Exercise } from './Exercise';
+import Exercise from './Exercise';
 import { MockExercise } from './MockExercise';
 
 @Injectable()

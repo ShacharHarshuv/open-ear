@@ -5,7 +5,7 @@ import {
 } from './tonalExercise';
 import { expectedKeySelectionSettingsDescriptors } from '../settings/keySelectionSettingsDescriptors.spec';
 import { ResolvedValueOf } from '../../../../shared/ts-utility';
-import { Exercise } from '../../../Exercise';
+import Exercise from '../../../Exercise';
 import { Key } from '../../../utility';
 import { noteOfType } from '../../../utility/music/notes/NoteType.spec';
 import { Note } from 'tone/Tone/core/type/NoteUnits';

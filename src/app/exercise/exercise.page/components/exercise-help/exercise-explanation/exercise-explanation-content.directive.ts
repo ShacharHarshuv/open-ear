@@ -5,7 +5,7 @@ import {
   Input,
   ViewContainerRef,
 } from '@angular/core';
-import { Exercise } from '../../../../Exercise';
+import Exercise from '../../../../Exercise';
 
 @Directive({
   selector: '[exerciseExplanationContent]',

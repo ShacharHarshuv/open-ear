@@ -1,7 +1,7 @@
 import { Injectable, Type } from '@angular/core';
 import * as _ from 'lodash';
 import { intervalExercise } from './exercises/IntervalExercise/intervalExercise';
-import { Exercise } from './Exercise';
+import Exercise from './Exercise';
 import { Platform } from '@ionic/angular';
 import { triadInversionExercise } from './exercises/TriadInversionExercise/triadInversionExercise';
 import { chordsInRealSongsExercise } from './exercises/ChordsInRealSongsExercise/chordsInRealSongsExercise';

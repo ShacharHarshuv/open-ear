@@ -5,7 +5,7 @@ import {
   TonalExerciseConfig,
 } from './tonalExercise';
 import * as _ from 'lodash';
-import { Exercise } from '../../../Exercise';
+import Exercise from '../../../Exercise';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { getNoteType } from '../../../utility/music/notes/getNoteType';
 import { Time } from 'tone/Tone/core/type/Units';

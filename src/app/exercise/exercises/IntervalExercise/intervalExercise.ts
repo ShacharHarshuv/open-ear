@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { Exercise } from '../../Exercise';
+import Exercise from '../../Exercise';
 import {
   randomFromList,
   toNoteName,

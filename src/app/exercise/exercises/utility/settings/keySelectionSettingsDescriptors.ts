@@ -1,4 +1,4 @@
-import { Exercise } from '../../../Exercise';
+import Exercise from '../../../Exercise';
 
 export type KeySelectionSettings = {
   key: 'C' | 'random';

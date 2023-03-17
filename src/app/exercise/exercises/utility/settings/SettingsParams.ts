@@ -1,4 +1,4 @@
-import { Exercise } from '../../../Exercise';
+import Exercise from '../../../Exercise';
 import { StaticOrGetter } from '../../../../shared/ts-utility';
 
 export type SettingsParams<GSettings extends Exercise.Settings> = {

@@ -1,4 +1,4 @@
-import { Exercise } from '../../Exercise';
+import Exercise from '../../Exercise';
 import { ChordSymbol, TriadInversion, Chord } from '../../utility/music/chords';
 import { randomFromList } from '../../../shared/ts-utility';
 import * as Tone from 'tone';

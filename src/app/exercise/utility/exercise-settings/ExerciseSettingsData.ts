@@ -1,5 +1,5 @@
 import { GlobalExerciseSettings } from './GlobalExerciseSettings';
-import { Exercise } from '../../Exercise';
+import Exercise from '../../Exercise';
 
 export interface ExerciseSettingsData {
   globalSettings: GlobalExerciseSettings;
