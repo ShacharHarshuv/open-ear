@@ -1,9 +1,9 @@
-import { Observable } from 'rxjs';
+import { Observable } from "rxjs";
+import { ObservableSpy } from "../observable-spy";
 import MatchersUtil = jasmine.MatchersUtil;
 import CustomEqualityTester = jasmine.CustomEqualityTester;
 import CustomMatcherResult = jasmine.CustomMatcherResult;
 import CustomMatcher = jasmine.CustomMatcher;
-import { ObservableSpy } from '../observable-spy';
 
 declare global {
   namespace jasmine {
@@ -13,9 +13,12 @@ declare global {
   }
 }
 
-export function toHaveHadEmissions<G>(util: MatchersUtil, customEqualityTester: CustomEqualityTester[]): CustomMatcher {
+export function toHaveHadEmissions<G>(
+  util: MatchersUtil,
+  customEqualityTester: CustomEqualityTester[]
+): CustomMatcher {
   return {
-    compare: function(actual: Observable<G>): CustomMatcherResult {
+    compare: function (actual: Observable<G>): CustomMatcherResult {
       const observableSpy = ObservableSpy.getSpy(actual);
       if (observableSpy.spy.calls.count()) {
         return {
@@ -28,7 +31,9 @@ export function toHaveHadEmissions<G>(util: MatchersUtil, customEqualityTester: 
         message: `Expected observable to have had emissions, but it has never emitted.`,
       };
     },
-    negativeCompare: function(actual: Observable<G>): jasmine.CustomMatcherResult {
+    negativeCompare: function (
+      actual: Observable<G>
+    ): jasmine.CustomMatcherResult {
       const observableSpy = ObservableSpy.getSpy(actual);
       if (!observableSpy.spy.calls.count()) {
         return {
@@ -38,8 +43,9 @@ export function toHaveHadEmissions<G>(util: MatchersUtil, customEqualityTester: 
 
       return {
         pass: false,
-        message: `Expected observable not to have had emissions, but it had the following emissions: ` +
-          util.pp(observableSpy.spy.calls.all().map(call => call.args[0])),
+        message:
+          `Expected observable not to have had emissions, but it had the following emissions: ` +
+          util.pp(observableSpy.spy.calls.all().map((call) => call.args[0])),
       };
     },
   };

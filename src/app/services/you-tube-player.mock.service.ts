@@ -1,35 +1,42 @@
-import { PublicMembers } from '../shared/ts-utility/PublicMembers';
-import { YouTubeCallbackDescriptor, YouTubePlayerService } from './you-tube-player.service';
-import { Provider } from '@angular/core';
+import { PublicMembers } from "../shared/ts-utility/PublicMembers";
+import {
+  YouTubeCallbackDescriptor,
+  YouTubePlayerService
+} from "./you-tube-player.service";
+import { Provider } from "@angular/core";
 
-export class YouTubePlayerMockService implements PublicMembers<YouTubePlayerService> {
+export class YouTubePlayerMockService
+  implements PublicMembers<YouTubePlayerService>
+{
   get isVideoLoading(): boolean {
-      return false;
+    return false;
   }
 
   get onCurrentVideoLoaded(): Promise<void> {
-      return Promise.resolve();
+    return Promise.resolve();
   }
 
   loadVideoById(videoId: string): Promise<void> {
-      return Promise.resolve();
+    return Promise.resolve();
   }
 
-  addCallback(seconds: number, callback: () => void): void {
-  }
+  addCallback(seconds: number, callback: () => void): void {}
 
   get isPlaying(): boolean {
     return false;
   }
 
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 
   async onStop(): Promise<unknown> {
     return Promise.resolve();
   }
 
-  async play(videoId: string, time: number, callbacks: YouTubeCallbackDescriptor[] | undefined): Promise<void> {
+  async play(
+    videoId: string,
+    time: number,
+    callbacks: YouTubeCallbackDescriptor[] | undefined
+  ): Promise<void> {
     return Promise.resolve();
   }
 
@@ -41,8 +48,7 @@ export class YouTubePlayerMockService implements PublicMembers<YouTubePlayerServ
     YouTubePlayerMockService,
     {
       provide: YouTubePlayerService,
-      useExisting: YouTubePlayerMockService
-    }
-  ]
-
+      useExisting: YouTubePlayerMockService,
+    },
+  ];
 }

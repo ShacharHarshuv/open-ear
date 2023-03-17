@@ -1,10 +1,10 @@
 import {
   Component,
   Input
-} from '@angular/core';
-import { Exercise } from '../../../exercise/Exercise';
+} from "@angular/core";
+import { Exercise } from "../../../exercise/Exercise";
+import { PlayerService } from "../../../services/player.service";
 import IExercise = Exercise.Exercise;
-import { PlayerService } from '../../../services/player.service';
 
 @Component({
   selector: 'app-exercise-summary',
@@ -15,8 +15,7 @@ export class ExerciseSummaryComponent {
   @Input()
   exercise: IExercise;
 
-  constructor(private _player: PlayerService,) {
-  }
+  constructor(private _player: PlayerService) {}
 
   // This has to be called by a user click event to work
   initAudioPlayer(): void {

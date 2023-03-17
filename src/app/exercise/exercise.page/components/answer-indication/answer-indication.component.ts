@@ -1,8 +1,8 @@
 import {
   Component,
   Input,
-  HostBinding,
-} from '@angular/core';
+  HostBinding
+} from "@angular/core";
 
 @Component({
   selector: 'app-answer-indication',
@@ -21,5 +21,5 @@ export class AnswerIndicationComponent {
   @Input()
   wasAnsweredWrong: boolean = false;
 
-  constructor() { }
+  constructor() {}
 }

@@ -1,19 +1,19 @@
 import {
   Mode,
-  RomanNumeralChordSymbol,
-} from '../../utility';
+  RomanNumeralChordSymbol
+} from "../../utility";
 
 export interface ProgressionDescriptor {
-  romanNumerals: RomanNumeralChordSymbol[],
-  name?: string,
-  mode?: Mode,
+  romanNumerals: RomanNumeralChordSymbol[];
+  name?: string;
+  mode?: Mode;
 }
 
 export const commonProgressionDescriptorList: ProgressionDescriptor[] = [
   // Diatonic Major progressions
   {
     romanNumerals: ['I', 'V', 'I'],
-    name: 'Perfect Cadence (Major)'
+    name: 'Perfect Cadence (Major)',
   },
   {
     romanNumerals: ['I', 'IV', 'I'],
@@ -39,10 +39,10 @@ export const commonProgressionDescriptorList: ProgressionDescriptor[] = [
   },
   {
     romanNumerals: ['IV', 'I', 'V', 'vi'],
-    name: 'Axis'
+    name: 'Axis',
   },
   {
-    romanNumerals: ['I', 'IV', 'vi', 'V',]
+    romanNumerals: ['I', 'IV', 'vi', 'V'],
   },
   {
     romanNumerals: ['I', 'vi', 'IV', 'V'],
@@ -50,11 +50,11 @@ export const commonProgressionDescriptorList: ProgressionDescriptor[] = [
   },
   {
     romanNumerals: ['IV', 'V', 'I', 'vi'],
-    name: 'Doo-Wop (IV-rotation)'
+    name: 'Doo-Wop (IV-rotation)',
   },
   {
     romanNumerals: ['I', 'vi', 'ii', 'V'],
-    name: 'Circle'
+    name: 'Circle',
   },
   {
     romanNumerals: ['I', 'vi', 'iii', 'IV'],
@@ -70,7 +70,7 @@ export const commonProgressionDescriptorList: ProgressionDescriptor[] = [
     mode: Mode.Major,
   },
   {
-    romanNumerals: ['I', 'V', 'ii', 'IV']
+    romanNumerals: ['I', 'V', 'ii', 'IV'],
   },
   {
     romanNumerals: ['IV', 'V', 'iii', 'vi'],
@@ -78,7 +78,7 @@ export const commonProgressionDescriptorList: ProgressionDescriptor[] = [
   },
   {
     romanNumerals: ['I', 'V', 'vi', 'iii', 'IV', 'I', 'IV', 'V'],
-    name: 'Pachelbel Canon'
+    name: 'Pachelbel Canon',
   },
   // Diatonic Minor (Harmonic / Natural) progressions
   {
@@ -115,7 +115,7 @@ export const commonProgressionDescriptorList: ProgressionDescriptor[] = [
   {
     romanNumerals: ['i', 'bVI', 'bIII', 'bVII'],
     mode: Mode.Minor,
-    name: 'Axis (Pessimistic)'
+    name: 'Axis (Pessimistic)',
   },
   {
     romanNumerals: ['i', 'bVII', 'bVI', 'V'],
@@ -147,13 +147,13 @@ export const commonProgressionDescriptorList: ProgressionDescriptor[] = [
   {
     romanNumerals: ['i', 'bVII', 'v', 'bVI'],
     mode: Mode.Minor,
-    name: '"Can\'t Stop"'
+    name: '"Can\'t Stop"',
   },
   // Diatonic Dorian progressions
   {
     romanNumerals: ['i', 'IV', 'i', 'IV'],
     mode: Mode.Dorian,
-    name: 'Dorian Vamp'
+    name: 'Dorian Vamp',
   },
   {
     romanNumerals: ['i', 'bIII', 'bVII', 'IV'],
@@ -168,7 +168,7 @@ export const commonProgressionDescriptorList: ProgressionDescriptor[] = [
   },
   {
     romanNumerals: ['I', 'v', 'v', 'ii'],
-    name: 'Clocks'
+    name: 'Clocks',
   },
   // Non-diatonic progressions
   // Modal interchange
@@ -178,11 +178,11 @@ export const commonProgressionDescriptorList: ProgressionDescriptor[] = [
   },
   {
     romanNumerals: ['bVI', 'bVII', 'I'],
-    name: 'Mario Cadence'
+    name: 'Mario Cadence',
   },
   {
     romanNumerals: ['I', 'bVI', 'V', 'I'],
-    name: 'Secondary triton sub'
+    name: 'Secondary triton sub',
   },
   // secondary dominants
   {
@@ -192,10 +192,9 @@ export const commonProgressionDescriptorList: ProgressionDescriptor[] = [
     romanNumerals: ['I', 'VI', 'ii', 'V'],
   },
   {
-    romanNumerals: ['I', 'IV', '#ivdim', 'V']
+    romanNumerals: ['I', 'IV', '#ivdim', 'V'],
   },
   {
-    romanNumerals: ['I', 'V', 'III', 'vi']
+    romanNumerals: ['I', 'V', 'III', 'vi'],
   },
-
-]
+];

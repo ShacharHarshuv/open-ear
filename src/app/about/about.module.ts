@@ -1,18 +1,13 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {AboutPage} from "./about.page";
-import {RouterModule} from "@angular/router";
-import {IonicModule} from "@ionic/angular";
-import {SharedComponentsModule} from "../shared/components/shared-components/shared-components.module";
-import {AppVersion} from "@ionic-native/app-version/ngx";
-import { ModalModule } from '../shared/modal/modal.module';
-
-
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { AboutPage } from "./about.page";
+import { RouterModule } from "@angular/router";
+import { IonicModule } from "@ionic/angular";
+import { SharedComponentsModule } from "../shared/components/shared-components/shared-components.module";
+import { ModalModule } from "../shared/modal/modal.module";
 
 @NgModule({
-  declarations: [
-    AboutPage,
-  ],
+  declarations: [AboutPage],
   imports: [
     CommonModule,
     IonicModule,
@@ -21,9 +16,9 @@ import { ModalModule } from '../shared/modal/modal.module';
       {
         path: '',
         component: AboutPage,
-      }
+      },
     ]),
-    ModalModule
+    ModalModule,
   ],
 })
-export class AboutModule { }
+export class AboutModule {}

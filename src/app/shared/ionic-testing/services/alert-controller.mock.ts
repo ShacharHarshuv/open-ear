@@ -1,12 +1,12 @@
-import { PublicMembers } from '../../ts-utility/PublicMembers';
+import { PublicMembers } from "../../ts-utility/PublicMembers";
 import {
   AlertController,
-  AlertOptions,
-} from '@ionic/angular';
+  AlertOptions
+} from "@ionic/angular";
 import {
   Injectable,
-  Provider,
-} from '@angular/core';
+  Provider
+} from "@angular/core";
 
 @Injectable()
 export class AlertControllerMock implements PublicMembers<AlertController> {
@@ -14,9 +14,9 @@ export class AlertControllerMock implements PublicMembers<AlertController> {
     AlertControllerMock,
     {
       provide: AlertController,
-      useExisting: AlertControllerMock
-    }
-  ]
+      useExisting: AlertControllerMock,
+    },
+  ];
 
   create(opts?: AlertOptions): Promise<HTMLIonAlertElement> {
     throw new Error('Method not implemented.');
@@ -29,5 +29,4 @@ export class AlertControllerMock implements PublicMembers<AlertController> {
   getTop(): Promise<HTMLIonAlertElement | undefined> {
     throw new Error('Method not implemented.');
   }
-
 }

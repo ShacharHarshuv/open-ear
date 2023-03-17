@@ -1,10 +1,10 @@
 <ion-list *ngIf="modelValue$ | async as modelValue">
   <ion-list-header>
-    {{label}}
+    {{ label }}
     <ng-content select="[list-select-proj__after-label]"></ng-content>
   </ion-list-header>
   <ion-item *ngFor="let answer of allAvailableOptions">
-    <ion-label>{{answer.label}}</ion-label>
+    <ion-label>{{ answer.label }}</ion-label>
     <ion-checkbox
       (ionChange)="onChange(answer.value, $event.detail.checked)"
       [checked]="modelValue.includes(answer.value)"

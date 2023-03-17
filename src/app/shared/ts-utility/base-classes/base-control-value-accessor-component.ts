@@ -6,23 +6,23 @@ import {
   Injector,
   forwardRef,
   Provider,
-  Type,
-} from '@angular/core';
-import { BaseComponent } from './base-component';
+  Type
+} from "@angular/core";
+import { BaseComponent } from "./base-component";
 import {
   ControlValueAccessor,
-  NG_VALUE_ACCESSOR,
-} from '@angular/forms';
+  NG_VALUE_ACCESSOR
+} from "@angular/forms";
 import {
   BehaviorSubject,
   ReplaySubject,
   Subject,
   Observable,
   merge,
-  firstValueFrom,
-} from 'rxjs';
-import { publishReplayUntilAndConnect } from '../rxjs';
-import * as _ from 'lodash';
+  firstValueFrom
+} from "rxjs";
+import { publishReplayUntilAndConnect } from "../rxjs";
+import * as _ from "lodash";
 
 export function getNgValueAccessorProvider(type: Type<any>): Provider {
   return {
@@ -34,18 +34,20 @@ export function getNgValueAccessorProvider(type: Type<any>): Provider {
 
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
-export abstract class BaseControlValueAccessorComponent<T> extends BaseComponent implements ControlValueAccessor {
+export abstract class BaseControlValueAccessorComponent<T>
+  extends BaseComponent
+  implements ControlValueAccessor
+{
   protected readonly _isDisabled$ = new BehaviorSubject<boolean>(false);
   readonly isDisabled$: Observable<boolean> = this._isDisabled$.asObservable();
   protected readonly _modelValue$ = new ReplaySubject<T>(1);
   readonly modelValue$: Observable<T> = this._modelValue$.asObservable();
   protected _onChange: (value: T) => void = _.noop;
   protected _onTouch: () => void = _.noop;
-  private readonly _cvaElement: HTMLElement = this._cvaInjector.get<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+  private readonly _cvaElement: HTMLElement =
+    this._cvaInjector.get<ElementRef<HTMLElement>>(ElementRef).nativeElement;
 
-  constructor(
-    protected readonly _cvaInjector: Injector,
-  ) {
+  constructor(protected readonly _cvaInjector: Injector) {
     super();
   }
 
@@ -64,10 +66,8 @@ export abstract class BaseControlValueAccessorComponent<T> extends BaseComponent
 
   readonly value$: Observable<T> = merge(
     this.modelValue$,
-    this.onValueChangeEmitter$,
-  ).pipe(
-    publishReplayUntilAndConnect(this._destroy$),
-  );
+    this.onValueChangeEmitter$
+  ).pipe(publishReplayUntilAndConnect(this._destroy$));
 
   get isDisabled(): boolean {
     return this._isDisabled$.value;

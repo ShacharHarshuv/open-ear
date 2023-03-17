@@ -1,5 +1,5 @@
-import { testPureFunction } from '../shared/testing-utility/testPureFunction';
-import { Exercise } from './Exercise';
+import { testPureFunction } from "../shared/testing-utility/testPureFunction";
+import { Exercise } from "./Exercise";
 import getAnswerListIterator = Exercise.getAnswerListIterator;
 
 const mockAnswerList: Exercise.AnswerList = {
@@ -10,19 +10,21 @@ const mockAnswerList: Exercise.AnswerList = {
       {
         answer: 'Answer 3',
         space: 2,
-      }
+      },
     ],
   ],
 };
 
-
-describe('mapAnswerList', function() {
+describe('mapAnswerList', function () {
   testPureFunction(Exercise.mapAnswerList, [
     {
-      args: [mockAnswerList, answerConfig => ({
-        ...answerConfig,
-        space: (answerConfig.space ?? 1) * 2,
-      })],
+      args: [
+        mockAnswerList,
+        (answerConfig) => ({
+          ...answerConfig,
+          space: (answerConfig.space ?? 1) * 2,
+        }),
+      ],
       returnValue: {
         rows: [
           [
@@ -37,18 +39,18 @@ describe('mapAnswerList', function() {
             {
               answer: 'Answer 3',
               space: 4,
-            }
+            },
           ],
         ],
-      }
+      },
     },
-  ])
+  ]);
 });
 
-describe('addViewLabelToAnswerList', function() {
+describe('addViewLabelToAnswerList', function () {
   testPureFunction(Exercise.addViewLabelToAnswerList, [
     {
-      args: [mockAnswerList, answer => answer.toUpperCase()],
+      args: [mockAnswerList, (answer) => answer.toUpperCase()],
       returnValue: {
         rows: [
           [
@@ -64,12 +66,12 @@ describe('addViewLabelToAnswerList', function() {
               answer: 'Answer 3',
               displayLabel: 'ANSWER 3',
               space: 2,
-            }
+            },
           ],
         ],
-      }
+      },
     },
-  ])
+  ]);
 });
 
 describe('getAnswerListIterator', () => {
@@ -89,9 +91,9 @@ describe('getAnswerListIterator', () => {
         answer: 'Answer 3',
         space: 2,
         displayLabel: 'Answer 3',
-      })
-    ])
-  })
+      }),
+    ]);
+  });
 });
 
 describe('flatAnswerList', () => {
@@ -99,6 +101,6 @@ describe('flatAnswerList', () => {
     {
       args: [mockAnswerList],
       returnValue: ['Answer 1', 'Answer 2', 'Answer 3'],
-    }
+    },
   ]);
-})
+});

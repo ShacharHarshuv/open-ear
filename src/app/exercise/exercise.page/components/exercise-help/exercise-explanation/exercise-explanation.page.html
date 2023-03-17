@@ -1,10 +1,5 @@
-<app-modal-frame
-  [title]="exerciseName"
-  #modal="modal"
->
-  <div
-    class="exercise-explanation__content"
-  >
+<app-modal-frame [title]="exerciseName" #modal="modal">
+  <div class="exercise-explanation__content">
     <ng-template [exerciseExplanationContent]="content"></ng-template>
   </div>
 

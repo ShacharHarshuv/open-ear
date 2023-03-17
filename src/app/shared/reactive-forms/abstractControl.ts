@@ -1,5 +1,5 @@
-import { AbstractControl as NgAbstractControl } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { AbstractControl as NgAbstractControl } from "@angular/forms";
+import { Observable } from "rxjs";
 import {
   AsyncValidatorFn,
   IControlUpdateOptions,
@@ -7,10 +7,12 @@ import {
   TControlValueState,
   ValidationErrors,
   ValidatorFn,
-  TAbstractControlParent,
-} from './types';
+  TAbstractControlParent
+} from "./types";
 
-export interface IControlErrorRef<GErrors extends ValidationErrors = ValidationErrors> {
+export interface IControlErrorRef<
+  GErrors extends ValidationErrors = ValidationErrors
+> {
   /**
    * Made the type less generic because of a bug in typescript: https://github.com/microsoft/TypeScript/issues/41595
    * */
@@ -19,7 +21,11 @@ export interface IControlErrorRef<GErrors extends ValidationErrors = ValidationE
   msg: string;
 }
 
-export interface IAbstractControl<GValue = any, GErrors extends ValidationErrors = ValidationErrors, GParent extends TAbstractControlParent = any> extends NgAbstractControl {
+export interface IAbstractControl<
+  GValue = any,
+  GErrors extends ValidationErrors = ValidationErrors,
+  GParent extends TAbstractControlParent = any
+> extends NgAbstractControl {
   readonly parent: GParent | null;
   readonly value: GValue;
   readonly valueChanges: Observable<GValue>;
@@ -44,29 +50,63 @@ export interface IAbstractControl<GValue = any, GErrors extends ValidationErrors
   validator: ValidatorFn<GValue, GErrors> | null;
   asyncValidator: AsyncValidatorFn<GValue, GErrors> | null;
 
-  setValidators(newValidator: ValidatorFn<GValue, GErrors> | ValidatorFn<GValue, GErrors>[] | null): void;
+  setValidators(
+    newValidator:
+      | ValidatorFn<GValue, GErrors>
+      | ValidatorFn<GValue, GErrors>[]
+      | null
+  ): void;
 
-  setAsyncValidators(newValidator: AsyncValidatorFn<GValue, GErrors> | AsyncValidatorFn<GValue, GErrors>[] | null): void;
+  setAsyncValidators(
+    newValidator:
+      | AsyncValidatorFn<GValue, GErrors>
+      | AsyncValidatorFn<GValue, GErrors>[]
+      | null
+  ): void;
 
   setValue(value: GValue, options?: IControlUpdateOptions): void;
 
-  reset(formState?: TControlValueState<GValue>, options?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>): void;
+  reset(
+    formState?: TControlValueState<GValue>,
+    options?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>
+  ): void;
 
-  setErrors(errors: Partial<GErrors> | null, opts?: Pick<IControlUpdateOptions, 'emitEvent'>);
+  setErrors(
+    errors: Partial<GErrors> | null,
+    opts?: Pick<IControlUpdateOptions, 'emitEvent'>
+  );
 
-  getError<K extends Extract<keyof GErrors, string>>(errorCode: K, path?: Array<string | number> | string): GErrors[K] | null;
+  getError<K extends Extract<keyof GErrors, string>>(
+    errorCode: K,
+    path?: Array<string | number> | string
+  ): GErrors[K] | null;
 
-  hasError<K extends Extract<keyof GErrors, string>>(errorCode: K, path?: Array<string | number> | string): boolean;
+  hasError<K extends Extract<keyof GErrors, string>>(
+    errorCode: K,
+    path?: Array<string | number> | string
+  ): boolean;
 
-  setIsDisabled(isDisabled?: boolean, opts?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>): void;
+  setIsDisabled(
+    isDisabled?: boolean,
+    opts?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>
+  ): void;
 
-  setIsEnabled(isEnabled?: boolean, opts?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>): void;
+  setIsEnabled(
+    isEnabled?: boolean,
+    opts?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>
+  ): void;
 
-  disableWhile(isDisabled$: Observable<boolean>, options?: IControlUpdateOptions & { takeUntil$?: Observable<any> });
+  disableWhile(
+    isDisabled$: Observable<boolean>,
+    options?: IControlUpdateOptions & { takeUntil$?: Observable<any> }
+  );
 }
 
 // To be used with FormGroup and FormArray
-export interface IControlsParent<GValue = any, GErrors extends ValidationErrors = ValidationErrors> {
+export interface IControlsParent<
+  GValue = any,
+  GErrors extends ValidationErrors = ValidationErrors
+> {
   controls: IAbstractControl[] | { [key: string]: IAbstractControl };
   readonly aggregatedErrorRefList$: Observable<IControlErrorRef<GErrors>[]>; // Includes all children's error
   readonly firstAggregatedErrorMsg$: Observable<string | null>;

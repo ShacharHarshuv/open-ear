@@ -1,18 +1,18 @@
 import {
   Injectable,
-  OnDestroy,
-} from '@angular/core';
+  OnDestroy
+} from "@angular/core";
 import {
   ActivatedRoute,
-  Router,
-} from '@angular/router';
-import { ExerciseService } from '../../exercise.service';
-import { Exercise } from '../../Exercise';
+  Router
+} from "@angular/router";
+import { ExerciseService } from "../../exercise.service";
+import { Exercise } from "../../Exercise";
 import {
   PlayerService,
   PartToPlay,
-  NoteEvent,
-} from '../../../services/player.service';
+  NoteEvent
+} from "../../../services/player.service";
 import {
   toSteadyPart,
   GlobalExerciseSettings,
@@ -21,22 +21,22 @@ import {
   OneOrMany,
   timeoutAsPromise,
   BaseDestroyable,
-  isValueTruthy,
-} from '../../utility';
-import { ExerciseSettingsDataService } from '../../../services/exercise-settings-data.service';
-import { AdaptiveExercise } from './adaptive-exercise';
-import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { YouTubePlayerService } from '../../../services/you-tube-player.service';
-import * as _ from 'lodash';
-import { AdaptiveExerciseService } from './adaptive-exercise.service';
-import { BehaviorSubject } from 'rxjs';
-import { DronePlayerService } from '../../../services/drone-player.service';
-import { listenToChanges } from '../../../shared/ts-utility/rxjs/listen-to-changes';
+  isValueTruthy
+} from "../../utility";
+import { ExerciseSettingsDataService } from "../../../services/exercise-settings-data.service";
+import { AdaptiveExercise } from "./adaptive-exercise";
+import { Note } from "tone/Tone/core/type/NoteUnits";
+import { YouTubePlayerService } from "../../../services/you-tube-player.service";
+import * as _ from "lodash";
+import { AdaptiveExerciseService } from "./adaptive-exercise.service";
+import { BehaviorSubject } from "rxjs";
+import { DronePlayerService } from "../../../services/drone-player.service";
+import { listenToChanges } from "../../../shared/ts-utility/rxjs/listen-to-changes";
 import {
   map,
   takeUntil,
-  filter,
-} from 'rxjs/operators';
+  filter
+} from "rxjs/operators";
 import AnswerList = Exercise.AnswerList;
 import Answer = Exercise.Answer;
 import getAnswerListIterator = Exercise.getAnswerListIterator;
@@ -58,9 +58,15 @@ export interface CurrentAnswer {
 
 @Injectable()
 export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
-  private readonly _originalExercise: Exercise.Exercise = this._exerciseService.getExercise(this._activatedRoute.snapshot.params['id']!);
+  private readonly _originalExercise: Exercise.Exercise =
+    this._exerciseService.getExercise(
+      this._activatedRoute.snapshot.params['id']!
+    );
   private _globalSettings: GlobalExerciseSettings = DEFAULT_EXERCISE_SETTINGS;
-  private _adaptiveExercise: AdaptiveExercise = this._adaptiveExerciseService.createAdaptiveExercise(this._originalExercise);
+  private _adaptiveExercise: AdaptiveExercise =
+    this._adaptiveExerciseService.createAdaptiveExercise(
+      this._originalExercise
+    );
   private _currentQuestion: Exercise.Question = {
     segments: [],
   };
@@ -74,7 +80,8 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
   readonly error$ = this._error$.asObservable();
   readonly name: string = this.exercise.name;
   answerList: AnswerList = this.exercise.getAnswerList();
-  private _answerToLabelStringMap: Record<string, string> = this._getAnswerToLabelStringMap();
+  private _answerToLabelStringMap: Record<string, string> =
+    this._getAnswerToLabelStringMap();
 
   constructor(
     private readonly _activatedRoute: ActivatedRoute,
@@ -84,7 +91,7 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
     private readonly _dronePlayer: DronePlayerService,
     private readonly _exerciseSettingsData: ExerciseSettingsDataService,
     private readonly _adaptiveExerciseService: AdaptiveExerciseService,
-    private readonly router: Router,
+    private readonly router: Router
   ) {
     super();
 
@@ -92,7 +99,7 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
       .pipe(
         filter(isValueTruthy),
         map((question: this['currentQuestion']) => question?.drone ?? null),
-        takeUntil(this._destroy$),
+        takeUntil(this._destroy$)
       )
       .subscribe((drone) => {
         if (drone) {
@@ -100,7 +107,7 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
         } else {
           this._dronePlayer.stopDrone();
         }
-      })
+      });
   }
 
   get playerReady(): boolean {
@@ -156,11 +163,12 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
   }
 
   get hasCadence(): boolean {
-    return !!this._currentQuestion.cadence
+    return !!this._currentQuestion.cadence;
   }
 
   get exerciseSettingsDescriptor(): Exercise.SettingsControlDescriptor[] {
-    const settingsDescriptor: Exercise.SettingsControlDescriptor[] | undefined = this.exercise.getSettingsDescriptor?.();
+    const settingsDescriptor: Exercise.SettingsControlDescriptor[] | undefined =
+      this.exercise.getSettingsDescriptor?.();
     return settingsDescriptor || [];
   }
 
@@ -175,19 +183,24 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
     if (typeof this._currentQuestion.info === 'string') {
       return this._currentQuestion.info;
     }
-    return this.isQuestionCompleted ? this._currentQuestion.info.afterCorrectAnswer : this._currentQuestion.info.beforeCorrectAnswer;
+    return this.isQuestionCompleted
+      ? this._currentQuestion.info.afterCorrectAnswer
+      : this._currentQuestion.info.beforeCorrectAnswer;
   }
 
   get isQuestionCompleted(): boolean {
-    return _.every(this._currentAnswers, answer => answer.answer);
+    return _.every(this._currentAnswers, (answer) => answer.answer);
   }
 
   private get _areAllSegmentsAnswered(): boolean {
-    return !this._currentAnswers.filter(answer => answer.answer === null).length
+    return !this._currentAnswers.filter((answer) => answer.answer === null)
+      .length;
   }
 
   get exercise(): Exercise.Exercise {
-    return this._globalSettings.adaptive ? this._adaptiveExercise : this._originalExercise;
+    return this._globalSettings.adaptive
+      ? this._adaptiveExercise
+      : this._originalExercise;
   }
 
   get answerToLabelStringMap(): Record<string, string> {
@@ -216,23 +229,30 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
       }
 
       // Last segment was answered
-      if (_.every(this._currentAnswers, currentAnswer => !!currentAnswer.answer)) {
+      if (
+        _.every(this._currentAnswers, (currentAnswer) => !!currentAnswer.answer)
+      ) {
         // if not all answers are correct
         if (this._globalSettings.adaptive) {
-          const areAllSegmentsCorrect: boolean = !this._currentAnswers.filter(answerSegment => answerSegment.wasWrong).length;
+          const areAllSegmentsCorrect: boolean = !this._currentAnswers.filter(
+            (answerSegment) => answerSegment.wasWrong
+          ).length;
           this._adaptiveExercise.reportAnswerCorrectness(areAllSegmentsCorrect);
         }
-        this._afterCorrectAnswer()
-          .then(async () => {
-            if (this._globalSettings.moveToNextQuestionAutomatically) {
-              await this.onQuestionPlayingFinished();
-              // Make sure we are still in the same question and nothing is playing (i.e. "Next" wasn't clicked by user)
-              const numberOfAnsweredSegments = this._currentAnswers.filter(answer => !!answer.answer).length;
-              if (numberOfAnsweredSegments === this._currentQuestion.segments.length) {
-                this.nextQuestion();
-              }
+        this._afterCorrectAnswer().then(async () => {
+          if (this._globalSettings.moveToNextQuestionAutomatically) {
+            await this.onQuestionPlayingFinished();
+            // Make sure we are still in the same question and nothing is playing (i.e. "Next" wasn't clicked by user)
+            const numberOfAnsweredSegments = this._currentAnswers.filter(
+              (answer) => !!answer.answer
+            ).length;
+            if (
+              numberOfAnsweredSegments === this._currentQuestion.segments.length
+            ) {
+              this.nextQuestion();
             }
-          })
+          }
+        });
       }
     }
     return isRight;
@@ -257,7 +277,7 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
       {
         partOrTime: 100,
       },
-    ]
+    ];
     if (this._currentQuestion.type === 'youtube') {
       // loading YouTube video in the background when the cadence plays to save time
       this._loadYoutubeQuestion(this._currentQuestion);
@@ -267,15 +287,21 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
       await this._playYouTubeQuestion(this._currentQuestion);
     } else {
       const partsToPlay: PartToPlay[] = this._getCurrentQuestionPartsToPlay();
-      if (cadence && (this._globalSettings.playCadence || this._wasKeyChanged)) {
-        partsToPlay.forEach(part => {
+      if (
+        cadence &&
+        (this._globalSettings.playCadence || this._wasKeyChanged)
+      ) {
+        partsToPlay.forEach((part) => {
           if (!_.isNil(part.playAfter)) {
             part.playAfter += cadence.length;
           }
         });
         partsToPlay.unshift(...cadence);
       }
-      if (this._areAllSegmentsAnswered && this._currentQuestion.afterCorrectAnswer) {
+      if (
+        this._areAllSegmentsAnswered &&
+        this._currentQuestion.afterCorrectAnswer
+      ) {
         partsToPlay.push(...this._getAfterCorrectAnswerParts());
       }
       await this._notesPlayer.playMultipleParts(partsToPlay);
@@ -288,7 +314,9 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
     if (this._currentQuestion.type === 'youtube') {
       await this._playYouTubeQuestion(this._currentQuestion);
     } else {
-      await this._notesPlayer.playMultipleParts(this._getCurrentQuestionPartsToPlay());
+      await this._notesPlayer.playMultipleParts(
+        this._getCurrentQuestionPartsToPlay()
+      );
     }
     await this._afterPlaying();
   }
@@ -302,18 +330,24 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
     ) {
       await timeoutAsPromise(800);
       while (!this.isQuestionCompleted) {
-        this.answer(this._currentQuestion.segments[this._currentSegmentToAnswer].rightAnswer);
+        this.answer(
+          this._currentQuestion.segments[this._currentSegmentToAnswer]
+            .rightAnswer
+        );
       }
     }
   }
 
   nextQuestion(): Promise<void> {
     // if still unanswered questions
-    if (this._globalSettings.adaptive && !!this._currentQuestion && !this._areAllSegmentsAnswered) {
+    if (
+      this._globalSettings.adaptive &&
+      !!this._currentQuestion &&
+      !this._areAllSegmentsAnswered
+    ) {
       try {
         this._adaptiveExercise.reportAnswerCorrectness(true); // reporting true to ignore it in the future
-      } catch (e) {
-      }
+      } catch (e) {}
     }
     try {
       const newQuestion = this.exercise.getQuestion();
@@ -323,14 +357,20 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
       this._error$.next(e);
       console.error(e);
     }
-    this._currentAnswers = this._currentQuestion.segments.map((segment): CurrentAnswer => ({
-      wasWrong: false,
-      answer: null,
-      playAfter: segment.playAfter,
-    }));
+    this._currentAnswers = this._currentQuestion.segments.map(
+      (segment): CurrentAnswer => ({
+        wasWrong: false,
+        answer: null,
+        playAfter: segment.playAfter,
+      })
+    );
     this._currentSegmentToAnswer = 0;
 
-    if (!this._wasKeyChanged && this.globalSettings.playCadence === 'ONLY_ON_REPEAT' && !!this._cadenceWasPlayed) {
+    if (
+      !this._wasKeyChanged &&
+      this.globalSettings.playCadence === 'ONLY_ON_REPEAT' &&
+      !!this._cadenceWasPlayed
+    ) {
       return this.playCurrentQuestion();
     } else {
       return this.playCurrentCadenceAndQuestion();
@@ -352,7 +392,8 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
   }
 
   async init(): Promise<void> {
-    const settings: Partial<ExerciseSettingsData> | undefined = await this._exerciseSettingsData.getExerciseSettings(this.exercise.id);
+    const settings: Partial<ExerciseSettingsData> | undefined =
+      await this._exerciseSettingsData.getExerciseSettings(this.exercise.id);
     if (settings?.globalSettings) {
       this._globalSettings = settings.globalSettings;
     }
@@ -363,7 +404,8 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
   }
 
   playAnswer(answerConfig: Exercise.AnswerConfig<string>): void {
-    const partToPlay: NoteEvent[] | OneOrMany<Note> | null | undefined = toGetter(answerConfig.playOnClick)(this._currentQuestion);
+    const partToPlay: NoteEvent[] | OneOrMany<Note> | null | undefined =
+      toGetter(answerConfig.playOnClick)(this._currentQuestion);
     if (!partToPlay) {
       return;
     }
@@ -403,11 +445,15 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
     this._notesPlayer.stopAndClearQueue();
   }
 
-  private async _loadYoutubeQuestion(question: Exercise.YouTubeQuestion): Promise<void> {
+  private async _loadYoutubeQuestion(
+    question: Exercise.YouTubeQuestion
+  ): Promise<void> {
     await this._youtubePlayer.loadVideoById(question.videoId);
   }
 
-  private async _playYouTubeQuestion(question: Exercise.YouTubeQuestion): Promise<void> {
+  private async _playYouTubeQuestion(
+    question: Exercise.YouTubeQuestion
+  ): Promise<void> {
     if (this._destroyed) {
       return;
     }
@@ -417,42 +463,50 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
         this._hideMessage();
       });
     }
-    await this._youtubePlayer.play(question.videoId, question.segments[0].seconds, [
-      ...question.segments.map((segment, i) => ({
-        seconds: segment.seconds,
-        callback: () => {
-          this._currentlyPlayingSegments.clear();
-          this._currentlyPlayingSegments.add(i);
+    await this._youtubePlayer.play(
+      question.videoId,
+      question.segments[0].seconds,
+      [
+        ...question.segments.map((segment, i) => ({
+          seconds: segment.seconds,
+          callback: () => {
+            this._currentlyPlayingSegments.clear();
+            this._currentlyPlayingSegments.add(i);
+          },
+        })),
+        {
+          seconds: question.endSeconds,
+          callback: () => {
+            this._youtubePlayer.stop();
+          },
         },
-      })),
-      {
-        seconds: question.endSeconds,
-        callback: () => {
-          this._youtubePlayer.stop();
-        },
-      },
-    ]);
+      ]
+    );
     await this._youtubePlayer.onStop();
   }
 
   private _getCurrentQuestionPartsToPlay(): PartToPlay[] {
-    const partsToPlay: PartToPlay[] = this._currentQuestion.segments.map((segment, i: number): PartToPlay => ({
-      partOrTime: toSteadyPart(segment.partToPlay),
-      beforePlaying: () => {
-        this._currentlyPlayingSegments.add(i);
-        if (i === 0) {
-          this._isAnsweringEnabled = true;
-        }
-      },
-      afterPlaying: () => {
-        this._currentlyPlayingSegments.delete(i);
-      },
-      playAfter: segment.playAfter,
-    }));
+    const partsToPlay: PartToPlay[] = this._currentQuestion.segments.map(
+      (segment, i: number): PartToPlay => ({
+        partOrTime: toSteadyPart(segment.partToPlay),
+        beforePlaying: () => {
+          this._currentlyPlayingSegments.add(i);
+          if (i === 0) {
+            this._isAnsweringEnabled = true;
+          }
+        },
+        afterPlaying: () => {
+          this._currentlyPlayingSegments.delete(i);
+        },
+        playAfter: segment.playAfter,
+      })
+    );
     return partsToPlay;
   }
 
-  private _updateExerciseSettings(exerciseSettings: { [key: string]: Exercise.SettingValueType }): void {
+  private _updateExerciseSettings(exerciseSettings: {
+    [key: string]: Exercise.SettingValueType;
+  }): void {
     if (!this.exercise.updateSettings) {
       return;
     }
@@ -467,19 +521,19 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
       return [];
     }
 
-    return this._currentQuestion.afterCorrectAnswer.map(({
-      partToPlay,
-      answerToHighlight,
-    }): PartToPlay => ({
-      beforePlaying: () => {
-        this._highlightedAnswer = answerToHighlight || null;
-      },
-      partOrTime: partToPlay,
-    }));
+    return this._currentQuestion.afterCorrectAnswer.map(
+      ({ partToPlay, answerToHighlight }): PartToPlay => ({
+        beforePlaying: () => {
+          this._highlightedAnswer = answerToHighlight || null;
+        },
+        partOrTime: partToPlay,
+      })
+    );
   }
 
   private async _afterCorrectAnswer(): Promise<void> {
-    const afterCorrectAnswerParts: PartToPlay[] = this._getAfterCorrectAnswerParts();
+    const afterCorrectAnswerParts: PartToPlay[] =
+      this._getAfterCorrectAnswerParts();
     if (_.isEmpty(afterCorrectAnswerParts)) {
       return;
     }
@@ -491,9 +545,11 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
   private _getAnswerToLabelStringMap(): Record<string, string> {
     const map: Record<string, string> = {};
     for (let answerConfig of getAnswerListIterator(this.answerList)) {
-      const normalizedAnswerConfig = Exercise.normalizeAnswerConfig(answerConfig);
+      const normalizedAnswerConfig =
+        Exercise.normalizeAnswerConfig(answerConfig);
       if (normalizedAnswerConfig.answer) {
-        map[normalizedAnswerConfig.answer] = normalizedAnswerConfig.displayLabel;
+        map[normalizedAnswerConfig.answer] =
+          normalizedAnswerConfig.displayLabel;
       }
     }
     return map;

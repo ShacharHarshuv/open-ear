@@ -1,5 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input, TemplateRef } from '@angular/core';
-import { Exercise } from '../../../Exercise';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  TemplateRef
+} from "@angular/core";
+import { Exercise } from "../../../Exercise";
 
 @Component({
   selector: 'app-answers-layout',
@@ -20,7 +25,11 @@ export class AnswersLayoutComponent<GAnswer extends string = string> {
 
   readonly normalizeAnswerLayoutCellConfig = Exercise.normalizeAnswerConfig;
 
-  isString(row: (Exercise.Answer<GAnswer> | Exercise.AnswerConfig<GAnswer> | null)[] | string): row is string {
+  isString(
+    row:
+      | (Exercise.Answer<GAnswer> | Exercise.AnswerConfig<GAnswer> | null)[]
+      | string
+  ): row is string {
     return typeof row === 'string';
   }
 }

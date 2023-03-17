@@ -1,6 +1,6 @@
-import { NotesRange } from './NotesRange';
-import { toNoteNumber } from './notes/toNoteName';
-import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { NotesRange } from "./NotesRange";
+import { toNoteNumber } from "./notes/toNoteName";
+import { Note } from "tone/Tone/core/type/NoteUnits";
 
 describe('Range', function () {
   it('range constructor', () => {
@@ -20,7 +20,7 @@ describe('Range', function () {
 
   it('Should fail lowest note is higher then highest note', () => {
     expect(() => {
-      new NotesRange('C5', 'C4')
+      new NotesRange('C5', 'C4');
     }).toThrow();
   });
 
@@ -47,21 +47,56 @@ describe('Range', function () {
   describe('getAllNotes', () => {
     it('without key', () => {
       const range = new NotesRange('Bb3', 'G#4');
-      const expectedNotesInRange: Note[] = ['Bb3', 'B3', 'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4'];
+      const expectedNotesInRange: Note[] = [
+        'Bb3',
+        'B3',
+        'C4',
+        'C#4',
+        'D4',
+        'D#4',
+        'E4',
+        'F4',
+        'F#4',
+        'G4',
+        'G#4',
+      ];
       const result: Note[] = range.getAllNotes();
-      expect(result.map(toNoteNumber)).toEqual(expectedNotesInRange.map(toNoteNumber));
-    })
+      expect(result.map(toNoteNumber)).toEqual(
+        expectedNotesInRange.map(toNoteNumber)
+      );
+    });
 
     it('with key', () => {
       const range = new NotesRange('Bb3', 'G#4');
-      const expectedNotesInRange: Note[] = ['Bb3', 'C4', 'D4', 'Eb4', 'F4', 'G4'];
-      expect(range.getAllNotes('Bb').map(toNoteNumber)).toEqual(expectedNotesInRange.map(toNoteNumber));
-    })
+      const expectedNotesInRange: Note[] = [
+        'Bb3',
+        'C4',
+        'D4',
+        'Eb4',
+        'F4',
+        'G4',
+      ];
+      expect(range.getAllNotes('Bb').map(toNoteNumber)).toEqual(
+        expectedNotesInRange.map(toNoteNumber)
+      );
+    });
 
     it('with custom scale', () => {
       const range = new NotesRange('Bb3', 'G#4');
-      const expectedNotesInRange: Note[] = ['Bb3', 'C4', 'Db4', 'Eb4', 'F4', 'Gb4', 'Ab4'];
-      expect(range.getAllNotes(['Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'Ab']).map(toNoteNumber)).toEqual(expectedNotesInRange.map(toNoteNumber));
-    })
+      const expectedNotesInRange: Note[] = [
+        'Bb3',
+        'C4',
+        'Db4',
+        'Eb4',
+        'F4',
+        'Gb4',
+        'Ab4',
+      ];
+      expect(
+        range
+          .getAllNotes(['Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'Ab'])
+          .map(toNoteNumber)
+      ).toEqual(expectedNotesInRange.map(toNoteNumber));
+    });
   });
 });

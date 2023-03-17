@@ -1,5 +1,5 @@
-import { testPureFunction } from '../../../../shared/testing-utility/testPureFunction';
-import { getResolutionFromScaleDegree } from './getResolutionFromScaleDegree';
+import { testPureFunction } from "../../../../shared/testing-utility/testPureFunction";
+import { getResolutionFromScaleDegree } from "./getResolutionFromScaleDegree";
 
 /**
  * General rules:
@@ -9,7 +9,7 @@ import { getResolutionFromScaleDegree } from './getResolutionFromScaleDegree';
  * If there is still more than one option choose the more popular one
  * */
 
-describe('getResolutionFromScaleDegree', function() {
+describe('getResolutionFromScaleDegree', function () {
   testPureFunction(getResolutionFromScaleDegree, [
     {
       args: ['1', ['1'], 'I IV V I'],
@@ -69,7 +69,7 @@ describe('getResolutionFromScaleDegree', function() {
     },
     {
       args: ['#4', ['1', '#4', '4'], 'I IV V I'],
-      returnValue: ['#4', /*'5', */'4', '3', '2', '1'], // we might want to change that in the future
+      returnValue: ['#4', /*'5', */ '4', '3', '2', '1'], // we might want to change that in the future
     },
     {
       args: ['5', ['5'], 'I IV V I'],
@@ -91,5 +91,5 @@ describe('getResolutionFromScaleDegree', function() {
       args: ['5', ['5', '6', 'b7'], 'I IV V I'],
       returnValue: ['5', '6', 'b7', '1'],
     },
-  ])
+  ]);
 });

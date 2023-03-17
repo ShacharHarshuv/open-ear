@@ -1,8 +1,8 @@
 import {
   Injectable,
-  OnDestroy,
-} from '@angular/core';
-import { Subject } from 'rxjs';
+  OnDestroy
+} from "@angular/core";
+import { Subject } from "rxjs";
 
 @Injectable()
 export class BaseDestroyable implements OnDestroy {
@@ -17,6 +17,5 @@ export class BaseDestroyable implements OnDestroy {
   /**
    * Override this when extending if needs to
    * */
-  protected _onDestroy(): void {
-  }
+  protected _onDestroy(): void {}
 }

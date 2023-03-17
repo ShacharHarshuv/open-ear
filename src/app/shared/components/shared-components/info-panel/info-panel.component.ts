@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit
+} from "@angular/core";
 
 @Component({
   selector: 'app-info-panel',
@@ -6,9 +9,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./info-panel.component.scss'],
 })
 export class InfoPanelComponent implements OnInit {
-
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {}
-
 }

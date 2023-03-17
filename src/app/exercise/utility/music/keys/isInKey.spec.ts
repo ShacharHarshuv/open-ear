@@ -1,4 +1,4 @@
-import { isInKey } from './isInKey';
+import { isInKey } from "./isInKey";
 
 describe('isInKey', function () {
   it('Bb4 is in Bb major', () => {

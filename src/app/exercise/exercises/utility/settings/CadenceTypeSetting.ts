@@ -1,12 +1,14 @@
-import { CadenceType } from '../exerciseAttributes/tonalExercise';
-import { Exercise } from '../../../Exercise';
-import { withSettings } from './withSettings';
+import { CadenceType } from "../exerciseAttributes/tonalExercise";
+import { Exercise } from "../../../Exercise";
+import { withSettings } from "./withSettings";
 
 export type CadenceTypeSetting = {
   cadenceType: CadenceType;
-}
+};
 
-export function cadenceTypeSettingsDescriptors<GAnswer extends string>(): Exercise.SettingsControlDescriptor<CadenceTypeSetting>[] {
+export function cadenceTypeSettingsDescriptors<
+  GAnswer extends string
+>(): Exercise.SettingsControlDescriptor<CadenceTypeSetting>[] {
   return [
     {
       key: 'cadenceType',

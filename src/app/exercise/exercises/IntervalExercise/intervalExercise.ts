@@ -1,36 +1,48 @@
-import * as _ from 'lodash';
-import { Exercise } from '../../Exercise';
+import * as _ from "lodash";
+import { Exercise } from "../../Exercise";
 import {
   randomFromList,
   toNoteName,
   toArray,
   toNoteNumber,
   DeepReadonly,
-  NotesRange,
-} from '../../utility';
-import { NoteNumber } from '../../utility/music/notes/NoteNumberOrName';
+  NotesRange
+} from "../../utility";
+import { NoteNumber } from "../../utility/music/notes/NoteNumberOrName";
 import { IntervalExerciseExplanationComponent } from "./interval-exercise-explanation/interval-exercise-explanation.component";
-import { NoteEvent } from '../../../services/player.service';
-import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { transpose } from '../../utility/music/transpose';
-import { createExercise } from '../utility/exerciseAttributes/createExercise';
+import { NoteEvent } from "../../../services/player.service";
+import { Note } from "tone/Tone/core/type/NoteUnits";
+import { transpose } from "../../utility/music/transpose";
+import { createExercise } from "../utility/exerciseAttributes/createExercise";
 import {
   IncludedAnswersSettings,
-  includedAnswersSettings,
-} from '../utility/settings/IncludedAnswersSettings';
-import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
+  includedAnswersSettings
+} from "../utility/settings/IncludedAnswersSettings";
+import { composeExercise } from "../utility/exerciseAttributes/composeExercise";
 import AnswerList = Exercise.AnswerList;
 
-export type IntervalName = 'Minor 2nd' | 'Major 2nd' | 'Minor 3rd' | 'Major 3rd' | 'Perfect 4th' | 'Aug 4th' | 'Perfect 5th' | 'Minor 6th' | 'Major 6th' | 'Minor 7th' | 'Major 7th' | 'Octave';
+export type IntervalName =
+  | 'Minor 2nd'
+  | 'Major 2nd'
+  | 'Minor 3rd'
+  | 'Major 3rd'
+  | 'Perfect 4th'
+  | 'Aug 4th'
+  | 'Perfect 5th'
+  | 'Minor 6th'
+  | 'Major 6th'
+  | 'Minor 7th'
+  | 'Major 7th'
+  | 'Octave';
 
 export type IntervalDescriptor = {
   name: IntervalName;
   semitones: number;
-}
+};
 
 export type IntervalExerciseSettings = IncludedAnswersSettings<IntervalName> & {
   intervalType: 'melodic' | 'harmonic';
-}
+};
 
 export const intervalDescriptorList: DeepReadonly<IntervalDescriptor[]> = [
   {
@@ -81,9 +93,15 @@ export const intervalDescriptorList: DeepReadonly<IntervalDescriptor[]> = [
     name: 'Octave',
     semitones: 12,
   },
-]
+];
 
-const intervalNameToIntervalDescriptor: Record<IntervalName, IntervalDescriptor> = _.keyBy(intervalDescriptorList, 'name') as Record<IntervalName, IntervalDescriptor>;
+const intervalNameToIntervalDescriptor: Record<
+  IntervalName,
+  IntervalDescriptor
+> = _.keyBy(intervalDescriptorList, 'name') as Record<
+  IntervalName,
+  IntervalDescriptor
+>;
 
 export const intervalExercise = () => {
   const allAnswersList: AnswerList<IntervalName> = {
@@ -94,29 +112,37 @@ export const intervalExercise = () => {
       ['Minor 6th', 'Major 6th'],
       ['Minor 7th', 'Major 7th'],
       ['Octave'],
-    ].map((row: IntervalName[]) => row.map((interval: IntervalName) => {
-      return {
-        answer: interval,
-        playOnClick: (question: Exercise.NotesQuestion<IntervalName>) => {
-          const noteList: Note[] = toArray<NoteEvent | Note>(question.segments[0].partToPlay)
-            .map((noteOrEvent): Note => {
+    ].map((row: IntervalName[]) =>
+      row.map((interval: IntervalName) => {
+        return {
+          answer: interval,
+          playOnClick: (question: Exercise.NotesQuestion<IntervalName>) => {
+            const noteList: Note[] = toArray<NoteEvent | Note>(
+              question.segments[0].partToPlay
+            ).map((noteOrEvent): Note => {
               if (typeof noteOrEvent === 'object') {
                 return toArray(noteOrEvent.notes)[0]; // assuming no harmonic notes
               } else {
                 return noteOrEvent;
               }
-            })
-          const startNote: Note = _.first(noteList)!;
-          const endNote: Note = _.last(noteList)!;
-          const originalInterval: number = toNoteNumber(endNote) - toNoteNumber(startNote);
-          const direction: 1 | -1 = originalInterval / Math.abs(originalInterval) as 1 | -1;
-          return [
-            startNote,
-            transpose(startNote, direction * intervalNameToIntervalDescriptor[interval].semitones),
-          ]
-        },
-      }
-    })),
+            });
+            const startNote: Note = _.first(noteList)!;
+            const endNote: Note = _.last(noteList)!;
+            const originalInterval: number =
+              toNoteNumber(endNote) - toNoteNumber(startNote);
+            const direction: 1 | -1 = (originalInterval /
+              Math.abs(originalInterval)) as 1 | -1;
+            return [
+              startNote,
+              transpose(
+                startNote,
+                direction * intervalNameToIntervalDescriptor[interval].semitones
+              ),
+            ];
+          },
+        };
+      })
+    ),
   };
   const range = new NotesRange('C3', 'E5');
 
@@ -124,32 +150,46 @@ export const intervalExercise = () => {
     includedAnswersSettings({
       name: 'Intervals',
     }),
-    createExercise,
+    createExercise
   )({
     id: 'interval',
     name: 'Intervals',
     summary: 'Identify intervals chromatically (no key)',
     explanation: IntervalExerciseExplanationComponent,
-    getQuestion(settings: IntervalExerciseSettings): Exercise.Question<IntervalName> {
-      const randomIntervalDescriptor: IntervalDescriptor = randomFromList(intervalDescriptorList.filter(intervalDescriptor => settings.includedAnswers.includes(intervalDescriptor.name)));
-      const randomStartingNoteNumber: NoteNumber = _.random(range.lowestNoteNumber, range.highestNoteNumber - randomIntervalDescriptor.semitones);
+    getQuestion(
+      settings: IntervalExerciseSettings
+    ): Exercise.Question<IntervalName> {
+      const randomIntervalDescriptor: IntervalDescriptor = randomFromList(
+        intervalDescriptorList.filter((intervalDescriptor) =>
+          settings.includedAnswers.includes(intervalDescriptor.name)
+        )
+      );
+      const randomStartingNoteNumber: NoteNumber = _.random(
+        range.lowestNoteNumber,
+        range.highestNoteNumber - randomIntervalDescriptor.semitones
+      );
       let lowNoteName = toNoteName(randomStartingNoteNumber);
-      let highNoteName = toNoteName(randomStartingNoteNumber + randomIntervalDescriptor.semitones);
+      let highNoteName = toNoteName(
+        randomStartingNoteNumber + randomIntervalDescriptor.semitones
+      );
       let [startNoteName, endNoteName] = _.shuffle([lowNoteName, highNoteName]);
-      const partToPlay = settings.intervalType === 'melodic' ?
-        [{ notes: startNoteName }, { notes: endNoteName } ] :
-        [{ notes: [startNoteName, endNoteName] }];
+      const partToPlay =
+        settings.intervalType === 'melodic'
+          ? [{ notes: startNoteName }, { notes: endNoteName }]
+          : [{ notes: [startNoteName, endNoteName] }];
 
       return {
-        segments: [{
-          rightAnswer: randomIntervalDescriptor.name,
-          partToPlay: partToPlay
-        }],
+        segments: [
+          {
+            rightAnswer: randomIntervalDescriptor.name,
+            partToPlay: partToPlay,
+          },
+        ],
         info: {
           beforeCorrectAnswer: `Notes played: ${startNoteName} - ?`,
           afterCorrectAnswer: `Notes played: ${startNoteName} - ${endNoteName}`,
         },
-      }
+      };
     },
     answerList: allAnswersList,
     settingsDescriptors: [
@@ -175,5 +215,5 @@ export const intervalExercise = () => {
     defaultSettings: {
       intervalType: 'melodic',
     },
-  })
-}
+  });
+};

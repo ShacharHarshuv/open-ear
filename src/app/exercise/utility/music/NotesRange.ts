@@ -1,12 +1,18 @@
-import { NoteNumber, NoteNumberOrName } from './notes/NoteNumberOrName';
-import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { toNoteName, toNoteNumber } from './notes/toNoteName';
-import { Key } from './keys/Key';
-import { Memoize } from 'lodash-decorators';
-import { isInKey } from './keys/isInKey';
-import { NoteType } from './notes/NoteType';
-import { toNoteTypeNumber } from './notes/toNoteTypeNumber';
-import { getNoteType } from './notes/getNoteType';
+import {
+  NoteNumber,
+  NoteNumberOrName
+} from "./notes/NoteNumberOrName";
+import { Note } from "tone/Tone/core/type/NoteUnits";
+import {
+  toNoteName,
+  toNoteNumber
+} from "./notes/toNoteName";
+import { Key } from "./keys/Key";
+import { Memoize } from "lodash-decorators";
+import { isInKey } from "./keys/isInKey";
+import { NoteType } from "./notes/NoteType";
+import { toNoteTypeNumber } from "./notes/toNoteTypeNumber";
+import { getNoteType } from "./notes/getNoteType";
 
 export class NotesRange {
   readonly lowestNoteNumber: NoteNumber;
@@ -18,14 +24,19 @@ export class NotesRange {
   readonly rangeSizeInSemitones: number;
 
   constructor(range: {
-    lowestNote: NoteNumberOrName,
-    highestNote: NoteNumberOrName,
+    lowestNote: NoteNumberOrName;
+    highestNote: NoteNumberOrName;
   });
   constructor(lowestNote: NoteNumberOrName, highestNote: NoteNumberOrName);
-  constructor(lowestNoteOrRange: NoteNumberOrName | {
-    lowestNote: NoteNumberOrName,
-    highestNote: NoteNumberOrName,
-  }, highestNote?: NoteNumberOrName) {
+  constructor(
+    lowestNoteOrRange:
+      | NoteNumberOrName
+      | {
+          lowestNote: NoteNumberOrName;
+          highestNote: NoteNumberOrName;
+        },
+    highestNote?: NoteNumberOrName
+  ) {
     // let lowestNote:
     if (typeof lowestNoteOrRange === 'object') {
       this.lowestNoteNumber = toNoteNumber(lowestNoteOrRange.lowestNote);
@@ -38,7 +49,9 @@ export class NotesRange {
     this.rangeSizeInSemitones = this.highestNoteNumber - this.lowestNoteNumber;
 
     if (this.rangeSizeInSemitones < 0) {
-      throw new Error(`Invalid note range ${this.lowestNoteName}-${this.highestNoteName}`);
+      throw new Error(
+        `Invalid note range ${this.lowestNoteName}-${this.highestNoteName}`
+      );
     }
 
     this.lowestNoteName = toNoteName(this.lowestNoteNumber);
@@ -46,14 +59,17 @@ export class NotesRange {
   }
 
   isInRange(noteList: NoteNumberOrName[]): boolean;
-  isInRange(note: NoteNumberOrName): boolean
+  isInRange(note: NoteNumberOrName): boolean;
   @Memoize()
   isInRange(noteOrNoteList: NoteNumberOrName | NoteNumberOrName[]): boolean {
     if (Array.isArray(noteOrNoteList)) {
       return noteOrNoteList.every(this.isInRange.bind(this));
     }
     const noteNumber = toNoteNumber(noteOrNoteList);
-    return noteNumber >= this.lowestNoteNumber && noteNumber <= this.highestNoteNumber;
+    return (
+      noteNumber >= this.lowestNoteNumber &&
+      noteNumber <= this.highestNoteNumber
+    );
   }
 
   /**
@@ -68,7 +84,12 @@ export class NotesRange {
           continue;
         }
 
-        if (Array.isArray(keyOrScale) && !keyOrScale.map(toNoteTypeNumber).includes(toNoteTypeNumber(getNoteType(toNoteName(i))))) {
+        if (
+          Array.isArray(keyOrScale) &&
+          !keyOrScale
+            .map(toNoteTypeNumber)
+            .includes(toNoteTypeNumber(getNoteType(toNoteName(i))))
+        ) {
           continue;
         }
       }

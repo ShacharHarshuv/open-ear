@@ -1,13 +1,16 @@
-import { Exercise } from '../../Exercise';
-import { toGetter } from '../../../shared/ts-utility';
-import { ExerciseTest } from '../../ExerciseTest';
+import { Exercise } from "../../Exercise";
+import { toGetter } from "../../../shared/ts-utility";
+import { ExerciseTest } from "../../ExerciseTest";
 import Expected = jasmine.Expected;
 
 export function testExercise<GSettings extends Exercise.Settings>(p: {
-  readonly getExercise: () => Exercise.Exercise,
-  readonly settingDescriptorList: (string | Expected<Exercise.SettingsControlDescriptor>)[],
-  readonly defaultSettings?: Readonly<GSettings>,
-  readonly defaultAnswers?: ReadonlyArray<string>,
+  readonly getExercise: () => Exercise.Exercise;
+  readonly settingDescriptorList: (
+    | string
+    | Expected<Exercise.SettingsControlDescriptor>
+  )[];
+  readonly defaultSettings?: Readonly<GSettings>;
+  readonly defaultAnswers?: ReadonlyArray<string>;
 }): {
   readonly exercise: Exercise.Exercise<string, GSettings>;
 } {
@@ -30,10 +33,14 @@ export function testExercise<GSettings extends Exercise.Settings>(p: {
   });
 
   it('should have the right settings', () => {
-    const settingsDescriptorList = exercise.getSettingsDescriptor?.()?.map(descriptor => ({
-      ...descriptor,
-      descriptor: toGetter(descriptor.descriptor)(exercise.getCurrentSettings?.()!),
-    }));
+    const settingsDescriptorList = exercise
+      .getSettingsDescriptor?.()
+      ?.map((descriptor) => ({
+        ...descriptor,
+        descriptor: toGetter(descriptor.descriptor)(
+          exercise.getCurrentSettings?.()!
+        ),
+      }));
     const expected = p.settingDescriptorList.map((expected) => {
       if (typeof expected === 'string') {
         return jasmine.objectContaining<Exercise.SettingsControlDescriptor>({
@@ -44,10 +51,10 @@ export function testExercise<GSettings extends Exercise.Settings>(p: {
       }
 
       return expected;
-    })
+    });
     // @ts-ignore
     expect(settingsDescriptorList).toEqual(expected);
-  })
+  });
 
   // todo: consider making this required
   if (p.defaultSettings) {
@@ -59,13 +66,15 @@ export function testExercise<GSettings extends Exercise.Settings>(p: {
 
   if (p.defaultAnswers) {
     it('should have the correct default answers', () => {
-      expect(exercise.getAnswerList()).toEqual(ExerciseTest.answerListContaining(p.defaultAnswers!))
-    })
+      expect(exercise.getAnswerList()).toEqual(
+        ExerciseTest.answerListContaining(p.defaultAnswers!)
+      );
+    });
   }
 
   return {
     get exercise() {
       return exercise;
     },
-  }
+  };
 }

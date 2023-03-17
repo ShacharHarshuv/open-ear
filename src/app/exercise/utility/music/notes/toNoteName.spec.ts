@@ -1,7 +1,7 @@
 import {
   toNoteName,
   toNoteNumber
-} from './toNoteName';
+} from "./toNoteName";
 
 describe('noteNumberToNoteName', function () {
   it('A0', () => {
@@ -15,7 +15,7 @@ describe('noteNumberToNoteName', function () {
   });
   it('Note name as input', () => {
     expect(toNoteName('C4')).toEqual('C4');
-  })
+  });
 });
 
 describe('noteNameToNoteNumber', function () {
@@ -41,5 +41,5 @@ describe('noteNameToNoteNumber', function () {
 
   it('Note number as input', () => {
     expect(toNoteNumber(60)).toEqual(60);
-  })
+  });
 });

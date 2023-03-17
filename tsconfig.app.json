@@ -4,13 +4,8 @@
   "compilerOptions": {
     "outDir": "./out-tsc/app",
     "types": [],
-    "strictNullChecks": true,
+    "strictNullChecks": true
   },
-  "files": [
-    "src/main.ts",
-    "src/polyfills.ts"
-  ],
-  "include": [
-    "src/**/*.d.ts"
-  ]
+  "files": ["src/main.ts", "src/polyfills.ts"],
+  "include": ["src/**/*.d.ts"]
 }

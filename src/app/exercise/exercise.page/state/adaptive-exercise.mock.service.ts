@@ -1,29 +1,31 @@
-import { PublicMembers } from '../../../shared/ts-utility/PublicMembers';
-import { AdaptiveExerciseService } from './adaptive-exercise.service';
+import { PublicMembers } from "../../../shared/ts-utility/PublicMembers";
+import { AdaptiveExerciseService } from "./adaptive-exercise.service";
 import {
   Injectable,
-  Provider,
-} from '@angular/core';
-import {
-  Exercise,
-} from '../../Exercise';
-import { AdaptiveExercise } from './adaptive-exercise';
+  Provider
+} from "@angular/core";
+import { Exercise } from "../../Exercise";
+import { AdaptiveExercise } from "./adaptive-exercise";
 
 @Injectable()
 export class AdaptiveExerciseMock implements PublicMembers<AdaptiveExercise> {
   summary: string = '';
-  id: string = ''
+  id: string = '';
   name: string = '';
   explanation: Exercise.ExerciseExplanationContent = '';
 
-  getSettingsDescriptor(): Exercise.SettingsControlDescriptor<{ [p: string]: Exercise.SettingValueType; }, string | number>[] {
+  getSettingsDescriptor(): Exercise.SettingsControlDescriptor<
+    { [p: string]: Exercise.SettingValueType },
+    string | number
+  >[] {
     return [];
   }
 
-  updateSettings(settings: { [key: string]: Exercise.SettingValueType; }): void {
-  }
+  updateSettings(settings: {
+    [key: string]: Exercise.SettingValueType;
+  }): void {}
 
-  getCurrentSettings(): { [key: string]: Exercise.SettingValueType; } {
+  getCurrentSettings(): { [key: string]: Exercise.SettingValueType } {
     throw new Error('Method not implemented.');
   }
 
@@ -35,28 +37,27 @@ export class AdaptiveExerciseMock implements PublicMembers<AdaptiveExercise> {
     throw new Error('Method not implemented.');
   }
 
-  reportAnswerCorrectness(wasAnswerRight: boolean | 'SKIPPED'): void {
-  }
+  reportAnswerCorrectness(wasAnswerRight: boolean | 'SKIPPED'): void {}
 
-  reset(): void {
-  }
-
+  reset(): void {}
 }
 
 @Injectable()
-export class AdaptiveExerciseMockService implements PublicMembers<AdaptiveExerciseService> {
+export class AdaptiveExerciseMockService
+  implements PublicMembers<AdaptiveExerciseService>
+{
   static providers: Provider[] = [
     AdaptiveExerciseMockService,
     {
       provide: AdaptiveExerciseService,
       useExisting: AdaptiveExerciseMockService,
-    }
-  ]
+    },
+  ];
 
-  static adaptiveExerciseMock: AdaptiveExerciseMock = new AdaptiveExerciseMock();
+  static adaptiveExerciseMock: AdaptiveExerciseMock =
+    new AdaptiveExerciseMock();
 
   createAdaptiveExercise(exercise: Exercise.Exercise): AdaptiveExercise {
     return AdaptiveExerciseMockService.adaptiveExerciseMock as AdaptiveExercise;
   }
-
 }

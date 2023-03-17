@@ -4,20 +4,14 @@
     [buttonTemplate]="buttonTemplate"
   ></app-answers-layout>
 
-  <ng-template
-    let-answerConfig
-    #buttonTemplate
-  >
+  <ng-template let-answerConfig #buttonTemplate>
     <ion-button
       *ngIf="answerConfig.answer as answer"
       [color]="'light'"
       [class.--included]="value.includes(answer)"
       (click)="toggleInclusion(answer)"
     >
-      <span
-        [innerHTML]="answerConfig.displayLabel"
-      ></span>
+      <span [innerHTML]="answerConfig.displayLabel"></span>
     </ion-button>
   </ng-template>
-
 </ng-container>

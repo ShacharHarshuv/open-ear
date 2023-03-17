@@ -1,1 +1,1 @@
-export type Constructor<G = any> = { new(...args: any[]): G };
+export type Constructor<G = any> = { new (...args: any[]): G };

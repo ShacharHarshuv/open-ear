@@ -1,4 +1,4 @@
-import { versionComparator } from './version-comparator';
+import { versionComparator } from "./version-comparator";
 
 describe('versionComparator', () => {
   it('1.0.0 and 1.0.0 are equal', () => {
@@ -16,4 +16,4 @@ describe('versionComparator', () => {
   it('1.3.3 is after 1.1.2', () => {
     expect(versionComparator('1.3.3', '1.1.2')).toBeGreaterThan(0);
   });
-})
+});

@@ -6,7 +6,11 @@
 >
   <ion-list>
     <ion-item>
-      <ion-label>Play Cadence<app-field-info message="Choose when the cadence is played. Relevant only to exercises that play a Cadence."></app-field-info></ion-label>
+      <ion-label
+        >Play Cadence<app-field-info
+          message="Choose when the cadence is played. Relevant only to exercises that play a Cadence."
+        ></app-field-info
+      ></ion-label>
       <ion-select
         [formControl]="generalFormGroup.controls.playCadenceOptions"
         [interface]="'popover'"
@@ -15,11 +19,18 @@
         <!--TODO(OE-13)-->
         <!--<ion-select-option value="'EVERY'">Every...</ion-select-option>-->
         <ion-select-option [value]="'NEVER'">Every New Key</ion-select-option>
-        <ion-select-option [value]="'ONLY_ON_REPEAT'">Only on repeat</ion-select-option>
+        <ion-select-option [value]="'ONLY_ON_REPEAT'"
+          >Only on repeat</ion-select-option
+        >
       </ion-select>
     </ion-item>
     <ion-item>
-      <ion-label>Auto-play next question <app-field-info message="Next question will be played immediately after answering current question"></app-field-info></ion-label>
+      <ion-label
+        >Auto-play next question
+        <app-field-info
+          message="Next question will be played immediately after answering current question"
+        ></app-field-info
+      ></ion-label>
       <ion-toggle
         [formControl]="generalFormGroup.controls.moveToNextQuestionAutomatically"
       >
@@ -28,17 +39,22 @@
     <ion-item>
       <ion-label>
         Answer question automatically
-        <app-field-info message='Current answer will be displayed automatically. Use this together with "resolution" and "move automatically to next question" to create a "listening mode" where questions and resolutions will be played consecutively and help train your musical memory.'></app-field-info>
+        <app-field-info
+          message='Current answer will be displayed automatically. Use this together with "resolution" and "move automatically to next question" to create a "listening mode" where questions and resolutions will be played consecutively and help train your musical memory.'
+        ></app-field-info>
       </ion-label>
       <ion-toggle
         [formControl]="generalFormGroup.controls.answerQuestionAutomatically"
       >
       </ion-toggle>
     </ion-item>
-    <ion-item
-      class="exercise-settings__item --label-above"
-    >
-      <ion-label>BPM <app-field-info message="Tempo in Beats Per Minute. Change this to control the speed of the question's playback."></app-field-info></ion-label>
+    <ion-item class="exercise-settings__item --label-above">
+      <ion-label
+        >BPM
+        <app-field-info
+          message="Tempo in Beats Per Minute. Change this to control the speed of the question's playback."
+        ></app-field-info
+      ></ion-label>
       <ion-range
         [formControl]="generalFormGroup.controls.bpm"
         [max]="200"
@@ -50,13 +66,23 @@
       </ion-range>
     </ion-item>
     <ion-item>
-      <ion-label>Adaptive <app-field-info [message]="'When turned on, questions that were answered wrong will repeat until answered right enough time. <br>Great for learning from mistakes.'"></app-field-info></ion-label>
+      <ion-label
+        >Adaptive
+        <app-field-info
+          [message]="'When turned on, questions that were answered wrong will repeat until answered right enough time. <br>Great for learning from mistakes.'"
+        ></app-field-info
+      ></ion-label>
       <ion-toggle
         [formControl]="generalFormGroup.controls.adaptive"
       ></ion-toggle>
     </ion-item>
     <ion-item>
-      <ion-label>Reveal answer after first mistake <app-field-info [message]="'Even if you got the answer wrong in the first attempt, the correct answer will be revealed. <br> Turn it off if you want a second chance to guess the correct answer'"></app-field-info></ion-label>
+      <ion-label
+        >Reveal answer after first mistake
+        <app-field-info
+          [message]="'Even if you got the answer wrong in the first attempt, the correct answer will be revealed. <br> Turn it off if you want a second chance to guess the correct answer'"
+        ></app-field-info
+      ></ion-label>
       <ion-toggle
         [formControl]="generalFormGroup.controls.revealAnswerAfterFirstMistake"
       ></ion-toggle>
@@ -64,19 +90,25 @@
   </ion-list>
 
   <ion-list *ngIf="exerciseFormGroup">
-    <ng-container *ngFor="let exerciseControlSettings of exerciseSettingsDescriptor">
-      <ng-container *ngIf="((getControlDescriptorStream | pureFunction: exerciseControlSettings) | async) as descriptor">
+    <ng-container
+      *ngFor="let exerciseControlSettings of exerciseSettingsDescriptor"
+    >
+      <ng-container
+        *ngIf="((getControlDescriptorStream | pureFunction: exerciseControlSettings) | async) as descriptor"
+      >
         <ng-template #label>
-          <ion-label>{{descriptor.label}}<app-field-info *ngIf="exerciseControlSettings.info" [message]="exerciseControlSettings.info"></app-field-info></ion-label>
+          <ion-label
+            >{{descriptor.label}}<app-field-info
+              *ngIf="exerciseControlSettings.info"
+              [message]="exerciseControlSettings.info"
+            ></app-field-info
+          ></ion-label>
         </ng-template>
         <ng-container
           *ngIf="isShowExerciseControl(exerciseControlSettings)"
           [ngSwitch]="descriptor.controlType"
         >
-          <ion-item
-            *ngSwitchCase="'select'"
-            @collapseVertical
-          >
+          <ion-item *ngSwitchCase="'select'" @collapseVertical>
             <ng-container *ngTemplateOutlet="label"></ng-container>
             <ion-select
               [appExerciseControl]="exerciseControlSettings"
@@ -119,20 +151,20 @@
               list-select-proj__after-label
             ></app-field-info>
           </app-list-select>
-          <ion-item
-            *ngSwitchCase="'checkbox'"
-            @collapseVertical
-          >
+          <ion-item *ngSwitchCase="'checkbox'" @collapseVertical>
             <ng-container *ngTemplateOutlet="label"></ng-container>
             <ion-toggle
               [appExerciseControl]="exerciseControlSettings"
               slot="end"
             ></ion-toggle>
           </ion-item>
-          <ion-list
-            *ngSwitchCase="'included-answers'"
-          >
-            <ion-list-header>{{descriptor.label}}<app-field-info *ngIf="exerciseControlSettings.info" [message]="exerciseControlSettings.info"></app-field-info></ion-list-header>
+          <ion-list *ngSwitchCase="'included-answers'">
+            <ion-list-header
+              >{{descriptor.label}}<app-field-info
+                *ngIf="exerciseControlSettings.info"
+                [message]="exerciseControlSettings.info"
+              ></app-field-info
+            ></ion-list-header>
             <app-included-answers
               [answerList]="descriptor.answerList"
               [appExerciseControl]="exerciseControlSettings"

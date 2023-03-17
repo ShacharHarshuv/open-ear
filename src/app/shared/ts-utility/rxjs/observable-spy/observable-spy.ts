@@ -1,7 +1,7 @@
 import {
   Observable,
-  Subscription,
-} from 'rxjs';
+  Subscription
+} from "rxjs";
 
 export class ObservableSpy<G = unknown> {
   private readonly _subscription: Subscription;
@@ -31,16 +31,21 @@ export namespace ObservableSpy {
 
   export function spyOn<G>(obs$: Observable<G>): void {
     if (map.get(obs$)) {
-      throw new Error(`Cannot spy on Observable ${obs$} because it's already spied on`);
+      throw new Error(
+        `Cannot spy on Observable ${obs$} because it's already spied on`
+      );
     }
     const observableSpy = new ObservableSpy(obs$);
     map.set(obs$, observableSpy);
   }
 
   export function getSpy<G>(observable: Observable<G>): ObservableSpy<G> {
-    const observableSpy: ObservableSpy | undefined = ObservableSpy.map.get(observable);
+    const observableSpy: ObservableSpy | undefined =
+      ObservableSpy.map.get(observable);
     if (!observableSpy) {
-      throw new Error(`Cannot assert emission of Observable because it wasn't spied on.\n Please call spyOnObservable first.`);
+      throw new Error(
+        `Cannot assert emission of Observable because it wasn't spied on.\n Please call spyOnObservable first.`
+      );
     }
     return observableSpy as ObservableSpy<G>;
   }
@@ -49,7 +54,6 @@ export namespace ObservableSpy {
     const observableSpy = getSpy(obs$);
     observableSpy.spy.calls.reset();
   }
-
 }
 
 afterEach(() => {

@@ -3,36 +3,21 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title (click)="onTitleClick()">
-      {{state.name}}
-    </ion-title>
+    <ion-title (click)="onTitleClick()"> {{state.name}} </ion-title>
     <ion-buttons slot="end">
       <ion-button
         (click)="editSettings()"
         [bdcWalkTriggerFor]="taskEditSettings"
       >
-        <ion-icon
-          slot="icon-only"
-          name="settings-outline"
-        ></ion-icon>
+        <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
       </ion-button>
       <ion-button id="menu-button">
-        <ion-icon
-          slot="icon-only"
-          name="ellipsis-vertical"
-        ></ion-icon>
+        <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
       </ion-button>
-      <ion-popover
-        trigger="menu-button"
-        side="bottom"
-        [dismissOnSelect]="true"
-      >
+      <ion-popover trigger="menu-button" side="bottom" [dismissOnSelect]="true">
         <ng-template>
           <ion-list>
-            <ion-item
-              (click)="resetStatistics()"
-              button
-            >
+            <ion-item (click)="resetStatistics()" button>
               Reset statistics
             </ion-item>
             <ion-item
@@ -49,14 +34,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content
-  [fullscreen]="true"
-  [padding]="true"
->
-  <div
-    class="exercise__content-container"
-    cdkDropListGroup
-  >
+<ion-content [fullscreen]="true" [padding]="true">
+  <div class="exercise__content-container" cdkDropListGroup>
     <section>
       <p
         *ngIf="!state.globalSettings.answerQuestionAutomatically"
@@ -65,15 +44,12 @@
         Correct answers: {{state.totalCorrectAnswers}}/{{state.totalQuestions}}
         ({{correctAnswersPercentage | number: '1.0-2'}}%)
       </p>
-      <p
-        class="exercise__info"
-        *ngIf="state.info"
-      >
-        {{state.info}}
-      </p>
+      <p class="exercise__info" *ngIf="state.info">{{state.info}}</p>
     </section>
     <div class="exercise__answers-container">
-      <div *ngFor="let answersPlayedTogether of (getCurrentAnswersLayout | pureFunction: state.currentAnswers)">
+      <div
+        *ngFor="let answersPlayedTogether of (getCurrentAnswersLayout | pureFunction: state.currentAnswers)"
+      >
         <app-answer-indication
           *ngFor="let answer of answersPlayedTogether"
           [answerDisplay]="state.answerToLabelStringMap[answer.answer]"
@@ -88,10 +64,7 @@
       [answerList]="state.answerList"
       [buttonTemplate]="answerButton"
     ></app-answers-layout>
-    <ng-template
-      let-answerConfig
-      #answerButton
-    >
+    <ng-template let-answerConfig #answerButton>
       <div cdkDropList>
         <ion-button
           cdkDrag
@@ -107,9 +80,7 @@
           [color]="'light'"
         >
           <ng-container *cdkDragPlaceholder></ng-container>
-          <span
-            [innerHTML]="answerConfig.displayLabel"
-          ></span>
+          <span [innerHTML]="answerConfig.displayLabel"></span>
         </ion-button>
       </div>
     </ng-template>

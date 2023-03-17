@@ -1,23 +1,23 @@
-import { Exercise } from '../../Exercise';
+import { Exercise } from "../../Exercise";
 import {
   ChordSymbol,
   TriadInversion,
-  Chord,
-} from '../../utility/music/chords';
-import { randomFromList } from '../../../shared/ts-utility';
-import * as Tone from 'tone';
-import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { toSteadyPart } from '../../utility';
-import { TriadInversionExplanationComponent } from './triad-inversion-explanation/triad-inversion-explanation.component';
+  Chord
+} from "../../utility/music/chords";
+import { randomFromList } from "../../../shared/ts-utility";
+import * as Tone from "tone";
+import { Note } from "tone/Tone/core/type/NoteUnits";
+import { toSteadyPart } from "../../utility";
+import { TriadInversionExplanationComponent } from "./triad-inversion-explanation/triad-inversion-explanation.component";
 import {
   IncludedAnswersSettings,
-  includedAnswersSettings,
-} from '../utility/settings/IncludedAnswersSettings';
-import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
-import { tonalExercise } from '../utility/exerciseAttributes/tonalExercise';
-import { createExercise } from '../utility/exerciseAttributes/createExercise';
+  includedAnswersSettings
+} from "../utility/settings/IncludedAnswersSettings";
+import { composeExercise } from "../utility/exerciseAttributes/composeExercise";
+import { tonalExercise } from "../utility/exerciseAttributes/tonalExercise";
+import { createExercise } from "../utility/exerciseAttributes/createExercise";
 
-type TriadInversionAnswer = 'Root Position' | '1st Inversion' | '2nd Inversion'
+type TriadInversionAnswer = 'Root Position' | '1st Inversion' | '2nd Inversion';
 
 const triadInversions: TriadInversionAnswer[] = [
   'Root Position',
@@ -27,15 +27,19 @@ const triadInversions: TriadInversionAnswer[] = [
 
 export type TriadInversionExerciseSettings =
   IncludedAnswersSettings<TriadInversionAnswer> & {
-  // todo(#167): arpeggio speed can be a generic pluggable settings (and reused across different exercise)
-  arpeggiateSpeed: number;
-  playRootAfterAnswer: boolean;
-  arpeggioDirection: 'ascending' | 'descending' | 'ascendingAndDescending' | 'descendingAndAscending';
-}
+    // todo(#167): arpeggio speed can be a generic pluggable settings (and reused across different exercise)
+    arpeggiateSpeed: number;
+    playRootAfterAnswer: boolean;
+    arpeggioDirection:
+      | 'ascending'
+      | 'descending'
+      | 'ascendingAndDescending'
+      | 'descendingAndAscending';
+  };
 
 export const triadInversionExercise = () => {
   const allAnswersList = {
-    rows: triadInversions.map(triadInversion => [triadInversion]),
+    rows: triadInversions.map((triadInversion) => [triadInversion]),
   };
 
   return composeExercise(
@@ -47,18 +51,24 @@ export const triadInversionExercise = () => {
       keySelection: false,
       droneSelection: false,
     }),
-    createExercise,
+    createExercise
   )({
     id: 'triadInversions',
     name: 'Triad Inversions',
     summary: 'Find the inversion of a triad in close position',
     explanation: TriadInversionExplanationComponent,
     answerList: allAnswersList,
-    getQuestion(settings: TriadInversionExerciseSettings): Exclude<Exercise.NotesQuestion<TriadInversionAnswer>, 'cadence'> {
+    getQuestion(
+      settings: TriadInversionExerciseSettings
+    ): Exclude<Exercise.NotesQuestion<TriadInversionAnswer>, 'cadence'> {
       const chordsInC: ChordSymbol[] = ['C', 'Dm', 'Em', 'F', 'G', 'Am'];
       const randomChordInC: ChordSymbol = randomFromList(chordsInC);
-      const invertionOptions: TriadInversion[] = [0, 1, 2].filter(invertionOption => settings.includedAnswers.includes(triadInversions[invertionOption]));
-      const randomTriadInversion: TriadInversion = randomFromList(invertionOptions);
+      const invertionOptions: TriadInversion[] = [0, 1, 2].filter(
+        (invertionOption) =>
+          settings.includedAnswers.includes(triadInversions[invertionOption])
+      );
+      const randomTriadInversion: TriadInversion =
+        randomFromList(invertionOptions);
       const answer = triadInversions[randomTriadInversion];
       let voicing: Note[] = new Chord(randomChordInC).getVoicing({
         topVoicesInversion: randomTriadInversion,
@@ -83,13 +93,16 @@ export const triadInversionExercise = () => {
         segments: [
           {
             partToPlay: voicing.map((note, index) => {
-              const noteDelay = index * settings.arpeggiateSpeed / 100;
+              const noteDelay = (index * settings.arpeggiateSpeed) / 100;
               return {
                 notes: note,
                 velocity: 0.3,
-                duration: Tone.Time('1n').toSeconds() + (voicing.length - 1) * settings.arpeggiateSpeed / 100 - Tone.Time(noteDelay).toSeconds(),
+                duration:
+                  Tone.Time('1n').toSeconds() +
+                  ((voicing.length - 1) * settings.arpeggiateSpeed) / 100 -
+                  Tone.Time(noteDelay).toSeconds(),
                 time: noteDelay,
-              }
+              };
             }),
             rightAnswer: answer,
           },
@@ -103,7 +116,7 @@ export const triadInversionExercise = () => {
             partToPlay: toSteadyPart(root, '1n', 0.3),
             answerToHighlight: answer,
           },
-        ]
+        ];
       }
 
       return question;
@@ -111,7 +124,8 @@ export const triadInversionExercise = () => {
     settingsDescriptors: [
       {
         key: 'arpeggiateSpeed',
-        info: 'When set to a value larger then zero, the chord will be arpeggiated, making it easier to pick up individual notes from it. <br>' +
+        info:
+          'When set to a value larger then zero, the chord will be arpeggiated, making it easier to pick up individual notes from it. <br>' +
           'Starter with a large settings and gradually reducing can be a good way to train your ear to pick up individual notes being played harmonically',
         descriptor: {
           controlType: 'slider',
@@ -130,7 +144,8 @@ export const triadInversionExercise = () => {
       },
       {
         key: 'arpeggioDirection',
-        info: 'Ascending - the chord will be arpeggiated from bottom to top. \n' +
+        info:
+          'Ascending - the chord will be arpeggiated from bottom to top. \n' +
           'Descending - the chord will be arpeggiated from top to bottom',
         descriptor: {
           label: 'Arpeggio Direction',
@@ -160,5 +175,5 @@ export const triadInversionExercise = () => {
       arpeggiateSpeed: 0,
       playRootAfterAnswer: true,
     },
-  })
-}
+  });
+};

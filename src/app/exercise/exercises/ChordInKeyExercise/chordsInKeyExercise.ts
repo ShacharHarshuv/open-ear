@@ -1,34 +1,32 @@
-import { Exercise } from '../../Exercise';
 import {
   randomFromList,
-  RomanNumeralChordSymbol,
-} from '../../utility';
-import * as _ from 'lodash';
+  RomanNumeralChordSymbol
+} from "../../utility";
+import * as _ from "lodash";
 import {
   numberOfSegmentsControlDescriptorList,
-  NumberOfSegmentsSetting,
-} from '../utility/settings/NumberOfSegmentsSetting';
-import { ChordInKeyExplanationComponent } from './chord-in-key-explanation/chord-in-key-explanation.component';
+  NumberOfSegmentsSetting
+} from "../utility/settings/NumberOfSegmentsSetting";
+import { ChordInKeyExplanationComponent } from "./chord-in-key-explanation/chord-in-key-explanation.component";
 import {
   playAfterCorrectAnswerControlDescriptorList,
-  PlayAfterCorrectAnswerSetting,
-} from '../utility/settings/PlayAfterCorrectAnswerSetting';
+  PlayAfterCorrectAnswerSetting
+} from "../utility/settings/PlayAfterCorrectAnswerSetting";
 import {
   RomanAnalysisChordProgressionExerciseSettings,
   RomanNumeralsChordProgressionQuestion,
-  romanAnalysisChordProgressionExercise,
-} from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
+  romanAnalysisChordProgressionExercise
+} from "../utility/exerciseAttributes/romanAnalysisChordProgressionExercise";
 import {
   IncludedAnswersSettings,
-  includedAnswersSettings,
-} from '../utility/settings/IncludedAnswersSettings';
-import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
-import { createExercise } from '../utility/exerciseAttributes/createExercise';
-import { chordVoicingSettings } from '../utility/exerciseAttributes/chordProgressionExercise';
-import { cadenceTypeSettings } from '../utility/settings/CadenceTypeSetting';
+  includedAnswersSettings
+} from "../utility/settings/IncludedAnswersSettings";
+import { composeExercise } from "../utility/exerciseAttributes/composeExercise";
+import { createExercise } from "../utility/exerciseAttributes/createExercise";
+import { chordVoicingSettings } from "../utility/exerciseAttributes/chordProgressionExercise";
+import { cadenceTypeSettings } from "../utility/settings/CadenceTypeSetting";
 
-type ChordInKeySettings =
-  IncludedAnswersSettings<RomanNumeralChordSymbol> &
+type ChordInKeySettings = IncludedAnswersSettings<RomanNumeralChordSymbol> &
   RomanAnalysisChordProgressionExerciseSettings &
   NumberOfSegmentsSetting &
   PlayAfterCorrectAnswerSetting;
@@ -44,18 +42,31 @@ export function chordInKeyExercise() {
       name: 'Roman Numerals',
     }),
     chordVoicingSettings(),
-    createExercise,
+    createExercise
   )({
     id: 'chordInKey',
     name: 'Chord Functions',
     summary: 'Identify chords based on their tonal context in a key',
     explanation: ChordInKeyExplanationComponent,
-    getChordProgressionInRomanNumerals(settings: ChordInKeySettings): RomanNumeralsChordProgressionQuestion {
+    getChordProgressionInRomanNumerals(
+      settings: ChordInKeySettings
+    ): RomanNumeralsChordProgressionQuestion {
       const numberOfSegments = settings.numberOfSegments;
-      const availableChords: RomanNumeralChordSymbol[] = settings.includedAnswers;
-      const chordProgression: RomanNumeralChordSymbol[] = [randomFromList(availableChords)];
+      const availableChords: RomanNumeralChordSymbol[] =
+        settings.includedAnswers;
+      const chordProgression: RomanNumeralChordSymbol[] = [
+        randomFromList(availableChords),
+      ];
       while (chordProgression.length < numberOfSegments) {
-        chordProgression.push(randomFromList(availableChords.filter(chord => chord !== _.last(chordProgression)! || availableChords.length <= 1)));
+        chordProgression.push(
+          randomFromList(
+            availableChords.filter(
+              (chord) =>
+                chord !== _.last(chordProgression)! ||
+                availableChords.length <= 1
+            )
+          )
+        );
       }
 
       return {
@@ -65,7 +76,7 @@ export function chordInKeyExercise() {
     settingsDescriptors: [
       ...numberOfSegmentsControlDescriptorList('chords'),
       ...playAfterCorrectAnswerControlDescriptorList({
-        show: ((settings: ChordInKeySettings) => settings.numberOfSegments === 1),
+        show: (settings: ChordInKeySettings) => settings.numberOfSegments === 1,
       }),
     ],
     defaultSettings: {

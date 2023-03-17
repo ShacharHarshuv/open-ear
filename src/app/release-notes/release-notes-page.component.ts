@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { VersionService } from '../version.service';
-import { ReleaseNotesService } from './release-notes.service';
+import { Component } from "@angular/core";
+import { VersionService } from "../version.service";
+import { ReleaseNotesService } from "./release-notes.service";
 
 @Component({
   selector: 'app-release-notes',
@@ -10,8 +10,6 @@ import { ReleaseNotesService } from './release-notes.service';
 export class ReleaseNotesPage {
   constructor(
     public readonly versionService: VersionService,
-    public readonly releaseNotesService: ReleaseNotesService,
-  ) {
-  }
-
+    public readonly releaseNotesService: ReleaseNotesService
+  ) {}
 }

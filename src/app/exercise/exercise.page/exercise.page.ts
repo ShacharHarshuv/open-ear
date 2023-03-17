@@ -1,38 +1,35 @@
-import { Component } from '@angular/core';
-import { ExerciseStateService } from './state/exercise-state.service';
+import { Component } from "@angular/core";
+import { ExerciseStateService } from "./state/exercise-state.service";
 import {
   ModalController,
   AlertController,
-  ToastController,
-} from '@ionic/angular';
-import { ExerciseSettingsPage } from './components/exercise-settings.page/exercise-settings.page';
-import * as _ from 'lodash';
-import { ExerciseExplanationService } from './state/exercise-explanation.service';
-import { Exercise } from '../Exercise';
-import { BaseComponent } from '../../shared/ts-utility';
+  ToastController
+} from "@ionic/angular";
+import { ExerciseSettingsPage } from "./components/exercise-settings.page/exercise-settings.page";
+import * as _ from "lodash";
+import { ExerciseExplanationService } from "./state/exercise-explanation.service";
+import { Exercise } from "../Exercise";
+import { BaseComponent } from "../../shared/ts-utility";
 import {
   takeUntil,
   finalize,
   switchMap,
-  map,
-} from 'rxjs/operators';
+  map
+} from "rxjs/operators";
 import {
   BehaviorSubject,
-  combineLatest,
-} from 'rxjs';
-import { BdcWalkService } from 'bdc-walkthrough';
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { getCurrentAnswersLayout } from './utility/getCurrentAnswersLayout';
+  combineLatest
+} from "rxjs";
+import { BdcWalkService } from "bdc-walkthrough";
+import { CdkDragDrop } from "@angular/cdk/drag-drop";
+import { getCurrentAnswersLayout } from "./utility/getCurrentAnswersLayout";
 import AnswerConfig = Exercise.AnswerConfig;
 
 @Component({
   selector: 'app-exercise-page',
   templateUrl: './exercise.page.html',
   styleUrls: ['./exercise.page.scss'],
-  providers: [
-    ExerciseStateService,
-    ExerciseExplanationService,
-  ],
+  providers: [ExerciseStateService, ExerciseExplanationService],
 })
 export class ExercisePage extends BaseComponent {
   private _hideMessage$ = new BehaviorSubject<boolean>(false);
@@ -55,7 +52,7 @@ export class ExercisePage extends BaseComponent {
     private readonly _modalController: ModalController,
     private readonly _alertController: AlertController,
     private readonly _toastController: ToastController,
-    private readonly _bdcWalkService: BdcWalkService,
+    private readonly _bdcWalkService: BdcWalkService
   ) {
     super();
     this._init();
@@ -70,7 +67,7 @@ export class ExercisePage extends BaseComponent {
     const answer: string | null = answerConfig.answer;
 
     if (!answer) {
-      throw new Error(`Clicked answer is ${answer}`)
+      throw new Error(`Clicked answer is ${answer}`);
     }
     const isRight: boolean = this.state.answer(answer);
     if (isRight) {
@@ -89,7 +86,10 @@ export class ExercisePage extends BaseComponent {
 
   async editSettings(): Promise<void> {
     this._bdcWalkService.setTaskCompleted('taskEditSettings', true);
-    const allAvailableAnswers: string[] = typeof this.state.answerList === 'object' ? _.flatMap(this.state.answerList) : this.state.answerList;
+    const allAvailableAnswers: string[] =
+      typeof this.state.answerList === 'object'
+        ? _.flatMap(this.state.answerList)
+        : this.state.answerList;
     const modal = await this._modalController.create({
       component: ExerciseSettingsPage,
       componentProps: {
@@ -111,23 +111,26 @@ export class ExercisePage extends BaseComponent {
   private async _init(): Promise<void> {
     await this.exerciseExplanation.init();
     this._bdcWalkService.setTaskCompleted('taskViewExplanation', true);
-    await this.state.init()
+    await this.state.init();
   }
 
   async resetStatistics(): Promise<void> {
     const alert: HTMLIonAlertElement = await this._alertController.create({
       header: 'Reset statistics',
       message: 'Are you sure you want to reset statistics?',
-      buttons: [{
-        text: 'Cancel',
-        role: 'cancel',
-      }, {
-        text: 'Reset',
-        role: 'reset',
-      }],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Reset',
+          role: 'reset',
+        },
+      ],
     });
-    await alert.present()
-    const {role} = await alert.onDidDismiss();
+    await alert.present();
+    const { role } = await alert.onDidDismiss();
     if (role === 'reset') {
       this.state.resetStatistics();
     }
@@ -140,31 +143,39 @@ export class ExercisePage extends BaseComponent {
       error: this.state.error$,
     })
       .pipe(
-        map(({
-          message,
-          error,
-        }): {
-          text: string,
-          type: 'error' | 'message',
-        } | null => error ? {
-          text: '<p>Ooops... something went wrong! If this persists, please report a bug</p>' + error,
-          type: 'error',
-        } : message ? {
-          text: message,
-          type: 'message',
-        } : null),
+        map(
+          ({
+            message,
+            error,
+          }): {
+            text: string;
+            type: 'error' | 'message';
+          } | null =>
+            error
+              ? {
+                  text:
+                    '<p>Ooops... something went wrong! If this persists, please report a bug</p>' +
+                    error,
+                  type: 'error',
+                }
+              : message
+              ? {
+                  text: message,
+                  type: 'message',
+                }
+              : null
+        ),
         switchMap((message) => {
-          return this._hideMessage$
-            .pipe(
-              map(hideMessage => hideMessage ? null : message),
-            );
+          return this._hideMessage$.pipe(
+            map((hideMessage) => (hideMessage ? null : message))
+          );
         }),
         takeUntil(this._destroy$),
         finalize(() => {
           lastToaster?.dismiss();
-        }),
+        })
       )
-      .subscribe(message => {
+      .subscribe((message) => {
         if (lastToaster) {
           lastToaster.dismiss();
           lastToaster = null;
@@ -174,21 +185,23 @@ export class ExercisePage extends BaseComponent {
           return;
         }
 
-        this._toastController.create({
-          message: message.text,
-          position: 'middle',
-          color: message.type === 'error' ? 'danger' : 'dark',
-          header: message.type === 'error' ? 'Unexpected Error' : undefined,
-          buttons: message.type === 'error' ? ['OK'] : [],
-        }).then(toaster => {
-          // can happen because of a race condition
-          if (lastToaster) {
-            lastToaster.dismiss();
-          }
-          lastToaster = toaster;
-          toaster.present();
-        })
-      })
+        this._toastController
+          .create({
+            message: message.text,
+            position: 'middle',
+            color: message.type === 'error' ? 'danger' : 'dark',
+            header: message.type === 'error' ? 'Unexpected Error' : undefined,
+            buttons: message.type === 'error' ? ['OK'] : [],
+          })
+          .then((toaster) => {
+            // can happen because of a race condition
+            if (lastToaster) {
+              lastToaster.dismiss();
+            }
+            lastToaster = toaster;
+            toaster.present();
+          });
+      });
   }
 
   async onTitleClick(): Promise<void> {
@@ -222,6 +235,6 @@ export class ExercisePage extends BaseComponent {
     if (_.isNil(answerConfig.answer)) {
       return;
     }
-    this.state.answer(answerConfig.answer, answerIndex)
+    this.state.answer(answerConfig.answer, answerIndex);
   }
 }

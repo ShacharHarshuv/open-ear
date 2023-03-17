@@ -1,6 +1,5 @@
-
 // Angular material is needed for bdc-walkthrough to work. For anything else we use the ionic library
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 @include mat.core();
 
 /** Ionic CSS Variables **/
@@ -63,10 +62,9 @@
 
   /** Font*/
 
-  --ion-font-family: 'Montserrat';
+  --ion-font-family: "Montserrat";
 
   --ion-forms-font-size: 14px;
-
 }
 
 //@media (prefers-color-scheme: dark) {

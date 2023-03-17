@@ -1,12 +1,9 @@
-<ion-card
-  [routerLink]="'/exercise/' + exercise.id"
-  (click)="initAudioPlayer()"
->
+<ion-card [routerLink]="'/exercise/' + exercise.id" (click)="initAudioPlayer()">
   <ion-card-header>
-    <ion-card-title>{{exercise.name}}</ion-card-title>
+    <ion-card-title>{{ exercise.name }}</ion-card-title>
   </ion-card-header>
 
   <ion-card-content>
-    {{exercise.summary}}
+    {{ exercise.summary }}
   </ion-card-content>
 </ion-card>

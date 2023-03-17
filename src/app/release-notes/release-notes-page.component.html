@@ -1,13 +1,10 @@
-<app-modal-frame
-  title="What's new in OpenEar?"
-  #modal="modal"
->
-  <p>
-    Version: {{versionService.version$ | async}}
-  </p>
+<app-modal-frame title="What's new in OpenEar?" #modal="modal">
+  <p>Version: {{ versionService.version$ | async }}</p>
   <ul>
     <li
-      *ngFor="let releaseNote of (releaseNotesService.relevantReleaseNotes$ | async)"
+      *ngFor="
+        let releaseNote of releaseNotesService.relevantReleaseNotes$ | async
+      "
       [innerHtml]="releaseNote"
     ></li>
   </ul>

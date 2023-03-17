@@ -1,7 +1,7 @@
-import { listenToChanges } from './listen-to-changes';
-import { ObservableSpy } from './observable-spy/observable-spy';
+import { listenToChanges } from "./listen-to-changes";
+import { ObservableSpy } from "./observable-spy/observable-spy";
 
-describe('listen to changes', function() {
+describe('listen to changes', function () {
   it('should emit in changes of a simple property', () => {
     class MyClass {
       myValue: number = 1;
@@ -13,17 +13,13 @@ describe('listen to changes', function() {
 
     ObservableSpy.spyOn(a.myValue$);
 
-    expect(a.myValue$)
-      .toHaveOnlyEmitted(1);
-    expect(a.myValue)
-      .toEqual(1);
+    expect(a.myValue$).toHaveOnlyEmitted(1);
+    expect(a.myValue).toEqual(1);
     ObservableSpy.resetEmissions(a.myValue$);
 
     a.myValue = 2;
-    expect(a.myValue$)
-      .toHaveOnlyEmitted(2);
-    expect(a.myValue)
-      .toEqual(2);
+    expect(a.myValue$).toHaveOnlyEmitted(2);
+    expect(a.myValue).toEqual(2);
   });
 
   it('should throw error of property is not initialized', () => {
@@ -32,8 +28,7 @@ describe('listen to changes', function() {
       myValue: number = 1;
     }
 
-    expect (() => new MyClass())
-      .toThrow();
+    expect(() => new MyClass()).toThrow();
   });
 
   it('should respect existing getters/setters', () => {
@@ -43,7 +38,7 @@ describe('listen to changes', function() {
 
       get myValue(): number {
         return this._myValue * this.factor;
-      };
+      }
 
       set myValue(v: number) {
         this._myValue = v;
@@ -56,23 +51,18 @@ describe('listen to changes', function() {
 
     ObservableSpy.spyOn(a.myValue$);
 
-    expect(a.myValue$)
-      .toHaveOnlyEmitted(2);
-    expect(a.myValue)
-      .toEqual(2);
+    expect(a.myValue$).toHaveOnlyEmitted(2);
+    expect(a.myValue).toEqual(2);
     ObservableSpy.resetEmissions(a.myValue$);
 
     a.myValue = 2;
-    expect(a.myValue$)
-      .toHaveOnlyEmitted(4);
-    expect(a.myValue)
-      .toEqual(4);
+    expect(a.myValue$).toHaveOnlyEmitted(4);
+    expect(a.myValue).toEqual(4);
     ObservableSpy.resetEmissions(a.myValue$);
 
     // in case of unpure getters the original getter should still be invoked, but observable will not emit
     a.factor = 3;
-    expect(a.myValue)
-      .toEqual(6);
+    expect(a.myValue).toEqual(6);
     expect(a.myValue$).not.toHaveHadEmissions();
   });
 
@@ -84,8 +74,7 @@ describe('listen to changes', function() {
       readonly myValue$ = listenToChanges(this, 'myValue');
     }
 
-    expect (() => new MyClass())
-      .toThrow();
+    expect(() => new MyClass()).toThrow();
   });
 
   it('should throw if property only has a setter', () => {
@@ -94,7 +83,6 @@ describe('listen to changes', function() {
       readonly myValue$ = listenToChanges(this, 'myValue');
     }
 
-    expect (() => new MyClass())
-      .toThrow();
+    expect(() => new MyClass()).toThrow();
   });
 });

@@ -1,4 +1,4 @@
-import { getDistanceOfKeys } from './getDistanceOfKeys';
+import { getDistanceOfKeys } from "./getDistanceOfKeys";
 
 describe('getDistanceOfKeys', () => {
   it('C to Db is 1 semitone', () => {
@@ -16,4 +16,4 @@ describe('getDistanceOfKeys', () => {
   it('Bb to C should be 2 semitones', () => {
     expect(getDistanceOfKeys('Bb', 'C')).toEqual(-2);
   });
-})
+});

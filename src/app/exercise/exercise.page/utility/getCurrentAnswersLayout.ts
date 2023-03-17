@@ -1,10 +1,8 @@
-import { CurrentAnswer } from '../state/exercise-state.service';
-import * as _ from 'lodash';
+import { CurrentAnswer } from "../state/exercise-state.service";
+import * as _ from "lodash";
 
 // todo: it's probably better to group by voice, as later we might want to give each answer a different duration for different contrapuntal scenarios
-export function getCurrentAnswersLayout(
-  currentAnswers: CurrentAnswer[],
-) {
+export function getCurrentAnswersLayout(currentAnswers: CurrentAnswer[]) {
   /**
    * Using "playAfter" to calculate the desired layout of the answers, to reflect musical timing
    * each array are events happening in the same time

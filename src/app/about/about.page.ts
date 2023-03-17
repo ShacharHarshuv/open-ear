@@ -1,6 +1,5 @@
-import {Component} from '@angular/core';
-import {AppVersion} from "@ionic-native/app-version/ngx";
-import { VersionService } from '../version.service';
+import { Component } from "@angular/core";
+import { VersionService } from "../version.service";
 
 @Component({
   selector: 'app-about',
@@ -8,8 +7,5 @@ import { VersionService } from '../version.service';
   styleUrls: ['./about.page.scss'],
 })
 export class AboutPage {
-  constructor(
-    public readonly versionService: VersionService,
-  ) {
-  }
+  constructor(public readonly versionService: VersionService) {}
 }

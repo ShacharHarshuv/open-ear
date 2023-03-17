@@ -1,10 +1,7 @@
-import { NgModule } from '@angular/core';
-import { ReleaseNotesServiceMock } from './release-notes.service.mock';
+import { NgModule } from "@angular/core";
+import { ReleaseNotesServiceMock } from "./release-notes.service.mock";
 
 @NgModule({
-  providers: [
-    ReleaseNotesServiceMock.providers,
-  ],
+  providers: [ReleaseNotesServiceMock.providers],
 })
-export class ReleaseNotesTestingModule {
-}
+export class ReleaseNotesTestingModule {}

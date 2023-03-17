@@ -1,11 +1,13 @@
-import { StorageMigrationScript } from '../storage-migration.service';
-import * as _ from 'lodash';
+import { StorageMigrationScript } from "../storage-migration.service";
+import * as _ from "lodash";
 
-export const migrationScript_1_3_2: StorageMigrationScript<Record<string, { exerciseSettings?: { includedAnswers?: any[] }}>> = {
+export const migrationScript_1_3_2: StorageMigrationScript<
+  Record<string, { exerciseSettings?: { includedAnswers?: any[] } }>
+> = {
   storageKey: 'exerciseSettings',
   breakingChangeVersion: '1.3.2',
   getNewData(oldData) {
-    return _.mapValues(oldData, exerciseSettings => {
+    return _.mapValues(oldData, (exerciseSettings) => {
       if (!exerciseSettings.exerciseSettings?.includedAnswers) {
         return exerciseSettings;
       }
@@ -13,11 +15,14 @@ export const migrationScript_1_3_2: StorageMigrationScript<Record<string, { exer
         ...exerciseSettings,
         exerciseSettings: {
           ...exerciseSettings.exerciseSettings,
-          includedAnswers: _.map(exerciseSettings.exerciseSettings.includedAnswers, answer => {
-            return answer.replace('♭', 'b').replace('ᵒ', 'dim');
-          }),
+          includedAnswers: _.map(
+            exerciseSettings.exerciseSettings.includedAnswers,
+            (answer) => {
+              return answer.replace('♭', 'b').replace('ᵒ', 'dim');
+            }
+          ),
         },
-      }
+      };
     });
-  }
-}
+  },
+};

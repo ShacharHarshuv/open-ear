@@ -1,21 +1,20 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import {
   BehaviorSubject,
   interval,
-  NEVER,
-} from 'rxjs';
-import { YouTubePlayer } from 'youtube-player/dist/types';
-import * as PriorityQueue from 'js-priority-queue';
-import PlayerFactory from 'youtube-player';
+  NEVER
+} from "rxjs";
+import { YouTubePlayer } from "youtube-player/dist/types";
+import * as PriorityQueue from "js-priority-queue";
+import PlayerFactory from "youtube-player";
 import {
   filter,
-  skip,
   switchMap,
   take,
-  takeUntil,
-} from 'rxjs/operators';
-import { BaseDestroyable } from '../shared/ts-utility';
-import * as _ from 'lodash';
+  takeUntil
+} from "rxjs/operators";
+import { BaseDestroyable } from "../shared/ts-utility";
+import * as _ from "lodash";
 
 export interface YouTubeCallbackDescriptor {
   seconds: number;
@@ -34,7 +33,10 @@ export class YouTubePlayerService extends BaseDestroyable {
   private _isPlaying$ = new BehaviorSubject(false);
   private _youTubePlayer: YouTubePlayer = this._getYouTubePlayer();
   private _callBackQueue = new PriorityQueue<YouTubeCallbackDescriptor>({
-    comparator: (a: YouTubeCallbackDescriptor, b: YouTubeCallbackDescriptor) => {
+    comparator: (
+      a: YouTubeCallbackDescriptor,
+      b: YouTubeCallbackDescriptor
+    ) => {
       return a.seconds - b.seconds;
     },
   });
@@ -57,11 +59,15 @@ export class YouTubePlayerService extends BaseDestroyable {
 
     // this helps to sync the chords faster
     document.addEventListener('click', async () => {
-      const currentTime: number = _.round(await this._youTubePlayer.getCurrentTime() - 0.3 /*compensating for delay*/, 2);
+      const currentTime: number = _.round(
+        (await this._youTubePlayer.getCurrentTime()) -
+          0.3 /*compensating for delay*/,
+        2
+      );
       if (currentTime > 0) {
         console.log(currentTime);
       }
-    })
+    });
   }
 
   /**
@@ -71,16 +77,20 @@ export class YouTubePlayerService extends BaseDestroyable {
     if (this._currentlyLoadedVideoId !== videoId) {
       this._currentlyLoadedVideoId = videoId;
       this._isVideoLoading = true;
-      this._onCurrentVideoLoaded = this._youTubePlayer.loadVideoById(videoId)
+      this._onCurrentVideoLoaded = this._youTubePlayer
+        .loadVideoById(videoId)
         .then(() => {
-          return new Promise<void>(resolve => {
-            const listener = this._youTubePlayer.on('stateChange', ({data}) => {
-              if (data === 1) {
-                // @ts-ignore
-                this._youTubePlayer.off(listener);
-                resolve();
+          return new Promise<void>((resolve) => {
+            const listener = this._youTubePlayer.on(
+              'stateChange',
+              ({ data }) => {
+                if (data === 1) {
+                  // @ts-ignore
+                  this._youTubePlayer.off(listener);
+                  resolve();
+                }
               }
-            });
+            );
           });
         })
         .then(() => {
@@ -88,7 +98,7 @@ export class YouTubePlayerService extends BaseDestroyable {
         })
         .then(() => {
           this._isVideoLoading = false;
-        })
+        });
     }
     await this._onCurrentVideoLoaded;
   }
@@ -97,10 +107,14 @@ export class YouTubePlayerService extends BaseDestroyable {
     this._callBackQueue.queue({
       seconds,
       callback,
-    })
+    });
   }
 
-  async play(videoId: string, time: number, callbacks: YouTubeCallbackDescriptor[] = []): Promise<void> {
+  async play(
+    videoId: string,
+    time: number,
+    callbacks: YouTubeCallbackDescriptor[] = []
+  ): Promise<void> {
     console.log('play', videoId, time);
     if (videoId !== this._currentlyLoadedVideoId) {
       await this.loadVideoById(videoId);
@@ -109,9 +123,9 @@ export class YouTubePlayerService extends BaseDestroyable {
     await this._youTubePlayer.seekTo(time, true);
     await this._youTubePlayer.playVideo();
     this._isPlaying$.next(true);
-    callbacks.forEach(callback => {
+    callbacks.forEach((callback) => {
       this._callBackQueue.queue(callback);
-    })
+    });
   }
 
   async stop(): Promise<void> {
@@ -124,10 +138,12 @@ export class YouTubePlayerService extends BaseDestroyable {
 
   async onStop(): Promise<unknown> {
     if (this._isPlaying$.value) {
-      return this._isPlaying$.pipe(
-        filter(isPlaying => !isPlaying),
-        take(1),
-      ).toPromise();
+      return this._isPlaying$
+        .pipe(
+          filter((isPlaying) => !isPlaying),
+          take(1)
+        )
+        .toPromise();
     } else {
       return Promise.resolve();
     }
@@ -145,25 +161,27 @@ export class YouTubePlayerService extends BaseDestroyable {
   }
 
   private _startTimeListener(): void {
-    this._isPlaying$.pipe(
-      switchMap((isPlaying) => {
-        if (!isPlaying) {
-          return NEVER;
-        } else {
-          return interval(TIME_STAMP_POLLING);
+    this._isPlaying$
+      .pipe(
+        switchMap((isPlaying) => {
+          if (!isPlaying) {
+            return NEVER;
+          } else {
+            return interval(TIME_STAMP_POLLING);
+          }
+        }),
+        takeUntil(this._destroy$)
+      )
+      .subscribe(async () => {
+        if (!this._callBackQueue.length) {
+          return;
         }
-      }),
-      takeUntil(this._destroy$),
-    ).subscribe(async () => {
-      if (!this._callBackQueue.length) {
-        return;
-      }
-      const nextCallback = this._callBackQueue.peek();
-      const currentTime = await this._youTubePlayer.getCurrentTime();
-      if (currentTime > nextCallback.seconds - (TIME_STAMP_POLLING / 2000)) {
-        this._callBackQueue.dequeue();
-        nextCallback.callback();
-      }
-    });
+        const nextCallback = this._callBackQueue.peek();
+        const currentTime = await this._youTubePlayer.getCurrentTime();
+        if (currentTime > nextCallback.seconds - TIME_STAMP_POLLING / 2000) {
+          this._callBackQueue.dequeue();
+          nextCallback.callback();
+        }
+      });
   }
 }

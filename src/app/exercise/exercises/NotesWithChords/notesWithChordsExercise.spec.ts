@@ -1,6 +1,6 @@
-import { notesWithChordsExercise } from './notesWithChordsExercise';
-import { testExercise } from '../testing-utility/test-exercise.spec';
-import { expectedKeySelectionSettingsDescriptors } from '../utility/settings/keySelectionSettingsDescriptors.spec';
+import { notesWithChordsExercise } from "./notesWithChordsExercise";
+import { testExercise } from "../testing-utility/test-exercise.spec";
+import { expectedKeySelectionSettingsDescriptors } from "../utility/settings/keySelectionSettingsDescriptors.spec";
 
 describe(notesWithChordsExercise.name, () => {
   testExercise({
@@ -11,5 +11,5 @@ describe(notesWithChordsExercise.name, () => {
       'Drone',
       'Voice Mode',
     ],
-  })
-})
+  });
+});

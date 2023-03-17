@@ -1,21 +1,28 @@
-import { ExercisePage } from './exercise.page';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ExerciseSettingsDataMockService } from '../../services/exercise-settings-data.mock.service';
-import { ExerciseMockService } from '../exercise.mock.service';
-import { ModalModule } from '../../shared/modal/modal.module';
-import { MockExercise } from '../MockExercise';
-import { SharedComponentsModule } from '../../shared/components/shared-components/shared-components.module';
-import { fakeAsync, flush, TestBed, } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
-import { ExerciseService } from '../exercise.service';
-import { timeoutAsPromise } from '../../shared/ts-utility';
-import { PlayerMockService } from '../../services/player.mock.service';
-import { ExerciseModule } from '../exercise.module';
-import { NoteEvent, PlayerService, } from '../../services/player.service';
-import { ExercisePageDebugger } from './exerice.page.debugger.spec';
-import { TestingUtility } from '../../shared/testing-utility';
-import { YouTubePlayerMockService } from '../../services/you-tube-player.mock.service';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { ExercisePage } from "./exercise.page";
+import { RouterTestingModule } from "@angular/router/testing";
+import { ExerciseSettingsDataMockService } from "../../services/exercise-settings-data.mock.service";
+import { ExerciseMockService } from "../exercise.mock.service";
+import { ModalModule } from "../../shared/modal/modal.module";
+import { MockExercise } from "../MockExercise";
+import { SharedComponentsModule } from "../../shared/components/shared-components/shared-components.module";
+import {
+  fakeAsync,
+  flush,
+  TestBed
+} from "@angular/core/testing";
+import { ActivatedRoute } from "@angular/router";
+import { ExerciseService } from "../exercise.service";
+import { timeoutAsPromise } from "../../shared/ts-utility";
+import { PlayerMockService } from "../../services/player.mock.service";
+import { ExerciseModule } from "../exercise.module";
+import {
+  NoteEvent,
+  PlayerService
+} from "../../services/player.service";
+import { ExercisePageDebugger } from "./exerice.page.debugger.spec";
+import { TestingUtility } from "../../shared/testing-utility";
+import { YouTubePlayerMockService } from "../../services/you-tube-player.mock.service";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 
 describe('ExercisePage', () => {
   const spies: jasmine.Spy[] = [];
@@ -42,7 +49,7 @@ describe('ExercisePage', () => {
           provide: ActivatedRoute,
           useValue: {
             snapshot: {
-              params: {id: MockExercise.instance.id},
+              params: { id: MockExercise.instance.id },
             },
           },
         },
@@ -50,7 +57,9 @@ describe('ExercisePage', () => {
     }).compileComponents();
 
     spies.push(
-      spyOn(TestBed.inject(ExerciseService), 'getExercise').and.returnValue(MockExercise.instance),
+      spyOn(TestBed.inject(ExerciseService), 'getExercise').and.returnValue(
+        MockExercise.instance
+      ),
       spyOn(MockExercise.instance, 'getAnswerList').and.returnValue([
         {
           answer: 'Answer 1',
@@ -58,10 +67,12 @@ describe('ExercisePage', () => {
         },
         'Answer 2',
         'Answer 3',
-      ]),
+      ])
     );
 
-    TestBed.inject(ExerciseSettingsDataMockService).exerciseIdToSettings[MockExercise.instance.id] = {
+    TestBed.inject(ExerciseSettingsDataMockService).exerciseIdToSettings[
+      MockExercise.instance.id
+    ] = {
       exerciseSettings: {},
       globalSettings: {
         bpm: 120,
@@ -72,30 +83,36 @@ describe('ExercisePage', () => {
         playCadence: true,
       },
       wasExplanationDisplayed: true,
-    }
+    };
   });
 
   afterEach(() => {
     exercisePageDebugger.fixture.destroy();
-    spies.forEach(spy => {
+    spies.forEach((spy) => {
       spy.and.callThrough();
     });
   });
 
   //#region Utility functions
   function createComponent(): void {
-    exercisePageDebugger = new ExercisePageDebugger(TestBed.createComponent(ExercisePage));
+    exercisePageDebugger = new ExercisePageDebugger(
+      TestBed.createComponent(ExercisePage)
+    );
     exercisePageDebugger.spectator.detectChanges();
   }
 
-  function createPlayMultiplePartsSpy(): jasmine.Spy<PlayerService['playMultipleParts']> {
+  function createPlayMultiplePartsSpy(): jasmine.Spy<
+    PlayerService['playMultipleParts']
+  > {
     return spyOn(TestBed.inject(PlayerService), 'playMultipleParts');
   }
 
   function answerAllSegmentsOfMockQuestion(): void {
     exercisePageDebugger.clickOnAnswer('Answer 1');
     exercisePageDebugger.clickOnAnswer('Answer 2');
-    expect(TestingUtility.isDisabled(exercisePageDebugger.getNextButton())).toBeFalse();
+    expect(
+      TestingUtility.isDisabled(exercisePageDebugger.getNextButton())
+    ).toBeFalse();
   }
   //#endregion
 
@@ -119,14 +136,18 @@ describe('ExercisePage', () => {
 
   it('exercise name should be visible in the header', async () => {
     createComponent();
-    expect(exercisePageDebugger.getExerciseTitle()).toEqual(MockExercise.instance.name);
+    expect(exercisePageDebugger.getExerciseTitle()).toEqual(
+      MockExercise.instance.name
+    );
   });
 
   // todo(#75): there is an issue with importing the ionic module, without which it can't work
   xit('should display explanation', async () => {
     const expectedExplanation = MockExercise.instance.explanation;
     if (typeof expectedExplanation !== 'string') {
-      throw Error(`Expected MockExercise name to be of type string. Received ${expectedExplanation}`);
+      throw Error(
+        `Expected MockExercise name to be of type string. Received ${expectedExplanation}`
+      );
     }
     expect(document.body.innerText).not.toContain(expectedExplanation);
 
@@ -143,15 +164,19 @@ describe('ExercisePage', () => {
     expect(document.body.innerText).not.toContain(expectedExplanation);
   });
 
-  describe('Playing Questions', function() {
+  describe('Playing Questions', function () {
     it('exercise question should be played with cadence when exercise load', fakeAsync(() => {
-      const playMultiplePartsSpy: jasmine.Spy<PlayerService['playMultipleParts']> = createPlayMultiplePartsSpy();
+      const playMultiplePartsSpy: jasmine.Spy<
+        PlayerService['playMultipleParts']
+      > = createPlayMultiplePartsSpy();
       createComponent();
       flush();
-      expect(playMultiplePartsSpy).toHaveBeenCalledOnceWith(jasmine.arrayWithExactContents([
-        ...MockExercise.cadenceToPlayExpectation,
-        ...MockExercise.questionToPlayExpectation,
-      ]));
+      expect(playMultiplePartsSpy).toHaveBeenCalledOnceWith(
+        jasmine.arrayWithExactContents([
+          ...MockExercise.cadenceToPlayExpectation,
+          ...MockExercise.questionToPlayExpectation,
+        ])
+      );
       playMultiplePartsSpy.and.callThrough();
     }));
 
@@ -162,10 +187,12 @@ describe('ExercisePage', () => {
       expect(playMultiplePartsSpy).not.toHaveBeenCalled();
       exercisePageDebugger.clickOnRepeat();
       flush();
-      expect(playMultiplePartsSpy).toHaveBeenCalledOnceWith(jasmine.arrayWithExactContents([
-        ...MockExercise.cadenceToPlayExpectation,
-        ...MockExercise.questionToPlayExpectation,
-      ]))
+      expect(playMultiplePartsSpy).toHaveBeenCalledOnceWith(
+        jasmine.arrayWithExactContents([
+          ...MockExercise.cadenceToPlayExpectation,
+          ...MockExercise.questionToPlayExpectation,
+        ])
+      );
     }));
 
     it('exercise question should be played without cadence when clicking musical note icon', fakeAsync(() => {
@@ -177,9 +204,11 @@ describe('ExercisePage', () => {
       expect(playMultiplePartsSpy).not.toHaveBeenCalled();
       exercisePageDebugger.clickOnMusicalNote();
       flush();
-      expect(playMultiplePartsSpy).toHaveBeenCalledOnceWith(jasmine.arrayWithExactContents([
-        ...MockExercise.questionToPlayExpectation,
-      ]))
+      expect(playMultiplePartsSpy).toHaveBeenCalledOnceWith(
+        jasmine.arrayWithExactContents([
+          ...MockExercise.questionToPlayExpectation,
+        ])
+      );
     }));
 
     // TODO(#76) Test with different "play cadence" modes
@@ -187,7 +216,7 @@ describe('ExercisePage', () => {
     // TODO(#76) Test BPM change. (Cadence bpm should remain regardless of settings)
   });
 
-  describe('Answer initialization', function() {
+  describe('Answer initialization', function () {
     beforeEach(fakeAsync(() => {
       createComponent();
       flush();
@@ -270,23 +299,29 @@ describe('ExercisePage', () => {
             wasWrong: false,
           },
         ]);
-      }))
+      }));
     });
 
-    describe('Next question', function() {
+    describe('Next question', function () {
       it('should be disabled before answering', () => {
-        expect(TestingUtility.isDisabled(exercisePageDebugger.getNextButton())).toBeTrue();
+        expect(
+          TestingUtility.isDisabled(exercisePageDebugger.getNextButton())
+        ).toBeTrue();
       });
 
       it('should be disabled when partially answered', fakeAsync(() => {
         exercisePageDebugger.clickOnAnswer('Answer 1');
-        expect(TestingUtility.isDisabled(exercisePageDebugger.getNextButton())).toBeTrue();
+        expect(
+          TestingUtility.isDisabled(exercisePageDebugger.getNextButton())
+        ).toBeTrue();
       }));
 
       it('should be enabled when completely answered', fakeAsync(() => {
         exercisePageDebugger.clickOnAnswer('Answer 1');
         exercisePageDebugger.clickOnAnswer('Answer 2');
-        expect(TestingUtility.isDisabled(exercisePageDebugger.getNextButton())).toBeFalse();
+        expect(
+          TestingUtility.isDisabled(exercisePageDebugger.getNextButton())
+        ).toBeFalse();
       }));
 
       it('when clicking next, next question should be played and answers indication cleared', fakeAsync(() => {
@@ -301,20 +336,24 @@ describe('ExercisePage', () => {
           {
             answer: 'Answer 2',
             wasWrong: false,
-          }
+          },
         ]);
 
         // making sure spy call list is empty before clicking
-        const playMultiplePartsSpy: jasmine.Spy<PlayerService['playMultipleParts']> = createPlayMultiplePartsSpy();
+        const playMultiplePartsSpy: jasmine.Spy<
+          PlayerService['playMultipleParts']
+        > = createPlayMultiplePartsSpy();
         flush();
         exercisePageDebugger.detectChanges();
         expect(playMultiplePartsSpy).not.toHaveBeenCalled();
 
         exercisePageDebugger.clickOnNext();
-        expect(playMultiplePartsSpy).toHaveBeenCalledOnceWith(jasmine.arrayWithExactContents([
-          ...MockExercise.cadenceToPlayExpectation,
-          ...MockExercise.questionToPlayExpectation,
-        ]));
+        expect(playMultiplePartsSpy).toHaveBeenCalledOnceWith(
+          jasmine.arrayWithExactContents([
+            ...MockExercise.cadenceToPlayExpectation,
+            ...MockExercise.questionToPlayExpectation,
+          ])
+        );
 
         playMultiplePartsSpy.and.callThrough();
 
@@ -326,7 +365,7 @@ describe('ExercisePage', () => {
           {
             answer: null,
             wasWrong: false,
-          }
+          },
         ]);
       }));
 
@@ -342,14 +381,19 @@ describe('ExercisePage', () => {
 
       it('after all segments when answers, it should play answers on click', fakeAsync(() => {
         answerAllSegmentsOfMockQuestion();
-        const playPartSpy: jasmine.Spy<PlayerService['playPart']> = spyOn(TestBed.inject(PlayerService), 'playPart');
+        const playPartSpy: jasmine.Spy<PlayerService['playPart']> = spyOn(
+          TestBed.inject(PlayerService),
+          'playPart'
+        );
         exercisePageDebugger.clickOnAnswer('Answer 1');
-        expect(playPartSpy).toHaveBeenCalledOnceWith(jasmine.arrayWithExactContents([
-          jasmine.objectContaining<NoteEvent>({
-            notes: ['F4'],
-            duration: '4n',
-          }),
-        ]));
+        expect(playPartSpy).toHaveBeenCalledOnceWith(
+          jasmine.arrayWithExactContents([
+            jasmine.objectContaining<NoteEvent>({
+              notes: ['F4'],
+              duration: '4n',
+            }),
+          ])
+        );
 
         // verify answers indication remain
         expect(exercisePageDebugger.getCurrentAnswersList()).toEqual([
@@ -360,11 +404,11 @@ describe('ExercisePage', () => {
           {
             answer: 'Answer 2',
             wasWrong: false,
-          }
+          },
         ]);
 
         playPartSpy.and.callThrough();
-      }))
+      }));
     });
 
     describe('Stats', () => {
@@ -403,7 +447,7 @@ describe('ExercisePage', () => {
           totalAnswers: 3,
           percentage: 66.67,
         });
-      }))
+      }));
     });
   });
 

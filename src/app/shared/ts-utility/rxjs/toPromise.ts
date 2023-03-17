@@ -1,8 +1,8 @@
 import {
   Observable,
-  firstValueFrom,
-} from 'rxjs';
-import { SyncOrAsync } from './SyncOrAsync';
+  firstValueFrom
+} from "rxjs";
+import { SyncOrAsync } from "./SyncOrAsync";
 
 export function toPromise<G>(param: SyncOrAsync<G>): Promise<G> {
   if (param instanceof Observable) {

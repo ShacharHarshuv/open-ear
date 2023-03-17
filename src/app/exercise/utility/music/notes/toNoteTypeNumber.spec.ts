@@ -1,8 +1,8 @@
-import { NoteType } from './NoteType';
+import { NoteType } from "./NoteType";
 import {
   toNoteTypeNumber,
   toNoteTypeName
-} from './toNoteTypeNumber';
+} from "./toNoteTypeNumber";
 
 describe('toNoteTypeNumber', function () {
   const testCases: [NoteType | number, number][] = [

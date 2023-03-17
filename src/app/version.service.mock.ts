@@ -1,6 +1,6 @@
-import { VersionService } from './version.service';
-import { Provider } from '@angular/core';
-import { ReplaySubject } from 'rxjs';
+import { VersionService } from "./version.service";
+import { Provider } from "@angular/core";
+import { ReplaySubject } from "rxjs";
 
 export class VersionServiceMock implements Pick<VersionService, 'version$'> {
   readonly version$ = new ReplaySubject<string>(1);
@@ -14,6 +14,6 @@ export class VersionServiceMock implements Pick<VersionService, 'version$'> {
     {
       provide: VersionService,
       useExisting: VersionServiceMock,
-    }
+    },
   ];
 }

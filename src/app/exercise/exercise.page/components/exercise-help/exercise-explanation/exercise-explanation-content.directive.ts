@@ -1,11 +1,16 @@
-import {ComponentFactoryResolver, Directive, ElementRef, Input, ViewContainerRef} from '@angular/core';
-import {Exercise} from "../../../../Exercise";
+import {
+  ComponentFactoryResolver,
+  Directive,
+  ElementRef,
+  Input,
+  ViewContainerRef
+} from "@angular/core";
+import { Exercise } from "../../../../Exercise";
 
 @Directive({
-  selector: '[exerciseExplanationContent]'
+  selector: '[exerciseExplanationContent]',
 })
 export class ExerciseExplanationContentDirective {
-
   @Input('exerciseExplanationContent')
   set content(content: Exercise.ExerciseExplanationContent) {
     if (typeof content === 'string') {
@@ -13,7 +18,7 @@ export class ExerciseExplanationContentDirective {
     } else {
       this._viewContainerRef.clear();
       this._viewContainerRef.createComponent(
-        this._cfResolver.resolveComponentFactory(content),
+        this._cfResolver.resolveComponentFactory(content)
       );
     }
   }
@@ -21,7 +26,6 @@ export class ExerciseExplanationContentDirective {
   constructor(
     private _eRef: ElementRef,
     private _viewContainerRef: ViewContainerRef,
-    private _cfResolver: ComponentFactoryResolver,
-  ) {
-  }
+    private _cfResolver: ComponentFactoryResolver
+  ) {}
 }

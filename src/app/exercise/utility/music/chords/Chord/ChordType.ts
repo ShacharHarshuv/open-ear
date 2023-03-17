@@ -1,10 +1,10 @@
-import { MusicSymbol } from '../../MusicSymbol';
+import { MusicSymbol } from "../../MusicSymbol";
 import {
   MajorChordTypesPostfix,
-  MinorChordTypesPostfix,
-} from '../../harmony';
-import * as _ from 'lodash';
-import { EnharmonicScaleDegree } from '../../scale-degrees';
+  MinorChordTypesPostfix
+} from "../../harmony";
+import * as _ from "lodash";
+import { EnharmonicScaleDegree } from "../../scale-degrees";
 
 export enum ChordType {
   Major = 'M',
@@ -26,21 +26,24 @@ export enum ChordType {
   MinorMajor9th = 'mM9',
   MajorAdd9 = 'add9',
   MinorAdd9 = 'madd9',
-  MajorAddSharp4 = 'add#4'
+  MajorAddSharp4 = 'add#4',
 }
 
 interface IChordTypeConfig {
   displayName: string;
   scaleDegreeList: EnharmonicScaleDegree[];
-  romanNumeral: ({
-    isLowercase: true;
-    postfix: `${MinorChordTypesPostfix}`,
-  } | {
-    isLowercase: false;
-    postfix: `${MajorChordTypesPostfix}`,
-  }) & {
+  romanNumeral: (
+    | {
+        isLowercase: true;
+        postfix: `${MinorChordTypesPostfix}`;
+      }
+    | {
+        isLowercase: false;
+        postfix: `${MajorChordTypesPostfix}`;
+      }
+  ) & {
     viewPostfix: string;
-  }
+  };
 }
 
 export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
@@ -195,8 +198,7 @@ export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
       postfix: 'M9',
       viewPostfix: `<sup>M9</sup>`,
     },
-    scaleDegreeList: ['b3', '5', '7',
-      '9'],
+    scaleDegreeList: ['b3', '5', '7', '9'],
   },
   [ChordType.MajorAdd9]: {
     displayName: 'Major Add 9',
@@ -225,18 +227,24 @@ export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
       viewPostfix: `<sup>add#4</sup>`,
     },
   },
-}
+};
 
-type RomanNumeralChordTypeParserMap =
-  Record<'lowercase', Record<MinorChordTypesPostfix, ChordType>> &
+type RomanNumeralChordTypeParserMap = Record<
+  'lowercase',
+  Record<MinorChordTypesPostfix, ChordType>
+> &
   Record<'uppercase', Record<MajorChordTypesPostfix, ChordType>>;
 
 export const romanNumeralChordTypeParserMap: RomanNumeralChordTypeParserMap =
-  _.reduce(chordTypeConfigMap, (map, config, type) => {
-    const key = config.romanNumeral.isLowercase ? 'lowercase' : 'uppercase';
-    if (!map[key]) {
-      map[key] = {};
-    }
-    map[key][config.romanNumeral.postfix] = type;
-    return map;
-  }, {}) as RomanNumeralChordTypeParserMap;
+  _.reduce(
+    chordTypeConfigMap,
+    (map, config, type) => {
+      const key = config.romanNumeral.isLowercase ? 'lowercase' : 'uppercase';
+      if (!map[key]) {
+        map[key] = {};
+      }
+      map[key][config.romanNumeral.postfix] = type;
+      return map;
+    },
+    {}
+  ) as RomanNumeralChordTypeParserMap;

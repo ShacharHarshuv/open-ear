@@ -1,8 +1,8 @@
-import { testPureFunction } from '../../../../shared/testing-utility/testPureFunction';
+import { testPureFunction } from "../../../../shared/testing-utility/testPureFunction";
 import {
   getNoteFromScaleDegree,
-  getScaleDegreeFromNote,
-} from './ScaleDegrees';
+  getScaleDegreeFromNote
+} from "./ScaleDegrees";
 
 describe('getNoteFromScaleDegree', () => {
   testPureFunction(getNoteFromScaleDegree, [
@@ -26,10 +26,10 @@ describe('getNoteFromScaleDegree', () => {
       args: ['F', 'b7'],
       returnValue: 'D#4', // currently, sharps are always returned, but preferably we'll return Eb here
     },
-  ])
+  ]);
 });
 
-describe('getScaleDegreeFromNote', function() {
+describe('getScaleDegreeFromNote', function () {
   testPureFunction(getScaleDegreeFromNote, [
     {
       args: ['C', 'D4'],
@@ -42,6 +42,6 @@ describe('getScaleDegreeFromNote', function() {
     {
       args: ['D', 'Eb4'],
       returnValue: 'b2',
-    }
-  ])
+    },
+  ]);
 });

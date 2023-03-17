@@ -1,11 +1,12 @@
-import { InjectionToken } from '@angular/core';
-import { OneOrMany } from '../shared/ts-utility';
+import { InjectionToken } from "@angular/core";
+import { OneOrMany } from "../shared/ts-utility";
 
-export const RELEASE_NOTES_TOKEN: InjectionToken<ReleaseNotes> = new InjectionToken('Release Notes');
+export const RELEASE_NOTES_TOKEN: InjectionToken<ReleaseNotes> =
+  new InjectionToken('Release Notes');
 
 export type ReleaseNotes = {
-  version: string,
-  notes: OneOrMany<string>
+  version: string;
+  notes: OneOrMany<string>;
 }[];
 
 export const releaseNotes: ReleaseNotes = [
@@ -15,11 +16,13 @@ export const releaseNotes: ReleaseNotes = [
   },
   {
     version: '1.1.3',
-    notes: 'Support multiple notes for Note in Key exercise (can be set up via "Number of notes" in the exercise settings)',
+    notes:
+      'Support multiple notes for Note in Key exercise (can be set up via "Number of notes" in the exercise settings)',
   },
   {
     version: '1.1.3',
-    notes: 'Add the option to disable resolution in tonal exercise (Notes and Chords in Key)',
+    notes:
+      'Add the option to disable resolution in tonal exercise (Notes and Chords in Key)',
   },
   {
     version: '1.1.4',
@@ -27,31 +30,37 @@ export const releaseNotes: ReleaseNotes = [
   },
   {
     version: '1.1.5',
-    notes: 'Add "Common Chord Progressions" Exercise. Try this to identify on the most popular and used progression.'
+    notes:
+      'Add "Common Chord Progressions" Exercise. Try this to identify on the most popular and used progression.',
   },
   {
     version: '1.1.6',
-    notes: 'Fix bug where right answers were not highlighted correctly'
+    notes: 'Fix bug where right answers were not highlighted correctly',
   },
   {
     version: '1.2.1',
-    notes: 'Support the minor mode for note in key exercise. Note you have to manually select relevant notes and cadence type (for now)'
+    notes:
+      'Support the minor mode for note in key exercise. Note you have to manually select relevant notes and cadence type (for now)',
   },
   {
     version: '1.2.2',
-    notes: 'New "Notes with Chords" exercise. Practice it to memorize the sound of the same scale degrees above different chords.'
+    notes:
+      'New "Notes with Chords" exercise. Practice it to memorize the sound of the same scale degrees above different chords.',
   },
   {
     version: '1.2.3',
-    notes: 'Click other answers to listen to what they sound like after correct answer received',
+    notes:
+      'Click other answers to listen to what they sound like after correct answer received',
   },
   {
     version: '1.2.4',
-    notes: 'Settings for included answers have a more friendly layout that matches the answers in practice view',
+    notes:
+      'Settings for included answers have a more friendly layout that matches the answers in practice view',
   },
   {
     version: '1.2.5',
-    notes: 'Support all modes and non-diatonic chords for Chord Functions Exercise. Note you have to manually select relevant chords and cadence type for the scale you want to practice in (for now)',
+    notes:
+      'Support all modes and non-diatonic chords for Chord Functions Exercise. Note you have to manually select relevant chords and cadence type for the scale you want to practice in (for now)',
   },
   {
     version: '1.2.6',
@@ -63,15 +72,16 @@ export const releaseNotes: ReleaseNotes = [
   },
   {
     version: '1.2.7',
-    notes: `"Reveal answer after first mistake" option - when checked, correct answer will be revealed after first mistake, so you don't have a "second chance" to find the right answer.`
+    notes: `"Reveal answer after first mistake" option - when checked, correct answer will be revealed after first mistake, so you don't have a "second chance" to find the right answer.`,
   },
   {
     version: '1.2.9',
-    notes: 'Improve performance for "Chord progressions in real songs" (Android only)',
+    notes:
+      'Improve performance for "Chord progressions in real songs" (Android only)',
   },
   {
     version: '1.2.10',
-    notes: 'Enable a selection of range for "Scale Degree" exercise.'
+    notes: 'Enable a selection of range for "Scale Degree" exercise.',
   },
   {
     version: '1.2.11',
@@ -79,39 +89,47 @@ export const releaseNotes: ReleaseNotes = [
   },
   {
     version: '1.2.12',
-    notes: 'Use numeric display instead of Moveable-Do for scale degrees exercise'
+    notes:
+      'Use numeric display instead of Moveable-Do for scale degrees exercise',
   },
   {
     version: '1.2.14',
-    notes: 'Add more chord degrees options'
+    notes: 'Add more chord degrees options',
   },
   {
     version: '1.3.1',
-    notes: 'Bass voice mode for Notes with Chord: Use it to learn how different bass notes sounds like under different chords. (essentially creating inversions or interesting suspensions)'
+    notes:
+      'Bass voice mode for Notes with Chord: Use it to learn how different bass notes sounds like under different chords. (essentially creating inversions or interesting suspensions)',
   },
   {
     version: '1.3.1',
-    notes: 'Enable selection of chords in "Chord Progressions in Real Songs" exercise. (Android only)'
+    notes:
+      'Enable selection of chords in "Chord Progressions in Real Songs" exercise. (Android only)',
   },
   {
     version: '1.4.1',
-    notes: '"Analyze by relative major tonic" option in Common Chord Progressions exercise. Use this to analyze roman numerals in relative major no matter what\'s the progression "real" mode.'
+    notes:
+      '"Analyze by relative major tonic" option in Common Chord Progressions exercise. Use this to analyze roman numerals in relative major no matter what\'s the progression "real" mode.',
   },
   {
     version: '1.4.5',
-    notes: '"Answer question automatically" - Use this together with "resolution" and "move automatically to next question" to create a "listening mode" where questions and resolutions will be played consecutively and help train your musical memory.'
+    notes:
+      '"Answer question automatically" - Use this together with "resolution" and "move automatically to next question" to create a "listening mode" where questions and resolutions will be played consecutively and help train your musical memory.',
   },
   {
     version: '1.5.1',
-    notes: 'Adding more chords to Chord Types exercise (Currently supports 18 chord types)'
+    notes:
+      'Adding more chords to Chord Types exercise (Currently supports 18 chord types)',
   },
   {
     version: '1.5.6',
-    notes: 'Enabled randomizing the key every X questions. Relevant for all tonal-based questions.'
+    notes:
+      'Enabled randomizing the key every X questions. Relevant for all tonal-based questions.',
   },
   {
     version: '1.5.7',
-    notes: 'Enable a selection of arpeggio direction for "Triad Inversion" exercise'
+    notes:
+      'Enable a selection of arpeggio direction for "Triad Inversion" exercise',
   },
   {
     version: '1.5.8',
@@ -127,6 +145,7 @@ export const releaseNotes: ReleaseNotes = [
   },
   {
     version: '1.5.12',
-    notes: 'Support for harmonic intervals in interval excercise. Can switch betwen melodic or harmonic in the configuration of the interval excercise.'
-  }
-]
+    notes:
+      'Support for harmonic intervals in interval excercise. Can switch betwen melodic or harmonic in the configuration of the interval excercise.',
+  },
+];

@@ -1,8 +1,8 @@
-import { testPureFunction } from '../../../../shared/testing-utility/testPureFunction';
+import { testPureFunction } from "../../../../shared/testing-utility/testPureFunction";
 import {
   toRelativeMode,
-  Mode,
-} from './Mode';
+  Mode
+} from "./Mode";
 
 describe('toRelativeMode', () => {
   testPureFunction(toRelativeMode, [
@@ -30,5 +30,5 @@ describe('toRelativeMode', () => {
       args: ['2', Mode.Phrygian, Mode.Locrian],
       returnValue: '5',
     },
-  ])
+  ]);
 });

@@ -3,24 +3,22 @@ import {
   Observable,
   ConnectableObservable,
   Subscription
-} from 'rxjs';
+} from "rxjs";
 import {
   publishReplay,
   take
-} from 'rxjs/operators';
+} from "rxjs/operators";
 
-export function publishReplayUntilAndConnect<G>(notifier?: Observable<any>): MonoTypeOperatorFunction<G> {
+export function publishReplayUntilAndConnect<G>(
+  notifier?: Observable<any>
+): MonoTypeOperatorFunction<G> {
   return (source$: Observable<G>) => {
-    const connectableObservable: ConnectableObservable<G> = source$
-      .pipe(
-        publishReplay(1),
-      ) as ConnectableObservable<G>;
+    const connectableObservable: ConnectableObservable<G> = source$.pipe(
+      publishReplay(1)
+    ) as ConnectableObservable<G>;
     const subscription: Subscription = connectableObservable.connect();
     if (notifier) {
-      notifier.pipe(
-        take(1),
-      )
-        .subscribe(() => subscription.unsubscribe());
+      notifier.pipe(take(1)).subscribe(() => subscription.unsubscribe());
     }
 
     return connectableObservable;

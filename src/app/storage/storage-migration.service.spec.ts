@@ -1,22 +1,21 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 import {
   StorageMigrationService,
   StorageMigrationScript,
-  MIGRATION_SCRIPTS,
-} from './storage-migration.service';
-import { VersionServiceMock } from '../version.service.mock';
-import { StorageServiceMock } from './storage.service.mock';
-import { StorageService } from './storage.service';
+  MIGRATION_SCRIPTS
+} from "./storage-migration.service";
+import { VersionServiceMock } from "../version.service.mock";
+import { StorageServiceMock } from "./storage.service.mock";
+import { StorageService } from "./storage.service";
 import Expected = jasmine.Expected;
 import ArrayContaining = jasmine.ArrayContaining;
 
-describe('StorageMigrationService', function() {
+describe('StorageMigrationService', function () {
   const baseMockScript: StorageMigrationScript = {
     breakingChangeVersion: '1.0.0',
     storageKey: 'key',
-    getNewData(oldData: any): any {
-    },
-  }
+    getNewData(oldData: any): any {},
+  };
   let storageMigrationService: StorageMigrationService;
 
   beforeEach(() => {
@@ -45,12 +44,18 @@ describe('StorageMigrationService', function() {
         breakingChangeVersion: '1.4.2',
       },
     ];
-    spyOn(storageMigrationService, 'getScriptsToRun').and.returnValue(Promise.resolve(migrationScriptsMock));
+    spyOn(storageMigrationService, 'getScriptsToRun').and.returnValue(
+      Promise.resolve(migrationScriptsMock)
+    );
     const runScriptSpy = spyOn(storageMigrationService, 'runMigrationScript');
     await storageMigrationService.runMigrationScripts();
-    expect(runScriptSpy.calls.all()).toEqual(migrationScriptsMock.map(script => jasmine.objectContaining({
-      args: [script],
-    })))
+    expect(runScriptSpy.calls.all()).toEqual(
+      migrationScriptsMock.map((script) =>
+        jasmine.objectContaining({
+          args: [script],
+        })
+      )
+    );
   });
 
   describe('getScriptsToRun', () => {
@@ -77,7 +82,9 @@ describe('StorageMigrationService', function() {
       name: string;
       currentVersion: string;
       lastVersionValue: string | undefined | null;
-      expectedValue: Expected<ArrayLike<StorageMigrationScript>> | ArrayContaining<StorageMigrationScript>;
+      expectedValue:
+        | Expected<ArrayLike<StorageMigrationScript>>
+        | ArrayContaining<StorageMigrationScript>;
     }[] = [
       {
         name: 'when lastVersion is not set, should return all scripts',
@@ -115,28 +122,32 @@ describe('StorageMigrationService', function() {
         currentVersion: 'development',
         lastVersionValue: null,
         expectedValue: [],
-      }
-    ]
+      },
+    ];
 
-    testCases.forEach(testCase => {
+    testCases.forEach((testCase) => {
       it(testCase.name, async () => {
         TestBed.overrideProvider(MIGRATION_SCRIPTS, {
           useValue: mockScripts,
         });
         storageMigrationService = TestBed.inject(StorageMigrationService);
-        TestBed.inject(VersionServiceMock).version$.next(testCase.currentVersion)
+        TestBed.inject(VersionServiceMock).version$.next(
+          testCase.currentVersion
+        );
         spyOn(TestBed.inject(StorageService), 'get').and.callFake((key) => {
           if (key === 'lastVersion') {
             return Promise.resolve(testCase.lastVersionValue);
           }
           return Promise.resolve();
         });
-        expect(await storageMigrationService.getScriptsToRun()).toEqual(testCase.expectedValue);
+        expect(await storageMigrationService.getScriptsToRun()).toEqual(
+          testCase.expectedValue
+        );
       });
-    })
-  })
+    });
+  });
 
-  describe('runMigrationScript', function() {
+  describe('runMigrationScript', function () {
     beforeEach(() => {
       storageMigrationService = TestBed.inject(StorageMigrationService);
     });
@@ -147,9 +158,9 @@ describe('StorageMigrationService', function() {
       getNewData(oldData): number {
         return oldData + 1;
       },
-    }
+    };
 
-    it('should not run script if \'key\' doesn\'t exist in storage', async () => {
+    it("should not run script if 'key' doesn't exist in storage", async () => {
       const setSpy = spyOn(TestBed.inject(StorageService), 'set');
       await storageMigrationService.runMigrationScript(mockScript);
       expect(setSpy).not.toHaveBeenCalled();
@@ -161,7 +172,7 @@ describe('StorageMigrationService', function() {
           return 1;
         }
         return undefined;
-      })
+      });
       const setSpy = spyOn(TestBed.inject(StorageService), 'set');
       await storageMigrationService.runMigrationScript(mockScript);
       expect(setSpy).toHaveBeenCalledOnceWith('key', 2);
@@ -176,7 +187,7 @@ describe('StorageMigrationService', function() {
           return 2;
         }
         return undefined;
-      })
+      });
       const setSpy = spyOn(TestBed.inject(StorageService), 'set');
       await storageMigrationService.runMigrationScript({
         ...mockScript,
@@ -184,12 +195,12 @@ describe('StorageMigrationService', function() {
       });
       expect(setSpy.calls.all()).toEqual([
         jasmine.objectContaining({
-          args: ['key1', 2]
+          args: ['key1', 2],
         }),
         jasmine.objectContaining({
-          args: ['key2', 3]
+          args: ['key2', 3],
         }),
-      ])
+      ]);
     });
   });
 });

@@ -1,8 +1,11 @@
-import { PublicMembers } from '../shared/ts-utility/PublicMembers';
-import { ExerciseService } from './exercise.service';
-import { Injectable, Provider } from '@angular/core';
-import { Exercise } from './Exercise';
-import { MockExercise } from './MockExercise';
+import { PublicMembers } from "../shared/ts-utility/PublicMembers";
+import { ExerciseService } from "./exercise.service";
+import {
+  Injectable,
+  Provider
+} from "@angular/core";
+import { Exercise } from "./Exercise";
+import { MockExercise } from "./MockExercise";
 
 @Injectable()
 export class ExerciseMockService implements PublicMembers<ExerciseService> {
@@ -21,7 +24,6 @@ export class ExerciseMockService implements PublicMembers<ExerciseService> {
     {
       provide: ExerciseService,
       useExisting: ExerciseMockService,
-    }
-  ]
-
+    },
+  ];
 }

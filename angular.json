@@ -36,14 +36,9 @@
                 "output": "samples"
               }
             ],
-            "styles": [
-              "src/theme/variables.scss",
-              "src/global.scss"
-            ],
+            "styles": ["src/theme/variables.scss", "src/global.scss"],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "src/style"
-              ]
+              "includePaths": ["src/style"]
             },
             "scripts": [],
             "aot": false,
@@ -92,8 +87,7 @@
             "production": {
               "browserTarget": "app:build:production"
             },
-            "ci": {
-            }
+            "ci": {}
           }
         },
         "extract-i18n": {
@@ -129,9 +123,7 @@
               }
             ],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "src/style"
-              ]
+              "includePaths": ["src/style"]
             }
           },
           "configurations": {
@@ -144,10 +136,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         },
         "e2e": {

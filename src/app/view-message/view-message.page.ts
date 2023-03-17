@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {
+  Component,
+  OnInit
+} from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-view-message',
@@ -9,10 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ViewMessagePage implements OnInit {
   public message: any;
 
-  constructor(
-    private data: any,
-    private activatedRoute: ActivatedRoute
-  ) { }
+  constructor(private data: any, private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
     const id = this.activatedRoute.snapshot.paramMap.get('id');

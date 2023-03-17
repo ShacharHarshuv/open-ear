@@ -1,11 +1,11 @@
-import { Exercise } from './Exercise';
+import { Exercise } from "./Exercise";
 import {
   PlayerService,
   PartToPlay,
-  NoteEvent,
-} from '../services/player.service';
+  NoteEvent
+} from "../services/player.service";
+import { createExercise } from "./exercises/utility/exerciseAttributes/createExercise";
 import MatchableArgs = jasmine.MatchableArgs;
-import { createExercise } from './exercises/utility/exerciseAttributes/createExercise';
 
 export namespace MockExercise {
   export const instance = create();
@@ -24,7 +24,7 @@ export namespace MockExercise {
     cadence: 'E4',
   };
 
-  export function create(id? : string) {
+  export function create(id?: string) {
     return createExercise<string, Exercise.Settings>({
       explanation: 'This is my exercise explanation',
       id: id || 'mockExerciseId',
@@ -44,7 +44,9 @@ export namespace MockExercise {
    * For example, there are multiple ways to pass in time
    * (Like a custom matcher?)
    */
-  export const cadenceToPlayExpectation: MatchableArgs<PlayerService['playMultipleParts']>[0][] = [
+  export const cadenceToPlayExpectation: MatchableArgs<
+    PlayerService['playMultipleParts']
+  >[0][] = [
     // cadence
     jasmine.objectContaining<PartToPlay>({
       partOrTime: [
@@ -54,12 +56,15 @@ export namespace MockExercise {
         }),
       ],
     }),
-    jasmine.objectContaining<PartToPlay>({ // this can be optional, need to make the test more relaxed
+    jasmine.objectContaining<PartToPlay>({
+      // this can be optional, need to make the test more relaxed
       partOrTime: 100,
     }),
-  ]
+  ];
 
-  export const questionToPlayExpectation: MatchableArgs<PlayerService['playMultipleParts']>[0][] = [
+  export const questionToPlayExpectation: MatchableArgs<
+    PlayerService['playMultipleParts']
+  >[0][] = [
     // first segment
     jasmine.objectContaining<PartToPlay>({
       partOrTime: [

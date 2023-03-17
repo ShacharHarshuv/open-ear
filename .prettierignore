@@ -1,0 +1,10 @@
+build
+coverage
+.angular
+.circleci
+.monaca
+.idea
+node_modules
+www
+ios
+android

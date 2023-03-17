@@ -1,18 +1,18 @@
 <ng-container *ngIf="answerList">
-  <div
-    *ngIf="!isAutoLayout"
-    class="answers-layout__answers-rows-container"
-  >
+  <div *ngIf="!isAutoLayout" class="answers-layout__answers-rows-container">
     <div
       *ngFor="let row of answerList.rows"
       class="answers-layout__answers-row"
     >
-      <span *ngIf="isString(row); else notStringRow">{{row}}</span>
+      <span *ngIf="isString(row); else notStringRow">{{ row }}</span>
       <ng-template #notStringRow>
         <ng-container
           *ngFor="let answerCellConfig of row"
           [ngTemplateOutlet]="cellTemplate"
-          [ngTemplateOutletContext]="{$implicit: normalizeAnswerLayoutCellConfig | pureFunction: answerCellConfig}"
+          [ngTemplateOutletContext]="{
+            $implicit:
+              normalizeAnswerLayoutCellConfig | pureFunction : answerCellConfig
+          }"
         ></ng-container>
       </ng-template>
     </div>
@@ -24,15 +24,14 @@
     <ng-container
       *ngFor="let answer of answerList"
       [ngTemplateOutlet]="cellTemplate"
-      [ngTemplateOutletContext]="{$implicit: normalizeAnswerLayoutCellConfig | pureFunction: answer}"
+      [ngTemplateOutletContext]="{
+        $implicit: normalizeAnswerLayoutCellConfig | pureFunction : answer
+      }"
     ></ng-container>
   </div>
 </ng-container>
 
-<ng-template
-  let-answerLayoutCellConfig
-  #cellTemplate
->
+<ng-template let-answerLayoutCellConfig #cellTemplate>
   <div
     class="answers-layout__cell"
     *ngIf="answerLayoutCellConfig.answer"
@@ -40,7 +39,7 @@
   >
     <ng-template
       [ngTemplateOutlet]="buttonTemplate"
-      [ngTemplateOutletContext]="{$implicit: answerLayoutCellConfig}"
+      [ngTemplateOutletContext]="{ $implicit: answerLayoutCellConfig }"
     ></ng-template>
   </div>
   <div

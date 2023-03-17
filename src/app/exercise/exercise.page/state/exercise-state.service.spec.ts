@@ -1,19 +1,19 @@
 import {
   TestBed,
   fakeAsync,
-  flush,
-} from '@angular/core/testing';
-import { ExerciseStateService } from './exercise-state.service';
-import { RouterTestingModule } from '@angular/router/testing';
-import { PlayerMockService } from '../../../services/player.mock.service';
-import { YouTubePlayerMockService } from '../../../services/you-tube-player.mock.service';
-import { ExerciseMockService } from '../../exercise.mock.service';
-import { ExerciseSettingsDataMockService } from '../../../services/exercise-settings-data.mock.service';
-import { AdaptiveExerciseMockService } from './adaptive-exercise.mock.service';
-import { noteTypeToNote } from '../../utility/music/notes/noteTypeToNote';
-import { NoteType } from '../../utility/music/notes/NoteType';
+  flush
+} from "@angular/core/testing";
+import { ExerciseStateService } from "./exercise-state.service";
+import { RouterTestingModule } from "@angular/router/testing";
+import { PlayerMockService } from "../../../services/player.mock.service";
+import { YouTubePlayerMockService } from "../../../services/you-tube-player.mock.service";
+import { ExerciseMockService } from "../../exercise.mock.service";
+import { ExerciseSettingsDataMockService } from "../../../services/exercise-settings-data.mock.service";
+import { AdaptiveExerciseMockService } from "./adaptive-exercise.mock.service";
+import { noteTypeToNote } from "../../utility/music/notes/noteTypeToNote";
+import { NoteType } from "../../utility/music/notes/NoteType";
 
-describe('ExerciseStateService', function() {
+describe('ExerciseStateService', function () {
   let exerciseStateService: ExerciseStateService;
 
   beforeEach(fakeAsync(() => {
@@ -26,9 +26,7 @@ describe('ExerciseStateService', function() {
         ...ExerciseSettingsDataMockService.providers,
         ...AdaptiveExerciseMockService.providers,
       ],
-      imports: [
-        RouterTestingModule,
-      ],
+      imports: [RouterTestingModule],
     }).compileComponents();
 
     exerciseStateService = TestBed.inject(ExerciseStateService);
@@ -49,7 +47,10 @@ describe('ExerciseStateService', function() {
     });
 
     it('should reset adaptive exercise memory', () => {
-      const adaptiveExerciseResetSpy = spyOn(AdaptiveExerciseMockService.adaptiveExerciseMock, 'reset');
+      const adaptiveExerciseResetSpy = spyOn(
+        AdaptiveExerciseMockService.adaptiveExerciseMock,
+        'reset'
+      );
       expect(adaptiveExerciseResetSpy).not.toHaveBeenCalled();
       exerciseStateService.resetStatistics();
       expect(adaptiveExerciseResetSpy).toHaveBeenCalledOnceWith();
@@ -59,10 +60,10 @@ describe('ExerciseStateService', function() {
       const moveToNextQuestionSpy = spyOn(exerciseStateService, 'nextQuestion');
       exerciseStateService.resetStatistics();
       expect(moveToNextQuestionSpy).toHaveBeenCalledOnceWith();
-    })
+    });
   });
 
-  describe('answerToLabelStringMap', function() {
+  describe('answerToLabelStringMap', function () {
     // Ideally we'll check this works on initialization but this is easier to set up
     it('should be updated after updating settings', () => {
       spyOn(exerciseStateService.exercise, 'getAnswerList').and.returnValue({
@@ -91,7 +92,7 @@ describe('ExerciseStateService', function() {
     });
   });
 
-  describe('answer', function() {
+  describe('answer', function () {
     beforeEach(() => {
       spyOn(ExerciseMockService.mockExercise, 'getQuestion').and.returnValue({
         type: 'notes',
@@ -117,7 +118,7 @@ describe('ExerciseStateService', function() {
       ]);
     });
 
-    describe('without specifying index', function() {
+    describe('without specifying index', function () {
       it('should work', () => {
         expect(exerciseStateService.answer('C')).toBeTrue();
         expect(exerciseStateService.currentAnswers).toEqual([
@@ -179,7 +180,7 @@ describe('ExerciseStateService', function() {
             wasWrong: false,
           }),
         ]);
-      })
+      });
     });
 
     describe('specifying index', () => {
@@ -295,7 +296,7 @@ describe('ExerciseStateService', function() {
       });
     });
 
-    describe('combining specifying index an implicit index', function() {
+    describe('combining specifying index an implicit index', function () {
       it('should answer the first unanswered even if later answer was answered', () => {
         expect(exerciseStateService.answer('E', 2)).toBeTrue();
         expect(exerciseStateService.currentAnswers).toEqual([

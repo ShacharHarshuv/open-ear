@@ -1,7 +1,7 @@
 import {
   Component,
-  Input,
-} from '@angular/core';
+  Input
+} from "@angular/core";
 
 @Component({
   selector: 'app-field-info',

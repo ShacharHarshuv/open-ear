@@ -1,47 +1,38 @@
 <p>
-  In this exercise you will be given a series of chords (cadence) to establish a tonal center.
-  Then a chord would be played, and you will be asked to pick the roman analysis (degree) of the chord in the context of the key.
+  In this exercise you will be given a series of chords (cadence) to establish a
+  tonal center. Then a chord would be played, and you will be asked to pick the
+  roman analysis (degree) of the chord in the context of the key.
 </p>
 <app-info-panel>
-  <b>Tip!</b> Every chord has its own sensation of tension/release.
-  The 'I' chord feels most at rest, while the 'V' has tension - it "wants" to move.
+  <b>Tip!</b> Every chord has its own sensation of tension/release. The 'I'
+  chord feels most at rest, while the 'V' has tension - it "wants" to move.
 </app-info-panel>
 <app-collapsible>
   <h2>Triads & Roman Numerals</h2>
+  <p>Triadic chords are chords built from 3 notes using thirds.</p>
+  <p>For example, in the key of C major, we can form this chord:</p>
+  <app-info-panel> <b>C</b> D <b>E</b> F <b>G</b> A B </app-info-panel>
   <p>
-    Triadic chords are chords built from 3 notes using thirds.
+    Because it is built starting from the first degree (Tonic note)
+    <b>it is called the 'I' (one) chord</b>. The 'I' chord is most "at rest",
+    and holds no tension.
   </p>
-  <p>
-    For example, in the key of C major, we can form this chord:
-  </p>
-  <app-info-panel>
-    <b>C</b> D <b>E</b> F <b>G</b> A B
-  </app-info-panel>
-  <p>
-    Because it is built starting from the first degree (Tonic note) <b>it is called the 'I' (one) chord</b>.
-    The 'I' chord is most "at rest", and holds no tension.
-  </p>
-  <ion-button
-    [color]="'light'"
-    [playOnClick]="cadenceAndIChord"
-  >
+  <ion-button [color]="'light'" [playOnClick]="cadenceAndIChord">
     Cadence + 'I' chord
   </ion-button>
   <p>
     We can also build a triad from the 5th degree to form a 'V' (five) chord.
     Notice how this chord holds tension, and wants to resolve to the tonic.
   </p>
-  <ion-button
-    [color]="'light'"
-    [playOnClick]="cadenceAndVChord"
-  >
+  <ion-button [color]="'light'" [playOnClick]="cadenceAndVChord">
     Cadence + 'V' chord
   </ion-button>
   <p>
-    Because the chord sensation is dependant on the key,
-    we use Roman numerals to indicate chords numbers in an arbitrary key.
+    Because the chord sensation is dependant on the key, we use Roman numerals
+    to indicate chords numbers in an arbitrary key.
   </p>
   <p>
-    Note that we use lower-case to indicate the minor chords (ii, iii and vi), and dim to indicate diminished chords (viidim)
+    Note that we use lower-case to indicate the minor chords (ii, iii and vi),
+    and dim to indicate diminished chords (viidim)
   </p>
 </app-collapsible>

@@ -5,14 +5,15 @@ import {
   keyframes,
   state,
   style,
-  transition,
-} from '@angular/animations';
-import * as CSS from 'csstype';
+  transition
+} from "@angular/animations";
+import * as CSS from "csstype";
 import * as _ from "lodash";
 
-function reverseSteps(steps: AnimationStyleMetadata[]): AnimationStyleMetadata[] {
-  return [...steps]
-    .reverse();
+function reverseSteps(
+  steps: AnimationStyleMetadata[]
+): AnimationStyleMetadata[] {
+  return [...steps].reverse();
 }
 
 export function enterLeaveAnimationFactory(args: {
@@ -35,9 +36,7 @@ export function enterLeaveAnimationFactory(args: {
     transition('hidden => visible', [
       animate(args.timing!, keyframes(args.steps)),
     ]),
-    transition(':enter', [
-      animate(args.timing!, keyframes(args.steps)),
-    ]),
+    transition(':enter', [animate(args.timing!, keyframes(args.steps))]),
   ];
 
   if (args.animateOnLeave) {
@@ -47,7 +46,7 @@ export function enterLeaveAnimationFactory(args: {
       ]),
       transition(':leave', [
         animate(args.timing!, keyframes(reverseSteps(args.steps))),
-      ]),
+      ])
     );
   }
 

@@ -1,12 +1,12 @@
-import { PublicMembers } from '../../ts-utility/PublicMembers';
+import { PublicMembers } from "../../ts-utility/PublicMembers";
 import {
   ToastController,
-  ToastOptions,
-} from '@ionic/angular';
+  ToastOptions
+} from "@ionic/angular";
 import {
   Injectable,
-  Provider,
-} from '@angular/core';
+  Provider
+} from "@angular/core";
 
 @Injectable()
 export class ToastControllerMock implements PublicMembers<ToastController> {
@@ -16,7 +16,7 @@ export class ToastControllerMock implements PublicMembers<ToastController> {
       provide: ToastController,
       useExisting: ToastControllerMock,
     },
-  ]
+  ];
 
   create(opts?: ToastOptions): Promise<HTMLIonToastElement> {
     throw new Error('Method not implemented.');

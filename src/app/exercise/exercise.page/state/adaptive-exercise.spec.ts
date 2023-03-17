@@ -1,19 +1,21 @@
-import { AdaptiveExercise } from './adaptive-exercise';
-import { Exercise } from '../../Exercise';
-import { toNoteName } from '../../utility';
+import { AdaptiveExercise } from "./adaptive-exercise";
+import { Exercise } from "../../Exercise";
+import { toNoteName } from "../../utility";
 import IExercise = Exercise.Exercise;
 
-describe('adaptive exercise', function() {
+describe('adaptive exercise', function () {
   let questionIndex: number;
   let baseExercise: IExercise;
   let adaptiveExercise: AdaptiveExercise;
 
   function generateQuestion(_questionIndex: number): Exercise.Question {
     return {
-      segments: [{
-        partToPlay: toNoteName(21 + _questionIndex),
-        rightAnswer: 'CORRECT',
-      }],
+      segments: [
+        {
+          partToPlay: toNoteName(21 + _questionIndex),
+          rightAnswer: 'CORRECT',
+        },
+      ],
     };
   }
 
@@ -36,7 +38,9 @@ describe('adaptive exercise', function() {
       return generateQuestion(questionIndex++);
     }
 
-    getSettingsDescriptor(): Exercise.SettingsControlDescriptor<{ [p: string]: Exercise.SettingValueType }>[] {
+    getSettingsDescriptor(): Exercise.SettingsControlDescriptor<{
+      [p: string]: Exercise.SettingValueType;
+    }>[] {
       return this._innerGetMethod();
     }
   }
@@ -47,14 +51,22 @@ describe('adaptive exercise', function() {
     adaptiveExercise = new AdaptiveExercise(baseExercise);
   });
 
-  function testAdaptiveExercise(questionsAndAnswers: [number, boolean][]): void {
+  function testAdaptiveExercise(
+    questionsAndAnswers: [number, boolean][]
+  ): void {
     questionsAndAnswers.forEach(([questionIndex, wasAnswerRight]) => {
-      expect(adaptiveExercise.getQuestion()).toEqual(generateQuestion(questionIndex));
+      expect(adaptiveExercise.getQuestion()).toEqual(
+        generateQuestion(questionIndex)
+      );
       adaptiveExercise.reportAnswerCorrectness(wasAnswerRight);
     });
   }
 
-  function generateTestCases(questionIndexToStart: number, numberOfQuestions: number, answer = true): [number, boolean][] {
+  function generateTestCases(
+    questionIndexToStart: number,
+    numberOfQuestions: number,
+    answer = true
+  ): [number, boolean][] {
     const x: [number, boolean][] = [];
     let index: number = questionIndexToStart;
     while (x.length < numberOfQuestions) {
@@ -110,9 +122,9 @@ describe('adaptive exercise', function() {
       [3, true],
       [5, true],
     ]);
-  })
+  });
 
   it('should proxy settings', () => {
     expect(adaptiveExercise.getSettingsDescriptor?.()).toEqual([]);
-  })
+  });
 });

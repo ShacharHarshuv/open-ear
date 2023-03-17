@@ -1,36 +1,34 @@
-import {
-  RomanNumeralChord,
-} from './RomanNumeralChord';
+import { RomanNumeralChord } from "./RomanNumeralChord";
 import {
   ChordType,
-  ChordSymbol,
-} from '../chords';
+  ChordSymbol
+} from "../chords";
 import {
   DiatonicScaleDegree,
   ScaleDegree,
-  Accidental,
-} from '../scale-degrees';
-import { RomanNumeralChordSymbol } from './RomanNumeralChordSymbol';
-import { testPureFunction } from '../../../../shared/testing-utility/testPureFunction';
+  Accidental
+} from "../scale-degrees";
+import { RomanNumeralChordSymbol } from "./RomanNumeralChordSymbol";
+import { testPureFunction } from "../../../../shared/testing-utility/testPureFunction";
 import {
   toRelativeMode,
-  Mode,
-} from './Mode';
-import { Key } from '../keys/Key';
-import { chordTypeConfigMap } from '../chords/Chord/ChordType';
-import * as _ from 'lodash';
+  Mode
+} from "./Mode";
+import { Key } from "../keys/Key";
+import { chordTypeConfigMap } from "../chords/Chord/ChordType";
+import * as _ from "lodash";
 
 describe('RomanNumeralBuilder', () => {
   const testCases: {
     force?: boolean; // for debugging purposes only
-    romanNumeralChordSymbol: RomanNumeralChordSymbol,
-    diatonicDegree: DiatonicScaleDegree,
-    scaleDegree: ScaleDegree,
-    accidental?: Accidental,
-    type: ChordType,
-    serialized: string,
-    getChord: Partial<Record<Key, ChordSymbol>>,
-    isDiatonic: boolean,
+    romanNumeralChordSymbol: RomanNumeralChordSymbol;
+    diatonicDegree: DiatonicScaleDegree;
+    scaleDegree: ScaleDegree;
+    accidental?: Accidental;
+    type: ChordType;
+    serialized: string;
+    getChord: Partial<Record<Key, ChordSymbol>>;
+    isDiatonic: boolean;
   }[] = [
     {
       romanNumeralChordSymbol: 'I',
@@ -86,7 +84,7 @@ describe('RomanNumeralBuilder', () => {
       type: ChordType.Diminished,
       serialized: 'vii°',
       getChord: {
-        'Eb': 'Ddim',
+        Eb: 'Ddim',
       },
       isDiatonic: true,
     },
@@ -256,7 +254,7 @@ describe('RomanNumeralBuilder', () => {
       getChord: {
         C: 'CmM9',
       },
-      serialized: 'i<sup>M9</sup>'
+      serialized: 'i<sup>M9</sup>',
     },
     {
       romanNumeralChordSymbol: 'Iadd9',
@@ -268,7 +266,7 @@ describe('RomanNumeralBuilder', () => {
       getChord: {
         C: 'Cadd9',
       },
-      serialized: 'I<sup>add9</sup>'
+      serialized: 'I<sup>add9</sup>',
     },
     {
       romanNumeralChordSymbol: 'viadd9',
@@ -280,7 +278,7 @@ describe('RomanNumeralBuilder', () => {
       getChord: {
         C: 'Amadd9',
       },
-      serialized: 'vi<sup>add9</sup>'
+      serialized: 'vi<sup>add9</sup>',
     },
     {
       romanNumeralChordSymbol: 'Iadd#4',
@@ -292,69 +290,90 @@ describe('RomanNumeralBuilder', () => {
       getChord: {
         C: 'Cadd#4',
       },
-      serialized: 'I<sup>add#4</sup>'
-    }
+      serialized: 'I<sup>add#4</sup>',
+    },
   ];
 
   it('should cover all chord types', () => {
-    const existingChordTypes: ChordType[] = _.keys(chordTypeConfigMap) as (keyof typeof chordTypeConfigMap)[];
-    const coveredChordTypes: ChordType[] = _.chain(testCases).map('type').uniq().value();
-    const missingChordTypes: ChordType[] = _.difference(existingChordTypes, coveredChordTypes);
+    const existingChordTypes: ChordType[] = _.keys(
+      chordTypeConfigMap
+    ) as (keyof typeof chordTypeConfigMap)[];
+    const coveredChordTypes: ChordType[] = _.chain(testCases)
+      .map('type')
+      .uniq()
+      .value();
+    const missingChordTypes: ChordType[] = _.difference(
+      existingChordTypes,
+      coveredChordTypes
+    );
     expect(missingChordTypes).toEqual([]);
-  })
+  });
 
-  testCases.forEach(testCase => {
+  testCases.forEach((testCase) => {
     const inputs: ConstructorParameters<typeof RomanNumeralChord>[] = [
       [testCase.romanNumeralChordSymbol],
-      [{
-        scaleDegree: testCase.scaleDegree,
-        type: testCase.type,
-      }],
-    ]
-    inputs.forEach(input => {
-      (testCase.force ? fdescribe : describe)(`${JSON.stringify(inputs)}`, () => {
-        let romanNumeral: RomanNumeralChord;
+      [
+        {
+          scaleDegree: testCase.scaleDegree,
+          type: testCase.type,
+        },
+      ],
+    ];
+    inputs.forEach((input) => {
+      (testCase.force ? fdescribe : describe)(
+        `${JSON.stringify(inputs)}`,
+        () => {
+          let romanNumeral: RomanNumeralChord;
 
-        beforeEach(() => {
-          romanNumeral = new RomanNumeralChord(...input);
-        })
+          beforeEach(() => {
+            romanNumeral = new RomanNumeralChord(...input);
+          });
 
-        it('diatonicDegree', () => {
-          expect(romanNumeral.diatonicDegree).toEqual(testCase.diatonicDegree);
-        });
+          it('diatonicDegree', () => {
+            expect(romanNumeral.diatonicDegree).toEqual(
+              testCase.diatonicDegree
+            );
+          });
 
-        it('accidental', () => {
-          expect(romanNumeral.accidental).toEqual(testCase.accidental ?? Accidental.Natural);
-        });
+          it('accidental', () => {
+            expect(romanNumeral.accidental).toEqual(
+              testCase.accidental ?? Accidental.Natural
+            );
+          });
 
-        it('type', () => {
-          expect(romanNumeral.type).toEqual(testCase.type);
-        });
+          it('type', () => {
+            expect(romanNumeral.type).toEqual(testCase.type);
+          });
 
-        it('scaleDegree', () => {
-          expect(romanNumeral.scaleDegree).toEqual(testCase.scaleDegree);
-        });
+          it('scaleDegree', () => {
+            expect(romanNumeral.scaleDegree).toEqual(testCase.scaleDegree);
+          });
 
-        it('chordSymbol', () => {
-          expect(romanNumeral.romanNumeralChordSymbol).toEqual(testCase.romanNumeralChordSymbol);
-        })
+          it('chordSymbol', () => {
+            expect(romanNumeral.romanNumeralChordSymbol).toEqual(
+              testCase.romanNumeralChordSymbol
+            );
+          });
 
-        it('serialized', () => {
-          expect(romanNumeral.toViewString()).toEqual(testCase.serialized);
-        });
+          it('serialized', () => {
+            expect(romanNumeral.toViewString()).toEqual(testCase.serialized);
+          });
 
-        it('getChord', () => {
-          for (let chordKey in testCase.getChord) {
-            expect(romanNumeral.getChord(chordKey as Key).symbol).toEqual(testCase.getChord[chordKey])
-          }
-        });
+          it('getChord', () => {
+            for (let chordKey in testCase.getChord) {
+              expect(romanNumeral.getChord(chordKey as Key).symbol).toEqual(
+                testCase.getChord[chordKey]
+              );
+            }
+          });
 
-        it('isDiatonic', () => {
-          expect(romanNumeral.isDiatonic).toEqual(testCase.isDiatonic);
-        })
-      });
-    })
-  })
+          it('isDiatonic', () => {
+            expect(romanNumeral.isDiatonic).toEqual(testCase.isDiatonic);
+          });
+        }
+      );
+    });
+  });
 
   describe('toRelativeMode', () => {
     testPureFunction(RomanNumeralChord.toRelativeMode, [
@@ -386,6 +405,6 @@ describe('RomanNumeralBuilder', () => {
         args: ['I', Mode.Mixolydian, Mode.Major],
         returnValue: 'V',
       },
-    ])
-  })
+    ]);
+  });
 });

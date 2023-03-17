@@ -1,9 +1,9 @@
-import { testExercise } from '../testing-utility/test-exercise.spec';
+import { testExercise } from "../testing-utility/test-exercise.spec";
 import {
   notesInKeyExercise,
-  NoteInKeySettings,
-} from './notesInKeyExercise';
-import { expectedTonalExerciseSettingsDescriptors } from '../utility/exerciseAttributes/tonalExercise.spec';
+  NoteInKeySettings
+} from "./notesInKeyExercise";
+import { expectedTonalExerciseSettingsDescriptors } from "../utility/exerciseAttributes/tonalExercise.spec";
 
 describe(notesInKeyExercise.name, () => {
   const context = testExercise<NoteInKeySettings>({
@@ -27,7 +27,7 @@ describe(notesInKeyExercise.name, () => {
       ...defaultSettings!,
       key: 'random',
       newKeyEvery: 1,
-    }
+    };
 
     for (let range of ['high', 'middle', 'bass', 'contrabass'] as const) {
       for (let numberOfVoices of [2, 3] as const) {
@@ -40,4 +40,4 @@ describe(notesInKeyExercise.name, () => {
       }
     }
   });
-})
+});

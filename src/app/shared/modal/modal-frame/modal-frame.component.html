@@ -5,15 +5,12 @@
     </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="close()">
-        <ion-icon slot="icon-only" name="{{closeIcon}}"></ion-icon>
+        <ion-icon slot="icon-only" name="{{ closeIcon }}"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content
-  [fullscreen]="true"
-  [padding]="padding"
->
+<ion-content [fullscreen]="true" [padding]="padding">
   <ng-content></ng-content>
 </ion-content>

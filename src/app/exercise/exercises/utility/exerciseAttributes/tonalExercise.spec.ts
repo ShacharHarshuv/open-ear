@@ -1,15 +1,15 @@
 import {
   TonalExerciseSettings,
   tonalExercise,
-  TonalExerciseParams,
-} from './tonalExercise';
-import { expectedKeySelectionSettingsDescriptors } from '../settings/keySelectionSettingsDescriptors.spec';
-import { ResolvedValueOf } from '../../../../shared/ts-utility';
-import { Exercise } from '../../../Exercise';
-import { Key } from '../../../utility';
-import { noteOfType } from '../../../utility/music/notes/NoteType.spec';
-import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { toNoteTypeNumber } from '../../../utility/music/notes/toNoteTypeNumber';
+  TonalExerciseParams
+} from "./tonalExercise";
+import { expectedKeySelectionSettingsDescriptors } from "../settings/keySelectionSettingsDescriptors.spec";
+import { ResolvedValueOf } from "../../../../shared/ts-utility";
+import { Exercise } from "../../../Exercise";
+import { Key } from "../../../utility";
+import { noteOfType } from "../../../utility/music/notes/NoteType.spec";
+import { Note } from "tone/Tone/core/type/NoteUnits";
+import { toNoteTypeNumber } from "../../../utility/music/notes/toNoteTypeNumber";
 import NotesQuestion = Exercise.NotesQuestion;
 import AsymmetricMatcher = jasmine.AsymmetricMatcher;
 
@@ -18,7 +18,7 @@ export const defaultTonalExerciseSettings: TonalExerciseSettings = {
   key: 'random',
   newKeyEvery: 0,
   drone: false,
-}
+};
 
 export const expectedTonalExerciseSettingsDescriptors: string[] = [
   'Cadence Type',
@@ -26,22 +26,26 @@ export const expectedTonalExerciseSettingsDescriptors: string[] = [
   'Drone',
 ];
 
-describe(tonalExercise.name, function() {
+describe(tonalExercise.name, function () {
   const mockSettings: TonalExerciseSettings = {
     ...defaultTonalExerciseSettings,
   };
 
   function mockQuestion(note: 'C4' | 'D4'): typeof questionToReturn {
     return {
-      segments: [{
-        partToPlay: note,
-        rightAnswer: note == 'C4' ? 'Answer 1' : 'Answer 2',
-      }],
-    }
+      segments: [
+        {
+          partToPlay: note,
+          rightAnswer: note == 'C4' ? 'Answer 1' : 'Answer 2',
+        },
+      ],
+    };
   }
 
   let exercise: ReturnType<ReturnType<typeof tonalExercise>>;
-  let questionToReturn: ResolvedValueOf<TonalExerciseParams<string, {}>['getQuestion']> = mockQuestion('C4');
+  let questionToReturn: ResolvedValueOf<
+    TonalExerciseParams<string, {}>['getQuestion']
+  > = mockQuestion('C4');
 
   beforeEach(() => {
     exercise = tonalExercise()({
@@ -55,14 +59,23 @@ describe(tonalExercise.name, function() {
   describe('key selection', () => {
     function questionInKey(key: Key): AsymmetricMatcher<NotesQuestion> {
       return {
-        asymmetricMatch(question: Exercise.NotesQuestion, customTesters: ReadonlyArray<jasmine.CustomEqualityTester>): boolean {
-          return !!question.key && toNoteTypeNumber(question.key) === toNoteTypeNumber(key) &&
-            noteOfType(key).asymmetricMatch(question.segments[0].partToPlay as Note, customTesters);
+        asymmetricMatch(
+          question: Exercise.NotesQuestion,
+          customTesters: ReadonlyArray<jasmine.CustomEqualityTester>
+        ): boolean {
+          return (
+            !!question.key &&
+            toNoteTypeNumber(question.key) === toNoteTypeNumber(key) &&
+            noteOfType(key).asymmetricMatch(
+              question.segments[0].partToPlay as Note,
+              customTesters
+            )
+          );
         },
         jasmineToString(): string {
           return 'question in key of ' + key;
-        }
-      }
+        },
+      };
     }
 
     it('key of C', () => {
@@ -128,7 +141,7 @@ describe(tonalExercise.name, function() {
             }
           });
         }
-      })
+      });
     }
   });
 });

@@ -1,12 +1,12 @@
 import {
   Injectable,
-  Provider,
-} from '@angular/core';
+  Provider
+} from "@angular/core";
 import {
   ModalController,
-  ModalOptions,
-} from '@ionic/angular';
-import { PublicMembers } from '../../ts-utility/PublicMembers';
+  ModalOptions
+} from "@ionic/angular";
+import { PublicMembers } from "../../ts-utility/PublicMembers";
 
 @Injectable()
 export class ModalControllerMock implements PublicMembers<ModalController> {
@@ -14,7 +14,11 @@ export class ModalControllerMock implements PublicMembers<ModalController> {
     return Promise.resolve({} as HTMLIonModalElement);
   }
 
-  dismiss(data: any, role: string | undefined, id: string | undefined): Promise<boolean> {
+  dismiss(
+    data: any,
+    role: string | undefined,
+    id: string | undefined
+  ): Promise<boolean> {
     return Promise.resolve(false);
   }
 
@@ -26,7 +30,7 @@ export class ModalControllerMock implements PublicMembers<ModalController> {
     ModalControllerMock,
     {
       provide: ModalController,
-      useExisting: ModalControllerMock
-    }
-  ]
+      useExisting: ModalControllerMock,
+    },
+  ];
 }

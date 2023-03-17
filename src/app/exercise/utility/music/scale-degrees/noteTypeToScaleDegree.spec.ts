@@ -1,7 +1,7 @@
-import { testPureFunction } from '../../../../shared/testing-utility/testPureFunction';
-import { noteTypeToScaleDegree } from './noteTypeToScaleDegree';
+import { testPureFunction } from "../../../../shared/testing-utility/testPureFunction";
+import { noteTypeToScaleDegree } from "./noteTypeToScaleDegree";
 
-describe('noteTypeToScaleDegree', function() {
+describe('noteTypeToScaleDegree', function () {
   testPureFunction(noteTypeToScaleDegree, [
     {
       args: ['Ab', 'C'],
@@ -19,5 +19,5 @@ describe('noteTypeToScaleDegree', function() {
       args: ['Ab', 'Db'],
       returnValue: '5',
     },
-  ])
+  ]);
 });

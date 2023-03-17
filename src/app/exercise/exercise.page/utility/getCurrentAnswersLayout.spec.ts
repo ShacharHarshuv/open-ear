@@ -1,5 +1,5 @@
-import { getCurrentAnswersLayout } from './getCurrentAnswersLayout';
-import { testPureFunction } from '../../../shared/testing-utility/testPureFunction';
+import { getCurrentAnswersLayout } from "./getCurrentAnswersLayout";
+import { testPureFunction } from "../../../shared/testing-utility/testPureFunction";
 
 describe(getCurrentAnswersLayout.name, () => {
   testPureFunction(getCurrentAnswersLayout, [
@@ -23,7 +23,7 @@ describe(getCurrentAnswersLayout.name, () => {
           {
             answer: '4',
             wasWrong: false,
-          }
+          },
         ],
       ],
       returnValue: [
@@ -50,8 +50,8 @@ describe(getCurrentAnswersLayout.name, () => {
             wasWrong: false,
             index: 3,
           }),
-        ]
-      ]
-    }
+        ],
+      ],
+    },
   ]);
 });

@@ -1,22 +1,22 @@
-import { Injectable } from '@angular/core';
-import * as Tone from 'tone';
+import { Injectable } from "@angular/core";
+import * as Tone from "tone";
 import {
   Sampler,
   Part,
-  Transport,
-} from 'tone';
-import * as _ from 'lodash';
-import { Subject } from 'rxjs';
-import { take } from 'rxjs/operators';
+  Transport
+} from "tone";
+import * as _ from "lodash";
+import { Subject } from "rxjs";
+import { take } from "rxjs/operators";
 import {
   NormalRange,
   Time,
-  Seconds,
-} from 'tone/Tone/core/type/Units';
-import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { NoteType } from '../exercise/utility/music/notes/NoteType';
-import { noteTypeToNote } from '../exercise/utility/music/notes/noteTypeToNote';
-import { timeoutAsPromise } from '../shared/ts-utility';
+  Seconds
+} from "tone/Tone/core/type/Units";
+import { Note } from "tone/Tone/core/type/NoteUnits";
+import { NoteType } from "../exercise/utility/music/notes/NoteType";
+import { noteTypeToNote } from "../exercise/utility/music/notes/noteTypeToNote";
+import { timeoutAsPromise } from "../shared/ts-utility";
 
 const DEFAULT_VELOCITY: number = 0.7;
 
@@ -25,23 +25,23 @@ const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioCtx = new AudioContext();
 
 export interface NoteEvent {
-  notes: Note[] | Note,
+  notes: Note[] | Note;
   /**
    * 4n by default
    * */
-  duration?: Time,
+  duration?: Time;
   /**
    * If not provided, the time will be taken from last even time + last event duration
    * */
-  time?: Time,
-  velocity?: NormalRange,
+  time?: Time;
+  velocity?: NormalRange;
 }
 
 // passing a number means to wait that many ms
 export type PartToPlay = {
-  partOrTime: NoteEvent[] | number,
-  beforePlaying?: () => void,
-  afterPlaying?: () => void,
+  partOrTime: NoteEvent[] | number;
+  beforePlaying?: () => void;
+  afterPlaying?: () => void;
   bpm?: number; // if provided, overrides the general settings for this part only
   /**
    * by the default, the part will play after the previous part in the array
@@ -56,15 +56,15 @@ function getFileArrayBuffer(url: string): Promise<ArrayBuffer> {
     const request = new XMLHttpRequest();
     request.open('GET', url, true);
     request.responseType = 'blob';
-    request.onload = function() {
+    request.onload = function () {
       const reader = new FileReader();
       reader.readAsArrayBuffer(request.response);
-      reader.onload = function(e) {
+      reader.onload = function (e) {
         resolve(e.target?.result as ArrayBuffer);
       };
     };
     request.send();
-  })
+  });
 }
 
 type PlayPartResponse = {
@@ -88,7 +88,7 @@ export class PlayerService {
   constructor() {
     this._instrumentPromise.then(() => {
       this._isReady = true;
-    })
+    });
   }
 
   get bpm(): number {
@@ -117,7 +117,9 @@ export class PlayerService {
     }
   }
 
-  private static async _getSampleMap(): Promise<{ [note: string]: AudioBuffer }> {
+  private static async _getSampleMap(): Promise<{
+    [note: string]: AudioBuffer;
+  }> {
     const sampleMap: { [note: string]: AudioBuffer } = {};
     const notesWithSamples: NoteType[] = ['A', 'C', 'D#', 'F#'];
     const octavesWithSamples: number[] = [1, 2, 3, 4, 5, 6, 7];
@@ -125,13 +127,15 @@ export class PlayerService {
       for (let octaveNumber of octavesWithSamples) {
         const note = noteTypeToNote(noteType, octaveNumber);
         sampleMap[note] = await new Promise((resolve, reject) => {
-          getFileArrayBuffer(`${location.origin}/samples/piano-mp3-velocity10/audio/${encodeURIComponent(note)}v10.mp3`).then(arrayBuffer => {
-            audioCtx.decodeAudioData(
-              arrayBuffer,
-              resolve,
-              reject,
-            );
-          })
+          getFileArrayBuffer(
+            `${
+              location.origin
+            }/samples/piano-mp3-velocity10/audio/${encodeURIComponent(
+              note
+            )}v10.mp3`
+          ).then((arrayBuffer) => {
+            audioCtx.decodeAudioData(arrayBuffer, resolve, reject);
+          });
         });
       }
     }
@@ -143,7 +147,9 @@ export class PlayerService {
    * */
   async playPart(noteEventList: NoteEvent[]): Promise<void> {
     this.stopAndClearQueue();
-    await (await this._playPart(noteEventList)).onPartFinishedPromise;
+    await (
+      await this._playPart(noteEventList)
+    ).onPartFinishedPromise;
     this._onAllPartsFinished$.next();
     this._currentlyPlaying.clear();
   }
@@ -161,24 +167,31 @@ export class PlayerService {
 
     this._voicesToPlay = _.cloneDeep(parts);
 
-    const playPartResponseList: PlayPartResponse[] = [{
-      onPartFinishedPromise: Promise.resolve(),
-      expectedFinishTimeInSeconds: 0,
-    }];
+    const playPartResponseList: PlayPartResponse[] = [
+      {
+        onPartFinishedPromise: Promise.resolve(),
+        expectedFinishTimeInSeconds: 0,
+      },
+    ];
     // accessing the voice by index as it might be changed by stopAndClearQueue
     while (this._voicesToPlay.length) {
       const nextPart: PartToPlay = this._voicesToPlay.shift()!;
-      const lastPartPlayResponse = playPartResponseList[nextPart.playAfter ?? (playPartResponseList.length - 1)];
+      const lastPartPlayResponse =
+        playPartResponseList[
+          nextPart.playAfter ?? playPartResponseList.length - 1
+        ];
       lastPartPlayResponse.onPartFinishedPromise.then(() => {
         nextPart.beforePlaying?.();
       });
       if (typeof nextPart.partOrTime === 'number') {
         const delayInMs = nextPart.partOrTime;
         playPartResponseList.push({
-          onPartFinishedPromise: lastPartPlayResponse.onPartFinishedPromise.then(() => {
-            return timeoutAsPromise(delayInMs);
-          }),
-          expectedFinishTimeInSeconds: lastPartPlayResponse.expectedFinishTimeInSeconds + delayInMs / 1e3,
+          onPartFinishedPromise:
+            lastPartPlayResponse.onPartFinishedPromise.then(() => {
+              return timeoutAsPromise(delayInMs);
+            }),
+          expectedFinishTimeInSeconds:
+            lastPartPlayResponse.expectedFinishTimeInSeconds + delayInMs / 1e3,
         });
       } else {
         /*
@@ -191,7 +204,10 @@ export class PlayerService {
         if (nextPart.bpm && lastBpm != nextPart.bpm) {
           this.setBpm(nextPart.bpm);
         }
-        const playPartResponse = await this._playPart(nextPart.partOrTime, lastPartPlayResponse.expectedFinishTimeInSeconds);
+        const playPartResponse = await this._playPart(
+          nextPart.partOrTime,
+          lastPartPlayResponse.expectedFinishTimeInSeconds
+        );
         playPartResponse.onPartFinishedPromise.then(() => {
           nextPart.afterPlaying?.();
         });
@@ -201,7 +217,9 @@ export class PlayerService {
         }
       }
     }
-    await Promise.all(playPartResponseList.map(response => response.onPartFinishedPromise));
+    await Promise.all(
+      playPartResponseList.map((response) => response.onPartFinishedPromise)
+    );
 
     this._onAllPartsFinished$.next();
     this._currentlyPlaying.clear();
@@ -237,26 +255,49 @@ export class PlayerService {
   }
 
   // returns the expected finish time in seconds
-  private async _playPart(noteEventList: NoteEvent[], startTimeInSeconds: number = 0): Promise<PlayPartResponse> {
+  private async _playPart(
+    noteEventList: NoteEvent[],
+    startTimeInSeconds: number = 0
+  ): Promise<PlayPartResponse> {
     const instrument = await this._instrumentPromise;
     let lastTime: Time = 0;
-    const normalizedNoteEventList: Required<NoteEvent>[] = noteEventList.map((noteEvent: NoteEvent): Required<NoteEvent> => {
-      const normalizedNoteEvent: Required<NoteEvent> = {
-        time: lastTime,
-        velocity: DEFAULT_VELOCITY,
-        duration: '4n',
-        ...noteEvent,
+    const normalizedNoteEventList: Required<NoteEvent>[] = noteEventList.map(
+      (noteEvent: NoteEvent): Required<NoteEvent> => {
+        const normalizedNoteEvent: Required<NoteEvent> = {
+          time: lastTime,
+          velocity: DEFAULT_VELOCITY,
+          duration: '4n',
+          ...noteEvent,
+        };
+        lastTime =
+          Tone.Time(normalizedNoteEvent.time).toSeconds() +
+          Tone.Time(normalizedNoteEvent.duration).toSeconds();
+        return normalizedNoteEvent;
       }
-      lastTime = Tone.Time(normalizedNoteEvent.time).toSeconds() + Tone.Time(normalizedNoteEvent.duration).toSeconds();
-      return normalizedNoteEvent;
-    });
+    );
 
-    const currentlyPlaying = new Tone.Part<Required<NoteEvent>>(((time, noteEvent: Required<NoteEvent>) => {
-      instrument.triggerAttackRelease(noteEvent.notes, noteEvent.duration, time, noteEvent.velocity);
-    }), normalizedNoteEventList).start(startTimeInSeconds);
+    const currentlyPlaying = new Tone.Part<Required<NoteEvent>>(
+      (time, noteEvent: Required<NoteEvent>) => {
+        instrument.triggerAttackRelease(
+          noteEvent.notes,
+          noteEvent.duration,
+          time,
+          noteEvent.velocity
+        );
+      },
+      normalizedNoteEventList
+    ).start(startTimeInSeconds);
     this._currentlyPlaying.add(currentlyPlaying);
 
-    const stoppingTime: Seconds = startTimeInSeconds + _.max(normalizedNoteEventList.map(noteEvent => Tone.Time(noteEvent.time).toSeconds() + Tone.Time(noteEvent.duration).toSeconds()))!;
+    const stoppingTime: Seconds =
+      startTimeInSeconds +
+      _.max(
+        normalizedNoteEventList.map(
+          (noteEvent) =>
+            Tone.Time(noteEvent.time).toSeconds() +
+            Tone.Time(noteEvent.duration).toSeconds()
+        )
+      )!;
 
     const onPartFinished$ = new Subject<void>();
     this._onPartFinished$Set.add(onPartFinished$);
@@ -271,10 +312,7 @@ export class PlayerService {
 
     return {
       expectedFinishTimeInSeconds: stoppingTime,
-      onPartFinishedPromise: onPartFinished$
-        .pipe(
-          take(1),
-        ).toPromise(),
+      onPartFinishedPromise: onPartFinished$.pipe(take(1)).toPromise(),
     };
   }
 

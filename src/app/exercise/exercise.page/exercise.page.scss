@@ -1,4 +1,4 @@
-@use 'main' as *;
+@use "main" as *;
 
 .exercise {
   &__content-container {
@@ -25,7 +25,7 @@
   */
   &__answer-button {
     &::part(native) {
-      border: 0 solid rgba(0,0,0, 0);
+      border: 0 solid rgba(0, 0, 0, 0);
     }
 
     &.--right {
@@ -43,7 +43,8 @@
 
       &:not(.--highlighted) {
         &::part(native) {
-          transition: background-color 700ms ease-in, border-color 300ms ease-in-out, border-width 300ms ease-in-out;
+          transition: background-color 700ms ease-in,
+            border-color 300ms ease-in-out, border-width 300ms ease-in-out;
         }
       }
     }
@@ -58,7 +59,8 @@
 
       &:not(.--right):not(.--wrong) {
         &::part(native) {
-          transition: background-color 700ms ease-in, border-color 300ms ease-in-out, border-width 300ms ease-in-out;
+          transition: background-color 700ms ease-in,
+            border-color 300ms ease-in-out, border-width 300ms ease-in-out;
         }
       }
     }
@@ -80,7 +82,7 @@
 
   &__actions-container {
     display: flex;
-    min-height:  10 * $unit;
+    min-height: 10 * $unit;
 
     ion-button {
       flex-grow: 1;

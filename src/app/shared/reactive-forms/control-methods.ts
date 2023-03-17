@@ -5,40 +5,42 @@ import {
   Observable,
   of,
   Subscription,
-  Subject,
-} from 'rxjs';
+  Subject
+} from "rxjs";
 import {
   distinctUntilChanged,
   map,
   startWith,
-  takeUntil,
-} from 'rxjs/operators';
+  takeUntil
+} from "rxjs/operators";
 import {
   IAbstractControlOptions,
   IControlUpdateOptions,
   TControlPath,
   TControlStatus,
   ValidationErrors,
-  ValidatorFn,
-} from './types';
+  ValidatorFn
+} from "./types";
 import {
   IAbstractControl,
   IControlErrorRef,
-  IControlsParent,
-} from './abstractControl';
+  IControlsParent
+} from "./abstractControl";
 import {
   AbstractControlOptions,
-  AbstractControl as NgAbstractControl,
-} from '@angular/forms';
-import * as _ from 'lodash';
+  AbstractControl as NgAbstractControl
+} from "@angular/forms";
+import * as _ from "lodash";
 import {
   timeoutAsPromise,
   OneOrMany,
   toArray,
   isValueTruthy
-} from '../ts-utility';
+} from "../ts-utility";
 
-function getControlValue<GValue, GErrors extends ValidationErrors>(control: IAbstractControl<GValue, GErrors>): GValue {
+function getControlValue<GValue, GErrors extends ValidationErrors>(
+  control: IAbstractControl<GValue, GErrors>
+): GValue {
   if ((control as any).getRawValue) {
     return (control as any).getRawValue();
   }
@@ -46,81 +48,88 @@ function getControlValue<GValue, GErrors extends ValidationErrors>(control: IAbs
 }
 
 function getTakeUntilWasNotProvidedError(functionName: string): Error {
-  return new Error(`${functionName} was called but takeUntil$ was not provided. Please add a takeUntil$ Observable that completes to the control options when creating to avoid memory leak.`);
+  return new Error(
+    `${functionName} was called but takeUntil$ was not provided. Please add a takeUntil$ Observable that completes to the control options when creating to avoid memory leak.`
+  );
 }
 
 export class ControlMethods {
-  static getValueStream<GValue, GErrors extends ValidationErrors>(control: IAbstractControl<GValue, GErrors>): Observable<GValue> {
+  static getValueStream<GValue, GErrors extends ValidationErrors>(
+    control: IAbstractControl<GValue, GErrors>
+  ): Observable<GValue> {
     return merge(
       defer(() => of(getControlValue(control))),
       control.valueChanges.pipe(
         map(() => getControlValue(control)),
-        distinctUntilChanged(),
-      ),
+        distinctUntilChanged()
+      )
     );
   }
 
   static getErrorStream<GValue, GErrors extends ValidationErrors>(
     control: IAbstractControl<GValue, GErrors>,
-    setErrorsWasCalled$: Observable<Partial<GErrors> | null>,
+    setErrorsWasCalled$: Observable<Partial<GErrors> | null>
   ): Observable<Partial<GErrors> | null> {
     return merge(
       defer(() => of(control.errors)),
       setErrorsWasCalled$,
       control.valueChanges.pipe(
         map(() => control.errors),
-        distinctUntilChanged((a, b) => _.isEqual(a, b)),
-      ),
-    )
-      .pipe(
-        distinctUntilChanged(),
-      );
+        distinctUntilChanged((a, b) => _.isEqual(a, b))
+      )
+    ).pipe(distinctUntilChanged());
   }
 
   static getIsValidAndDirtyStream<GValue, GErrors extends ValidationErrors>(
-    control: IAbstractControl<GValue, GErrors>,
+    control: IAbstractControl<GValue, GErrors>
   ): Observable<boolean> {
-    return combineLatest([
-      control.isValid$,
-      control.isDirty$,
-    ])
-      .pipe(
-        map(conditions => _.every(conditions)),
-        distinctUntilChanged(),
-      );
+    return combineLatest([control.isValid$, control.isDirty$]).pipe(
+      map((conditions) => _.every(conditions)),
+      distinctUntilChanged()
+    );
   }
 
-  static getStatusStream<GValue, GErrors extends ValidationErrors>(control: IAbstractControl<GValue, GErrors>): Observable<TControlStatus> {
+  static getStatusStream<GValue, GErrors extends ValidationErrors>(
+    control: IAbstractControl<GValue, GErrors>
+  ): Observable<TControlStatus> {
     return merge(
       defer(() => of(control.status)),
       control.statusChanges.pipe(
         map(() => control.status),
-        distinctUntilChanged(),
-      ),
+        distinctUntilChanged()
+      )
     );
   }
 
-  static getIsEnabledStream<GValue, GErrors extends ValidationErrors>(control: IAbstractControl<GValue, GErrors>): Observable<boolean> {
+  static getIsEnabledStream<GValue, GErrors extends ValidationErrors>(
+    control: IAbstractControl<GValue, GErrors>
+  ): Observable<boolean> {
     return merge(
       defer(() => of(control.enabled)),
       control.statusChanges.pipe(
         map(() => control.enabled),
-        distinctUntilChanged(),
-      ),
+        distinctUntilChanged()
+      )
     );
   }
 
-  static getIsDisabledStream<GValue, GErrors extends ValidationErrors>(control: IAbstractControl<GValue, GErrors>): Observable<boolean> {
+  static getIsDisabledStream<GValue, GErrors extends ValidationErrors>(
+    control: IAbstractControl<GValue, GErrors>
+  ): Observable<boolean> {
     return merge(
       defer(() => of(control.disabled)),
       control.statusChanges.pipe(
         map(() => control.disabled),
-        distinctUntilChanged(),
-      ),
+        distinctUntilChanged()
+      )
     );
   }
 
-  static setIsEnabled<GValue, GErrors extends ValidationErrors>(control: IAbstractControl<GValue, GErrors>, enabled: boolean, opts?: IControlUpdateOptions): void {
+  static setIsEnabled<GValue, GErrors extends ValidationErrors>(
+    control: IAbstractControl<GValue, GErrors>,
+    enabled: boolean,
+    opts?: IControlUpdateOptions
+  ): void {
     if (enabled === control.enabled) {
       return;
     }
@@ -131,7 +140,11 @@ export class ControlMethods {
     }
   }
 
-  static setIsDisabled<GValue, GErrors extends ValidationErrors>(control: IAbstractControl<GValue, GErrors>, disabled: boolean, opts?: IControlUpdateOptions): void {
+  static setIsDisabled<GValue, GErrors extends ValidationErrors>(
+    control: IAbstractControl<GValue, GErrors>,
+    disabled: boolean,
+    opts?: IControlUpdateOptions
+  ): void {
     ControlMethods.setIsEnabled(control, !disabled, opts);
   }
 
@@ -139,7 +152,7 @@ export class ControlMethods {
     control: IAbstractControl<GValue, GErrors>,
     getErrorSubject: () => Subject<Partial<GErrors> | null>,
     errors: Partial<GErrors> | null,
-    opts: Pick<IControlUpdateOptions, 'emitEvent'> = {},
+    opts: Pick<IControlUpdateOptions, 'emitEvent'> = {}
   ): Promise<void> {
     NgAbstractControl.prototype.setErrors.bind(control)(errors, opts);
     // super.setErrors(errors, opts);
@@ -151,8 +164,7 @@ export class ControlMethods {
     // make sure that the errors we update on the subject is equal to the errors argument we got
     // to avoid clashing with parallel calls to setErrors
     if (control.errors === errors) {
-      getErrorSubject()
-        .next(errors);
+      getErrorSubject().next(errors);
     }
   }
 
@@ -160,7 +172,7 @@ export class ControlMethods {
     control: IAbstractControl<GValue, GErrors>,
     isDisabled$: Observable<boolean>,
     controlOptions?: IAbstractControlOptions<GValue, GErrors>,
-    updateOptions?: IControlUpdateOptions & { takeUntil$?: Observable<any> },
+    updateOptions?: IControlUpdateOptions & { takeUntil$?: Observable<any> }
   ): Subscription {
     const takeUntil$ = controlOptions?.takeUntil$ || updateOptions?.takeUntil$;
     if (!takeUntil$) {
@@ -168,146 +180,197 @@ export class ControlMethods {
     }
 
     return isDisabled$
-      .pipe(
-        takeUntil(takeUntil$),
-      )
-      .subscribe(isDisabled => ControlMethods.setIsDisabled(control, isDisabled, updateOptions));
+      .pipe(takeUntil(takeUntil$))
+      .subscribe((isDisabled) =>
+        ControlMethods.setIsDisabled(control, isDisabled, updateOptions)
+      );
   }
 
   static enableWhile<GValue, GErrors extends ValidationErrors>(
     control: IAbstractControl<GValue, GErrors>,
     isEnabled$: Observable<boolean>,
-    opts?: IControlUpdateOptions,
+    opts?: IControlUpdateOptions
   ): Subscription {
-    return isEnabled$.subscribe(isEnabled => ControlMethods.setIsEnabled(control, isEnabled, opts));
+    return isEnabled$.subscribe((isEnabled) =>
+      ControlMethods.setIsEnabled(control, isEnabled, opts)
+    );
   }
 
-  static hasError<GValue, GErrors extends ValidationErrors>(control: IAbstractControl<GValue, GErrors>, error: Extract<keyof GErrors, string>, path?: TControlPath): boolean {
-    return control.hasError(error, !path || path.length === 0 ? undefined : path);
+  static hasError<GValue, GErrors extends ValidationErrors>(
+    control: IAbstractControl<GValue, GErrors>,
+    error: Extract<keyof GErrors, string>,
+    path?: TControlPath
+  ): boolean {
+    return control.hasError(
+      error,
+      !path || path.length === 0 ? undefined : path
+    );
   }
 
-  static hasErrorAndDirty<GValue, GErrors extends ValidationErrors>(control: IAbstractControl<GValue, GErrors>, error: Extract<keyof GErrors, string>, path?: TControlPath): boolean {
+  static hasErrorAndDirty<GValue, GErrors extends ValidationErrors>(
+    control: IAbstractControl<GValue, GErrors>,
+    error: Extract<keyof GErrors, string>,
+    path?: TControlPath
+  ): boolean {
     return control.dirty && ControlMethods.hasError(control, error, path);
   }
 
-  static getIsValidStream<GValue, GErrors>(control: IAbstractControl<GValue, GErrors>): Observable<boolean> {
-    return control.status$
-      .pipe(
-        map(() => control.valid),
-        distinctUntilChanged(),
-      );
+  static getIsValidStream<GValue, GErrors>(
+    control: IAbstractControl<GValue, GErrors>
+  ): Observable<boolean> {
+    return control.status$.pipe(
+      map(() => control.valid),
+      distinctUntilChanged()
+    );
   }
 
-  static getIsInvalidStream<GValue, GErrors>(control: IAbstractControl<GValue, GErrors>): Observable<boolean> {
-    return control.status$
-      .pipe(
-        map(() => control.invalid),
-        distinctUntilChanged(),
-      );
+  static getIsInvalidStream<GValue, GErrors>(
+    control: IAbstractControl<GValue, GErrors>
+  ): Observable<boolean> {
+    return control.status$.pipe(
+      map(() => control.invalid),
+      distinctUntilChanged()
+    );
   }
 
   static getErrorRefListStream<GValue, GErrors>(
     control: IAbstractControl<GValue, GErrors>,
-    errorMsgMap?: { [key in keyof GErrors]: string | ((errorValue: GErrors[key]) => string) },
+    errorMsgMap?: {
+      [key in keyof GErrors]: string | ((errorValue: GErrors[key]) => string);
+    }
   ): Observable<IControlErrorRef<GErrors>[]> {
-    return control.errors$
-      .pipe(
-        map((errors): IControlErrorRef<GErrors>[] => {
-          return _.map(errors, (errorData, errorKey): IControlErrorRef<GErrors> => {
+    return control.errors$.pipe(
+      map((errors): IControlErrorRef<GErrors>[] => {
+        return _.map(
+          errors,
+          (errorData, errorKey): IControlErrorRef<GErrors> => {
             return {
               code: errorKey,
               data: errorData,
-              msg: errorMsgMap?.[errorKey] !== undefined ? typeof errorMsgMap[errorKey] === 'string' ? errorMsgMap[errorKey] : errorMsgMap[errorKey](errorData) : 'Unknown error',
+              msg:
+                errorMsgMap?.[errorKey] !== undefined
+                  ? typeof errorMsgMap[errorKey] === 'string'
+                    ? errorMsgMap[errorKey]
+                    : errorMsgMap[errorKey](errorData)
+                  : 'Unknown error',
             } as IControlErrorRef<GErrors>;
-          });
-        }),
-      );
+          }
+        );
+      })
+    );
   }
 
   static getFirstErrorMsgStream<GValue, GErrors>(
-    control: IAbstractControl<GValue, GErrors>,
+    control: IAbstractControl<GValue, GErrors>
   ): Observable<string | null> {
-    return control.errorRefList$
-      .pipe(
-        map(errorRefList => errorRefList[0]?.msg ?? null),
-        distinctUntilChanged(),
-      );
+    return control.errorRefList$.pipe(
+      map((errorRefList) => errorRefList[0]?.msg ?? null),
+      distinctUntilChanged()
+    );
   }
 
   static getAggregatedErrorRefListStream<GValue, GErrors>(
-    control: IAbstractControl<GValue, GErrors> & IControlsParent<GValue, GErrors>,
+    control: IAbstractControl<GValue, GErrors> &
+      IControlsParent<GValue, GErrors>
   ): Observable<IControlErrorRef<GErrors>[]> {
     return combineLatest([
       control.errorRefList$,
-      ..._.map(control.controls, (ctrl: IAbstractControl | IAbstractControl & IControlsParent) => (ctrl as IControlsParent).aggregatedErrorRefList$ || ctrl.errorRefList$),
-    ])
-      .pipe(
-        map((errorRefList: IControlErrorRef<GErrors>[][]) => {
-          return _.flatMap(errorRefList);
-        }),
-      );
+      ..._.map(
+        control.controls,
+        (ctrl: IAbstractControl | (IAbstractControl & IControlsParent)) =>
+          (ctrl as IControlsParent).aggregatedErrorRefList$ ||
+          ctrl.errorRefList$
+      ),
+    ]).pipe(
+      map((errorRefList: IControlErrorRef<GErrors>[][]) => {
+        return _.flatMap(errorRefList);
+      })
+    );
   }
 
   static getFirstAggregatedErrorMsgStream<GValue, GErrors>(
-    control: IAbstractControl<GValue, GErrors> & IControlsParent<GValue, GErrors>,
+    control: IAbstractControl<GValue, GErrors> &
+      IControlsParent<GValue, GErrors>
   ): Observable<string | null> {
-    return control.aggregatedErrorRefList$
-      .pipe(
-        map(aggregatedErrorRefList => aggregatedErrorRefList[0]?.msg ?? null),
-      );
+    return control.aggregatedErrorRefList$.pipe(
+      map((aggregatedErrorRefList) => aggregatedErrorRefList[0]?.msg ?? null)
+    );
   }
 
   static getDisabledReasonList<GValue, GErrors>(
     control: IAbstractControl<GValue, GErrors>,
-    disabledReasonConfigList?: OneOrMany<Observable<string | boolean>>,
+    disabledReasonConfigList?: OneOrMany<Observable<string | boolean>>
   ): Observable<string[]> {
     if (!disabledReasonConfigList) {
       return of([]);
     }
     const disabledReasonList$ = combineLatest(
-      _.map(toArray(disabledReasonConfigList), disabledReason$ => disabledReason$
-        .pipe(
-          map(disabledReason => disabledReason !== false ? disabledReason : null),
-        ),
+      _.map(toArray(disabledReasonConfigList), (disabledReason$) =>
+        disabledReason$.pipe(
+          map((disabledReason) =>
+            disabledReason !== false ? disabledReason : null
+          )
+        )
+      )
+    ).pipe(
+      map((disabledReasonList: (string | null)[]): string[] =>
+        _.filter(disabledReasonList, isValueTruthy)
       ),
-    )
-      .pipe(
-        map((disabledReasonList: (string | null)[]): string[] => _.filter(disabledReasonList, isValueTruthy)),
-        startWith([]),
-        distinctUntilChanged(),
-      );
+      startWith([]),
+      distinctUntilChanged()
+    );
 
-    control.disableWhile(disabledReasonList$.pipe(map(reasonList => !_.isEmpty(reasonList))));
+    control.disableWhile(
+      disabledReasonList$.pipe(map((reasonList) => !_.isEmpty(reasonList)))
+    );
 
     return disabledReasonList$;
   }
 
   static getFirstDisabledReasonStream<GValue, GErrors>(
-    control: IAbstractControl<GValue, GErrors>,
+    control: IAbstractControl<GValue, GErrors>
   ): Observable<string | null> {
-    return control.disabledReasonList$
-      .pipe(
-        map(disabledReasonList => disabledReasonList?.[0] ?? null),
-        distinctUntilChanged(),
-      );
+    return control.disabledReasonList$.pipe(
+      map((disabledReasonList) => disabledReasonList?.[0] ?? null),
+      distinctUntilChanged()
+    );
   }
 
   static getOptions<GValue, GErrors>(
-    validatorOrOpts?: ValidatorFn<GValue, GErrors> | ValidatorFn<GValue, GErrors>[] | null | IAbstractControlOptions<GValue, GErrors>,
+    validatorOrOpts?:
+      | ValidatorFn<GValue, GErrors>
+      | ValidatorFn<GValue, GErrors>[]
+      | null
+      | IAbstractControlOptions<GValue, GErrors>
   ): IAbstractControlOptions<GValue, GErrors> | undefined {
-    if (!!validatorOrOpts && typeof validatorOrOpts === 'object' && !Array.isArray(validatorOrOpts)) {
+    if (
+      !!validatorOrOpts &&
+      typeof validatorOrOpts === 'object' &&
+      !Array.isArray(validatorOrOpts)
+    ) {
       return validatorOrOpts;
     }
     return undefined;
   }
 
   static getBaseConstructorSecondParam<GValue, GErrors>(
-    validatorOrOpts?: ValidatorFn<GValue, GErrors> | ValidatorFn<GValue, GErrors>[] | null | IAbstractControlOptions<GValue, GErrors>,
+    validatorOrOpts?:
+      | ValidatorFn<GValue, GErrors>
+      | ValidatorFn<GValue, GErrors>[]
+      | null
+      | IAbstractControlOptions<GValue, GErrors>
   ): ValidatorFn | ValidatorFn[] | AbstractControlOptions | null {
-    if (!!validatorOrOpts && typeof validatorOrOpts === 'object' && !Array.isArray(validatorOrOpts)) {
+    if (
+      !!validatorOrOpts &&
+      typeof validatorOrOpts === 'object' &&
+      !Array.isArray(validatorOrOpts)
+    ) {
       return {
-        validators: (validatorOrOpts as IAbstractControlOptions)?.validators || undefined,
-        asyncValidators: (validatorOrOpts as IAbstractControlOptions)?.asyncValidators || undefined,
+        validators:
+          (validatorOrOpts as IAbstractControlOptions)?.validators || undefined,
+        asyncValidators:
+          (validatorOrOpts as IAbstractControlOptions)?.asyncValidators ||
+          undefined,
       };
     }
     return validatorOrOpts || null;

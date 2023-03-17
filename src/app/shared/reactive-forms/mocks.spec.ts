@@ -1,11 +1,11 @@
 import {
   Observable,
-  of,
-} from 'rxjs';
-import { FormControl } from './formControl';
-import { FormGroup } from './formGroup';
-import { FormArray } from './formArray';
-import { ValidatorFn } from './types';
+  of
+} from "rxjs";
+import { FormControl } from "./formControl";
+import { FormGroup } from "./formGroup";
+import { FormArray } from "./formArray";
+import { ValidatorFn } from "./types";
 
 export interface INestedTestForm {
   num: number;
@@ -50,13 +50,18 @@ export const nestedFormMockValue: INestedTestForm = {
     str: '1',
     numArr: [1],
   },
-  arr: [{
-    a: 2,
-  }],
+  arr: [
+    {
+      a: 2,
+    },
+  ],
 };
 export const nestedFormControls: INestedTestFormControls = {
   num: new FormControl<number>(),
-  obj: new FormGroup<{ str: FormControl<string>; numArr: FormArray<FormControl<number>> }>({
+  obj: new FormGroup<{
+    str: FormControl<string>;
+    numArr: FormArray<FormControl<number>>;
+  }>({
     str: new FormControl<string>(),
     numArr: new FormArray<FormControl<number>>([]),
   }),
@@ -75,17 +80,21 @@ export const required = (control): Partial<ITestErrors> => ({
 });
 export const customError = (control): Partial<ITestErrors> => ({
   customError: {
-    requiredCondition: '*', actualValue: '*',
+    requiredCondition: '*',
+    actualValue: '*',
   },
 });
-export const requiredAsync = (control): Observable<Partial<ITestErrors>> => of({
-  required: true,
-});
-export const customErrorAsync = (control): Observable<Partial<ITestErrors>> => of({
-  customError: {
-    requiredCondition: '*', actualValue: '*',
-  },
-});
+export const requiredAsync = (control): Observable<Partial<ITestErrors>> =>
+  of({
+    required: true,
+  });
+export const customErrorAsync = (control): Observable<Partial<ITestErrors>> =>
+  of({
+    customError: {
+      requiredCondition: '*',
+      actualValue: '*',
+    },
+  });
 export const failingValidator: ValidatorFn = (group): { isInvalid: true } => ({
   isInvalid: true,
 });

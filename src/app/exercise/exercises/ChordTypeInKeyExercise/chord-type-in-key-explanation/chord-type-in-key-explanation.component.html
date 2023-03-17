@@ -1,23 +1,29 @@
 <p>
-  In this exercise you will be required to identify the type of a chord being played (Like Major vs Minor).
+  In this exercise you will be required to identify the type of a chord being
+  played (Like Major vs Minor).
 </p>
 
 <app-info-panel>
-  <b>Tip! Major chords tend to sound "brighter" and minor chords tend to sound "darker".</b>
+  <b
+    >Tip! Major chords tend to sound "brighter" and minor chords tend to sound
+    "darker".</b
+  >
   But beware - the feeling of the chord also depends on context.
 </app-info-panel>
 <p>
-  By default, all chords in this exercise will be <b>from the same key</b> (i.e. diatonic) -
-  This is recommended as it simulates a more musical scenario where chords are not random. You can change that in the settings.
+  By default, all chords in this exercise will be <b>from the same key</b> (i.e.
+  diatonic) - This is recommended as it simulates a more musical scenario where
+  chords are not random. You can change that in the settings.
 </p>
 
-<h2>List of Chord Types: </h2>
+<h2>List of Chord Types:</h2>
 
 <p>(Click to play)</p>
 <ion-list>
   <ng-container *ngFor="let chord of chords">
     <ion-item button [playOnClick]="chord.toPlay">
-      <b>{{chord.displayName}}</b>&nbsp;({{chord.notesInC.join('-')}})
+      <b>{{ chord.displayName }}</b
+      >&nbsp;({{ chord.notesInC.join("-") }})
     </ion-item>
   </ng-container>
 </ion-list>

@@ -1,5 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import {
+  Component,
+  Input
+} from "@angular/core";
+import { ModalController } from "@ionic/angular";
 
 @Component({
   selector: 'app-modal-frame',
@@ -20,12 +23,11 @@ export class ModalFrameComponent {
   @Input()
   onClose: () => Promise<any>;
 
-  constructor(
-    private _modalController: ModalController,
-  ) { }
+  constructor(private _modalController: ModalController) {}
 
   async close(): Promise<void> {
-    await this._modalController.dismiss(this.onClose ? await this.onClose() : undefined);
+    await this._modalController.dismiss(
+      this.onClose ? await this.onClose() : undefined
+    );
   }
-
 }

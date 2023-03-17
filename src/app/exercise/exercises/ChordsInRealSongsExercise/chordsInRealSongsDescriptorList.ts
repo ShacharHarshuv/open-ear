@@ -1,24 +1,24 @@
-import { NoteType } from '../../utility/music/notes/NoteType';
-import { CadenceType } from '../utility/exerciseAttributes/tonalExercise';
+import { NoteType } from "../../utility/music/notes/NoteType";
+import { CadenceType } from "../utility/exerciseAttributes/tonalExercise";
 import {
   Mode,
-  RomanNumeralChordSymbol,
-} from '../../utility';
-import { DeepReadonly } from '../../../shared/ts-utility';
+  RomanNumeralChordSymbol
+} from "../../utility";
+import { DeepReadonly } from "../../../shared/ts-utility";
 
 export interface ProgressionInSongFromYouTubeDescriptor {
-  key: NoteType,
-  mode: Mode, // will determinate the cadence to play
-  cadence?: CadenceType, // if not provided, will be determined by the mode
+  key: NoteType;
+  mode: Mode; // will determinate the cadence to play
+  cadence?: CadenceType; // if not provided, will be determined by the mode
   videoId: string;
   name?: string;
   artist?: string;
   section?: string;
   chords: {
-    seconds: number,
-    chord: RomanNumeralChordSymbol,
+    seconds: number;
+    chord: RomanNumeralChordSymbol;
   }[];
-  endSeconds: number,
+  endSeconds: number;
   /**
    * Used for debugging purposes only!
    * Makes it so only this will be used
@@ -26,7 +26,9 @@ export interface ProgressionInSongFromYouTubeDescriptor {
   solo?: boolean;
 }
 
-export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFromYouTubeDescriptor[]> = [
+export const chordsInRealSongsDescriptorList: DeepReadonly<
+  ProgressionInSongFromYouTubeDescriptor[]
+> = [
   {
     name: 'Girlfriend',
     artist: 'Avril Lavigne',
@@ -80,411 +82,411 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
     endSeconds: 28,
   },
   {
-    'key': 'B',
-    'mode': Mode.Major,
-    'videoId': '1cCBqY2B7lI',
-    'name': 'Confusion and Frustration in Modern Times',
-    'artist': 'Sum 41',
-    'chords': [
+    key: 'B',
+    mode: Mode.Major,
+    videoId: '1cCBqY2B7lI',
+    name: 'Confusion and Frustration in Modern Times',
+    artist: 'Sum 41',
+    chords: [
       {
-        'chord': 'vi',
-        'seconds': 0,
+        chord: 'vi',
+        seconds: 0,
       },
       {
-        'chord': 'IV',
-        'seconds': 2.17,
+        chord: 'IV',
+        seconds: 2.17,
       },
       {
-        'chord': 'I',
-        'seconds': 4.44,
+        chord: 'I',
+        seconds: 4.44,
       },
       {
-        'chord': 'V',
-        'seconds': 6.41,
+        chord: 'V',
+        seconds: 6.41,
       },
       {
-        'chord': 'vi',
-        'seconds': 8.28,
+        chord: 'vi',
+        seconds: 8.28,
       },
       {
-        'chord': 'IV',
-        'seconds': 10.34,
+        chord: 'IV',
+        seconds: 10.34,
       },
       {
-        'chord': 'I',
-        'seconds': 12.41,
+        chord: 'I',
+        seconds: 12.41,
       },
       {
-        'chord': 'V',
-        'seconds': 14.48,
+        chord: 'V',
+        seconds: 14.48,
       },
       {
-        'chord': 'IV',
-        'seconds': 16.55,
-      },
-    ],
-    'endSeconds': 18.62,
-  },
-  {
-    'key': 'B',
-    'mode': Mode.Major,
-    'videoId': '1cCBqY2B7lI',
-    'name': 'Confusion and Frustration in Modern Times',
-    'artist': 'Sum 41',
-    'chords': [
-      {
-        'chord': 'I',
-        'seconds': 21.92,
-      },
-      {
-        'chord': 'IV',
-        'seconds': 22.65,
-      },
-      {
-        'chord': 'vi',
-        'seconds': 23.76,
-      },
-      {
-        'chord': 'IV',
-        'seconds': 24.64,
-      },
-      {
-        'chord': 'I',
-        'seconds': 25.76,
-      },
-      {
-        'chord': 'IV',
-        'seconds': 26.81,
-      },
-      {
-        'chord': 'V',
-        'seconds': 27.83,
+        chord: 'IV',
+        seconds: 16.55,
       },
     ],
-    'endSeconds': 29.81,
+    endSeconds: 18.62,
   },
   {
-    "key": "B",
-    "mode": Mode.Major,
-    "videoId": "1cCBqY2B7lI",
-    "name": "Confusion and Frustration in Modern Times",
-    "artist": "Sum 41",
-    "chords": [
+    key: 'B',
+    mode: Mode.Major,
+    videoId: '1cCBqY2B7lI',
+    name: 'Confusion and Frustration in Modern Times',
+    artist: 'Sum 41',
+    chords: [
       {
-        "chord": "I",
-        "seconds": 29.81,
+        chord: 'I',
+        seconds: 21.92,
       },
       {
-        "chord": "vi",
-        "seconds": 31.84,
+        chord: 'IV',
+        seconds: 22.65,
       },
       {
-        "chord": "IV",
-        "seconds": 32.97,
+        chord: 'vi',
+        seconds: 23.76,
       },
       {
-        "chord": "I",
-        "seconds": 34.00,
+        chord: 'IV',
+        seconds: 24.64,
       },
       {
-        "chord": "vi",
-        "seconds": 35.93,
+        chord: 'I',
+        seconds: 25.76,
       },
       {
-        "chord": "IV",
-        "seconds": 36.99,
+        chord: 'IV',
+        seconds: 26.81,
+      },
+      {
+        chord: 'V',
+        seconds: 27.83,
       },
     ],
-    "endSeconds": 39.28,
+    endSeconds: 29.81,
   },
   {
-    "key": "B",
-    "mode": Mode.Major,
-    "videoId": "1cCBqY2B7lI",
-    "name": "Confusion and Frustration in Modern Times",
-    "artist": "Sum 41",
-    "chords": [
+    key: 'B',
+    mode: Mode.Major,
+    videoId: '1cCBqY2B7lI',
+    name: 'Confusion and Frustration in Modern Times',
+    artist: 'Sum 41',
+    chords: [
       {
-        "chord": "vi",
-        "seconds": 38.05,
+        chord: 'I',
+        seconds: 29.81,
       },
       {
-        "chord": "IV",
-        "seconds": 39.16,
+        chord: 'vi',
+        seconds: 31.84,
       },
       {
-        "chord": "I",
-        "seconds": 40.10,
+        chord: 'IV',
+        seconds: 32.97,
       },
       {
-        "chord": "V",
-        "seconds": 41.06,
+        chord: 'I',
+        seconds: 34.0,
+      },
+      {
+        chord: 'vi',
+        seconds: 35.93,
+      },
+      {
+        chord: 'IV',
+        seconds: 36.99,
       },
     ],
-    "endSeconds": 42.24,
+    endSeconds: 39.28,
   },
   {
-    "key": "B",
-    "mode": Mode.Major,
-    "videoId": "1cCBqY2B7lI",
-    "name": "Confusion and Frustration in Modern Times",
-    "artist": "Sum 41",
-    "chords": [
+    key: 'B',
+    mode: Mode.Major,
+    videoId: '1cCBqY2B7lI',
+    name: 'Confusion and Frustration in Modern Times',
+    artist: 'Sum 41',
+    chords: [
       {
-        "chord": "I",
-        "seconds": 52.34,
+        chord: 'vi',
+        seconds: 38.05,
       },
       {
-        "chord": "V",
-        "seconds": 53.34,
+        chord: 'IV',
+        seconds: 39.16,
       },
       {
-        "chord": "vi",
-        "seconds": 54.2,
+        chord: 'I',
+        seconds: 40.1,
       },
       {
-        "chord": "IV",
-        "seconds": 55.25,
+        chord: 'V',
+        seconds: 41.06,
       },
     ],
-    "endSeconds": 56.56,
+    endSeconds: 42.24,
   },
   {
-    "key": "B",
-    "mode": Mode.Major,
-    "videoId": "dZX6Q-Bj_xg",
-    "name": "Passion Pit Take A Walk",
-    "artist": "MilkMan",
-    "chords": [
+    key: 'B',
+    mode: Mode.Major,
+    videoId: '1cCBqY2B7lI',
+    name: 'Confusion and Frustration in Modern Times',
+    artist: 'Sum 41',
+    chords: [
       {
-        "chord": "ii",
-        "seconds": 37.76,
+        chord: 'I',
+        seconds: 52.34,
       },
       {
-        "chord": "IV",
-        "seconds": 39.81,
+        chord: 'V',
+        seconds: 53.34,
       },
       {
-        "chord": "vi",
-        "seconds": 42.37,
+        chord: 'vi',
+        seconds: 54.2,
       },
       {
-        "chord": "V",
-        "seconds": 44.42,
+        chord: 'IV',
+        seconds: 55.25,
       },
     ],
-    "endSeconds": 47.5,
+    endSeconds: 56.56,
   },
   {
-    "key": "B",
-    "mode": Mode.Major,
-    "videoId": "dZX6Q-Bj_xg",
-    "name": "Passion Pit Take A Walk",
-    "artist": "MilkMan",
-    "chords": [
+    key: 'B',
+    mode: Mode.Major,
+    videoId: 'dZX6Q-Bj_xg',
+    name: 'Passion Pit Take A Walk',
+    artist: 'MilkMan',
+    chords: [
       {
-        "chord": "ii",
-        "seconds": 47.3,
+        chord: 'ii',
+        seconds: 37.76,
       },
       {
-        "chord": "IV",
-        "seconds": 49.3,
+        chord: 'IV',
+        seconds: 39.81,
       },
       {
-        "chord": "vi",
-        "seconds": 51.5,
+        chord: 'vi',
+        seconds: 42.37,
       },
       {
-        "chord": "V",
-        "seconds": 53.8,
+        chord: 'V',
+        seconds: 44.42,
       },
     ],
-    "endSeconds": 55.3,
+    endSeconds: 47.5,
   },
   {
-    "key": "B",
-    "mode": Mode.Major,
-    "videoId": "dZX6Q-Bj_xg",
-    "name": "Passion Pit Take A Walk",
-    "artist": "MilkMan",
-    "chords": [
+    key: 'B',
+    mode: Mode.Major,
+    videoId: 'dZX6Q-Bj_xg',
+    name: 'Passion Pit Take A Walk',
+    artist: 'MilkMan',
+    chords: [
       {
-        "chord": "IV",
-        "seconds": 94.77,
+        chord: 'ii',
+        seconds: 47.3,
       },
       {
-        "chord": "I",
-        "seconds": 97.03,
+        chord: 'IV',
+        seconds: 49.3,
       },
       {
-        "chord": "V",
-        "seconds": 99.3,
+        chord: 'vi',
+        seconds: 51.5,
       },
       {
-        "chord": "vi",
-        "seconds": 101.56,
+        chord: 'V',
+        seconds: 53.8,
       },
     ],
-    "endSeconds": 104,
+    endSeconds: 55.3,
   },
   {
-    "key": "Db",
-    "mode": Mode.Major,
-    "videoId": "CvBfHwUxHIk",
-    "name": "Umbrella",
-    "artist": "Rihanna",
-    "chords": [
+    key: 'B',
+    mode: Mode.Major,
+    videoId: 'dZX6Q-Bj_xg',
+    name: 'Passion Pit Take A Walk',
+    artist: 'MilkMan',
+    chords: [
       {
-        "chord": "IV",
-        "seconds": 57,
+        chord: 'IV',
+        seconds: 94.77,
       },
       {
-        "chord": "I",
-        "seconds": 58.8,
+        chord: 'I',
+        seconds: 97.03,
       },
       {
-        "chord": "V",
-        "seconds": 61.5,
+        chord: 'V',
+        seconds: 99.3,
       },
       {
-        "chord": "vi",
-        "seconds": 64.2,
+        chord: 'vi',
+        seconds: 101.56,
       },
     ],
-    "endSeconds": 67.5,
+    endSeconds: 104,
   },
   {
-    "key": "F",
-    "mode": Mode.Minor,
-    "videoId": "hTWKbfoikeg",
-    "name": "Smells Like Teen Spirit",
-    "artist": "",
-    "chords": [
+    key: 'Db',
+    mode: Mode.Major,
+    videoId: 'CvBfHwUxHIk',
+    name: 'Umbrella',
+    artist: 'Rihanna',
+    chords: [
       {
-        "chord": "i",
-        "seconds": 26,
+        chord: 'IV',
+        seconds: 57,
       },
       {
-        "chord": "iv",
-        "seconds": 27.03,
+        chord: 'I',
+        seconds: 58.8,
       },
       {
-        "chord": "bIII",
-        "seconds": 28.07,
+        chord: 'V',
+        seconds: 61.5,
       },
       {
-        "chord": "bVI",
-        "seconds": 29.1,
-      },
-      {
-        "chord": "i",
-        "seconds": 30.14,
-      },
-      {
-        "chord": "iv",
-        "seconds": 31.17,
-      },
-      {
-        "chord": "bIII",
-        "seconds": 32.21,
-      },
-      {
-        "chord": "bVI",
-        "seconds": 33.24,
+        chord: 'vi',
+        seconds: 64.2,
       },
     ],
-    "endSeconds": 34.28,
+    endSeconds: 67.5,
   },
   {
-    "key": "F",
-    "mode": Mode.Minor,
-    "videoId": "hTWKbfoikeg",
-    "name": "Smells Like Teen Spirit",
-    "artist": "Nirvana",
-    "chords": [
+    key: 'F',
+    mode: Mode.Minor,
+    videoId: 'hTWKbfoikeg',
+    name: 'Smells Like Teen Spirit',
+    artist: '',
+    chords: [
       {
-        "chord": "i",
-        "seconds": 59.07,
+        chord: 'i',
+        seconds: 26,
       },
       {
-        "chord": "iv",
-        "seconds": 59.96,
+        chord: 'iv',
+        seconds: 27.03,
       },
       {
-        "chord": "bIII",
-        "seconds": 60.96,
+        chord: 'bIII',
+        seconds: 28.07,
       },
       {
-        "chord": "bVI",
-        "seconds": 61.97,
+        chord: 'bVI',
+        seconds: 29.1,
       },
       {
-        "chord": "i",
-        "seconds": 62.98,
+        chord: 'i',
+        seconds: 30.14,
       },
       {
-        "chord": "iv",
-        "seconds": 63.99,
+        chord: 'iv',
+        seconds: 31.17,
       },
       {
-        "chord": "bIII",
-        "seconds": 65.06,
+        chord: 'bIII',
+        seconds: 32.21,
       },
       {
-        "chord": "bVI",
-        "seconds": 66.03,
+        chord: 'bVI',
+        seconds: 33.24,
       },
     ],
-    "endSeconds": 67.28,
+    endSeconds: 34.28,
   },
   {
-    "key": "F#",
-    "mode": Mode.Minor,
-    "videoId": "Zi_XLOBDo_Y",
-    "name": "Billie Jean",
-    "artist": "Michael Jackson",
-    "chords": [
+    key: 'F',
+    mode: Mode.Minor,
+    videoId: 'hTWKbfoikeg',
+    name: 'Smells Like Teen Spirit',
+    artist: 'Nirvana',
+    chords: [
       {
-        "chord": "bVI",
-        "seconds": 71.08,
+        chord: 'i',
+        seconds: 59.07,
       },
       {
-        "chord": "i",
-        "seconds": 72.94,
+        chord: 'iv',
+        seconds: 59.96,
       },
       {
-        "chord": "bVI",
-        "seconds": 75.02,
+        chord: 'bIII',
+        seconds: 60.96,
       },
       {
-        "chord": "i",
-        "seconds": 76.99,
+        chord: 'bVI',
+        seconds: 61.97,
       },
       {
-        "chord": "bVI",
-        "seconds": 79.16,
+        chord: 'i',
+        seconds: 62.98,
       },
       {
-        "chord": "i",
-        "seconds": 81.20,
+        chord: 'iv',
+        seconds: 63.99,
       },
       {
-        "chord": "bVI",
-        "seconds": 83.2,
+        chord: 'bIII',
+        seconds: 65.06,
       },
       {
-        "chord": "V",
-        "seconds": 85.19,
+        chord: 'bVI',
+        seconds: 66.03,
       },
     ],
-    "endSeconds": 87.59,
+    endSeconds: 67.28,
   },
   {
-    "key": "Db",
-    "mode": Mode.Mixolydian,
-    "videoId": "1w7OgIMMRc4",
-    "name": "Sweet Child O' Mine",
-    "artist": "Guns N' Roses",
+    key: 'F#',
+    mode: Mode.Minor,
+    videoId: 'Zi_XLOBDo_Y',
+    name: 'Billie Jean',
+    artist: 'Michael Jackson',
+    chords: [
+      {
+        chord: 'bVI',
+        seconds: 71.08,
+      },
+      {
+        chord: 'i',
+        seconds: 72.94,
+      },
+      {
+        chord: 'bVI',
+        seconds: 75.02,
+      },
+      {
+        chord: 'i',
+        seconds: 76.99,
+      },
+      {
+        chord: 'bVI',
+        seconds: 79.16,
+      },
+      {
+        chord: 'i',
+        seconds: 81.2,
+      },
+      {
+        chord: 'bVI',
+        seconds: 83.2,
+      },
+      {
+        chord: 'V',
+        seconds: 85.19,
+      },
+    ],
+    endSeconds: 87.59,
+  },
+  {
+    key: 'Db',
+    mode: Mode.Mixolydian,
+    videoId: '1w7OgIMMRc4',
+    name: "Sweet Child O' Mine",
+    artist: "Guns N' Roses",
     chords: [
       {
         seconds: 31,
@@ -506,11 +508,11 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
     endSeconds: 46.2,
   },
   {
-    "key": "Db",
-    "mode": Mode.Mixolydian,
-    "videoId": "1w7OgIMMRc4",
-    "name": "Sweet Child O' Mine",
-    "artist": "Guns N' Roses",
+    key: 'Db',
+    mode: Mode.Mixolydian,
+    videoId: '1w7OgIMMRc4',
+    name: "Sweet Child O' Mine",
+    artist: "Guns N' Roses",
     chords: [
       {
         seconds: 61,
@@ -528,368 +530,368 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
     endSeconds: 69,
   },
   {
-    "key": "C",
-    "mode": Mode.Major,
-    "videoId": "QDYfEBY9NM4",
-    "name": "Let It Be",
-    "artist": "The Beatles",
-    "chords": [
+    key: 'C',
+    mode: Mode.Major,
+    videoId: 'QDYfEBY9NM4',
+    name: 'Let It Be',
+    artist: 'The Beatles',
+    chords: [
       {
-        "chord": "I",
-        "seconds": 64.66,
+        chord: 'I',
+        seconds: 64.66,
       },
       {
-        "chord": "V",
-        "seconds": 66.37,
+        chord: 'V',
+        seconds: 66.37,
       },
       {
-        "chord": "vi",
-        "seconds": 68.06,
+        chord: 'vi',
+        seconds: 68.06,
       },
       {
-        "chord": "IV",
-        "seconds": 69.62,
+        chord: 'IV',
+        seconds: 69.62,
       },
     ],
-    "endSeconds": 71.35,
+    endSeconds: 71.35,
   },
   {
-    "key": "C",
-    "mode": Mode.Major,
-    "videoId": "9OQBDdNHmXo",
-    "name": "All Too Well",
-    "artist": "Taylor Swift",
-    "chords": [
+    key: 'C',
+    mode: Mode.Major,
+    videoId: '9OQBDdNHmXo',
+    name: 'All Too Well',
+    artist: 'Taylor Swift',
+    chords: [
       {
-        "chord": "I",
-        "seconds": 51.67,
+        chord: 'I',
+        seconds: 51.67,
       },
       {
-        "chord": "V",
-        "seconds": 54.09,
+        chord: 'V',
+        seconds: 54.09,
       },
       {
-        "chord": "vi",
-        "seconds": 56.68,
+        chord: 'vi',
+        seconds: 56.68,
       },
       {
-        "chord": "IV",
-        "seconds": 59.41,
+        chord: 'IV',
+        seconds: 59.41,
       },
     ],
-    "endSeconds": 61.87,
+    endSeconds: 61.87,
   },
   {
-    "key": "C",
-    "mode": Mode.Major,
-    "videoId": "hnK6CoUZZFc",
-    "name": "All Too Well",
-    "artist": "Taylor Swift",
-    "chords": [
+    key: 'C',
+    mode: Mode.Major,
+    videoId: 'hnK6CoUZZFc',
+    name: 'All Too Well',
+    artist: 'Taylor Swift',
+    chords: [
       {
-        "chord": "I",
-        "seconds": 98.04,
+        chord: 'I',
+        seconds: 98.04,
       },
       {
-        "chord": "V",
-        "seconds": 100.62,
+        chord: 'V',
+        seconds: 100.62,
       },
       {
-        "chord": "vi",
-        "seconds": 103.15,
+        chord: 'vi',
+        seconds: 103.15,
       },
       {
-        "chord": "IV",
-        "seconds": 105.74,
+        chord: 'IV',
+        seconds: 105.74,
       },
     ],
-    "endSeconds": 108.31,
+    endSeconds: 108.31,
   },
   {
-    "key": "A",
-    "mode": Mode.Major,
-    "videoId": "hLQl3WQQoQ0",
-    "name": "Someone Like You",
-    "artist": "Adele",
-    "chords": [
+    key: 'A',
+    mode: Mode.Major,
+    videoId: 'hLQl3WQQoQ0',
+    name: 'Someone Like You',
+    artist: 'Adele',
+    chords: [
       {
-        "chord": "I",
-        "seconds": 73.7,
+        chord: 'I',
+        seconds: 73.7,
       },
       {
-        "chord": "V",
-        "seconds": 75.51,
+        chord: 'V',
+        seconds: 75.51,
       },
       {
-        "chord": "vi",
-        "seconds": 77.33,
+        chord: 'vi',
+        seconds: 77.33,
       },
       {
-        "chord": "IV",
-        "seconds": 79.15,
+        chord: 'IV',
+        seconds: 79.15,
       },
     ],
-    "endSeconds": 80.97,
+    endSeconds: 80.97,
   },
   {
-    "key": "E",
-    "mode": Mode.Major,
-    "videoId": "1k8craCGpgs",
-    "name": "Don't Stop Believing",
-    "artist": "Journey",
-    "chords": [
+    key: 'E',
+    mode: Mode.Major,
+    videoId: '1k8craCGpgs',
+    name: "Don't Stop Believing",
+    artist: 'Journey',
+    chords: [
       {
-        "chord": "I",
-        "seconds": 17.36,
+        chord: 'I',
+        seconds: 17.36,
       },
       {
-        "chord": "V",
-        "seconds": 19.12,
+        chord: 'V',
+        seconds: 19.12,
       },
       {
-        "chord": "vi",
-        "seconds": 21.39,
+        chord: 'vi',
+        seconds: 21.39,
       },
       {
-        "chord": "IV",
-        "seconds": 23.16,
+        chord: 'IV',
+        seconds: 23.16,
       },
     ],
-    "endSeconds": 25.43,
+    endSeconds: 25.43,
   },
   {
-    "key": "F",
-    "mode": Mode.Major,
-    "videoId": "aF4CWCXirZ8",
-    "name": "Can You Feel The Love Tonight",
-    "artist": "Elton John",
-    "chords": [
+    key: 'F',
+    mode: Mode.Major,
+    videoId: 'aF4CWCXirZ8',
+    name: 'Can You Feel The Love Tonight',
+    artist: 'Elton John',
+    chords: [
       {
-        "chord": "I",
-        "seconds": 66.11,
+        chord: 'I',
+        seconds: 66.11,
       },
       {
-        "chord": "V",
-        "seconds": 67.69,
+        chord: 'V',
+        seconds: 67.69,
       },
       {
-        "chord": "vi",
-        "seconds": 69.27,
+        chord: 'vi',
+        seconds: 69.27,
       },
       {
-        "chord": "IV",
-        "seconds": 70.85,
+        chord: 'IV',
+        seconds: 70.85,
       },
     ],
-    "endSeconds": 72.43,
+    endSeconds: 72.43,
   },
   {
-    "key": "F#",
-    "mode": Mode.Major,
-    "videoId": "i8dh9gDzmz8",
-    "name": "When I Come Around",
-    "artist": "Green Day",
-    "chords": [
+    key: 'F#',
+    mode: Mode.Major,
+    videoId: 'i8dh9gDzmz8',
+    name: 'When I Come Around',
+    artist: 'Green Day',
+    chords: [
       {
-        "chord": "I",
-        "seconds": 15.06,
+        chord: 'I',
+        seconds: 15.06,
       },
       {
-        "chord": "V",
-        "seconds": 15.92,
+        chord: 'V',
+        seconds: 15.92,
       },
       {
-        "chord": "vi",
-        "seconds": 17.16,
+        chord: 'vi',
+        seconds: 17.16,
       },
       {
-        "chord": "IV",
-        "seconds": 18.06,
+        chord: 'IV',
+        seconds: 18.06,
       },
     ],
-    "endSeconds": 20.01,
+    endSeconds: 20.01,
   },
   {
-    "key": "Ab",
-    "mode": Mode.Major,
-    "videoId": "moSFlvxnbgk",
-    "name": "Let It Go",
-    "artist": "Robert and Kristen Anderson-Lopez",
-    "chords": [
+    key: 'Ab',
+    mode: Mode.Major,
+    videoId: 'moSFlvxnbgk',
+    name: 'Let It Go',
+    artist: 'Robert and Kristen Anderson-Lopez',
+    chords: [
       {
-        "chord": "I",
-        "seconds": 60.49,
+        chord: 'I',
+        seconds: 60.49,
       },
       {
-        "chord": "V",
-        "seconds": 62.24,
+        chord: 'V',
+        seconds: 62.24,
       },
       {
-        "chord": "vi",
-        "seconds": 64.07,
+        chord: 'vi',
+        seconds: 64.07,
       },
       {
-        "chord": "IV",
-        "seconds": 65.84,
+        chord: 'IV',
+        seconds: 65.84,
       },
     ],
-    "endSeconds": 67.58,
+    endSeconds: 67.58,
   },
   {
-    "key": "A",
-    "mode": Mode.Major,
-    "videoId": "kXYiU_JCYtU",
-    "name": "Numb",
-    "artist": "Linkin Park",
-    "chords": [
+    key: 'A',
+    mode: Mode.Major,
+    videoId: 'kXYiU_JCYtU',
+    name: 'Numb',
+    artist: 'Linkin Park',
+    chords: [
       {
-        "chord": "vi",
-        "seconds": 21.7,
+        chord: 'vi',
+        seconds: 21.7,
       },
       {
-        "chord": "IV",
-        "seconds": 23.88,
+        chord: 'IV',
+        seconds: 23.88,
       },
       {
-        "chord": "I",
-        "seconds": 26.06,
+        chord: 'I',
+        seconds: 26.06,
       },
       {
-        "chord": "V",
-        "seconds": 28.24,
+        chord: 'V',
+        seconds: 28.24,
       },
     ],
-    "endSeconds": 30.42,
+    endSeconds: 30.42,
   },
   {
-    "key": "A",
-    "mode": Mode.Major,
-    "videoId": "fe4EK4HSPkI",
-    "name": "Kids",
-    "artist": "MGMT",
-    "chords": [
+    key: 'A',
+    mode: Mode.Major,
+    videoId: 'fe4EK4HSPkI',
+    name: 'Kids',
+    artist: 'MGMT',
+    chords: [
       {
-        "chord": "vi",
-        "seconds": 86.34,
+        chord: 'vi',
+        seconds: 86.34,
       },
       {
-        "chord": "IV",
-        "seconds": 88.04,
+        chord: 'IV',
+        seconds: 88.04,
       },
       {
-        "chord": "I",
-        "seconds": 89.89,
+        chord: 'I',
+        seconds: 89.89,
       },
       {
-        "chord": "V",
-        "seconds": 91.89,
+        chord: 'V',
+        seconds: 91.89,
       },
     ],
-    "endSeconds": 94.15,
+    endSeconds: 94.15,
   },
   {
-    "key": "A",
-    "mode": Mode.Major,
-    "videoId": "FTQbiNvZqaY",
-    "name": "Africa",
-    "artist": "Toto",
-    "chords": [
+    key: 'A',
+    mode: Mode.Major,
+    videoId: 'FTQbiNvZqaY',
+    name: 'Africa',
+    artist: 'Toto',
+    chords: [
       {
-        "chord": "vi",
-        "seconds": 69.32,
+        chord: 'vi',
+        seconds: 69.32,
       },
       {
-        "chord": "IV",
-        "seconds": 70.60,
+        chord: 'IV',
+        seconds: 70.6,
       },
       {
-        "chord": "I",
-        "seconds": 71.92,
+        chord: 'I',
+        seconds: 71.92,
       },
       {
-        "chord": "V",
-        "seconds": 73.22,
+        chord: 'V',
+        seconds: 73.22,
       },
     ],
-    "endSeconds": 74.43,
+    endSeconds: 74.43,
   },
   {
-    "key": "A",
-    "mode": Mode.Major,
-    "videoId": "NPBCbTZWnq0",
-    "name": "River flows in you",
-    "artist": "Yiruma",
-    "chords": [
+    key: 'A',
+    mode: Mode.Major,
+    videoId: 'NPBCbTZWnq0',
+    name: 'River flows in you',
+    artist: 'Yiruma',
+    chords: [
       {
-        "chord": "vi",
-        "seconds": 53.03,
+        chord: 'vi',
+        seconds: 53.03,
       },
       {
-        "chord": "IV",
-        "seconds": 54.59,
+        chord: 'IV',
+        seconds: 54.59,
       },
       {
-        "chord": "I",
-        "seconds": 56.28,
+        chord: 'I',
+        seconds: 56.28,
       },
       {
-        "chord": "V",
-        "seconds": 57.87,
+        chord: 'V',
+        seconds: 57.87,
       },
     ],
-    "endSeconds": 60.04,
+    endSeconds: 60.04,
   },
   {
-    "key": "F",
-    "mode": Mode.Major,
-    "videoId": "5NPBIwQyPWE",
-    "name": "Complicated",
-    "artist": "Avril Lavigne",
-    "chords": [
+    key: 'F',
+    mode: Mode.Major,
+    videoId: '5NPBIwQyPWE',
+    name: 'Complicated',
+    artist: 'Avril Lavigne',
+    chords: [
       {
-        "chord": "vi",
-        "seconds": 69.83,
+        chord: 'vi',
+        seconds: 69.83,
       },
       {
-        "chord": "IV",
-        "seconds": 70.98,
+        chord: 'IV',
+        seconds: 70.98,
       },
       {
-        "chord": "I",
-        "seconds": 72.60,
+        chord: 'I',
+        seconds: 72.6,
       },
       {
-        "chord": "V",
-        "seconds": 74.06,
+        chord: 'V',
+        seconds: 74.06,
       },
     ],
-    "endSeconds": 75.99,
+    endSeconds: 75.99,
   },
   {
-    "key": "F",
-    "mode": Mode.Major,
-    "videoId": "SR6iYWJxHqs",
-    "name": "Grenade",
-    "artist": "Bruno Mars",
-    "chords": [
+    key: 'F',
+    mode: Mode.Major,
+    videoId: 'SR6iYWJxHqs',
+    name: 'Grenade',
+    artist: 'Bruno Mars',
+    chords: [
       {
-        "chord": "vi",
-        "seconds": 39.43,
+        chord: 'vi',
+        seconds: 39.43,
       },
       {
-        "chord": "IV",
-        "seconds": 40.49,
+        chord: 'IV',
+        seconds: 40.49,
       },
       {
-        "chord": "I",
-        "seconds": 41.56,
+        chord: 'I',
+        seconds: 41.56,
       },
       {
-        "chord": "V",
-        "seconds": 42.61,
+        chord: 'V',
+        seconds: 42.61,
       },
     ],
-    "endSeconds": 43.61,
+    endSeconds: 43.61,
   },
   {
     key: 'Ab',
@@ -899,344 +901,344 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
     artist: 'Scott McKenzie',
     chords: [
       {
-        "chord": "vi",
-        "seconds": 6,
+        chord: 'vi',
+        seconds: 6,
       },
       {
-        "chord": "IV",
-        "seconds": 8.11,
+        chord: 'IV',
+        seconds: 8.11,
       },
       {
-        "chord": "I",
-        "seconds": 10.28,
+        chord: 'I',
+        seconds: 10.28,
       },
       {
-        "chord": "V",
-        "seconds": 12.32,
+        chord: 'V',
+        seconds: 12.32,
       },
     ],
     endSeconds: 14.46,
   },
   {
-    "key": "C",
-    "mode": Mode.Major,
-    "videoId": "dTa2Bzlbjv0",
-    "name": "Save Tonight",
-    "artist": "Eagle Eye Cherry",
-    "chords": [
-      {
-        "chord": "vi",
-        "seconds": 48.17,
-      },
-      {
-        "chord": "IV",
-        "seconds": 49.17,
-      },
-      {
-        "chord": "I",
-        "seconds": 50.17,
-      },
-      {
-        "chord": "V",
-        "seconds": 51.13,
-      },
-    ],
-    "endSeconds": 52.17,
-  },
-  {
-    "key": "G#",
-    "mode": Mode.Minor,
-    "videoId": "ZKvhxapM5zo",
-    "name": "Hit The Road Jack",
-    "artist": "Ray Charles",
-    "chords": [
-      {
-        "chord": "i",
-        "seconds": 9.7,
-      },
-      {
-        "chord": "bVII",
-        "seconds": 10.49,
-      },
-      {
-        "chord": "bVI",
-        "seconds": 11.09,
-      },
-      {
-        "chord": "V",
-        "seconds": 11.78,
-      },
-    ],
-    "endSeconds": 12.78,
-  },
-  {
-    "key": "D#",
-    "mode": Mode.Minor,
-    "videoId": "gO071XuztZA",
-    "name": "Good Vibrations",
-    "artist": "Beach Boys",
-    "chords": [
-      {
-        "chord": "i",
-        "seconds": 0.72,
-      },
-      {
-        "chord": "bVII",
-        "seconds": 3.86,
-      },
-      {
-        "chord": "bVI",
-        "seconds": 6.99,
-      },
-      {
-        "chord": "V",
-        "seconds": 10.13,
-      },
-    ],
-    "endSeconds": 13.27,
-  },
-  {
-    "key": "A",
-    "mode": Mode.Minor,
-    "videoId": "Vyc8lezaa9g",
-    "name": "Citizen Erased",
-    "artist": "Muse",
-    "chords": [
-      {
-        "chord": "i",
-        "seconds": 471.1,
-      },
-      {
-        "chord": "bVII",
-        "seconds": 473.44,
-      },
-      {
-        "chord": "bVI",
-        "seconds": 475.89,
-      },
-      {
-        "chord": "V",
-        "seconds": 478.51,
-      },
-    ],
-    "endSeconds": 481.07,
-  },
-  {
-    "key": "A",
-    "mode": Mode.Minor,
-    "videoId": "Vyc8lezaa9g",
-    "name": "Summer in the City",
-    "artist": "Quincy Jones",
-    "chords": [
-      {
-        "chord": "i",
-        "seconds": 481.70,
-      },
-      {
-        "chord": "bVII",
-        "seconds": 482.54,
-      },
-      {
-        "chord": "bVI",
-        "seconds": 484,
-      },
-      {
-        "chord": "V",
-        "seconds": 485.53,
-      },
-    ],
-    "endSeconds": 487,
-  },
-  {
-    "key": "F#",
-    "mode": Mode.Minor,
-    "videoId": "OTvhWVTwRnM",
-    "name": "Happy together",
-    "artist": "The Turtles",
-    "chords": [
-      {
-        "chord": "i",
-        "seconds": 16.96,
-      },
-      {
-        "chord": "bVII",
-        "seconds": 20.66,
-      },
-      {
-        "chord": "bVI",
-        "seconds": 24.69,
-      },
-      {
-        "chord": "V",
-        "seconds": 28.56,
-      },
-    ],
-    "endSeconds": 32.86,
-  },
-  {
-    "key": "F",
-    "mode": Mode.Minor,
-    "videoId": "0S13mP_pfEc",
-    "name": "Runaway",
-    "artist": "Del Shannon",
-    "chords": [
-      {
-        "chord": "i",
-        "seconds": 6.96,
-      },
-      {
-        "chord": "bVII",
-        "seconds": 9.82,
-      },
-      {
-        "chord": "bVI",
-        "seconds": 12.94,
-      },
-      {
-        "chord": "V",
-        "seconds": 16.07,
-      },
-    ],
-    "endSeconds": 19.35,
-  },
-  {
-    "key": "C",
-    "mode": Mode.Minor,
-    "videoId": "rYEDA3JcQqw",
-    "name": "Rolling In The Deep",
-    "artist": "Adele",
-    "chords": [
-      {
-        "chord": "i",
-        "seconds": 59.6,
-      },
-      {
-        "chord": "bVII",
-        "seconds": 61.89,
-      },
-      {
-        "chord": "bVI",
-        "seconds": 64.17,
-      },
-      {
-        "chord": "bVII",
-        "seconds": 67.6,
-      },
-    ],
-    "endSeconds": 68.74,
-  },
-  {
-    "key": "C",
-    "mode": Mode.Minor,
-    "videoId": "TLV4_xaYynY",
-    "name": "All Along The Watchtower",
-    "artist": "Jimi Handrix",
-    "chords": [
-      {
-        "chord": "i",
-        "seconds": 18.72,
-      },
-      {
-        "chord": "bVII",
-        "seconds": 19.8,
-      },
-      {
-        "chord": "bVI",
-        "seconds": 20.61,
-      },
-      {
-        "chord": "bVII",
-        "seconds": 22.23,
-      },
-    ],
-    "endSeconds": 23.04,
-  },
-  {
-    "key": "A",
-    "mode": Mode.Minor,
-    "videoId": "iXQUu5Dti4g",
-    "name": "Stairway to Heaven",
-    "artist": "Led Zeppelin",
-    "chords": [
-      {
-        "chord": "i",
-        "seconds": 404,
-      },
-      {
-        "chord": "bVII",
-        "seconds": 405.15,
-      },
-      {
-        "chord": "bVI",
-        "seconds": 406.42,
-      },
-      {
-        "chord": "bVII",
-        "seconds": 408.49,
-      },
-      {
-        "chord": "i",
-        "seconds": 408.74,
-      },
-    ],
-    "endSeconds": 410,
-  },
-  {
-    "key": "C",
-    "mode": Mode.Minor,
-    "videoId": "WNIPqafd4As",
-    "name": "My Heart Will Go On",
-    "artist": "Celin Deon",
-    "chords": [
-      {
-        "chord": "i",
-        "seconds": 214.68,
-      },
-      {
-        "chord": "bVII",
-        "seconds": 217.1,
-      },
-      {
-        "chord": "bVI",
-        "seconds": 219.53,
-      },
-      {
-        "chord": "bVII",
-        "seconds": 221.95,
-      },
-    ],
-    "endSeconds": 224.38,
-  },
-  {
-    "key": "D",
-    "mode": Mode.Minor,
-    "videoId": "8UVNT4wvIGY",
-    "name": "Somebody That I Used To Know",
-    "artist": "Gotye",
-    "chords": [
-      {
-        "chord": "i",
-        "seconds": 93.09,
-      },
-      {
-        "chord": "bVII",
-        "seconds": 94.03,
-      },
-      {
-        "chord": "bVI",
-        "seconds": 94.97,
-      },
-      {
-        "chord": "bVII",
-        "seconds": 95.9,
-      },
-    ],
-    "endSeconds": 96.84,
-  },
-  {
-    key: "E",
+    key: 'C',
     mode: Mode.Major,
-    videoId: "tbU3zdAgiX8",
+    videoId: 'dTa2Bzlbjv0',
+    name: 'Save Tonight',
+    artist: 'Eagle Eye Cherry',
+    chords: [
+      {
+        chord: 'vi',
+        seconds: 48.17,
+      },
+      {
+        chord: 'IV',
+        seconds: 49.17,
+      },
+      {
+        chord: 'I',
+        seconds: 50.17,
+      },
+      {
+        chord: 'V',
+        seconds: 51.13,
+      },
+    ],
+    endSeconds: 52.17,
+  },
+  {
+    key: 'G#',
+    mode: Mode.Minor,
+    videoId: 'ZKvhxapM5zo',
+    name: 'Hit The Road Jack',
+    artist: 'Ray Charles',
+    chords: [
+      {
+        chord: 'i',
+        seconds: 9.7,
+      },
+      {
+        chord: 'bVII',
+        seconds: 10.49,
+      },
+      {
+        chord: 'bVI',
+        seconds: 11.09,
+      },
+      {
+        chord: 'V',
+        seconds: 11.78,
+      },
+    ],
+    endSeconds: 12.78,
+  },
+  {
+    key: 'D#',
+    mode: Mode.Minor,
+    videoId: 'gO071XuztZA',
+    name: 'Good Vibrations',
+    artist: 'Beach Boys',
+    chords: [
+      {
+        chord: 'i',
+        seconds: 0.72,
+      },
+      {
+        chord: 'bVII',
+        seconds: 3.86,
+      },
+      {
+        chord: 'bVI',
+        seconds: 6.99,
+      },
+      {
+        chord: 'V',
+        seconds: 10.13,
+      },
+    ],
+    endSeconds: 13.27,
+  },
+  {
+    key: 'A',
+    mode: Mode.Minor,
+    videoId: 'Vyc8lezaa9g',
+    name: 'Citizen Erased',
+    artist: 'Muse',
+    chords: [
+      {
+        chord: 'i',
+        seconds: 471.1,
+      },
+      {
+        chord: 'bVII',
+        seconds: 473.44,
+      },
+      {
+        chord: 'bVI',
+        seconds: 475.89,
+      },
+      {
+        chord: 'V',
+        seconds: 478.51,
+      },
+    ],
+    endSeconds: 481.07,
+  },
+  {
+    key: 'A',
+    mode: Mode.Minor,
+    videoId: 'Vyc8lezaa9g',
+    name: 'Summer in the City',
+    artist: 'Quincy Jones',
+    chords: [
+      {
+        chord: 'i',
+        seconds: 481.7,
+      },
+      {
+        chord: 'bVII',
+        seconds: 482.54,
+      },
+      {
+        chord: 'bVI',
+        seconds: 484,
+      },
+      {
+        chord: 'V',
+        seconds: 485.53,
+      },
+    ],
+    endSeconds: 487,
+  },
+  {
+    key: 'F#',
+    mode: Mode.Minor,
+    videoId: 'OTvhWVTwRnM',
+    name: 'Happy together',
+    artist: 'The Turtles',
+    chords: [
+      {
+        chord: 'i',
+        seconds: 16.96,
+      },
+      {
+        chord: 'bVII',
+        seconds: 20.66,
+      },
+      {
+        chord: 'bVI',
+        seconds: 24.69,
+      },
+      {
+        chord: 'V',
+        seconds: 28.56,
+      },
+    ],
+    endSeconds: 32.86,
+  },
+  {
+    key: 'F',
+    mode: Mode.Minor,
+    videoId: '0S13mP_pfEc',
+    name: 'Runaway',
+    artist: 'Del Shannon',
+    chords: [
+      {
+        chord: 'i',
+        seconds: 6.96,
+      },
+      {
+        chord: 'bVII',
+        seconds: 9.82,
+      },
+      {
+        chord: 'bVI',
+        seconds: 12.94,
+      },
+      {
+        chord: 'V',
+        seconds: 16.07,
+      },
+    ],
+    endSeconds: 19.35,
+  },
+  {
+    key: 'C',
+    mode: Mode.Minor,
+    videoId: 'rYEDA3JcQqw',
+    name: 'Rolling In The Deep',
+    artist: 'Adele',
+    chords: [
+      {
+        chord: 'i',
+        seconds: 59.6,
+      },
+      {
+        chord: 'bVII',
+        seconds: 61.89,
+      },
+      {
+        chord: 'bVI',
+        seconds: 64.17,
+      },
+      {
+        chord: 'bVII',
+        seconds: 67.6,
+      },
+    ],
+    endSeconds: 68.74,
+  },
+  {
+    key: 'C',
+    mode: Mode.Minor,
+    videoId: 'TLV4_xaYynY',
+    name: 'All Along The Watchtower',
+    artist: 'Jimi Handrix',
+    chords: [
+      {
+        chord: 'i',
+        seconds: 18.72,
+      },
+      {
+        chord: 'bVII',
+        seconds: 19.8,
+      },
+      {
+        chord: 'bVI',
+        seconds: 20.61,
+      },
+      {
+        chord: 'bVII',
+        seconds: 22.23,
+      },
+    ],
+    endSeconds: 23.04,
+  },
+  {
+    key: 'A',
+    mode: Mode.Minor,
+    videoId: 'iXQUu5Dti4g',
+    name: 'Stairway to Heaven',
+    artist: 'Led Zeppelin',
+    chords: [
+      {
+        chord: 'i',
+        seconds: 404,
+      },
+      {
+        chord: 'bVII',
+        seconds: 405.15,
+      },
+      {
+        chord: 'bVI',
+        seconds: 406.42,
+      },
+      {
+        chord: 'bVII',
+        seconds: 408.49,
+      },
+      {
+        chord: 'i',
+        seconds: 408.74,
+      },
+    ],
+    endSeconds: 410,
+  },
+  {
+    key: 'C',
+    mode: Mode.Minor,
+    videoId: 'WNIPqafd4As',
+    name: 'My Heart Will Go On',
+    artist: 'Celin Deon',
+    chords: [
+      {
+        chord: 'i',
+        seconds: 214.68,
+      },
+      {
+        chord: 'bVII',
+        seconds: 217.1,
+      },
+      {
+        chord: 'bVI',
+        seconds: 219.53,
+      },
+      {
+        chord: 'bVII',
+        seconds: 221.95,
+      },
+    ],
+    endSeconds: 224.38,
+  },
+  {
+    key: 'D',
+    mode: Mode.Minor,
+    videoId: '8UVNT4wvIGY',
+    name: 'Somebody That I Used To Know',
+    artist: 'Gotye',
+    chords: [
+      {
+        chord: 'i',
+        seconds: 93.09,
+      },
+      {
+        chord: 'bVII',
+        seconds: 94.03,
+      },
+      {
+        chord: 'bVI',
+        seconds: 94.97,
+      },
+      {
+        chord: 'bVII',
+        seconds: 95.9,
+      },
+    ],
+    endSeconds: 96.84,
+  },
+  {
+    key: 'E',
+    mode: Mode.Major,
+    videoId: 'tbU3zdAgiX8',
     name: 'All I Have To Do Is Dream',
     artist: 'Everly Brothers',
     chords: [
@@ -1260,235 +1262,235 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
     endSeconds: 8.4,
   },
   {
-    "key": "A",
-    "mode": Mode.Major,
-    "videoId": "3JWTaaS7LdU",
-    "name": "I Will Always Love You",
-    "artist": "Whitney Houston",
-    "chords": [
+    key: 'A',
+    mode: Mode.Major,
+    videoId: '3JWTaaS7LdU',
+    name: 'I Will Always Love You',
+    artist: 'Whitney Houston',
+    chords: [
       {
-        "chord": "I",
-        "seconds": 107.5,
+        chord: 'I',
+        seconds: 107.5,
       },
       {
-        "chord": "vi",
-        "seconds": 109.26,
+        chord: 'vi',
+        seconds: 109.26,
       },
       {
-        "chord": "IV",
-        "seconds": 111.03,
+        chord: 'IV',
+        seconds: 111.03,
       },
       {
-        "chord": "V",
-        "seconds": 112.79,
+        chord: 'V',
+        seconds: 112.79,
       },
     ],
-    "endSeconds": 114.55,
+    endSeconds: 114.55,
   },
   {
-    "key": "G",
-    "mode": Mode.Major,
-    "videoId": "xw0EozkBWuI",
-    "name": "Crocodile Rock",
-    "artist": "Elton John",
-    "section": "Bridge",
-    "chords": [
+    key: 'G',
+    mode: Mode.Major,
+    videoId: 'xw0EozkBWuI',
+    name: 'Crocodile Rock',
+    artist: 'Elton John',
+    section: 'Bridge',
+    chords: [
       {
-        "chord": "I",
-        "seconds": 131.83,
+        chord: 'I',
+        seconds: 131.83,
       },
       {
-        "chord": "vi",
-        "seconds": 134.79,
+        chord: 'vi',
+        seconds: 134.79,
       },
       {
-        "chord": "IV",
-        "seconds": 137.96,
+        chord: 'IV',
+        seconds: 137.96,
       },
       {
-        "chord": "V",
-        "seconds": 141.17,
+        chord: 'V',
+        seconds: 141.17,
       },
     ],
-    "endSeconds": 144.37,
+    endSeconds: 144.37,
   },
   {
-    "key": "G#",
-    "mode": Mode.Major,
-    "videoId": "VJcGi4-n_Yw",
-    "name": "Earth Angle",
-    "artist": "The Penguins",
-    "chords": [
+    key: 'G#',
+    mode: Mode.Major,
+    videoId: 'VJcGi4-n_Yw',
+    name: 'Earth Angle',
+    artist: 'The Penguins',
+    chords: [
       {
-        "chord": "I",
-        "seconds": 13,
+        chord: 'I',
+        seconds: 13,
       },
       {
-        "chord": "vi",
-        "seconds": 14.54,
+        chord: 'vi',
+        seconds: 14.54,
       },
       {
-        "chord": "IV",
-        "seconds": 16.06,
+        chord: 'IV',
+        seconds: 16.06,
       },
       {
-        "chord": "V",
-        "seconds": 17.69,
+        chord: 'V',
+        seconds: 17.69,
       },
     ],
-    "endSeconds": 19.32,
+    endSeconds: 19.32,
   },
   {
-    "key": "C",
-    "mode": Mode.Major,
-    "videoId": "vdvnOH060Qg",
-    "name": "Happiness is a Warm Gun",
-    "artist": "The Beatles",
-    "chords": [
+    key: 'C',
+    mode: Mode.Major,
+    videoId: 'vdvnOH060Qg',
+    name: 'Happiness is a Warm Gun',
+    artist: 'The Beatles',
+    chords: [
       {
-        "chord": "I",
-        "seconds": 94.93,
+        chord: 'I',
+        seconds: 94.93,
       },
       {
-        "chord": "vi",
-        "seconds": 96.13,
+        chord: 'vi',
+        seconds: 96.13,
       },
       {
-        "chord": "IV",
-        "seconds": 97.67,
+        chord: 'IV',
+        seconds: 97.67,
       },
       {
-        "chord": "V",
-        "seconds": 99.28,
+        chord: 'V',
+        seconds: 99.28,
       },
     ],
-    "endSeconds": 100.94,
+    endSeconds: 100.94,
   },
   {
-    "key": "Db",
-    "mode": Mode.Major,
-    "videoId": "JMcNzjzw63I",
-    "name": "Jesus of Suburbia",
-    "artist": "Green Day",
-    "chords": [
+    key: 'Db',
+    mode: Mode.Major,
+    videoId: 'JMcNzjzw63I',
+    name: 'Jesus of Suburbia',
+    artist: 'Green Day',
+    chords: [
       {
-        "chord": "I",
-        "seconds": 0,
+        chord: 'I',
+        seconds: 0,
       },
       {
-        "chord": "vi",
-        "seconds": 3.3,
+        chord: 'vi',
+        seconds: 3.3,
       },
       {
-        "chord": "IV",
-        "seconds": 6.72,
+        chord: 'IV',
+        seconds: 6.72,
       },
       {
-        "chord": "V",
-        "seconds": 10,
+        chord: 'V',
+        seconds: 10,
       },
     ],
-    "endSeconds": 13.42,
+    endSeconds: 13.42,
   },
   {
-    "key": "Eb",
-    "mode": Mode.Major,
-    "videoId": "kffacxfA7G4",
-    "name": "Baby",
-    "artist": "Justin Bieber",
-    "chords": [
+    key: 'Eb',
+    mode: Mode.Major,
+    videoId: 'kffacxfA7G4',
+    name: 'Baby',
+    artist: 'Justin Bieber',
+    chords: [
       {
-        "chord": "I",
-        "seconds": 15.51,
+        chord: 'I',
+        seconds: 15.51,
       },
       {
-        "chord": "vi",
-        "seconds": 19.12,
+        chord: 'vi',
+        seconds: 19.12,
       },
       {
-        "chord": "IV",
-        "seconds": 22.78,
+        chord: 'IV',
+        seconds: 22.78,
       },
       {
-        "chord": "V",
-        "seconds": 26.52,
+        chord: 'V',
+        seconds: 26.52,
       },
     ],
-    "endSeconds": 30.14,
+    endSeconds: 30.14,
   },
   {
-    "key": "G",
-    "mode": Mode.Major,
-    "videoId": "CZXLLMbJdZ4",
-    "name": "There she goes",
-    "artist": "The La's",
-    "chords": [
+    key: 'G',
+    mode: Mode.Major,
+    videoId: 'CZXLLMbJdZ4',
+    name: 'There she goes',
+    artist: "The La's",
+    chords: [
       {
-        "chord": "I",
-        "seconds": 16.9,
+        chord: 'I',
+        seconds: 16.9,
       },
       {
-        "chord": "V",
-        "seconds": 17.84,
+        chord: 'V',
+        seconds: 17.84,
       },
       {
-        "chord": "IV",
-        "seconds": 18.78,
+        chord: 'IV',
+        seconds: 18.78,
       },
     ],
-    "endSeconds": 20.65,
+    endSeconds: 20.65,
   },
   {
-    "key": "F#",
-    "mode": Mode.Major,
-    "videoId": "VZt7J0iaUD0",
-    "name": "New Project",
-    "artist": "Suzanne Vega",
-    "chords": [
+    key: 'F#',
+    mode: Mode.Major,
+    videoId: 'VZt7J0iaUD0',
+    name: 'New Project',
+    artist: 'Suzanne Vega',
+    chords: [
       {
-        "chord": "I",
-        "seconds": 25.65,
+        chord: 'I',
+        seconds: 25.65,
       },
       {
-        "chord": "V",
-        "seconds": 27.53,
+        chord: 'V',
+        seconds: 27.53,
       },
       {
-        "chord": "IV",
-        "seconds": 29.4,
+        chord: 'IV',
+        seconds: 29.4,
       },
       {
-        "chord": "V",
-        "seconds": 31.28,
+        chord: 'V',
+        seconds: 31.28,
       },
     ],
-    "endSeconds": 33.15,
+    endSeconds: 33.15,
   },
   {
-    "key": "F",
-    "mode": Mode.Major,
-    "videoId": "N5EnGwXV_Pg",
-    "name": "your body is a wonderland",
-    "artist": "",
-    "chords": [
+    key: 'F',
+    mode: Mode.Major,
+    videoId: 'N5EnGwXV_Pg',
+    name: 'your body is a wonderland',
+    artist: '',
+    chords: [
       {
-        "chord": "I",
-        "seconds": 79.37,
+        chord: 'I',
+        seconds: 79.37,
       },
       {
-        "chord": "V",
-        "seconds": 80.65,
+        chord: 'V',
+        seconds: 80.65,
       },
       {
-        "chord": "IV",
-        "seconds": 81.93,
+        chord: 'IV',
+        seconds: 81.93,
       },
       {
-        "chord": "V",
-        "seconds": 83.2,
+        chord: 'V',
+        seconds: 83.2,
       },
     ],
-    "endSeconds": 84.48,
+    endSeconds: 84.48,
   },
   // todo: need to figure out the timing here, it's a bit tricky
   // {
@@ -1518,231 +1520,231 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
   //   "endSeconds": 180
   // },
   {
-    "key": "A",
-    "mode": Mode.Major,
-    "videoId": "NHozn0YXAeE",
-    "name": "MMMBop",
-    "artist": "Hanson",
-    "chords": [
+    key: 'A',
+    mode: Mode.Major,
+    videoId: 'NHozn0YXAeE',
+    name: 'MMMBop',
+    artist: 'Hanson',
+    chords: [
       {
-        "chord": "I",
-        "seconds": 18.12,
+        chord: 'I',
+        seconds: 18.12,
       },
       {
-        "chord": "V",
-        "seconds": 19.33,
+        chord: 'V',
+        seconds: 19.33,
       },
       {
-        "chord": "IV",
-        "seconds": 20.43,
+        chord: 'IV',
+        seconds: 20.43,
       },
       {
-        "chord": "V",
-        "seconds": 21.56,
+        chord: 'V',
+        seconds: 21.56,
       },
     ],
-    "endSeconds": 22.61,
+    endSeconds: 22.61,
   },
   {
-    "key": "C",
-    "mode": Mode.Major,
-    "videoId": "9Ht5RZpzPqw",
-    "name": "All The Small Things",
-    "artist": "Blink 182",
-    "chords": [
+    key: 'C',
+    mode: Mode.Major,
+    videoId: '9Ht5RZpzPqw',
+    name: 'All The Small Things',
+    artist: 'Blink 182',
+    chords: [
       {
-        "chord": "I",
-        "seconds": 16.88,
+        chord: 'I',
+        seconds: 16.88,
       },
       {
-        "chord": "V",
-        "seconds": 18.48,
+        chord: 'V',
+        seconds: 18.48,
       },
       {
-        "chord": "IV",
-        "seconds": 20.08,
+        chord: 'IV',
+        seconds: 20.08,
       },
       {
-        "chord": "V",
-        "seconds": 21.68,
+        chord: 'V',
+        seconds: 21.68,
       },
     ],
-    "endSeconds": 23.28,
+    endSeconds: 23.28,
   },
   {
-    "key": "E",
-    "mode": Mode.Major,
-    "videoId": "j2F4INQFjEI",
-    "name": "Heaven is a Place on Earth",
-    "artist": "Belinda Carlisle",
-    "chords": [
+    key: 'E',
+    mode: Mode.Major,
+    videoId: 'j2F4INQFjEI',
+    name: 'Heaven is a Place on Earth',
+    artist: 'Belinda Carlisle',
+    chords: [
       {
-        "chord": "I",
-        "seconds": 37.9,
+        chord: 'I',
+        seconds: 37.9,
       },
       {
-        "chord": "V",
-        "seconds": 39.77,
+        chord: 'V',
+        seconds: 39.77,
       },
       {
-        "chord": "IV",
-        "seconds": 41.77,
+        chord: 'IV',
+        seconds: 41.77,
       },
       {
-        "chord": "V",
-        "seconds": 43.61,
+        chord: 'V',
+        seconds: 43.61,
       },
     ],
-    "endSeconds": 45.6,
+    endSeconds: 45.6,
   },
   {
-    "key": "Ab",
-    "mode": Mode.Major,
-    "videoId": "YQHsXMglC9A",
-    "name": "Hello",
-    "artist": "Adele",
-    "chords": [
+    key: 'Ab',
+    mode: Mode.Major,
+    videoId: 'YQHsXMglC9A',
+    name: 'Hello',
+    artist: 'Adele',
+    chords: [
       {
-        "chord": "vi",
-        "seconds": 233.16,
+        chord: 'vi',
+        seconds: 233.16,
       },
       {
-        "chord": "IV",
-        "seconds": 234.3,
+        chord: 'IV',
+        seconds: 234.3,
       },
       {
-        "chord": "I",
-        "seconds": 236.2,
+        chord: 'I',
+        seconds: 236.2,
       },
       {
-        "chord": "V",
-        "seconds": 237.34,
+        chord: 'V',
+        seconds: 237.34,
       },
     ],
-    "endSeconds": 239.24,
+    endSeconds: 239.24,
   },
   {
-    "key": "F",
-    "mode": Mode.Mixolydian,
-    "videoId": "A_MjCqQoLLA",
-    "name": "Hey Jude",
-    "artist": "The Beatles",
-    "section": "Outro",
-    "chords": [
+    key: 'F',
+    mode: Mode.Mixolydian,
+    videoId: 'A_MjCqQoLLA',
+    name: 'Hey Jude',
+    artist: 'The Beatles',
+    section: 'Outro',
+    chords: [
       {
-        "chord": "I",
-        "seconds": 258.76,
+        chord: 'I',
+        seconds: 258.76,
       },
       {
-        "chord": "bVII",
-        "seconds": 261.92,
+        chord: 'bVII',
+        seconds: 261.92,
       },
       {
-        "chord": "IV",
-        "seconds": 265.08,
+        chord: 'IV',
+        seconds: 265.08,
       },
       {
-        "chord": "I",
-        "seconds": 268.24,
+        chord: 'I',
+        seconds: 268.24,
       },
     ],
-    "endSeconds": 272.02,
+    endSeconds: 272.02,
   },
   {
-    "key": "E",
-    "mode": Mode.Mixolydian,
-    "videoId": "GgnClrx8N2k",
-    "name": "Sympathy for the Devil",
-    "artist": "The Rolling Stones",
-    "chords": [
+    key: 'E',
+    mode: Mode.Mixolydian,
+    videoId: 'GgnClrx8N2k',
+    name: 'Sympathy for the Devil',
+    artist: 'The Rolling Stones',
+    chords: [
       {
-        "chord": "I",
-        "seconds": 21.2,
+        chord: 'I',
+        seconds: 21.2,
       },
       {
-        "chord": "bVII",
-        "seconds": 23.23,
+        chord: 'bVII',
+        seconds: 23.23,
       },
       {
-        "chord": "IV",
-        "seconds": 25.31,
+        chord: 'IV',
+        seconds: 25.31,
       },
       {
-        "chord": "I",
-        "seconds": 27.26,
+        chord: 'I',
+        seconds: 27.26,
       },
     ],
-    "endSeconds": 29,
+    endSeconds: 29,
   },
   {
-    "key": "D",
-    "mode": Mode.Mixolydian,
-    "videoId": "nlcIKh6sBtc",
-    "name": "Royals",
-    "artist": "Lorde",
-    "chords": [
+    key: 'D',
+    mode: Mode.Mixolydian,
+    videoId: 'nlcIKh6sBtc',
+    name: 'Royals',
+    artist: 'Lorde',
+    chords: [
       {
-        "chord": "I",
-        "seconds": 56.59,
+        chord: 'I',
+        seconds: 56.59,
       },
       {
-        "chord": "bVII",
-        "seconds": 62.12,
+        chord: 'bVII',
+        seconds: 62.12,
       },
       {
-        "chord": "IV",
-        "seconds": 64.84,
+        chord: 'IV',
+        seconds: 64.84,
       },
     ],
-    "endSeconds": 67.71,
+    endSeconds: 67.71,
   },
   {
-    "key": "C",
-    "mode": Mode.Mixolydian,
-    "videoId": "j8h-Ltha_9w",
-    "name": "Freedom",
-    "artist": "George Michael",
-    "chords": [
+    key: 'C',
+    mode: Mode.Mixolydian,
+    videoId: 'j8h-Ltha_9w',
+    name: 'Freedom',
+    artist: 'George Michael',
+    chords: [
       {
-        "chord": "I",
-        "seconds": 136.17,
+        chord: 'I',
+        seconds: 136.17,
       },
       {
-        "chord": "bVII",
-        "seconds": 138.78,
+        chord: 'bVII',
+        seconds: 138.78,
       },
       {
-        "chord": "IV",
-        "seconds": 141.35,
+        chord: 'IV',
+        seconds: 141.35,
       },
       {
-        "chord": "I",
-        "seconds": 143.98,
+        chord: 'I',
+        seconds: 143.98,
       },
     ],
-    "endSeconds": 146.9,
+    endSeconds: 146.9,
   },
   {
-    "key": "D",
-    "mode": Mode.Mixolydian,
-    "videoId": "ye5BuYf8q4o",
-    "name": "Sweet Home Alabama",
-    "artist": "Lynyrd Skynyrd",
-    "chords": [
+    key: 'D',
+    mode: Mode.Mixolydian,
+    videoId: 'ye5BuYf8q4o',
+    name: 'Sweet Home Alabama',
+    artist: 'Lynyrd Skynyrd',
+    chords: [
       {
-        "chord": "I",
-        "seconds": 70.43,
+        chord: 'I',
+        seconds: 70.43,
       },
       {
-        "chord": "bVII",
-        "seconds": 71.74,
+        chord: 'bVII',
+        seconds: 71.74,
       },
       {
-        "chord": "IV",
-        "seconds": 72.93,
+        chord: 'IV',
+        seconds: 72.93,
       },
     ],
-    "endSeconds": 75.37,
+    endSeconds: 75.37,
   },
   {
     name: 'Wonderfall',
@@ -1827,7 +1829,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
     endSeconds: 28.42,
   },
   {
-    name: 'D\'You Know What I Mean?',
+    name: "D'You Know What I Mean?",
     artist: 'Oasis',
     key: 'B',
     mode: Mode.Dorian,
@@ -1939,7 +1941,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
     endSeconds: 77.52,
   },
   {
-    name: 'Can\'t Stop',
+    name: "Can't Stop",
     artist: 'Red Hot Chili Peppers',
     key: 'E',
     mode: Mode.Minor,
@@ -2021,7 +2023,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
     endSeconds: 81.27,
   },
   {
-    name: 'Can\'t Hold Us',
+    name: "Can't Hold Us",
     artist: 'Macklemore & Ryan Lewis ',
     mode: Mode.Minor,
     videoId: '2zNSgSzhBfM',
@@ -2138,7 +2140,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
     endSeconds: 25.03,
   },
   {
-    name: 'Who\'s that Girl',
+    name: "Who's that Girl",
     artist: 'Eurythmics',
     mode: Mode.Minor,
     videoId: '-5iDKWV6Chg',
@@ -2402,7 +2404,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
     endSeconds: 57.21,
   },
   {
-    name: 'I\'m Like A Bird',
+    name: "I'm Like A Bird",
     artist: 'Nelly Furtado',
     mode: Mode.Major,
     videoId: 'roPQ_M3yJTA',
@@ -2455,7 +2457,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
   },
   // Axis progression IV-rotation
   {
-    name: 'What\'s my age again?',
+    name: "What's my age again?",
     artist: 'blink-182',
     mode: Mode.Major,
     videoId: 'K7l5ZeVVoCA',
@@ -2614,7 +2616,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
     endSeconds: 68.34,
   },
   {
-    name: 'Big Girls Don\'t Cry',
+    name: "Big Girls Don't Cry",
     artist: 'Fergie',
     mode: Mode.Major,
     section: 'Chorus',
@@ -2748,7 +2750,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
       {
         chord: 'V',
         seconds: 47.79,
-      }
+      },
     ],
     endSeconds: 48.71,
   },
@@ -2983,7 +2985,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
     endSeconds: 187.1,
   },
   {
-    name: 'Stacy\'s Mom',
+    name: "Stacy's Mom",
     artist: 'Fountains of Wayne',
     mode: Mode.Major,
     videoId: 'dZLfasMPOU4',
@@ -3196,7 +3198,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
     mode: Mode.Major,
     videoId: 'adLGHcj_fmA',
     key: 'C',
-    chords:  [
+    chords: [
       {
         chord: 'IV',
         seconds: 58.5,
@@ -3217,12 +3219,12 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
     endSeconds: 71.37,
   },
   {
-    name: 'It\'s Gonna Be Me',
+    name: "It's Gonna Be Me",
     artist: '*NSYNC',
     mode: Mode.Major,
     videoId: 'GQMlWwIXg3M',
     key: 'Eb',
-    chords:  [
+    chords: [
       {
         chord: 'IV',
         seconds: 42.79,
@@ -3248,7 +3250,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
     mode: Mode.Major,
     videoId: 'JRfuAukYTKg',
     key: 'Eb',
-    chords:  [
+    chords: [
       {
         chord: 'IV',
         seconds: 60.94,
@@ -3275,7 +3277,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
     mode: Mode.Major,
     videoId: 't99KH0TR-J4',
     key: 'C',
-    chords:  [
+    chords: [
       {
         chord: 'IV',
         seconds: 175,
@@ -3301,7 +3303,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
     mode: Mode.Major,
     videoId: 'dQw4w9WgXcQ',
     key: 'Ab',
-    chords:  [
+    chords: [
       {
         chord: 'IV',
         seconds: 43.42,
@@ -3327,7 +3329,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
     mode: Mode.Major,
     videoId: 'yPYZpwSpKmA',
     key: 'G',
-    chords:  [
+    chords: [
       {
         chord: 'IV',
         seconds: 10.61,
@@ -3348,182 +3350,182 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<ProgressionInSongFrom
     endSeconds: 14.27,
   },
   {
-  "name": "Santa Monica",
-  "artist": "Theory of a Deadman",
-  "key": "E",
-  "mode": 6,
-  "videoId": "jcryyvQAqc8",
-  "chords": [
-    {
-      "seconds": 48.48,
-      "chord": "i"
-    },
-    {
-      "seconds": 52.45,
-      "chord": "bIII"
-    },
-    {
-      "seconds": 56.45,
-      "chord": "bVII"
-    },
-    {
-      "seconds": 60.36,
-      "chord": "bVI"
-    }
-  ],
-  "endSeconds": 63.76,
-  "section": "chorus"
-},
+    name: 'Santa Monica',
+    artist: 'Theory of a Deadman',
+    key: 'E',
+    mode: 6,
+    videoId: 'jcryyvQAqc8',
+    chords: [
+      {
+        seconds: 48.48,
+        chord: 'i',
+      },
+      {
+        seconds: 52.45,
+        chord: 'bIII',
+      },
+      {
+        seconds: 56.45,
+        chord: 'bVII',
+      },
+      {
+        seconds: 60.36,
+        chord: 'bVI',
+      },
+    ],
+    endSeconds: 63.76,
+    section: 'chorus',
+  },
 
-{
-  "name": "Broken",
-  "artist": "Seether ft. Amy Lee",
-  "key": "Eb",
-  "mode": 6,
-  "videoId": "hPC2Fp7IT7o",
-  "chords": [
-    {
-      "seconds": 18.7,
-      "chord": "i"
-    },
-    {
-      "seconds": 20.3,
-      "chord": "bVI"
-    },
-    {
-      "seconds": 22.85,
-      "chord": "i"
-    },
-    {
-      "seconds": 24.39,
-      "chord": "bVI"
-    },
-    {
-      "seconds": 26.56,
-      "chord": "i"
-    },
-    {
-      "chord": "bVI",
-      "seconds": 28.14
-    },
-    {
-      "chord": "bVII",
-      "seconds": 30.6
-    }
-  ],
-  "endSeconds": 34.01,
-  "section": "verse"
-},
+  {
+    name: 'Broken',
+    artist: 'Seether ft. Amy Lee',
+    key: 'Eb',
+    mode: 6,
+    videoId: 'hPC2Fp7IT7o',
+    chords: [
+      {
+        seconds: 18.7,
+        chord: 'i',
+      },
+      {
+        seconds: 20.3,
+        chord: 'bVI',
+      },
+      {
+        seconds: 22.85,
+        chord: 'i',
+      },
+      {
+        seconds: 24.39,
+        chord: 'bVI',
+      },
+      {
+        seconds: 26.56,
+        chord: 'i',
+      },
+      {
+        chord: 'bVI',
+        seconds: 28.14,
+      },
+      {
+        chord: 'bVII',
+        seconds: 30.6,
+      },
+    ],
+    endSeconds: 34.01,
+    section: 'verse',
+  },
 
-{
-  "name": "Broken",
-  "artist": "Seether ft. Amy Lee",
-  "key": "Eb",
-  "mode": 6,
-  "videoId": "hPC2Fp7IT7o",
-  "chords": [
-    {
-      "seconds": 112.03,
-      "chord": "bVI"
-    },
-    {
-      "seconds": 113.54,
-      "chord": "i"
-    },
-    {
-      "seconds": 115.94,
-      "chord": "bVI"
-    },
-    {
-      "seconds": 118,
-      "chord": "i"
-    }
-  ],
-  "endSeconds": 118.73,
-  "section": "chorus"
-},
+  {
+    name: 'Broken',
+    artist: 'Seether ft. Amy Lee',
+    key: 'Eb',
+    mode: 6,
+    videoId: 'hPC2Fp7IT7o',
+    chords: [
+      {
+        seconds: 112.03,
+        chord: 'bVI',
+      },
+      {
+        seconds: 113.54,
+        chord: 'i',
+      },
+      {
+        seconds: 115.94,
+        chord: 'bVI',
+      },
+      {
+        seconds: 118,
+        chord: 'i',
+      },
+    ],
+    endSeconds: 118.73,
+    section: 'chorus',
+  },
 
-{
-  "name": "When The Sun Goes Down",
-  "artist": "Arctic Monkeys",
-  "key": "B",
-  "mode": 1,
-  "videoId": "yUatH8zI6Qc",
-  "chords": [
-    {
-      "seconds": 0,
-      "chord": "I"
-    },
-    {
-      "seconds": 2.64,
-      "chord": "III"
-    },
-    {
-      "seconds": 4.23,
-      "chord": "IV"
-    },
-    {
-      "seconds": 6.01,
-      "chord": "iii"
-    },
-    {
-      "chord": "IV",
-      "seconds": 8.24
-    },
-    {
-      "chord": "iii",
-      "seconds": 10.02
-    },
-    {
-      "chord": "ii",
-      "seconds": 11.95
-    }
-  ],
-  "endSeconds": 13.6,
-  "section": "intro"
-},
+  {
+    name: 'When The Sun Goes Down',
+    artist: 'Arctic Monkeys',
+    key: 'B',
+    mode: 1,
+    videoId: 'yUatH8zI6Qc',
+    chords: [
+      {
+        seconds: 0,
+        chord: 'I',
+      },
+      {
+        seconds: 2.64,
+        chord: 'III',
+      },
+      {
+        seconds: 4.23,
+        chord: 'IV',
+      },
+      {
+        seconds: 6.01,
+        chord: 'iii',
+      },
+      {
+        chord: 'IV',
+        seconds: 8.24,
+      },
+      {
+        chord: 'iii',
+        seconds: 10.02,
+      },
+      {
+        chord: 'ii',
+        seconds: 11.95,
+      },
+    ],
+    endSeconds: 13.6,
+    section: 'intro',
+  },
 
-{
-  "name": "When The Sun Goes Down",
-  "artist": "Arctic Monkeys",
-  "key": "B",
-  "mode": 6,
-  "videoId": "yUatH8zI6Qc",
-  "chords": [
-    {
-      "seconds": 104.57,
-      "chord": "iv"
-    },
-    {
-      "seconds": 105.41,
-      "chord": "v"
-    },
-    {
-      "seconds": 106,
-      "chord": "i"
-    },
-    {
-      "seconds": 107.73,
-      "chord": "iv"
-    },
-    {
-      "chord": "v",
-      "seconds": 108.41
-    },
-    {
-      "chord": "i",
-      "seconds": 108.99
-    },
-    {
-      "chord": "bVII",
-      "seconds": 110.49
-    },
-    {
-      "seconds": 112.03,
-      "chord": "V"
-    }
-  ],
-  "endSeconds": 113.2,
-  "section": "chorus"
-},
-]
+  {
+    name: 'When The Sun Goes Down',
+    artist: 'Arctic Monkeys',
+    key: 'B',
+    mode: 6,
+    videoId: 'yUatH8zI6Qc',
+    chords: [
+      {
+        seconds: 104.57,
+        chord: 'iv',
+      },
+      {
+        seconds: 105.41,
+        chord: 'v',
+      },
+      {
+        seconds: 106,
+        chord: 'i',
+      },
+      {
+        seconds: 107.73,
+        chord: 'iv',
+      },
+      {
+        chord: 'v',
+        seconds: 108.41,
+      },
+      {
+        chord: 'i',
+        seconds: 108.99,
+      },
+      {
+        chord: 'bVII',
+        seconds: 110.49,
+      },
+      {
+        seconds: 112.03,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 113.2,
+    section: 'chorus',
+  },
+];

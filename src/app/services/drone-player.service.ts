@@ -1,23 +1,22 @@
-import { Injectable } from '@angular/core';
-import * as Tone from 'tone';
-import { Synth } from 'tone';
-import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { Injectable } from "@angular/core";
+import * as Tone from "tone";
+import { Synth } from "tone";
+import { Note } from "tone/Tone/core/type/NoteUnits";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DronePlayerService {
   private _drone: Synth = this._getInstrument();
   private _lastNote: Note | null = null;
 
-  constructor() {
-  }
+  constructor() {}
 
   private _getInstrument(): Synth {
     return new Tone.Synth({
       oscillator: {
-        type: 'triangle'
-      }
+        type: 'triangle',
+      },
     }).toDestination();
   }
 

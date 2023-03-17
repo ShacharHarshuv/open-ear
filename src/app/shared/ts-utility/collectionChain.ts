@@ -6,8 +6,8 @@ import {
   groupBy,
   sortBy,
   mapValues,
-  keyBy,
-} from 'lodash';
+  keyBy
+} from "lodash";
 
 const collectionChainableFunctions = {
   map,
@@ -24,14 +24,11 @@ const collectionChainableFunctions = {
 export const collectionChain = <G>(input: G[]) => {
   let value: any = input;
   const wrapper = {
-    ...mapValues(
-      collectionChainableFunctions,
-      (f: any) => (...args: any[]) => {
-        // lodash always puts input as the first argument
-        value = f(value, ...args);
-        return wrapper;
-      },
-    ),
+    ...mapValues(collectionChainableFunctions, (f: any) => (...args: any[]) => {
+      // lodash always puts input as the first argument
+      value = f(value, ...args);
+      return wrapper;
+    }),
     value: () => value,
   } as const;
   return wrapper;

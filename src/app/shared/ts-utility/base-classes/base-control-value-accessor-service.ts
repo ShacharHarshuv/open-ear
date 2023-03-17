@@ -1,13 +1,16 @@
-import { ControlValueAccessor } from '@angular/forms';
+import { ControlValueAccessor } from "@angular/forms";
 import {
   BehaviorSubject,
   ReplaySubject,
-  Observable,
-} from 'rxjs';
-import { BaseDestroyable } from './base-destroyable';
-import * as _ from 'lodash';
+  Observable
+} from "rxjs";
+import { BaseDestroyable } from "./base-destroyable";
+import * as _ from "lodash";
 
-export class BaseControlValueAccessorService<T> extends BaseDestroyable implements ControlValueAccessor {
+export class BaseControlValueAccessorService<T>
+  extends BaseDestroyable
+  implements ControlValueAccessor
+{
   protected _isDisabled$ = new BehaviorSubject<boolean>(false);
   isDisabled$: Observable<boolean> = this._isDisabled$.asObservable();
   protected _modelValue$ = new ReplaySubject<T>(1);

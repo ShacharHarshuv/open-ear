@@ -1,35 +1,35 @@
 import {
   TonalExerciseSettings,
   tonalExercise,
-  TonalExerciseUtils,
-} from '../utility/exerciseAttributes/tonalExercise';
-import { Exercise } from '../../Exercise';
-import { randomFromList } from '../../../shared/ts-utility';
+  TonalExerciseUtils
+} from "../utility/exerciseAttributes/tonalExercise";
+import { Exercise } from "../../Exercise";
+import { randomFromList } from "../../../shared/ts-utility";
 import {
   Chord,
-  Direction,
-} from '../../utility/music/chords';
-import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { NoteType } from '../../utility/music/notes/NoteType';
+  Direction
+} from "../../utility/music/chords";
+import { Note } from "tone/Tone/core/type/NoteUnits";
+import { NoteType } from "../../utility/music/notes/NoteType";
 import {
   Interval,
   toNoteNumber,
   NotesRange,
   RomanNumeralChordSymbol,
   SolfegeNote,
-  solfegeNoteToScaleDegree,
-} from '../../utility';
-import { transpose } from '../../utility/music/transpose';
-import * as _ from 'lodash';
-import { NotesWithChordsExplanationComponent } from './notes-with-chords-explanation/notes-with-chords-explanation.component';
+  solfegeNoteToScaleDegree
+} from "../../utility";
+import { transpose } from "../../utility/music/transpose";
+import * as _ from "lodash";
+import { NotesWithChordsExplanationComponent } from "./notes-with-chords-explanation/notes-with-chords-explanation.component";
 import {
   IncludedAnswersSettings,
-  includedAnswersSettings,
-} from '../utility/settings/IncludedAnswersSettings';
-import { scaleDegreeToNoteType } from '../../utility/music/scale-degrees/scaleDegreeToNoteType';
-import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
-import { createExercise } from '../utility/exerciseAttributes/createExercise';
-import { romanNumeralToChordInC } from '../../utility/music/harmony/romanNumeralToChordInC';
+  includedAnswersSettings
+} from "../utility/settings/IncludedAnswersSettings";
+import { scaleDegreeToNoteType } from "../../utility/music/scale-degrees/scaleDegreeToNoteType";
+import { composeExercise } from "../utility/exerciseAttributes/composeExercise";
+import { createExercise } from "../utility/exerciseAttributes/createExercise";
+import { romanNumeralToChordInC } from "../../utility/music/harmony/romanNumeralToChordInC";
 
 type ChordDegree = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
@@ -37,9 +37,9 @@ type NoteWithChord = `${SolfegeNote}${ChordDegree}`;
 
 const noteWithChordDescriptorMap: {
   [noteWithHarmonicContext in NoteWithChord]?: {
-    chord: RomanNumeralChordSymbol,
-    solfegeNote: SolfegeNote,
-  }
+    chord: RomanNumeralChordSymbol;
+    solfegeNote: SolfegeNote;
+  };
 } = {
   Do1: {
     chord: 'I',
@@ -233,15 +233,18 @@ const noteWithChordDescriptorMap: {
     chord: 'I',
     solfegeNote: 'Ti',
   },
-}
+};
 
 type NoteWithChordsSettings = TonalExerciseSettings &
   IncludedAnswersSettings<NoteWithChord> & {
-  voiceMode: 'soprano' | 'bass';
-};
+    voiceMode: 'soprano' | 'bass';
+  };
 
 export function notesWithChordsExercise() {
-  const voiceModeToRange: Record<NoteWithChordsSettings['voiceMode'], NotesRange> = {
+  const voiceModeToRange: Record<
+    NoteWithChordsSettings['voiceMode'],
+    NotesRange
+  > = {
     soprano: new NotesRange('C4', 'G5'),
     bass: new NotesRange('G2', 'B3'),
   };
@@ -252,12 +255,13 @@ export function notesWithChordsExercise() {
     tonalExercise({
       cadenceTypeSelection: false,
     }),
-    createExercise,
+    createExercise
   )({
     settingsDescriptors: [
       {
         key: 'voiceMode',
-        info: 'With soprano mode, the note in question will be played on top. \n' +
+        info:
+          'With soprano mode, the note in question will be played on top. \n' +
           'With bass mode, the note in question will be played at the bottom (affectively changing the chord inversion)',
         descriptor: {
           label: 'Voice Mode',
@@ -273,28 +277,39 @@ export function notesWithChordsExercise() {
             },
           ],
         },
-      }
+      },
     ],
     defaultSettings: {
       voiceMode: 'soprano',
     },
     id: 'notesWithChords',
     name: 'Notes with Chords',
-    summary: 'Identify scale degrees in the context of different diatonic chords',
+    summary:
+      'Identify scale degrees in the context of different diatonic chords',
     explanation: NotesWithChordsExplanationComponent,
-    getQuestion(settings: NoteWithChordsSettings, tonalExerciseUtils: TonalExerciseUtils): Exclude<Exercise.NotesQuestion<NoteWithChord>, "cadence"> {
-      const randomAnswer: NoteWithChord = randomFromList(settings.includedAnswers)
-      const descriptor: {
-        chord: RomanNumeralChordSymbol,
-        solfegeNote: SolfegeNote,
-      } | undefined = noteWithChordDescriptorMap[randomAnswer];
+    getQuestion(
+      settings: NoteWithChordsSettings,
+      tonalExerciseUtils: TonalExerciseUtils
+    ): Exclude<Exercise.NotesQuestion<NoteWithChord>, 'cadence'> {
+      const randomAnswer: NoteWithChord = randomFromList(
+        settings.includedAnswers
+      );
+      const descriptor:
+        | {
+            chord: RomanNumeralChordSymbol;
+            solfegeNote: SolfegeNote;
+          }
+        | undefined = noteWithChordDescriptorMap[randomAnswer];
 
       if (!descriptor) {
         throw new Error(`Missing descriptor for ${randomAnswer}`);
       }
 
       const chord: Chord = romanNumeralToChordInC(descriptor.chord)!;
-      const noteType: NoteType = scaleDegreeToNoteType(solfegeNoteToScaleDegree[descriptor.solfegeNote]!, 'C');
+      const noteType: NoteType = scaleDegreeToNoteType(
+        solfegeNoteToScaleDegree[descriptor.solfegeNote]!,
+        'C'
+      );
 
       let chordVoicing: Note[] = chord.getVoicing({
         topVoicesInversion: randomFromList([0, 1, 2]),
@@ -302,7 +317,9 @@ export function notesWithChordsExercise() {
         withBass: false,
       });
 
-      const possibleNotesToSelect: Note[] = tonalExerciseUtils.getRangeForKeyOfC(voiceModeToRange[settings.voiceMode]).getAllNotes([noteType]);
+      const possibleNotesToSelect: Note[] = tonalExerciseUtils
+        .getRangeForKeyOfC(voiceModeToRange[settings.voiceMode])
+        .getAllNotes([noteType]);
       let note: Note = randomFromList(possibleNotesToSelect);
 
       if (settings.voiceMode === 'soprano') {
@@ -319,8 +336,10 @@ export function notesWithChordsExercise() {
 
       if (settings.voiceMode === 'soprano') {
         let bass = chord.getBass();
-        if (toNoteNumber(_.last(bass)!) > toNoteNumber(_.first(chordVoicing)!)) {
-          bass = transpose(bass, -Interval.Octave)
+        if (
+          toNoteNumber(_.last(bass)!) > toNoteNumber(_.first(chordVoicing)!)
+        ) {
+          bass = transpose(bass, -Interval.Octave);
         }
 
         chordVoicing.unshift(...bass);
@@ -346,14 +365,26 @@ export function notesWithChordsExercise() {
             ],
           },
         ],
-      }
+      };
     },
     answerList: ((): Exercise.AnswerList<NoteWithChord> => {
-      const solfegeSyllables = ['Do', 'Re', 'Mi', 'Fa', 'Sol', 'La', 'Ti'] as const;
+      const solfegeSyllables = [
+        'Do',
+        'Re',
+        'Mi',
+        'Fa',
+        'Sol',
+        'La',
+        'Ti',
+      ] as const;
       const chordDegrees = [1, 2, 3, 4, 5, 6, 7] as const;
       return {
-        rows: chordDegrees.map(chordDegree => solfegeSyllables.map((solfegeNote): NoteWithChord => `${solfegeNote}${chordDegree}`)),
+        rows: chordDegrees.map((chordDegree) =>
+          solfegeSyllables.map(
+            (solfegeNote): NoteWithChord => `${solfegeNote}${chordDegree}`
+          )
+        ),
       };
-    })()
+    })(),
   });
 }

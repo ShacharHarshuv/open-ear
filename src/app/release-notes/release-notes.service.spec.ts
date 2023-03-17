@@ -1,11 +1,17 @@
-import { TestBed } from '@angular/core/testing';
-import { ReleaseNotesService } from './release-notes.service';
-import { VersionServiceMock } from '../version.service.mock';
-import { RELEASE_NOTES_TOKEN, ReleaseNotes } from './release-notes';
-import { Subscription } from 'rxjs';
-import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
-import { timeoutAsPromise } from '../shared/ts-utility';
-import { Storage } from '@ionic/storage-angular';
+import { TestBed } from "@angular/core/testing";
+import { ReleaseNotesService } from "./release-notes.service";
+import { VersionServiceMock } from "../version.service.mock";
+import {
+  RELEASE_NOTES_TOKEN,
+  ReleaseNotes
+} from "./release-notes";
+import { Subscription } from "rxjs";
+import {
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting
+} from "@angular/platform-browser-dynamic/testing";
+import { timeoutAsPromise } from "../shared/ts-utility";
+import { Storage } from "@ionic/storage-angular";
 
 describe('ReleaseNotesService', function () {
   let releaseNotesService: ReleaseNotesService;
@@ -15,7 +21,10 @@ describe('ReleaseNotesService', function () {
 
   beforeEach(() => {
     TestBed.resetTestEnvironment();
-    TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
+    TestBed.initTestEnvironment(
+      BrowserDynamicTestingModule,
+      platformBrowserDynamicTesting()
+    );
     const releaseNotesMock: ReleaseNotes = [
       {
         version: '1.0.0',
@@ -28,7 +37,7 @@ describe('ReleaseNotesService', function () {
       {
         version: '3.2.1',
         notes: '3.2.1',
-      }
+      },
     ];
 
     const storageMock = {};
@@ -43,24 +52,25 @@ describe('ReleaseNotesService', function () {
         {
           provide: Storage,
           useValue: {
-            create: function() {
+            create: function () {
               return Promise.resolve(this);
             },
-            set: function(key, value): Promise<any> {
+            set: function (key, value): Promise<any> {
               storageMock[key] = value;
               return Promise.resolve();
             },
-            get: function(key): Promise<any> {
+            get: function (key): Promise<any> {
               return Promise.resolve(storageMock[key]);
-            }
-          }
-        }
+            },
+          },
+        },
       ],
     });
 
     releaseNotesService = TestBed.inject(ReleaseNotesService);
-    versionServiceMock = TestBed.inject(VersionServiceMock)
-    subscription = releaseNotesService.relevantReleaseNotes$.subscribe(releaseNotesChangSpy);
+    versionServiceMock = TestBed.inject(VersionServiceMock);
+    subscription =
+      releaseNotesService.relevantReleaseNotes$.subscribe(releaseNotesChangSpy);
   });
 
   afterEach(() => {
