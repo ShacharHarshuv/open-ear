@@ -1,12 +1,9 @@
-import {
-  Injectable,
-  Provider
-} from "@angular/core";
-import { PublicMembers } from "../shared/ts-utility/PublicMembers";
+import { Injectable, Provider } from '@angular/core';
+import { PublicMembers } from '../shared/ts-utility/PublicMembers';
 import {
   StorageMigrationScript,
-  StorageMigrationService
-} from "./storage-migration.service";
+  StorageMigrationService,
+} from './storage-migration.service';
 
 @Injectable()
 export class StorageMigrationServiceMock

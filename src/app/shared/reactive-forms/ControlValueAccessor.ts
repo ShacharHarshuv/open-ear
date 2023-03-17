@@ -1,4 +1,4 @@
-import { ControlValueAccessor as NgControlValueAccessor } from "@angular/forms";
+import { ControlValueAccessor as NgControlValueAccessor } from '@angular/forms';
 
 export abstract class ControlValueAccessor<GValue = any>
   implements NgControlValueAccessor

@@ -1,12 +1,9 @@
-import {
-  Component,
-  Input
-} from "@angular/core";
-import { Exercise } from "../../../../../Exercise";
+import { Component, Input } from '@angular/core';
+import { Exercise } from '../../../../../Exercise';
 import {
   BaseControlValueAccessorComponent,
-  getNgValueAccessorProvider
-} from "../../../../../../shared/ts-utility";
+  getNgValueAccessorProvider,
+} from '../../../../../../shared/ts-utility';
 
 @Component({
   selector: 'app-included-answers',

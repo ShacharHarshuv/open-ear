@@ -1,11 +1,8 @@
-import {
-  Observable,
-  of
-} from "rxjs";
-import { FormControl } from "./formControl";
-import { FormGroup } from "./formGroup";
-import { FormArray } from "./formArray";
-import { ValidatorFn } from "./types";
+import { Observable, of } from 'rxjs';
+import { FormControl } from './formControl';
+import { FormGroup } from './formGroup';
+import { FormArray } from './formArray';
+import { ValidatorFn } from './types';
 
 export interface INestedTestForm {
   num: number;

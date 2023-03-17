@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import * as _ from 'lodash';
 
 export class SubjectPromise<T> implements Promise<T> {
   resolve: (value: T | PromiseLike<T>) => void = _.noop;

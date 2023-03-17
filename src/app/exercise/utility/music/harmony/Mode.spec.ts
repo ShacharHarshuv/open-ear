@@ -1,8 +1,5 @@
-import { testPureFunction } from "../../../../shared/testing-utility/testPureFunction";
-import {
-  toRelativeMode,
-  Mode
-} from "./Mode";
+import { testPureFunction } from '../../../../shared/testing-utility/testPureFunction';
+import { toRelativeMode, Mode } from './Mode';
 
 describe('toRelativeMode', () => {
   testPureFunction(toRelativeMode, [

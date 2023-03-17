@@ -1,9 +1,5 @@
-import {
-  AnimationTriggerMetadata,
-  style,
-  trigger
-} from "@angular/animations";
-import { enterLeaveAnimationFactory } from "./enter-leave-animation-factory";
+import { AnimationTriggerMetadata, style, trigger } from '@angular/animations';
+import { enterLeaveAnimationFactory } from './enter-leave-animation-factory';
 
 export const collapseVertical: AnimationTriggerMetadata = trigger(
   'collapseVertical',

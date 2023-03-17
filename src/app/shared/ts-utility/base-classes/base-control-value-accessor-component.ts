@@ -6,23 +6,20 @@ import {
   Injector,
   forwardRef,
   Provider,
-  Type
-} from "@angular/core";
-import { BaseComponent } from "./base-component";
-import {
-  ControlValueAccessor,
-  NG_VALUE_ACCESSOR
-} from "@angular/forms";
+  Type,
+} from '@angular/core';
+import { BaseComponent } from './base-component';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
   BehaviorSubject,
   ReplaySubject,
   Subject,
   Observable,
   merge,
-  firstValueFrom
-} from "rxjs";
-import { publishReplayUntilAndConnect } from "../rxjs";
-import * as _ from "lodash";
+  firstValueFrom,
+} from 'rxjs';
+import { publishReplayUntilAndConnect } from '../rxjs';
+import * as _ from 'lodash';
 
 export function getNgValueAccessorProvider(type: Type<any>): Provider {
   return {

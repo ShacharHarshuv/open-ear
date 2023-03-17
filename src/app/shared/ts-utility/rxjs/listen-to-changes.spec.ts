@@ -1,5 +1,5 @@
-import { listenToChanges } from "./listen-to-changes";
-import { ObservableSpy } from "./observable-spy/observable-spy";
+import { listenToChanges } from './listen-to-changes';
+import { ObservableSpy } from './observable-spy/observable-spy';
 
 describe('listen to changes', function () {
   it('should emit in changes of a simple property', () => {

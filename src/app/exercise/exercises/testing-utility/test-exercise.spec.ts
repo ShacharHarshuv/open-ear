@@ -1,6 +1,6 @@
-import { Exercise } from "../../Exercise";
-import { toGetter } from "../../../shared/ts-utility";
-import { ExerciseTest } from "../../ExerciseTest";
+import { Exercise } from '../../Exercise';
+import { toGetter } from '../../../shared/ts-utility';
+import { ExerciseTest } from '../../ExerciseTest';
 import Expected = jasmine.Expected;
 
 export function testExercise<GSettings extends Exercise.Settings>(p: {

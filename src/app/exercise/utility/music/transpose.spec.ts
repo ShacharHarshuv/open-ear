@@ -1,5 +1,5 @@
-import { transpose } from "./transpose";
-import { NotesRange } from "./NotesRange";
+import { transpose } from './transpose';
+import { NotesRange } from './NotesRange';
 
 describe('transpose', function () {
   describe('Single note type', function () {

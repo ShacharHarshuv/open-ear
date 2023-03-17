@@ -1,5 +1,5 @@
-import { Exercise } from "../../../Exercise";
-import { withSettings } from "./withSettings";
+import { Exercise } from '../../../Exercise';
+import { withSettings } from './withSettings';
 
 export type NumberOfSegmentsSetting = {
   numberOfSegments: number;

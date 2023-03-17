@@ -1,30 +1,27 @@
-import {
-  randomFromList,
-  RomanNumeralChordSymbol
-} from "../../utility";
-import * as _ from "lodash";
+import { randomFromList, RomanNumeralChordSymbol } from '../../utility';
+import * as _ from 'lodash';
 import {
   numberOfSegmentsControlDescriptorList,
-  NumberOfSegmentsSetting
-} from "../utility/settings/NumberOfSegmentsSetting";
-import { ChordInKeyExplanationComponent } from "./chord-in-key-explanation/chord-in-key-explanation.component";
+  NumberOfSegmentsSetting,
+} from '../utility/settings/NumberOfSegmentsSetting';
+import { ChordInKeyExplanationComponent } from './chord-in-key-explanation/chord-in-key-explanation.component';
 import {
   playAfterCorrectAnswerControlDescriptorList,
-  PlayAfterCorrectAnswerSetting
-} from "../utility/settings/PlayAfterCorrectAnswerSetting";
+  PlayAfterCorrectAnswerSetting,
+} from '../utility/settings/PlayAfterCorrectAnswerSetting';
 import {
   RomanAnalysisChordProgressionExerciseSettings,
   RomanNumeralsChordProgressionQuestion,
-  romanAnalysisChordProgressionExercise
-} from "../utility/exerciseAttributes/romanAnalysisChordProgressionExercise";
+  romanAnalysisChordProgressionExercise,
+} from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
 import {
   IncludedAnswersSettings,
-  includedAnswersSettings
-} from "../utility/settings/IncludedAnswersSettings";
-import { composeExercise } from "../utility/exerciseAttributes/composeExercise";
-import { createExercise } from "../utility/exerciseAttributes/createExercise";
-import { chordVoicingSettings } from "../utility/exerciseAttributes/chordProgressionExercise";
-import { cadenceTypeSettings } from "../utility/settings/CadenceTypeSetting";
+  includedAnswersSettings,
+} from '../utility/settings/IncludedAnswersSettings';
+import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
+import { createExercise } from '../utility/exerciseAttributes/createExercise';
+import { chordVoicingSettings } from '../utility/exerciseAttributes/chordProgressionExercise';
+import { cadenceTypeSettings } from '../utility/settings/CadenceTypeSetting';
 
 type ChordInKeySettings = IncludedAnswersSettings<RomanNumeralChordSymbol> &
   RomanAnalysisChordProgressionExerciseSettings &

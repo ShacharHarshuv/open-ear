@@ -5,32 +5,32 @@ import {
   toGetter,
   NotesRange,
   StaticOrGetter,
-  scaleDegreeToChromaticDegree
-} from "../../../utility";
-import { Exercise } from "../../../Exercise";
-import { transpose } from "../../../utility/music/transpose";
-import { getDistanceOfKeys } from "../../../utility/music/keys/getDistanceOfKeys";
+  scaleDegreeToChromaticDegree,
+} from '../../../utility';
+import { Exercise } from '../../../Exercise';
+import { transpose } from '../../../utility/music/transpose';
+import { getDistanceOfKeys } from '../../../utility/music/keys/getDistanceOfKeys';
 import {
   iv_V_i_CADENCE_IN_C,
-  IV_V_I_CADENCE_IN_C
-} from "../../../utility/music/chords";
-import { NoteEvent } from "../../../../services/player.service";
-import { Note } from "tone/Tone/core/type/NoteUnits";
-import { NoteType } from "../../../utility/music/notes/NoteType";
-import { Frequency } from "tone/Tone/core/type/Units";
-import { CreateExerciseParams } from "./createExercise";
+  IV_V_I_CADENCE_IN_C,
+} from '../../../utility/music/chords';
+import { NoteEvent } from '../../../../services/player.service';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { NoteType } from '../../../utility/music/notes/NoteType';
+import { Frequency } from 'tone/Tone/core/type/Units';
+import { CreateExerciseParams } from './createExercise';
 import {
   CadenceTypeSetting,
-  cadenceTypeSettingsDescriptors
-} from "../settings/CadenceTypeSetting";
-import { SettingsParams } from "../settings/SettingsParams";
-import * as _ from "lodash";
+  cadenceTypeSettingsDescriptors,
+} from '../settings/CadenceTypeSetting';
+import { SettingsParams } from '../settings/SettingsParams';
+import * as _ from 'lodash';
 import {
   keySelectionSettingsDescriptors,
-  KeySelectionSettings
-} from "../settings/keySelectionSettingsDescriptors";
-import { mod } from "../../../../shared/ts-utility/mod";
-import { noteTypeToNote } from "../../../utility/music/notes/noteTypeToNote";
+  KeySelectionSettings,
+} from '../settings/keySelectionSettingsDescriptors';
+import { mod } from '../../../../shared/ts-utility/mod';
+import { noteTypeToNote } from '../../../utility/music/notes/noteTypeToNote';
 import AnswerList = Exercise.AnswerList;
 
 export type CadenceType = 'I IV V I' | 'i iv V i' | 'vi ii III vi';

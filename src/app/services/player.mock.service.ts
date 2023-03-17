@@ -1,10 +1,6 @@
-import { PublicMembers } from "../shared/ts-utility/PublicMembers";
-import {
-  NoteEvent,
-  PartToPlay,
-  PlayerService
-} from "./player.service";
-import { Provider } from "@angular/core";
+import { PublicMembers } from '../shared/ts-utility/PublicMembers';
+import { NoteEvent, PartToPlay, PlayerService } from './player.service';
+import { Provider } from '@angular/core';
 
 export class PlayerMockService implements PublicMembers<PlayerService> {
   private _bpm: number = 120;

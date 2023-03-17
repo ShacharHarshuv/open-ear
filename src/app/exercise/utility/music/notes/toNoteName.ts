@@ -1,13 +1,7 @@
-import * as _ from "lodash";
-import { Note } from "tone/Tone/core/type/NoteUnits";
-import {
-  NoteNumber,
-  NoteNumberOrName
-} from "./NoteNumberOrName";
-import {
-  OneOrMany,
-  toArray
-} from "../../../../shared/ts-utility/toArray";
+import * as _ from 'lodash';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { NoteNumber, NoteNumberOrName } from './NoteNumberOrName';
+import { OneOrMany, toArray } from '../../../../shared/ts-utility/toArray';
 
 const midiNoteNamesArray: (OneOrMany<Note> | undefined)[] = [
   undefined,

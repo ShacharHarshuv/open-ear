@@ -1,8 +1,4 @@
-import {
-  Component,
-  Input,
-  HostBinding
-} from "@angular/core";
+import { Component, Input, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'app-answer-indication',

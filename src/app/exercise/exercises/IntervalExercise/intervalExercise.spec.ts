@@ -1,12 +1,12 @@
 import {
   IntervalName,
   intervalExercise,
-  intervalDescriptorList
-} from "./intervalExercise";
-import * as _ from "lodash";
-import { ExerciseTest } from "../../ExerciseTest";
-import { testExercise } from "../testing-utility/test-exercise.spec";
-import { Exercise } from "../../Exercise";
+  intervalDescriptorList,
+} from './intervalExercise';
+import * as _ from 'lodash';
+import { ExerciseTest } from '../../ExerciseTest';
+import { testExercise } from '../testing-utility/test-exercise.spec';
+import { Exercise } from '../../Exercise';
 
 describe(intervalExercise.name, () => {
   const context = testExercise({

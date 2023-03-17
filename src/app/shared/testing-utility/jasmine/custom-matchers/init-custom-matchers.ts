@@ -2,8 +2,8 @@
  * Additions to jasmine built in declaration
  * Used for custom matchers
  * */
-import { spyMatchers } from "./spy-matchers/spy-matchers";
-import { observableSpyMatchers } from "../../../ts-utility/rxjs/observable-spy/observable-spy-matchers";
+import { spyMatchers } from './spy-matchers/spy-matchers';
+import { observableSpyMatchers } from '../../../ts-utility/rxjs/observable-spy/observable-spy-matchers';
 
 declare global {
   namespace jasmine {

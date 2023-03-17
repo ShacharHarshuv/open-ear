@@ -1,8 +1,5 @@
-import { testPureFunction } from "../../../../shared/testing-utility/testPureFunction";
-import {
-  getNoteFromScaleDegree,
-  getScaleDegreeFromNote
-} from "./ScaleDegrees";
+import { testPureFunction } from '../../../../shared/testing-utility/testPureFunction';
+import { getNoteFromScaleDegree, getScaleDegreeFromNote } from './ScaleDegrees';
 
 describe('getNoteFromScaleDegree', () => {
   testPureFunction(getNoteFromScaleDegree, [

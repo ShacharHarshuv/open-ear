@@ -1,13 +1,9 @@
-import {
-  ComponentFixture,
-  TestBed,
-  waitForAsync
-} from "@angular/core/testing";
-import { IonicModule } from "@ionic/angular";
-import { RouterModule } from "@angular/router";
-import { ViewMessagePageRoutingModule } from "./view-message-routing.module";
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { IonicModule } from '@ionic/angular';
+import { RouterModule } from '@angular/router';
+import { ViewMessagePageRoutingModule } from './view-message-routing.module';
 
-import { ViewMessagePage } from "./view-message.page";
+import { ViewMessagePage } from './view-message.page';
 
 xdescribe('ViewMessagePage', () => {
   let component: ViewMessagePage;

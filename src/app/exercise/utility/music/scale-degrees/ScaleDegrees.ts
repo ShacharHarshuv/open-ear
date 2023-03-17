@@ -1,12 +1,12 @@
-import * as _ from "lodash";
-import { Key } from "../keys/Key";
-import { Note } from "tone/Tone/core/type/NoteUnits";
-import { transpose } from "../transpose";
-import { noteTypeToNote } from "../notes/noteTypeToNote";
-import { getDistanceOfKeys } from "../keys/getDistanceOfKeys";
-import { getNoteType } from "../notes/getNoteType";
-import { Interval } from "../intervals/Interval";
-import { mod } from "../../../../shared/ts-utility/mod";
+import * as _ from 'lodash';
+import { Key } from '../keys/Key';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { transpose } from '../transpose';
+import { noteTypeToNote } from '../notes/noteTypeToNote';
+import { getDistanceOfKeys } from '../keys/getDistanceOfKeys';
+import { getNoteType } from '../notes/getNoteType';
+import { Interval } from '../intervals/Interval';
+import { mod } from '../../../../shared/ts-utility/mod';
 
 export enum Accidental {
   Natural = '',

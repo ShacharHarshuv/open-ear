@@ -1,18 +1,12 @@
-import {
-  Injectable,
-  OnDestroy
-} from "@angular/core";
-import {
-  ActivatedRoute,
-  Router
-} from "@angular/router";
-import { ExerciseService } from "../../exercise.service";
-import { Exercise } from "../../Exercise";
+import { Injectable, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ExerciseService } from '../../exercise.service';
+import { Exercise } from '../../Exercise';
 import {
   PlayerService,
   PartToPlay,
-  NoteEvent
-} from "../../../services/player.service";
+  NoteEvent,
+} from '../../../services/player.service';
 import {
   toSteadyPart,
   GlobalExerciseSettings,
@@ -21,22 +15,18 @@ import {
   OneOrMany,
   timeoutAsPromise,
   BaseDestroyable,
-  isValueTruthy
-} from "../../utility";
-import { ExerciseSettingsDataService } from "../../../services/exercise-settings-data.service";
-import { AdaptiveExercise } from "./adaptive-exercise";
-import { Note } from "tone/Tone/core/type/NoteUnits";
-import { YouTubePlayerService } from "../../../services/you-tube-player.service";
-import * as _ from "lodash";
-import { AdaptiveExerciseService } from "./adaptive-exercise.service";
-import { BehaviorSubject } from "rxjs";
-import { DronePlayerService } from "../../../services/drone-player.service";
-import { listenToChanges } from "../../../shared/ts-utility/rxjs/listen-to-changes";
-import {
-  map,
-  takeUntil,
-  filter
-} from "rxjs/operators";
+  isValueTruthy,
+} from '../../utility';
+import { ExerciseSettingsDataService } from '../../../services/exercise-settings-data.service';
+import { AdaptiveExercise } from './adaptive-exercise';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { YouTubePlayerService } from '../../../services/you-tube-player.service';
+import * as _ from 'lodash';
+import { AdaptiveExerciseService } from './adaptive-exercise.service';
+import { BehaviorSubject } from 'rxjs';
+import { DronePlayerService } from '../../../services/drone-player.service';
+import { listenToChanges } from '../../../shared/ts-utility/rxjs/listen-to-changes';
+import { map, takeUntil, filter } from 'rxjs/operators';
 import AnswerList = Exercise.AnswerList;
 import Answer = Exercise.Answer;
 import getAnswerListIterator = Exercise.getAnswerListIterator;

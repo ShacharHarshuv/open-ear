@@ -1,16 +1,12 @@
-import { chordsInRealSongsExercise } from "./chordsInRealSongsExercise";
-import { testPureFunction } from "../../../shared/testing-utility/testPureFunction";
+import { chordsInRealSongsExercise } from './chordsInRealSongsExercise';
+import { testPureFunction } from '../../../shared/testing-utility/testPureFunction';
 import {
   ProgressionInSongFromYouTubeDescriptor,
-  chordsInRealSongsDescriptorList
-} from "./chordsInRealSongsDescriptorList";
-import {
-  RomanNumeralChordSymbol,
-  Mode,
-  DeepReadonly
-} from "../../utility";
-import * as _ from "lodash";
-import { testExercise } from "../testing-utility/test-exercise.spec";
+  chordsInRealSongsDescriptorList,
+} from './chordsInRealSongsDescriptorList';
+import { RomanNumeralChordSymbol, Mode, DeepReadonly } from '../../utility';
+import * as _ from 'lodash';
+import { testExercise } from '../testing-utility/test-exercise.spec';
 
 describe(chordsInRealSongsExercise.name, () => {
   const context = testExercise({

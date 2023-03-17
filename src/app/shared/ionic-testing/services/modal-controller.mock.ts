@@ -1,12 +1,6 @@
-import {
-  Injectable,
-  Provider
-} from "@angular/core";
-import {
-  ModalController,
-  ModalOptions
-} from "@ionic/angular";
-import { PublicMembers } from "../../ts-utility/PublicMembers";
+import { Injectable, Provider } from '@angular/core';
+import { ModalController, ModalOptions } from '@ionic/angular';
+import { PublicMembers } from '../../ts-utility/PublicMembers';
 
 @Injectable()
 export class ModalControllerMock implements PublicMembers<ModalController> {

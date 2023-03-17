@@ -1,7 +1,4 @@
-import {
-  toNoteName,
-  toNoteNumber
-} from "./toNoteName";
+import { toNoteName, toNoteNumber } from './toNoteName';
 
 describe('noteNumberToNoteName', function () {
   it('A0', () => {

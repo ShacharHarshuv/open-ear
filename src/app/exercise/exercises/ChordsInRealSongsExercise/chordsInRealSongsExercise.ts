@@ -1,30 +1,27 @@
-import { Exercise } from "../../Exercise";
-import { allRomanNumeralAnswerList } from "../utility/exerciseAttributes/romanAnalysisChordProgressionExercise";
+import { Exercise } from '../../Exercise';
+import { allRomanNumeralAnswerList } from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
 import {
   chordsInRealSongsDescriptorList,
-  ProgressionInSongFromYouTubeDescriptor
-} from "./chordsInRealSongsDescriptorList";
-import * as _ from "lodash";
+  ProgressionInSongFromYouTubeDescriptor,
+} from './chordsInRealSongsDescriptorList';
+import * as _ from 'lodash';
 import {
   randomFromList,
   isValueTruthy,
-  DeepReadonly
-} from "../../../shared/ts-utility";
-import { NoteEvent } from "../../../services/player.service";
+  DeepReadonly,
+} from '../../../shared/ts-utility';
+import { NoteEvent } from '../../../services/player.service';
 import {
   iv_V_i_CADENCE_IN_C,
-  IV_V_I_CADENCE_IN_C
-} from "../../utility/music/chords";
-import { transpose } from "../../utility/music/transpose";
-import { getDistanceOfKeys } from "../../utility/music/keys/getDistanceOfKeys";
-import { TitleCasePipe } from "@angular/common";
-import {
-  RomanNumeralChordSymbol,
-  Mode
-} from "../../utility";
-import { RomanNumeralChord } from "../../utility/music/harmony/RomanNumeralChord";
-import { createExercise } from "../utility/exerciseAttributes/createExercise";
-import { getRelativeKeyTonic } from "../../utility/music/harmony/getRelativeKeyTonic";
+  IV_V_I_CADENCE_IN_C,
+} from '../../utility/music/chords';
+import { transpose } from '../../utility/music/transpose';
+import { getDistanceOfKeys } from '../../utility/music/keys/getDistanceOfKeys';
+import { TitleCasePipe } from '@angular/common';
+import { RomanNumeralChordSymbol, Mode } from '../../utility';
+import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
+import { createExercise } from '../utility/exerciseAttributes/createExercise';
+import { getRelativeKeyTonic } from '../../utility/music/harmony/getRelativeKeyTonic';
 
 type ChordsInRealSongsSettings = {
   includedChords: RomanNumeralChordSymbol[];

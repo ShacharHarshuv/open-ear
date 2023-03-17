@@ -1,17 +1,13 @@
 import {
   AbstractControlOptions as NgAbstractControlOptions,
-  ValidationErrors as AnyValidationErrors
-} from "@angular/forms";
-import { Observable } from "rxjs";
-import { FormControl } from "./formControl";
-import { FormArray } from "./formArray";
-import { FormGroup } from "./formGroup";
-import { IAbstractControl } from "./abstractControl";
-import {
-  OneOrMany,
-  Primitive,
-  ArrayItemType
-} from "../ts-utility";
+  ValidationErrors as AnyValidationErrors,
+} from '@angular/forms';
+import { Observable } from 'rxjs';
+import { FormControl } from './formControl';
+import { FormArray } from './formArray';
+import { FormGroup } from './formGroup';
+import { IAbstractControl } from './abstractControl';
+import { OneOrMany, Primitive, ArrayItemType } from '../ts-utility';
 
 export type ValidationErrors<
   GErrors extends AnyValidationErrors = AnyValidationErrors

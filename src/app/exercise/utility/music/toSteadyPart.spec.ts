@@ -1,8 +1,8 @@
-import { toSteadyPart } from "./toSteadyPart";
-import { NoteEvent } from "../../../services/player.service";
-import { toArray } from "../../../shared/ts-utility/toArray";
-import { toNoteNumber } from "./notes/toNoteName";
-import * as Tone from "tone";
+import { toSteadyPart } from './toSteadyPart';
+import { NoteEvent } from '../../../services/player.service';
+import { toArray } from '../../../shared/ts-utility/toArray';
+import { toNoteNumber } from './notes/toNoteName';
+import * as Tone from 'tone';
 
 function assertNoteEvent(actual: NoteEvent, expected: NoteEvent): void {
   expect(toArray(actual.notes).map(toNoteNumber)).toEqual(

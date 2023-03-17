@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
-import { ExerciseStateService } from "./exercise-state.service";
-import { ExerciseExplanationPage } from "../components/exercise-help/exercise-explanation/exercise-explanation.page";
-import { ModalController } from "@ionic/angular";
-import { ExerciseSettingsDataService } from "../../../services/exercise-settings-data.service";
+import { Injectable } from '@angular/core';
+import { ExerciseStateService } from './exercise-state.service';
+import { ExerciseExplanationPage } from '../components/exercise-help/exercise-explanation/exercise-explanation.page';
+import { ModalController } from '@ionic/angular';
+import { ExerciseSettingsDataService } from '../../../services/exercise-settings-data.service';
 
 @Injectable()
 export class ExerciseExplanationService {

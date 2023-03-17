@@ -1,10 +1,7 @@
-import { NoteType } from "./NoteType";
-import { Note } from "tone/Tone/core/type/NoteUnits";
-import { getNoteType } from "./getNoteType";
-import {
-  toNoteNumber,
-  toNoteName
-} from "./toNoteName";
+import { NoteType } from './NoteType';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { getNoteType } from './getNoteType';
+import { toNoteNumber, toNoteName } from './toNoteName';
 
 export function toNoteTypeNumber(noteType: NoteType | number): number {
   if (typeof noteType === 'number') {

@@ -1,8 +1,5 @@
-import {
-  Version,
-  formatVersion
-} from "./version";
-import * as fs from "fs";
+import { Version, formatVersion } from './version';
+import * as fs from 'fs';
 
 export function updateAndroidVersion(
   version: Version,

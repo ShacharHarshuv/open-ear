@@ -3,9 +3,9 @@ import {
   Directive,
   ElementRef,
   Input,
-  ViewContainerRef
-} from "@angular/core";
-import { Exercise } from "../../../../Exercise";
+  ViewContainerRef,
+} from '@angular/core';
+import { Exercise } from '../../../../Exercise';
 
 @Directive({
   selector: '[exerciseExplanationContent]',

@@ -1,10 +1,7 @@
-import {
-  Injectable,
-  Provider
-} from "@angular/core";
-import { PublicMembers } from "../shared/ts-utility/PublicMembers";
-import { ExerciseSettingsDataService } from "./exercise-settings-data.service";
-import { ExerciseSettingsData } from "../exercise/utility";
+import { Injectable, Provider } from '@angular/core';
+import { PublicMembers } from '../shared/ts-utility/PublicMembers';
+import { ExerciseSettingsDataService } from './exercise-settings-data.service';
+import { ExerciseSettingsData } from '../exercise/utility';
 
 @Injectable()
 export class ExerciseSettingsDataMockService

@@ -1,14 +1,11 @@
-import { NoteNumberOrName } from "../notes/NoteNumberOrName";
-import { Key } from "./Key";
-import { Note } from "tone/Tone/core/type/NoteUnits";
-import {
-  toNoteName,
-  toNoteNumber
-} from "../notes/toNoteName";
-import { transpose } from "../transpose";
-import { getDistanceOfKeys } from "./getDistanceOfKeys";
-import { mod } from "../../../../shared/ts-utility/mod";
-import { Interval } from "../intervals/Interval";
+import { NoteNumberOrName } from '../notes/NoteNumberOrName';
+import { Key } from './Key';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { toNoteName, toNoteNumber } from '../notes/toNoteName';
+import { transpose } from '../transpose';
+import { getDistanceOfKeys } from './getDistanceOfKeys';
+import { mod } from '../../../../shared/ts-utility/mod';
+import { Interval } from '../intervals/Interval';
 
 const CMajorFirstOctave: Note[] = ['C1', 'D1', 'E1', 'F1', 'G1', 'A1', 'B1'];
 

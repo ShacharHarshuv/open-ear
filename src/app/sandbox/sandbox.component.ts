@@ -1,6 +1,6 @@
-import { Component } from "@angular/core";
-import { PlayerService } from "../services/player.service";
-import { Note } from "tone/Tone/core/type/NoteUnits";
+import { Component } from '@angular/core';
+import { PlayerService } from '../services/player.service';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
 
 @Component({
   selector: 'app-sandbox',

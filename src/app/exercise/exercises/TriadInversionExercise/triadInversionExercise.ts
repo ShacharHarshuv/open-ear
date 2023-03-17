@@ -1,21 +1,17 @@
-import { Exercise } from "../../Exercise";
-import {
-  ChordSymbol,
-  TriadInversion,
-  Chord
-} from "../../utility/music/chords";
-import { randomFromList } from "../../../shared/ts-utility";
-import * as Tone from "tone";
-import { Note } from "tone/Tone/core/type/NoteUnits";
-import { toSteadyPart } from "../../utility";
-import { TriadInversionExplanationComponent } from "./triad-inversion-explanation/triad-inversion-explanation.component";
+import { Exercise } from '../../Exercise';
+import { ChordSymbol, TriadInversion, Chord } from '../../utility/music/chords';
+import { randomFromList } from '../../../shared/ts-utility';
+import * as Tone from 'tone';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { toSteadyPart } from '../../utility';
+import { TriadInversionExplanationComponent } from './triad-inversion-explanation/triad-inversion-explanation.component';
 import {
   IncludedAnswersSettings,
-  includedAnswersSettings
-} from "../utility/settings/IncludedAnswersSettings";
-import { composeExercise } from "../utility/exerciseAttributes/composeExercise";
-import { tonalExercise } from "../utility/exerciseAttributes/tonalExercise";
-import { createExercise } from "../utility/exerciseAttributes/createExercise";
+  includedAnswersSettings,
+} from '../utility/settings/IncludedAnswersSettings';
+import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
+import { tonalExercise } from '../utility/exerciseAttributes/tonalExercise';
+import { createExercise } from '../utility/exerciseAttributes/createExercise';
 
 type TriadInversionAnswer = 'Root Position' | '1st Inversion' | '2nd Inversion';
 

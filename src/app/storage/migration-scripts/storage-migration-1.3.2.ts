@@ -1,5 +1,5 @@
-import { StorageMigrationScript } from "../storage-migration.service";
-import * as _ from "lodash";
+import { StorageMigrationScript } from '../storage-migration.service';
+import * as _ from 'lodash';
 
 export const migrationScript_1_3_2: StorageMigrationScript<
   Record<string, { exerciseSettings?: { includedAnswers?: any[] } }>

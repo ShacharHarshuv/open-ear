@@ -1,5 +1,5 @@
-import { Observable } from "rxjs";
-import { ObservableSpy } from "../observable-spy";
+import { Observable } from 'rxjs';
+import { ObservableSpy } from '../observable-spy';
 import MatchersUtil = jasmine.MatchersUtil;
 import CustomEqualityTester = jasmine.CustomEqualityTester;
 import CustomMatcherResult = jasmine.CustomMatcherResult;

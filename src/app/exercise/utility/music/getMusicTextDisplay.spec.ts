@@ -1,5 +1,5 @@
-import { testPureFunction } from "../../../shared/testing-utility/testPureFunction";
-import { toMusicalTextDisplay } from "./getMusicTextDisplay";
+import { testPureFunction } from '../../../shared/testing-utility/testPureFunction';
+import { toMusicalTextDisplay } from './getMusicTextDisplay';
 
 describe('toMusicalTextDisplay', () => {
   testPureFunction(toMusicalTextDisplay, [

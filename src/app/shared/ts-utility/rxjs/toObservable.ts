@@ -1,9 +1,5 @@
-import {
-  from,
-  Observable,
-  of
-} from "rxjs";
-import { SyncOrAsync } from "./SyncOrAsync";
+import { from, Observable, of } from 'rxjs';
+import { SyncOrAsync } from './SyncOrAsync';
 
 export function toObservable<T>(input: SyncOrAsync<T>): Observable<T> {
   if (input instanceof Observable) {

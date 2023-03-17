@@ -6,8 +6,8 @@ import {
   groupBy,
   sortBy,
   mapValues,
-  keyBy
-} from "lodash";
+  keyBy,
+} from 'lodash';
 
 const collectionChainableFunctions = {
   map,

@@ -1,12 +1,9 @@
-import { NoteEvent } from "../../../services/player.service";
-import * as _ from "lodash";
-import { Subdivision } from "tone/build/esm/core/type/Units";
-import { NoteNumberOrName } from "./notes/NoteNumberOrName";
-import { toNoteName } from "./notes/toNoteName";
-import {
-  OneOrMany,
-  toArray
-} from "../../../shared/ts-utility/toArray";
+import { NoteEvent } from '../../../services/player.service';
+import * as _ from 'lodash';
+import { Subdivision } from 'tone/build/esm/core/type/Units';
+import { NoteNumberOrName } from './notes/NoteNumberOrName';
+import { toNoteName } from './notes/toNoteName';
+import { OneOrMany, toArray } from '../../../shared/ts-utility/toArray';
 
 /*
  * If got NoteEvent for input it doesn't change it

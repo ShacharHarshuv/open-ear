@@ -1,14 +1,11 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 import {
   IntervalDescriptor,
-  intervalDescriptorList
-} from "../intervalExercise";
-import { NoteEvent } from "../../../../services/player.service";
-import {
-  OneOrMany,
-  toNoteNumber
-} from "../../../utility";
-import { NoteNumberOrName } from "../../../utility/music/notes/NoteNumberOrName";
+  intervalDescriptorList,
+} from '../intervalExercise';
+import { NoteEvent } from '../../../../services/player.service';
+import { OneOrMany, toNoteNumber } from '../../../utility';
+import { NoteNumberOrName } from '../../../utility/music/notes/NoteNumberOrName';
 
 @Component({
   selector: 'app-interval-exercise-explanation',

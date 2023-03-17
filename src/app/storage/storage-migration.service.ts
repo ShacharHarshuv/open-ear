@@ -1,18 +1,10 @@
-import {
-  Injectable,
-  Inject,
-  InjectionToken
-} from "@angular/core";
-import {
-  OneOrMany,
-  toObservable,
-  toArray
-} from "../shared/ts-utility";
-import { VersionService } from "../version.service";
-import { StorageService } from "./storage.service";
-import { firstValueFrom } from "rxjs";
-import { versionComparator } from "../release-notes/version-comparator";
-import * as _ from "lodash";
+import { Injectable, Inject, InjectionToken } from '@angular/core';
+import { OneOrMany, toObservable, toArray } from '../shared/ts-utility';
+import { VersionService } from '../version.service';
+import { StorageService } from './storage.service';
+import { firstValueFrom } from 'rxjs';
+import { versionComparator } from '../release-notes/version-comparator';
+import * as _ from 'lodash';
 
 export interface StorageMigrationScript<GData = any> {
   breakingChangeVersion: string;

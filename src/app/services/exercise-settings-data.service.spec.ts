@@ -1,10 +1,7 @@
-import { ExerciseSettingsDataService } from "./exercise-settings-data.service";
-import { TestBed } from "@angular/core/testing";
-import {
-  IonicStorageModule,
-  Storage
-} from "@ionic/storage-angular";
-import { ExerciseSettingsData } from "../exercise/utility";
+import { ExerciseSettingsDataService } from './exercise-settings-data.service';
+import { TestBed } from '@angular/core/testing';
+import { IonicStorageModule, Storage } from '@ionic/storage-angular';
+import { ExerciseSettingsData } from '../exercise/utility';
 
 describe('StorageService', function () {
   let service: ExerciseSettingsDataService;

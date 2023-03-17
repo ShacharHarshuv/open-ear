@@ -1,6 +1,6 @@
-import { ComponentFixture } from "@angular/core/testing";
-import { Spectator } from "@ngneat/spectator";
-import { DebugElement } from "@angular/core";
+import { ComponentFixture } from '@angular/core/testing';
+import { Spectator } from '@ngneat/spectator';
+import { DebugElement } from '@angular/core';
 
 export abstract class BaseComponentDebugger<GComponent> {
   readonly spectator: Spectator<GComponent> = new Spectator<GComponent>(

@@ -1,41 +1,34 @@
-import { Exercise } from "../../Exercise";
-import {
-  Chord,
-  ChordType
-} from "../../utility/music/chords";
-import { randomFromList } from "../../../shared/ts-utility";
+import { Exercise } from '../../Exercise';
+import { Chord, ChordType } from '../../utility/music/chords';
+import { randomFromList } from '../../../shared/ts-utility';
 import {
   NumberOfSegmentsSetting,
-  numberOfSegmentsSettings
-} from "../utility/settings/NumberOfSegmentsSetting";
+  numberOfSegmentsSettings,
+} from '../utility/settings/NumberOfSegmentsSetting';
 import {
   ChordProgressionQuestion,
   ChordProgressionExerciseSettings,
-  chordProgressionExercise
-} from "../utility/exerciseAttributes/chordProgressionExercise";
-import { ChordTypeInKeyExplanationComponent } from "./chord-type-in-key-explanation/chord-type-in-key-explanation.component";
+  chordProgressionExercise,
+} from '../utility/exerciseAttributes/chordProgressionExercise';
+import { ChordTypeInKeyExplanationComponent } from './chord-type-in-key-explanation/chord-type-in-key-explanation.component';
 import {
   RomanNumeralChordSymbol,
   chromaticDegreeToScaleDegree,
-  ScaleDegree
-} from "../../utility";
-import { RomanNumeralChord } from "../../utility/music/harmony/RomanNumeralChord";
-import { scaleLayout } from "../utility/answer-layouts/scale-layout";
-import { chordTypeConfigMap } from "../../utility/music/chords/Chord/ChordType";
-import {
-  flow,
-  flatMap,
-  filter
-} from "lodash/fp";
-import * as _ from "lodash";
-import { composeExercise } from "../utility/exerciseAttributes/composeExercise";
-import { createExercise } from "../utility/exerciseAttributes/createExercise";
+  ScaleDegree,
+} from '../../utility';
+import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
+import { scaleLayout } from '../utility/answer-layouts/scale-layout';
+import { chordTypeConfigMap } from '../../utility/music/chords/Chord/ChordType';
+import { flow, flatMap, filter } from 'lodash/fp';
+import * as _ from 'lodash';
+import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
+import { createExercise } from '../utility/exerciseAttributes/createExercise';
 import {
   tonalExercise,
-  TonalExerciseSettings
-} from "../utility/exerciseAttributes/tonalExercise";
-import { withSettings } from "../utility/settings/withSettings";
-import { romanNumeralToChordInC } from "../../utility/music/harmony/romanNumeralToChordInC";
+  TonalExerciseSettings,
+} from '../utility/exerciseAttributes/tonalExercise';
+import { withSettings } from '../utility/settings/withSettings';
+import { romanNumeralToChordInC } from '../../utility/music/harmony/romanNumeralToChordInC';
 import flatAnswerList = Exercise.flatAnswerList;
 import normalizedAnswerList = Exercise.normalizedAnswerList;
 

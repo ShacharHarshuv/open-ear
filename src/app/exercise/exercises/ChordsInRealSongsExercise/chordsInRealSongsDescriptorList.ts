@@ -1,10 +1,7 @@
-import { NoteType } from "../../utility/music/notes/NoteType";
-import { CadenceType } from "../utility/exerciseAttributes/tonalExercise";
-import {
-  Mode,
-  RomanNumeralChordSymbol
-} from "../../utility";
-import { DeepReadonly } from "../../../shared/ts-utility";
+import { NoteType } from '../../utility/music/notes/NoteType';
+import { CadenceType } from '../utility/exerciseAttributes/tonalExercise';
+import { Mode, RomanNumeralChordSymbol } from '../../utility';
+import { DeepReadonly } from '../../../shared/ts-utility';
 
 export interface ProgressionInSongFromYouTubeDescriptor {
   key: NoteType;

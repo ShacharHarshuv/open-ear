@@ -1,12 +1,9 @@
-import { BaseControlValueAccessorComponent } from "./base-control-value-accessor-component";
-import {
-  FormControl,
-  IAbstractControl
-} from "../../reactive-forms";
-import { takeUntil } from "rxjs/operators";
-import { Injector } from "@angular/core";
-import { toPromise } from "../rxjs/toPromise";
-import { SyncOrAsync } from "../rxjs/SyncOrAsync";
+import { BaseControlValueAccessorComponent } from './base-control-value-accessor-component';
+import { FormControl, IAbstractControl } from '../../reactive-forms';
+import { takeUntil } from 'rxjs/operators';
+import { Injector } from '@angular/core';
+import { toPromise } from '../rxjs/toPromise';
+import { SyncOrAsync } from '../rxjs/SyncOrAsync';
 
 export abstract class BaseControlValueAccessorWithCustomControl<
   GCVAValue,

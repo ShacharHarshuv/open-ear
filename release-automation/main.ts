@@ -1,6 +1,6 @@
-import { bumpPackageVersion } from "./bumpPackageVersion";
-import { formatVersion } from "./version";
-import { updateAndroidVersion } from "./updateAndroidVersion";
+import { bumpPackageVersion } from './bumpPackageVersion';
+import { formatVersion } from './version';
+import { updateAndroidVersion } from './updateAndroidVersion';
 
 const version = bumpPackageVersion('patch');
 updateAndroidVersion(version);

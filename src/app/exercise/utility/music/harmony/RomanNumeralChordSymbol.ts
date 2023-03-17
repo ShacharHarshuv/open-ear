@@ -1,4 +1,4 @@
-import { ChordType } from "../chords";
+import { ChordType } from '../chords';
 
 type UppercaseRomanNumeralChordSymbol =
   | 'I'

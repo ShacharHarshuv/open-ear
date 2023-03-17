@@ -1,5 +1,5 @@
-import { mod } from "./mod";
-import { testPureFunction } from "../testing-utility/testPureFunction";
+import { mod } from './mod';
+import { testPureFunction } from '../testing-utility/testPureFunction';
 
 describe('mod', () => {
   testPureFunction(mod, [

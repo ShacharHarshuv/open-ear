@@ -1,9 +1,9 @@
 import {
   ScaleDegree,
   scaleDegreeToChromaticDegree,
-  chromaticDegreeToScaleDegree
-} from "../scale-degrees";
-import { mod } from "../../../../shared/ts-utility/mod";
+  chromaticDegreeToScaleDegree,
+} from '../scale-degrees';
+import { mod } from '../../../../shared/ts-utility/mod';
 
 export enum Mode {
   Ionian = 1,

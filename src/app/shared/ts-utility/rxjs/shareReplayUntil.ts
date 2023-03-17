@@ -1,11 +1,5 @@
-import {
-  Observable,
-  MonoTypeOperatorFunction
-} from "rxjs";
-import {
-  takeUntil,
-  shareReplay
-} from "rxjs/operators";
+import { Observable, MonoTypeOperatorFunction } from 'rxjs';
+import { takeUntil, shareReplay } from 'rxjs/operators';
 
 export function shareReplayUntil<T>(
   notifier: Observable<any>

@@ -5,38 +5,38 @@ import {
   Observable,
   of,
   Subscription,
-  Subject
-} from "rxjs";
+  Subject,
+} from 'rxjs';
 import {
   distinctUntilChanged,
   map,
   startWith,
-  takeUntil
-} from "rxjs/operators";
+  takeUntil,
+} from 'rxjs/operators';
 import {
   IAbstractControlOptions,
   IControlUpdateOptions,
   TControlPath,
   TControlStatus,
   ValidationErrors,
-  ValidatorFn
-} from "./types";
+  ValidatorFn,
+} from './types';
 import {
   IAbstractControl,
   IControlErrorRef,
-  IControlsParent
-} from "./abstractControl";
+  IControlsParent,
+} from './abstractControl';
 import {
   AbstractControlOptions,
-  AbstractControl as NgAbstractControl
-} from "@angular/forms";
-import * as _ from "lodash";
+  AbstractControl as NgAbstractControl,
+} from '@angular/forms';
+import * as _ from 'lodash';
 import {
   timeoutAsPromise,
   OneOrMany,
   toArray,
-  isValueTruthy
-} from "../ts-utility";
+  isValueTruthy,
+} from '../ts-utility';
 
 function getControlValue<GValue, GErrors extends ValidationErrors>(
   control: IAbstractControl<GValue, GErrors>

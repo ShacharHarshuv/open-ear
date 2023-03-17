@@ -2,12 +2,9 @@ import {
   MonoTypeOperatorFunction,
   Observable,
   ConnectableObservable,
-  Subscription
-} from "rxjs";
-import {
-  publishReplay,
-  take
-} from "rxjs/operators";
+  Subscription,
+} from 'rxjs';
+import { publishReplay, take } from 'rxjs/operators';
 
 export function publishReplayUntilAndConnect<G>(
   notifier?: Observable<any>

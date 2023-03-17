@@ -1,11 +1,8 @@
-import { Exercise } from "../../../Exercise";
-import * as _ from "lodash";
-import {
-  StaticOrGetter,
-  toGetter
-} from "../../../../shared/ts-utility";
-import { SettingsParams } from "../settings/SettingsParams";
-import { Platforms } from "@ionic/core/dist/types/utils/platform";
+import { Exercise } from '../../../Exercise';
+import * as _ from 'lodash';
+import { StaticOrGetter, toGetter } from '../../../../shared/ts-utility';
+import { SettingsParams } from '../settings/SettingsParams';
+import { Platforms } from '@ionic/core/dist/types/utils/platform';
 import AnswerList = Exercise.AnswerList;
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 

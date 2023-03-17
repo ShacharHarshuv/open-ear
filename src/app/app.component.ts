@@ -1,14 +1,10 @@
-import { Component } from "@angular/core";
-import {
-  ModalController,
-  AlertController,
-  Platform
-} from "@ionic/angular";
-import { ReleaseNotesPage } from "./release-notes/release-notes-page.component";
-import { ReleaseNotesService } from "./release-notes/release-notes.service";
-import { toPromise } from "./shared/ts-utility/rxjs/toPromise";
-import * as _ from "lodash";
-import { StorageMigrationService } from "./storage/storage-migration.service";
+import { Component } from '@angular/core';
+import { ModalController, AlertController, Platform } from '@ionic/angular';
+import { ReleaseNotesPage } from './release-notes/release-notes-page.component';
+import { ReleaseNotesService } from './release-notes/release-notes.service';
+import { toPromise } from './shared/ts-utility/rxjs/toPromise';
+import * as _ from 'lodash';
+import { StorageMigrationService } from './storage/storage-migration.service';
 
 @Component({
   selector: 'app-root',

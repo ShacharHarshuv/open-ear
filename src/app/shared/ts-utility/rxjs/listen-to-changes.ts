@@ -1,7 +1,4 @@
-import {
-  Observable,
-  BehaviorSubject
-} from "rxjs";
+import { Observable, BehaviorSubject } from 'rxjs';
 
 const errorMsg = (key): string =>
   `Cannot listen to changes for property ${String(key)} because`;

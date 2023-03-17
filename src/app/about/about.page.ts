@@ -1,5 +1,5 @@
-import { Component } from "@angular/core";
-import { VersionService } from "../version.service";
+import { Component } from '@angular/core';
+import { VersionService } from '../version.service';
 
 @Component({
   selector: 'app-about',

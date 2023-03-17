@@ -1,12 +1,12 @@
-import { TestBed } from "@angular/core/testing";
+import { TestBed } from '@angular/core/testing';
 import {
   StorageMigrationService,
   StorageMigrationScript,
-  MIGRATION_SCRIPTS
-} from "./storage-migration.service";
-import { VersionServiceMock } from "../version.service.mock";
-import { StorageServiceMock } from "./storage.service.mock";
-import { StorageService } from "./storage.service";
+  MIGRATION_SCRIPTS,
+} from './storage-migration.service';
+import { VersionServiceMock } from '../version.service.mock';
+import { StorageServiceMock } from './storage.service.mock';
+import { StorageService } from './storage.service';
 import Expected = jasmine.Expected;
 import ArrayContaining = jasmine.ArrayContaining;
 

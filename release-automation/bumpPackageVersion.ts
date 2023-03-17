@@ -1,9 +1,5 @@
-import * as fs from "fs";
-import {
-  parseVersion,
-  Version,
-  formatVersion
-} from "./version";
+import * as fs from 'fs';
+import { parseVersion, Version, formatVersion } from './version';
 
 export function bumpPackageVersion(
   bump: 'major' | 'minor' | 'patch',

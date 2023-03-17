@@ -1,7 +1,4 @@
-import {
-  Observable,
-  Subscription
-} from "rxjs";
+import { Observable, Subscription } from 'rxjs';
 
 export class ObservableSpy<G = unknown> {
   private readonly _subscription: Subscription;

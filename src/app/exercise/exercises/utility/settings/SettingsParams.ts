@@ -1,5 +1,5 @@
-import { Exercise } from "../../../Exercise";
-import { StaticOrGetter } from "../../../../shared/ts-utility";
+import { Exercise } from '../../../Exercise';
+import { StaticOrGetter } from '../../../../shared/ts-utility';
 
 export type SettingsParams<GSettings extends Exercise.Settings> = {
   readonly settingsDescriptors?: StaticOrGetter<

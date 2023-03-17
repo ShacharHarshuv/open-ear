@@ -1,6 +1,6 @@
-import { getNoteOctave } from "./getNoteOctave";
-import { Note } from "tone/Tone/core/type/NoteUnits";
-import * as _ from "lodash";
+import { getNoteOctave } from './getNoteOctave';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import * as _ from 'lodash';
 
 describe('getNoteOctave', () => {
   const noteToExpectedOctave: { [note in Note]?: number } = {

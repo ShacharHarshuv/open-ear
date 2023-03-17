@@ -1,28 +1,20 @@
-import { Component } from "@angular/core";
-import { ExerciseStateService } from "./state/exercise-state.service";
+import { Component } from '@angular/core';
+import { ExerciseStateService } from './state/exercise-state.service';
 import {
   ModalController,
   AlertController,
-  ToastController
-} from "@ionic/angular";
-import { ExerciseSettingsPage } from "./components/exercise-settings.page/exercise-settings.page";
-import * as _ from "lodash";
-import { ExerciseExplanationService } from "./state/exercise-explanation.service";
-import { Exercise } from "../Exercise";
-import { BaseComponent } from "../../shared/ts-utility";
-import {
-  takeUntil,
-  finalize,
-  switchMap,
-  map
-} from "rxjs/operators";
-import {
-  BehaviorSubject,
-  combineLatest
-} from "rxjs";
-import { BdcWalkService } from "bdc-walkthrough";
-import { CdkDragDrop } from "@angular/cdk/drag-drop";
-import { getCurrentAnswersLayout } from "./utility/getCurrentAnswersLayout";
+  ToastController,
+} from '@ionic/angular';
+import { ExerciseSettingsPage } from './components/exercise-settings.page/exercise-settings.page';
+import * as _ from 'lodash';
+import { ExerciseExplanationService } from './state/exercise-explanation.service';
+import { Exercise } from '../Exercise';
+import { BaseComponent } from '../../shared/ts-utility';
+import { takeUntil, finalize, switchMap, map } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { BdcWalkService } from 'bdc-walkthrough';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { getCurrentAnswersLayout } from './utility/getCurrentAnswersLayout';
 import AnswerConfig = Exercise.AnswerConfig;
 
 @Component({

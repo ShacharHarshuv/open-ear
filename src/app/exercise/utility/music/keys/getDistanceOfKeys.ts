@@ -1,7 +1,7 @@
-import { Key } from "./Key";
-import { toNoteNumber } from "../notes/toNoteName";
-import { Note } from "tone/Tone/core/type/NoteUnits";
-import { Interval } from "../intervals/Interval";
+import { Key } from './Key';
+import { toNoteNumber } from '../notes/toNoteName';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { Interval } from '../intervals/Interval';
 
 /**
  * Returns negative number if smaller

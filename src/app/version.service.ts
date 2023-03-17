@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
-import { AppVersion } from "@ionic-native/app-version/ngx";
-import { Async } from "./shared/ts-utility/rxjs/SyncOrAsync";
+import { Injectable } from '@angular/core';
+import { AppVersion } from '@ionic-native/app-version/ngx';
+import { Async } from './shared/ts-utility/rxjs/SyncOrAsync';
 
 @Injectable()
 export class VersionService {

@@ -1,24 +1,12 @@
-import {
-  Directive,
-  Input,
-  Inject
-} from "@angular/core";
-import { Exercise } from "../../../../Exercise";
-import { ExerciseSettingsPage } from "../exercise-settings.page";
-import {
-  NG_VALUE_ACCESSOR,
-  ControlValueAccessor
-} from "@angular/forms";
-import {
-  takeUntil,
-  map,
-  pairwise,
-  startWith
-} from "rxjs/operators";
-import { BaseComponent } from "../../../../../shared/ts-utility";
-import { Observable } from "rxjs";
-import * as _ from "lodash";
-import { shareReplayUntil } from "../../../../../shared/ts-utility/rxjs/shareReplayUntil";
+import { Directive, Input, Inject } from '@angular/core';
+import { Exercise } from '../../../../Exercise';
+import { ExerciseSettingsPage } from '../exercise-settings.page';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { takeUntil, map, pairwise, startWith } from 'rxjs/operators';
+import { BaseComponent } from '../../../../../shared/ts-utility';
+import { Observable } from 'rxjs';
+import * as _ from 'lodash';
+import { shareReplayUntil } from '../../../../../shared/ts-utility/rxjs/shareReplayUntil';
 
 @Directive({
   selector: '[appExerciseControl]',

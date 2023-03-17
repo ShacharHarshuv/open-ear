@@ -1,29 +1,14 @@
-import { NoteEvent } from "../../../services/player.service";
-import { Frequency } from "tone/Tone/core/type/Units";
-import { Note } from "tone/Tone/core/type/NoteUnits";
-import {
-  toNoteName,
-  toNoteNumber
-} from "./notes/toNoteName";
-import * as _ from "lodash";
-import {
-  NoteType,
-  ALL_NOTE_TYPES
-} from "./notes/NoteType";
-import {
-  toNoteTypeName,
-  toNoteTypeNumber
-} from "./notes/toNoteTypeNumber";
-import {
-  OneOrMany,
-  isValueTruthy
-} from "../../../shared/ts-utility";
-import { Interval } from "./intervals/Interval";
-import { NotesRange } from "./NotesRange";
-import {
-  MAX_NOTE_NUMBER,
-  MIN_NOTE_NUMBER
-} from "./notes/consts";
+import { NoteEvent } from '../../../services/player.service';
+import { Frequency } from 'tone/Tone/core/type/Units';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { toNoteName, toNoteNumber } from './notes/toNoteName';
+import * as _ from 'lodash';
+import { NoteType, ALL_NOTE_TYPES } from './notes/NoteType';
+import { toNoteTypeName, toNoteTypeNumber } from './notes/toNoteTypeNumber';
+import { OneOrMany, isValueTruthy } from '../../../shared/ts-utility';
+import { Interval } from './intervals/Interval';
+import { NotesRange } from './NotesRange';
+import { MAX_NOTE_NUMBER, MIN_NOTE_NUMBER } from './notes/consts';
 
 export function transpose(partOrNotes: Note, semitones: number): Note;
 export function transpose(partOrNotes: NoteType, semitones: number): NoteType;

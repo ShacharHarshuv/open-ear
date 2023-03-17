@@ -1,20 +1,11 @@
-import { Injectable } from "@angular/core";
-import {
-  BehaviorSubject,
-  interval,
-  NEVER
-} from "rxjs";
-import { YouTubePlayer } from "youtube-player/dist/types";
-import * as PriorityQueue from "js-priority-queue";
-import PlayerFactory from "youtube-player";
-import {
-  filter,
-  switchMap,
-  take,
-  takeUntil
-} from "rxjs/operators";
-import { BaseDestroyable } from "../shared/ts-utility";
-import * as _ from "lodash";
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, interval, NEVER } from 'rxjs';
+import { YouTubePlayer } from 'youtube-player/dist/types';
+import * as PriorityQueue from 'js-priority-queue';
+import PlayerFactory from 'youtube-player';
+import { filter, switchMap, take, takeUntil } from 'rxjs/operators';
+import { BaseDestroyable } from '../shared/ts-utility';
+import * as _ from 'lodash';
 
 export interface YouTubeCallbackDescriptor {
   seconds: number;

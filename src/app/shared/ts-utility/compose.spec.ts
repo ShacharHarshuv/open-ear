@@ -1,7 +1,4 @@
-import {
-  compose,
-  composeWithMerge
-} from "./compose";
+import { compose, composeWithMerge } from './compose';
 
 describe('compose', function () {
   function fn1(p: { a: number }): { b: number; d: number } {

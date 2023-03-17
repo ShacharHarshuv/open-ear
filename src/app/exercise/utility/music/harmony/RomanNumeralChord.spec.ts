@@ -1,22 +1,12 @@
-import { RomanNumeralChord } from "./RomanNumeralChord";
-import {
-  ChordType,
-  ChordSymbol
-} from "../chords";
-import {
-  DiatonicScaleDegree,
-  ScaleDegree,
-  Accidental
-} from "../scale-degrees";
-import { RomanNumeralChordSymbol } from "./RomanNumeralChordSymbol";
-import { testPureFunction } from "../../../../shared/testing-utility/testPureFunction";
-import {
-  toRelativeMode,
-  Mode
-} from "./Mode";
-import { Key } from "../keys/Key";
-import { chordTypeConfigMap } from "../chords/Chord/ChordType";
-import * as _ from "lodash";
+import { RomanNumeralChord } from './RomanNumeralChord';
+import { ChordType, ChordSymbol } from '../chords';
+import { DiatonicScaleDegree, ScaleDegree, Accidental } from '../scale-degrees';
+import { RomanNumeralChordSymbol } from './RomanNumeralChordSymbol';
+import { testPureFunction } from '../../../../shared/testing-utility/testPureFunction';
+import { toRelativeMode, Mode } from './Mode';
+import { Key } from '../keys/Key';
+import { chordTypeConfigMap } from '../chords/Chord/ChordType';
+import * as _ from 'lodash';
 
 describe('RomanNumeralBuilder', () => {
   const testCases: {

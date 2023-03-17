@@ -1,4 +1,4 @@
-import { Exercise } from "../../Exercise";
+import { Exercise } from '../../Exercise';
 import {
   NotesRange,
   randomFromList,
@@ -11,38 +11,38 @@ import {
   DeepReadonly,
   getDiatonicScaleDegreeWithAccidental,
   Interval,
-  toNoteNumber
-} from "../../utility";
-import { Note } from "tone/Tone/core/type/NoteUnits";
-import { getNoteType } from "../../utility/music/notes/getNoteType";
-import { NoteType } from "../../utility/music/notes/NoteType";
-import { getNoteOctave } from "../../utility/music/notes/getNoteOctave";
-import { noteTypeToNote } from "../../utility/music/notes/noteTypeToNote";
-import { NotesInKeyExplanationComponent } from "./notes-in-key-explanation/notes-in-key-explanation.component";
+  toNoteNumber,
+} from '../../utility';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { getNoteType } from '../../utility/music/notes/getNoteType';
+import { NoteType } from '../../utility/music/notes/NoteType';
+import { getNoteOctave } from '../../utility/music/notes/getNoteOctave';
+import { noteTypeToNote } from '../../utility/music/notes/noteTypeToNote';
+import { NotesInKeyExplanationComponent } from './notes-in-key-explanation/notes-in-key-explanation.component';
 import {
   MelodicDictationExerciseSettings,
   IMelodicQuestion,
-  melodicExercise
-} from "../utility/exerciseAttributes/melodicDictationExercise";
+  melodicExercise,
+} from '../utility/exerciseAttributes/melodicDictationExercise';
 import {
   NumberOfSegmentsSetting,
-  numberOfSegmentsControlDescriptorList
-} from "../utility/settings/NumberOfSegmentsSetting";
+  numberOfSegmentsControlDescriptorList,
+} from '../utility/settings/NumberOfSegmentsSetting';
 import {
   PlayAfterCorrectAnswerSetting,
-  playAfterCorrectAnswerControlDescriptorList
-} from "../utility/settings/PlayAfterCorrectAnswerSetting";
+  playAfterCorrectAnswerControlDescriptorList,
+} from '../utility/settings/PlayAfterCorrectAnswerSetting';
 import {
   IncludedAnswersSettings,
-  includedAnswersSettings
-} from "../utility/settings/IncludedAnswersSettings";
-import { noteTypeToScaleDegree } from "../../utility/music/scale-degrees/noteTypeToScaleDegree";
-import { scaleDegreeToNoteType } from "../../utility/music/scale-degrees/scaleDegreeToNoteType";
-import { transpose } from "../../utility/music/transpose";
-import { composeExercise } from "../utility/exerciseAttributes/composeExercise";
-import { createExercise } from "../utility/exerciseAttributes/createExercise";
-import { TonalExerciseUtils } from "../utility/exerciseAttributes/tonalExercise";
-import * as _ from "lodash";
+  includedAnswersSettings,
+} from '../utility/settings/IncludedAnswersSettings';
+import { noteTypeToScaleDegree } from '../../utility/music/scale-degrees/noteTypeToScaleDegree';
+import { scaleDegreeToNoteType } from '../../utility/music/scale-degrees/scaleDegreeToNoteType';
+import { transpose } from '../../utility/music/transpose';
+import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
+import { createExercise } from '../utility/exerciseAttributes/createExercise';
+import { TonalExerciseUtils } from '../utility/exerciseAttributes/tonalExercise';
+import * as _ from 'lodash';
 
 export type NoteInKeySettings = IncludedAnswersSettings<SolfegeNote> &
   MelodicDictationExerciseSettings &

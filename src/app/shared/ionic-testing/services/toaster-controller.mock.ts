@@ -1,12 +1,6 @@
-import { PublicMembers } from "../../ts-utility/PublicMembers";
-import {
-  ToastController,
-  ToastOptions
-} from "@ionic/angular";
-import {
-  Injectable,
-  Provider
-} from "@angular/core";
+import { PublicMembers } from '../../ts-utility/PublicMembers';
+import { ToastController, ToastOptions } from '@ionic/angular';
+import { Injectable, Provider } from '@angular/core';
 
 @Injectable()
 export class ToastControllerMock implements PublicMembers<ToastController> {

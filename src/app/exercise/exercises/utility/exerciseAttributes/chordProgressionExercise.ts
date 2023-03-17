@@ -1,26 +1,23 @@
-import { Exercise } from "../../../Exercise";
+import { Exercise } from '../../../Exercise';
 import {
   randomFromList,
   StaticOrGetter,
-  toGetter
-} from "../../../../shared/ts-utility";
-import * as _ from "lodash";
+  toGetter,
+} from '../../../../shared/ts-utility';
+import * as _ from 'lodash';
 import {
   Chord,
   ChordSymbol,
-  voiceChordProgressionWithVoiceLeading
-} from "../../../utility/music/chords";
-import { Note } from "tone/Tone/core/type/NoteUnits";
-import { NoteEvent } from "../../../../services/player.service";
-import {
-  getInterval,
-  NotesRange
-} from "../../../utility";
-import { transpose } from "../../../utility/music/transpose";
-import { Interval } from "../../../utility/music/intervals/Interval";
-import { CreateExerciseParams } from "./createExercise";
-import { SettingsParams } from "../settings/SettingsParams";
-import { withSettings } from "../settings/withSettings";
+  voiceChordProgressionWithVoiceLeading,
+} from '../../../utility/music/chords';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { NoteEvent } from '../../../../services/player.service';
+import { getInterval, NotesRange } from '../../../utility';
+import { transpose } from '../../../utility/music/transpose';
+import { Interval } from '../../../utility/music/intervals/Interval';
+import { CreateExerciseParams } from './createExercise';
+import { SettingsParams } from '../settings/SettingsParams';
+import { withSettings } from '../settings/withSettings';
 
 export type ChordProgressionExerciseSettings<GAnswer extends string> = {
   voiceLeading: 'RANDOM' | 'CORRECT';

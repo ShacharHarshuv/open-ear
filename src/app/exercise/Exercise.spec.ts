@@ -1,5 +1,5 @@
-import { testPureFunction } from "../shared/testing-utility/testPureFunction";
-import { Exercise } from "./Exercise";
+import { testPureFunction } from '../shared/testing-utility/testPureFunction';
+import { Exercise } from './Exercise';
 import getAnswerListIterator = Exercise.getAnswerListIterator;
 
 const mockAnswerList: Exercise.AnswerList = {

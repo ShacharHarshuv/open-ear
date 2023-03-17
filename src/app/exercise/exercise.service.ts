@@ -1,18 +1,15 @@
-import {
-  Injectable,
-  Type
-} from "@angular/core";
-import * as _ from "lodash";
-import { intervalExercise } from "./exercises/IntervalExercise/intervalExercise";
-import { Exercise } from "./Exercise";
-import { Platform } from "@ionic/angular";
-import { triadInversionExercise } from "./exercises/TriadInversionExercise/triadInversionExercise";
-import { chordsInRealSongsExercise } from "./exercises/ChordsInRealSongsExercise/chordsInRealSongsExercise";
-import { notesWithChordsExercise } from "./exercises/NotesWithChords/notesWithChordsExercise";
-import { notesInKeyExercise } from "./exercises/NotesInKeyExercise/notesInKeyExercise";
-import { chordTypeExercise } from "./exercises/ChordTypeInKeyExercise/chordTypeInKeyExercise";
-import { chordInKeyExercise } from "./exercises/ChordInKeyExercise/chordsInKeyExercise";
-import { commonChordProgressionExercise } from "./exercises/CommonChordProgressionExercise/commonChordProgressionsExercise";
+import { Injectable, Type } from '@angular/core';
+import * as _ from 'lodash';
+import { intervalExercise } from './exercises/IntervalExercise/intervalExercise';
+import { Exercise } from './Exercise';
+import { Platform } from '@ionic/angular';
+import { triadInversionExercise } from './exercises/TriadInversionExercise/triadInversionExercise';
+import { chordsInRealSongsExercise } from './exercises/ChordsInRealSongsExercise/chordsInRealSongsExercise';
+import { notesWithChordsExercise } from './exercises/NotesWithChords/notesWithChordsExercise';
+import { notesInKeyExercise } from './exercises/NotesInKeyExercise/notesInKeyExercise';
+import { chordTypeExercise } from './exercises/ChordTypeInKeyExercise/chordTypeInKeyExercise';
+import { chordInKeyExercise } from './exercises/ChordInKeyExercise/chordsInKeyExercise';
+import { commonChordProgressionExercise } from './exercises/CommonChordProgressionExercise/commonChordProgressionsExercise';
 import IExercise = Exercise.Exercise;
 
 @Injectable({

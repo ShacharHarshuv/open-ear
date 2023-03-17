@@ -1,10 +1,7 @@
-import { NoteType } from "../notes/NoteType";
-import { Key } from "../keys/Key";
-import {
-  ScaleDegree,
-  chromaticDegreeToScaleDegree
-} from "./ScaleDegrees";
-import { toNoteTypeNumber } from "../notes/toNoteTypeNumber";
+import { NoteType } from '../notes/NoteType';
+import { Key } from '../keys/Key';
+import { ScaleDegree, chromaticDegreeToScaleDegree } from './ScaleDegrees';
+import { toNoteTypeNumber } from '../notes/toNoteTypeNumber';
 
 export function noteTypeToScaleDegree(
   noteType: NoteType,

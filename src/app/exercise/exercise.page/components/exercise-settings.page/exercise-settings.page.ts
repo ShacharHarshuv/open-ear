@@ -1,29 +1,20 @@
-import {
-  Component,
-  Input
-} from "@angular/core";
-import { ModalController } from "@ionic/angular";
+import { Component, Input } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import {
   FormControl,
   FormGroup,
-  TAbstractControlsOf
-} from "../../../../shared/reactive-forms";
-import { Exercise } from "../../../Exercise";
+  TAbstractControlsOf,
+} from '../../../../shared/reactive-forms';
+import { Exercise } from '../../../Exercise';
 import {
   ExerciseSettingsData,
   GlobalExerciseSettings,
-  toGetter
-} from "../../../utility";
-import * as _ from "lodash";
-import { collapseVertical } from "../../../../shared/animations";
-import {
-  Observable,
-  of
-} from "rxjs";
-import {
-  map,
-  distinctUntilChanged
-} from "rxjs/operators";
+  toGetter,
+} from '../../../utility';
+import * as _ from 'lodash';
+import { collapseVertical } from '../../../../shared/animations';
+import { Observable, of } from 'rxjs';
+import { map, distinctUntilChanged } from 'rxjs/operators';
 import SettingValueType = Exercise.SettingValueType;
 import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
 

@@ -1,35 +1,32 @@
 import {
   TonalExerciseSettings,
   tonalExercise,
-  TonalExerciseUtils
-} from "../utility/exerciseAttributes/tonalExercise";
-import { Exercise } from "../../Exercise";
-import { randomFromList } from "../../../shared/ts-utility";
-import {
-  Chord,
-  Direction
-} from "../../utility/music/chords";
-import { Note } from "tone/Tone/core/type/NoteUnits";
-import { NoteType } from "../../utility/music/notes/NoteType";
+  TonalExerciseUtils,
+} from '../utility/exerciseAttributes/tonalExercise';
+import { Exercise } from '../../Exercise';
+import { randomFromList } from '../../../shared/ts-utility';
+import { Chord, Direction } from '../../utility/music/chords';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { NoteType } from '../../utility/music/notes/NoteType';
 import {
   Interval,
   toNoteNumber,
   NotesRange,
   RomanNumeralChordSymbol,
   SolfegeNote,
-  solfegeNoteToScaleDegree
-} from "../../utility";
-import { transpose } from "../../utility/music/transpose";
-import * as _ from "lodash";
-import { NotesWithChordsExplanationComponent } from "./notes-with-chords-explanation/notes-with-chords-explanation.component";
+  solfegeNoteToScaleDegree,
+} from '../../utility';
+import { transpose } from '../../utility/music/transpose';
+import * as _ from 'lodash';
+import { NotesWithChordsExplanationComponent } from './notes-with-chords-explanation/notes-with-chords-explanation.component';
 import {
   IncludedAnswersSettings,
-  includedAnswersSettings
-} from "../utility/settings/IncludedAnswersSettings";
-import { scaleDegreeToNoteType } from "../../utility/music/scale-degrees/scaleDegreeToNoteType";
-import { composeExercise } from "../utility/exerciseAttributes/composeExercise";
-import { createExercise } from "../utility/exerciseAttributes/createExercise";
-import { romanNumeralToChordInC } from "../../utility/music/harmony/romanNumeralToChordInC";
+  includedAnswersSettings,
+} from '../utility/settings/IncludedAnswersSettings';
+import { scaleDegreeToNoteType } from '../../utility/music/scale-degrees/scaleDegreeToNoteType';
+import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
+import { createExercise } from '../utility/exerciseAttributes/createExercise';
+import { romanNumeralToChordInC } from '../../utility/music/harmony/romanNumeralToChordInC';
 
 type ChordDegree = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 

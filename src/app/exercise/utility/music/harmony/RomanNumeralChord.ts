@@ -1,28 +1,22 @@
-import {
-  ChordType,
-  Chord
-} from "../chords";
-import { RomanNumeralChordSymbol } from "./RomanNumeralChordSymbol";
-import * as _ from "lodash";
+import { ChordType, Chord } from '../chords';
+import { RomanNumeralChordSymbol } from './RomanNumeralChordSymbol';
+import * as _ from 'lodash';
 import {
   DiatonicScaleDegree,
   ScaleDegree,
   scaleDegreeToChromaticDegree,
   getDiatonicScaleDegreeWithAccidental,
-  Accidental
-} from "../scale-degrees";
-import {
-  Mode,
-  toRelativeMode
-} from "./Mode";
-import { MusicSymbol } from "../MusicSymbol";
-import { Key } from "../keys/Key";
-import { NoteType } from "../notes/NoteType";
-import { transpose } from "../transpose";
+  Accidental,
+} from '../scale-degrees';
+import { Mode, toRelativeMode } from './Mode';
+import { MusicSymbol } from '../MusicSymbol';
+import { Key } from '../keys/Key';
+import { NoteType } from '../notes/NoteType';
+import { transpose } from '../transpose';
 import {
   chordTypeConfigMap,
-  romanNumeralChordTypeParserMap
-} from "../chords/Chord/ChordType";
+  romanNumeralChordTypeParserMap,
+} from '../chords/Chord/ChordType';
 
 const allRomanNumeralPostfix: string[] = _.map(
   chordTypeConfigMap,

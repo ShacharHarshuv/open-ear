@@ -1,11 +1,11 @@
 import {
   ScaleDegree,
   getDiatonicScaleDegreeWithAccidental,
-  DiatonicScaleDegree
-} from "./ScaleDegrees";
-import { CadenceType } from "../../../exercises/utility/exerciseAttributes/tonalExercise";
-import * as _ from "lodash";
-import { DeepReadonly } from "../../../../shared/ts-utility";
+  DiatonicScaleDegree,
+} from './ScaleDegrees';
+import { CadenceType } from '../../../exercises/utility/exerciseAttributes/tonalExercise';
+import * as _ from 'lodash';
+import { DeepReadonly } from '../../../../shared/ts-utility';
 
 interface ScaleOption {
   scale: ScaleDegree[];

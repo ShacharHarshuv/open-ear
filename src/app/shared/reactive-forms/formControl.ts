@@ -1,14 +1,7 @@
-import { FormControl as NgFormControl } from "@angular/forms";
-import {
-  Observable,
-  Subject,
-  Subscription
-} from "rxjs";
-import {
-  distinctUntilChanged,
-  startWith
-} from "rxjs/operators";
-import { ControlMethods } from "./control-methods";
+import { FormControl as NgFormControl } from '@angular/forms';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { distinctUntilChanged, startWith } from 'rxjs/operators';
+import { ControlMethods } from './control-methods';
 import {
   AsyncValidatorFn,
   IAbstractControlOptions,
@@ -17,12 +10,9 @@ import {
   TControlValueState,
   ValidationErrors,
   ValidatorFn,
-  TAbstractControlParent
-} from "./types";
-import {
-  IAbstractControl,
-  IControlErrorRef
-} from "./abstractControl";
+  TAbstractControlParent,
+} from './types';
+import { IAbstractControl, IControlErrorRef } from './abstractControl';
 
 export class FormControl<
     GValue = any,

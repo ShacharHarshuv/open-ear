@@ -1,9 +1,9 @@
-import { Exercise } from "../../Exercise";
-import { chordInKeyExercise } from "./chordsInKeyExercise";
-import { allRomanNumeralAnswerList } from "../utility/exerciseAttributes/romanAnalysisChordProgressionExercise";
-import { testExercise } from "../testing-utility/test-exercise.spec";
-import { expectedVoicingSettingsDescriptors } from "../utility/exerciseAttributes/chordProgressionExercise.spec";
-import { expectedTonalExerciseSettingsDescriptors } from "../utility/exerciseAttributes/tonalExercise.spec";
+import { Exercise } from '../../Exercise';
+import { chordInKeyExercise } from './chordsInKeyExercise';
+import { allRomanNumeralAnswerList } from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
+import { testExercise } from '../testing-utility/test-exercise.spec';
+import { expectedVoicingSettingsDescriptors } from '../utility/exerciseAttributes/chordProgressionExercise.spec';
+import { expectedTonalExerciseSettingsDescriptors } from '../utility/exerciseAttributes/tonalExercise.spec';
 
 describe(chordInKeyExercise.name, () => {
   const context = testExercise({

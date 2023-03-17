@@ -1,15 +1,12 @@
-import { Note } from "tone/Tone/core/type/NoteUnits";
-import {
-  Chord,
-  ChordSymbol
-} from "./Chord/Chord";
-import { toNoteNumber } from "../notes/toNoteName";
-import * as _ from "lodash";
-import { NoteType } from "../notes/NoteType";
-import { noteTypeToNote } from "../notes/noteTypeToNote";
-import { transpose } from "../transpose";
-import { randomFromList } from "../../../../shared/ts-utility";
-import { Interval } from "../intervals/Interval";
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { Chord, ChordSymbol } from './Chord/Chord';
+import { toNoteNumber } from '../notes/toNoteName';
+import * as _ from 'lodash';
+import { NoteType } from '../notes/NoteType';
+import { noteTypeToNote } from '../notes/noteTypeToNote';
+import { transpose } from '../transpose';
+import { randomFromList } from '../../../../shared/ts-utility';
+import { Interval } from '../intervals/Interval';
 
 const MAX_AVG_VOICE_MOVEMENT = 8 / 3;
 

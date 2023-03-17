@@ -1,4 +1,4 @@
-import { toNumber } from "lodash";
+import { toNumber } from 'lodash';
 
 export function versionComparator(version1: string, version2: string): number {
   // negative if version1 < version2

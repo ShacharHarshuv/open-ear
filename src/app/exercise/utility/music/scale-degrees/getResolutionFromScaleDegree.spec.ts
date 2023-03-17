@@ -1,5 +1,5 @@
-import { testPureFunction } from "../../../../shared/testing-utility/testPureFunction";
-import { getResolutionFromScaleDegree } from "./getResolutionFromScaleDegree";
+import { testPureFunction } from '../../../../shared/testing-utility/testPureFunction';
+import { getResolutionFromScaleDegree } from './getResolutionFromScaleDegree';
 
 /**
  * General rules:

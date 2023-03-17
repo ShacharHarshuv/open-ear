@@ -1,12 +1,9 @@
-import {
-  Component,
-  Input
-} from "@angular/core";
+import { Component, Input } from '@angular/core';
 import {
   BaseControlValueAccessorComponent,
-  getNgValueAccessorProvider
-} from "../../../../../../shared/ts-utility";
-import { firstValueFrom } from "rxjs";
+  getNgValueAccessorProvider,
+} from '../../../../../../shared/ts-utility';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-list-select',

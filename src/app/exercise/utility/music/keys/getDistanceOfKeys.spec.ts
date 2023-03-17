@@ -1,4 +1,4 @@
-import { getDistanceOfKeys } from "./getDistanceOfKeys";
+import { getDistanceOfKeys } from './getDistanceOfKeys';
 
 describe('getDistanceOfKeys', () => {
   it('C to Db is 1 semitone', () => {

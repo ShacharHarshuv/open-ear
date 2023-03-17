@@ -1,5 +1,5 @@
-import { NoteNumberOrName } from "../notes/NoteNumberOrName";
-import { toNoteNumber } from "../notes/toNoteName";
+import { NoteNumberOrName } from '../notes/NoteNumberOrName';
+import { toNoteNumber } from '../notes/toNoteName';
 
 export function getInterval(
   note1: NoteNumberOrName,

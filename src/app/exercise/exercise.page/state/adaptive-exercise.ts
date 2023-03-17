@@ -1,5 +1,5 @@
-import { Exercise } from "../../Exercise";
-import Heap from "heap-js";
+import { Exercise } from '../../Exercise';
+import Heap from 'heap-js';
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 
 interface QuestionToRepeat {

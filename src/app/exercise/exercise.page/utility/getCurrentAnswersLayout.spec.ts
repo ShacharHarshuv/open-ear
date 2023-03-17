@@ -1,5 +1,5 @@
-import { getCurrentAnswersLayout } from "./getCurrentAnswersLayout";
-import { testPureFunction } from "../../../shared/testing-utility/testPureFunction";
+import { getCurrentAnswersLayout } from './getCurrentAnswersLayout';
+import { testPureFunction } from '../../../shared/testing-utility/testPureFunction';
 
 describe(getCurrentAnswersLayout.name, () => {
   testPureFunction(getCurrentAnswersLayout, [

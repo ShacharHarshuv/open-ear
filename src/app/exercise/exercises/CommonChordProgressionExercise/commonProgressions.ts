@@ -1,7 +1,4 @@
-import {
-  Mode,
-  RomanNumeralChordSymbol
-} from "../../utility";
+import { Mode, RomanNumeralChordSymbol } from '../../utility';
 
 export interface ProgressionDescriptor {
   romanNumerals: RomanNumeralChordSymbol[];

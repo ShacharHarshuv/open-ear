@@ -1,7 +1,7 @@
-import { Injectable } from "@angular/core";
-import * as Tone from "tone";
-import { Synth } from "tone";
-import { Note } from "tone/Tone/core/type/NoteUnits";
+import { Injectable } from '@angular/core';
+import * as Tone from 'tone';
+import { Synth } from 'tone';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
 
 @Injectable({
   providedIn: 'root',

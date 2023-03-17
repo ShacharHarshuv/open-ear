@@ -1,14 +1,10 @@
-import { NoteEvent } from "../services/player.service";
-import {
-  OneOrMany,
-  isValueTruthy,
-  StaticOrGetter
-} from "../shared/ts-utility";
-import { Note } from "tone/Tone/core/type/NoteUnits";
-import * as _ from "lodash";
-import { Type } from "@angular/core";
-import { Platforms } from "@ionic/core/dist/types/utils/platform";
-import { Key } from "./utility";
+import { NoteEvent } from '../services/player.service';
+import { OneOrMany, isValueTruthy, StaticOrGetter } from '../shared/ts-utility';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import * as _ from 'lodash';
+import { Type } from '@angular/core';
+import { Platforms } from '@ionic/core/dist/types/utils/platform';
+import { Key } from './utility';
 
 type PartToPlay = NoteEvent[] | OneOrMany<Note>;
 

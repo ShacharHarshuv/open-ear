@@ -1,6 +1,6 @@
-import { Component } from "@angular/core";
-import { VersionService } from "../version.service";
-import { ReleaseNotesService } from "./release-notes.service";
+import { Component } from '@angular/core';
+import { VersionService } from '../version.service';
+import { ReleaseNotesService } from './release-notes.service';
 
 @Component({
   selector: 'app-release-notes',

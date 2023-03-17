@@ -2,9 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  TemplateRef
-} from "@angular/core";
-import { Exercise } from "../../../Exercise";
+  TemplateRef,
+} from '@angular/core';
+import { Exercise } from '../../../Exercise';
 
 @Component({
   selector: 'app-answers-layout',

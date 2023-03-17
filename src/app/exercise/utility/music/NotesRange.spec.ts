@@ -1,6 +1,6 @@
-import { NotesRange } from "./NotesRange";
-import { toNoteNumber } from "./notes/toNoteName";
-import { Note } from "tone/Tone/core/type/NoteUnits";
+import { NotesRange } from './NotesRange';
+import { toNoteNumber } from './notes/toNoteName';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
 
 describe('Range', function () {
   it('range constructor', () => {

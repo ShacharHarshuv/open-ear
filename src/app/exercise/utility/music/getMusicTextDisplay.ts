@@ -1,4 +1,4 @@
-import { MusicSymbol } from "./MusicSymbol";
+import { MusicSymbol } from './MusicSymbol';
 
 export function toMusicalTextDisplay(text: string): string {
   return (

@@ -1,5 +1,5 @@
-import { Exercise } from "../../../Exercise";
-import { ScaleDegree } from "../../../utility";
+import { Exercise } from '../../../Exercise';
+import { ScaleDegree } from '../../../utility';
 
 export const scaleLayout: Exercise.AnswersLayout<ScaleDegree> = {
   rows: [

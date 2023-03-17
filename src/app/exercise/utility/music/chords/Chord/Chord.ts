@@ -1,15 +1,12 @@
-import { expandedScaleDegreeToChromaticDegree } from "../../scale-degrees";
-import { NoteType } from "../../notes/NoteType";
-import { transpose } from "../../transpose";
-import { Note } from "tone/Tone/core/type/NoteUnits";
-import { noteTypeToNote } from "../../notes/noteTypeToNote";
-import * as _ from "lodash";
-import { getNoteOctave } from "../../notes/getNoteOctave";
-import { Interval } from "../../intervals/Interval";
-import {
-  ChordType,
-  chordTypeConfigMap
-} from "./ChordType";
+import { expandedScaleDegreeToChromaticDegree } from '../../scale-degrees';
+import { NoteType } from '../../notes/NoteType';
+import { transpose } from '../../transpose';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { noteTypeToNote } from '../../notes/noteTypeToNote';
+import * as _ from 'lodash';
+import { getNoteOctave } from '../../notes/getNoteOctave';
+import { Interval } from '../../intervals/Interval';
+import { ChordType, chordTypeConfigMap } from './ChordType';
 
 export type ChordSymbol = `${NoteType}${Exclude<ChordType, 'M'> | ''}`;
 

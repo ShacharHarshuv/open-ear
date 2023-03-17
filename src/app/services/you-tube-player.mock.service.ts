@@ -1,9 +1,9 @@
-import { PublicMembers } from "../shared/ts-utility/PublicMembers";
+import { PublicMembers } from '../shared/ts-utility/PublicMembers';
 import {
   YouTubeCallbackDescriptor,
-  YouTubePlayerService
-} from "./you-tube-player.service";
-import { Provider } from "@angular/core";
+  YouTubePlayerService,
+} from './you-tube-player.service';
+import { Provider } from '@angular/core';
 
 export class YouTubePlayerMockService
   implements PublicMembers<YouTubePlayerService>

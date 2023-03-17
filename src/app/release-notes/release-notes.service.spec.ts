@@ -1,17 +1,14 @@
-import { TestBed } from "@angular/core/testing";
-import { ReleaseNotesService } from "./release-notes.service";
-import { VersionServiceMock } from "../version.service.mock";
-import {
-  RELEASE_NOTES_TOKEN,
-  ReleaseNotes
-} from "./release-notes";
-import { Subscription } from "rxjs";
+import { TestBed } from '@angular/core/testing';
+import { ReleaseNotesService } from './release-notes.service';
+import { VersionServiceMock } from '../version.service.mock';
+import { RELEASE_NOTES_TOKEN, ReleaseNotes } from './release-notes';
+import { Subscription } from 'rxjs';
 import {
   BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting
-} from "@angular/platform-browser-dynamic/testing";
-import { timeoutAsPromise } from "../shared/ts-utility";
-import { Storage } from "@ionic/storage-angular";
+  platformBrowserDynamicTesting,
+} from '@angular/platform-browser-dynamic/testing';
+import { timeoutAsPromise } from '../shared/ts-utility';
+import { Storage } from '@ionic/storage-angular';
 
 describe('ReleaseNotesService', function () {
   let releaseNotesService: ReleaseNotesService;

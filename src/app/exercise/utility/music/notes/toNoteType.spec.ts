@@ -1,4 +1,4 @@
-import { getNoteType } from "./getNoteType";
+import { getNoteType } from './getNoteType';
 
 describe('toNoteType', function () {
   it('C4 is a C note', () => {

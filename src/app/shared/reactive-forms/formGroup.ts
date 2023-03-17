@@ -1,14 +1,7 @@
-import { FormGroup as NgFormGroup } from "@angular/forms";
-import {
-  Observable,
-  Subject,
-  Subscription
-} from "rxjs";
-import {
-  distinctUntilChanged,
-  startWith
-} from "rxjs/operators";
-import { ControlMethods } from "./control-methods";
+import { FormGroup as NgFormGroup } from '@angular/forms';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { distinctUntilChanged, startWith } from 'rxjs/operators';
+import { ControlMethods } from './control-methods';
 import {
   AsyncValidatorFn,
   IAbstractControlOptions,
@@ -19,14 +12,14 @@ import {
   TControlValueState,
   ValidationErrors,
   ValidatorFn,
-  TAbstractControlParent
-} from "./types";
+  TAbstractControlParent,
+} from './types';
 import {
   IAbstractControl,
   IControlErrorRef,
-  IControlsParent
-} from "./abstractControl";
-import * as _ from "lodash";
+  IControlsParent,
+} from './abstractControl';
+import * as _ from 'lodash';
 
 export class FormGroup<
     GControlsOrValue extends { [p: string]: any } = { [p: string]: any },

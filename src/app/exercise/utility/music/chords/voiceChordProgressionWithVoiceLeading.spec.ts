@@ -1,8 +1,8 @@
-import { voiceChordProgressionWithVoiceLeading } from "./voiceChordProgressionWithVoiceLeading";
-import { ChordSymbol } from "./Chord/Chord";
-import { Note } from "tone/Tone/core/type/NoteUnits";
-import { toNoteNumber } from "../notes/toNoteName";
-import * as _ from "lodash";
+import { voiceChordProgressionWithVoiceLeading } from './voiceChordProgressionWithVoiceLeading';
+import { ChordSymbol } from './Chord/Chord';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { toNoteNumber } from '../notes/toNoteName';
+import * as _ from 'lodash';
 import Spy = jasmine.Spy;
 
 describe('voiceChordProgressionWithVoiceLeading', function () {

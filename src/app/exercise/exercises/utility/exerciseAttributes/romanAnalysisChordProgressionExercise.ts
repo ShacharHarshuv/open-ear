@@ -2,33 +2,27 @@ import {
   ChordProgressionExerciseSettings,
   ChordProgressionQuestion,
   chordProgressionExercise,
-  ChordProgressionExerciseConfig
-} from "./chordProgressionExercise";
-import {
-  Chord,
-  TriadInversion
-} from "../../../utility/music/chords";
-import * as _ from "lodash";
-import { Note } from "tone/Tone/core/type/NoteUnits";
-import { PlayAfterCorrectAnswerSetting } from "../settings/PlayAfterCorrectAnswerSetting";
-import { Exercise } from "../../../Exercise";
+  ChordProgressionExerciseConfig,
+} from './chordProgressionExercise';
+import { Chord, TriadInversion } from '../../../utility/music/chords';
+import * as _ from 'lodash';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { PlayAfterCorrectAnswerSetting } from '../settings/PlayAfterCorrectAnswerSetting';
+import { Exercise } from '../../../Exercise';
 import {
   Interval,
   RomanNumeralChordSymbol,
   toArray,
   toNoteNumber,
-  toSteadyPart
-} from "../../../utility";
-import { transpose } from "../../../utility/music/transpose";
-import { NoteEvent } from "../../../../services/player.service";
-import { RomanNumeralChord } from "../../../utility/music/harmony/RomanNumeralChord";
-import {
-  TonalExerciseSettings,
-  tonalExercise
-} from "./tonalExercise";
-import { composeExercise } from "./composeExercise";
-import { withSettings } from "../settings/withSettings";
-import { romanNumeralToChordInC } from "../../../utility/music/harmony/romanNumeralToChordInC";
+  toSteadyPart,
+} from '../../../utility';
+import { transpose } from '../../../utility/music/transpose';
+import { NoteEvent } from '../../../../services/player.service';
+import { RomanNumeralChord } from '../../../utility/music/harmony/RomanNumeralChord';
+import { TonalExerciseSettings, tonalExercise } from './tonalExercise';
+import { composeExercise } from './composeExercise';
+import { withSettings } from '../settings/withSettings';
+import { romanNumeralToChordInC } from '../../../utility/music/harmony/romanNumeralToChordInC';
 
 export type RomanAnalysisChordProgressionExerciseSettings =
   TonalExerciseSettings &

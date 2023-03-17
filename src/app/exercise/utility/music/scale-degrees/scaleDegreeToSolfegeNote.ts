@@ -1,6 +1,6 @@
-import { SolfegeNote } from "./SolfegeNote";
-import { ScaleDegree } from "./ScaleDegrees";
-import * as _ from "lodash";
+import { SolfegeNote } from './SolfegeNote';
+import { ScaleDegree } from './ScaleDegrees';
+import * as _ from 'lodash';
 
 export const scaleDegreeToSolfegeNote: Record<ScaleDegree, SolfegeNote> = {
   '1': 'Do',

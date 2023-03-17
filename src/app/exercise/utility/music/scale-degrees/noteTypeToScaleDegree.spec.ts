@@ -1,5 +1,5 @@
-import { testPureFunction } from "../../../../shared/testing-utility/testPureFunction";
-import { noteTypeToScaleDegree } from "./noteTypeToScaleDegree";
+import { testPureFunction } from '../../../../shared/testing-utility/testPureFunction';
+import { noteTypeToScaleDegree } from './noteTypeToScaleDegree';
 
 describe('noteTypeToScaleDegree', function () {
   testPureFunction(noteTypeToScaleDegree, [

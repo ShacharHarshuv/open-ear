@@ -1,27 +1,13 @@
-import {
-  Inject,
-  Injectable
-} from "@angular/core";
-import {
-  Observable,
-  of,
-  Subject
-} from "rxjs";
-import { VersionService } from "../version.service";
-import {
-  map,
-  startWith,
-  switchMap
-} from "rxjs/operators";
-import { toObservable } from "../shared/ts-utility";
-import {
-  RELEASE_NOTES_TOKEN,
-  ReleaseNotes
-} from "./release-notes";
-import * as _ from "lodash";
-import { toPromise } from "../shared/ts-utility/rxjs/toPromise";
-import { versionComparator } from "./version-comparator";
-import { StorageService } from "../storage/storage.service";
+import { Inject, Injectable } from '@angular/core';
+import { Observable, of, Subject } from 'rxjs';
+import { VersionService } from '../version.service';
+import { map, startWith, switchMap } from 'rxjs/operators';
+import { toObservable } from '../shared/ts-utility';
+import { RELEASE_NOTES_TOKEN, ReleaseNotes } from './release-notes';
+import * as _ from 'lodash';
+import { toPromise } from '../shared/ts-utility/rxjs/toPromise';
+import { versionComparator } from './version-comparator';
+import { StorageService } from '../storage/storage.service';
 
 @Injectable({
   providedIn: 'root',

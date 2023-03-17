@@ -1,7 +1,7 @@
-import { Note } from "tone/Tone/core/type/NoteUnits";
-import { NoteType } from "./NoteType";
-import { getNoteType } from "./getNoteType";
-import { toNoteTypeNumber } from "./toNoteTypeNumber";
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { NoteType } from './NoteType';
+import { getNoteType } from './getNoteType';
+import { toNoteTypeNumber } from './toNoteTypeNumber';
 
 export function noteOfType(
   noteType: NoteType

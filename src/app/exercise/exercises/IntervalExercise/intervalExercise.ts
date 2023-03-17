@@ -1,24 +1,24 @@
-import * as _ from "lodash";
-import { Exercise } from "../../Exercise";
+import * as _ from 'lodash';
+import { Exercise } from '../../Exercise';
 import {
   randomFromList,
   toNoteName,
   toArray,
   toNoteNumber,
   DeepReadonly,
-  NotesRange
-} from "../../utility";
-import { NoteNumber } from "../../utility/music/notes/NoteNumberOrName";
-import { IntervalExerciseExplanationComponent } from "./interval-exercise-explanation/interval-exercise-explanation.component";
-import { NoteEvent } from "../../../services/player.service";
-import { Note } from "tone/Tone/core/type/NoteUnits";
-import { transpose } from "../../utility/music/transpose";
-import { createExercise } from "../utility/exerciseAttributes/createExercise";
+  NotesRange,
+} from '../../utility';
+import { NoteNumber } from '../../utility/music/notes/NoteNumberOrName';
+import { IntervalExerciseExplanationComponent } from './interval-exercise-explanation/interval-exercise-explanation.component';
+import { NoteEvent } from '../../../services/player.service';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { transpose } from '../../utility/music/transpose';
+import { createExercise } from '../utility/exerciseAttributes/createExercise';
 import {
   IncludedAnswersSettings,
-  includedAnswersSettings
-} from "../utility/settings/IncludedAnswersSettings";
-import { composeExercise } from "../utility/exerciseAttributes/composeExercise";
+  includedAnswersSettings,
+} from '../utility/settings/IncludedAnswersSettings';
+import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
 import AnswerList = Exercise.AnswerList;
 
 export type IntervalName =

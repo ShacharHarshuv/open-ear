@@ -1,10 +1,10 @@
-import { Exercise } from "./Exercise";
+import { Exercise } from './Exercise';
 import {
   PlayerService,
   PartToPlay,
-  NoteEvent
-} from "../services/player.service";
-import { createExercise } from "./exercises/utility/exerciseAttributes/createExercise";
+  NoteEvent,
+} from '../services/player.service';
+import { createExercise } from './exercises/utility/exerciseAttributes/createExercise';
 import MatchableArgs = jasmine.MatchableArgs;
 
 export namespace MockExercise {

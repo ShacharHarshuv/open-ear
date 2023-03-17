@@ -1,11 +1,11 @@
-import { Component } from "@angular/core";
-import { NoteEvent } from "../../../../services/player.service";
+import { Component } from '@angular/core';
+import { NoteEvent } from '../../../../services/player.service';
 import {
   Chord,
   ChordSymbol,
   IV_V_I_CADENCE_IN_C,
-  TriadInversion
-} from "../../../utility/music/chords";
+  TriadInversion,
+} from '../../../utility/music/chords';
 
 @Component({
   selector: 'app-chord-in-key-explanation',

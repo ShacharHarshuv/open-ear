@@ -1,5 +1,5 @@
-import { AbstractControl as NgAbstractControl } from "@angular/forms";
-import { Observable } from "rxjs";
+import { AbstractControl as NgAbstractControl } from '@angular/forms';
+import { Observable } from 'rxjs';
 import {
   AsyncValidatorFn,
   IControlUpdateOptions,
@@ -7,8 +7,8 @@ import {
   TControlValueState,
   ValidationErrors,
   ValidatorFn,
-  TAbstractControlParent
-} from "./types";
+  TAbstractControlParent,
+} from './types';
 
 export interface IControlErrorRef<
   GErrors extends ValidationErrors = ValidationErrors

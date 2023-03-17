@@ -2,26 +2,23 @@ import {
   RomanAnalysisChordProgressionExerciseSettings,
   RomanNumeralsChordProgressionQuestion,
   romanAnalysisChordProgressionExercise,
-  allRomanNumeralAnswerList
-} from "../utility/exerciseAttributes/romanAnalysisChordProgressionExercise";
-import { Exercise } from "../../Exercise";
-import { randomFromList } from "../../../shared/ts-utility";
-import * as _ from "lodash";
-import { CommonChordProgressionsExplanationComponent } from "./common-chord-progressions-explanation/common-chord-progressions-explanation.component";
-import {
-  RomanNumeralChordSymbol,
-  Mode
-} from "../../utility";
-import { toMusicalTextDisplay } from "../../utility/music/getMusicTextDisplay";
-import { RomanNumeralChord } from "../../utility/music/harmony/RomanNumeralChord";
-import { composeExercise } from "../utility/exerciseAttributes/composeExercise";
-import { chordVoicingSettings } from "../utility/exerciseAttributes/chordProgressionExercise";
-import { createExercise } from "../utility/exerciseAttributes/createExercise";
+  allRomanNumeralAnswerList,
+} from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
+import { Exercise } from '../../Exercise';
+import { randomFromList } from '../../../shared/ts-utility';
+import * as _ from 'lodash';
+import { CommonChordProgressionsExplanationComponent } from './common-chord-progressions-explanation/common-chord-progressions-explanation.component';
+import { RomanNumeralChordSymbol, Mode } from '../../utility';
+import { toMusicalTextDisplay } from '../../utility/music/getMusicTextDisplay';
+import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
+import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
+import { chordVoicingSettings } from '../utility/exerciseAttributes/chordProgressionExercise';
+import { createExercise } from '../utility/exerciseAttributes/createExercise';
 import {
   ProgressionDescriptor,
-  commonProgressionDescriptorList
-} from "./commonProgressions";
-import { withSettings } from "../utility/settings/withSettings";
+  commonProgressionDescriptorList,
+} from './commonProgressions';
+import { withSettings } from '../utility/settings/withSettings';
 
 type CommonChordProgressionExerciseSettings =
   RomanAnalysisChordProgressionExerciseSettings & {

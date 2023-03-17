@@ -1,22 +1,14 @@
-import { Injectable } from "@angular/core";
-import * as Tone from "tone";
-import {
-  Sampler,
-  Part,
-  Transport
-} from "tone";
-import * as _ from "lodash";
-import { Subject } from "rxjs";
-import { take } from "rxjs/operators";
-import {
-  NormalRange,
-  Time,
-  Seconds
-} from "tone/Tone/core/type/Units";
-import { Note } from "tone/Tone/core/type/NoteUnits";
-import { NoteType } from "../exercise/utility/music/notes/NoteType";
-import { noteTypeToNote } from "../exercise/utility/music/notes/noteTypeToNote";
-import { timeoutAsPromise } from "../shared/ts-utility";
+import { Injectable } from '@angular/core';
+import * as Tone from 'tone';
+import { Sampler, Part, Transport } from 'tone';
+import * as _ from 'lodash';
+import { Subject } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { NormalRange, Time, Seconds } from 'tone/Tone/core/type/Units';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { NoteType } from '../exercise/utility/music/notes/NoteType';
+import { noteTypeToNote } from '../exercise/utility/music/notes/noteTypeToNote';
+import { timeoutAsPromise } from '../shared/ts-utility';
 
 const DEFAULT_VELOCITY: number = 0.7;
 

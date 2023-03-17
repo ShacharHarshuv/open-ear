@@ -1,5 +1,5 @@
-import { NgModule } from "@angular/core";
-import { StorageMigrationServiceMock } from "./storage-migration.service.mock";
+import { NgModule } from '@angular/core';
+import { StorageMigrationServiceMock } from './storage-migration.service.mock';
 
 @NgModule({
   providers: [...StorageMigrationServiceMock.providers],

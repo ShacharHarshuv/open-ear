@@ -1,8 +1,5 @@
-import { NoteEvent } from "../../../../services/player.service";
-import {
-  Chord,
-  TriadInversion
-} from "./Chord/Chord";
+import { NoteEvent } from '../../../../services/player.service';
+import { Chord, TriadInversion } from './Chord/Chord';
 
 export const IV_V_I_CADENCE_IN_C: NoteEvent[] = [
   {

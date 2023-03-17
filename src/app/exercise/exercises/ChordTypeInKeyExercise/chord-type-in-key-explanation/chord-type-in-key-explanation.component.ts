@@ -1,12 +1,12 @@
-import { Component } from "@angular/core";
-import { Chord } from "../../../utility/music/chords";
-import { OneOrMany } from "../../../../shared/ts-utility";
-import { NoteNumberOrName } from "../../../utility/music/notes/NoteNumberOrName";
-import { NoteEvent } from "../../../../services/player.service";
-import { Exercise } from "../../../Exercise";
-import { chordTypeConfigMap } from "../../../utility/music/chords/Chord/ChordType";
-import { chordTypeAnswerList } from "../chordTypeInKeyExercise";
-import { mod } from "../../../../shared/ts-utility/mod";
+import { Component } from '@angular/core';
+import { Chord } from '../../../utility/music/chords';
+import { OneOrMany } from '../../../../shared/ts-utility';
+import { NoteNumberOrName } from '../../../utility/music/notes/NoteNumberOrName';
+import { NoteEvent } from '../../../../services/player.service';
+import { Exercise } from '../../../Exercise';
+import { chordTypeConfigMap } from '../../../utility/music/chords/Chord/ChordType';
+import { chordTypeAnswerList } from '../chordTypeInKeyExercise';
+import { mod } from '../../../../shared/ts-utility/mod';
 
 @Component({
   selector: 'app-chord-type-in-key-explanation',

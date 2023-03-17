@@ -1,17 +1,13 @@
-import {
-  TestBed,
-  fakeAsync,
-  flush
-} from "@angular/core/testing";
-import { ExerciseStateService } from "./exercise-state.service";
-import { RouterTestingModule } from "@angular/router/testing";
-import { PlayerMockService } from "../../../services/player.mock.service";
-import { YouTubePlayerMockService } from "../../../services/you-tube-player.mock.service";
-import { ExerciseMockService } from "../../exercise.mock.service";
-import { ExerciseSettingsDataMockService } from "../../../services/exercise-settings-data.mock.service";
-import { AdaptiveExerciseMockService } from "./adaptive-exercise.mock.service";
-import { noteTypeToNote } from "../../utility/music/notes/noteTypeToNote";
-import { NoteType } from "../../utility/music/notes/NoteType";
+import { TestBed, fakeAsync, flush } from '@angular/core/testing';
+import { ExerciseStateService } from './exercise-state.service';
+import { RouterTestingModule } from '@angular/router/testing';
+import { PlayerMockService } from '../../../services/player.mock.service';
+import { YouTubePlayerMockService } from '../../../services/you-tube-player.mock.service';
+import { ExerciseMockService } from '../../exercise.mock.service';
+import { ExerciseSettingsDataMockService } from '../../../services/exercise-settings-data.mock.service';
+import { AdaptiveExerciseMockService } from './adaptive-exercise.mock.service';
+import { noteTypeToNote } from '../../utility/music/notes/noteTypeToNote';
+import { NoteType } from '../../utility/music/notes/NoteType';
 
 describe('ExerciseStateService', function () {
   let exerciseStateService: ExerciseStateService;

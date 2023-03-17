@@ -1,4 +1,4 @@
-import { versionComparator } from "./version-comparator";
+import { versionComparator } from './version-comparator';
 
 describe('versionComparator', () => {
   it('1.0.0 and 1.0.0 are equal', () => {

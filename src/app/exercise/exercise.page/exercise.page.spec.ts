@@ -1,28 +1,21 @@
-import { ExercisePage } from "./exercise.page";
-import { RouterTestingModule } from "@angular/router/testing";
-import { ExerciseSettingsDataMockService } from "../../services/exercise-settings-data.mock.service";
-import { ExerciseMockService } from "../exercise.mock.service";
-import { ModalModule } from "../../shared/modal/modal.module";
-import { MockExercise } from "../MockExercise";
-import { SharedComponentsModule } from "../../shared/components/shared-components/shared-components.module";
-import {
-  fakeAsync,
-  flush,
-  TestBed
-} from "@angular/core/testing";
-import { ActivatedRoute } from "@angular/router";
-import { ExerciseService } from "../exercise.service";
-import { timeoutAsPromise } from "../../shared/ts-utility";
-import { PlayerMockService } from "../../services/player.mock.service";
-import { ExerciseModule } from "../exercise.module";
-import {
-  NoteEvent,
-  PlayerService
-} from "../../services/player.service";
-import { ExercisePageDebugger } from "./exerice.page.debugger.spec";
-import { TestingUtility } from "../../shared/testing-utility";
-import { YouTubePlayerMockService } from "../../services/you-tube-player.mock.service";
-import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+import { ExercisePage } from './exercise.page';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ExerciseSettingsDataMockService } from '../../services/exercise-settings-data.mock.service';
+import { ExerciseMockService } from '../exercise.mock.service';
+import { ModalModule } from '../../shared/modal/modal.module';
+import { MockExercise } from '../MockExercise';
+import { SharedComponentsModule } from '../../shared/components/shared-components/shared-components.module';
+import { fakeAsync, flush, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
+import { ExerciseService } from '../exercise.service';
+import { timeoutAsPromise } from '../../shared/ts-utility';
+import { PlayerMockService } from '../../services/player.mock.service';
+import { ExerciseModule } from '../exercise.module';
+import { NoteEvent, PlayerService } from '../../services/player.service';
+import { ExercisePageDebugger } from './exerice.page.debugger.spec';
+import { TestingUtility } from '../../shared/testing-utility';
+import { YouTubePlayerMockService } from '../../services/you-tube-player.mock.service';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ExercisePage', () => {
   const spies: jasmine.Spy[] = [];

@@ -5,10 +5,10 @@ import {
   keyframes,
   state,
   style,
-  transition
-} from "@angular/animations";
-import * as CSS from "csstype";
-import * as _ from "lodash";
+  transition,
+} from '@angular/animations';
+import * as CSS from 'csstype';
+import * as _ from 'lodash';
 
 function reverseSteps(
   steps: AnimationStyleMetadata[]

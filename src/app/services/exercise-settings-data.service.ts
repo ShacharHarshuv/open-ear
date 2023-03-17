@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
-import { ExerciseSettingsData } from "../exercise/utility";
-import { StorageService } from "../storage/storage.service";
+import { Injectable } from '@angular/core';
+import { ExerciseSettingsData } from '../exercise/utility';
+import { StorageService } from '../storage/storage.service';
 
 @Injectable({
   providedIn: 'root',

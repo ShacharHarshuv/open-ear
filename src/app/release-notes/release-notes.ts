@@ -1,5 +1,5 @@
-import { InjectionToken } from "@angular/core";
-import { OneOrMany } from "../shared/ts-utility";
+import { InjectionToken } from '@angular/core';
+import { OneOrMany } from '../shared/ts-utility';
 
 export const RELEASE_NOTES_TOKEN: InjectionToken<ReleaseNotes> =
   new InjectionToken('Release Notes');

@@ -1,10 +1,10 @@
 import {
   ChordTypeInKeySettings,
-  chordTypeExercise
-} from "./chordTypeInKeyExercise";
-import { testExercise } from "../testing-utility/test-exercise.spec";
-import { expectedVoicingSettingsDescriptors } from "../utility/exerciseAttributes/chordProgressionExercise.spec";
-import { defaultTonalExerciseSettings } from "../utility/exerciseAttributes/tonalExercise.spec";
+  chordTypeExercise,
+} from './chordTypeInKeyExercise';
+import { testExercise } from '../testing-utility/test-exercise.spec';
+import { expectedVoicingSettingsDescriptors } from '../utility/exerciseAttributes/chordProgressionExercise.spec';
+import { defaultTonalExerciseSettings } from '../utility/exerciseAttributes/tonalExercise.spec';
 
 describe(chordTypeExercise.name, () => {
   const context = testExercise<ChordTypeInKeySettings>({
