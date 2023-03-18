@@ -254,9 +254,7 @@ export function tonalExercise<
         const answerListInC: Exercise.AnswerList<GAnswer> = toGetter(
           params.answerList
         )(settings);
-        const answerLayout: Exercise.NormalizedAnswerLayout<GAnswer> =
-          Exercise.normalizedAnswerList(answerListInC);
-        return Exercise.mapAnswerList(answerLayout, (answerConfig) => ({
+        return Exercise.mapAnswerList(answerListInC, (answerConfig) => ({
           ...answerConfig,
           playOnClick: answerConfig.playOnClick
             ? (question: Exercise.Question<GAnswer>) => {

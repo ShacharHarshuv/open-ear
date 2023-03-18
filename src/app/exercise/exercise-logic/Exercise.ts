@@ -83,16 +83,38 @@ export interface AnswerConfig<GAnswer extends string> {
   space?: number; // 1 (Default) means all cells takes the same space
 }
 
+export type AnswersLayoutCell<GAnswer extends string = string> =
+  | Answer<GAnswer>
+  | null
+  | AnswerConfig<GAnswer>
+  | AnswerList<GAnswer>;
+
+export type AnswerLayoutRow<GAnswer extends string = string> =
+  | AnswersLayoutCell<GAnswer>[]
+  | string;
+
 export interface AnswersLayout<GAnswer extends string = string> {
   /**
    * Null means an empty space
    * */
-  rows: ((Answer<GAnswer> | null | AnswerConfig<GAnswer>)[] | string)[];
+  rows: AnswerLayoutRow<GAnswer>[];
 }
 
 export interface NormalizedAnswerLayout<GAnswer extends string = string>
   extends Required<AnswersLayout<GAnswer>> {
-  rows: (Required<AnswerConfig<GAnswer>>[] | string)[];
+  rows: (
+    | Required<AnswerConfig<GAnswer> | NormalizedAnswerLayout<GAnswer>>[]
+    | string
+  )[];
+}
+
+function isSingleAnswer<GAnswer extends string>(
+  cell: AnswersLayoutCell<GAnswer>
+): cell is Answer<GAnswer> | null | AnswerConfig<GAnswer> {
+  return (
+    !Array.isArray(cell) &&
+    (typeof cell !== 'object' || !cell || !('rows' in cell))
+  );
 }
 
 export function normalizedAnswerList<GAnswer extends string = string>(
@@ -109,7 +131,11 @@ export function normalizedAnswerList<GAnswer extends string = string>(
       if (typeof row === 'string') {
         return row;
       } else {
-        return row.map((answerConfig) => normalizeAnswerConfig(answerConfig));
+        return row.map((cell) =>
+          isSingleAnswer(cell)
+            ? normalizeAnswerConfig(cell)
+            : normalizedAnswerList(cell)
+        );
       }
     }),
   };
@@ -189,9 +215,13 @@ export function* getAnswerListIterator<GAnswer extends string>(
         continue;
       }
       for (let cell of row) {
-        const normalizedAnswerConfig = normalizeAnswerConfig(cell);
-        if (normalizedAnswerConfig.answer) {
-          yield normalizedAnswerConfig;
+        if (isSingleAnswer(cell)) {
+          const normalizedAnswerConfig = normalizeAnswerConfig(cell);
+          if (normalizedAnswerConfig.answer) {
+            yield normalizedAnswerConfig;
+          }
+        } else {
+          yield* getAnswerListIterator(cell);
         }
       }
     }
@@ -207,15 +237,28 @@ export function mapAnswerList<
     answerConfig: AnswerConfig<GInputAnswer>
   ) => AnswerConfig<GOutputAnswer>
 ): AnswerList<GOutputAnswer> {
+  if (typeof answerList === 'object' && !Array.isArray(answerList)) {
+    console.log('answerList', answerList); // todo
+    return {
+      rows: (answerList as AnswersLayout<GInputAnswer>).rows.map(
+        (row): AnswerLayoutRow<GOutputAnswer> =>
+          typeof row === 'string' ? row : mapAnswerCellList(row)
+      ),
+    };
+  } else {
+    // @ts-ignore // todo?
+    return mapAnswerCellList(answerList);
+  }
+
   function mapAnswerCellList(
-    answerCellList: (Answer<GInputAnswer> | AnswerConfig<GInputAnswer>)[]
-  ): (Answer<GOutputAnswer> | AnswerConfig<GOutputAnswer>)[];
+    answerCellList: Exclude<AnswersLayoutCell<GInputAnswer>, null>[]
+  ): Exclude<AnswersLayoutCell<GOutputAnswer>, null>[];
   function mapAnswerCellList(
-    answerCellList: (Answer<GInputAnswer> | AnswerConfig<GInputAnswer> | null)[]
-  ): (Answer<GOutputAnswer> | AnswerConfig<GOutputAnswer> | null)[];
+    answerCellList: AnswersLayoutCell<GInputAnswer>[]
+  ): AnswersLayoutCell<GOutputAnswer>[];
   function mapAnswerCellList(
-    answerCellList: (Answer<GInputAnswer> | AnswerConfig<GInputAnswer> | null)[]
-  ): (Answer<GOutputAnswer> | AnswerConfig<GOutputAnswer> | null)[] {
+    answerCellList: AnswersLayoutCell<GInputAnswer>[]
+  ): AnswersLayoutCell<GOutputAnswer>[] {
     return _.map(answerCellList, (answerCell) => {
       if (!answerCell) {
         return null;
@@ -223,20 +266,12 @@ export function mapAnswerList<
         return callback({
           answer: answerCell,
         });
-      } else {
+      } else if (isSingleAnswer(answerCell)) {
         return callback(answerCell);
+      } else {
+        return mapAnswerList(answerCell, callback);
       }
     });
-  }
-
-  if (typeof answerList === 'object') {
-    return {
-      rows: (answerList as AnswersLayout<GInputAnswer>).rows.map((row) =>
-        typeof row === 'string' ? row : mapAnswerCellList(row)
-      ),
-    };
-  } else {
-    return mapAnswerCellList(answerList);
   }
 }
 
