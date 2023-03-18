@@ -4,6 +4,8 @@ import {
   addViewLabelToAnswerList,
   getAnswerListIterator,
   flatAnswerList,
+  filterIncludedAnswers,
+  normalizedAnswerList,
 } from './Exercise';
 import { testPureFunction } from '../../shared/testing-utility/testPureFunction';
 
@@ -16,7 +18,10 @@ const mockAnswerList: AnswerList = {
         answer: 'Answer 3',
         space: 2,
       },
-      ['Answer 4.1', 'Answer 4.2'],
+      {
+        displayLabel: 'Answer 4',
+        innerAnswersList: ['Answer 4.1', 'Answer 4.2'],
+      },
     ],
   ],
 };
@@ -46,16 +51,19 @@ describe('mapAnswerList', function () {
               answer: 'Answer 3',
               space: 4,
             },
-            [
-              {
-                answer: 'Answer 4.1',
-                space: 2,
-              },
-              {
-                answer: 'Answer 4.2',
-                space: 2,
-              },
-            ],
+            {
+              displayLabel: 'Answer 4',
+              innerAnswersList: [
+                {
+                  answer: 'Answer 4.1',
+                  space: 2,
+                },
+                {
+                  answer: 'Answer 4.2',
+                  space: 2,
+                },
+              ],
+            },
           ],
         ],
       },
@@ -83,16 +91,19 @@ describe('addViewLabelToAnswerList', function () {
               displayLabel: 'ANSWER 3',
               space: 2,
             },
-            [
-              {
-                answer: 'Answer 4.1',
-                displayLabel: 'ANSWER 4.1',
-              },
-              {
-                answer: 'Answer 4.2',
-                displayLabel: 'ANSWER 4.2',
-              },
-            ],
+            {
+              displayLabel: 'Answer 4',
+              innerAnswersList: [
+                {
+                  answer: 'Answer 4.1',
+                  displayLabel: 'ANSWER 4.1',
+                },
+                {
+                  answer: 'Answer 4.2',
+                  displayLabel: 'ANSWER 4.2',
+                },
+              ],
+            },
           ],
         ],
       },
@@ -145,4 +156,37 @@ describe('flatAnswerList', () => {
       ],
     },
   ]);
+});
+
+describe('filterIncludedAnswers', () => {
+  testPureFunction(
+    (allAnswerList: AnswerList<string>, includedAnswersList: string[]) =>
+      // normalizing to make it easier to test
+      normalizedAnswerList(
+        filterIncludedAnswers(allAnswerList, includedAnswersList)
+      ),
+    [
+      {
+        args: [mockAnswerList, ['Answer 1', 'Answer 3', 'Answer 4.2']],
+        returnValue: {
+          rows: [
+            [
+              jasmine.objectContaining({
+                answer: 'Answer 1',
+              }),
+              jasmine.objectContaining({
+                answer: null,
+              }),
+              jasmine.objectContaining({
+                answer: 'Answer 3',
+              }),
+              jasmine.objectContaining({
+                answer: 'Answer 4.2',
+              }),
+            ],
+          ],
+        },
+      },
+    ]
+  );
 });

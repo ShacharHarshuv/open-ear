@@ -76,18 +76,31 @@ export type Question<GAnswer extends string = string> =
 
 export type Answer<GAnswer extends string = string> = GAnswer;
 
-export interface AnswerConfig<GAnswer extends string> {
+export type AnswerConfig<GAnswer extends string> = CellConfig & {
   answer: Answer<GAnswer> | null;
-  displayLabel?: string;
   playOnClick?: StaticOrGetter<PartToPlay | null, [Question<GAnswer>]>;
-  space?: number; // 1 (Default) means all cells takes the same space
+};
+
+type CellConfig = {
+  displayLabel?: string;
+  space?: number;
+};
+
+export type MultiAnswerCell<GAnswer extends string = string> = CellConfig & {
+  innerAnswersList: AnswerList<GAnswer>;
+};
+
+function isMultiAnswerCell<GAnswer extends string>(
+  cell: AnswersLayoutCell<GAnswer>
+): cell is MultiAnswerCell<GAnswer> {
+  return !!cell && typeof cell === 'object' && 'innerAnswersList' in cell;
 }
 
 export type AnswersLayoutCell<GAnswer extends string = string> =
   | Answer<GAnswer>
   | null
   | AnswerConfig<GAnswer>
-  | AnswerList<GAnswer>;
+  | MultiAnswerCell<GAnswer>;
 
 export type AnswerLayoutRow<GAnswer extends string = string> =
   | AnswersLayoutCell<GAnswer>[]
@@ -103,7 +116,7 @@ export interface AnswersLayout<GAnswer extends string = string> {
 export interface NormalizedAnswerLayout<GAnswer extends string = string>
   extends Required<AnswersLayout<GAnswer>> {
   rows: (
-    | Required<AnswerConfig<GAnswer> | NormalizedAnswerLayout<GAnswer>>[]
+    | Required<AnswerConfig<GAnswer> | MultiAnswerCell<GAnswer>>[]
     | string
   )[];
 }
@@ -131,10 +144,27 @@ export function normalizedAnswerList<GAnswer extends string = string>(
       if (typeof row === 'string') {
         return row;
       } else {
-        return row.map((cell) =>
-          isSingleAnswer(cell)
-            ? normalizeAnswerConfig(cell)
-            : normalizedAnswerList(cell)
+        return row.map(
+          (
+            cell
+          ): Required<MultiAnswerCell<GAnswer> | AnswerConfig<GAnswer>> => {
+            if (isMultiAnswerCell(cell)) {
+              const firstAnswer = getAnswerListIterator(
+                cell.innerAnswersList
+              ).next().value;
+              const defaultDisplayLabel =
+                firstAnswer?.displayLabel ?? firstAnswer.answer;
+
+              return {
+                space: 1,
+                displayLabel: defaultDisplayLabel,
+                ...cell,
+                innerAnswersList: normalizedAnswerList(cell.innerAnswersList),
+              };
+            }
+
+            return normalizeAnswerConfig(cell);
+          }
         );
       }
     }),
@@ -182,20 +212,38 @@ export function filterIncludedAnswers<GAnswer extends string>(
     normalizedAnswerList(allAnswerList);
 
   return {
-    rows: normalizedAnswerLayout.rows.map(
-      (
-        row: Required<AnswerConfig<GAnswer>>[]
-      ): Required<AnswerConfig<GAnswer>>[] =>
-        _.map(row, (answerLayoutCellConfig) =>
-          answerLayoutCellConfig.answer &&
+    rows: normalizedAnswerLayout.rows.map((row) => {
+      if (typeof row === 'string') {
+        return row;
+      }
+      return _.map(row, (answerLayoutCellConfig) => {
+        if (isMultiAnswerCell(answerLayoutCellConfig)) {
+          const innerAnswersList = filterIncludedAnswers(
+            answerLayoutCellConfig.innerAnswersList,
+            includedAnswersList
+          );
+          const flatAnswers = flatAnswerList(innerAnswersList);
+          if (flatAnswers.length === 0) {
+            return null;
+          } else if (flatAnswers.length === 1) {
+            return flatAnswers[0];
+          } else {
+            return {
+              ...answerLayoutCellConfig,
+              innerAnswersList,
+            };
+          }
+        }
+
+        return answerLayoutCellConfig.answer &&
           includedAnswersList.includes(answerLayoutCellConfig.answer)
-            ? answerLayoutCellConfig
-            : {
-                ...answerLayoutCellConfig,
-                answer: null, // In the future it's possible we'll want to configure a button to be disabled instead of hidden in this case
-              }
-        )
-    ),
+          ? answerLayoutCellConfig
+          : {
+              ...answerLayoutCellConfig,
+              answer: null, // In the future it's possible we'll want to configure a button to be disabled instead of hidden in this case
+            };
+      });
+    }),
   };
 }
 
@@ -215,13 +263,13 @@ export function* getAnswerListIterator<GAnswer extends string>(
         continue;
       }
       for (let cell of row) {
-        if (isSingleAnswer(cell)) {
+        if (isMultiAnswerCell(cell)) {
+          yield* getAnswerListIterator(cell.innerAnswersList);
+        } else {
           const normalizedAnswerConfig = normalizeAnswerConfig(cell);
           if (normalizedAnswerConfig.answer) {
             yield normalizedAnswerConfig;
           }
-        } else {
-          yield* getAnswerListIterator(cell);
         }
       }
     }
@@ -238,7 +286,6 @@ export function mapAnswerList<
   ) => AnswerConfig<GOutputAnswer>
 ): AnswerList<GOutputAnswer> {
   if (typeof answerList === 'object' && !Array.isArray(answerList)) {
-    console.log('answerList', answerList); // todo
     return {
       rows: (answerList as AnswersLayout<GInputAnswer>).rows.map(
         (row): AnswerLayoutRow<GOutputAnswer> =>
@@ -266,10 +313,16 @@ export function mapAnswerList<
         return callback({
           answer: answerCell,
         });
-      } else if (isSingleAnswer(answerCell)) {
-        return callback(answerCell);
+      } else if (isMultiAnswerCell(answerCell)) {
+        return {
+          ...answerCell,
+          innerAnswersList: mapAnswerList(
+            answerCell.innerAnswersList,
+            callback
+          ),
+        };
       } else {
-        return mapAnswerList(answerCell, callback);
+        return callback(answerCell);
       }
     });
   }
