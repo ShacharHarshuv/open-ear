@@ -74,6 +74,7 @@ describe('ExercisePage', () => {
         answerQuestionAutomatically: false,
         adaptive: false,
         playCadence: true,
+        instrument: 'piano',
       },
       wasExplanationDisplayed: true,
     };
