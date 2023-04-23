@@ -6,14 +6,15 @@ import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { NormalRange, Time, Seconds } from 'tone/Tone/core/type/Units';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { NoteType } from '../exercise/utility/music/notes/NoteType';
-import { noteTypeToNote } from '../exercise/utility/music/notes/noteTypeToNote';
 import { timeoutAsPromise } from '../shared/ts-utility';
+import { samples } from 'generated/samples';
 
 const DEFAULT_VELOCITY: number = 0.7;
+const DEFAULT_INSTRUMENT_NAME: InstrumentName = 'piano';
 
 // @ts-ignore
 const AudioContext = window.AudioContext || window.webkitAudioContext;
+
 const audioCtx = new AudioContext();
 
 export interface NoteEvent {
@@ -32,6 +33,7 @@ export interface NoteEvent {
 // passing a number means to wait that many ms
 export type PartToPlay = {
   partOrTime: NoteEvent[] | number;
+  instrumentName?: InstrumentName;
   beforePlaying?: () => void;
   afterPlaying?: () => void;
   bpm?: number; // if provided, overrides the general settings for this part only
@@ -64,11 +66,14 @@ type PlayPartResponse = {
   onPartFinishedPromise: Promise<void>;
 };
 
+export type InstrumentName = keyof typeof samples;
+
 @Injectable({
   providedIn: 'root',
 })
 export class PlayerService {
-  private _instrumentPromise: Promise<Sampler> = this._getInstrument();
+  private _instrumentMap = new Map<InstrumentName, Sampler>();
+  private _doneLoadingInstrumentPromise: Promise<unknown> = Promise.resolve();
   private _isReady: boolean = false;
   private _currentlyPlaying = new Set<Part>();
   private _onPartFinished$Set = new Set<Subject<void>>();
@@ -76,12 +81,6 @@ export class PlayerService {
   private _onAllPartsFinished$ = new Subject<void>();
   // used for debugging
   private _lastPlayed: PartToPlay[] | null = null;
-
-  constructor() {
-    this._instrumentPromise.then(() => {
-      this._isReady = true;
-    });
-  }
 
   get bpm(): number {
     return Tone.Transport.bpm.value;
@@ -109,27 +108,19 @@ export class PlayerService {
     }
   }
 
-  private static async _getSampleMap(): Promise<{
+  private static async _getSampleMap(instrumentName: InstrumentName): Promise<{
     [note: string]: AudioBuffer;
   }> {
     const sampleMap: { [note: string]: AudioBuffer } = {};
-    const notesWithSamples: NoteType[] = ['A', 'C', 'D#', 'F#'];
-    const octavesWithSamples: number[] = [1, 2, 3, 4, 5, 6, 7];
-    for (let noteType of notesWithSamples) {
-      for (let octaveNumber of octavesWithSamples) {
-        const note = noteTypeToNote(noteType, octaveNumber);
-        sampleMap[note] = await new Promise((resolve, reject) => {
-          getFileArrayBuffer(
-            `${
-              location.origin
-            }/samples/piano-mp3-velocity10/audio/${encodeURIComponent(
-              note
-            )}v10.mp3`
-          ).then((arrayBuffer) => {
+    const samplesPaths = samples[instrumentName];
+    for (const nodeName in samplesPaths) {
+      sampleMap[nodeName] = await new Promise((resolve, reject) => {
+        getFileArrayBuffer(`${location.origin}/${samplesPaths[nodeName]}`).then(
+          (arrayBuffer) => {
             audioCtx.decodeAudioData(arrayBuffer, resolve, reject);
-          });
-        });
-      }
+          }
+        );
+      });
     }
     return sampleMap;
   }
@@ -137,10 +128,13 @@ export class PlayerService {
   /**
    * If you need to play multiple parts in a row please use playMultipleParts to avoid event clashes in case of an event in them middle of the parts
    * */
-  async playPart(noteEventList: NoteEvent[]): Promise<void> {
+  async playPart(
+    noteEventList: NoteEvent[],
+    instrumentName?: InstrumentName
+  ): Promise<void> {
     this.stopAndClearQueue();
     await (
-      await this._playPart(noteEventList)
+      await this._playPart(noteEventList, instrumentName)
     ).onPartFinishedPromise;
     this._onAllPartsFinished$.next();
     this._currentlyPlaying.clear();
@@ -198,6 +192,7 @@ export class PlayerService {
         }
         const playPartResponse = await this._playPart(
           nextPart.partOrTime,
+          nextPart.instrumentName,
           lastPartPlayResponse.expectedFinishTimeInSeconds
         );
         playPartResponse.onPartFinishedPromise.then(() => {
@@ -246,12 +241,35 @@ export class PlayerService {
     this._onPartFinished$Set.clear();
   }
 
+  private async _loadInstrument(name: InstrumentName) {
+    await this._doneLoadingInstrumentPromise;
+    let instrument = this._instrumentMap.get(name);
+
+    if (instrument) {
+      return instrument;
+    }
+
+    const samplesPromise = PlayerService._getSampleMap(name);
+    this._doneLoadingInstrumentPromise = samplesPromise;
+    this._isReady = false;
+    instrument = new Sampler({
+      urls: await samplesPromise,
+      release: 1,
+    }).toDestination();
+
+    this._instrumentMap.set(name, instrument);
+    this._isReady = true;
+
+    return instrument;
+  }
+
   // returns the expected finish time in seconds
   private async _playPart(
     noteEventList: NoteEvent[],
+    instrumentName: InstrumentName = DEFAULT_INSTRUMENT_NAME,
     startTimeInSeconds: number = 0
   ): Promise<PlayPartResponse> {
-    const instrument = await this._instrumentPromise;
+    const instrument = await this._loadInstrument(instrumentName);
     let lastTime: Time = 0;
     const normalizedNoteEventList: Required<NoteEvent>[] = noteEventList.map(
       (noteEvent: NoteEvent): Required<NoteEvent> => {
@@ -306,12 +324,5 @@ export class PlayerService {
       expectedFinishTimeInSeconds: stoppingTime,
       onPartFinishedPromise: onPartFinished$.pipe(take(1)).toPromise(),
     };
-  }
-
-  private async _getInstrument(): Promise<Sampler> {
-    return new Sampler({
-      urls: await PlayerService._getSampleMap(),
-      release: 1,
-    }).toDestination();
   }
 }

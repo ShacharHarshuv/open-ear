@@ -148,4 +148,8 @@ export const releaseNotes: ReleaseNotes = [
     notes:
       'Support for harmonic intervals in interval excercise. Can switch betwen melodic or harmonic in the configuration of the interval excercise.',
   },
+  {
+    version: '1.5.14',
+    notes: 'Support more instrument sounds in all exercises',
+  },
 ];
