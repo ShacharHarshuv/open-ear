@@ -66,7 +66,7 @@ type PlayPartResponse = {
   onPartFinishedPromise: Promise<void>;
 };
 
-type InstrumentName = keyof typeof samples;
+export type InstrumentName = keyof typeof samples;
 
 @Injectable({
   providedIn: 'root',

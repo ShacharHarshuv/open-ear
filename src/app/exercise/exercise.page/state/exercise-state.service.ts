@@ -476,8 +476,9 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
   }
 
   private _getCurrentQuestionPartsToPlay(): PartToPlay[] {
-    const partsToPlay: PartToPlay[] = this._currentQuestion.segments.map(
+    return this._currentQuestion.segments.map(
       (segment, i: number): PartToPlay => ({
+        instrumentName: segment.instrument,
         partOrTime: toSteadyPart(segment.partToPlay),
         beforePlaying: () => {
           this._currentlyPlayingSegments.add(i);
@@ -491,7 +492,6 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
         playAfter: segment.playAfter,
       })
     );
-    return partsToPlay;
   }
 
   private _updateExerciseSettings(exerciseSettings: {

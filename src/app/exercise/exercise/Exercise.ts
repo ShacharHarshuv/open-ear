@@ -2,7 +2,7 @@ import { Note } from 'tone/Tone/core/type/NoteUnits';
 import * as _ from 'lodash';
 import { Type } from '@angular/core';
 import { Platforms } from '@ionic/core/dist/types/utils/platform';
-import { NoteEvent } from '../../services/player.service';
+import { NoteEvent, InstrumentName } from '../../services/player.service';
 import {
   OneOrMany,
   StaticOrGetter,
@@ -53,6 +53,7 @@ export interface NotesQuestion<GAnswer extends string = string>
     GAnswer,
     {
       partToPlay: PartToPlay;
+      instrument?: InstrumentName;
     }
   > {
   type?: 'notes';
