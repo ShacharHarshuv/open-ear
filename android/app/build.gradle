@@ -14,7 +14,7 @@ android {
         applicationId "com.openear.www"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 33
+        versionCode 44
         versionName "1.5.14"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
