@@ -6,9 +6,8 @@ import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { NormalRange, Time, Seconds } from 'tone/Tone/core/type/Units';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { NoteType } from '../exercise/utility/music/notes/NoteType';
-import { noteTypeToNote } from '../exercise/utility/music/notes/noteTypeToNote';
 import { timeoutAsPromise } from '../shared/ts-utility';
+import { samples } from 'generated/samples';
 
 const DEFAULT_VELOCITY: number = 0.7;
 
@@ -113,23 +112,15 @@ export class PlayerService {
     [note: string]: AudioBuffer;
   }> {
     const sampleMap: { [note: string]: AudioBuffer } = {};
-    const notesWithSamples: NoteType[] = ['A', 'C', 'D#', 'F#'];
-    const octavesWithSamples: number[] = [1, 2, 3, 4, 5, 6, 7];
-    for (let noteType of notesWithSamples) {
-      for (let octaveNumber of octavesWithSamples) {
-        const note = noteTypeToNote(noteType, octaveNumber);
-        sampleMap[note] = await new Promise((resolve, reject) => {
-          getFileArrayBuffer(
-            `${
-              location.origin
-            }/samples/piano-mp3-velocity10/audio/${encodeURIComponent(
-              note
-            )}v10.mp3`
-          ).then((arrayBuffer) => {
+    const samplesPaths = samples['piano']; // todo: make this configurable
+    for (const nodeName in samplesPaths) {
+      sampleMap[nodeName] = await new Promise((resolve, reject) => {
+        getFileArrayBuffer(`${location.origin}/${samplesPaths[nodeName]}`).then(
+          (arrayBuffer) => {
             audioCtx.decodeAudioData(arrayBuffer, resolve, reject);
-          });
-        });
-      }
+          }
+        );
+      });
     }
     return sampleMap;
   }

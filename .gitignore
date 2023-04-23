@@ -34,3 +34,4 @@ npm-debug.log*
 /resources/android/splash
 /.vs
 package-lock.json
+/generated

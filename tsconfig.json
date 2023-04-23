@@ -16,7 +16,12 @@
     "strictNullChecks": true,
     "skipLibCheck": true,
     "noImplicitOverride": true,
-    "noImplicitThis": true
+    "noImplicitThis": true,
+    "paths": {
+      "generated/*": [
+        "generated/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

@@ -32,6 +32,11 @@
               },
               {
                 "glob": "**/*",
+                "input": "src/samples",
+                "output": "samples"
+              },
+              {
+                "glob": "**/*",
                 "input": "node_modules/@audio-samples",
                 "output": "samples"
               }
