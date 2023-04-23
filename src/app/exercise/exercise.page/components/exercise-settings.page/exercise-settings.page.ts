@@ -12,12 +12,19 @@ import {
   toGetter,
 } from '../../../utility';
 import * as _ from 'lodash';
+import { capitalize } from 'lodash';
 import { collapseVertical } from '../../../../shared/animations';
 import { Observable, of } from 'rxjs';
 import { map, distinctUntilChanged } from 'rxjs/operators';
+import { InstrumentName } from '../../../../services/player.service';
+import { keys } from '../../../../shared/ts-utility/keys';
+import { samples } from 'generated/samples';
 import SettingValueType = Exercise.SettingValueType;
 import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
 
+/**
+ * TODO: consider making the form generation more generic, so that we won't have to repeat ourselves so many times
+ * */
 interface ExerciseSettingsControls {
   playCadenceOptions:
     | 'ALWAYS'
@@ -29,6 +36,7 @@ interface ExerciseSettingsControls {
   answerQuestionAutomatically: boolean;
   adaptive: boolean;
   revealAnswerAfterFirstMistake: boolean;
+  instrument: InstrumentName;
 }
 
 @Component({
@@ -46,10 +54,13 @@ export class ExerciseSettingsPage {
     bpm: new FormControl<number>(120),
     moveToNextQuestionAutomatically: new FormControl<boolean>(false),
     answerQuestionAutomatically: new FormControl<boolean>(false),
+    instrument: new FormControl<InstrumentName>(),
   });
 
   exerciseSettingsDescriptor: Exercise.SettingsControlDescriptor[];
   exerciseFormGroup: FormGroup<{ [key: string]: FormControl }>;
+
+  readonly instrumentOptions = this._getInstrumentOptions();
 
   @Input()
   exerciseName: string;
@@ -80,6 +91,7 @@ export class ExerciseSettingsPage {
       moveToNextQuestionAutomatically:
         currentSettings.moveToNextQuestionAutomatically,
       answerQuestionAutomatically: currentSettings.answerQuestionAutomatically,
+      instrument: currentSettings.instrument,
     });
   }
 
@@ -122,7 +134,8 @@ export class ExerciseSettingsPage {
     this.exerciseFormGroup = new FormGroup(controls);
   }
 
-  constructor(private _modalController: ModalController) {}
+  constructor(private _modalController: ModalController) {
+  }
 
   async onClose(): Promise<ExerciseSettingsData> {
     const newGlobalSettings: GlobalExerciseSettings = this._getNewSettings();
@@ -154,6 +167,7 @@ export class ExerciseSettingsPage {
       moveToNextQuestionAutomatically:
         formGroupValue.moveToNextQuestionAutomatically,
       answerQuestionAutomatically: formGroupValue.answerQuestionAutomatically,
+      instrument: formGroupValue.instrument,
     };
   }
 
@@ -163,5 +177,16 @@ export class ExerciseSettingsPage {
     return _.isNil(controlDescriptor.show)
       ? true
       : controlDescriptor.show(this.exerciseFormGroup.value);
+  }
+
+  private _getInstrumentOptions() {
+    const allInstruments = keys(samples);
+    return allInstruments.map(
+      (instrumentName) =>
+        ({
+          value: instrumentName,
+          label: capitalize(instrumentName.split('-').join(' ')),
+        } as const)
+    );
   }
 }

@@ -6,6 +6,22 @@
 >
   <ion-list>
     <ion-item>
+      <ion-label>
+        Sound <app-field-info message="Choose instrument sound that will be playing the questions. Use this to get used to different tibres"></app-field-info>
+      </ion-label>
+      <ion-select
+        [formControl]="generalFormGroup.controls.instrument"
+        [interface]="'popover'"
+      >
+        <ion-select-option
+          *ngFor="let instrumentOption of instrumentOptions"
+          [value]="instrumentOption.value"
+        >
+          {{instrumentOption.label}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
       <ion-label
         >Play Cadence<app-field-info
           message="Choose when the cadence is played. Relevant only to exercises that play a Cadence."

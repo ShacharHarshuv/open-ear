@@ -22,6 +22,7 @@ import { AdaptiveExercise } from './adaptive-exercise';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { YouTubePlayerService } from '../../../services/you-tube-player.service';
 import * as _ from 'lodash';
+import { defaults } from 'lodash';
 import { AdaptiveExerciseService } from './adaptive-exercise.service';
 import { BehaviorSubject } from 'rxjs';
 import { DronePlayerService } from '../../../services/drone-player.service';
@@ -38,6 +39,7 @@ const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   bpm: 120,
   moveToNextQuestionAutomatically: false,
   answerQuestionAutomatically: false,
+  instrument: 'piano',
 };
 
 export interface CurrentAnswer {
@@ -384,9 +386,10 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
   async init(): Promise<void> {
     const settings: Partial<ExerciseSettingsData> | undefined =
       await this._exerciseSettingsData.getExerciseSettings(this.exercise.id);
-    if (settings?.globalSettings) {
-      this._globalSettings = settings.globalSettings;
-    }
+    this._globalSettings = defaults(
+      settings?.globalSettings,
+      DEFAULT_EXERCISE_SETTINGS
+    );
     if (settings?.exerciseSettings) {
       this._updateExerciseSettings(settings.exerciseSettings);
     }
@@ -478,7 +481,7 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
   private _getCurrentQuestionPartsToPlay(): PartToPlay[] {
     return this._currentQuestion.segments.map(
       (segment, i: number): PartToPlay => ({
-        instrumentName: segment.instrument,
+        instrumentName: this._globalSettings.instrument,
         partOrTime: toSteadyPart(segment.partToPlay),
         beforePlaying: () => {
           this._currentlyPlayingSegments.add(i);
@@ -517,6 +520,7 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
           this._highlightedAnswer = answerToHighlight || null;
         },
         partOrTime: partToPlay,
+        instrumentName: this._globalSettings.instrument,
       })
     );
   }
