@@ -128,10 +128,13 @@ export class PlayerService {
   /**
    * If you need to play multiple parts in a row please use playMultipleParts to avoid event clashes in case of an event in them middle of the parts
    * */
-  async playPart(noteEventList: NoteEvent[]): Promise<void> {
+  async playPart(
+    noteEventList: NoteEvent[],
+    instrumentName?: InstrumentName
+  ): Promise<void> {
     this.stopAndClearQueue();
     await (
-      await this._playPart(noteEventList)
+      await this._playPart(noteEventList, instrumentName)
     ).onPartFinishedPromise;
     this._onAllPartsFinished$.next();
     this._currentlyPlaying.clear();

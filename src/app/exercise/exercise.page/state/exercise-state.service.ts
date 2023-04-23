@@ -402,7 +402,10 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
     if (!partToPlay) {
       return;
     }
-    this._notesPlayer.playPart(toSteadyPart(partToPlay));
+    this._notesPlayer.playPart(
+      toSteadyPart(partToPlay),
+      this._globalSettings.instrument
+    );
   }
 
   async onQuestionPlayingFinished(): Promise<void> {
