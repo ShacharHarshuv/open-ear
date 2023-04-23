@@ -10,9 +10,11 @@ import { timeoutAsPromise } from '../shared/ts-utility';
 import { samples } from 'generated/samples';
 
 const DEFAULT_VELOCITY: number = 0.7;
+const DEFAULT_INSTRUMENT_NAME: InstrumentName = 'piano';
 
 // @ts-ignore
 const AudioContext = window.AudioContext || window.webkitAudioContext;
+
 const audioCtx = new AudioContext();
 
 export interface NoteEvent {
@@ -31,6 +33,7 @@ export interface NoteEvent {
 // passing a number means to wait that many ms
 export type PartToPlay = {
   partOrTime: NoteEvent[] | number;
+  instrumentName?: InstrumentName;
   beforePlaying?: () => void;
   afterPlaying?: () => void;
   bpm?: number; // if provided, overrides the general settings for this part only
@@ -63,11 +66,14 @@ type PlayPartResponse = {
   onPartFinishedPromise: Promise<void>;
 };
 
+type InstrumentName = keyof typeof samples;
+
 @Injectable({
   providedIn: 'root',
 })
 export class PlayerService {
-  private _instrumentPromise: Promise<Sampler> = this._getInstrument();
+  private _instrumentMap = new Map<InstrumentName, Sampler>();
+  private _doneLoadingInstrumentPromise: Promise<unknown> = Promise.resolve();
   private _isReady: boolean = false;
   private _currentlyPlaying = new Set<Part>();
   private _onPartFinished$Set = new Set<Subject<void>>();
@@ -75,12 +81,6 @@ export class PlayerService {
   private _onAllPartsFinished$ = new Subject<void>();
   // used for debugging
   private _lastPlayed: PartToPlay[] | null = null;
-
-  constructor() {
-    this._instrumentPromise.then(() => {
-      this._isReady = true;
-    });
-  }
 
   get bpm(): number {
     return Tone.Transport.bpm.value;
@@ -108,11 +108,11 @@ export class PlayerService {
     }
   }
 
-  private static async _getSampleMap(): Promise<{
+  private static async _getSampleMap(instrumentName: InstrumentName): Promise<{
     [note: string]: AudioBuffer;
   }> {
     const sampleMap: { [note: string]: AudioBuffer } = {};
-    const samplesPaths = samples['piano']; // todo: make this configurable
+    const samplesPaths = samples[instrumentName];
     for (const nodeName in samplesPaths) {
       sampleMap[nodeName] = await new Promise((resolve, reject) => {
         getFileArrayBuffer(`${location.origin}/${samplesPaths[nodeName]}`).then(
@@ -189,6 +189,7 @@ export class PlayerService {
         }
         const playPartResponse = await this._playPart(
           nextPart.partOrTime,
+          nextPart.instrumentName,
           lastPartPlayResponse.expectedFinishTimeInSeconds
         );
         playPartResponse.onPartFinishedPromise.then(() => {
@@ -237,12 +238,35 @@ export class PlayerService {
     this._onPartFinished$Set.clear();
   }
 
+  private async _loadInstrument(name: InstrumentName) {
+    await this._doneLoadingInstrumentPromise;
+    let instrument = this._instrumentMap.get(name);
+
+    if (instrument) {
+      return instrument;
+    }
+
+    const samplesPromise = PlayerService._getSampleMap(name);
+    this._doneLoadingInstrumentPromise = samplesPromise;
+    this._isReady = false;
+    instrument = new Sampler({
+      urls: await samplesPromise,
+      release: 1,
+    }).toDestination();
+
+    this._instrumentMap.set(name, instrument);
+    this._isReady = true;
+
+    return instrument;
+  }
+
   // returns the expected finish time in seconds
   private async _playPart(
     noteEventList: NoteEvent[],
+    instrumentName: InstrumentName = DEFAULT_INSTRUMENT_NAME,
     startTimeInSeconds: number = 0
   ): Promise<PlayPartResponse> {
-    const instrument = await this._instrumentPromise;
+    const instrument = await this._loadInstrument(instrumentName);
     let lastTime: Time = 0;
     const normalizedNoteEventList: Required<NoteEvent>[] = noteEventList.map(
       (noteEvent: NoteEvent): Required<NoteEvent> => {
@@ -297,12 +321,5 @@ export class PlayerService {
       expectedFinishTimeInSeconds: stoppingTime,
       onPartFinishedPromise: onPartFinished$.pipe(take(1)).toPromise(),
     };
-  }
-
-  private async _getInstrument(): Promise<Sampler> {
-    return new Sampler({
-      urls: await PlayerService._getSampleMap(),
-      release: 1,
-    }).toDestination();
   }
 }
