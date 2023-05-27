@@ -1,6 +1,6 @@
 import { PublicMembers } from '../../../shared/ts-utility/PublicMembers';
 import { AdaptiveExerciseService } from './adaptive-exercise.service';
-import { Injectable, Provider } from '@angular/core';
+import { Injectable } from '@angular/core';
 import Exercise from '../../Exercise';
 import { AdaptiveExercise } from './adaptive-exercise';
 
@@ -43,14 +43,6 @@ export class AdaptiveExerciseMock implements PublicMembers<AdaptiveExercise> {
 export class AdaptiveExerciseMockService
   implements PublicMembers<AdaptiveExerciseService>
 {
-  static providers: Provider[] = [
-    AdaptiveExerciseMockService,
-    {
-      provide: AdaptiveExerciseService,
-      useExisting: AdaptiveExerciseMockService,
-    },
-  ];
-
   static adaptiveExerciseMock: AdaptiveExerciseMock =
     new AdaptiveExerciseMock();
 

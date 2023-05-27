@@ -3,7 +3,6 @@ import {
   YouTubeCallbackDescriptor,
   YouTubePlayerService,
 } from './you-tube-player.service';
-import { Provider } from '@angular/core';
 
 export class YouTubePlayerMockService
   implements PublicMembers<YouTubePlayerService>
@@ -43,12 +42,4 @@ export class YouTubePlayerMockService
   async stop(): Promise<void> {
     return Promise.resolve();
   }
-
-  static providers: Provider[] = [
-    YouTubePlayerMockService,
-    {
-      provide: YouTubePlayerService,
-      useExisting: YouTubePlayerMockService,
-    },
-  ];
 }

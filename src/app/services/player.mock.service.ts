@@ -1,6 +1,5 @@
 import { PublicMembers } from '../shared/ts-utility/PublicMembers';
 import { NoteEvent, PartToPlay, PlayerService } from './player.service';
-import { Provider } from '@angular/core';
 
 export class PlayerMockService implements PublicMembers<PlayerService> {
   private _bpm: number = 120;
@@ -21,14 +20,6 @@ export class PlayerMockService implements PublicMembers<PlayerService> {
   setBpm(bpm: number): void {
     this._bpm = bpm;
   }
-
-  static providers: Provider[] = [
-    PlayerMockService,
-    {
-      provide: PlayerService,
-      useExisting: PlayerMockService,
-    },
-  ];
 
   stopAndClearQueue(): void {}
 

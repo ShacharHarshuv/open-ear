@@ -1,6 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { ReleaseNotesService } from './release-notes.service';
-import { VersionServiceMock } from '../version.service.mock';
+import {
+  VersionServiceMock,
+  VersionTestingModule,
+} from '../version.service.mock';
 import { RELEASE_NOTES_TOKEN, ReleaseNotes } from './release-notes';
 import { Subscription } from 'rxjs';
 import {
@@ -39,9 +42,9 @@ describe('ReleaseNotesService', function () {
 
     const storageMock = {};
     TestBed.configureTestingModule({
+      imports: [VersionTestingModule],
       providers: [
         ReleaseNotesService,
-        ...VersionServiceMock.providers,
         {
           provide: RELEASE_NOTES_TOKEN,
           useValue: releaseNotesMock,
