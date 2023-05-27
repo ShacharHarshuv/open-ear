@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { ModalController } from '@ionic/angular';
 import {
   FormControl,
   FormGroup,
@@ -132,9 +131,6 @@ export class ExerciseSettingsPage {
       }
     }
     this.exerciseFormGroup = new FormGroup(controls);
-  }
-
-  constructor(private _modalController: ModalController) {
   }
 
   async onClose(): Promise<ExerciseSettingsData> {

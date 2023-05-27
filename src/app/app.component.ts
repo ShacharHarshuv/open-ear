@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ModalController, AlertController, Platform } from '@ionic/angular';
 import { ReleaseNotesPage } from './release-notes/release-notes-page.component';
 import { ReleaseNotesService } from './release-notes/release-notes.service';
@@ -12,13 +12,13 @@ import { StorageMigrationService } from './storage/storage-migration.service';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor(
-    private readonly _modalController: ModalController,
-    private readonly _releaseNotesService: ReleaseNotesService,
-    private readonly _alertController: AlertController,
-    private readonly _platform: Platform,
-    private readonly _storageMigrationService: StorageMigrationService
-  ) {
+  private readonly _modalController = inject(ModalController);
+  private readonly _releaseNotesService = inject(ReleaseNotesService);
+  private readonly _alertController = inject(AlertController);
+  private readonly _platform = inject(Platform);
+  private readonly _storageMigrationService = inject(StorageMigrationService);
+
+  constructor() {
     this.showReleaseNotes();
     this._storageMigrationService.runMigrationScripts();
 

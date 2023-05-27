@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { VersionService } from '../version.service';
 import { ReleaseNotesService } from './release-notes.service';
 
@@ -8,8 +8,6 @@ import { ReleaseNotesService } from './release-notes.service';
   styleUrls: ['./release-notes-page.component.scss'],
 })
 export class ReleaseNotesPage {
-  constructor(
-    public readonly versionService: VersionService,
-    public readonly releaseNotesService: ReleaseNotesService
-  ) {}
+  readonly versionService = inject(VersionService);
+  readonly releaseNotesService = inject(ReleaseNotesService);
 }

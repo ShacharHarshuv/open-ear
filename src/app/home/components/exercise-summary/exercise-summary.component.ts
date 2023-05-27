@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import Exercise from '../../../exercise/Exercise';
 import { PlayerService } from '../../../services/player.service';
 import IExercise = Exercise.Exercise;
@@ -9,10 +9,10 @@ import IExercise = Exercise.Exercise;
   styleUrls: ['./exercise-summary.component.scss'],
 })
 export class ExerciseSummaryComponent {
+  private _player = inject(PlayerService);
+
   @Input()
   exercise: IExercise;
-
-  constructor(private _player: PlayerService) {}
 
   // This has to be called by a user click event to work
   initAudioPlayer(): void {

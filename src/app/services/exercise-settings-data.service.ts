@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ExerciseSettingsData } from '../exercise/utility';
 import { StorageService } from '../storage/storage.service';
 
@@ -6,9 +6,8 @@ import { StorageService } from '../storage/storage.service';
   providedIn: 'root',
 })
 export class ExerciseSettingsDataService {
+  private _storageService = inject(StorageService);
   private readonly _exerciseSettingsKey: string = 'exerciseSettings';
-
-  constructor(private _storageService: StorageService) {}
 
   async saveExerciseSettings(
     exerciseId: string,

@@ -1,4 +1,4 @@
-import { Injectable, Type } from '@angular/core';
+import { Injectable, Type, inject } from '@angular/core';
 import * as _ from 'lodash';
 import { intervalExercise } from './exercises/IntervalExercise/intervalExercise';
 import Exercise from './Exercise';
@@ -27,6 +27,7 @@ const exerciseList: IExercise[] = [
   providedIn: 'root',
 })
 export class ExerciseService {
+  private readonly _platform = inject(Platform);
   private readonly _exerciseIdToExercise = _.keyBy(exerciseList, 'id');
 
   static readonly ngComponents: Type<any>[] = exerciseList
@@ -35,8 +36,6 @@ export class ExerciseService {
       (explanation): explanation is Type<any> =>
         !!explanation && typeof explanation != 'string'
     );
-
-  constructor(private readonly _platform: Platform) {}
 
   getExercise(id: string): IExercise {
     return this._exerciseIdToExercise[id];

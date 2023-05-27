@@ -16,6 +16,4 @@ export class AnswerIndicationComponent {
   @HostBinding('class.--wrong')
   @Input()
   wasAnsweredWrong: boolean = false;
-
-  constructor() {}
 }

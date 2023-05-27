@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { VersionService } from '../version.service';
 
 @Component({
@@ -7,5 +7,5 @@ import { VersionService } from '../version.service';
   styleUrls: ['./about.page.scss'],
 })
 export class AboutPage {
-  constructor(public readonly versionService: VersionService) {}
+  readonly versionService = inject(VersionService);
 }
