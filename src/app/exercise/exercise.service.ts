@@ -12,7 +12,7 @@ import { chordInKeyExercise } from './exercises/ChordInKeyExercise/chordsInKeyEx
 import { commonChordProgressionExercise } from './exercises/CommonChordProgressionExercise/commonChordProgressionsExercise';
 import IExercise = Exercise.Exercise;
 
-const exerciseList: IExercise[] = [
+const exerciseList = [
   notesInKeyExercise(),
   chordInKeyExercise(),
   commonChordProgressionExercise(),
@@ -21,7 +21,7 @@ const exerciseList: IExercise[] = [
   notesWithChordsExercise(),
   triadInversionExercise(),
   intervalExercise(),
-];
+] satisfies IExercise[];
 
 @Injectable({
   providedIn: 'root',
