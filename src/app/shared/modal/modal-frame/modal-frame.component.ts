@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 @Component({
@@ -8,6 +8,8 @@ import { ModalController } from '@ionic/angular';
   exportAs: 'modal',
 })
 export class ModalFrameComponent {
+  private _modalController = inject(ModalController);
+
   @Input()
   title: string;
 
@@ -19,8 +21,6 @@ export class ModalFrameComponent {
 
   @Input()
   onClose: () => Promise<any>;
-
-  constructor(private _modalController: ModalController) {}
 
   async close(): Promise<void> {
     await this._modalController.dismiss(

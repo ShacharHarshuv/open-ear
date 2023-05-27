@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { PlayerService } from '../services/player.service';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 
@@ -9,12 +9,11 @@ import { Note } from 'tone/Tone/core/type/NoteUnits';
 })
 export class SandboxComponent {
   private _playingNotesSet = new Set<Note>();
+  readonly playerService = inject(PlayerService);
 
   get currentlyPlaying(): string {
     return Array.from(this._playingNotesSet).join(', ');
   }
-
-  constructor(public readonly playerService: PlayerService) {}
 
   play(): void {
     this.playerService.playMultipleParts([

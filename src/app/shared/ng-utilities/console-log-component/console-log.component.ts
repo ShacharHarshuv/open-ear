@@ -1,4 +1,7 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  Input
+} from "@angular/core";
 
 /**
  * For debugging purposes only
@@ -12,6 +15,4 @@ export class ConsoleLogComponent {
   set message(msg: any) {
     console.log(msg);
   }
-
-  constructor() {}
 }

@@ -4,6 +4,7 @@ import {
   ElementRef,
   Input,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import Exercise from '../../../../Exercise';
 
@@ -11,6 +12,10 @@ import Exercise from '../../../../Exercise';
   selector: '[exerciseExplanationContent]',
 })
 export class ExerciseExplanationContentDirective {
+  private _eRef = inject(ElementRef);
+  private _viewContainerRef = inject(ViewContainerRef);
+  private _cfResolver = inject(ComponentFactoryResolver);
+
   @Input('exerciseExplanationContent')
   set content(content: Exercise.ExerciseExplanationContent) {
     if (typeof content === 'string') {
@@ -22,10 +27,4 @@ export class ExerciseExplanationContentDirective {
       );
     }
   }
-
-  constructor(
-    private _eRef: ElementRef,
-    private _viewContainerRef: ViewContainerRef,
-    private _cfResolver: ComponentFactoryResolver
-  ) {}
 }

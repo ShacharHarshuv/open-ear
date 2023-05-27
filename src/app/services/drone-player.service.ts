@@ -10,8 +10,6 @@ export class DronePlayerService {
   private _drone: Synth = this._getInstrument();
   private _lastNote: Note | null = null;
 
-  constructor() {}
-
   private _getInstrument(): Synth {
     return new Tone.Synth({
       oscillator: {
