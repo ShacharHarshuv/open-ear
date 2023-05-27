@@ -1,4 +1,4 @@
-import { Injectable, Provider } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { PublicMembers } from '../shared/ts-utility/PublicMembers';
 import {
   StorageMigrationScript,
@@ -18,12 +18,4 @@ export class StorageMigrationServiceMock
   ): Promise<void> {}
 
   async runMigrationScripts(): Promise<void> {}
-
-  static providers: Provider[] = [
-    StorageMigrationServiceMock,
-    {
-      provide: StorageMigrationService,
-      useExisting: StorageMigrationServiceMock,
-    },
-  ];
 }

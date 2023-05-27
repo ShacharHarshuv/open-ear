@@ -1,4 +1,4 @@
-import { FormControl as NgFormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged, startWith } from 'rxjs/operators';
 import { ControlMethods } from './control-methods';
@@ -19,7 +19,7 @@ export class FormControl<
     GErrors extends ValidationErrors = any,
     GParent extends TAbstractControlParent = any
   >
-  extends NgFormControl
+  extends UntypedFormControl
   implements IAbstractControl<GValue, GErrors, GParent>
 {
   private readonly _touchChanges$ = new Subject<boolean>();

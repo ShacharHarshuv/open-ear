@@ -36,6 +36,8 @@ import {
   OneOrMany,
   toArray,
   isValueTruthy,
+  StaticOrGetter,
+  toGetter,
 } from '../ts-utility';
 
 function getControlValue<GValue, GErrors extends ValidationErrors>(
@@ -215,7 +217,7 @@ export class ControlMethods {
     return control.dirty && ControlMethods.hasError(control, error, path);
   }
 
-  static getIsValidStream<GValue, GErrors>(
+  static getIsValidStream<GValue, GErrors extends ValidationErrors>(
     control: IAbstractControl<GValue, GErrors>
   ): Observable<boolean> {
     return control.status$.pipe(
@@ -224,7 +226,7 @@ export class ControlMethods {
     );
   }
 
-  static getIsInvalidStream<GValue, GErrors>(
+  static getIsInvalidStream<GValue, GErrors extends ValidationErrors>(
     control: IAbstractControl<GValue, GErrors>
   ): Observable<boolean> {
     return control.status$.pipe(
@@ -233,10 +235,10 @@ export class ControlMethods {
     );
   }
 
-  static getErrorRefListStream<GValue, GErrors>(
+  static getErrorRefListStream<GValue, GErrors extends ValidationErrors>(
     control: IAbstractControl<GValue, GErrors>,
     errorMsgMap?: {
-      [key in keyof GErrors]: string | ((errorValue: GErrors[key]) => string);
+      [key in keyof GErrors]: StaticOrGetter<string, [GErrors[key]]>;
     }
   ): Observable<IControlErrorRef<GErrors>[]> {
     return control.errors$.pipe(
@@ -251,7 +253,7 @@ export class ControlMethods {
                 errorMsgMap?.[errorKey] !== undefined
                   ? typeof errorMsgMap[errorKey] === 'string'
                     ? errorMsgMap[errorKey]
-                    : errorMsgMap[errorKey](errorData)
+                    : toGetter(errorMsgMap[errorKey])(errorData!)
                   : 'Unknown error',
             } as IControlErrorRef<GErrors>;
           }
@@ -260,7 +262,7 @@ export class ControlMethods {
     );
   }
 
-  static getFirstErrorMsgStream<GValue, GErrors>(
+  static getFirstErrorMsgStream<GValue, GErrors extends ValidationErrors>(
     control: IAbstractControl<GValue, GErrors>
   ): Observable<string | null> {
     return control.errorRefList$.pipe(
@@ -269,7 +271,10 @@ export class ControlMethods {
     );
   }
 
-  static getAggregatedErrorRefListStream<GValue, GErrors>(
+  static getAggregatedErrorRefListStream<
+    GValue,
+    GErrors extends ValidationErrors
+  >(
     control: IAbstractControl<GValue, GErrors> &
       IControlsParent<GValue, GErrors>
   ): Observable<IControlErrorRef<GErrors>[]> {
@@ -288,7 +293,10 @@ export class ControlMethods {
     );
   }
 
-  static getFirstAggregatedErrorMsgStream<GValue, GErrors>(
+  static getFirstAggregatedErrorMsgStream<
+    GValue,
+    GErrors extends ValidationErrors
+  >(
     control: IAbstractControl<GValue, GErrors> &
       IControlsParent<GValue, GErrors>
   ): Observable<string | null> {
@@ -297,7 +305,7 @@ export class ControlMethods {
     );
   }
 
-  static getDisabledReasonList<GValue, GErrors>(
+  static getDisabledReasonList<GValue, GErrors extends ValidationErrors>(
     control: IAbstractControl<GValue, GErrors>,
     disabledReasonConfigList?: OneOrMany<Observable<string | boolean>>
   ): Observable<string[]> {
@@ -327,7 +335,7 @@ export class ControlMethods {
     return disabledReasonList$;
   }
 
-  static getFirstDisabledReasonStream<GValue, GErrors>(
+  static getFirstDisabledReasonStream<GValue, GErrors extends ValidationErrors>(
     control: IAbstractControl<GValue, GErrors>
   ): Observable<string | null> {
     return control.disabledReasonList$.pipe(
@@ -336,7 +344,7 @@ export class ControlMethods {
     );
   }
 
-  static getOptions<GValue, GErrors>(
+  static getOptions<GValue, GErrors extends ValidationErrors>(
     validatorOrOpts?:
       | ValidatorFn<GValue, GErrors>
       | ValidatorFn<GValue, GErrors>[]
@@ -353,7 +361,10 @@ export class ControlMethods {
     return undefined;
   }
 
-  static getBaseConstructorSecondParam<GValue, GErrors>(
+  static getBaseConstructorSecondParam<
+    GValue,
+    GErrors extends ValidationErrors
+  >(
     validatorOrOpts?:
       | ValidatorFn<GValue, GErrors>
       | ValidatorFn<GValue, GErrors>[]

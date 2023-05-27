@@ -4,9 +4,13 @@ import {
   StorageMigrationScript,
   MIGRATION_SCRIPTS,
 } from './storage-migration.service';
-import { VersionServiceMock } from '../version.service.mock';
+import {
+  VersionServiceMock,
+  VersionTestingModule,
+} from '../version.service.mock';
 import { StorageServiceMock } from './storage.service.mock';
 import { StorageService } from './storage.service';
+import { createMockProviders } from '../shared/testing-utility';
 import Expected = jasmine.Expected;
 import ArrayContaining = jasmine.ArrayContaining;
 
@@ -20,10 +24,10 @@ describe('StorageMigrationService', function () {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [VersionTestingModule],
       providers: [
         StorageMigrationService,
-        ...VersionServiceMock.providers,
-        ...StorageServiceMock.providers,
+        ...createMockProviders(StorageServiceMock, StorageService),
         {
           provide: MIGRATION_SCRIPTS,
           useValue: [],

@@ -1,4 +1,4 @@
-import { Injectable, Provider } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { PublicMembers } from '../shared/ts-utility/PublicMembers';
 import { ExerciseSettingsDataService } from './exercise-settings-data.service';
 import { ExerciseSettingsData } from '../exercise/utility';
@@ -23,12 +23,4 @@ export class ExerciseSettingsDataMockService
   ): Promise<void> {
     this.exerciseIdToSettings[exerciseId] = settings;
   }
-
-  static providers: Provider[] = [
-    ExerciseSettingsDataMockService,
-    {
-      provide: ExerciseSettingsDataService,
-      useExisting: ExerciseSettingsDataMockService,
-    },
-  ];
 }

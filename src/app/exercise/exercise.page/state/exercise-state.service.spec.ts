@@ -1,28 +1,19 @@
 import { TestBed, fakeAsync, flush } from '@angular/core/testing';
 import { ExerciseStateService } from './exercise-state.service';
 import { RouterTestingModule } from '@angular/router/testing';
-import { PlayerMockService } from '../../../services/player.mock.service';
-import { YouTubePlayerMockService } from '../../../services/you-tube-player.mock.service';
 import { ExerciseMockService } from '../../exercise.mock.service';
-import { ExerciseSettingsDataMockService } from '../../../services/exercise-settings-data.mock.service';
 import { AdaptiveExerciseMockService } from './adaptive-exercise.mock.service';
 import { noteTypeToNote } from '../../utility/music/notes/noteTypeToNote';
 import { NoteType } from '../../utility/music/notes/NoteType';
+import { ExerciseTestingModule } from '../../exercise-testing.module';
 
 describe('ExerciseStateService', function () {
   let exerciseStateService: ExerciseStateService;
 
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
-        ExerciseStateService,
-        ...ExerciseMockService.providers,
-        ...PlayerMockService.providers,
-        ...YouTubePlayerMockService.providers,
-        ...ExerciseSettingsDataMockService.providers,
-        ...AdaptiveExerciseMockService.providers,
-      ],
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, ExerciseTestingModule],
+      providers: [ExerciseStateService],
     }).compileComponents();
 
     exerciseStateService = TestBed.inject(ExerciseStateService);

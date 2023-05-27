@@ -1,4 +1,4 @@
-import { Injectable, Provider } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { PublicMembers } from '../shared/ts-utility/PublicMembers';
 import { ReleaseNotesService } from './release-notes.service';
@@ -12,12 +12,4 @@ export class ReleaseNotesServiceMock
   setReleaseNotesWereViewed(): Promise<void> {
     return Promise.resolve();
   }
-
-  static providers: Provider[] = [
-    ReleaseNotesServiceMock,
-    {
-      provide: ReleaseNotesService,
-      useExisting: ReleaseNotesServiceMock,
-    },
-  ];
 }

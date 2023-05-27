@@ -12,25 +12,24 @@ import { chordInKeyExercise } from './exercises/ChordInKeyExercise/chordsInKeyEx
 import { commonChordProgressionExercise } from './exercises/CommonChordProgressionExercise/commonChordProgressionsExercise';
 import IExercise = Exercise.Exercise;
 
+const exerciseList: IExercise[] = [
+  notesInKeyExercise(),
+  chordInKeyExercise(),
+  commonChordProgressionExercise(),
+  chordsInRealSongsExercise(),
+  chordTypeExercise(),
+  notesWithChordsExercise(),
+  triadInversionExercise(),
+  intervalExercise(),
+];
+
 @Injectable({
   providedIn: 'root',
 })
 export class ExerciseService {
-  static readonly _exerciseList: IExercise[] = [
-    notesInKeyExercise(),
-    chordInKeyExercise(),
-    commonChordProgressionExercise(),
-    chordsInRealSongsExercise(),
-    chordTypeExercise(),
-    notesWithChordsExercise(),
-    triadInversionExercise(),
-    intervalExercise(),
-  ];
-  private readonly _exerciseIdToExercise = _.keyBy(
-    ExerciseService._exerciseList,
-    'id'
-  );
-  static readonly ngComponents: Type<any>[] = ExerciseService._exerciseList
+  private readonly _exerciseIdToExercise = _.keyBy(exerciseList, 'id');
+
+  static readonly ngComponents: Type<any>[] = exerciseList
     .map((exercise) => exercise.explanation)
     .filter(
       (explanation): explanation is Type<any> =>
@@ -44,7 +43,7 @@ export class ExerciseService {
   }
 
   getExerciseList(): IExercise[] {
-    return ExerciseService._exerciseList.filter(
+    return exerciseList.filter(
       (exercise: IExercise) =>
         !exercise.blackListPlatform ||
         !this._platform.is(exercise.blackListPlatform)
