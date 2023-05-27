@@ -108,6 +108,7 @@ describe('ExercisePage', () => {
       TestingUtility.isDisabled(exercisePageDebugger.getNextButton())
     ).toBeFalse();
   }
+
   //#endregion
 
   it('all answers should be visible', async () => {
@@ -375,7 +376,7 @@ describe('ExercisePage', () => {
 
       it('after all segments when answers, it should play answers on click', fakeAsync(() => {
         answerAllSegmentsOfMockQuestion();
-        const playPartSpy: jasmine.Spy<PlayerService['playPart']> = spyOn(
+        const playPartSpy = spyOn<PlayerService, 'playPart'>(
           TestBed.inject(PlayerService),
           'playPart'
         );
@@ -386,7 +387,8 @@ describe('ExercisePage', () => {
               notes: ['F4'],
               duration: '4n',
             }),
-          ])
+          ]),
+          jasmine.anything()
         );
 
         // verify answers indication remain
