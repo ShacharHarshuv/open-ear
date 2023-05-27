@@ -1,4 +1,4 @@
-import { FormGroup as NgFormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged, startWith } from 'rxjs/operators';
 import { ControlMethods } from './control-methods';
@@ -26,7 +26,7 @@ export class FormGroup<
     GErrors extends ValidationErrors = ValidationErrors,
     GParent extends TAbstractControlParent = any
   >
-  extends NgFormGroup
+  extends UntypedFormGroup
   implements
     IAbstractControl<IControlsValue<GControlsOrValue>, GErrors, GParent>,
     IControlsParent<IControlsValue<GControlsOrValue>, GErrors>

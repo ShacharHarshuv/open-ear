@@ -1,4 +1,4 @@
-import { FormArray as NgFormArray } from '@angular/forms';
+import { UntypedFormArray } from '@angular/forms';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged, startWith } from 'rxjs/operators';
 import { ControlMethods } from './control-methods';
@@ -35,7 +35,7 @@ export class FormArray<
     GErrors extends ValidationErrors = ValidationErrors,
     GParent extends TAbstractControlParent = any
   >
-  extends NgFormArray
+  extends UntypedFormArray
   implements
     IAbstractControl<TControlValue<GControlOrValue>[], GErrors, GParent>,
     IControlsParent<TControlValue<GControlOrValue>[], GErrors>

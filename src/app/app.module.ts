@@ -16,31 +16,30 @@ import { migrationScripts } from './storage/migration-scripts/migration-scripts'
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
-  declarations: [AppComponent, SandboxComponent],
-  entryComponents: [],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    IonicModule.forRoot(),
-    AppRoutingModule,
-    IonicStorageModule.forRoot(),
-    ModalModule,
-    ReleaseNotesModule,
-    DragDropModule,
-  ],
-  providers: [
-    {
-      provide: RouteReuseStrategy,
-      useClass: IonicRouteStrategy,
-    },
-    {
-      provide: MIGRATION_SCRIPTS,
-      useValue: migrationScripts,
-    },
-    VersionService,
-    AppVersion,
-  ],
-  bootstrap: [AppComponent],
-  exports: [],
+    declarations: [AppComponent, SandboxComponent],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        IonicModule.forRoot(),
+        AppRoutingModule,
+        IonicStorageModule.forRoot(),
+        ModalModule,
+        ReleaseNotesModule,
+        DragDropModule,
+    ],
+    providers: [
+        {
+            provide: RouteReuseStrategy,
+            useClass: IonicRouteStrategy,
+        },
+        {
+            provide: MIGRATION_SCRIPTS,
+            useValue: migrationScripts,
+        },
+        VersionService,
+        AppVersion,
+    ],
+    bootstrap: [AppComponent],
+    exports: []
 })
 export class AppModule {}
