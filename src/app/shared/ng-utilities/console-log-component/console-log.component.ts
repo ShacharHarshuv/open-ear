@@ -11,7 +11,7 @@ import {
   template: '',
 })
 export class ConsoleLogComponent {
-  @Input('message')
+  @Input()
   set message(msg: any) {
     console.log(msg);
   }

@@ -53,17 +53,17 @@ export abstract class BaseControlValueAccessorComponent<T>
     this.writeValue(value);
   }
 
-  @Input('disabled')
-  set disabledInput(isDisabled: boolean | null) {
+  @Input()
+  set disabled(isDisabled: boolean | null) {
     this.setDisabledState(!!isDisabled);
   }
 
-  @Output('valueChange')
-  readonly onValueChangeEmitter$: Subject<T> = new Subject();
+  @Output()
+  readonly valueChange: Subject<T> = new Subject();
 
   readonly value$: Observable<T> = merge(
     this.modelValue$,
-    this.onValueChangeEmitter$
+    this.valueChange
   ).pipe(publishReplayUntilAndConnect(this._destroy$));
 
   get isDisabled(): boolean {
@@ -76,7 +76,7 @@ export abstract class BaseControlValueAccessorComponent<T>
     if (!skipMarkAsTouched) {
       this._onTouch();
     }
-    this.onValueChangeEmitter$.next(newValue);
+    this.valueChange.next(newValue);
   }
 
   getCurrentValuePromise(): Promise<T> {

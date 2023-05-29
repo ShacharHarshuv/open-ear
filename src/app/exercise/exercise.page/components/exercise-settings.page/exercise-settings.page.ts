@@ -119,6 +119,7 @@ export class ExerciseSettingsPage {
     return of(settings.descriptor);
   };
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('exerciseSettingsDescriptor')
   set exerciseSettingsDescriptorInput(
     settingsDescriptor: Exercise.SettingsControlDescriptor[]

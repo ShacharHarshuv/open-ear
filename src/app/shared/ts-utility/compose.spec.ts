@@ -54,7 +54,7 @@ describe('compose', function () {
 });
 
 describe('compose with merge', function () {
-  const compose = composeWithMerge({
+  const customCompose = composeWithMerge({
     dictionary: (
       dic1: Record<string, number>,
       dic2: Record<string, number>
@@ -70,7 +70,7 @@ describe('compose with merge', function () {
   });
 
   it('should use the merge function in case of a conflict of fn1 return and fn2 return', () => {
-    const returnValue = compose(
+    const returnValue = customCompose(
       (p: { n: number }) => ({
         dictionary: {
           a: p.n,
@@ -91,7 +91,7 @@ describe('compose with merge', function () {
   });
 
   it('should use the merge function in case of conflict of params and fn1 return', () => {
-    const returnValue = compose(
+    const returnValue = customCompose(
       (p: { array: string[] }) => {
         return {
           array: [p.array.length.toString()],
@@ -113,7 +113,7 @@ describe('compose with merge', function () {
   });
 
   it('should enable to pass optional parameters to fn2 even if fn1 returns them if they have a merge function', () => {
-    const myFunc = compose(
+    const myFunc = customCompose(
       (p: { a: number }): { array: string[] } => ({
         array: [p.a.toString()],
       }),
