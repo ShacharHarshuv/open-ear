@@ -1,6 +1,6 @@
 <app-modal-frame [title]="exerciseName" #modal="modal">
   <div class="exercise-explanation__content">
-    <ng-template [exerciseExplanationContent]="content"></ng-template>
+    <ng-template [appExerciseExplanationContent]="content"></ng-template>
   </div>
 
   <ion-button expand="block" (click)="modal.close()">Got It</ion-button>

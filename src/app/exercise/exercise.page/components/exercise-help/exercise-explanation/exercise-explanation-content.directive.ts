@@ -9,14 +9,14 @@ import {
 import Exercise from '../../../../Exercise';
 
 @Directive({
-  selector: '[exerciseExplanationContent]',
+  selector: '[appExerciseExplanationContent]',
 })
 export class ExerciseExplanationContentDirective {
   private _eRef = inject(ElementRef);
   private _viewContainerRef = inject(ViewContainerRef);
   private _cfResolver = inject(ComponentFactoryResolver);
 
-  @Input('exerciseExplanationContent')
+  @Input('appExerciseExplanationContent')
   set content(content: Exercise.ExerciseExplanationContent) {
     if (typeof content === 'string') {
       this._eRef.nativeElement.parentElement.innerHTML = content;
