@@ -20,7 +20,7 @@
 
 <ion-list>
   <ng-container *ngFor="let interval of intervalDescriptorList">
-    <ion-item button [playOnClick]="interval.toPlay">
+    <ion-item button [appPlayOnClick]="interval.toPlay">
       {{ interval.name }}
     </ion-item>
   </ng-container>

@@ -21,7 +21,7 @@
 <p>(Click to play)</p>
 <ion-list>
   <ng-container *ngFor="let chord of chords">
-    <ion-item button [playOnClick]="chord.toPlay">
+    <ion-item button [appPlayOnClick]="chord.toPlay">
       <b>{{ chord.displayName }}</b
       >&nbsp;({{ chord.notesInC.join("-") }})
     </ion-item>

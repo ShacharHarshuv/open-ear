@@ -19,7 +19,7 @@
         "plugin:@angular-eslint/recommended"
       ],
       "rules": {
-        "no-shadow": "error",
+        "no-shadow": "off",
         "@angular-eslint/component-class-suffix": [
           "error",
           {

@@ -6,10 +6,10 @@ import { toSteadyPart } from '../../../exercise/utility';
 import * as _ from 'lodash';
 
 @Directive({
-  selector: '[playOnClick]',
+  selector: '[appPlayOnClick]',
 })
 export class PlayOnClickDirective {
-  @Input('playOnClick')
+  @Input('appPlayOnClick')
   part: OneOrMany<OneOrMany<NoteNumberOrName> | NoteEvent>;
 
   constructor(private _player: PlayerService) {}

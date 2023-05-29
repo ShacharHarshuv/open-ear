@@ -13,7 +13,10 @@ import * as _ from 'lodash';
 function reverseSteps(
   steps: AnimationStyleMetadata[]
 ): AnimationStyleMetadata[] {
-  return [...steps].reverse();
+  return [...steps].reverse().map((step, i) => ({
+    ...step,
+    offset: step.offset ? 1.0 - step.offset : i * (1.0 / steps.length),
+  }));
 }
 
 export function enterLeaveAnimationFactory(args: {
@@ -40,13 +43,12 @@ export function enterLeaveAnimationFactory(args: {
   ];
 
   if (args.animateOnLeave) {
+    const reversedSteps = reverseSteps(args.steps);
     animationStyleMetadataList.push(
       transition('visible => hidden', [
-        animate(args.timing!, keyframes(reverseSteps(args.steps))),
+        animate(args.timing!, keyframes(reversedSteps)),
       ]),
-      transition(':leave', [
-        animate(args.timing!, keyframes(reverseSteps(args.steps))),
-      ])
+      transition(':leave', [animate(args.timing!, keyframes(reversedSteps))])
     );
   }
 
