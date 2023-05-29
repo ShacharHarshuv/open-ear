@@ -103,7 +103,7 @@
   "description": "An Ionic project",
   "husky": {
     "hooks": {
-      "pre-commit": "yarn lint --fix"
+      "pre-commit": "yarn lint --fix && prettier --check ."
     }
   }
 }
