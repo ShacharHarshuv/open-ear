@@ -6,7 +6,7 @@ import {
   ViewContainerRef,
   inject,
 } from '@angular/core';
-import Exercise from '../../../../Exercise';
+import Exercise from '../../../../exercise-logic';
 
 @Directive({
   selector: '[appExerciseExplanationContent]',

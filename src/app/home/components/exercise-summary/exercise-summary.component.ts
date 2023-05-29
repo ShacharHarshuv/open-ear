@@ -1,5 +1,5 @@
 import { Component, Input, inject } from '@angular/core';
-import Exercise from '../../../exercise/Exercise';
+import Exercise from '../../../exercise/exercise-logic';
 import { PlayerService } from '../../../services/player.service';
 import IExercise = Exercise.Exercise;
 

@@ -1,4 +1,4 @@
-import Exercise from '../../Exercise';
+import Exercise from '../../exercise-logic';
 import {
   NotesRange,
   randomFromList,
@@ -42,7 +42,7 @@ import { transpose } from '../../utility/music/transpose';
 import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
 import { createExercise } from '../utility/exerciseAttributes/createExercise';
 import { TonalExerciseUtils } from '../utility/exerciseAttributes/tonalExercise';
-import * as _ from "lodash";
+import * as _ from 'lodash';
 
 export type NoteInKeySettings = IncludedAnswersSettings<SolfegeNote> &
   MelodicDictationExerciseSettings &

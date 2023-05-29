@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import Exercise from '../../Exercise';
+import Exercise from '../../exercise-logic';
 import { AdaptiveExercise } from './adaptive-exercise';
 
 @Injectable({

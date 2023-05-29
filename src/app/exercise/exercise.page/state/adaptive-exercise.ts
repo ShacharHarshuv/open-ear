@@ -1,4 +1,4 @@
-import Exercise from '../../Exercise';
+import Exercise from '../../exercise-logic';
 import Heap from 'heap-js';
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 

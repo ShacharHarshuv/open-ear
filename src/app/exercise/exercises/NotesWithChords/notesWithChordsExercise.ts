@@ -3,7 +3,7 @@ import {
   tonalExercise,
   TonalExerciseUtils,
 } from '../utility/exerciseAttributes/tonalExercise';
-import Exercise from '../../Exercise';
+import Exercise from '../../exercise-logic';
 import { randomFromList } from '../../../shared/ts-utility';
 import { Chord, Direction } from '../../utility/music/chords';
 import { Note } from 'tone/Tone/core/type/NoteUnits';

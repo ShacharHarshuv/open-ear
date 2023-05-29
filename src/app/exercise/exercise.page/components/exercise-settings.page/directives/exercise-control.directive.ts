@@ -1,5 +1,5 @@
 import { Directive, Input, Inject } from '@angular/core';
-import Exercise from '../../../../Exercise';
+import Exercise from '../../../../exercise-logic';
 import { ExerciseSettingsPage } from '../exercise-settings.page';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { takeUntil, map, pairwise, startWith } from 'rxjs/operators';

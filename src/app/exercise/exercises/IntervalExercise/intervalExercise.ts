@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import Exercise from '../../Exercise';
+import Exercise from '../../exercise-logic';
 import {
   randomFromList,
   toNoteName,

@@ -1,4 +1,4 @@
-import Exercise from '../../../Exercise';
+import Exercise from '../../../exercise-logic';
 import { ScaleDegree } from '../../../utility';
 
 export const scaleLayout: Exercise.AnswersLayout<ScaleDegree> = {

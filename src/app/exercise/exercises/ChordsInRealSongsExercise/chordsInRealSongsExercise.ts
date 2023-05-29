@@ -1,4 +1,4 @@
-import Exercise from '../../Exercise';
+import Exercise from '../../exercise-logic';
 import { allRomanNumeralAnswerList } from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
 import {
   chordsInRealSongsDescriptorList,

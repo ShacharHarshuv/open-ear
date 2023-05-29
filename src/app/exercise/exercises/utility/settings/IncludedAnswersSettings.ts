@@ -1,4 +1,4 @@
-import Exercise from '../../../Exercise';
+import Exercise from '../../../exercise-logic';
 import { toGetter } from '../../../../shared/ts-utility';
 import { CreateExerciseParams } from '../exerciseAttributes/createExercise';
 import { SettingsParams } from './SettingsParams';

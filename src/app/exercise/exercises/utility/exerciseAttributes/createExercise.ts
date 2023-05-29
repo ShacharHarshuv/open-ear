@@ -1,4 +1,4 @@
-import Exercise from '../../../Exercise';
+import Exercise from '../../../exercise-logic';
 import * as _ from 'lodash';
 import { StaticOrGetter, toGetter } from '../../../../shared/ts-utility';
 import { SettingsParams } from '../settings/SettingsParams';

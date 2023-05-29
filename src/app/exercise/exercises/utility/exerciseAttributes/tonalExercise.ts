@@ -7,7 +7,7 @@ import {
   StaticOrGetter,
   scaleDegreeToChromaticDegree,
 } from '../../../utility';
-import Exercise from '../../../Exercise';
+import Exercise from '../../../exercise-logic';
 import { transpose } from '../../../utility/music/transpose';
 import { getDistanceOfKeys } from '../../../utility/music/keys/getDistanceOfKeys';
 import {

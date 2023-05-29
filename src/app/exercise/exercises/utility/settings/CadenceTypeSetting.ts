@@ -1,5 +1,5 @@
 import { CadenceType } from '../exerciseAttributes/tonalExercise';
-import Exercise from '../../../Exercise';
+import Exercise from '../../../exercise-logic';
 import { withSettings } from './withSettings';
 
 export type CadenceTypeSetting = {

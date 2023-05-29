@@ -1,7 +1,7 @@
 import { PublicMembers } from '../../../shared/ts-utility/PublicMembers';
 import { AdaptiveExerciseService } from './adaptive-exercise.service';
 import { Injectable } from '@angular/core';
-import Exercise from '../../Exercise';
+import Exercise from '../../exercise-logic';
 import { AdaptiveExercise } from './adaptive-exercise';
 
 @Injectable()

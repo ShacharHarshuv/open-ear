@@ -1,4 +1,4 @@
-import Exercise from './Exercise';
+import Exercise from './exercise-logic';
 
 export namespace ExerciseTest {
   export function answerListContaining<GAnswer extends string>(

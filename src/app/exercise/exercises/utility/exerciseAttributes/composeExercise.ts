@@ -1,5 +1,5 @@
 import { composeWithMerge } from "../../../../shared/ts-utility/compose";
-import Exercise from "../../../Exercise";
+import Exercise from "../../../exercise-logic";
 import {
   StaticOrGetter,
   toGetter
