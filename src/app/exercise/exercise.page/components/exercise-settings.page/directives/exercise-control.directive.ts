@@ -10,6 +10,7 @@ import { shareReplayUntil } from '../../../../../shared/ts-utility/rxjs/shareRep
 
 @Directive({
   selector: '[appExerciseControl]',
+  standalone: true,
 })
 export class ExerciseControlDirective extends BaseComponent {
   @Input('appExerciseControl')

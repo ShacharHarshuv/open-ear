@@ -14,13 +14,6 @@ const routes: Routes = [
       import('./about/about.module').then((m) => m.AboutModule),
   },
   {
-    path: 'message/:id',
-    loadChildren: () =>
-      import('./view-message/view-message.module').then(
-        (m) => m.ViewMessagePageModule
-      ),
-  },
-  {
     path: 'exercise/:id',
     loadChildren: () =>
       import('./exercise/exercise.module').then((m) => m.ExerciseModule),

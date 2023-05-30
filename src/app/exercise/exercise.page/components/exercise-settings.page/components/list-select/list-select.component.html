@@ -6,7 +6,7 @@
   <ion-item *ngFor="let answer of allAvailableOptions">
     <ion-label>{{ answer.label }}</ion-label>
     <ion-checkbox
-      (ionChange)="onChange(answer.value, $event.detail.checked)"
+      (ionChange)="onChange(answer.value, $any($event).detail.checked)"
       [checked]="modelValue.includes(answer.value)"
       slot="start"
     ></ion-checkbox>

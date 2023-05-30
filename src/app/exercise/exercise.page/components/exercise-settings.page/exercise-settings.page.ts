@@ -4,7 +4,13 @@ import {
   FormGroup,
   TAbstractControlsOf,
 } from '../../../../shared/reactive-forms';
-import Exercise from '../../../exercise-logic';
+import Exercise, {
+  ControlDescriptor,
+  SelectControlDescriptor,
+  ListSelectControlDescriptor,
+  SliderControlDescriptor,
+  IncludedAnswersControlDescriptor,
+} from '../../../exercise-logic';
 import {
   ExerciseSettingsData,
   GlobalExerciseSettings,
@@ -18,6 +24,15 @@ import { map, distinctUntilChanged } from 'rxjs/operators';
 import { InstrumentName } from '../../../../services/player.service';
 import { keys } from '../../../../shared/ts-utility/keys';
 import { samples } from 'generated/samples';
+import { IonicModule } from '@ionic/angular';
+import { FieldInfoComponent } from './components/field-info/field-info.component';
+import { IncludedAnswersComponent } from './components/included-answers/included-answers.component';
+import { ExerciseControlDirective } from './directives/exercise-control.directive';
+import { CommonModule } from '@angular/common';
+import { ListSelectComponent } from './components/list-select/list-select.component';
+import { ModalFrameComponent } from '../../../../shared/modal/modal-frame/modal-frame.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { PureFunctionPipe } from '../../../../shared/ng-utilities/pure-function-pipe/pure-function.pipe';
 import SettingValueType = Exercise.SettingValueType;
 import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
 
@@ -43,6 +58,18 @@ interface ExerciseSettingsControls {
   templateUrl: './exercise-settings.page.html',
   styleUrls: ['./exercise-settings.page.scss'],
   animations: [collapseVertical],
+  standalone: true,
+  imports: [
+    CommonModule,
+    IonicModule,
+    FieldInfoComponent,
+    IncludedAnswersComponent,
+    ExerciseControlDirective,
+    ListSelectComponent,
+    ModalFrameComponent,
+    ReactiveFormsModule,
+    PureFunctionPipe,
+  ],
 })
 export class ExerciseSettingsPage {
   readonly generalFormGroup = new FormGroup<ExerciseSettingsControls>({
@@ -186,5 +213,57 @@ export class ExerciseSettingsPage {
           label: capitalize(instrumentName.split('-').join(' ')),
         } as const)
     );
+  }
+
+  asListSelectControlDescriptor(
+    descriptor: ControlDescriptor
+  ): ListSelectControlDescriptor {
+    if (descriptor.controlType !== 'list-select') {
+      throw new Error(
+        `Descriptor ${JSON.stringify(
+          descriptor
+        )} is not a ListSelectControlDescriptor`
+      );
+    }
+    return descriptor;
+  }
+
+  asSliderControlDescriptor(
+    descriptor: ControlDescriptor
+  ): SliderControlDescriptor {
+    if (descriptor.controlType !== 'slider') {
+      throw new Error(
+        `Descriptor ${JSON.stringify(
+          descriptor
+        )} is not a ListSelectControlDescriptor`
+      );
+    }
+    return descriptor;
+  }
+
+  asIncludedAnswersControlDescriptor(
+    descriptor: ControlDescriptor
+  ): IncludedAnswersControlDescriptor {
+    if (descriptor.controlType !== 'included-answers') {
+      throw new Error(
+        `Descriptor ${JSON.stringify(
+          descriptor
+        )} is not a IncludedAnswersControlDescriptor`
+      );
+    }
+    return descriptor;
+  }
+
+  asSelectControlDescriptor(
+    descriptor: ControlDescriptor
+  ): SelectControlDescriptor {
+    if (descriptor.controlType !== 'select') {
+      throw new Error(
+        `Descriptor ${JSON.stringify(
+          descriptor
+        )} is not a SelectControlDescriptor`
+      );
+    }
+    return descriptor;
   }
 }

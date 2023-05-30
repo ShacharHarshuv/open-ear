@@ -1,9 +1,7 @@
 import { ExercisePage } from './exercise.page';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ExerciseSettingsDataMockService } from '../../services/exercise-settings-data.mock.service';
-import { ModalModule } from '../../shared/modal/modal.module';
 import { MockExercise } from '../MockExercise';
-import { SharedComponentsModule } from '../../shared/components/shared-components/shared-components.module';
 import { fakeAsync, flush, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { ExerciseService } from '../exercise.service';
@@ -13,6 +11,7 @@ import { ExercisePageDebugger } from './exerice.page.debugger.spec';
 import { TestingUtility } from '../../shared/testing-utility';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ExerciseTestingModule } from '../exercise-testing.module';
+import { ModalFrameComponent } from '../../shared/modal/modal-frame/modal-frame.component';
 
 describe(ExercisePage.name, () => {
   const spies: jasmine.Spy[] = [];
@@ -22,12 +21,11 @@ describe(ExercisePage.name, () => {
     TestBed.configureTestingModule({
       imports: [
         ExerciseTestingModule,
-        ModalModule,
+        ModalFrameComponent,
         // IonicModule.forRoot({
         //   animated: false,
         // }),
         NoopAnimationsModule,
-        SharedComponentsModule,
         RouterTestingModule,
       ],
       providers: [

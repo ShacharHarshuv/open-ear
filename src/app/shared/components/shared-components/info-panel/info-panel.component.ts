@@ -4,5 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-info-panel',
   templateUrl: './info-panel.component.html',
   styleUrls: ['./info-panel.component.scss'],
+  standalone: true,
 })
 export class InfoPanelComponent {}

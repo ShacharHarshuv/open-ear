@@ -1639,18 +1639,18 @@
     tslib "^1.9.0"
     ws "^7.0.0"
 
-"@ionic/storage-angular@^3.0.6":
-  version "3.0.6"
-  resolved "https://registry.npmjs.org/@ionic/storage-angular/-/storage-angular-3.0.6.tgz"
-  integrity sha512-ZXlIFWGU27aCxVFgZb0KFJFtWwnn6+HK6v0rMGzjN8f7oV2ewXaQ2dl1gTw/A8YoozTVPOFxwfFHCjhWLFR1Fw==
+"@ionic/storage-angular@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@ionic/storage-angular/-/storage-angular-4.0.0.tgz#dcdfbd207b5ef905eb45f24957f14bd5338d7bb8"
+  integrity sha512-FeSmCMCm1bMRfu5TFSqLtjdfEo/dLLUhLIrPmbhSYomVZdV/dNn4mBZv9SabyxSqn4bF31hw40y+4buhG+durQ==
   dependencies:
-    "@ionic/storage" "^3.0.4"
-    tslib "^1.10.0"
+    "@ionic/storage" "^4.0.0"
+    tslib "^2.3.0"
 
-"@ionic/storage@^3.0.4":
-  version "3.0.6"
-  resolved "https://registry.npmjs.org/@ionic/storage/-/storage-3.0.6.tgz"
-  integrity sha512-sw+zSJINIpbQCGZR9mEtb9N0WmZLuhcMVqOZJBqLuDACAMdXqG39zmp5nSVqhGI1/9X3nd0K5gVn6icyVfUnUg==
+"@ionic/storage@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@ionic/storage/-/storage-4.0.0.tgz#33197042abfbb88b6b6f6b051ca64a9566812c01"
+  integrity sha512-3N21P19Xk6cICLnSXZ3ilRqbSXAGSFeIF3HNqz+1kARcm0UFT/vwmZreaXtFyq437vvEWOfJ2enlj3JHLKS0FA==
   dependencies:
     localforage "^1.9.0"
 
@@ -10545,7 +10545,7 @@ tslib@2.5.0:
   resolved "https://registry.npmjs.org/tslib/-/tslib-2.5.0.tgz"
   integrity sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==
 
-tslib@^1.10.0, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.2:
+tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.2:
   version "1.14.1"
   resolved "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==

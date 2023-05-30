@@ -1,12 +1,16 @@
 import { Component, Input, inject } from '@angular/core';
 import Exercise from '../../../exercise/exercise-logic';
 import { PlayerService } from '../../../services/player.service';
+import { IonicModule } from '@ionic/angular';
+import { RouterLink } from '@angular/router';
 import IExercise = Exercise.Exercise;
 
 @Component({
   selector: 'app-exercise-summary',
   templateUrl: './exercise-summary.component.html',
   styleUrls: ['./exercise-summary.component.scss'],
+  standalone: true,
+  imports: [IonicModule, RouterLink],
 })
 export class ExerciseSummaryComponent {
   private _player = inject(PlayerService);

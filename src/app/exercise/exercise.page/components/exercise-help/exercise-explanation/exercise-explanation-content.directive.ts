@@ -10,6 +10,7 @@ import Exercise from '../../../../exercise-logic';
 
 @Directive({
   selector: '[appExerciseExplanationContent]',
+  standalone: true,
 })
 export class ExerciseExplanationContentDirective {
   private _eRef = inject(ElementRef);

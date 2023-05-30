@@ -3,22 +3,20 @@ import { CommonModule } from '@angular/common';
 import { AboutPage } from './about.page';
 import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { SharedComponentsModule } from '../shared/components/shared-components/shared-components.module';
-import { ModalModule } from '../shared/modal/modal.module';
+import { ModalFrameComponent } from '../shared/modal/modal-frame/modal-frame.component';
 
 @NgModule({
-  declarations: [AboutPage],
   imports: [
+    AboutPage,
     CommonModule,
     IonicModule,
-    SharedComponentsModule,
     RouterModule.forChild([
       {
         path: '',
         component: AboutPage,
       },
     ]),
-    ModalModule,
+    ModalFrameComponent,
   ],
 })
 export class AboutModule {}

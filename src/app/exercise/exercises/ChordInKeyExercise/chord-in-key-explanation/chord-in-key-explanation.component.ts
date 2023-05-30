@@ -6,10 +6,21 @@ import {
   IV_V_I_CADENCE_IN_C,
   TriadInversion,
 } from '../../../utility/music/chords';
+import { InfoPanelComponent } from '../../../../shared/components/shared-components/info-panel/info-panel.component';
+import { CollapsibleComponent } from '../../../../shared/components/shared-components/collapsible/collapsible.component';
+import { IonicModule } from '@ionic/angular';
+import { PlayOnClickDirective } from '../../../../shared/components/shared-components/play-on-click.directive';
 
 @Component({
   selector: 'app-chord-in-key-explanation',
   templateUrl: './chord-in-key-explanation.component.html',
+  standalone: true,
+  imports: [
+    InfoPanelComponent,
+    CollapsibleComponent,
+    IonicModule,
+    PlayOnClickDirective,
+  ],
 })
 export class ChordInKeyExplanationComponent {
   getChordExample(

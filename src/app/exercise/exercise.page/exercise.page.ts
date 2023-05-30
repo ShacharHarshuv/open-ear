@@ -4,6 +4,7 @@ import {
   ModalController,
   AlertController,
   ToastController,
+  IonicModule,
 } from '@ionic/angular';
 import { ExerciseSettingsPage } from './components/exercise-settings.page/exercise-settings.page';
 import * as _ from 'lodash';
@@ -12,9 +13,14 @@ import Exercise from '../exercise-logic';
 import { BaseComponent } from '../../shared/ts-utility';
 import { takeUntil, finalize, switchMap, map } from 'rxjs/operators';
 import { BehaviorSubject, combineLatest } from 'rxjs';
-import { BdcWalkService } from 'bdc-walkthrough';
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { BdcWalkService, BdcWalkModule } from 'bdc-walkthrough';
+import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import { getCurrentAnswersLayout } from './utility/getCurrentAnswersLayout';
+import { AnswersLayoutComponent } from './components/answers-layout/answers-layout.component';
+import { AnswerIndicationComponent } from './components/answer-indication/answer-indication.component';
+import { CommonModule } from '@angular/common';
+import { PureFunctionPipe } from '../../shared/ng-utilities/pure-function-pipe/pure-function.pipe';
+import { ContentPaddingDirective } from '../../shared/components/shared-components/content-padding.directive';
 import AnswerConfig = Exercise.AnswerConfig;
 
 @Component({
@@ -22,6 +28,17 @@ import AnswerConfig = Exercise.AnswerConfig;
   templateUrl: './exercise.page.html',
   styleUrls: ['./exercise.page.scss'],
   providers: [ExerciseStateService, ExerciseExplanationService],
+  standalone: true,
+  imports: [
+    CommonModule,
+    IonicModule,
+    BdcWalkModule,
+    DragDropModule,
+    AnswersLayoutComponent,
+    AnswerIndicationComponent,
+    PureFunctionPipe,
+    ContentPaddingDirective,
+  ],
 })
 export class ExercisePage extends BaseComponent {
   private _hideMessage$ = new BehaviorSubject<boolean>(false);
