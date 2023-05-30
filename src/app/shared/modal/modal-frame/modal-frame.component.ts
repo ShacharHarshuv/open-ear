@@ -11,7 +11,7 @@ export class ModalFrameComponent {
   private _modalController = inject(ModalController);
 
   @Input()
-  title: string;
+  title: string = '';
 
   @Input()
   padding: boolean = true;
@@ -20,7 +20,7 @@ export class ModalFrameComponent {
   closeIcon: string = 'close-outline';
 
   @Input()
-  onClose: () => Promise<any>;
+  onClose: () => Promise<any> = async () => {};
 
   async close(): Promise<void> {
     await this._modalController.dismiss(

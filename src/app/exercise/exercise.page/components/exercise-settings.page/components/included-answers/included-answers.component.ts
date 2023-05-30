@@ -15,7 +15,7 @@ export class IncludedAnswersComponent<
   GAnswer extends string
 > extends BaseControlValueAccessorComponent<GAnswer[]> {
   @Input()
-  answerList: Exercise.AnswerList<GAnswer>;
+  answerList: Exercise.AnswerList<GAnswer> = [];
 
   async toggleInclusion(answer: GAnswer): Promise<void> {
     const currentValue: ReadonlyArray<GAnswer> =

@@ -18,10 +18,10 @@ export class ListSelectComponent extends BaseControlValueAccessorComponent<
   allAvailableOptions: {
     label: string;
     value: string | number;
-  }[];
+  }[] = [];
 
   @Input()
-  label: string;
+  label: string = '';
 
   async onChange(answer: string | number, isSelected: boolean): Promise<void> {
     const currentValue: (string | number)[] = [

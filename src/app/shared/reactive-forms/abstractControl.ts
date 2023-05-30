@@ -74,7 +74,7 @@ export interface IAbstractControl<
   setErrors(
     errors: Partial<GErrors> | null,
     opts?: Pick<IControlUpdateOptions, 'emitEvent'>
-  );
+  ): void;
 
   getError<K extends Extract<keyof GErrors, string>>(
     errorCode: K,
@@ -99,7 +99,7 @@ export interface IAbstractControl<
   disableWhile(
     isDisabled$: Observable<boolean>,
     options?: IControlUpdateOptions & { takeUntil$?: Observable<any> }
-  );
+  ): void;
 }
 
 // To be used with FormGroup and FormArray

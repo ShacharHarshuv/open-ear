@@ -12,6 +12,7 @@ export class ExerciseSummaryComponent {
   private _player = inject(PlayerService);
 
   @Input()
+  // @ts-ignore
   exercise: IExercise;
 
   // This has to be called by a user click event to work

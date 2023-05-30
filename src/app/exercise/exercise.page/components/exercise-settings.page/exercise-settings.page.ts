@@ -56,13 +56,14 @@ export class ExerciseSettingsPage {
     instrument: new FormControl<InstrumentName>(),
   });
 
-  exerciseSettingsDescriptor: Exercise.SettingsControlDescriptor[];
+  exerciseSettingsDescriptor: Exercise.SettingsControlDescriptor[] = [];
+  // @ts-ignore
   exerciseFormGroup: FormGroup<{ [key: string]: FormControl }>;
 
   readonly instrumentOptions = this._getInstrumentOptions();
 
   @Input()
-  exerciseName: string;
+  exerciseName: string = '';
 
   @Input()
   set currentGlobalSettings(currentSettings: GlobalExerciseSettings) {
@@ -102,7 +103,7 @@ export class ExerciseSettingsPage {
   }
 
   @Input()
-  allAvailableAnswers: string[];
+  allAvailableAnswers: string[] = [];
 
   getControlDescriptorStream = (
     settings: SettingsControlDescriptor

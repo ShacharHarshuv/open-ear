@@ -31,10 +31,15 @@ export class FormControl<
     this._validatorOrOpts
   );
 
+  // @ts-ignore
   override readonly value: GValue;
+  // @ts-ignore
   override readonly errors: GErrors | null;
+  // @ts-ignore
   override readonly valueChanges: Observable<GValue>;
+  // @ts-ignore
   override readonly status: TControlStatus;
+  // @ts-ignore
   override readonly statusChanges: Observable<TControlStatus>;
 
   readonly isTouched$: Observable<boolean> = this._touchChanges$

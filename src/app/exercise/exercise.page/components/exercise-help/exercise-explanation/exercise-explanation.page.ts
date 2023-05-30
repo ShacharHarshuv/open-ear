@@ -7,8 +7,8 @@ import { Component, Input } from '@angular/core';
 })
 export class ExerciseExplanationPage {
   @Input()
-  content: string;
+  content: string = '';
 
   @Input()
-  exerciseName: string;
+  exerciseName: string = '';
 }
