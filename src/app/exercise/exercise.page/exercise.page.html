@@ -52,7 +52,7 @@
       >
         <app-answer-indication
           *ngFor="let answer of answersPlayedTogether"
-          [answerDisplay]="state.answerToLabelStringMap[answer.answer]"
+          [answerDisplay]="answer.answer && state.answerToLabelStringMap[answer.answer]"
           [isFocused]="state.currentlyPlayingSegments.has(answer.index)"
           [wasAnsweredWrong]="answer.wasWrong"
           cdkDropList
@@ -62,7 +62,7 @@
     </div>
     <app-answers-layout
       [answerList]="state.answerList"
-      [buttonTemplate]="answerButton"
+      [buttonTemplate]="$any(answerButton)"
     ></app-answers-layout>
     <ng-template let-answerConfig #answerButton>
       <div cdkDropList>

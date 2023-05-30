@@ -5,12 +5,16 @@ import {
   TemplateRef,
 } from '@angular/core';
 import Exercise, { AnswerList, AnswerConfig } from '../../../exercise-logic';
+import { PureFunctionPipe } from '../../../../shared/ng-utilities/pure-function-pipe/pure-function.pipe';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-answers-layout',
   templateUrl: './answers-layout.component.html',
   styleUrls: ['./answers-layout.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [CommonModule, PureFunctionPipe],
 })
 export class AnswersLayoutComponent<GAnswer extends string = string> {
   @Input()
@@ -18,7 +22,7 @@ export class AnswersLayoutComponent<GAnswer extends string = string> {
 
   @Input()
   // @ts-ignore
-  buttonTemplate: TemplateRef<AnswerConfig<GAnswer>>;
+  buttonTemplate: { $implicit: TemplateRef<AnswerConfig<GAnswer>> };
 
   get isAutoLayout() {
     return Array.isArray(this.answerList);

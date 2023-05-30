@@ -3,6 +3,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
   name: 'pureFunction',
   pure: true,
+  standalone: true,
 })
 export class PureFunctionPipe implements PipeTransform {
   transform<T, U extends Array<any>>(

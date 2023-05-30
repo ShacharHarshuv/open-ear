@@ -1,11 +1,14 @@
 import { Component, Input, inject } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, IonicModule } from '@ionic/angular';
+import { ContentPaddingDirective } from '../../components/shared-components/content-padding.directive';
 
 @Component({
   selector: 'app-modal-frame',
   templateUrl: './modal-frame.component.html',
   styleUrls: ['./modal-frame.component.scss'],
   exportAs: 'modal',
+  standalone: true,
+  imports: [IonicModule, ContentPaddingDirective],
 })
 export class ModalFrameComponent {
   private _modalController = inject(ModalController);

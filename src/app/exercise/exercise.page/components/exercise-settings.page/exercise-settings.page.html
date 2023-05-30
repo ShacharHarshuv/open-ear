@@ -131,7 +131,7 @@
               [interface]="'popover'"
             >
               <ion-select-option
-                *ngFor="let option of descriptor.options"
+                *ngFor="let option of asSelectControlDescriptor(descriptor).options"
                 [value]="option.value"
               >
                 {{option.label}}
@@ -146,17 +146,17 @@
             <ng-container *ngTemplateOutlet="label"></ng-container>
             <ion-range
               [appExerciseControl]="exerciseControlSettings"
-              [max]="descriptor.max"
-              [min]="descriptor.min"
+              [max]="asSliderControlDescriptor(descriptor).max"
+              [min]="asSliderControlDescriptor(descriptor).min"
               [snaps]="true"
-              [step]="descriptor.step"
+              [step]="asSliderControlDescriptor(descriptor).step"
               pin
             >
             </ion-range>
           </ion-item>
           <app-list-select
             *ngSwitchCase="'list-select'"
-            [allAvailableOptions]="descriptor.allOptions"
+            [allAvailableOptions]="asListSelectControlDescriptor(descriptor).allOptions"
             [appExerciseControl]="exerciseControlSettings"
             [label]="descriptor.label"
             @collapseVertical
@@ -182,7 +182,7 @@
               ></app-field-info
             ></ion-list-header>
             <app-included-answers
-              [answerList]="descriptor.answerList"
+              [answerList]="asIncludedAnswersControlDescriptor(descriptor).answerList"
               [appExerciseControl]="exerciseControlSettings"
             ></app-included-answers>
           </ion-list>

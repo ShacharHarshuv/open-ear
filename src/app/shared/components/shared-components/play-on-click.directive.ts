@@ -7,6 +7,7 @@ import * as _ from 'lodash';
 
 @Directive({
   selector: '[appPlayOnClick]',
+  standalone: true,
 })
 export class PlayOnClickDirective {
   @Input('appPlayOnClick')

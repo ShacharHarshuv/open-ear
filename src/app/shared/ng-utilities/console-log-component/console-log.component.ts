@@ -9,6 +9,7 @@ import {
 @Component({
   selector: 'app-console-log',
   template: '',
+  standalone: true,
 })
 export class ConsoleLogComponent {
   @Input()

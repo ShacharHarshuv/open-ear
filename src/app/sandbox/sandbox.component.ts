@@ -1,11 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { PlayerService } from '../services/player.service';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-sandbox',
   templateUrl: './sandbox.component.html',
   styleUrls: ['./sandbox.component.scss'],
+  standalone: true,
+  imports: [IonicModule],
 })
 export class SandboxComponent {
   private _playingNotesSet = new Set<Note>();

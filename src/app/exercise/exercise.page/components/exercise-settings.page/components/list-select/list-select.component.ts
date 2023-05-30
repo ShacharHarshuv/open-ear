@@ -4,12 +4,16 @@ import {
   getNgValueAccessorProvider,
 } from '../../../../../../shared/ts-utility';
 import { firstValueFrom } from 'rxjs';
+import { IonicModule } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-list-select',
   templateUrl: './list-select.component.html',
   styleUrls: ['./list-select.component.scss'],
   providers: [getNgValueAccessorProvider(ListSelectComponent)],
+  standalone: true,
+  imports: [IonicModule, CommonModule],
 })
 export class ListSelectComponent extends BaseControlValueAccessorComponent<
   (string | number)[]
