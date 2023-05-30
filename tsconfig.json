@@ -4,27 +4,27 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "strictFunctionTypes": false,
+    "noImplicitAny": false, // todo: turn this on
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitThis": true,
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "ES2022",
-    "module": "es2022",
+    "target": "es2022",
+    "module": "es2020",
     "lib": [
       "es2018",
       "dom"
     ],
-    "strictNullChecks": true,
-    "skipLibCheck": true,
-    "noImplicitOverride": true,
-    "noImplicitThis": true,
-    "paths": {
-      "generated/*": [
-        "generated/*"
-      ]
-    },
     "useDefineForClassFields": false
   },
   "angularCompilerOptions": {

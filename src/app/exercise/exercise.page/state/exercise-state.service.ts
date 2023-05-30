@@ -66,7 +66,7 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
   private _currentSegmentToAnswer: number = 0;
   private _destroyed: boolean = false;
   private _message$ = new BehaviorSubject<string | null>(null);
-  private _error$ = new BehaviorSubject<string | null>(null);
+  private _error$ = new BehaviorSubject<unknown>(null);
   private _cadenceWasPlayed: boolean = false;
   readonly message$ = this._message$.asObservable();
   readonly error$ = this._error$.asObservable();

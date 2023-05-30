@@ -4,7 +4,7 @@ import {
   Input,
   TemplateRef,
 } from '@angular/core';
-import Exercise from '../../../exercise-logic';
+import Exercise, { AnswerList, AnswerConfig } from '../../../exercise-logic';
 
 @Component({
   selector: 'app-answers-layout',
@@ -14,10 +14,11 @@ import Exercise from '../../../exercise-logic';
 })
 export class AnswersLayoutComponent<GAnswer extends string = string> {
   @Input()
-  answerList: Exercise.AnswerList<GAnswer>;
+  answerList: AnswerList<GAnswer> = [];
 
   @Input()
-  buttonTemplate: TemplateRef<Exercise.AnswerConfig<GAnswer>>;
+  // @ts-ignore
+  buttonTemplate: TemplateRef<AnswerConfig<GAnswer>>;
 
   get isAutoLayout() {
     return Array.isArray(this.answerList);

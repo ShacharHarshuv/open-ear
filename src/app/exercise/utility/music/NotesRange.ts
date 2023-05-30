@@ -44,6 +44,7 @@ export class NotesRange {
 
     if (this.rangeSizeInSemitones < 0) {
       throw new Error(
+        // @ts-ignore
         `Invalid note range ${this.lowestNoteName}-${this.highestNoteName}`
       );
     }

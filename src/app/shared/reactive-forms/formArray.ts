@@ -49,16 +49,22 @@ export class FormArray<
         IFormArrayOptions<GControlOrValue, GErrors>)
     | undefined = ControlMethods.getOptions(this._validatorOrOpts);
 
+  // @ts-ignore
   override controls: Array<
     TAbstractControlOf<
       GControlOrValue,
       FormArray<GControlOrValue, GErrors, GParent>
     >
   >;
+  // @ts-ignore
   override readonly value: TControlValue<GControlOrValue>[];
+  // @ts-ignore
   override readonly valueChanges: Observable<TControlValue<GControlOrValue>[]>;
+  // @ts-ignore
   override readonly status: TControlStatus;
+  // @ts-ignore
   override readonly statusChanges: Observable<TControlStatus>;
+  // @ts-ignore
   override readonly errors: GErrors | null;
 
   readonly isTouched$ = this._touchChanges$

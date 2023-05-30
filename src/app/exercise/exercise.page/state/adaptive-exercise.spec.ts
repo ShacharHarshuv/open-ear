@@ -1,14 +1,19 @@
 import { AdaptiveExercise } from './adaptive-exercise';
-import Exercise from '../../exercise-logic';
+import {
+  Exercise,
+  Question,
+  AnswerList,
+  SettingsControlDescriptor,
+  SettingValueType,
+} from '../../exercise-logic';
 import { toNoteName } from '../../utility';
-import IExercise = Exercise.Exercise;
 
 describe('adaptive exercise', function () {
   let questionIndex: number;
-  let baseExercise: IExercise;
+  let baseExercise: Exercise;
   let adaptiveExercise: AdaptiveExercise;
 
-  function generateQuestion(_questionIndex: number): Exercise.Question {
+  function generateQuestion(_questionIndex: number): Question {
     return {
       segments: [
         {
@@ -19,27 +24,27 @@ describe('adaptive exercise', function () {
     };
   }
 
-  class MockExercise implements IExercise {
-    name: '';
-    id: '';
-    summary: '';
-    explanation: '';
+  class MockExercise implements Exercise {
+    name = '';
+    id = '';
+    summary = '';
+    explanation = '';
 
     // used to test for incorrect reference to "this"
     private _innerGetMethod(): any[] {
       return [];
     }
 
-    getAnswerList(): Exercise.AnswerList<string> {
+    getAnswerList(): AnswerList<string> {
       return ['CORRECT', 'WRONG'];
     }
 
-    getQuestion(): Exercise.Question<string> {
+    getQuestion(): Question<string> {
       return generateQuestion(questionIndex++);
     }
 
-    getSettingsDescriptor(): Exercise.SettingsControlDescriptor<{
-      [p: string]: Exercise.SettingValueType;
+    getSettingsDescriptor(): SettingsControlDescriptor<{
+      [p: string]: SettingValueType;
     }>[] {
       return this._innerGetMethod();
     }

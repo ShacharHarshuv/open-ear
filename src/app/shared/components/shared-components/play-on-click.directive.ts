@@ -10,7 +10,7 @@ import * as _ from 'lodash';
 })
 export class PlayOnClickDirective {
   @Input('appPlayOnClick')
-  part: OneOrMany<OneOrMany<NoteNumberOrName> | NoteEvent>;
+  part: OneOrMany<OneOrMany<NoteNumberOrName> | NoteEvent> = [];
 
   constructor(private _player: PlayerService) {}
 

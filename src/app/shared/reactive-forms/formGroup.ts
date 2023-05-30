@@ -78,12 +78,18 @@ export class FormGroup<
     return super.parent as GParent;
   }
 
+  // @ts-ignore
   override controls: TAbstractControlsOf<GControlsOrValue, GErrors>;
+  // @ts-ignore
   override readonly value: IControlsValue<GControlsOrValue>;
+  // @ts-ignore
   override readonly errors: GErrors | null;
+  // @ts-ignore
   override readonly valueChanges: Observable<IControlsValue<GControlsOrValue>>;
+  // @ts-ignore
   override readonly status: TControlStatus;
 
+  // @ts-ignore
   override readonly statusChanges: Observable<TControlStatus>;
 
   readonly isTouched$ = this._touchChanges$

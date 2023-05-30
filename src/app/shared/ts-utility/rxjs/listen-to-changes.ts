@@ -1,6 +1,6 @@
 import { Observable, BehaviorSubject } from 'rxjs';
 
-const errorMsg = (key): string =>
+const errorMsg = (key: unknown): string =>
   `Cannot listen to changes for property ${String(key)} because`;
 
 export function listenToChanges<G, K extends keyof G>(
@@ -64,7 +64,7 @@ export function listenToChanges<G, K extends keyof G>(
           let value = descriptor.value;
           return {
             originalValueGet: () => value,
-            originalValueSet: (v) => (value = v),
+            originalValueSet: (v: any) => (value = v),
           };
         })();
 
