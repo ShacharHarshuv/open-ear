@@ -1,49 +1,20 @@
-<ng-container *ngIf="answerList">
-  <div *ngIf="!isAutoLayout" class="answers-layout__answers-rows-container">
-    <div
-      *ngFor="let row of $any(answerList).rows"
-      class="answers-layout__answers-row"
-    >
-      <span *ngIf="isString(row); else notStringRow">{{ row }}</span>
-      <ng-template #notStringRow>
-        <ng-container
-          *ngFor="let answerCellConfig of $any(row)"
-          [ngTemplateOutlet]="cellTemplate"
-          [ngTemplateOutletContext]="{
-            $implicit:
-              normalizeAnswerLayoutCellConfig | pureFunction : answerCellConfig
-          }"
-        ></ng-container>
-      </ng-template>
-    </div>
-  </div>
-  <div
-    *ngIf="isAutoLayout"
-    class="answers-layout__answers-buttons-auto-layout-container"
-  >
-    <ng-container
-      *ngFor="let answer of $any(answerList)"
-      [ngTemplateOutlet]="cellTemplate"
-      [ngTemplateOutletContext]="{
-        $implicit: normalizeAnswerLayoutCellConfig | pureFunction : answer
-      }"
-    ></ng-container>
-  </div>
-</ng-container>
-
-<ng-template let-answerLayoutCellConfig #cellTemplate>
-  <div
-    class="answers-layout__cell"
-    *ngIf="answerLayoutCellConfig.answer"
-    [style.flex]="answerLayoutCellConfig.space"
-  >
-    <ng-template
-      [ngTemplateOutlet]="$any(buttonTemplate)"
-      [ngTemplateOutletContext]="{ $implicit: answerLayoutCellConfig }"
-    ></ng-template>
-  </div>
-  <div
-    *ngIf="!answerLayoutCellConfig.answer"
-    [style.flex]="answerLayoutCellConfig.space"
-  ></div>
-</ng-template>
+<div
+  *ngIf="customAnswersLayout() as customAnswersLayout"
+  class="answers-layout__answers-rows-container"
+>
+  <app-answers-row
+    *ngFor="let row of customAnswersLayout.rows"
+    [row]="row"
+    [buttonTemplate]="buttonTemplate"
+  />
+</div>
+<div
+  *ngIf="autoLayoutAnswers()"
+  class="answers-layout__answers-buttons-auto-layout-container"
+>
+  <app-answer-cell
+    *ngFor="let answer of autoLayoutAnswers()"
+    [cell]="answer"
+    [buttonTemplate]="buttonTemplate"
+  />
+</div>

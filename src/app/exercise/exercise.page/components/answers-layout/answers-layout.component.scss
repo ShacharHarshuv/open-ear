@@ -1,4 +1,5 @@
 @use "main" as *;
+@use "sass:math";
 
 :host {
   display: contents;
@@ -14,29 +15,10 @@
     display: flex;
     flex-wrap: wrap;
     align-content: flex-start;
+    gap: math.div($unit, 2);
 
     ion-button {
       flex: 1;
-    }
-  }
-
-  &__answers-row {
-    display: flex;
-    gap: $unit / 2;
-    margin-bottom: $unit / 2;
-    height: 4.5 * $unit;
-    align-items: center;
-
-    > * {
-      min-width: 0;
-      flex: 1;
-    }
-  }
-
-  &__cell {
-    ::ng-deep * {
-      width: 100%;
-      margin: 0;
     }
   }
 }

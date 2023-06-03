@@ -20,6 +20,7 @@
       ],
       "rules": {
         "no-shadow": "off",
+        "@angular-eslint/no-input-rename": "off",
         "@angular-eslint/component-class-suffix": [
           "error",
           {

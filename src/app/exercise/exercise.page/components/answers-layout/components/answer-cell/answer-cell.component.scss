@@ -1,0 +1,10 @@
+:host {
+  display: contents;
+}
+
+.answer-cell {
+  ::ng-deep * {
+    width: 100%;
+    margin: 0;
+  }
+}

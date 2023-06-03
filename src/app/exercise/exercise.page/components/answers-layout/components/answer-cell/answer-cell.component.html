@@ -1,0 +1,21 @@
+<ng-container *ngIf="answerConfig() as answerConfig">
+  <div
+    class="answer-cell"
+    *ngIf="answerConfig.answer"
+    [style.flex]="answerConfig.space"
+  >
+    <ng-template
+      [ngTemplateOutlet]="buttonTemplate"
+      [ngTemplateOutletContext]="{$implicit: answerConfig}"
+    ></ng-template>
+  </div>
+  <div
+    *ngIf="!answerConfig.answer"
+    [style.flex]="answerConfig.space"
+  ></div>
+</ng-container>
+<!--TODO: handle multi answer cells-->
+<div
+  *ngIf="multiAnswerCell() as multiAnswerCell"
+  [style.flex]="multiAnswerCell.space ?? 1"
+></div>

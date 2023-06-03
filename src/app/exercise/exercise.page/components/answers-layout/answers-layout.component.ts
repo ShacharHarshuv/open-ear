@@ -2,39 +2,55 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  TemplateRef,
+  computed,
 } from '@angular/core';
-import Exercise, { AnswerList, AnswerConfig } from '../../../exercise-logic';
-import { PureFunctionPipe } from '../../../../shared/ng-utilities/pure-function-pipe/pure-function.pipe';
+import {
+  AnswerList,
+  AnswersLayout,
+  AnswersLayoutCell,
+} from '../../../exercise-logic';
+import { AnswerCellComponent } from './components/answer-cell/answer-cell.component';
 import { CommonModule } from '@angular/common';
+import { signalFromProperty } from '../../../../shared/ng-utilities/signalFromProperty';
+import { AnswersRowComponent } from './components/answers-row/answers-row.component';
 
 @Component({
   selector: 'app-answers-layout',
   templateUrl: './answers-layout.component.html',
   styleUrls: ['./answers-layout.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, AnswerCellComponent, AnswersRowComponent],
   standalone: true,
-  imports: [CommonModule, PureFunctionPipe],
 })
 export class AnswersLayoutComponent<GAnswer extends string = string> {
-  @Input()
-  answerList: AnswerList<GAnswer> = [];
+  @Input({
+    required: true,
+    alias: 'answerList',
+  })
+  answerListInput: AnswerList<GAnswer> = [];
 
-  @Input()
-  // @ts-ignore
-  buttonTemplate: { $implicit: TemplateRef<AnswerConfig<GAnswer>> };
+  @Input({ required: true })
+  buttonTemplate!: AnswersRowComponent<GAnswer>['buttonTemplate'];
 
-  get isAutoLayout() {
-    return Array.isArray(this.answerList);
-  }
+  readonly answerList = signalFromProperty(this, 'answerListInput');
 
-  readonly normalizeAnswerLayoutCellConfig = Exercise.normalizeAnswerConfig;
+  readonly autoLayoutAnswers = computed(
+    (): AnswersLayoutCell<GAnswer>[] | null => {
+      const answerList = this.answerList();
+      if (!Array.isArray(answerList)) {
+        return null;
+      }
 
-  isString(
-    row:
-      | (Exercise.Answer<GAnswer> | Exercise.AnswerConfig<GAnswer> | null)[]
-      | string
-  ): row is string {
-    return typeof row === 'string';
-  }
+      return answerList;
+    }
+  );
+
+  readonly customAnswersLayout = computed((): AnswersLayout<GAnswer> | null => {
+    const answerList = this.answerList();
+    if (Array.isArray(answerList)) {
+      return null;
+    }
+
+    return answerList;
+  });
 }

@@ -90,7 +90,7 @@ export type MultiAnswerCell<GAnswer extends string = string> = CellConfig & {
   innerAnswersList: AnswerList<GAnswer>;
 };
 
-function isMultiAnswerCell<GAnswer extends string>(
+export function isMultiAnswerCell<GAnswer extends string>(
   cell: AnswersLayoutCell<GAnswer>
 ): cell is MultiAnswerCell<GAnswer> {
   return !!cell && typeof cell === 'object' && 'innerAnswersList' in cell;
