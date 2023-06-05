@@ -267,7 +267,8 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
         },
       },
       {
-        partOrTime: 100,
+        // Adding Delay between Cadence and Question, depending on BPM
+        partOrTime: (1200/this._globalSettings.bpm)*150-600,
       },
     ];
     if (this._currentQuestion.type === 'youtube') {
