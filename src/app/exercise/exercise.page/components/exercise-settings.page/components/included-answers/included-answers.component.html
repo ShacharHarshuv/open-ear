@@ -1,7 +1,7 @@
 <ng-container *ngIf="value$ | async as value">
   <app-answers-layout
     [answerList]="answerList"
-    [buttonTemplate]="$any(buttonTemplate)"
+    [buttonTemplate]="buttonTemplate"
   ></app-answers-layout>
 
   <ng-template let-answerConfig #buttonTemplate>

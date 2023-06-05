@@ -62,7 +62,7 @@
     </div>
     <app-answers-layout
       [answerList]="state.answerList"
-      [buttonTemplate]="$any(answerButton)"
+      [buttonTemplate]="answerButton"
     ></app-answers-layout>
     <ng-template let-answerConfig #answerButton>
       <div cdkDropList>
