@@ -1,5 +1,4 @@
 import { Component, Input, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import {
   AnswerLayoutRow,
   AnswersLayoutCell,
@@ -9,8 +8,6 @@ import { AnswerCellComponent } from '../answer-cell/answer-cell.component';
 
 @Component({
   selector: 'app-answers-row',
-  standalone: true,
-  imports: [CommonModule, AnswerCellComponent],
   templateUrl: './answers-row.component.html',
   styleUrls: ['./answers-row.component.scss'],
 })
@@ -23,6 +20,12 @@ export class AnswersRowComponent<GAnswer extends string> {
 
   @Input({ required: true })
   buttonTemplate!: AnswerCellComponent['buttonTemplate'];
+
+  @Input({ required: true })
+  multiAnswerButtonTemplate!: AnswerCellComponent['multiAnswerButtonTemplate'];
+
+  @Input({ required: true })
+  multiAnswerCellConfig!: AnswerCellComponent['multiAnswerCellConfig'];
 
   readonly row = signalFromProperty(this, 'rowInput');
 

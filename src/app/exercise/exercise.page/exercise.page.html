@@ -63,6 +63,11 @@
     <app-answers-layout
       [answerList]="state.answerList"
       [buttonTemplate]="answerButton"
+      [multiAnswerButtonTemplate]="multiAnswerButton"
+      [multiAnswerCellConfig]="{
+        dismissOnSelect: true,
+        triggerAction: 'click',
+      }"
     ></app-answers-layout>
     <ng-template let-answerConfig #answerButton>
       <div cdkDropList>
@@ -83,6 +88,14 @@
           <span [innerHTML]="answerConfig.displayLabel"></span>
         </ion-button>
       </div>
+    </ng-template>
+    <ng-template let-multiAnswerCell #multiAnswerButton>
+      <!--TODO: add custom logic here-->
+      <!--1. highlight, right, wrong indication-->
+      <!--2. disabled state (as the regular button)-->
+      <ion-button [color]="'light'">
+        {{ multiAnswerCell.displayLabel }}
+      </ion-button>
     </ng-template>
     <div class="exercise__actions-container">
       <ion-button

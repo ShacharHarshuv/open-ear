@@ -10,7 +10,6 @@ import {
   AnswersLayoutCell,
 } from '../../../exercise-logic';
 import { AnswerCellComponent } from './components/answer-cell/answer-cell.component';
-import { CommonModule } from '@angular/common';
 import { signalFromProperty } from '../../../../shared/ng-utilities/signalFromProperty';
 import { AnswersRowComponent } from './components/answers-row/answers-row.component';
 
@@ -19,8 +18,6 @@ import { AnswersRowComponent } from './components/answers-row/answers-row.compon
   templateUrl: './answers-layout.component.html',
   styleUrls: ['./answers-layout.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, AnswerCellComponent, AnswersRowComponent],
-  standalone: true,
 })
 export class AnswersLayoutComponent<GAnswer extends string = string> {
   @Input({
@@ -31,6 +28,12 @@ export class AnswersLayoutComponent<GAnswer extends string = string> {
 
   @Input({ required: true })
   buttonTemplate!: AnswersRowComponent<GAnswer>['buttonTemplate'];
+
+  @Input({ required: true })
+  multiAnswerButtonTemplate!: AnswersRowComponent<GAnswer>['multiAnswerButtonTemplate'];
+
+  @Input({ required: true })
+  multiAnswerCellConfig!: AnswerCellComponent['multiAnswerCellConfig'];
 
   readonly answerList = signalFromProperty(this, 'answerListInput');
 

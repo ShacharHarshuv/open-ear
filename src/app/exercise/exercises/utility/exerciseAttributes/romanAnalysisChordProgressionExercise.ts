@@ -633,7 +633,7 @@ export const allRomanNumeralAnswerList: Exercise.AnswerList<RomanNumeralChordSym
           'iii',
           'IV',
           {
-            displayLabel: 'V',
+            primaryAnswer: 'V', // todo? (see other comments)
             innerAnswersList: ['V', 'V7'],
           },
           'vi',

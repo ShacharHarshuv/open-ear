@@ -86,7 +86,9 @@ type CellConfig = {
   space?: number;
 };
 
+// todo: consider removing "displayLabel", the first display label of the answer list should be used instead
 export type MultiAnswerCell<GAnswer extends string = string> = CellConfig & {
+  primaryAnswer: Answer<GAnswer>; // todo: consider removing it and just assuming the first one is the primary
   innerAnswersList: AnswerList<GAnswer>;
 };
 
@@ -307,24 +309,28 @@ export function mapAnswerList<
     answerCellList: AnswersLayoutCell<GInputAnswer>[]
   ): AnswersLayoutCell<GOutputAnswer>[] {
     return _.map(answerCellList, (answerCell) => {
-      if (!answerCell) {
-        return null;
-      } else if (typeof answerCell === 'string') {
-        return callback({
-          answer: answerCell,
-        });
-      } else if (isMultiAnswerCell(answerCell)) {
-        return {
-          ...answerCell,
-          innerAnswersList: mapAnswerList(
-            answerCell.innerAnswersList,
-            callback
-          ),
-        };
-      } else {
-        return callback(answerCell);
+        if (!answerCell) {
+          return null;
+        } else if (typeof answerCell === 'string') {
+          return callback({
+            answer: answerCell,
+          });
+        } else if (isMultiAnswerCell(answerCell)) {
+          return {
+            ...answerCell,
+            primaryAnswer: callback({
+              answer: answerCell.primaryAnswer,
+            }).answer!,
+            innerAnswersList: mapAnswerList(
+              answerCell.innerAnswersList,
+              callback
+            ),
+          };
+        } else {
+          return callback(answerCell);
+        }
       }
-    });
+    );
   }
 }
 

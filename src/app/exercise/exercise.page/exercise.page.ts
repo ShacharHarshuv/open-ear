@@ -16,11 +16,11 @@ import { BehaviorSubject, combineLatest } from 'rxjs';
 import { BdcWalkService, BdcWalkModule } from 'bdc-walkthrough';
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import { getCurrentAnswersLayout } from './utility/getCurrentAnswersLayout';
-import { AnswersLayoutComponent } from './components/answers-layout/answers-layout.component';
 import { AnswerIndicationComponent } from './components/answer-indication/answer-indication.component';
 import { CommonModule } from '@angular/common';
 import { PureFunctionPipe } from '../../shared/ng-utilities/pure-function-pipe/pure-function.pipe';
 import { ContentPaddingDirective } from '../../shared/components/shared-components/content-padding.directive';
+import { AnswersLayoutModule } from './components/answers-layout/answers-layout.module';
 import AnswerConfig = Exercise.AnswerConfig;
 
 @Component({
@@ -34,7 +34,7 @@ import AnswerConfig = Exercise.AnswerConfig;
     IonicModule,
     BdcWalkModule,
     DragDropModule,
-    AnswersLayoutComponent,
+    AnswersLayoutModule,
     AnswerIndicationComponent,
     PureFunctionPipe,
     ContentPaddingDirective,

@@ -1,10 +1,10 @@
 <span *ngIf="textRow() as textRow">{{ textRow }}</span>
-<ng-container
-  *ngIf="cellList() as cellList"
->
+<ng-container *ngIf="cellList() as cellList">
   <app-answer-cell
     *ngFor="let cellConfig of cellList"
     [cell]="cellConfig"
     [buttonTemplate]="buttonTemplate"
+    [multiAnswerButtonTemplate]="multiAnswerButtonTemplate"
+    [multiAnswerCellConfig]="multiAnswerCellConfig"
   />
 </ng-container>

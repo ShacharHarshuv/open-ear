@@ -1,0 +1,9 @@
+:host {
+  display: contents;
+}
+
+ion-button {
+  &:not(.--included) {
+    opacity: 0.3;
+  }
+}
