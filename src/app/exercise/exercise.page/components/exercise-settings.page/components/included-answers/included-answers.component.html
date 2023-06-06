@@ -1,6 +1,6 @@
 <ng-container *ngIf="value$ | async as value">
   <app-answers-layout
-    [answerList]="answerList"
+    [answerList]="answerList()"
     [buttonTemplate]="buttonTemplate"
     [multiAnswerButtonTemplate]="multiAnswerButtonTemplate"
     [multiAnswerCellConfig]="{
@@ -8,6 +8,10 @@
       triggerAction: 'context-menu',
     }"
   ></app-answers-layout>
+
+  <p *ngIf="hasMultiAnswerButtons()" class="long-press-hint">
+    Long-press a button to see more options
+  </p>
 
   <ng-template let-answerConfig #buttonTemplate>
     <app-included-answers-button

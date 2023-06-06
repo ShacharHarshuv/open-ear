@@ -1,6 +1,15 @@
 @use "main" as *;
 
 :host {
-  display: block;
-  padding: 2 * $unit;
+  display: flex;
+  flex-direction: column;
+  padding: 0 2 * $unit;
+  padding-bottom: 2 * $unit;
+  gap: 2 * $unit;
+}
+
+.long-press-hint {
+  margin: 0;
+  font-size: 12px;
+  color: var(--ion-color-medium);
 }
