@@ -1,0 +1,11 @@
+<ion-button
+  class="answer-button"
+  [disabled]="disabled"
+  [class.--right]="right"
+  [class.--highlighted]="highlighted"
+  [class.--wrong]="wrong"
+  [color]="'light'"
+>
+  <ng-content />
+  <ng-container *cdkDragPreview />
+</ion-button>

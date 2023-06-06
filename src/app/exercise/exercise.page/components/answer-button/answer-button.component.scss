@@ -1,0 +1,70 @@
+:host {
+  display: block;
+
+  ::ng-deep * {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+/**
+  * CSS here is complicated due to the fact that we want to animate --right, --wrong and --highlighted out,
+  * But the button can be both --highlighted and --right at the same time,
+  * and we need to avoid overriding the transition property incorrectly
+  */
+.answer-button {
+  &::part(native) {
+    border: 0 solid rgba(0, 0, 0, 0);
+  }
+
+  &.--right {
+    &::part(native) {
+      background-color: #{var(--ion-color-success)};
+    }
+  }
+
+  &:not(.--right):not(.--wrong) {
+    &.--highlighted {
+      &::part(native) {
+        transition: background-color 700ms ease-in;
+      }
+    }
+
+    &:not(.--highlighted) {
+      &::part(native) {
+        transition: background-color 700ms ease-in,
+          border-color 300ms ease-in-out, border-width 300ms ease-in-out;
+      }
+    }
+  }
+
+  &:not(.--highlighted) {
+    &.--right,
+    &.--wrong {
+      &::part(native) {
+        transition: border-color 300ms ease-in;
+      }
+    }
+
+    &:not(.--right):not(.--wrong) {
+      &::part(native) {
+        transition: background-color 700ms ease-in,
+          border-color 300ms ease-in-out, border-width 300ms ease-in-out;
+      }
+    }
+  }
+
+  &.--wrong {
+    &::part(native) {
+      background-color: #{var(--ion-color-danger)};
+    }
+  }
+
+  &.--highlighted {
+    &::part(native) {
+      border-color: rgba(0, 0, 0, 0.2);
+      border-width: 4px;
+      transition: border-color 10ms ease-in-out, border-width 10ms ease-in-out;
+    }
+  }
+}

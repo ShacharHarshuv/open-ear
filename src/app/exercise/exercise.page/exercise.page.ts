@@ -22,6 +22,8 @@ import { PureFunctionPipe } from '../../shared/ng-utilities/pure-function-pipe/p
 import { ContentPaddingDirective } from '../../shared/components/shared-components/content-padding.directive';
 import { AnswersLayoutModule } from './components/answers-layout/answers-layout.module';
 import AnswerConfig = Exercise.AnswerConfig;
+import { AnswerButtonComponent } from './components/answer-button/answer-button.component';
+import { MultiAnswerButtonComponent } from './components/multi-answer-button/multi-answer-button.component';
 
 @Component({
   selector: 'app-exercise-page',
@@ -38,6 +40,8 @@ import AnswerConfig = Exercise.AnswerConfig;
     AnswerIndicationComponent,
     PureFunctionPipe,
     ContentPaddingDirective,
+    AnswerButtonComponent,
+    MultiAnswerButtonComponent,
   ],
 })
 export class ExercisePage extends BaseComponent {

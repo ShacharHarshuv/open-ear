@@ -48,7 +48,7 @@
     </section>
     <div class="exercise__answers-container">
       <div
-        *ngFor="let answersPlayedTogether of (getCurrentAnswersLayout | pureFunction: state.currentAnswers)"
+        *ngFor="let answersPlayedTogether of (getCurrentAnswersLayout | pureFunction: state.currentAnswers())"
       >
         <app-answer-indication
           *ngFor="let answer of answersPlayedTogether"
@@ -71,31 +71,24 @@
     ></app-answers-layout>
     <ng-template let-answerConfig #answerButton>
       <div cdkDropList>
-        <ion-button
+        <app-answer-button
           cdkDrag
           [cdkDragData]="answerConfig"
           (cdkDragDropped)="onDragDropped($event)"
           *ngIf="answerConfig.answer as answer"
-          class="exercise__answer-button"
           (click)="onAnswerClick(answerConfig)"
           [disabled]="!state.isAnswerEnabled"
-          [class.--right]="answer === rightAnswer"
-          [class.--highlighted]="answer === state.highlightedAnswer"
-          [class.--wrong]="wrongAnswers.includes(answer)"
-          [color]="'light'"
+          [right]="answer === rightAnswer"
+          [highlighted]="answer === state.highlightedAnswer()"
+          [wrong]="wrongAnswers.includes(answer)"
         >
           <ng-container *cdkDragPlaceholder></ng-container>
           <span [innerHTML]="answerConfig.displayLabel"></span>
-        </ion-button>
+        </app-answer-button>
       </div>
     </ng-template>
     <ng-template let-multiAnswerCell #multiAnswerButton>
-      <!--TODO: add custom logic here-->
-      <!--1. highlight, right, wrong indication-->
-      <!--2. disabled state (as the regular button)-->
-      <ion-button [color]="'light'">
-        {{ multiAnswerCell.displayLabel }}
-      </ion-button>
+      <app-multi-answer-button [multiAnswerCell]="multiAnswerCell" />
     </ng-template>
     <div class="exercise__actions-container">
       <ion-button
