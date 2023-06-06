@@ -1,8 +1,4 @@
-import {
-  Component,
-  Input,
-  Signal,
-} from '@angular/core';
+import { Component, Input, Signal } from '@angular/core';
 import Exercise from '../../../../../exercise-logic';
 import {
   BaseControlValueAccessorComponent,
@@ -35,16 +31,12 @@ export class IncludedAnswersComponent<
   @Input()
   answerList: Exercise.AnswerList<GAnswer> = [];
 
-  readonly includedAnswers: Signal<string[]> = toSignal<string[], string[]>(
-    this.value$,
-    {
-      initialValue: [],
-    }
-  );
+  readonly includedAnswers: Signal<readonly GAnswer[]> = toSignal(this.value$, {
+    initialValue: [],
+  });
 
-  async toggleInclusion(answer: GAnswer): Promise<void> {
-    const currentValue: ReadonlyArray<GAnswer> =
-      await this.getCurrentValuePromise();
+  toggleInclusion(answer: GAnswer) {
+    const currentValue: ReadonlyArray<GAnswer> = this.includedAnswers();
     if (currentValue.includes(answer)) {
       this.setViewValue(currentValue.filter((value) => value !== answer));
     } else {

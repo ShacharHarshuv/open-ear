@@ -5,6 +5,7 @@ import { MultiAnswerButtonTemplateContext } from '../../../../../answers-layout/
 import { IncludedAnswersComponent } from '../../included-answers.component';
 import { signalFromProperty } from '../../../../../../../../shared/ng-utilities/signalFromProperty';
 import { IonicModule } from '@ionic/angular';
+import { first, isEmpty, intersection } from 'lodash';
 
 @Component({
   selector: 'app-included-answers-multi-answer-button',
@@ -39,4 +40,22 @@ export class IncludedAnswersMultiAnswerButtonComponent {
       ) ?? false
     );
   });
+
+  toggleAnswer() {
+    const includedAnswersInThisButton = intersection(
+      this.multiAnswerCell()?.innerAnswers,
+      this.includedAnswers()
+    );
+
+    if (!isEmpty(includedAnswersInThisButton)) {
+      includedAnswersInThisButton.forEach((answer) =>
+        this.includedAnswersComponent.toggleInclusion(answer)
+      );
+      return;
+    }
+
+    this.includedAnswersComponent.toggleInclusion(
+      first(this.multiAnswerCell()?.innerAnswers)
+    );
+  }
 }
