@@ -1,5 +1,5 @@
-import { Injectable, OnDestroy, signal, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Injectable, OnDestroy, signal, inject, effect } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ExerciseService } from '../../exercise.service';
 import Exercise from '../../exercise-logic';
 import {
@@ -24,7 +24,6 @@ import { YouTubePlayerService } from '../../../services/you-tube-player.service'
 import * as _ from 'lodash';
 import { defaults } from 'lodash';
 import { AdaptiveExerciseService } from './adaptive-exercise.service';
-import { BehaviorSubject } from 'rxjs';
 import { DronePlayerService } from '../../../services/drone-player.service';
 import { listenToChanges } from '../../../shared/ts-utility/rxjs/listen-to-changes';
 import { map, takeUntil, filter } from 'rxjs/operators';
@@ -119,17 +118,13 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
     return this._isAnsweringEnabled;
   }
 
-  private _totalCorrectAnswers: number = 0;
+  private readonly _totalCorrectAnswers = signal(0);
 
-  get totalCorrectAnswers(): number {
-    return this._totalCorrectAnswers;
-  }
+  readonly totalCorrectAnswers = this._totalCorrectAnswers.asReadonly();
 
-  private _totalQuestions: number = 0;
+  private readonly _totalQuestions = signal(0);
 
-  get totalQuestions(): number {
-    return this._totalQuestions;
-  }
+  readonly totalQuestions = this._totalQuestions.asReadonly();
 
   private _currentAnswers = signal<CurrentAnswer[]>([]);
 
@@ -212,9 +207,9 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
       );
     }
     if (isRight || this._globalSettings.revealAnswerAfterFirstMistake) {
-      this._totalQuestions++;
+      this._totalQuestions.update((v) => ++v);
       if (!this._currentAnswers()[answerIndex].wasWrong) {
-        this._totalCorrectAnswers++;
+        this._totalCorrectAnswers.update((v) => ++v);
       }
       this._currentAnswers.mutate(
         (currentAnswers) => (currentAnswers[answerIndex].answer = rightAnswer)
@@ -424,8 +419,8 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
   }
 
   resetStatistics(): void {
-    this._totalCorrectAnswers = 0;
-    this._totalQuestions = 0;
+    this._totalCorrectAnswers.set(0);
+    this._totalQuestions.set(0);
     this._adaptiveExercise.reset();
     this.nextQuestion();
   }

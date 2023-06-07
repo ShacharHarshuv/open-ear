@@ -1,4 +1,4 @@
-import { Component, inject, signal, effect } from '@angular/core';
+import { Component, inject, signal, effect, computed } from '@angular/core';
 import { ExerciseStateService } from './state/exercise-state.service';
 import {
   ModalController,
@@ -58,14 +58,15 @@ export class ExercisePage extends BaseComponent {
   readonly wrongAnswers = this._wrongAnswers.asReadonly();
   private readonly _rightAnswer = signal<string | null>(null);
   readonly rightAnswer = this._rightAnswer.asReadonly();
-  isMenuOpened: boolean = false;
 
-  get correctAnswersPercentage(): number {
-    if (!this.state.totalQuestions) {
+  readonly correctAnswersPercentage = computed(() => {
+    if (!this.state.totalQuestions()) {
       return 0;
     }
-    return (this.state.totalCorrectAnswers / this.state.totalQuestions) * 100;
-  }
+    return (
+      (this.state.totalCorrectAnswers() / this.state.totalQuestions()) * 100
+    );
+  });
 
   constructor() {
     super();
