@@ -86,7 +86,6 @@ type CellConfig = {
   space?: number;
 };
 
-// todo: consider removing "displayLabel", the first display label of the answer list should be used instead
 export type MultiAnswerCell<GAnswer extends string = string> = CellConfig & {
   innerAnswersList: AnswerList<GAnswer>;
 };
@@ -294,7 +293,7 @@ export function mapAnswerList<
       ),
     };
   } else {
-    // @ts-ignore // todo?
+    // @ts-ignore // unclear what is the problem
     return mapAnswerCellList(answerList);
   }
 
