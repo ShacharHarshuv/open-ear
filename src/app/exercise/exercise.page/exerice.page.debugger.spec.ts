@@ -13,7 +13,7 @@ export class ExercisePageDebugger extends BaseComponentDebugger<ExercisePage> {
     wasWrong: boolean;
   }[] {
     return this.spectator
-      .queryAll('.exercise__answer-button')
+      .queryAll('app-answer-button ion-button')
       .map((element: HTMLElement) => ({
         answerText: element.innerText,
         wasWrong: element.classList.contains('--wrong'),
