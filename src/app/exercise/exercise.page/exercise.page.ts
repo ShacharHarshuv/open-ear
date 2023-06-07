@@ -22,6 +22,7 @@ import { AnswersLayoutModule } from './components/answers-layout/answers-layout.
 import { AnswerButtonComponent } from './components/answer-button/answer-button.component';
 import { MultiAnswerButtonComponent } from './components/multi-answer-button/multi-answer-button.component';
 import AnswerConfig = Exercise.AnswerConfig;
+import { ExerciseToastersDirective } from './components/exercise-toasters.directive';
 
 @Component({
   selector: 'app-exercise-page',
@@ -41,6 +42,7 @@ import AnswerConfig = Exercise.AnswerConfig;
     AnswerButtonComponent,
     MultiAnswerButtonComponent,
   ],
+  hostDirectives: [ExerciseToastersDirective],
 })
 export class ExercisePage extends BaseComponent {
   private readonly _modalController = inject(ModalController);
@@ -49,7 +51,7 @@ export class ExercisePage extends BaseComponent {
   public readonly state = inject(ExerciseStateService);
   public readonly exerciseExplanation = inject(ExerciseExplanationService);
 
-  private _hideMessage = signal(false);
+  private _hideMessage = inject(ExerciseToastersDirective).hideMessage;
   private _developerModeActivationCount: number = 0;
 
   private readonly _wrongAnswers = signal<string[]>([]);
@@ -68,7 +70,6 @@ export class ExercisePage extends BaseComponent {
   constructor() {
     super();
     this._init();
-    this._handleMessages();
   }
 
   onAnswerClick(answerConfig: AnswerConfig<string>): void {
@@ -146,75 +147,6 @@ export class ExercisePage extends BaseComponent {
     if (role === 'reset') {
       this.state.resetStatistics();
     }
-  }
-
-  private _handleMessages(): void {
-    const toastController = inject(ToastController);
-    let lastToaster: HTMLIonToastElement | null = null;
-
-    effect(() => {
-      const getMessageRef = (): {
-        text: string;
-        type: 'error' | 'message';
-      } | null => {
-        if (this._hideMessage()) {
-          return null;
-        }
-
-        if (this.state.error()) {
-          return {
-            text:
-              'Ooops... something went wrong! If this persists, please report a bug. Details: ' +
-              this.state.error()!,
-            type: 'error',
-          };
-        }
-
-        if (this.state.message()) {
-          return {
-            text: this.state.message()!,
-            type: 'message',
-          };
-        }
-
-        return null;
-      };
-
-      const messageRef = getMessageRef();
-
-      if (lastToaster) {
-        lastToaster.dismiss();
-        lastToaster = null;
-      }
-
-      if (!messageRef) {
-        return;
-      }
-
-      toastController
-        .create({
-          message: messageRef.text,
-          position: 'middle',
-          color: messageRef.type === 'error' ? 'danger' : 'dark',
-          header: messageRef.type === 'error' ? 'Unexpected Error' : undefined,
-          buttons: messageRef.type === 'error' ? ['OK'] : [],
-        })
-        .then((toaster) => {
-          // can happen because of a race condition
-          if (lastToaster) {
-            lastToaster.dismiss();
-          }
-          lastToaster = toaster;
-          toaster.present();
-        });
-
-      return () => {
-        if (lastToaster) {
-          lastToaster.dismiss();
-          lastToaster = null;
-        }
-      };
-    });
   }
 
   async onTitleClick(): Promise<void> {
