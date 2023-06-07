@@ -12,8 +12,8 @@ export abstract class BaseControlValueAccessorWithCustomControl<
 > extends BaseControlValueAccessorComponent<GCVAValue> {
   readonly control: GControl = this._getControl();
 
-  protected constructor(injector: Injector) {
-    super(injector);
+  protected constructor() {
+    super();
     this._startModelValueChangeHandler();
     this._startDisabledChangeHandler();
   }

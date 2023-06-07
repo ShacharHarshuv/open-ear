@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { PlayerService } from '../services/player.service';
 import { ExerciseService } from '../exercise/exercise.service';
 import { Exercise } from '../exercise/exercise-logic';
@@ -15,10 +15,7 @@ import { RouterLink } from '@angular/router';
   imports: [CommonModule, IonicModule, ExerciseSummaryComponent, RouterLink],
 })
 export class HomePage {
-  readonly exerciseList: Exercise[] = this._exerciseService.getExerciseList();
+  private readonly _exerciseService = inject(ExerciseService);
 
-  constructor(
-    private readonly _player: PlayerService,
-    private readonly _exerciseService: ExerciseService
-  ) {}
+  readonly exerciseList: Exercise[] = this._exerciseService.getExerciseList();
 }

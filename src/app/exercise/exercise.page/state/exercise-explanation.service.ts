@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ExerciseStateService } from './exercise-state.service';
 import { ExerciseExplanationPage } from '../components/exercise-help/exercise-explanation/exercise-explanation.page';
 import { ModalController } from '@ionic/angular';
@@ -6,11 +6,9 @@ import { ExerciseSettingsDataService } from '../../../services/exercise-settings
 
 @Injectable()
 export class ExerciseExplanationService {
-  constructor(
-    private _state: ExerciseStateService,
-    private _modalController: ModalController,
-    private _exerciseSettingsData: ExerciseSettingsDataService
-  ) {}
+  private _state = inject(ExerciseStateService);
+  private _modalController = inject(ModalController);
+  private _exerciseSettingsData = inject(ExerciseSettingsDataService);
 
   async openExplanation(): Promise<void> {
     const modal = await this._modalController

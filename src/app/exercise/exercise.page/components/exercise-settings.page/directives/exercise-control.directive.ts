@@ -1,4 +1,4 @@
-import { Directive, Input, Inject } from '@angular/core';
+import { Directive, Input, Inject, inject } from '@angular/core';
 import Exercise from '../../../../exercise-logic';
 import { ExerciseSettingsPage } from '../exercise-settings.page';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
@@ -13,6 +13,10 @@ import { shareReplayUntil } from '../../../../../shared/ts-utility/rxjs/shareRep
   standalone: true,
 })
 export class ExerciseControlDirective extends BaseComponent {
+  private readonly _exerciseSettingsPage = inject(ExerciseSettingsPage);
+  private readonly _valueAccessors: readonly ControlValueAccessor[] =
+    inject(NG_VALUE_ACCESSOR);
+
   @Input('appExerciseControl')
   set exerciseControlSettings(
     exerciseControlSettings: Exercise.SettingsControlDescriptor
@@ -92,13 +96,5 @@ export class ExerciseControlDirective extends BaseComponent {
           });
       }
     }
-  }
-
-  constructor(
-    private readonly _exerciseSettingsPage: ExerciseSettingsPage,
-    @Inject(NG_VALUE_ACCESSOR)
-    private readonly _valueAccessors: ControlValueAccessor[]
-  ) {
-    super();
   }
 }

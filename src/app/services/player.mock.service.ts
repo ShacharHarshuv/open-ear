@@ -5,8 +5,6 @@ export class PlayerMockService implements PublicMembers<PlayerService> {
   private _bpm: number = 120;
   readonly isReady = true;
 
-  constructor() {}
-
   get bpm(): number {
     return this._bpm;
   }

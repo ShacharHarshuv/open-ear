@@ -17,7 +17,6 @@ import { ModalFrameComponent } from './shared/modal/modal-frame/modal-frame.comp
 
 @NgModule({
   imports: [
-    AppComponent,
     SandboxComponent,
     BrowserModule,
     BrowserAnimationsModule,
@@ -28,6 +27,7 @@ import { ModalFrameComponent } from './shared/modal/modal-frame/modal-frame.comp
     ReleaseNotesModule,
     DragDropModule,
   ],
+  declarations: [AppComponent],
   providers: [
     {
       provide: RouteReuseStrategy,

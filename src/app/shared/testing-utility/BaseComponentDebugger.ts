@@ -1,8 +1,10 @@
 import { ComponentFixture } from '@angular/core/testing';
 import { Spectator } from '@ngneat/spectator';
-import { DebugElement } from '@angular/core';
+import { DebugElement, inject } from '@angular/core';
 
 export abstract class BaseComponentDebugger<GComponent> {
+  readonly fixture: ComponentFixture<GComponent> = inject(ComponentFixture);
+
   readonly spectator: Spectator<GComponent> = new Spectator<GComponent>(
     this.fixture,
     this.debugElement,
@@ -21,8 +23,6 @@ export abstract class BaseComponentDebugger<GComponent> {
   get debugElement(): DebugElement {
     return this.fixture.debugElement;
   }
-
-  constructor(public readonly fixture: ComponentFixture<GComponent>) {}
 
   detectChanges(): void {
     this.spectator.detectChanges();

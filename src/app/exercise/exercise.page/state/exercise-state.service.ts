@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy, signal } from '@angular/core';
+import { Injectable, OnDestroy, signal, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ExerciseService } from '../../exercise.service';
 import Exercise from '../../exercise-logic';
@@ -50,6 +50,14 @@ export interface CurrentAnswer {
 
 @Injectable()
 export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
+  private readonly _activatedRoute = inject(ActivatedRoute);
+  private readonly _exerciseService = inject(ExerciseService);
+  private readonly _notesPlayer = inject(PlayerService);
+  private readonly _youtubePlayer = inject(YouTubePlayerService);
+  private readonly _dronePlayer = inject(DronePlayerService);
+  private readonly _exerciseSettingsData = inject(ExerciseSettingsDataService);
+  private readonly _adaptiveExerciseService = inject(AdaptiveExerciseService);
+
   private readonly _originalExercise: Exercise.Exercise =
     this._exerciseService.getExercise(
       this._activatedRoute.snapshot.params['id']!
@@ -75,16 +83,7 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
   private _answerToLabelStringMap: Record<string, string> =
     this._getAnswerToLabelStringMap();
 
-  constructor(
-    private readonly _activatedRoute: ActivatedRoute,
-    private readonly _exerciseService: ExerciseService,
-    private readonly _notesPlayer: PlayerService,
-    private readonly _youtubePlayer: YouTubePlayerService,
-    private readonly _dronePlayer: DronePlayerService,
-    private readonly _exerciseSettingsData: ExerciseSettingsDataService,
-    private readonly _adaptiveExerciseService: AdaptiveExerciseService,
-    private readonly router: Router
-  ) {
+  constructor() {
     super();
 
     listenToChanges(this, '_currentQuestion')

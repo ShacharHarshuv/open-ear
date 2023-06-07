@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ExerciseStateService } from './state/exercise-state.service';
 import {
   ModalController,
@@ -45,6 +45,13 @@ import { MultiAnswerButtonComponent } from './components/multi-answer-button/mul
   ],
 })
 export class ExercisePage extends BaseComponent {
+  private readonly _modalController = inject(ModalController);
+  private readonly _alertController = inject(AlertController);
+  private readonly _toastController = inject(ToastController);
+  private readonly _bdcWalkService = inject(BdcWalkService);
+  public readonly state = inject(ExerciseStateService);
+  public readonly exerciseExplanation = inject(ExerciseExplanationService);
+
   private _hideMessage$ = new BehaviorSubject<boolean>(false);
   private _developerModeActivationCount: number = 0;
 
@@ -59,14 +66,7 @@ export class ExercisePage extends BaseComponent {
     return (this.state.totalCorrectAnswers / this.state.totalQuestions) * 100;
   }
 
-  constructor(
-    public readonly state: ExerciseStateService,
-    public readonly exerciseExplanation: ExerciseExplanationService,
-    private readonly _modalController: ModalController,
-    private readonly _alertController: AlertController,
-    private readonly _toastController: ToastController,
-    private readonly _bdcWalkService: BdcWalkService
-  ) {
+  constructor() {
     super();
     this._init();
     this._handleMessages();
