@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { ExerciseStateService } from './state/exercise-state.service';
 import {
   ModalController,
@@ -55,7 +55,8 @@ export class ExercisePage extends BaseComponent {
   private _hideMessage$ = new BehaviorSubject<boolean>(false);
   private _developerModeActivationCount: number = 0;
 
-  wrongAnswers: string[] = [];
+  private readonly _wrongAnswers = signal<string[]>([]);
+  readonly wrongAnswers = this._wrongAnswers.asReadonly();
   rightAnswer: string | null = null;
   isMenuOpened: boolean = false;
 
@@ -85,13 +86,13 @@ export class ExercisePage extends BaseComponent {
     const isRight: boolean = this.state.answer(answer);
     if (isRight) {
       this.rightAnswer = answer;
-      this.wrongAnswers = [];
+      this._wrongAnswers.set([]);
     } else {
-      this.wrongAnswers.push(answer);
+      this._wrongAnswers.mutate((wrongAnswers) => wrongAnswers.push(answer));
     }
     setTimeout(() => {
       if (this.state.globalSettings.revealAnswerAfterFirstMistake) {
-        this.wrongAnswers = [];
+        this._wrongAnswers.set([]);
       }
       this.rightAnswer = null;
     }, 100);

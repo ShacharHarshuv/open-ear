@@ -80,7 +80,7 @@
           [disabled]="!state.isAnswerEnabled"
           [right]="answer === rightAnswer"
           [highlighted]="answer === state.highlightedAnswer()"
-          [wrong]="wrongAnswers.includes(answer)"
+          [wrong]="wrongAnswers().includes(answer)"
         >
           <ng-container *cdkDragPlaceholder></ng-container>
           <span [innerHTML]="answerConfig.displayLabel"></span>

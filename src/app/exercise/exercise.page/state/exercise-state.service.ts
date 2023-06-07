@@ -133,9 +133,7 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
 
   private _currentAnswers = signal<CurrentAnswer[]>([]);
 
-  get currentAnswers() {
-    return this._currentAnswers.asReadonly();
-  }
+  readonly currentAnswers = this._currentAnswers.asReadonly();
 
   get currentQuestion() {
     return this._currentQuestion;
@@ -149,9 +147,7 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
 
   private _highlightedAnswer = signal<string | null>(null);
 
-  get highlightedAnswer() {
-    return this._highlightedAnswer.asReadonly();
-  }
+  readonly highlightedAnswer = this._highlightedAnswer.asReadonly();
 
   get hasCadence(): boolean {
     return !!this._currentQuestion.cadence;
@@ -198,8 +194,10 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
     return this._answerToLabelStringMap;
   }
 
-  answer(answer: string, answerIndex?: number): boolean {
-    answerIndex = answerIndex ?? this._currentSegmentToAnswer;
+  answer(
+    answer: string,
+    answerIndex: number = this._currentSegmentToAnswer
+  ): boolean {
     this._currentAnswers.update((currentAnswers) =>
       _.cloneDeep(currentAnswers)
     ); // creating new reference to trigger change detection
@@ -209,14 +207,18 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
     const rightAnswer = this._currentQuestion.segments[answerIndex].rightAnswer;
     const isRight = rightAnswer === answer;
     if (!isRight) {
-      this._currentAnswers()[answerIndex].wasWrong = true;
+      this._currentAnswers.mutate(
+        (currentAnswers) => (currentAnswers[answerIndex].wasWrong = true)
+      );
     }
     if (isRight || this._globalSettings.revealAnswerAfterFirstMistake) {
       this._totalQuestions++;
       if (!this._currentAnswers()[answerIndex].wasWrong) {
         this._totalCorrectAnswers++;
       }
-      this._currentAnswers()[answerIndex].answer = rightAnswer;
+      this._currentAnswers.mutate(
+        (currentAnswers) => (currentAnswers[answerIndex].answer = rightAnswer)
+      );
       while (!!this._currentAnswers()[this._currentSegmentToAnswer]?.answer) {
         this._currentSegmentToAnswer++;
       }
