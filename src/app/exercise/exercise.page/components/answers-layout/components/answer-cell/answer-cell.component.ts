@@ -9,10 +9,10 @@ import {
   flatAnswerList,
 } from '../../../../../exercise-logic';
 import { signalFromProperty } from '../../../../../../shared/ng-utilities/signalFromProperty';
-import { uniqueId } from 'lodash';
+import { uniqueId, first } from 'lodash';
 
 export type MultiAnswerButtonTemplateContext = Required<
-  Pick<MultiAnswerCell, 'primaryAnswer' | 'displayLabel'>
+  Pick<MultiAnswerCell, 'displayLabel'>
 > & {
   innerAnswers: Answer[];
 };
@@ -63,7 +63,7 @@ export class AnswerCellComponent {
 
       return {
         space: 1,
-        displayLabel: cell.primaryAnswer,
+        displayLabel: first(flatAnswerList(cell.innerAnswersList))!,
         ...cell,
         id: uniqueId('multi-answer-cell-'),
       };
