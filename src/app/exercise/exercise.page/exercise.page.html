@@ -78,7 +78,7 @@
           *ngIf="answerConfig.answer as answer"
           (click)="onAnswerClick(answerConfig)"
           [disabled]="!state.isAnswerEnabled"
-          [right]="answer === rightAnswer"
+          [right]="answer === rightAnswer()"
           [highlighted]="answer === state.highlightedAnswer()"
           [wrong]="wrongAnswers().includes(answer)"
         >

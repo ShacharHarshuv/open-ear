@@ -73,11 +73,11 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
   private _wasKeyChanged: boolean = true;
   private _currentSegmentToAnswer: number = 0;
   private _destroyed: boolean = false;
-  private _message$ = new BehaviorSubject<string | null>(null);
-  private _error$ = new BehaviorSubject<unknown>(null);
+  private _message = signal<string | null>(null);
+  private _error = signal<unknown>(null);
   private _cadenceWasPlayed: boolean = false;
-  readonly message$ = this._message$.asObservable();
-  readonly error$ = this._error$.asObservable();
+  readonly message = this._message.asReadonly();
+  readonly error = this._error.asReadonly();
   readonly name: string = this.exercise.name;
   answerList: AnswerList = this.exercise.getAnswerList();
   private _answerToLabelStringMap: Record<string, string> =
@@ -352,7 +352,7 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
       this._wasKeyChanged = newQuestion.key !== this._currentQuestion.key;
       this._currentQuestion = newQuestion;
     } catch (e) {
-      this._error$.next(e);
+      this._error.set(e);
       console.error(e);
     }
     this._currentAnswers.set(
@@ -384,10 +384,10 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
     // settings may be invalid so we need to catch errors
     try {
       this._updateExerciseSettings(settings.exerciseSettings);
-      this._message$.next(null);
+      this._message.set(null);
       this.nextQuestion();
     } catch (e) {
-      this._error$.next(e);
+      this._error.set(e);
     }
   }
 
@@ -437,11 +437,11 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
   }
 
   private _showMessage(message: string) {
-    this._message$.next(message);
+    this._message.set(message);
   }
 
   private _hideMessage() {
-    this._message$.next(null);
+    this._message.set(null);
   }
 
   stop(): void {

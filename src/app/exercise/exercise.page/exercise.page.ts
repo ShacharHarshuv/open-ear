@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal, effect } from '@angular/core';
 import { ExerciseStateService } from './state/exercise-state.service';
 import {
   ModalController,
@@ -11,8 +11,6 @@ import * as _ from 'lodash';
 import { ExerciseExplanationService } from './state/exercise-explanation.service';
 import Exercise from '../exercise-logic';
 import { BaseComponent } from '../../shared/ts-utility';
-import { takeUntil, finalize, switchMap, map } from 'rxjs/operators';
-import { BehaviorSubject, combineLatest } from 'rxjs';
 import { BdcWalkService, BdcWalkModule } from 'bdc-walkthrough';
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import { getCurrentAnswersLayout } from './utility/getCurrentAnswersLayout';
@@ -21,9 +19,9 @@ import { CommonModule } from '@angular/common';
 import { PureFunctionPipe } from '../../shared/ng-utilities/pure-function-pipe/pure-function.pipe';
 import { ContentPaddingDirective } from '../../shared/components/shared-components/content-padding.directive';
 import { AnswersLayoutModule } from './components/answers-layout/answers-layout.module';
-import AnswerConfig = Exercise.AnswerConfig;
 import { AnswerButtonComponent } from './components/answer-button/answer-button.component';
 import { MultiAnswerButtonComponent } from './components/multi-answer-button/multi-answer-button.component';
+import AnswerConfig = Exercise.AnswerConfig;
 
 @Component({
   selector: 'app-exercise-page',
@@ -47,17 +45,17 @@ import { MultiAnswerButtonComponent } from './components/multi-answer-button/mul
 export class ExercisePage extends BaseComponent {
   private readonly _modalController = inject(ModalController);
   private readonly _alertController = inject(AlertController);
-  private readonly _toastController = inject(ToastController);
   private readonly _bdcWalkService = inject(BdcWalkService);
   public readonly state = inject(ExerciseStateService);
   public readonly exerciseExplanation = inject(ExerciseExplanationService);
 
-  private _hideMessage$ = new BehaviorSubject<boolean>(false);
+  private _hideMessage = signal(false);
   private _developerModeActivationCount: number = 0;
 
   private readonly _wrongAnswers = signal<string[]>([]);
   readonly wrongAnswers = this._wrongAnswers.asReadonly();
-  rightAnswer: string | null = null;
+  private readonly _rightAnswer = signal<string | null>(null);
+  readonly rightAnswer = this._rightAnswer.asReadonly();
   isMenuOpened: boolean = false;
 
   get correctAnswersPercentage(): number {
@@ -85,7 +83,7 @@ export class ExercisePage extends BaseComponent {
     }
     const isRight: boolean = this.state.answer(answer);
     if (isRight) {
-      this.rightAnswer = answer;
+      this._rightAnswer.set(answer);
       this._wrongAnswers.set([]);
     } else {
       this._wrongAnswers.mutate((wrongAnswers) => wrongAnswers.push(answer));
@@ -94,7 +92,7 @@ export class ExercisePage extends BaseComponent {
       if (this.state.globalSettings.revealAnswerAfterFirstMistake) {
         this._wrongAnswers.set([]);
       }
-      this.rightAnswer = null;
+      this._rightAnswer.set(null);
     }, 100);
   }
 
@@ -114,11 +112,11 @@ export class ExercisePage extends BaseComponent {
         allAvailableAnswers: allAvailableAnswers,
       },
     });
-    this._hideMessage$.next(true);
+    this._hideMessage.set(true);
     await modal.present();
     await this.state.stop();
     const data = (await modal.onDidDismiss()).data;
-    this._hideMessage$.next(false);
+    this._hideMessage.set(false);
     this.state.updateSettings(data);
   }
 
@@ -151,71 +149,72 @@ export class ExercisePage extends BaseComponent {
   }
 
   private _handleMessages(): void {
+    const toastController = inject(ToastController);
     let lastToaster: HTMLIonToastElement | null = null;
-    combineLatest({
-      message: this.state.message$,
-      error: this.state.error$,
-    })
-      .pipe(
-        map(
-          ({
-            message,
-            error,
-          }): {
-            text: string;
-            type: 'error' | 'message';
-          } | null =>
-            error
-              ? {
-                  text:
-                    '<p>Ooops... something went wrong! If this persists, please report a bug</p>' +
-                    error,
-                  type: 'error',
-                }
-              : message
-              ? {
-                  text: message,
-                  type: 'message',
-                }
-              : null
-        ),
-        switchMap((message) => {
-          return this._hideMessage$.pipe(
-            map((hideMessage) => (hideMessage ? null : message))
-          );
-        }),
-        takeUntil(this._destroy$),
-        finalize(() => {
-          lastToaster?.dismiss();
+
+    effect(() => {
+      const getMessageRef = (): {
+        text: string;
+        type: 'error' | 'message';
+      } | null => {
+        if (this._hideMessage()) {
+          return null;
+        }
+
+        if (this.state.error()) {
+          return {
+            text:
+              'Ooops... something went wrong! If this persists, please report a bug. Details: ' +
+              this.state.error()!,
+            type: 'error',
+          };
+        }
+
+        if (this.state.message()) {
+          return {
+            text: this.state.message()!,
+            type: 'message',
+          };
+        }
+
+        return null;
+      };
+
+      const messageRef = getMessageRef();
+
+      if (lastToaster) {
+        lastToaster.dismiss();
+        lastToaster = null;
+      }
+
+      if (!messageRef) {
+        return;
+      }
+
+      toastController
+        .create({
+          message: messageRef.text,
+          position: 'middle',
+          color: messageRef.type === 'error' ? 'danger' : 'dark',
+          header: messageRef.type === 'error' ? 'Unexpected Error' : undefined,
+          buttons: messageRef.type === 'error' ? ['OK'] : [],
         })
-      )
-      .subscribe((message) => {
+        .then((toaster) => {
+          // can happen because of a race condition
+          if (lastToaster) {
+            lastToaster.dismiss();
+          }
+          lastToaster = toaster;
+          toaster.present();
+        });
+
+      return () => {
         if (lastToaster) {
           lastToaster.dismiss();
           lastToaster = null;
         }
-
-        if (!message) {
-          return;
-        }
-
-        this._toastController
-          .create({
-            message: message.text,
-            position: 'middle',
-            color: message.type === 'error' ? 'danger' : 'dark',
-            header: message.type === 'error' ? 'Unexpected Error' : undefined,
-            buttons: message.type === 'error' ? ['OK'] : [],
-          })
-          .then((toaster) => {
-            // can happen because of a race condition
-            if (lastToaster) {
-              lastToaster.dismiss();
-            }
-            lastToaster = toaster;
-            toaster.present();
-          });
-      });
+      };
+    });
   }
 
   async onTitleClick(): Promise<void> {
