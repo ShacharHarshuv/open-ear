@@ -48,7 +48,7 @@
     </section>
     <div class="exercise__answers-container">
       <div
-        *ngFor="let answersPlayedTogether of (getCurrentAnswersLayout | pureFunction: state.currentAnswers)"
+        *ngFor="let answersPlayedTogether of (getCurrentAnswersLayout | pureFunction: state.currentAnswers())"
       >
         <app-answer-indication
           *ngFor="let answer of answersPlayedTogether"
@@ -62,27 +62,33 @@
     </div>
     <app-answers-layout
       [answerList]="state.answerList"
-      [buttonTemplate]="$any(answerButton)"
+      [buttonTemplate]="answerButton"
+      [multiAnswerButtonTemplate]="multiAnswerButton"
+      [multiAnswerCellConfig]="{
+        dismissOnSelect: true,
+        triggerAction: 'click',
+      }"
     ></app-answers-layout>
     <ng-template let-answerConfig #answerButton>
       <div cdkDropList>
-        <ion-button
+        <app-answer-button
           cdkDrag
           [cdkDragData]="answerConfig"
           (cdkDragDropped)="onDragDropped($event)"
           *ngIf="answerConfig.answer as answer"
-          class="exercise__answer-button"
           (click)="onAnswerClick(answerConfig)"
           [disabled]="!state.isAnswerEnabled"
-          [class.--right]="answer === rightAnswer"
-          [class.--highlighted]="answer === state.highlightedAnswer"
-          [class.--wrong]="wrongAnswers.includes(answer)"
-          [color]="'light'"
+          [right]="answer === rightAnswer"
+          [highlighted]="answer === state.highlightedAnswer()"
+          [wrong]="wrongAnswers.includes(answer)"
         >
           <ng-container *cdkDragPlaceholder></ng-container>
           <span [innerHTML]="answerConfig.displayLabel"></span>
-        </ion-button>
+        </app-answer-button>
       </div>
+    </ng-template>
+    <ng-template let-multiAnswerCell #multiAnswerButton>
+      <app-multi-answer-button [multiAnswerCell]="multiAnswerCell" />
     </ng-template>
     <div class="exercise__actions-container">
       <ion-button

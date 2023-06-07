@@ -89,7 +89,7 @@ describe('ExerciseStateService', function () {
         })),
       });
       exerciseStateService.nextQuestion();
-      expect(exerciseStateService.currentAnswers).toEqual([
+      expect(exerciseStateService.currentAnswers()).toEqual([
         jasmine.objectContaining({
           answer: null,
           wasWrong: false,
@@ -108,7 +108,7 @@ describe('ExerciseStateService', function () {
     describe('without specifying index', function () {
       it('should work', () => {
         expect(exerciseStateService.answer('C')).toBeTrue();
-        expect(exerciseStateService.currentAnswers).toEqual([
+        expect(exerciseStateService.currentAnswers()).toEqual([
           jasmine.objectContaining({
             answer: 'C',
             wasWrong: false,
@@ -123,7 +123,7 @@ describe('ExerciseStateService', function () {
           }),
         ]);
         expect(exerciseStateService.answer('C')).toBeFalse();
-        expect(exerciseStateService.currentAnswers).toEqual([
+        expect(exerciseStateService.currentAnswers()).toEqual([
           jasmine.objectContaining({
             answer: 'C',
             wasWrong: false,
@@ -138,7 +138,7 @@ describe('ExerciseStateService', function () {
           }),
         ]);
         expect(exerciseStateService.answer('D')).toBeTrue();
-        expect(exerciseStateService.currentAnswers).toEqual([
+        expect(exerciseStateService.currentAnswers()).toEqual([
           jasmine.objectContaining({
             answer: 'C',
             wasWrong: false,
@@ -153,7 +153,7 @@ describe('ExerciseStateService', function () {
           }),
         ]);
         expect(exerciseStateService.answer('E')).toBeTrue();
-        expect(exerciseStateService.currentAnswers).toEqual([
+        expect(exerciseStateService.currentAnswers()).toEqual([
           jasmine.objectContaining({
             answer: 'C',
             wasWrong: false,
@@ -173,7 +173,7 @@ describe('ExerciseStateService', function () {
     describe('specifying index', () => {
       it('should answer in different order', () => {
         expect(exerciseStateService.answer('E', 2)).toBeTrue();
-        expect(exerciseStateService.currentAnswers).toEqual([
+        expect(exerciseStateService.currentAnswers()).toEqual([
           jasmine.objectContaining({
             answer: null,
             wasWrong: false,
@@ -188,7 +188,7 @@ describe('ExerciseStateService', function () {
           }),
         ]);
         expect(exerciseStateService.answer('D', 0)).toBeFalse();
-        expect(exerciseStateService.currentAnswers).toEqual([
+        expect(exerciseStateService.currentAnswers()).toEqual([
           jasmine.objectContaining({
             answer: null,
             wasWrong: true,
@@ -203,7 +203,7 @@ describe('ExerciseStateService', function () {
           }),
         ]);
         expect(exerciseStateService.answer('C', 0)).toBeTrue();
-        expect(exerciseStateService.currentAnswers).toEqual([
+        expect(exerciseStateService.currentAnswers()).toEqual([
           jasmine.objectContaining({
             answer: 'C',
             wasWrong: true,
@@ -218,7 +218,7 @@ describe('ExerciseStateService', function () {
           }),
         ]);
         expect(exerciseStateService.answer('D', 0)).toBeFalse(); // should not do anything if answer again for the same segmen).toBeTruet
-        expect(exerciseStateService.currentAnswers).toEqual([
+        expect(exerciseStateService.currentAnswers()).toEqual([
           jasmine.objectContaining({
             answer: 'C',
             wasWrong: true,
@@ -233,7 +233,7 @@ describe('ExerciseStateService', function () {
           }),
         ]);
         expect(exerciseStateService.answer('D', 1)).toBeTrue(); // should not do anything if answer again for the same segmen).toBeTruet
-        expect(exerciseStateService.currentAnswers).toEqual([
+        expect(exerciseStateService.currentAnswers()).toEqual([
           jasmine.objectContaining({
             answer: 'C',
             wasWrong: true,
@@ -251,7 +251,7 @@ describe('ExerciseStateService', function () {
 
       it('should ignore new answers if already answered', () => {
         expect(exerciseStateService.answer('D', 1)).toBeTrue();
-        expect(exerciseStateService.currentAnswers).toEqual([
+        expect(exerciseStateService.currentAnswers()).toEqual([
           jasmine.objectContaining({
             answer: null,
             wasWrong: false,
@@ -266,7 +266,7 @@ describe('ExerciseStateService', function () {
           }),
         ]);
         expect(exerciseStateService.answer('E', 1)).toBeFalse();
-        expect(exerciseStateService.currentAnswers).toEqual([
+        expect(exerciseStateService.currentAnswers()).toEqual([
           jasmine.objectContaining({
             answer: null,
             wasWrong: false,
@@ -286,7 +286,7 @@ describe('ExerciseStateService', function () {
     describe('combining specifying index an implicit index', function () {
       it('should answer the first unanswered even if later answer was answered', () => {
         expect(exerciseStateService.answer('E', 2)).toBeTrue();
-        expect(exerciseStateService.currentAnswers).toEqual([
+        expect(exerciseStateService.currentAnswers()).toEqual([
           jasmine.objectContaining({
             answer: null,
             wasWrong: false,
@@ -301,7 +301,7 @@ describe('ExerciseStateService', function () {
           }),
         ]);
         expect(exerciseStateService.answer('C')).toBeTrue();
-        expect(exerciseStateService.currentAnswers).toEqual([
+        expect(exerciseStateService.currentAnswers()).toEqual([
           jasmine.objectContaining({
             answer: 'C',
             wasWrong: false,
@@ -319,7 +319,7 @@ describe('ExerciseStateService', function () {
 
       it('should answer the first unanswered question even if earlier question was answered with index', () => {
         expect(exerciseStateService.answer('D', 1)).toBeTrue();
-        expect(exerciseStateService.currentAnswers).toEqual([
+        expect(exerciseStateService.currentAnswers()).toEqual([
           jasmine.objectContaining({
             answer: null,
             wasWrong: false,
@@ -334,7 +334,7 @@ describe('ExerciseStateService', function () {
           }),
         ]);
         expect(exerciseStateService.answer('C', 0)).toBeTrue();
-        expect(exerciseStateService.currentAnswers).toEqual([
+        expect(exerciseStateService.currentAnswers()).toEqual([
           jasmine.objectContaining({
             answer: 'C',
             wasWrong: false,
@@ -349,7 +349,7 @@ describe('ExerciseStateService', function () {
           }),
         ]);
         expect(exerciseStateService.answer('E')).toBeTrue();
-        expect(exerciseStateService.currentAnswers).toEqual([
+        expect(exerciseStateService.currentAnswers()).toEqual([
           jasmine.objectContaining({
             answer: 'C',
             wasWrong: false,

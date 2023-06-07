@@ -1,17 +1,31 @@
 <ng-container *ngIf="value$ | async as value">
   <app-answers-layout
-    [answerList]="answerList"
-    [buttonTemplate]="$any(buttonTemplate)"
+    [answerList]="answerList()"
+    [buttonTemplate]="buttonTemplate"
+    [multiAnswerButtonTemplate]="multiAnswerButtonTemplate"
+    [multiAnswerCellConfig]="{
+      dismissOnSelect: false,
+      triggerAction: 'context-menu',
+    }"
   ></app-answers-layout>
 
+  <p *ngIf="hasMultiAnswerButtons()" class="long-press-hint">
+    Long-press a button to see more options
+  </p>
+
   <ng-template let-answerConfig #buttonTemplate>
-    <ion-button
+    <app-included-answers-button
       *ngIf="answerConfig.answer as answer"
-      [color]="'light'"
-      [class.--included]="value.includes(answer)"
+      [included]="value.includes(answer)"
       (click)="toggleInclusion(answer)"
     >
       <span [innerHTML]="answerConfig.displayLabel"></span>
-    </ion-button>
+    </app-included-answers-button>
+  </ng-template>
+
+  <ng-template let-multiAnswerCell #multiAnswerButtonTemplate>
+    <app-included-answers-multi-answer-button
+      [multiAnswerCell]="multiAnswerCell"
+    />
   </ng-template>
 </ng-container>

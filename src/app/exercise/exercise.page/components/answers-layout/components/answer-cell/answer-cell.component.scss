@@ -1,0 +1,31 @@
+@use "main" as *;
+
+:host {
+  display: contents;
+}
+
+.answer-cell {
+  position: relative;
+
+  ::ng-deep * {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+.multi-answer-arrow {
+  pointer-events: none;
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-bottom: 8px solid black;
+  border-radius: 2px;
+  opacity: 0.3;
+}
+
+.multi-answer-popover-content {
+  padding: $unit;
+}

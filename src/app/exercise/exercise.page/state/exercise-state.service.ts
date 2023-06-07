@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ExerciseService } from '../../exercise.service';
 import Exercise from '../../exercise-logic';
@@ -132,10 +132,10 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
     return this._totalQuestions;
   }
 
-  private _currentAnswers: CurrentAnswer[] = [];
+  private _currentAnswers = signal<CurrentAnswer[]>([]);
 
   get currentAnswers() {
-    return this._currentAnswers;
+    return this._currentAnswers.asReadonly();
   }
 
   get currentQuestion() {
@@ -148,10 +148,10 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
     return this._currentlyPlayingSegments;
   }
 
-  private _highlightedAnswer: string | null = null;
+  private _highlightedAnswer = signal<string | null>(null);
 
-  get highlightedAnswer(): string | null {
-    return this._highlightedAnswer;
+  get highlightedAnswer() {
+    return this._highlightedAnswer.asReadonly();
   }
 
   get hasCadence(): boolean {
@@ -181,11 +181,11 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
   }
 
   get isQuestionCompleted(): boolean {
-    return _.every(this._currentAnswers, (answer) => answer.answer);
+    return _.every(this._currentAnswers(), (answer) => answer.answer);
   }
 
   private get _areAllSegmentsAnswered(): boolean {
-    return !this._currentAnswers.filter((answer) => answer.answer === null)
+    return !this._currentAnswers().filter((answer) => answer.answer === null)
       .length;
   }
 
@@ -201,32 +201,37 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
 
   answer(answer: string, answerIndex?: number): boolean {
     answerIndex = answerIndex ?? this._currentSegmentToAnswer;
-    this._currentAnswers = _.cloneDeep(this._currentAnswers); // creating new reference to trigger change detection
-    if (this._currentAnswers[answerIndex].answer) {
-      return this._currentAnswers[answerIndex].answer === answer;
+    this._currentAnswers.update((currentAnswers) =>
+      _.cloneDeep(currentAnswers)
+    ); // creating new reference to trigger change detection
+    if (this._currentAnswers()[answerIndex].answer) {
+      return this._currentAnswers()[answerIndex].answer === answer;
     }
     const rightAnswer = this._currentQuestion.segments[answerIndex].rightAnswer;
     const isRight = rightAnswer === answer;
     if (!isRight) {
-      this._currentAnswers[answerIndex].wasWrong = true;
+      this._currentAnswers()[answerIndex].wasWrong = true;
     }
     if (isRight || this._globalSettings.revealAnswerAfterFirstMistake) {
       this._totalQuestions++;
-      if (!this._currentAnswers[answerIndex].wasWrong) {
+      if (!this._currentAnswers()[answerIndex].wasWrong) {
         this._totalCorrectAnswers++;
       }
-      this._currentAnswers[answerIndex].answer = rightAnswer;
-      while (!!this._currentAnswers[this._currentSegmentToAnswer]?.answer) {
+      this._currentAnswers()[answerIndex].answer = rightAnswer;
+      while (!!this._currentAnswers()[this._currentSegmentToAnswer]?.answer) {
         this._currentSegmentToAnswer++;
       }
 
       // Last segment was answered
       if (
-        _.every(this._currentAnswers, (currentAnswer) => !!currentAnswer.answer)
+        _.every(
+          this._currentAnswers(),
+          (currentAnswer) => !!currentAnswer.answer
+        )
       ) {
         // if not all answers are correct
         if (this._globalSettings.adaptive) {
-          const areAllSegmentsCorrect: boolean = !this._currentAnswers.filter(
+          const areAllSegmentsCorrect: boolean = !this._currentAnswers().filter(
             (answerSegment) => answerSegment.wasWrong
           ).length;
           this._adaptiveExercise.reportAnswerCorrectness(areAllSegmentsCorrect);
@@ -235,7 +240,7 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
           if (this._globalSettings.moveToNextQuestionAutomatically) {
             await this.onQuestionPlayingFinished();
             // Make sure we are still in the same question and nothing is playing (i.e. "Next" wasn't clicked by user)
-            const numberOfAnsweredSegments = this._currentAnswers.filter(
+            const numberOfAnsweredSegments = this._currentAnswers().filter(
               (answer) => !!answer.answer
             ).length;
             if (
@@ -349,12 +354,14 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
       this._error$.next(e);
       console.error(e);
     }
-    this._currentAnswers = this._currentQuestion.segments.map(
-      (segment): CurrentAnswer => ({
-        wasWrong: false,
-        answer: null,
-        playAfter: segment.playAfter,
-      })
+    this._currentAnswers.set(
+      this._currentQuestion.segments.map(
+        (segment): CurrentAnswer => ({
+          wasWrong: false,
+          answer: null,
+          playAfter: segment.playAfter,
+        })
+      )
     );
     this._currentSegmentToAnswer = 0;
 
@@ -520,7 +527,7 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
     return this._currentQuestion.afterCorrectAnswer.map(
       ({ partToPlay, answerToHighlight }): PartToPlay => ({
         beforePlaying: () => {
-          this._highlightedAnswer = answerToHighlight || null;
+          this._highlightedAnswer.set(answerToHighlight || null);
         },
         partOrTime: partToPlay,
         instrumentName: this._globalSettings.instrument,
@@ -536,7 +543,7 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
     }
 
     await this._notesPlayer.playMultipleParts(afterCorrectAnswerParts);
-    this._highlightedAnswer = null;
+    this._highlightedAnswer.set(null);
   }
 
   private _getAnswerToLabelStringMap(): Record<string, string> {

@@ -1,0 +1,7 @@
+<app-answer-button
+  [highlighted]="isHighlighted()"
+  [wrong]="isWrong()"
+  [disabled]="!state.isAnswerEnabled"
+>
+  {{ multiAnswerCell().displayLabel }}
+</app-answer-button>

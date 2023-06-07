@@ -1,7 +1,7 @@
 import { Injectable, Type, inject } from '@angular/core';
 import * as _ from 'lodash';
 import { intervalExercise } from './exercises/IntervalExercise/intervalExercise';
-import Exercise from './exercise-logic';
+import { Exercise } from './exercise-logic';
 import { Platform } from '@ionic/angular';
 import { triadInversionExercise } from './exercises/TriadInversionExercise/triadInversionExercise';
 import { chordsInRealSongsExercise } from './exercises/ChordsInRealSongsExercise/chordsInRealSongsExercise';
@@ -10,9 +10,8 @@ import { notesInKeyExercise } from './exercises/NotesInKeyExercise/notesInKeyExe
 import { chordTypeExercise } from './exercises/ChordTypeInKeyExercise/chordTypeInKeyExercise';
 import { chordInKeyExercise } from './exercises/ChordInKeyExercise/chordsInKeyExercise';
 import { commonChordProgressionExercise } from './exercises/CommonChordProgressionExercise/commonChordProgressionsExercise';
-import IExercise = Exercise.Exercise;
 
-const exerciseList = [
+const exerciseList: Exercise[] = [
   notesInKeyExercise(),
   chordInKeyExercise(),
   commonChordProgressionExercise(),
@@ -21,7 +20,7 @@ const exerciseList = [
   notesWithChordsExercise(),
   triadInversionExercise(),
   intervalExercise(),
-] satisfies IExercise[];
+];
 
 @Injectable({
   providedIn: 'root',
@@ -37,13 +36,13 @@ export class ExerciseService {
         !!explanation && typeof explanation != 'string'
     );
 
-  getExercise(id: string): IExercise {
+  getExercise(id: string): Exercise {
     return this._exerciseIdToExercise[id];
   }
 
-  getExerciseList(): IExercise[] {
+  getExerciseList(): Exercise[] {
     return exerciseList.filter(
-      (exercise: IExercise) =>
+      (exercise: Exercise) =>
         !exercise.blackListPlatform ||
         !this._platform.is(exercise.blackListPlatform)
     );

@@ -76,23 +76,58 @@ export type Question<GAnswer extends string = string> =
 
 export type Answer<GAnswer extends string = string> = GAnswer;
 
-export interface AnswerConfig<GAnswer extends string> {
+export type AnswerConfig<GAnswer extends string> = CellConfig & {
   answer: Answer<GAnswer> | null;
-  displayLabel?: string;
   playOnClick?: StaticOrGetter<PartToPlay | null, [Question<GAnswer>]>;
-  space?: number; // 1 (Default) means all cells takes the same space
+};
+
+type CellConfig = {
+  displayLabel?: string;
+  space?: number;
+};
+
+export type MultiAnswerCell<GAnswer extends string = string> = CellConfig & {
+  innerAnswersList: AnswerList<GAnswer>;
+};
+
+export function isMultiAnswerCell<GAnswer extends string>(
+  cell: AnswersLayoutCell<GAnswer>
+): cell is MultiAnswerCell<GAnswer> {
+  return !!cell && typeof cell === 'object' && 'innerAnswersList' in cell;
 }
+
+export type AnswersLayoutCell<GAnswer extends string = string> =
+  | Answer<GAnswer>
+  | null
+  | AnswerConfig<GAnswer>
+  | MultiAnswerCell<GAnswer>;
+
+export type AnswerLayoutRow<GAnswer extends string = string> =
+  | AnswersLayoutCell<GAnswer>[]
+  | string;
 
 export interface AnswersLayout<GAnswer extends string = string> {
   /**
    * Null means an empty space
    * */
-  rows: ((Answer<GAnswer> | null | AnswerConfig<GAnswer>)[] | string)[];
+  rows: AnswerLayoutRow<GAnswer>[];
 }
 
 export interface NormalizedAnswerLayout<GAnswer extends string = string>
   extends Required<AnswersLayout<GAnswer>> {
-  rows: (Required<AnswerConfig<GAnswer>>[] | string)[];
+  rows: (
+    | Required<AnswerConfig<GAnswer> | MultiAnswerCell<GAnswer>>[]
+    | string
+  )[];
+}
+
+function isSingleAnswer<GAnswer extends string>(
+  cell: AnswersLayoutCell<GAnswer>
+): cell is Answer<GAnswer> | null | AnswerConfig<GAnswer> {
+  return (
+    !Array.isArray(cell) &&
+    (typeof cell !== 'object' || !cell || !('rows' in cell))
+  );
 }
 
 export function normalizedAnswerList<GAnswer extends string = string>(
@@ -109,7 +144,28 @@ export function normalizedAnswerList<GAnswer extends string = string>(
       if (typeof row === 'string') {
         return row;
       } else {
-        return row.map((answerConfig) => normalizeAnswerConfig(answerConfig));
+        return row.map(
+          (
+            cell
+          ): Required<MultiAnswerCell<GAnswer> | AnswerConfig<GAnswer>> => {
+            if (isMultiAnswerCell(cell)) {
+              const firstAnswer = getAnswerListIterator(
+                cell.innerAnswersList
+              ).next().value;
+              const defaultDisplayLabel =
+                firstAnswer?.displayLabel ?? firstAnswer.answer;
+
+              return {
+                space: 1,
+                displayLabel: defaultDisplayLabel,
+                ...cell,
+                innerAnswersList: normalizedAnswerList(cell.innerAnswersList),
+              };
+            }
+
+            return normalizeAnswerConfig(cell);
+          }
+        );
       }
     }),
   };
@@ -156,20 +212,38 @@ export function filterIncludedAnswers<GAnswer extends string>(
     normalizedAnswerList(allAnswerList);
 
   return {
-    rows: normalizedAnswerLayout.rows.map(
-      (
-        row: Required<AnswerConfig<GAnswer>>[]
-      ): Required<AnswerConfig<GAnswer>>[] =>
-        _.map(row, (answerLayoutCellConfig) =>
-          answerLayoutCellConfig.answer &&
+    rows: normalizedAnswerLayout.rows.map((row) => {
+      if (typeof row === 'string') {
+        return row;
+      }
+      return _.map(row, (answerLayoutCellConfig) => {
+        if (isMultiAnswerCell(answerLayoutCellConfig)) {
+          const innerAnswersList = filterIncludedAnswers(
+            answerLayoutCellConfig.innerAnswersList,
+            includedAnswersList
+          );
+          const flatAnswers = flatAnswerList(innerAnswersList);
+          if (flatAnswers.length === 0) {
+            return null;
+          } else if (flatAnswers.length === 1) {
+            return flatAnswers[0];
+          } else {
+            return {
+              ...answerLayoutCellConfig,
+              innerAnswersList,
+            };
+          }
+        }
+
+        return answerLayoutCellConfig.answer &&
           includedAnswersList.includes(answerLayoutCellConfig.answer)
-            ? answerLayoutCellConfig
-            : {
-                ...answerLayoutCellConfig,
-                answer: null, // In the future it's possible we'll want to configure a button to be disabled instead of hidden in this case
-              }
-        )
-    ),
+          ? answerLayoutCellConfig
+          : {
+              ...answerLayoutCellConfig,
+              answer: null, // In the future it's possible we'll want to configure a button to be disabled instead of hidden in this case
+            };
+      });
+    }),
   };
 }
 
@@ -189,9 +263,13 @@ export function* getAnswerListIterator<GAnswer extends string>(
         continue;
       }
       for (let cell of row) {
-        const normalizedAnswerConfig = normalizeAnswerConfig(cell);
-        if (normalizedAnswerConfig.answer) {
-          yield normalizedAnswerConfig;
+        if (isMultiAnswerCell(cell)) {
+          yield* getAnswerListIterator(cell.innerAnswersList);
+        } else {
+          const normalizedAnswerConfig = normalizeAnswerConfig(cell);
+          if (normalizedAnswerConfig.answer) {
+            yield normalizedAnswerConfig;
+          }
         }
       }
     }
@@ -207,15 +285,27 @@ export function mapAnswerList<
     answerConfig: AnswerConfig<GInputAnswer>
   ) => AnswerConfig<GOutputAnswer>
 ): AnswerList<GOutputAnswer> {
+  if (typeof answerList === 'object' && !Array.isArray(answerList)) {
+    return {
+      rows: (answerList as AnswersLayout<GInputAnswer>).rows.map(
+        (row): AnswerLayoutRow<GOutputAnswer> =>
+          typeof row === 'string' ? row : mapAnswerCellList(row)
+      ),
+    };
+  } else {
+    // @ts-ignore // unclear what is the problem
+    return mapAnswerCellList(answerList);
+  }
+
   function mapAnswerCellList(
-    answerCellList: (Answer<GInputAnswer> | AnswerConfig<GInputAnswer>)[]
-  ): (Answer<GOutputAnswer> | AnswerConfig<GOutputAnswer>)[];
+    answerCellList: Exclude<AnswersLayoutCell<GInputAnswer>, null>[]
+  ): Exclude<AnswersLayoutCell<GOutputAnswer>, null>[];
   function mapAnswerCellList(
-    answerCellList: (Answer<GInputAnswer> | AnswerConfig<GInputAnswer> | null)[]
-  ): (Answer<GOutputAnswer> | AnswerConfig<GOutputAnswer> | null)[];
+    answerCellList: AnswersLayoutCell<GInputAnswer>[]
+  ): AnswersLayoutCell<GOutputAnswer>[];
   function mapAnswerCellList(
-    answerCellList: (Answer<GInputAnswer> | AnswerConfig<GInputAnswer> | null)[]
-  ): (Answer<GOutputAnswer> | AnswerConfig<GOutputAnswer> | null)[] {
+    answerCellList: AnswersLayoutCell<GInputAnswer>[]
+  ): AnswersLayoutCell<GOutputAnswer>[] {
     return _.map(answerCellList, (answerCell) => {
       if (!answerCell) {
         return null;
@@ -223,20 +313,18 @@ export function mapAnswerList<
         return callback({
           answer: answerCell,
         });
+      } else if (isMultiAnswerCell(answerCell)) {
+        return {
+          ...answerCell,
+          innerAnswersList: mapAnswerList(
+            answerCell.innerAnswersList,
+            callback
+          ),
+        };
       } else {
         return callback(answerCell);
       }
     });
-  }
-
-  if (typeof answerList === 'object') {
-    return {
-      rows: (answerList as AnswersLayout<GInputAnswer>).rows.map((row) =>
-        typeof row === 'string' ? row : mapAnswerCellList(row)
-      ),
-    };
-  } else {
-    return mapAnswerCellList(answerList);
   }
 }
 

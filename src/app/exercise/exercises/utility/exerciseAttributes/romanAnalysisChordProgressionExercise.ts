@@ -8,7 +8,7 @@ import { Chord, TriadInversion } from '../../../utility/music/chords';
 import * as _ from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { PlayAfterCorrectAnswerSetting } from '../settings/PlayAfterCorrectAnswerSetting';
-import Exercise from '../../../exercise-logic';
+import Exercise, { mapAnswerList } from '../../../exercise-logic';
 import {
   Interval,
   RomanNumeralChordSymbol,
@@ -607,7 +607,7 @@ export const allRomanNumeralAnswerList: Exercise.AnswerList<RomanNumeralChordSym
 
     const answerList: {
       rows: (
-        | Exercise.AnswerConfig<RomanNumeralChordSymbol>
+        | Exercise.AnswersLayoutCell<RomanNumeralChordSymbol>
         | RomanNumeralChordSymbol
       )[][];
     } = {
@@ -627,7 +627,15 @@ export const allRomanNumeralAnswerList: Exercise.AnswerList<RomanNumeralChordSym
           'VI',
           'VII',
         ],
-        ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'viidim'],
+        [
+          'I',
+          'ii',
+          'iii',
+          'IV',
+          'V',
+          'vi',
+          'viidim',
+        ],
         ['i', 'iidim', 'bIII', 'iv', 'v', 'bVI', 'bVII'],
         [
           {
@@ -654,38 +662,32 @@ export const allRomanNumeralAnswerList: Exercise.AnswerList<RomanNumeralChordSym
     };
 
     return Exercise.addViewLabelToAnswerList(
-      {
-        rows: answerList.rows.map((row) =>
-          row.map(
-            (
-              answerOrCellConfig
-            ): Exercise.AnswerConfig<RomanNumeralChordSymbol> => {
-              if (typeof answerOrCellConfig === 'string') {
-                return {
-                  answer: answerOrCellConfig,
-                  playOnClick: getPlayOnClickPart(
-                    romanNumeralToChordInC(answerOrCellConfig)
-                  ),
-                };
-              } else {
-                if (
-                  !answerOrCellConfig.playOnClick &&
-                  answerOrCellConfig.answer
-                ) {
-                  return {
-                    ...answerOrCellConfig,
-                    playOnClick: getPlayOnClickPart(
-                      romanNumeralToChordInC(answerOrCellConfig.answer)
-                    ),
-                  };
-                } else {
-                  return answerOrCellConfig;
-                }
-              }
+      mapAnswerList(
+        answerList,
+        (
+          answerOrCellConfig
+        ): Exercise.AnswerConfig<RomanNumeralChordSymbol> => {
+          if (typeof answerOrCellConfig === 'string') {
+            return {
+              answer: answerOrCellConfig,
+              playOnClick: getPlayOnClickPart(
+                romanNumeralToChordInC(answerOrCellConfig)
+              ),
+            };
+          } else {
+            if (!answerOrCellConfig.playOnClick && answerOrCellConfig.answer) {
+              return {
+                ...answerOrCellConfig,
+                playOnClick: getPlayOnClickPart(
+                  romanNumeralToChordInC(answerOrCellConfig.answer)
+                ),
+              };
+            } else {
+              return answerOrCellConfig;
             }
-          )
-        ),
-      },
+          }
+        }
+      ),
       (answer) => new RomanNumeralChord(answer).toViewString()
     );
   })();

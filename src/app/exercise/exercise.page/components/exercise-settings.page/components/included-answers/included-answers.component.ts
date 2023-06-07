@@ -1,12 +1,16 @@
-import { Component, Input } from '@angular/core';
-import Exercise from '../../../../../exercise-logic';
+import { Component, Input, Signal, computed } from '@angular/core';
+import Exercise, { isMultiAnswerCell } from '../../../../../exercise-logic';
 import {
   BaseControlValueAccessorComponent,
   getNgValueAccessorProvider,
 } from '../../../../../../shared/ts-utility';
 import { IonicModule } from '@ionic/angular';
-import { AnswersLayoutComponent } from '../../../answers-layout/answers-layout.component';
 import { CommonModule } from '@angular/common';
+import { AnswersLayoutModule } from '../../../answers-layout/answers-layout.module';
+import { IncludedAnswersButtonComponent } from './components/included-answers-button/included-answers-button.component';
+import { IncludedAnswersMultiAnswerButtonComponent } from './components/included-answers-multi-answer-button/included-answers-multi-answer-button.component';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { signalFromProperty } from '../../../../../../shared/ng-utilities/signalFromProperty';
 
 @Component({
   selector: 'app-included-answers',
@@ -14,21 +18,61 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./included-answers.component.scss'],
   providers: [getNgValueAccessorProvider(IncludedAnswersComponent)],
   standalone: true,
-  imports: [CommonModule, IonicModule, AnswersLayoutComponent],
+  imports: [
+    CommonModule,
+    IonicModule,
+    AnswersLayoutModule,
+    IncludedAnswersButtonComponent,
+    IncludedAnswersMultiAnswerButtonComponent,
+  ],
 })
 export class IncludedAnswersComponent<
   GAnswer extends string
 > extends BaseControlValueAccessorComponent<GAnswer[]> {
-  @Input()
-  answerList: Exercise.AnswerList<GAnswer> = [];
+  @Input({
+    required: true,
+    alias: 'answerList',
+  })
+  answerListInput: Exercise.AnswerList<GAnswer> = [];
 
-  async toggleInclusion(answer: GAnswer): Promise<void> {
-    const currentValue: ReadonlyArray<GAnswer> =
-      await this.getCurrentValuePromise();
+  readonly answerList = signalFromProperty(this, 'answerListInput');
+
+  readonly includedAnswers: Signal<readonly GAnswer[]> = toSignal(this.value$, {
+    initialValue: [],
+  });
+
+  readonly hasMultiAnswerButtons = computed(() => {
+    for (const answerCell of getAnswersLayoutCellIterator(this.answerList())) {
+      if (isMultiAnswerCell(answerCell)) {
+        return true;
+      }
+    }
+
+    return false;
+  });
+
+  toggleInclusion(answer: GAnswer) {
+    const currentValue: ReadonlyArray<GAnswer> = this.includedAnswers();
     if (currentValue.includes(answer)) {
       this.setViewValue(currentValue.filter((value) => value !== answer));
     } else {
       this.setViewValue([...currentValue, answer]);
+    }
+  }
+}
+
+function* getAnswersLayoutCellIterator<GAnswer extends string>(
+  answerList: Exercise.AnswerList<GAnswer>
+): Generator<Exercise.AnswersLayoutCell<GAnswer>, void, undefined> {
+  if (Array.isArray(answerList)) {
+    return;
+  }
+
+  for (const row of answerList.rows) {
+    if (typeof row === 'string') continue;
+
+    for (const cell of row) {
+      yield cell;
     }
   }
 }
