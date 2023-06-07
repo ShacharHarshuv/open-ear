@@ -1,4 +1,4 @@
-import { Directive, HostListener, Input } from '@angular/core';
+import { Directive, HostListener, Input, inject } from '@angular/core';
 import { NoteEvent, PlayerService } from '../../../services/player.service';
 import { OneOrMany } from '../../ts-utility';
 import { NoteNumberOrName } from '../../../exercise/utility/music/notes/NoteNumberOrName';
@@ -10,10 +10,10 @@ import * as _ from 'lodash';
   standalone: true,
 })
 export class PlayOnClickDirective {
+  private readonly _player = inject(PlayerService);
+
   @Input('appPlayOnClick')
   part: OneOrMany<OneOrMany<NoteNumberOrName> | NoteEvent> = [];
-
-  constructor(private _player: PlayerService) {}
 
   @HostListener('click')
   onClick(): void {

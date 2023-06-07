@@ -1,4 +1,4 @@
-import { Injectable, Inject, InjectionToken } from '@angular/core';
+import { Injectable, Inject, InjectionToken, inject } from '@angular/core';
 import { OneOrMany, toObservable, toArray } from '../shared/ts-utility';
 import { VersionService } from '../version.service';
 import { StorageService } from './storage.service';
@@ -20,16 +20,13 @@ export const MIGRATION_SCRIPTS = new InjectionToken<StorageMigrationScript[]>(
   providedIn: 'root',
 })
 export class StorageMigrationService {
+  private _versionService = inject(VersionService);
+  private _storageService = inject(StorageService);
+  private _migrationScrips: readonly StorageMigrationScript[] =
+    inject(MIGRATION_SCRIPTS);
   private readonly _lastVersionKey: string = 'lastVersion';
 
-  constructor(
-    private _versionService: VersionService,
-    private _storageService: StorageService,
-    @Inject(MIGRATION_SCRIPTS)
-    private _migrationScrips: StorageMigrationScript[]
-  ) {}
-
-  async getScriptsToRun(): Promise<StorageMigrationScript[]> {
+  async getScriptsToRun(): Promise<readonly StorageMigrationScript[]> {
     const currentVersion: string = await firstValueFrom(
       toObservable(await this._versionService.version$)
     );
@@ -71,7 +68,8 @@ export class StorageMigrationService {
   }
 
   async runMigrationScripts(): Promise<void> {
-    const scriptsToRun: StorageMigrationScript[] = await this.getScriptsToRun();
+    const scriptsToRun: readonly StorageMigrationScript[] =
+      await this.getScriptsToRun();
     for (let script of scriptsToRun) {
       await this.runMigrationScript(script);
     }

@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable, inject } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
 import { VersionService } from '../version.service';
 import { map, startWith, switchMap } from 'rxjs/operators';
@@ -13,16 +13,14 @@ import { StorageService } from '../storage/storage.service';
   providedIn: 'root',
 })
 export class ReleaseNotesService {
+  private readonly _versionService = inject(VersionService);
+  private readonly _releaseNotes: ReleaseNotes = inject(RELEASE_NOTES_TOKEN);
+  private readonly _storageService = inject(StorageService);
+
   private readonly _releaseNotesKey: string = 'releaseNotesViewedOn';
   private readonly _releaseNotesViewedOnChange$ = new Subject<string>();
   readonly relevantReleaseNotes$: Observable<string[]> =
     this._getRelevantReleaseNotes();
-
-  constructor(
-    private _versionService: VersionService,
-    @Inject(RELEASE_NOTES_TOKEN) private _releaseNotes: ReleaseNotes,
-    private _storageService: StorageService
-  ) {}
 
   async setReleaseNotesWereViewed(): Promise<void> {
     const currentVersion = await toPromise(this._versionService.version$);

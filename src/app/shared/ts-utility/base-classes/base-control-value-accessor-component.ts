@@ -7,6 +7,7 @@ import {
   forwardRef,
   Provider,
   Type,
+  inject,
 } from '@angular/core';
 import { BaseComponent } from './base-component';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -42,11 +43,7 @@ export abstract class BaseControlValueAccessorComponent<T>
   protected _onChange: (value: T) => void = _.noop;
   protected _onTouch: () => void = _.noop;
   private readonly _cvaElement: HTMLElement =
-    this._cvaInjector.get<ElementRef<HTMLElement>>(ElementRef).nativeElement;
-
-  constructor(protected readonly _cvaInjector: Injector) {
-    super();
-  }
+    inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
 
   @Input()
   set value(value: T) {
