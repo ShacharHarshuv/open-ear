@@ -14,7 +14,6 @@ import {
   toGetter,
   OneOrMany,
   timeoutAsPromise,
-  BaseDestroyable,
   isValueTruthy,
 } from '../../utility';
 import { ExerciseSettingsDataService } from '../../../services/exercise-settings-data.service';
@@ -26,7 +25,8 @@ import { defaults } from 'lodash';
 import { AdaptiveExerciseService } from './adaptive-exercise.service';
 import { DronePlayerService } from '../../../services/drone-player.service';
 import { listenToChanges } from '../../../shared/ts-utility/rxjs/listen-to-changes';
-import { map, takeUntil, filter } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import AnswerList = Exercise.AnswerList;
 import Answer = Exercise.Answer;
 import getAnswerListIterator = Exercise.getAnswerListIterator;
@@ -48,7 +48,7 @@ export interface CurrentAnswer {
 }
 
 @Injectable()
-export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
+export class ExerciseStateService implements OnDestroy {
   private readonly _activatedRoute = inject(ActivatedRoute);
   private readonly _exerciseService = inject(ExerciseService);
   private readonly _notesPlayer = inject(PlayerService);
@@ -85,13 +85,11 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
     this._getAnswerToLabelStringMap();
 
   constructor() {
-    super();
-
     listenToChanges(this, '_currentQuestion')
       .pipe(
         filter(isValueTruthy),
         map((question: this['currentQuestion']) => question?.drone ?? null),
-        takeUntil(this._destroy$)
+        takeUntilDestroyed()
       )
       .subscribe((drone) => {
         if (drone) {
@@ -422,8 +420,7 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
     this.nextQuestion();
   }
 
-  override ngOnDestroy(): void {
-    super.ngOnDestroy();
+  ngOnDestroy(): void {
     this.stop();
     this._destroyed = true; // used to prevent playing of pending actions
   }

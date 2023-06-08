@@ -4,6 +4,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Injector } from '@angular/core';
 import { toPromise } from '../rxjs/toPromise';
 import { SyncOrAsync } from '../rxjs/SyncOrAsync';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 export abstract class BaseControlValueAccessorWithCustomControl<
   GCVAValue,
@@ -40,7 +41,7 @@ export abstract class BaseControlValueAccessorWithCustomControl<
 
   private _startModelValueChangeHandler(): void {
     this.modelValue$
-      .pipe(takeUntil(this._destroy$))
+      .pipe(takeUntilDestroyed())
       .subscribe(async (modelValue) => {
         this.control.setValue(
           await toPromise(this._CVAValueToInternalValue(modelValue))
@@ -50,7 +51,7 @@ export abstract class BaseControlValueAccessorWithCustomControl<
 
   private _startDisabledChangeHandler(): void {
     this.isDisabled$
-      .pipe(takeUntil(this._destroy$))
+      .pipe(takeUntilDestroyed())
       .subscribe((isDisabled) => this.control.setIsDisabled(isDisabled));
   }
 }

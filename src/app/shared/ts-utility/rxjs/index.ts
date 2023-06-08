@@ -1,2 +1,2 @@
-export * from './publishReplayUntilAndConnect';
+export * from './publishReplayUntilDestroyAndConnect';
 export * from './toObservable';

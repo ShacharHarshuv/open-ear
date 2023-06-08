@@ -19,7 +19,7 @@ import {
   merge,
   firstValueFrom,
 } from 'rxjs';
-import { publishReplayUntilAndConnect } from '../rxjs';
+import { publishReplayUntilDestroyAndConnect } from '../rxjs';
 import * as _ from 'lodash';
 
 export function getNgValueAccessorProvider(type: Type<any>): Provider {
@@ -61,7 +61,7 @@ export abstract class BaseControlValueAccessorComponent<T>
   readonly value$: Observable<T> = merge(
     this.modelValue$,
     this.valueChange
-  ).pipe(publishReplayUntilAndConnect(this._destroy$));
+  ).pipe(publishReplayUntilDestroyAndConnect());
 
   get isDisabled(): boolean {
     return this._isDisabled$.value;

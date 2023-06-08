@@ -4,8 +4,8 @@ import { YouTubePlayer } from 'youtube-player/dist/types';
 import * as PriorityQueue from 'js-priority-queue';
 import PlayerFactory from 'youtube-player';
 import { filter, switchMap, take, takeUntil } from 'rxjs/operators';
-import { BaseDestroyable } from '../shared/ts-utility';
 import * as _ from 'lodash';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 export interface YouTubeCallbackDescriptor {
   seconds: number;
@@ -17,7 +17,7 @@ const TIME_STAMP_POLLING: number = 200;
 @Injectable({
   providedIn: 'root',
 })
-export class YouTubePlayerService extends BaseDestroyable {
+export class YouTubePlayerService {
   private _isVideoLoading: boolean = false;
   private _currentlyLoadedVideoId: string | null = null;
   private _onCurrentVideoLoaded: Promise<void> = Promise.resolve();
@@ -45,7 +45,6 @@ export class YouTubePlayerService extends BaseDestroyable {
   }
 
   constructor() {
-    super();
     this._startTimeListener();
 
     // this helps to sync the chords faster
@@ -161,7 +160,7 @@ export class YouTubePlayerService extends BaseDestroyable {
             return interval(TIME_STAMP_POLLING);
           }
         }),
-        takeUntil(this._destroy$)
+        takeUntilDestroyed()
       )
       .subscribe(async () => {
         if (!this._callBackQueue.length) {

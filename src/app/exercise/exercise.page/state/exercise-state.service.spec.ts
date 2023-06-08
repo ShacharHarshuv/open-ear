@@ -69,7 +69,7 @@ describe('ExerciseStateService', function () {
       });
 
       exerciseStateService.updateSettings({
-        globalSettings: exerciseStateService.globalSettings,
+        globalSettings: exerciseStateService.globalSettings(),
         exerciseSettings: exerciseStateService.exerciseSettings,
       });
       expect(exerciseStateService.answerToLabelStringMap).toEqual({

@@ -1,10 +1,8 @@
 import { ControlValueAccessor } from '@angular/forms';
 import { BehaviorSubject, ReplaySubject, Observable } from 'rxjs';
-import { BaseDestroyable } from './base-destroyable';
 import * as _ from 'lodash';
 
 export class BaseControlValueAccessorService<T>
-  extends BaseDestroyable
   implements ControlValueAccessor
 {
   protected _isDisabled$ = new BehaviorSubject<boolean>(false);

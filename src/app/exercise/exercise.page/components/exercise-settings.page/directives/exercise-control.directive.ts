@@ -1,12 +1,13 @@
-import { Directive, Input, Inject, inject } from '@angular/core';
+import { Directive, Input, inject } from '@angular/core';
 import Exercise from '../../../../exercise-logic';
 import { ExerciseSettingsPage } from '../exercise-settings.page';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import { takeUntil, map, pairwise, startWith } from 'rxjs/operators';
+import { map, pairwise, startWith } from 'rxjs/operators';
 import { BaseComponent } from '../../../../../shared/ts-utility';
 import { Observable } from 'rxjs';
 import * as _ from 'lodash';
-import { shareReplayUntil } from '../../../../../shared/ts-utility/rxjs/shareReplayUntil';
+import { shareReplayUntilDestroyed } from '../../../../../shared/ts-utility/rxjs/shareReplayUntil';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Directive({
   selector: '[appExerciseControl]',
@@ -30,7 +31,7 @@ export class ExerciseControlDirective extends BaseComponent {
         valueAccessor.registerOnChange((change) => {
           control.setValue(change);
         });
-        control.value$.pipe(takeUntil(this._destroy$)).subscribe((value) => {
+        control.value$.pipe(takeUntilDestroyed()).subscribe((value) => {
           valueAccessor.writeValue(value);
         });
       }
@@ -49,7 +50,7 @@ export class ExerciseControlDirective extends BaseComponent {
               this._exerciseSettingsPage.exerciseFormGroup.value
             )
           ),
-          shareReplayUntil(this._destroy$)
+          shareReplayUntilDestroyed()
         );
 
         // Update settings on change
@@ -64,7 +65,7 @@ export class ExerciseControlDirective extends BaseComponent {
               ),
               newValue,
             })),
-            takeUntil(this._destroy$)
+            takeUntilDestroyed()
           )
           .subscribe(({ newSettings, newValue }) => {
             if (
@@ -85,7 +86,7 @@ export class ExerciseControlDirective extends BaseComponent {
         this._exerciseSettingsPage.exerciseFormGroup.value$
           .pipe(
             map((settings) => exerciseControlSettings.getter?.(settings)),
-            takeUntil(this._destroy$)
+            takeUntilDestroyed()
           )
           .subscribe((newValue) => {
             valueAccessor.writeValue(newValue);
