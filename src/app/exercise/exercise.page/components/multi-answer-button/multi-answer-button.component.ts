@@ -36,7 +36,6 @@ export class MultiAnswerButtonComponent {
   });
 
   readonly isWrong = computed(() => {
-    // todo: we can potentially reuse this logic in some way
     return this.multiAnswerCell().innerAnswers.every((answer) =>
       this.wrongAnswers().includes(answer)
     );
