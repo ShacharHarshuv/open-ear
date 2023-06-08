@@ -3,7 +3,7 @@ import { Spectator } from '@ngneat/spectator';
 import { DebugElement, inject } from '@angular/core';
 
 export abstract class BaseComponentDebugger<GComponent> {
-  readonly fixture: ComponentFixture<GComponent> = inject(ComponentFixture);
+  constructor(readonly fixture: ComponentFixture<GComponent>) {}
 
   readonly spectator: Spectator<GComponent> = new Spectator<GComponent>(
     this.fixture,

@@ -12,12 +12,12 @@ describe('AppComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        AppComponent,
         IonicModule,
         ReleaseNotesTestingModule,
         StorageTestingModule,
         RouterTestingModule.withRoutes([]),
       ],
+      declarations: [AppComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));

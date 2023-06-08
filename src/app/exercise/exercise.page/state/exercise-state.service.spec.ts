@@ -25,12 +25,12 @@ describe('ExerciseStateService', function () {
     it('should reset total questions', () => {
       expect(exerciseStateService.answer('Answer 1')).toBeTrue();
       expect(exerciseStateService.answer('Answer 2')).toBeTrue();
-      expect(exerciseStateService.totalCorrectAnswers).toEqual(2);
-      expect(exerciseStateService.totalQuestions).toEqual(2);
+      expect(exerciseStateService.totalCorrectAnswers()).toEqual(2);
+      expect(exerciseStateService.totalQuestions()).toEqual(2);
 
       exerciseStateService.resetStatistics();
-      expect(exerciseStateService.totalCorrectAnswers).toEqual(0);
-      expect(exerciseStateService.totalQuestions).toEqual(0);
+      expect(exerciseStateService.totalCorrectAnswers()).toEqual(0);
+      expect(exerciseStateService.totalQuestions()).toEqual(0);
     });
 
     it('should reset adaptive exercise memory', () => {
