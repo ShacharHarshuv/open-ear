@@ -1,18 +1,14 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { ExerciseStateService } from './state/exercise-state.service';
-import {
-  ModalController,
-  AlertController,
-  ToastController,
-  IonicModule,
-} from '@ionic/angular';
+import { ModalController, AlertController, IonicModule } from '@ionic/angular';
 import { ExerciseSettingsPage } from './components/exercise-settings.page/exercise-settings.page';
 import * as _ from 'lodash';
 import { ExerciseExplanationService } from './state/exercise-explanation.service';
-import Exercise from '../exercise-logic';
+import Exercise, {
+  SettingsControlDescriptor,
+  SettingValueType,
+} from '../exercise-logic';
 import { BaseComponent } from '../../shared/ts-utility';
-import { takeUntil, finalize, switchMap, map } from 'rxjs/operators';
-import { BehaviorSubject, combineLatest } from 'rxjs';
 import { BdcWalkService, BdcWalkModule } from 'bdc-walkthrough';
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import { getCurrentAnswersLayout } from './utility/getCurrentAnswersLayout';
@@ -21,9 +17,11 @@ import { CommonModule } from '@angular/common';
 import { PureFunctionPipe } from '../../shared/ng-utilities/pure-function-pipe/pure-function.pipe';
 import { ContentPaddingDirective } from '../../shared/components/shared-components/content-padding.directive';
 import { AnswersLayoutModule } from './components/answers-layout/answers-layout.module';
-import AnswerConfig = Exercise.AnswerConfig;
 import { AnswerButtonComponent } from './components/answer-button/answer-button.component';
 import { MultiAnswerButtonComponent } from './components/multi-answer-button/multi-answer-button.component';
+import { ExerciseToastersDirective } from './components/exercise-toasters.directive';
+import AnswerConfig = Exercise.AnswerConfig;
+import { GlobalExerciseSettings } from '../utility';
 
 @Component({
   selector: 'app-exercise-page',
@@ -43,33 +41,35 @@ import { MultiAnswerButtonComponent } from './components/multi-answer-button/mul
     AnswerButtonComponent,
     MultiAnswerButtonComponent,
   ],
+  hostDirectives: [ExerciseToastersDirective],
 })
 export class ExercisePage extends BaseComponent {
   private readonly _modalController = inject(ModalController);
   private readonly _alertController = inject(AlertController);
-  private readonly _toastController = inject(ToastController);
   private readonly _bdcWalkService = inject(BdcWalkService);
   public readonly state = inject(ExerciseStateService);
   public readonly exerciseExplanation = inject(ExerciseExplanationService);
 
-  private _hideMessage$ = new BehaviorSubject<boolean>(false);
+  private _hideMessage = inject(ExerciseToastersDirective).hideMessage;
   private _developerModeActivationCount: number = 0;
 
-  wrongAnswers: string[] = [];
-  rightAnswer: string | null = null;
-  isMenuOpened: boolean = false;
+  private readonly _wrongAnswers = signal<string[]>([]);
+  readonly wrongAnswers = this._wrongAnswers.asReadonly();
+  private readonly _rightAnswer = signal<string | null>(null);
+  readonly rightAnswer = this._rightAnswer.asReadonly();
 
-  get correctAnswersPercentage(): number {
-    if (!this.state.totalQuestions) {
+  readonly correctAnswersPercentage = computed(() => {
+    if (!this.state.totalQuestions()) {
       return 0;
     }
-    return (this.state.totalCorrectAnswers / this.state.totalQuestions) * 100;
-  }
+    return (
+      (this.state.totalCorrectAnswers() / this.state.totalQuestions()) * 100
+    );
+  });
 
   constructor() {
     super();
     this._init();
-    this._handleMessages();
   }
 
   onAnswerClick(answerConfig: AnswerConfig<string>): void {
@@ -84,16 +84,16 @@ export class ExercisePage extends BaseComponent {
     }
     const isRight: boolean = this.state.answer(answer);
     if (isRight) {
-      this.rightAnswer = answer;
-      this.wrongAnswers = [];
+      this._rightAnswer.set(answer);
+      this._wrongAnswers.set([]);
     } else {
-      this.wrongAnswers.push(answer);
+      this._wrongAnswers.mutate((wrongAnswers) => wrongAnswers.push(answer));
     }
     setTimeout(() => {
-      if (this.state.globalSettings.revealAnswerAfterFirstMistake) {
-        this.wrongAnswers = [];
+      if (this.state.globalSettings().revealAnswerAfterFirstMistake) {
+        this._wrongAnswers.set([]);
       }
-      this.rightAnswer = null;
+      this._rightAnswer.set(null);
     }, 100);
   }
 
@@ -103,21 +103,29 @@ export class ExercisePage extends BaseComponent {
       typeof this.state.answerList === 'object'
         ? _.flatMap(this.state.answerList)
         : this.state.answerList;
+
+    const props: {
+      exerciseName: string;
+      currentGlobalSettings: GlobalExerciseSettings;
+      exerciseSettingsDescriptorInput: SettingsControlDescriptor[];
+      currentExerciseSettings: { [key: string]: SettingValueType };
+      allAvailableAnswers: string[];
+    } = {
+      exerciseName: this.state.name,
+      currentGlobalSettings: this.state.globalSettings(),
+      exerciseSettingsDescriptorInput: this.state.exerciseSettingsDescriptor, // must be before currentExerciseSettings
+      currentExerciseSettings: this.state.exerciseSettings,
+      allAvailableAnswers: allAvailableAnswers,
+    };
     const modal = await this._modalController.create({
       component: ExerciseSettingsPage,
-      componentProps: {
-        exerciseName: this.state.name,
-        currentGlobalSettings: this.state.globalSettings,
-        exerciseSettingsDescriptorInput: this.state.exerciseSettingsDescriptor, // must be before currentExerciseSettings
-        currentExerciseSettings: this.state.exerciseSettings,
-        allAvailableAnswers: allAvailableAnswers,
-      },
+      componentProps: props,
     });
-    this._hideMessage$.next(true);
+    this._hideMessage.set(true);
     await modal.present();
     await this.state.stop();
     const data = (await modal.onDidDismiss()).data;
-    this._hideMessage$.next(false);
+    this._hideMessage.set(false);
     this.state.updateSettings(data);
   }
 
@@ -147,74 +155,6 @@ export class ExercisePage extends BaseComponent {
     if (role === 'reset') {
       this.state.resetStatistics();
     }
-  }
-
-  private _handleMessages(): void {
-    let lastToaster: HTMLIonToastElement | null = null;
-    combineLatest({
-      message: this.state.message$,
-      error: this.state.error$,
-    })
-      .pipe(
-        map(
-          ({
-            message,
-            error,
-          }): {
-            text: string;
-            type: 'error' | 'message';
-          } | null =>
-            error
-              ? {
-                  text:
-                    '<p>Ooops... something went wrong! If this persists, please report a bug</p>' +
-                    error,
-                  type: 'error',
-                }
-              : message
-              ? {
-                  text: message,
-                  type: 'message',
-                }
-              : null
-        ),
-        switchMap((message) => {
-          return this._hideMessage$.pipe(
-            map((hideMessage) => (hideMessage ? null : message))
-          );
-        }),
-        takeUntil(this._destroy$),
-        finalize(() => {
-          lastToaster?.dismiss();
-        })
-      )
-      .subscribe((message) => {
-        if (lastToaster) {
-          lastToaster.dismiss();
-          lastToaster = null;
-        }
-
-        if (!message) {
-          return;
-        }
-
-        this._toastController
-          .create({
-            message: message.text,
-            position: 'middle',
-            color: message.type === 'error' ? 'danger' : 'dark',
-            header: message.type === 'error' ? 'Unexpected Error' : undefined,
-            buttons: message.type === 'error' ? ['OK'] : [],
-          })
-          .then((toaster) => {
-            // can happen because of a race condition
-            if (lastToaster) {
-              lastToaster.dismiss();
-            }
-            lastToaster = toaster;
-            toaster.present();
-          });
-      });
   }
 
   async onTitleClick(): Promise<void> {

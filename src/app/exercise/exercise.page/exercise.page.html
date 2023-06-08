@@ -38,11 +38,12 @@
   <div class="exercise__content-container" cdkDropListGroup>
     <section>
       <p
-        *ngIf="!state.globalSettings.answerQuestionAutomatically"
+        *ngIf="!state.globalSettings().answerQuestionAutomatically"
         class="exercise__stats-container"
       >
-        Correct answers: {{state.totalCorrectAnswers}}/{{state.totalQuestions}}
-        ({{correctAnswersPercentage | number: '1.0-2'}}%)
+        Correct answers:
+        {{state.totalCorrectAnswers()}}/{{state.totalQuestions()}}
+        ({{correctAnswersPercentage() | number: '1.0-2'}}%)
       </p>
       <p class="exercise__info" *ngIf="state.info">{{state.info}}</p>
     </section>
@@ -77,10 +78,10 @@
           (cdkDragDropped)="onDragDropped($event)"
           *ngIf="answerConfig.answer as answer"
           (click)="onAnswerClick(answerConfig)"
-          [disabled]="!state.isAnswerEnabled"
-          [right]="answer === rightAnswer"
+          [disabled]="!state.isAnswerEnabled()"
+          [right]="answer === rightAnswer()"
           [highlighted]="answer === state.highlightedAnswer()"
-          [wrong]="wrongAnswers.includes(answer)"
+          [wrong]="wrongAnswers().includes(answer)"
         >
           <ng-container *cdkDragPlaceholder></ng-container>
           <span [innerHTML]="answerConfig.displayLabel"></span>

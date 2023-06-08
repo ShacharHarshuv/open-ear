@@ -627,15 +627,7 @@ export const allRomanNumeralAnswerList: Exercise.AnswerList<RomanNumeralChordSym
           'VI',
           'VII',
         ],
-        [
-          'I',
-          'ii',
-          'iii',
-          'IV',
-          'V',
-          'vi',
-          'viidim',
-        ],
+        ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'viidim'],
         ['i', 'iidim', 'bIII', 'iv', 'v', 'bVI', 'bVII'],
         [
           {
