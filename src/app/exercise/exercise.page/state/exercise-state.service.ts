@@ -112,11 +112,9 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
 
   readonly globalSettings = this._globalSettings.asReadonly();
 
-  private _isAnsweringEnabled: boolean = true;
+  private readonly _isAnsweringEnabled = signal(true);
 
-  get isAnswerEnabled(): boolean {
-    return this._isAnsweringEnabled;
-  }
+  readonly isAnswerEnabled = this._isAnsweringEnabled.asReadonly();
 
   private readonly _totalCorrectAnswers = signal(0);
 
@@ -259,11 +257,11 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
         partOrTime: toSteadyPart(this._currentQuestion.cadence),
         bpm: 120,
         beforePlaying: () => {
-          this._isAnsweringEnabled = false;
+          this._isAnsweringEnabled.set(false);
           this._showMessage('Playing cadence to establish key...');
         },
         afterPlaying: () => {
-          this._isAnsweringEnabled = true;
+          this._isAnsweringEnabled.set(true);
           this._hideMessage();
         },
       },
@@ -491,7 +489,7 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
         beforePlaying: () => {
           this._currentlyPlayingSegments.add(i);
           if (i === 0) {
-            this._isAnsweringEnabled = true;
+            this._isAnsweringEnabled.set(true);
           }
         },
         afterPlaying: () => {

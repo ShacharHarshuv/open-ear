@@ -78,7 +78,7 @@
           (cdkDragDropped)="onDragDropped($event)"
           *ngIf="answerConfig.answer as answer"
           (click)="onAnswerClick(answerConfig)"
-          [disabled]="!state.isAnswerEnabled"
+          [disabled]="!state.isAnswerEnabled()"
           [right]="answer === rightAnswer()"
           [highlighted]="answer === state.highlightedAnswer()"
           [wrong]="wrongAnswers().includes(answer)"
