@@ -38,7 +38,7 @@
   <div class="exercise__content-container" cdkDropListGroup>
     <section>
       <p
-        *ngIf="!state.globalSettings.answerQuestionAutomatically"
+        *ngIf="!state.globalSettings().answerQuestionAutomatically"
         class="exercise__stats-container"
       >
         Correct answers:

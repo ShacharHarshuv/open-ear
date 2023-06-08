@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy, signal, inject, effect } from '@angular/core';
+import { Injectable, OnDestroy, signal, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ExerciseService } from '../../exercise.service';
 import Exercise from '../../exercise-logic';
@@ -61,7 +61,9 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
     this._exerciseService.getExercise(
       this._activatedRoute.snapshot.params['id']!
     );
-  private _globalSettings: GlobalExerciseSettings = DEFAULT_EXERCISE_SETTINGS;
+  private readonly _globalSettings = signal<GlobalExerciseSettings>(
+    DEFAULT_EXERCISE_SETTINGS
+  );
   private _adaptiveExercise: AdaptiveExercise =
     this._adaptiveExerciseService.createAdaptiveExercise(
       this._originalExercise
@@ -108,9 +110,7 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
     return this._notesPlayer.lastPlayed;
   }
 
-  get globalSettings(): GlobalExerciseSettings {
-    return this._globalSettings;
-  }
+  readonly globalSettings = this._globalSettings.asReadonly();
 
   private _isAnsweringEnabled: boolean = true;
 
@@ -180,7 +180,7 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
   }
 
   get exercise(): Exercise.Exercise {
-    return this._globalSettings.adaptive
+    return this._globalSettings().adaptive
       ? this._adaptiveExercise
       : this._originalExercise;
   }
@@ -206,7 +206,7 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
         (currentAnswers) => (currentAnswers[answerIndex].wasWrong = true)
       );
     }
-    if (isRight || this._globalSettings.revealAnswerAfterFirstMistake) {
+    if (isRight || this._globalSettings().revealAnswerAfterFirstMistake) {
       this._totalQuestions.update((v) => ++v);
       if (!this._currentAnswers()[answerIndex].wasWrong) {
         this._totalCorrectAnswers.update((v) => ++v);
@@ -226,14 +226,14 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
         )
       ) {
         // if not all answers are correct
-        if (this._globalSettings.adaptive) {
+        if (this._globalSettings().adaptive) {
           const areAllSegmentsCorrect: boolean = !this._currentAnswers().filter(
             (answerSegment) => answerSegment.wasWrong
           ).length;
           this._adaptiveExercise.reportAnswerCorrectness(areAllSegmentsCorrect);
         }
         this._afterCorrectAnswer().then(async () => {
-          if (this._globalSettings.moveToNextQuestionAutomatically) {
+          if (this._globalSettings().moveToNextQuestionAutomatically) {
             await this.onQuestionPlayingFinished();
             // Make sure we are still in the same question and nothing is playing (i.e. "Next" wasn't clicked by user)
             const numberOfAnsweredSegments = this._currentAnswers().filter(
@@ -282,7 +282,7 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
       const partsToPlay: PartToPlay[] = this._getCurrentQuestionPartsToPlay();
       if (
         cadence &&
-        (this._globalSettings.playCadence || this._wasKeyChanged)
+        (this._globalSettings().playCadence || this._wasKeyChanged)
       ) {
         partsToPlay.forEach((part) => {
           if (!_.isNil(part.playAfter)) {
@@ -317,7 +317,7 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
   private async _afterPlaying(): Promise<void> {
     this._currentlyPlayingSegments.clear();
     if (
-      this._globalSettings.answerQuestionAutomatically &&
+      this._globalSettings().answerQuestionAutomatically &&
       !this.isQuestionCompleted &&
       !this._destroyed
     ) {
@@ -334,7 +334,7 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
   nextQuestion(): Promise<void> {
     // if still unanswered questions
     if (
-      this._globalSettings.adaptive &&
+      this._globalSettings().adaptive &&
       !!this._currentQuestion &&
       !this._areAllSegmentsAnswered
     ) {
@@ -363,7 +363,7 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
 
     if (
       !this._wasKeyChanged &&
-      this.globalSettings.playCadence === 'ONLY_ON_REPEAT' &&
+      this.globalSettings().playCadence === 'ONLY_ON_REPEAT' &&
       !!this._cadenceWasPlayed
     ) {
       return this.playCurrentQuestion();
@@ -374,8 +374,8 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
 
   updateSettings(settings: ExerciseSettingsData): void {
     this._exerciseSettingsData.saveExerciseSettings(this.exercise.id, settings);
-    this._globalSettings = settings.globalSettings;
-    this._notesPlayer.setBpm(this._globalSettings.bpm);
+    this._globalSettings.set(settings.globalSettings);
+    this._notesPlayer.setBpm(this._globalSettings().bpm);
     // settings may be invalid so we need to catch errors
     try {
       this._updateExerciseSettings(settings.exerciseSettings);
@@ -389,9 +389,8 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
   async init(): Promise<void> {
     const settings: Partial<ExerciseSettingsData> | undefined =
       await this._exerciseSettingsData.getExerciseSettings(this.exercise.id);
-    this._globalSettings = defaults(
-      settings?.globalSettings,
-      DEFAULT_EXERCISE_SETTINGS
+    this._globalSettings.set(
+      defaults(settings?.globalSettings, DEFAULT_EXERCISE_SETTINGS)
     );
     if (settings?.exerciseSettings) {
       this._updateExerciseSettings(settings.exerciseSettings);
@@ -407,7 +406,7 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
     }
     this._notesPlayer.playPart(
       toSteadyPart(partToPlay),
-      this._globalSettings.instrument
+      this._globalSettings().instrument
     );
   }
 
@@ -487,7 +486,7 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
   private _getCurrentQuestionPartsToPlay(): PartToPlay[] {
     return this._currentQuestion.segments.map(
       (segment, i: number): PartToPlay => ({
-        instrumentName: this._globalSettings.instrument,
+        instrumentName: this._globalSettings().instrument,
         partOrTime: toSteadyPart(segment.partToPlay),
         beforePlaying: () => {
           this._currentlyPlayingSegments.add(i);
@@ -526,7 +525,7 @@ export class ExerciseStateService extends BaseDestroyable implements OnDestroy {
           this._highlightedAnswer.set(answerToHighlight || null);
         },
         partOrTime: partToPlay,
-        instrumentName: this._globalSettings.instrument,
+        instrumentName: this._globalSettings().instrument,
       })
     );
   }

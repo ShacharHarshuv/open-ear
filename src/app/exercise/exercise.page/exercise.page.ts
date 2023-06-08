@@ -1,15 +1,13 @@
-import { Component, inject, signal, effect, computed } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { ExerciseStateService } from './state/exercise-state.service';
-import {
-  ModalController,
-  AlertController,
-  ToastController,
-  IonicModule,
-} from '@ionic/angular';
+import { ModalController, AlertController, IonicModule } from '@ionic/angular';
 import { ExerciseSettingsPage } from './components/exercise-settings.page/exercise-settings.page';
 import * as _ from 'lodash';
 import { ExerciseExplanationService } from './state/exercise-explanation.service';
-import Exercise from '../exercise-logic';
+import Exercise, {
+  SettingsControlDescriptor,
+  SettingValueType,
+} from '../exercise-logic';
 import { BaseComponent } from '../../shared/ts-utility';
 import { BdcWalkService, BdcWalkModule } from 'bdc-walkthrough';
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
@@ -21,8 +19,9 @@ import { ContentPaddingDirective } from '../../shared/components/shared-componen
 import { AnswersLayoutModule } from './components/answers-layout/answers-layout.module';
 import { AnswerButtonComponent } from './components/answer-button/answer-button.component';
 import { MultiAnswerButtonComponent } from './components/multi-answer-button/multi-answer-button.component';
-import AnswerConfig = Exercise.AnswerConfig;
 import { ExerciseToastersDirective } from './components/exercise-toasters.directive';
+import AnswerConfig = Exercise.AnswerConfig;
+import { GlobalExerciseSettings } from '../utility';
 
 @Component({
   selector: 'app-exercise-page',
@@ -91,7 +90,7 @@ export class ExercisePage extends BaseComponent {
       this._wrongAnswers.mutate((wrongAnswers) => wrongAnswers.push(answer));
     }
     setTimeout(() => {
-      if (this.state.globalSettings.revealAnswerAfterFirstMistake) {
+      if (this.state.globalSettings().revealAnswerAfterFirstMistake) {
         this._wrongAnswers.set([]);
       }
       this._rightAnswer.set(null);
@@ -104,15 +103,23 @@ export class ExercisePage extends BaseComponent {
       typeof this.state.answerList === 'object'
         ? _.flatMap(this.state.answerList)
         : this.state.answerList;
+
+    const props: {
+      exerciseName: string;
+      currentGlobalSettings: GlobalExerciseSettings;
+      exerciseSettingsDescriptorInput: SettingsControlDescriptor[];
+      currentExerciseSettings: { [key: string]: SettingValueType };
+      allAvailableAnswers: string[];
+    } = {
+      exerciseName: this.state.name,
+      currentGlobalSettings: this.state.globalSettings(),
+      exerciseSettingsDescriptorInput: this.state.exerciseSettingsDescriptor, // must be before currentExerciseSettings
+      currentExerciseSettings: this.state.exerciseSettings,
+      allAvailableAnswers: allAvailableAnswers,
+    };
     const modal = await this._modalController.create({
       component: ExerciseSettingsPage,
-      componentProps: {
-        exerciseName: this.state.name,
-        currentGlobalSettings: this.state.globalSettings,
-        exerciseSettingsDescriptorInput: this.state.exerciseSettingsDescriptor, // must be before currentExerciseSettings
-        currentExerciseSettings: this.state.exerciseSettings,
-        allAvailableAnswers: allAvailableAnswers,
-      },
+      componentProps: props,
     });
     this._hideMessage.set(true);
     await modal.present();
