@@ -1,4 +1,4 @@
-import { Directive, Input, inject } from '@angular/core';
+import { Directive, Input, inject, DestroyRef } from '@angular/core';
 import Exercise from '../../../../exercise-logic';
 import { ExerciseSettingsPage } from '../exercise-settings.page';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
@@ -14,6 +14,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   standalone: true,
 })
 export class ExerciseControlDirective extends BaseComponent {
+  private readonly _destroyRef = inject(DestroyRef);
   private readonly _exerciseSettingsPage = inject(ExerciseSettingsPage);
   private readonly _valueAccessors: readonly ControlValueAccessor[] =
     inject(NG_VALUE_ACCESSOR);
@@ -31,9 +32,11 @@ export class ExerciseControlDirective extends BaseComponent {
         valueAccessor.registerOnChange((change) => {
           control.setValue(change);
         });
-        control.value$.pipe(takeUntilDestroyed()).subscribe((value) => {
-          valueAccessor.writeValue(value);
-        });
+        control.value$
+          .pipe(takeUntilDestroyed(this._destroyRef))
+          .subscribe((value) => {
+            valueAccessor.writeValue(value);
+          });
       }
     } else {
       for (let valueAccessor of this._valueAccessors) {
