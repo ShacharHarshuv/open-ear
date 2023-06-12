@@ -53,7 +53,7 @@ export class ExerciseControlDirective extends BaseComponent {
               this._exerciseSettingsPage.exerciseFormGroup.value
             )
           ),
-          shareReplayUntilDestroyed()
+          shareReplayUntilDestroyed(this._destroyRef)
         );
 
         // Update settings on change
@@ -68,7 +68,7 @@ export class ExerciseControlDirective extends BaseComponent {
               ),
               newValue,
             })),
-            takeUntilDestroyed()
+            takeUntilDestroyed(this._destroyRef)
           )
           .subscribe(({ newSettings, newValue }) => {
             if (
@@ -89,7 +89,7 @@ export class ExerciseControlDirective extends BaseComponent {
         this._exerciseSettingsPage.exerciseFormGroup.value$
           .pipe(
             map((settings) => exerciseControlSettings.getter?.(settings)),
-            takeUntilDestroyed()
+            takeUntilDestroyed(this._destroyRef)
           )
           .subscribe((newValue) => {
             valueAccessor.writeValue(newValue);
