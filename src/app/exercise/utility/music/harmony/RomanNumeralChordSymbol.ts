@@ -1,6 +1,6 @@
 import { ChordType } from '../chords';
 
-type UppercaseRomanNumeralChordSymbol =
+export type UppercaseRomanNumeralChordSymbol =
   | 'I'
   | 'bII'
   | 'II'
@@ -13,7 +13,7 @@ type UppercaseRomanNumeralChordSymbol =
   | 'VI'
   | 'bVII'
   | 'VII';
-type LowercaseRomanNumeralChordSymbol =
+export type LowercaseRomanNumeralChordSymbol =
   | 'i'
   | 'bii'
   | 'ii'
@@ -47,7 +47,9 @@ export type MinorChordTypesPostfix =
   | '6'
   | ChordType.Major7th
   | 'M9'
-  | ChordType.MajorAdd9;
+  | 'add9'
+  | ChordType.Sus4
+  | ChordType.Sus2;
 
 export type RomanNumeralChordSymbol =
   | `${UppercaseRomanNumeralChordSymbol}${MajorChordTypesPostfix}`

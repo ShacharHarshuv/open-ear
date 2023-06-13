@@ -1,20 +1,20 @@
-import { Injectable, OnDestroy, signal, inject } from '@angular/core';
+import { inject, Injectable, OnDestroy, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ExerciseService } from '../../exercise.service';
 import Exercise from '../../exercise-logic';
 import {
-  PlayerService,
-  PartToPlay,
   NoteEvent,
+  PartToPlay,
+  PlayerService,
 } from '../../../services/player.service';
 import {
-  toSteadyPart,
-  GlobalExerciseSettings,
   ExerciseSettingsData,
-  toGetter,
+  GlobalExerciseSettings,
+  isValueTruthy,
   OneOrMany,
   timeoutAsPromise,
-  isValueTruthy,
+  toGetter,
+  toSteadyPart,
 } from '../../utility';
 import { ExerciseSettingsDataService } from '../../../services/exercise-settings-data.service';
 import { AdaptiveExercise } from './adaptive-exercise';
@@ -25,8 +25,9 @@ import { defaults } from 'lodash';
 import { AdaptiveExerciseService } from './adaptive-exercise.service';
 import { DronePlayerService } from '../../../services/drone-player.service';
 import { listenToChanges } from '../../../shared/ts-utility/rxjs/listen-to-changes';
-import { map, filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { onChange } from '../../../shared/ts-utility/signals/on-change';
 import AnswerList = Exercise.AnswerList;
 import Answer = Exercise.Answer;
 import getAnswerListIterator = Exercise.getAnswerListIterator;
@@ -80,7 +81,12 @@ export class ExerciseStateService implements OnDestroy {
   readonly message = this._message.asReadonly();
   readonly error = this._error.asReadonly();
   readonly name: string = this.exercise.name;
-  answerList: AnswerList = this.exercise.getAnswerList();
+  private readonly _answerList = signal<AnswerList>(
+    this.exercise.getAnswerList()
+  );
+  readonly answerList = onChange(this._answerList.asReadonly(), (value) => {
+    console.log('answerList', value);
+  });
   private _answerToLabelStringMap: Record<string, string> =
     this._getAnswerToLabelStringMap();
 
@@ -504,7 +510,7 @@ export class ExerciseStateService implements OnDestroy {
       return;
     }
     this.exercise.updateSettings(exerciseSettings);
-    this.answerList = this.exercise.getAnswerList();
+    this._answerList.set(this.exercise.getAnswerList());
     this._answerToLabelStringMap = this._getAnswerToLabelStringMap();
     this._adaptiveExercise.reset();
   }
@@ -538,7 +544,7 @@ export class ExerciseStateService implements OnDestroy {
 
   private _getAnswerToLabelStringMap(): Record<string, string> {
     const map: Record<string, string> = {};
-    for (let answerConfig of getAnswerListIterator(this.answerList)) {
+    for (let answerConfig of getAnswerListIterator(this.answerList())) {
       const normalizedAnswerConfig =
         Exercise.normalizeAnswerConfig(answerConfig);
       if (normalizedAnswerConfig.answer) {

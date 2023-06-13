@@ -7,6 +7,7 @@ import {
   MultiAnswerCell,
   Answer,
   flatAnswerList,
+  getAnswerListIterator,
 } from '../../../../../exercise-logic';
 import { signalFromProperty } from '../../../../../../shared/ng-utilities/signalFromProperty';
 import { uniqueId, first } from 'lodash';
@@ -61,9 +62,13 @@ export class AnswerCellComponent {
         return null;
       }
 
+      const firstAnswer: Required<AnswerConfig<string>> = getAnswerListIterator(
+        cell.innerAnswersList
+      ).next().value;
+
       return {
         space: 1,
-        displayLabel: first(flatAnswerList(cell.innerAnswersList))!,
+        displayLabel: firstAnswer.displayLabel ?? firstAnswer.answer,
         ...cell,
         id: uniqueId('multi-answer-cell-'),
       };

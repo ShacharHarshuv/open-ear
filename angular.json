@@ -12,11 +12,15 @@
         "@schematics/angular:component": {
           "style": "scss",
           "skipTests": true,
-          "standalone": true
+          "standalone": true,
+          "inlineStyle": true,
+          "inlineTemplate": true,
+          "flat": true
         },
         "@schematics/angular:directive": {
           "skipTests": true,
-          "standalone": true
+          "standalone": true,
+          "flat": true
         }
       },
       "architect": {

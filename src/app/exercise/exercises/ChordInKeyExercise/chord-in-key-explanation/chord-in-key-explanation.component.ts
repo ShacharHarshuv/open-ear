@@ -10,6 +10,7 @@ import { InfoPanelComponent } from '../../../../shared/components/shared-compone
 import { CollapsibleComponent } from '../../../../shared/components/shared-components/collapsible/collapsible.component';
 import { IonicModule } from '@ionic/angular';
 import { PlayOnClickDirective } from '../../../../shared/components/shared-components/play-on-click.directive';
+import {RomanNumeralSymbolComponent} from "./roman-numeral-symbol.component";
 
 @Component({
   selector: 'app-chord-in-key-explanation',
@@ -20,6 +21,7 @@ import { PlayOnClickDirective } from '../../../../shared/components/shared-compo
     CollapsibleComponent,
     IonicModule,
     PlayOnClickDirective,
+    RomanNumeralSymbolComponent,
   ],
 })
 export class ChordInKeyExplanationComponent {

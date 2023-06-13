@@ -4,9 +4,9 @@ import { Type } from '@angular/core';
 import { Platforms } from '@ionic/core/dist/types/utils/platform';
 import { NoteEvent } from '../../services/player.service';
 import {
+  isValueTruthy,
   OneOrMany,
   StaticOrGetter,
-  isValueTruthy,
 } from '../../shared/ts-utility';
 import { Key } from '../utility';
 
@@ -222,17 +222,23 @@ export function filterIncludedAnswers<GAnswer extends string>(
             answerLayoutCellConfig.innerAnswersList,
             includedAnswersList
           );
-          const flatAnswers = flatAnswerList(innerAnswersList);
-          if (flatAnswers.length === 0) {
+          const answersLayoutIterator = getAnswerListIterator(innerAnswersList);
+          const firstIteratorResult = answersLayoutIterator.next();
+
+          const isEmpty = firstIteratorResult.done;
+          if (isEmpty) {
             return null;
-          } else if (flatAnswers.length === 1) {
-            return flatAnswers[0];
-          } else {
-            return {
-              ...answerLayoutCellConfig,
-              innerAnswersList,
-            };
           }
+
+          const isSingleItem = !isEmpty && answersLayoutIterator.next().done;
+          if (isSingleItem) {
+            return firstIteratorResult.value;
+          }
+
+          return {
+            ...answerLayoutCellConfig,
+            innerAnswersList,
+          };
         }
 
         return answerLayoutCellConfig.answer &&
@@ -283,7 +289,7 @@ export function mapAnswerList<
   answerList: AnswerList<GInputAnswer>,
   callback: (
     answerConfig: AnswerConfig<GInputAnswer>
-  ) => AnswerConfig<GOutputAnswer>
+  ) => AnswersLayoutCell<GOutputAnswer>
 ): AnswerList<GOutputAnswer> {
   if (typeof answerList === 'object' && !Array.isArray(answerList)) {
     return {
@@ -307,7 +313,7 @@ export function mapAnswerList<
     answerCellList: AnswersLayoutCell<GInputAnswer>[]
   ): AnswersLayoutCell<GOutputAnswer>[] {
     return _.map(answerCellList, (answerCell) => {
-      if (!answerCell) {
+      if (answerCell === null) {
         return null;
       } else if (typeof answerCell === 'string') {
         return callback({

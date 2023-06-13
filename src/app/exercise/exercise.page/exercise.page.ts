@@ -99,10 +99,9 @@ export class ExercisePage extends BaseComponent {
 
   async editSettings(): Promise<void> {
     this._bdcWalkService.setTaskCompleted('taskEditSettings', true);
+    const answerList = this.state.answerList();
     const allAvailableAnswers: string[] =
-      typeof this.state.answerList === 'object'
-        ? _.flatMap(this.state.answerList)
-        : this.state.answerList;
+      typeof answerList === 'object' ? _.flatMap(answerList) : answerList;
 
     const props: {
       exerciseName: string;

@@ -1,4 +1,2 @@
-<span *ngIf="answerDisplay" class="answer">
-  {{ answerDisplay }}
-</span>
+<span *ngIf="answerDisplay" class="answer" [innerHTML]="answerDisplay"> </span>
 <span *ngIf="!answerDisplay" class="no-answer"> ? </span>
