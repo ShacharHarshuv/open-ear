@@ -1,16 +1,26 @@
 import {
-  ChordProgressionExerciseSettings,
-  ChordProgressionQuestion,
   chordProgressionExercise,
   ChordProgressionExerciseConfig,
+  ChordProgressionExerciseSettings,
+  ChordProgressionQuestion,
 } from './chordProgressionExercise';
-import { Chord, TriadInversion } from '../../../utility/music/chords';
+import {
+  Chord,
+  ChordType,
+  TriadInversion,
+} from '../../../utility/music/chords';
 import * as _ from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { PlayAfterCorrectAnswerSetting } from '../settings/PlayAfterCorrectAnswerSetting';
-import Exercise, { mapAnswerList } from '../../../exercise-logic';
+import Exercise, {
+  AnswerConfig,
+  AnswersLayout,
+  mapAnswerList,
+} from '../../../exercise-logic';
 import {
   Interval,
+  MajorChordTypesPostfix,
+  MinorChordTypesPostfix,
   RomanNumeralChordSymbol,
   toArray,
   toNoteNumber,
@@ -19,10 +29,13 @@ import {
 import { transpose } from '../../../utility/music/transpose';
 import { NoteEvent } from '../../../../services/player.service';
 import { RomanNumeralChord } from '../../../utility/music/harmony/RomanNumeralChord';
-import { TonalExerciseSettings, tonalExercise } from './tonalExercise';
+import { tonalExercise, TonalExerciseSettings } from './tonalExercise';
 import { composeExercise } from './composeExercise';
 import { withSettings } from '../settings/withSettings';
 import { romanNumeralToChordInC } from '../../../utility/music/harmony/romanNumeralToChordInC';
+import { isChordTypeMajor } from '../../../utility/music/chords/Chord/isChordTypeMajor';
+import { isChordTypeMinor } from '../../../utility/music/chords/Chord/isChordTypeMinor';
+import { isChordTypeDiminished } from '../../../utility/music/chords/Chord/isChordTypeDiminished';
 
 export type RomanAnalysisChordProgressionExerciseSettings =
   TonalExerciseSettings &
@@ -653,9 +666,104 @@ export const allRomanNumeralAnswerList: Exercise.AnswerList<RomanNumeralChordSym
       ],
     };
 
+    const majorChordTypesLayout: AnswersLayout<MajorChordTypesPostfix> = {
+      rows: [
+        [
+          '',
+          ChordType.Major6th,
+          ChordType.Major7th,
+          ChordType.MajorAdd9,
+          {
+            answer: null, // ChordType.Major69
+            space: 1,
+          },
+        ], // not dominants
+        [
+          ChordType.Augmented,
+          ChordType.Dominant7th,
+          ChordType.Dominant9th,
+          ChordType.Dominant7thSharp9th,
+        ], // dominants
+        [ChordType.Sus4, ChordType.Sus2], // suspensions
+      ],
+    };
+
+    const minorChordTypesLayout: AnswersLayout<MinorChordTypesPostfix> = {
+      rows: [['', '7', 'add9', ChordType.Major7th]],
+    };
+
+    const diminishedChordTypesLayout: AnswersLayout<MinorChordTypesPostfix> = {
+      rows: [
+        [
+          ChordType.Diminished,
+          ChordType.HalfDiminished7th,
+          ChordType.Diminished7th,
+        ],
+      ],
+    };
+
+    function addChordTypesToAnswerCell(
+      romanNumeralChordSymbol: RomanNumeralChordSymbol,
+      chordTypesLayout: AnswersLayout<string>
+    ) {
+      const answerListWithTypes = mapAnswerList<
+        string,
+        RomanNumeralChordSymbol
+      >(chordTypesLayout, (answerConfig: AnswerConfig<string>) => {
+        const chordTypeSuffix = answerConfig.answer satisfies string | null;
+        if (answerConfig.answer === null) {
+          return answerConfig as AnswerConfig<never>;
+        }
+        return (romanNumeralChordSymbol +
+          chordTypeSuffix) as RomanNumeralChordSymbol;
+      });
+      return {
+        innerAnswersList: answerListWithTypes,
+      };
+    }
+
+    const answerListWithChordTypes = mapAnswerList(
+      answerList,
+      (answerConfig: AnswerConfig<RomanNumeralChordSymbol>) => {
+        if (!answerConfig.answer) {
+          return answerConfig;
+        }
+
+        const romanNumeralChordSymbol = answerConfig.answer;
+        const romanNumeralChord = new RomanNumeralChord(
+          romanNumeralChordSymbol
+        );
+        if (isChordTypeMajor(romanNumeralChord.type)) {
+          return addChordTypesToAnswerCell(
+            romanNumeralChordSymbol,
+            majorChordTypesLayout
+          );
+        }
+
+        if (isChordTypeMinor(romanNumeralChord.type)) {
+          return addChordTypesToAnswerCell(
+            romanNumeralChordSymbol,
+            minorChordTypesLayout
+          );
+        }
+
+        if (isChordTypeDiminished(romanNumeralChord.type)) {
+          return addChordTypesToAnswerCell(
+            new RomanNumeralChord({
+              scaleDegree: romanNumeralChord.scaleDegree,
+              type: ChordType.Minor,
+            }).romanNumeralChordSymbol, // converting to minor because the "dim" suffix is going to be included in the chord types
+            diminishedChordTypesLayout
+          );
+        }
+
+        return answerConfig;
+      }
+    );
+
     return Exercise.addViewLabelToAnswerList(
       mapAnswerList(
-        answerList,
+        answerListWithChordTypes,
         (
           answerOrCellConfig
         ): Exercise.AnswerConfig<RomanNumeralChordSymbol> => {

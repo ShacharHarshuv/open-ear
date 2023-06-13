@@ -17,6 +17,7 @@ import {
   chordTypeConfigMap,
   romanNumeralChordTypeParserMap,
 } from '../chords/Chord/ChordType';
+import { isChordTypeMajor } from '../chords/Chord/isChordTypeMajor';
 
 const allRomanNumeralPostfix: string[] = _.map(
   chordTypeConfigMap,
@@ -67,6 +68,20 @@ export class RomanNumeralChord {
     6: 'vi',
     7: 'vii',
   };
+
+  static readonly romanNumeralsUnicode: Record<
+    DiatonicScaleDegree,
+    [string, string]
+  > = {
+    '1': ['\u2160', '\u2170'], // 'Ⅰ', 'ⅰ'
+    '2': ['\u2161', '\u2171'], // 'Ⅱ', 'ⅱ'
+    '3': ['\u2162', '\u2172'], // 'Ⅲ', 'ⅲ'
+    '4': ['\u2163', '\u2173'], // 'Ⅳ', 'ⅳ'
+    '5': ['\u2164', '\u2174'], // 'Ⅴ', 'ⅴ'
+    '6': ['\u2165', '\u2175'], // 'Ⅵ', 'ⅵ'
+    '7': ['\u2166', '\u2176'], // 'Ⅶ', 'ⅶ'
+  };
+
   static readonly romanNumeralsToScaleDegree: Record<
     string,
     DiatonicScaleDegree
@@ -151,7 +166,9 @@ export class RomanNumeralChord {
 
   toViewString(): string {
     const romanNumeral: string =
-      RomanNumeralChord.romanNumerals[this.diatonicDegree];
+      RomanNumeralChord.romanNumeralsUnicode[this.diatonicDegree][
+        isChordTypeMajor(this.type) ? 0 : 1
+      ];
     let postfix: string =
       chordTypeConfigMap[this.type].romanNumeral.viewPostfix;
     return `${RomanNumeralChord.accidentalToString[this.accidental]}${
