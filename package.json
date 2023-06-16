@@ -9,7 +9,7 @@
     "prestart": "npm run preprocess",
     "prebuild": "npm run preprocess",
     "start": "ionic serve",
-    "build": "ng build && capacitor copy android && cordova-res android --skip-config --copy && capacitor open android",
+    "build": "ng build && capacitor copy android && cordova-res android --skip-config --copy && npx cap sync && capacitor open android",
     "open-android": "capacitor open android",
     "release": "cd release-automation && yarn release",
     "generate-resources": "cordova-res android --skip-config --copy",
