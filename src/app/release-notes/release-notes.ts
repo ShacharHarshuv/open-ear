@@ -152,4 +152,8 @@ export const releaseNotes: ReleaseNotes = [
     version: '1.5.14',
     notes: 'Support more instrument sounds in all exercises',
   },
+  {
+    version: '1.6.0',
+    notes: 'Multiple chord types in Chord Functions exercise. Long press on a chord in the settings to see more options.'
+  }
 ];
