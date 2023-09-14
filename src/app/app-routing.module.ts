@@ -10,8 +10,7 @@ const routes: Routes = [
   },
   {
     path: 'about',
-    loadChildren: () =>
-      import('./about/about.module').then((m) => m.AboutModule),
+    loadChildren: () => import('./about/routes').then((m) => m.routes),
   },
   {
     path: 'exercise/:id',
