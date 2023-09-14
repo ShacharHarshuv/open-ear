@@ -3,6 +3,7 @@ import {
   Component,
   Input,
   computed,
+  forwardRef,
 } from '@angular/core';
 import {
   AnswerList,
@@ -12,12 +13,20 @@ import {
 import { AnswerCellComponent } from './components/answer-cell/answer-cell.component';
 import { signalFromProperty } from '../../../../shared/ng-utilities/signalFromProperty';
 import { AnswersRowComponent } from './components/answers-row/answers-row.component';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-answers-layout',
   templateUrl: './answers-layout.component.html',
   styleUrls: ['./answers-layout.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    NgFor,
+    forwardRef(() => AnswersRowComponent),
+    forwardRef(() => AnswerCellComponent),
+  ],
 })
 export class AnswersLayoutComponent<GAnswer extends string = string> {
   @Input({

@@ -7,12 +7,13 @@ import { AnswersLayoutComponent } from './answers-layout.component';
 
 // AnswersLayoutComponent cannot be standalone because of a circular dependency between AnswerCellComponent and AnswersLayoutComponent
 @NgModule({
-  declarations: [
+  imports: [
+    CommonModule,
+    IonicModule,
     AnswerCellComponent,
     AnswersRowComponent,
     AnswersLayoutComponent,
   ],
-  imports: [CommonModule, IonicModule],
   exports: [AnswersLayoutComponent],
 })
 export class AnswersLayoutModule {}
