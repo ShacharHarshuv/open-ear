@@ -16,12 +16,12 @@ import { AnswerIndicationComponent } from './components/answer-indication/answer
 import { CommonModule } from '@angular/common';
 import { PureFunctionPipe } from '../../shared/ng-utilities/pure-function-pipe/pure-function.pipe';
 import { ContentPaddingDirective } from '../../shared/components/shared-components/content-padding.directive';
-import { AnswersLayoutModule } from './components/answers-layout/answers-layout.module';
 import { AnswerButtonComponent } from './components/answer-button/answer-button.component';
 import { MultiAnswerButtonComponent } from './components/multi-answer-button/multi-answer-button.component';
 import { ExerciseToastersDirective } from './components/exercise-toasters.directive';
 import AnswerConfig = Exercise.AnswerConfig;
 import { GlobalExerciseSettings } from '../utility';
+import { AnswersLayoutComponent } from './components/answers-layout/answers-layout.component';
 
 @Component({
   selector: 'app-exercise-page',
@@ -34,12 +34,12 @@ import { GlobalExerciseSettings } from '../utility';
     IonicModule,
     BdcWalkModule,
     DragDropModule,
-    AnswersLayoutModule,
     AnswerIndicationComponent,
     PureFunctionPipe,
     ContentPaddingDirective,
     AnswerButtonComponent,
     MultiAnswerButtonComponent,
+    AnswersLayoutComponent,
   ],
   hostDirectives: [ExerciseToastersDirective],
 })

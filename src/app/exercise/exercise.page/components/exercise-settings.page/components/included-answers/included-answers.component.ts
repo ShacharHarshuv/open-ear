@@ -6,11 +6,11 @@ import {
 } from '../../../../../../shared/ts-utility';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { AnswersLayoutModule } from '../../../answers-layout/answers-layout.module';
 import { IncludedAnswersButtonComponent } from './components/included-answers-button/included-answers-button.component';
 import { IncludedAnswersMultiAnswerButtonComponent } from './components/included-answers-multi-answer-button/included-answers-multi-answer-button.component';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { signalFromProperty } from '../../../../../../shared/ng-utilities/signalFromProperty';
+import { AnswersLayoutComponent } from '../../../answers-layout/answers-layout.component';
 
 @Component({
   selector: 'app-included-answers',
@@ -21,9 +21,9 @@ import { signalFromProperty } from '../../../../../../shared/ng-utilities/signal
   imports: [
     CommonModule,
     IonicModule,
-    AnswersLayoutModule,
     IncludedAnswersButtonComponent,
     IncludedAnswersMultiAnswerButtonComponent,
+    AnswersLayoutComponent,
   ],
 })
 export class IncludedAnswersComponent<
@@ -69,7 +69,9 @@ function* getAnswersLayoutCellIterator<GAnswer extends string>(
   }
 
   for (const row of answerList.rows) {
-    if (typeof row === 'string') continue;
+    if (typeof row === 'string') {
+      continue;
+    }
 
     for (const cell of row) {
       yield cell;
