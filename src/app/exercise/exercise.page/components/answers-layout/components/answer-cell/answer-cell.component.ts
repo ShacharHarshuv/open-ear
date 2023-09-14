@@ -1,4 +1,10 @@
-import { Component, Input, TemplateRef, computed } from '@angular/core';
+import {
+  Component,
+  Input,
+  TemplateRef,
+  computed,
+  forwardRef,
+} from '@angular/core';
 import {
   AnswerConfig,
   normalizeAnswerConfig,
@@ -11,6 +17,9 @@ import {
 } from '../../../../../exercise-logic';
 import { signalFromProperty } from '../../../../../../shared/ng-utilities/signalFromProperty';
 import { uniqueId, first } from 'lodash';
+import { AnswersLayoutComponent } from '../../answers-layout.component';
+import { IonicModule } from '@ionic/angular';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 
 export type MultiAnswerButtonTemplateContext = Required<
   Pick<MultiAnswerCell, 'displayLabel'>
@@ -22,6 +31,13 @@ export type MultiAnswerButtonTemplateContext = Required<
   selector: 'app-answer-cell',
   templateUrl: './answer-cell.component.html',
   styleUrls: ['./answer-cell.component.scss'],
+  standalone: true,
+  imports: [
+    NgIf,
+    NgTemplateOutlet,
+    IonicModule,
+    forwardRef(() => AnswersLayoutComponent),
+  ],
 })
 export class AnswerCellComponent {
   @Input({

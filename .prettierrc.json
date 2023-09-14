@@ -1,3 +1,7 @@
 {
+  "plugins": [
+    "prettier-plugin-organize-attributes",
+    "prettier-plugin-organize-imports"
+  ],
   "endOfLine": "lf"
 }

@@ -12,9 +12,11 @@ import * as _ from 'lodash';
 import { StorageMigrationService } from './storage/storage-migration.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: 'app.component.html',
-  styleUrls: ['app.component.scss'],
+    selector: 'app-root',
+    templateUrl: 'app.component.html',
+    styleUrls: ['app.component.scss'],
+    standalone: true,
+    imports: [IonicModule],
 })
 export class AppComponent {
   private readonly _modalController = inject(ModalController);
