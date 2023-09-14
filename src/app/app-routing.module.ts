@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { SandboxComponent } from './sandbox/sandbox.component';
-import { HomePageRoutingModule } from './home/home-routing.module';
 
 const routes: Routes = [
   {
@@ -15,10 +14,7 @@ const routes: Routes = [
   },
   {
     path: 'exercise/:id',
-    loadChildren: () =>
-      import('./exercise/exercise-routing.module').then(
-        (m) => m.ExerciseRoutingModule
-      ),
+    loadChildren: () => import('./exercise/routes').then((m) => m.routes),
   },
   {
     path: 'sandbox',
