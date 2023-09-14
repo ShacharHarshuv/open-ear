@@ -11,15 +11,15 @@ import { RouterTestingModule } from '@angular/router/testing';
 describe('AppComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         IonicModule,
         ReleaseNotesTestingModule,
         StorageTestingModule,
         RouterTestingModule.withRoutes([]),
-      ],
-      declarations: [AppComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
+        AppComponent,
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+}).compileComponents();
   }));
 
   it('should call runMigrationScripts on creation', () => {
