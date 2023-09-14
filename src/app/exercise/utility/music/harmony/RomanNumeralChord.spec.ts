@@ -25,7 +25,7 @@ describe('RomanNumeralBuilder', () => {
       diatonicDegree: 1,
       scaleDegree: '1',
       type: ChordType.Major,
-      serialized: 'I',
+      serialized: 'Ⅰ',
       getChord: {
         C: 'C',
         'A#': 'A#',
@@ -37,7 +37,7 @@ describe('RomanNumeralBuilder', () => {
       diatonicDegree: 2,
       scaleDegree: '2',
       type: ChordType.Minor,
-      serialized: 'ii',
+      serialized: 'ⅱ',
       getChord: {
         C: 'Dm',
       },
@@ -49,7 +49,7 @@ describe('RomanNumeralBuilder', () => {
       scaleDegree: 'b3',
       accidental: Accidental.Flat,
       type: ChordType.Major,
-      serialized: '♭III',
+      serialized: '♭Ⅲ',
       getChord: {
         C: 'Eb',
       },
@@ -61,7 +61,7 @@ describe('RomanNumeralBuilder', () => {
       scaleDegree: '#4',
       accidental: Accidental.Sharp,
       type: ChordType.Diminished,
-      serialized: '♯iv°',
+      serialized: '♯ⅳ°',
       getChord: {
         G: 'C#dim',
       },
@@ -72,7 +72,7 @@ describe('RomanNumeralBuilder', () => {
       diatonicDegree: 7,
       scaleDegree: '7',
       type: ChordType.Diminished,
-      serialized: 'vii°',
+      serialized: 'ⅶ°',
       getChord: {
         Eb: 'Ddim',
       },
@@ -87,7 +87,7 @@ describe('RomanNumeralBuilder', () => {
       },
       accidental: Accidental.Natural,
       diatonicDegree: 5,
-      serialized: 'V<sup>7</sup>',
+      serialized: 'Ⅴ<sup>7</sup>',
       isDiatonic: true,
     },
     {
@@ -99,7 +99,7 @@ describe('RomanNumeralBuilder', () => {
       },
       accidental: Accidental.Natural,
       diatonicDegree: 5,
-      serialized: 'V<sup>9</sup>',
+      serialized: 'Ⅴ<sup>9</sup>',
       isDiatonic: true,
     },
     {
@@ -111,7 +111,7 @@ describe('RomanNumeralBuilder', () => {
       },
       accidental: Accidental.Natural,
       diatonicDegree: 5,
-      serialized: 'V<sup>7(♯9)</sup>',
+      serialized: 'Ⅴ<sup>7(♯9)</sup>',
       isDiatonic: false,
     },
     {
@@ -123,7 +123,7 @@ describe('RomanNumeralBuilder', () => {
       },
       accidental: Accidental.Natural,
       diatonicDegree: 4,
-      serialized: 'IV<sup>M7</sup>',
+      serialized: 'Ⅳ<sup>M7</sup>',
       isDiatonic: true,
     },
     {
@@ -135,7 +135,7 @@ describe('RomanNumeralBuilder', () => {
       },
       accidental: Accidental.Natural,
       diatonicDegree: 2,
-      serialized: 'ii<sup>7</sup>',
+      serialized: 'ⅱ<sup>7</sup>',
       isDiatonic: true,
     },
     {
@@ -147,7 +147,7 @@ describe('RomanNumeralBuilder', () => {
       },
       accidental: Accidental.Natural,
       diatonicDegree: 5,
-      serialized: 'V<sub>sus</sub>',
+      serialized: 'Ⅴ<sub>sus</sub>',
       isDiatonic: true,
     },
     {
@@ -159,7 +159,7 @@ describe('RomanNumeralBuilder', () => {
       },
       accidental: Accidental.Natural,
       diatonicDegree: 1,
-      serialized: 'I<sub>sus2</sub>',
+      serialized: 'Ⅰ<sub>sus2</sub>',
       isDiatonic: true,
     },
     {
@@ -171,7 +171,7 @@ describe('RomanNumeralBuilder', () => {
       },
       accidental: Accidental.Natural,
       diatonicDegree: 1,
-      serialized: 'I<sup>6</sup>',
+      serialized: 'Ⅰ<sup>6</sup>',
       isDiatonic: true,
     },
     {
@@ -183,7 +183,7 @@ describe('RomanNumeralBuilder', () => {
       },
       accidental: Accidental.Natural,
       diatonicDegree: 6,
-      serialized: 'vi<sup>6</sup>',
+      serialized: 'ⅵ<sup>6</sup>',
       isDiatonic: true,
     },
     {
@@ -195,7 +195,7 @@ describe('RomanNumeralBuilder', () => {
       },
       accidental: Accidental.Natural,
       diatonicDegree: 7,
-      serialized: 'vii°<sup>7</sup>',
+      serialized: 'ⅶ°<sup>7</sup>',
       isDiatonic: false,
     },
     {
@@ -207,14 +207,14 @@ describe('RomanNumeralBuilder', () => {
       },
       accidental: Accidental.Natural,
       diatonicDegree: 7,
-      serialized: 'viiø',
+      serialized: 'ⅶø',
       isDiatonic: true,
     },
     {
       romanNumeralChordSymbol: 'bVI+',
       type: ChordType.Augmented,
       scaleDegree: 'b6',
-      serialized: '♭VI+',
+      serialized: '♭Ⅵ+',
       diatonicDegree: 6,
       accidental: Accidental.Flat,
       getChord: {
@@ -232,7 +232,7 @@ describe('RomanNumeralBuilder', () => {
       },
       accidental: Accidental.Natural,
       diatonicDegree: 6,
-      serialized: 'vi<sup>M7</sup>',
+      serialized: 'ⅵ<sup>M7</sup>',
     },
     {
       romanNumeralChordSymbol: 'iM9',
@@ -244,7 +244,7 @@ describe('RomanNumeralBuilder', () => {
       getChord: {
         C: 'CmM9',
       },
-      serialized: 'i<sup>M9</sup>',
+      serialized: 'ⅰ<sup>M9</sup>',
     },
     {
       romanNumeralChordSymbol: 'Iadd9',
@@ -256,7 +256,7 @@ describe('RomanNumeralBuilder', () => {
       getChord: {
         C: 'Cadd9',
       },
-      serialized: 'I<sup>add9</sup>',
+      serialized: 'Ⅰ<sup>add9</sup>',
     },
     {
       romanNumeralChordSymbol: 'viadd9',
@@ -268,7 +268,7 @@ describe('RomanNumeralBuilder', () => {
       getChord: {
         C: 'Amadd9',
       },
-      serialized: 'vi<sup>add9</sup>',
+      serialized: 'ⅵ<sup>add9</sup>',
     },
     {
       romanNumeralChordSymbol: 'Iadd#4',
@@ -280,7 +280,7 @@ describe('RomanNumeralBuilder', () => {
       getChord: {
         C: 'Cadd#4',
       },
-      serialized: 'I<sup>add#4</sup>',
+      serialized: 'Ⅰ<sup>add#4</sup>',
     },
   ];
 
