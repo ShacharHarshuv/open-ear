@@ -13,7 +13,10 @@ import { AppVersion } from '@ionic-native/app-version/ngx';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { AppComponent } from './app/app.component';
-import { ReleaseNotesModule } from './app/release-notes/release-notes.module';
+import {
+  RELEASE_NOTES_TOKEN,
+  releaseNotes,
+} from './app/release-notes/release-notes';
 import { routes } from './app/routes';
 import { migrationScripts } from './app/storage/migration-scripts/migration-scripts';
 import { MIGRATION_SCRIPTS } from './app/storage/storage-migration.service';
@@ -27,11 +30,14 @@ if (environment.production) {
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes, withPreloading(PreloadAllModules)),
+    {
+      provide: RELEASE_NOTES_TOKEN,
+      useValue: releaseNotes,
+    },
     importProvidersFrom(
       BrowserModule,
       IonicModule.forRoot(),
       IonicStorageModule.forRoot(),
-      ReleaseNotesModule,
       DragDropModule
     ),
     {
