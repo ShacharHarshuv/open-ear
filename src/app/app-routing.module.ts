@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { SandboxComponent } from './sandbox/sandbox.component';
+import { HomePageRoutingModule } from './home/home-routing.module';
 
 const routes: Routes = [
   {
     path: 'home',
     loadChildren: () =>
-      import('./home/home.module').then((m) => m.HomePageModule),
+      import('./home/home-routing.module').then((m) => m.HomePageRoutingModule),
   },
   {
     path: 'about',
