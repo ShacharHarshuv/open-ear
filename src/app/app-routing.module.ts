@@ -5,8 +5,7 @@ import { SandboxComponent } from './sandbox/sandbox.component';
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: () =>
-      import('./home/home-routing.module').then((m) => m.HomePageRoutingModule),
+    loadChildren: () => import('./home/routes').then((m) => m.routes),
   },
   {
     path: 'about',
