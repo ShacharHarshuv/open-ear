@@ -16,7 +16,9 @@ const routes: Routes = [
   {
     path: 'exercise/:id',
     loadChildren: () =>
-      import('./exercise/exercise.module').then((m) => m.ExerciseModule),
+      import('./exercise/exercise-routing.module').then(
+        (m) => m.ExerciseRoutingModule
+      ),
   },
   {
     path: 'sandbox',
