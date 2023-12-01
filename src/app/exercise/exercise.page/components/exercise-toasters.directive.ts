@@ -1,4 +1,4 @@
-import { Directive, inject, effect, signal } from '@angular/core';
+import { Directive, effect, inject, signal } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { ExerciseStateService } from '../state/exercise-state.service';
 
@@ -18,7 +18,7 @@ export class ExerciseToastersDirective {
     const state = inject(ExerciseStateService);
     let lastToaster: HTMLIonToastElement | null = null;
 
-    effect(() => {
+    effect((onCleanup) => {
       const getMessageRef = (): {
         text: string;
         type: 'error' | 'message';
@@ -74,12 +74,12 @@ export class ExerciseToastersDirective {
           toaster.present();
         });
 
-      return () => {
+      onCleanup(() => {
         if (lastToaster) {
           lastToaster.dismiss();
           lastToaster = null;
         }
-      };
+      });
     });
   }
 }
