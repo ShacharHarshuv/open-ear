@@ -1,10 +1,16 @@
-<span *ngIf="textRow() as textRow">{{ textRow }}</span>
-<ng-container *ngIf="cellList() as cellList">
-  <app-answer-cell
-    *ngFor="let cellConfig of cellList"
+@if (textRow(); as textRow) {
+<span>{{ textRow }}</span>
+}
+@if (cellList(); as cellList) {
+
+  @for (cellConfig of cellList; track cellConfig) {
+<app-answer-cell
+   
     [cell]="cellConfig"
     [buttonTemplate]="buttonTemplate"
     [multiAnswerButtonTemplate]="multiAnswerButtonTemplate"
     [multiAnswerCellConfig]="multiAnswerCellConfig"
   />
-</ng-container>
+}
+
+}

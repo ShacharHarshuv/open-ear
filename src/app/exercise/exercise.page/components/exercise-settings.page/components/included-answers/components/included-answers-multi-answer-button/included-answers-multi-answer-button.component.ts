@@ -1,5 +1,5 @@
 import { Component, Input, inject, computed, Signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { IncludedAnswersButtonComponent } from '../included-answers-button/included-answers-button.component';
 import { MultiAnswerButtonTemplateContext } from '../../../../../answers-layout/components/answer-cell/answer-cell.component';
 import { IncludedAnswersComponent } from '../../included-answers.component';
@@ -10,7 +10,7 @@ import { first, isEmpty, intersection } from 'lodash';
 @Component({
   selector: 'app-included-answers-multi-answer-button',
   standalone: true,
-  imports: [CommonModule, IncludedAnswersButtonComponent, IonicModule],
+  imports: [IncludedAnswersButtonComponent, IonicModule],
   templateUrl: './included-answers-multi-answer-button.component.html',
   styles: [
     `

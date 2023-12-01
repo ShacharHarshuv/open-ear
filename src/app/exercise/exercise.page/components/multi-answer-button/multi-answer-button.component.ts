@@ -1,5 +1,5 @@
 import { Component, Input, Signal, computed, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { IonicModule } from '@ionic/angular';
 import { AnswerButtonComponent } from '../answer-button/answer-button.component';
 import { signalFromProperty } from '../../../../shared/ng-utilities/signalFromProperty';
@@ -10,7 +10,7 @@ import { ExercisePage } from '../../exercise.page';
 @Component({
   selector: 'app-multi-answer-button',
   standalone: true,
-  imports: [CommonModule, IonicModule, AnswerButtonComponent],
+  imports: [IonicModule, AnswerButtonComponent],
   templateUrl: './multi-answer-button.component.html',
 })
 export class MultiAnswerButtonComponent {
