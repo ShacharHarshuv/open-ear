@@ -1,27 +1,27 @@
-import { Component, inject, signal, computed } from '@angular/core';
-import { ExerciseStateService } from './state/exercise-state.service';
-import { ModalController, AlertController, IonicModule } from '@ionic/angular';
-import { ExerciseSettingsPage } from './components/exercise-settings.page/exercise-settings.page';
-import * as _ from 'lodash';
-import { ExerciseExplanationService } from './state/exercise-explanation.service';
-import Exercise, {
-  SettingsControlDescriptor,
-  SettingValueType,
-} from '../exercise-logic';
-import { BaseComponent } from '../../shared/ts-utility';
-import { BdcWalkService, BdcWalkModule } from 'bdc-walkthrough';
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
-import { getCurrentAnswersLayout } from './utility/getCurrentAnswersLayout';
-import { AnswerIndicationComponent } from './components/answer-indication/answer-indication.component';
 import { CommonModule } from '@angular/common';
-import { PureFunctionPipe } from '../../shared/ng-utilities/pure-function-pipe/pure-function.pipe';
+import { Component, computed, inject, signal } from '@angular/core';
+import { AlertController, IonicModule, ModalController } from '@ionic/angular';
+import { BdcWalkModule, BdcWalkService } from 'bdc-walkthrough';
+import * as _ from 'lodash';
 import { ContentPaddingDirective } from '../../shared/components/shared-components/content-padding.directive';
-import { AnswerButtonComponent } from './components/answer-button/answer-button.component';
-import { MultiAnswerButtonComponent } from './components/multi-answer-button/multi-answer-button.component';
-import { ExerciseToastersDirective } from './components/exercise-toasters.directive';
-import AnswerConfig = Exercise.AnswerConfig;
+import { PureFunctionPipe } from '../../shared/ng-utilities/pure-function-pipe/pure-function.pipe';
+import { BaseComponent } from '../../shared/ts-utility';
+import Exercise, {
+  SettingValueType,
+  SettingsControlDescriptor,
+} from '../exercise-logic';
 import { GlobalExerciseSettings } from '../utility';
+import { AnswerButtonComponent } from './components/answer-button/answer-button.component';
+import { AnswerIndicationComponent } from './components/answer-indication/answer-indication.component';
 import { AnswersLayoutComponent } from './components/answers-layout/answers-layout.component';
+import { ExerciseSettingsPage } from './components/exercise-settings.page/exercise-settings.page';
+import { ExerciseToastersDirective } from './components/exercise-toasters.directive';
+import { MultiAnswerButtonComponent } from './components/multi-answer-button/multi-answer-button.component';
+import { ExerciseExplanationService } from './state/exercise-explanation.service';
+import { ExerciseStateService } from './state/exercise-state.service';
+import { getCurrentAnswersLayout } from './utility/getCurrentAnswersLayout';
+import AnswerConfig = Exercise.AnswerConfig;
 
 @Component({
   selector: 'app-exercise-page',
@@ -87,7 +87,7 @@ export class ExercisePage extends BaseComponent {
       this._rightAnswer.set(answer);
       this._wrongAnswers.set([]);
     } else {
-      this._wrongAnswers.mutate((wrongAnswers) => wrongAnswers.push(answer));
+      this._wrongAnswers.update((wrongAnswers) => [...wrongAnswers, answer]);
     }
     setTimeout(() => {
       if (this.state.globalSettings().revealAnswerAfterFirstMistake) {
