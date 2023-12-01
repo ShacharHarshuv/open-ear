@@ -1,24 +1,25 @@
+import * as _ from 'lodash';
+import { randomFromList } from '../../../shared/ts-utility';
+import Exercise from '../../exercise-logic';
+import { Mode, RomanNumeralChordSymbol } from '../../utility';
+import { toMusicalTextDisplay } from '../../utility/music/getMusicTextDisplay';
+import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
+import { chordVoicingSettings } from '../utility/exerciseAttributes/chordProgressionExercise';
+import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
+import { createExercise } from '../utility/exerciseAttributes/createExercise';
 import {
   RomanAnalysisChordProgressionExerciseSettings,
   RomanNumeralsChordProgressionQuestion,
-  romanAnalysisChordProgressionExercise,
   allRomanNumeralAnswerList,
+  romanAnalysisChordProgressionExercise,
 } from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
-import Exercise from '../../exercise-logic';
-import { randomFromList } from '../../../shared/ts-utility';
-import * as _ from 'lodash';
+import { analyzeBySettings } from '../utility/settings/AnalyzeBySettings';
+import { withSettings } from '../utility/settings/withSettings';
 import { CommonChordProgressionsExplanationComponent } from './common-chord-progressions-explanation/common-chord-progressions-explanation.component';
-import { RomanNumeralChordSymbol, Mode } from '../../utility';
-import { toMusicalTextDisplay } from '../../utility/music/getMusicTextDisplay';
-import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
-import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
-import { chordVoicingSettings } from '../utility/exerciseAttributes/chordProgressionExercise';
-import { createExercise } from '../utility/exerciseAttributes/createExercise';
 import {
   ProgressionDescriptor,
   commonProgressionDescriptorList,
 } from './commonProgressions';
-import { withSettings } from '../utility/settings/withSettings';
 
 type CommonChordProgressionExerciseSettings =
   RomanAnalysisChordProgressionExerciseSettings & {
@@ -47,12 +48,12 @@ export function commonChordProgressionExercise() {
   ];
 
   function getIncludedProgressionsDescriptors(
-    settings: CommonChordProgressionExerciseSettings
+    settings: CommonChordProgressionExerciseSettings,
   ): ProgressionDescriptor[] {
     return commonProgressionDescriptorList
       .filter((progression) => {
         return settings.includedProgressions.includes(
-          getProgressionId(progression)
+          getProgressionId(progression),
         );
       })
       .map((progression) => {
@@ -68,8 +69,8 @@ export function commonChordProgressionExercise() {
               RomanNumeralChord.toRelativeMode(
                 romanNumeral,
                 progression.mode!,
-                Mode.Major
-              )
+                Mode.Major,
+              ),
             ),
           };
         }
@@ -78,28 +79,9 @@ export function commonChordProgressionExercise() {
   }
 
   return composeExercise(
+    withSettings(analyzeBySettings),
     withSettings({
       settingsDescriptors: [
-        {
-          key: 'tonicForAnalyzing',
-          info:
-            'Determines how chord progression in different modes are analyzed. <br>' +
-            'For example - Am G F G Am can be analyzed in relation to its "True Tonic" tonic in A-Minor: i bVII bVI bVII i, or in its relative "Major Tonic" - vi V IV V vi. Some musicians can find it useful to use the relative major analysis for all modes.',
-          descriptor: {
-            label: 'Analyze By',
-            controlType: 'select',
-            options: [
-              {
-                label: 'Relative Major Tonic',
-                value: 'major',
-              },
-              {
-                label: 'True Tonic',
-                value: 'original',
-              },
-            ],
-          },
-        },
         {
           key: 'includedProgressions',
           descriptor: {
@@ -116,7 +98,6 @@ export function commonChordProgressionExercise() {
       ],
       defaultSettings: {
         includedProgressions: defaultProgressions,
-        tonicForAnalyzing: 'original',
       },
     }),
     romanAnalysisChordProgressionExercise({
@@ -128,16 +109,16 @@ export function commonChordProgressionExercise() {
         const includedAnswers: RomanNumeralChordSymbol[] = _.uniq(
           _.flatMap(
             getIncludedProgressionsDescriptors(settings),
-            'romanNumerals'
-          )
+            'romanNumerals',
+          ),
         );
         return Exercise.filterIncludedAnswers(
           allRomanNumeralAnswerList,
-          includedAnswers
+          includedAnswers,
         );
       },
     }),
-    createExercise
+    createExercise,
   )({
     id: 'commonChordProgression',
     name: 'Common Progressions',
@@ -145,7 +126,7 @@ export function commonChordProgressionExercise() {
       'Practice on recognizing the most common chord progression in popular music.',
     explanation: CommonChordProgressionsExplanationComponent,
     getChordProgressionInRomanNumerals(
-      settings: CommonChordProgressionExerciseSettings
+      settings: CommonChordProgressionExerciseSettings,
     ): RomanNumeralsChordProgressionQuestion {
       const includedProgressions: ProgressionDescriptor[] =
         getIncludedProgressionsDescriptors(settings);
