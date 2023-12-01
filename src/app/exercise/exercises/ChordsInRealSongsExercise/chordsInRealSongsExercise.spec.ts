@@ -1,17 +1,17 @@
-import { chordsInRealSongsExercise } from './chordsInRealSongsExercise';
+import * as _ from 'lodash';
 import { testPureFunction } from '../../../shared/testing-utility/testPureFunction';
+import { DeepReadonly, Mode, RomanNumeralChordSymbol } from '../../utility';
+import { testExercise } from '../testing-utility/test-exercise.spec';
 import {
   ProgressionInSongFromYouTubeDescriptor,
   chordsInRealSongsDescriptorList,
 } from './chordsInRealSongsDescriptorList';
-import { RomanNumeralChordSymbol, Mode, DeepReadonly } from '../../utility';
-import * as _ from 'lodash';
-import { testExercise } from '../testing-utility/test-exercise.spec';
+import { chordsInRealSongsExercise } from './chordsInRealSongsExercise';
 
 describe(chordsInRealSongsExercise.name, () => {
   const context = testExercise({
     getExercise: chordsInRealSongsExercise,
-    settingDescriptorList: ['Included Chords'],
+    settingDescriptorList: ['Analyze By', 'Included Chords'],
   });
 
   describe('Songs', () => {
@@ -21,6 +21,7 @@ describe(chordsInRealSongsExercise.name, () => {
           chordProgressionDescriptor,
         ]);
         exercise.updateSettings?.({
+          tonicForAnalyzing: 'original',
           includedChords: _.map(chordProgressionDescriptor.chords, 'chord'),
         });
         expect(exercise.getQuestion()).toBeTruthy();
@@ -32,7 +33,7 @@ describe(chordsInRealSongsExercise.name, () => {
     let exercise: ReturnType<typeof chordsInRealSongsExercise>;
 
     function generateMockProgressionDescriptor(
-      progression: RomanNumeralChordSymbol[]
+      progression: RomanNumeralChordSymbol[],
     ): ProgressionInSongFromYouTubeDescriptor {
       return {
         videoId: '',
@@ -80,14 +81,15 @@ describe(chordsInRealSongsExercise.name, () => {
 
     testPureFunction(
       (
-        selected: RomanNumeralChordSymbol[]
+        selected: RomanNumeralChordSymbol[],
       ): DeepReadonly<ProgressionInSongFromYouTubeDescriptor[]> => {
         exercise.updateSettings?.({
           ...exercise.getCurrentSettings?.(),
+          tonicForAnalyzing: 'major',
           includedChords: selected,
         });
         return exercise.getAvailableProgressions(
-          exercise.getCurrentSettings?.()!
+          exercise.getCurrentSettings?.()!,
         );
       },
       [
@@ -114,7 +116,7 @@ describe(chordsInRealSongsExercise.name, () => {
           args: [['i', 'bVII', 'bVI']],
           returnValue: jasmine.arrayWithExactContents([progression_i_bVII_bVI]),
         },
-      ]
+      ],
     );
   });
 });
