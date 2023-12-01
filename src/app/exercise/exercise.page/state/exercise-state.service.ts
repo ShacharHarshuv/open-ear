@@ -1,12 +1,22 @@
 import { inject, Injectable, OnDestroy, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { ExerciseService } from '../../exercise.service';
-import Exercise from '../../exercise-logic';
+import * as _ from 'lodash';
+import { defaults } from 'lodash';
+import { filter, map } from 'rxjs/operators';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { DronePlayerService } from '../../../services/drone-player.service';
+import { ExerciseSettingsDataService } from '../../../services/exercise-settings-data.service';
 import {
   NoteEvent,
   PartToPlay,
   PlayerService,
 } from '../../../services/player.service';
+import { YouTubePlayerService } from '../../../services/you-tube-player.service';
+import { listenToChanges } from '../../../shared/ts-utility/rxjs/listen-to-changes';
+import { onChange } from '../../../shared/ts-utility/signals/on-change';
+import Exercise from '../../exercise-logic';
+import { ExerciseService } from '../../exercise.service';
 import {
   ExerciseSettingsData,
   GlobalExerciseSettings,
@@ -16,18 +26,8 @@ import {
   toGetter,
   toSteadyPart,
 } from '../../utility';
-import { ExerciseSettingsDataService } from '../../../services/exercise-settings-data.service';
 import { AdaptiveExercise } from './adaptive-exercise';
-import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { YouTubePlayerService } from '../../../services/you-tube-player.service';
-import * as _ from 'lodash';
-import { defaults } from 'lodash';
 import { AdaptiveExerciseService } from './adaptive-exercise.service';
-import { DronePlayerService } from '../../../services/drone-player.service';
-import { listenToChanges } from '../../../shared/ts-utility/rxjs/listen-to-changes';
-import { filter, map } from 'rxjs/operators';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { onChange } from '../../../shared/ts-utility/signals/on-change';
 import AnswerList = Exercise.AnswerList;
 import Answer = Exercise.Answer;
 import getAnswerListIterator = Exercise.getAnswerListIterator;
@@ -204,18 +204,20 @@ export class ExerciseStateService implements OnDestroy {
     const rightAnswer = this._currentQuestion.segments[answerIndex].rightAnswer;
     const isRight = rightAnswer === answer;
     if (!isRight) {
-      this._currentAnswers.mutate(
-        (currentAnswers) => (currentAnswers[answerIndex].wasWrong = true)
-      );
+      this._currentAnswers.update((currentAnswers) => {
+        currentAnswers[answerIndex].wasWrong = true;
+        return currentAnswers;
+      });
     }
     if (isRight || this._globalSettings().revealAnswerAfterFirstMistake) {
       this._totalQuestions.update((v) => ++v);
       if (!this._currentAnswers()[answerIndex].wasWrong) {
         this._totalCorrectAnswers.update((v) => ++v);
       }
-      this._currentAnswers.mutate(
-        (currentAnswers) => (currentAnswers[answerIndex].answer = rightAnswer)
-      );
+      this._currentAnswers.update((currentAnswers) => {
+        currentAnswers[answerIndex].answer = rightAnswer;
+        return currentAnswers;
+      });
       while (!!this._currentAnswers()[this._currentSegmentToAnswer]?.answer) {
         this._currentSegmentToAnswer++;
       }
