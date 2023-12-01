@@ -154,6 +154,12 @@ export const releaseNotes: ReleaseNotes = [
   },
   {
     version: '1.6.0',
-    notes: 'Multiple chord types in Chord Functions exercise. Long press on a chord in the settings to see more options.'
-  }
+    notes:
+      'Multiple chord types in Chord Functions exercise. Long press on a chord in the settings to see more options.',
+  },
+  {
+    version: '1.6.0',
+    notes:
+      'Support for analyzing chord progressions in real songs in the relative major mode, turned out by default. (Android only at the moment)',
+  },
 ];
