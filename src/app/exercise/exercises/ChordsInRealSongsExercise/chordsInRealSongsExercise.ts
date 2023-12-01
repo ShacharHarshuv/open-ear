@@ -1,45 +1,51 @@
-import Exercise from '../../exercise-logic';
-import { allRomanNumeralAnswerList } from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
-import {
-  chordsInRealSongsDescriptorList,
-  ProgressionInSongFromYouTubeDescriptor,
-} from './chordsInRealSongsDescriptorList';
+import { TitleCasePipe } from '@angular/common';
 import * as _ from 'lodash';
-import {
-  randomFromList,
-  isValueTruthy,
-  DeepReadonly,
-} from '../../../shared/ts-utility';
 import { NoteEvent } from '../../../services/player.service';
 import {
-  iv_V_i_CADENCE_IN_C,
+  DeepReadonly,
+  isValueTruthy,
+  randomFromList,
+} from '../../../shared/ts-utility';
+import Exercise from '../../exercise-logic';
+import { Mode, RomanNumeralChordSymbol } from '../../utility';
+import {
   IV_V_I_CADENCE_IN_C,
+  iv_V_i_CADENCE_IN_C,
 } from '../../utility/music/chords';
-import { transpose } from '../../utility/music/transpose';
-import { getDistanceOfKeys } from '../../utility/music/keys/getDistanceOfKeys';
-import { TitleCasePipe } from '@angular/common';
-import { RomanNumeralChordSymbol, Mode } from '../../utility';
 import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
-import { createExercise } from '../utility/exerciseAttributes/createExercise';
 import { getRelativeKeyTonic } from '../../utility/music/harmony/getRelativeKeyTonic';
+import { getDistanceOfKeys } from '../../utility/music/keys/getDistanceOfKeys';
+import { transpose } from '../../utility/music/transpose';
+import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
+import { createExercise } from '../utility/exerciseAttributes/createExercise';
+import { allRomanNumeralAnswerList } from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
+import {
+  AnalyzeBySettings,
+  analyzeBySettings,
+} from '../utility/settings/AnalyzeBySettings';
+import { withSettings } from '../utility/settings/withSettings';
+import {
+  ProgressionInSongFromYouTubeDescriptor,
+  chordsInRealSongsDescriptorList,
+} from './chordsInRealSongsDescriptorList';
 
-type ChordsInRealSongsSettings = {
+interface ChordsInRealSongsSettings extends AnalyzeBySettings {
   includedChords: RomanNumeralChordSymbol[];
-};
+}
 
 export function chordsInRealSongsExercise(
   progressionList: DeepReadonly<
     ProgressionInSongFromYouTubeDescriptor[]
-  > = chordsInRealSongsDescriptorList
+  > = chordsInRealSongsDescriptorList,
 ) {
   function getAvailableProgressions(
-    settings: ChordsInRealSongsSettings
+    settings: ChordsInRealSongsSettings,
   ): DeepReadonly<ProgressionInSongFromYouTubeDescriptor[]> {
     const isChordProgressionValid = (
-      chords: DeepReadonly<ProgressionInSongFromYouTubeDescriptor>['chords']
+      chords: DeepReadonly<ProgressionInSongFromYouTubeDescriptor>['chords'],
     ): boolean => {
       return _.every(chords, (chord) =>
-        settings.includedChords.includes(chord.chord)
+        settings.includedChords.includes(chord.chord),
       );
     };
 
@@ -57,9 +63,31 @@ export function chordsInRealSongsExercise(
     const validChordProgressionsDescriptorList: DeepReadonly<
       ProgressionInSongFromYouTubeDescriptor[]
     > = progressionList
+      .map((chordProgression) => {
+        if (
+          settings.tonicForAnalyzing === 'original' ||
+          chordProgression.mode === Mode.Major
+        ) {
+          return chordProgression;
+        }
+
+        return {
+          ...chordProgression,
+          chords: _.map(chordProgression.chords, (chord) => ({
+            ...chord,
+            chord: RomanNumeralChord.toRelativeMode(
+              chord.chord,
+              chordProgression.mode,
+              Mode.Major,
+            ),
+          })),
+          mode: Mode.Major,
+          key: getRelativeKeyTonic(chordProgression.key, chordProgression.mode),
+        };
+      })
       .map(
         (
-          chordProgression
+          chordProgression,
         ): DeepReadonly<ProgressionInSongFromYouTubeDescriptor> | null => {
           if (isChordProgressionValid(chordProgression.chords)) {
             return chordProgression;
@@ -72,9 +100,9 @@ export function chordsInRealSongsExercise(
                 chord: RomanNumeralChord.toRelativeMode(
                   chord.chord,
                   chordProgression.mode,
-                  Mode.Major
+                  Mode.Major,
                 ),
-              })
+              }),
             );
             if (isChordProgressionValid(chordsInRelativeKey)) {
               return {
@@ -83,7 +111,7 @@ export function chordsInRealSongsExercise(
                 mode: Mode.Major,
                 key: getRelativeKeyTonic(
                   chordProgression.key,
-                  chordProgression.mode
+                  chordProgression.mode,
                 ),
               };
             } else {
@@ -93,13 +121,14 @@ export function chordsInRealSongsExercise(
           } else {
             return null;
           }
-        }
+        },
       )
       .filter(isValueTruthy);
 
+    // todo: handle this better (Seems like it is not actually being caught)
     if (_.isEmpty(validChordProgressionsDescriptorList)) {
       throw new Error(
-        `No chord progression matching selected chords! Please select more chords. (I IV V vi will work)`
+        `No chord progression matching selected chords! Please select more chords. (I IV V vi will work)`,
       );
     }
 
@@ -107,7 +136,10 @@ export function chordsInRealSongsExercise(
   }
 
   return {
-    ...createExercise<RomanNumeralChordSymbol, ChordsInRealSongsSettings>({
+    ...composeExercise(
+      withSettings(analyzeBySettings),
+      createExercise<RomanNumeralChordSymbol, ChordsInRealSongsSettings>,
+    )({
       id: 'chordsInRealSongs',
       name: 'Chord Progressions In Real Songs',
       summary:
@@ -129,9 +161,10 @@ export function chordsInRealSongsExercise(
       ],
       defaultSettings: {
         includedChords: ['I', 'IV', 'V', 'vi'],
+        tonicForAnalyzing: 'major',
       },
       answerList(
-        settings: ChordsInRealSongsSettings
+        settings: ChordsInRealSongsSettings,
       ): Exercise.AnswerList<RomanNumeralChordSymbol> {
         const progressionsList: DeepReadonly<
           ProgressionInSongFromYouTubeDescriptor[]
@@ -140,21 +173,24 @@ export function chordsInRealSongsExercise(
           _.flatMap(
             progressionsList,
             (
-              progression: ProgressionInSongFromYouTubeDescriptor
+              progression: ProgressionInSongFromYouTubeDescriptor,
             ): RomanNumeralChordSymbol[] =>
-              progression.chords.map((chordDescriptor) => chordDescriptor.chord)
-          )
+              progression.chords.map(
+                (chordDescriptor) => chordDescriptor.chord,
+              ),
+          ),
         );
         return Exercise.filterIncludedAnswers(
           allRomanNumeralAnswerList,
-          includedAnswers
+          includedAnswers,
         );
       },
       getQuestion(
-        settings: ChordsInRealSongsSettings
+        settings: ChordsInRealSongsSettings,
       ): Exercise.Question<RomanNumeralChordSymbol> {
         const progression: DeepReadonly<ProgressionInSongFromYouTubeDescriptor> =
           randomFromList(getAvailableProgressions(settings));
+
         const modeToCadenceInC: Record<Mode, NoteEvent[]> = {
           [Mode.Lydian]: IV_V_I_CADENCE_IN_C,
           [Mode.Major]: IV_V_I_CADENCE_IN_C,
@@ -174,12 +210,12 @@ export function chordsInRealSongsExercise(
           endSeconds: progression.endSeconds,
           cadence: transpose(
             modeToCadenceInC[progression.mode],
-            getDistanceOfKeys(progression.key, 'C')
+            getDistanceOfKeys(progression.key, 'C'),
           ),
           info: `${progression.name ?? ''}${
             progression.artist ? ` by ${progression.artist} ` : ''
           }(${progression.key} ${TitleCasePipe.prototype.transform(
-            Mode[progression.mode]
+            Mode[progression.mode],
           )})`,
         };
       },
