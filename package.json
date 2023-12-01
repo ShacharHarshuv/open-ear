@@ -20,16 +20,16 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^16.0.3",
+    "@angular/animations": "^17.0.5",
     "@angular/cdk": "^13.3.8",
-    "@angular/common": "^16.0.3",
-    "@angular/compiler": "^16.0.3",
-    "@angular/core": "^16.0.3",
-    "@angular/forms": "^16.0.3",
+    "@angular/common": "^17.0.5",
+    "@angular/compiler": "^17.0.5",
+    "@angular/core": "^17.0.5",
+    "@angular/forms": "^17.0.5",
     "@angular/material": "^13.3.8",
-    "@angular/platform-browser": "^16.0.3",
-    "@angular/platform-browser-dynamic": "^16.0.3",
-    "@angular/router": "^16.0.3",
+    "@angular/platform-browser": "^17.0.5",
+    "@angular/platform-browser-dynamic": "^17.0.5",
+    "@angular/router": "^17.0.5",
     "@audio-samples/piano-mp3-velocity10": "^1.0.5",
     "@capacitor/android": "3.1.2",
     "@capacitor/app": "1.0.2",
@@ -54,7 +54,7 @@
     "tone": "^14.7.77",
     "tslib": "^2.2.0",
     "youtube-player": "^5.5.2",
-    "zone.js": "~0.13.0"
+    "zone.js": "~0.14.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^16.0.3",
@@ -63,8 +63,8 @@
     "@angular-eslint/eslint-plugin-template": "^16.0.3",
     "@angular-eslint/template-parser": "^16.0.3",
     "@angular/cli": "^16.0.4",
-    "@angular/compiler-cli": "^16.0.3",
-    "@angular/language-service": "^16.0.3",
+    "@angular/compiler-cli": "^17.0.5",
+    "@angular/language-service": "^17.0.5",
     "@capacitor/cli": "3.1.2",
     "@ionic/angular-toolkit": "^4.0.0",
     "@ngneat/spectator": "^10.0.0",
@@ -100,7 +100,7 @@
     "protractor": "~7.0.0",
     "ts-morph": "^18.0.0",
     "ts-node": "~8.3.0",
-    "typescript": "~5.0.4"
+    "typescript": "~5.2.2"
   },
   "description": "An Ionic project",
   "husky": {
