@@ -1,5 +1,5 @@
 import { Component, computed, HostBinding, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RomanNumeralChordSymbol } from '../../../utility';
 import { signalFromProperty } from '../../../../shared/ng-utilities/signalFromProperty';
 import { RomanNumeralChord } from '../../../utility/music/harmony/RomanNumeralChord';
@@ -7,7 +7,7 @@ import { RomanNumeralChord } from '../../../utility/music/harmony/RomanNumeralCh
 @Component({
   selector: 'app-roman-numeral-symbol',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `{{ symbolString() }}`,
 })
 export class RomanNumeralSymbolComponent {

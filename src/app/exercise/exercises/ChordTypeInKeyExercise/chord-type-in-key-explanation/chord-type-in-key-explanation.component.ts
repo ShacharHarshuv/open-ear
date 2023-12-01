@@ -10,18 +10,17 @@ import { mod } from '../../../../shared/ts-utility/mod';
 import { InfoPanelComponent } from '../../../../shared/components/shared-components/info-panel/info-panel.component';
 import { IonicModule } from '@ionic/angular';
 import { PlayOnClickDirective } from '../../../../shared/components/shared-components/play-on-click.directive';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-chord-type-in-key-explanation',
   templateUrl: './chord-type-in-key-explanation.component.html',
   standalone: true,
   imports: [
-    CommonModule,
     InfoPanelComponent,
     IonicModule,
-    PlayOnClickDirective,
-  ],
+    PlayOnClickDirective
+],
 })
 export class ChordTypeInKeyExplanationComponent {
   chords: {

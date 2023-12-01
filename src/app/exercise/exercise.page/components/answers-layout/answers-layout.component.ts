@@ -13,7 +13,7 @@ import {
 import { AnswerCellComponent } from './components/answer-cell/answer-cell.component';
 import { signalFromProperty } from '../../../../shared/ng-utilities/signalFromProperty';
 import { AnswersRowComponent } from './components/answers-row/answers-row.component';
-import { NgIf, NgFor } from '@angular/common';
+
 
 @Component({
   selector: 'app-answers-layout',
@@ -22,11 +22,9 @@ import { NgIf, NgFor } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    NgIf,
-    NgFor,
     forwardRef(() => AnswersRowComponent),
-    forwardRef(() => AnswerCellComponent),
-  ],
+    forwardRef(() => AnswerCellComponent)
+],
 })
 export class AnswersLayoutComponent<GAnswer extends string = string> {
   @Input({

@@ -1,24 +1,32 @@
+@if (customAnswersLayout(); as customAnswersLayout) {
 <div
-  *ngIf="customAnswersLayout() as customAnswersLayout"
+ 
   class="answers-layout__answers-rows-container"
 >
-  <app-answers-row
-    *ngFor="let row of customAnswersLayout.rows"
+  @for (row of customAnswersLayout.rows; track row) {
+<app-answers-row
+   
     [row]="row"
     [buttonTemplate]="buttonTemplate"
     [multiAnswerButtonTemplate]="multiAnswerButtonTemplate"
     [multiAnswerCellConfig]="multiAnswerCellConfig"
   />
+}
 </div>
+}
+@if (autoLayoutAnswers()) {
 <div
-  *ngIf="autoLayoutAnswers()"
+ 
   class="answers-layout__answers-buttons-auto-layout-container"
 >
-  <app-answer-cell
-    *ngFor="let answer of autoLayoutAnswers()"
+  @for (answer of autoLayoutAnswers(); track answer) {
+<app-answer-cell
+   
     [cell]="answer"
     [buttonTemplate]="buttonTemplate"
     [multiAnswerButtonTemplate]="multiAnswerButtonTemplate"
     [multiAnswerCellConfig]="multiAnswerCellConfig"
   />
+}
 </div>
+}

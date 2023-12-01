@@ -1,7 +1,7 @@
-import { Note } from 'tone/Tone/core/type/NoteUnits';
-import * as _ from 'lodash';
 import { Type } from '@angular/core';
 import { Platforms } from '@ionic/core/dist/types/utils/platform';
+import * as _ from 'lodash';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { NoteEvent } from '../../services/player.service';
 import {
   isValueTruthy,
@@ -91,7 +91,7 @@ export type MultiAnswerCell<GAnswer extends string = string> = CellConfig & {
 };
 
 export function isMultiAnswerCell<GAnswer extends string>(
-  cell: AnswersLayoutCell<GAnswer>
+  cell: AnswersLayoutCell<GAnswer>,
 ): cell is MultiAnswerCell<GAnswer> {
   return !!cell && typeof cell === 'object' && 'innerAnswersList' in cell;
 }
@@ -122,7 +122,7 @@ export interface NormalizedAnswerLayout<GAnswer extends string = string>
 }
 
 function isSingleAnswer<GAnswer extends string>(
-  cell: AnswersLayoutCell<GAnswer>
+  cell: AnswersLayoutCell<GAnswer>,
 ): cell is Answer<GAnswer> | null | AnswerConfig<GAnswer> {
   return (
     !Array.isArray(cell) &&
@@ -131,7 +131,7 @@ function isSingleAnswer<GAnswer extends string>(
 }
 
 export function normalizedAnswerList<GAnswer extends string = string>(
-  answerList: AnswerList<GAnswer>
+  answerList: AnswerList<GAnswer>,
 ): NormalizedAnswerLayout<GAnswer> {
   const answerLayout: AnswersLayout<GAnswer> = Array.isArray(answerList)
     ? {
@@ -146,11 +146,11 @@ export function normalizedAnswerList<GAnswer extends string = string>(
       } else {
         return row.map(
           (
-            cell
+            cell,
           ): Required<MultiAnswerCell<GAnswer> | AnswerConfig<GAnswer>> => {
             if (isMultiAnswerCell(cell)) {
               const firstAnswer = getAnswerListIterator(
-                cell.innerAnswersList
+                cell.innerAnswersList,
               ).next().value;
               const defaultDisplayLabel =
                 firstAnswer?.displayLabel ?? firstAnswer.answer;
@@ -164,7 +164,7 @@ export function normalizedAnswerList<GAnswer extends string = string>(
             }
 
             return normalizeAnswerConfig(cell);
-          }
+          },
         );
       }
     }),
@@ -172,7 +172,7 @@ export function normalizedAnswerList<GAnswer extends string = string>(
 }
 
 export function normalizeAnswerConfig<GAnswer extends string = string>(
-  cell: Answer<GAnswer> | null | AnswerConfig<GAnswer>
+  cell: Answer<GAnswer> | null | AnswerConfig<GAnswer>,
 ): Required<AnswerConfig<GAnswer>> {
   if (!cell || typeof cell !== 'object') {
     return {
@@ -197,7 +197,7 @@ export type AnswerList<GAnswer extends string = string> =
   | AnswersLayout<GAnswer>;
 
 export function flatAnswerList<GAnswer extends string>(
-  answerList: AnswerList<GAnswer>
+  answerList: AnswerList<GAnswer>,
 ): GAnswer[] {
   return Array.from(getAnswerListIterator(answerList))
     .map((answerConfig): GAnswer | null => answerConfig.answer)
@@ -206,7 +206,7 @@ export function flatAnswerList<GAnswer extends string>(
 
 export function filterIncludedAnswers<GAnswer extends string>(
   allAnswerList: AnswerList<GAnswer>,
-  includedAnswersList: GAnswer[]
+  includedAnswersList: GAnswer[],
 ): AnswerList<GAnswer> {
   const normalizedAnswerLayout: NormalizedAnswerLayout<GAnswer> =
     normalizedAnswerList(allAnswerList);
@@ -220,7 +220,7 @@ export function filterIncludedAnswers<GAnswer extends string>(
         if (isMultiAnswerCell(answerLayoutCellConfig)) {
           const innerAnswersList = filterIncludedAnswers(
             answerLayoutCellConfig.innerAnswersList,
-            includedAnswersList
+            includedAnswersList,
           );
           const answersLayoutIterator = getAnswerListIterator(innerAnswersList);
           const firstIteratorResult = answersLayoutIterator.next();
@@ -254,7 +254,7 @@ export function filterIncludedAnswers<GAnswer extends string>(
 }
 
 export function* getAnswerListIterator<GAnswer extends string>(
-  answerList: AnswerList<GAnswer>
+  answerList: AnswerList<GAnswer>,
 ): Generator<Required<AnswerConfig<GAnswer>>> {
   if (Array.isArray(answerList)) {
     for (let cell of answerList) {
@@ -284,18 +284,18 @@ export function* getAnswerListIterator<GAnswer extends string>(
 
 export function mapAnswerList<
   GInputAnswer extends string = string,
-  GOutputAnswer extends string = GInputAnswer
+  GOutputAnswer extends string = GInputAnswer,
 >(
   answerList: AnswerList<GInputAnswer>,
   callback: (
-    answerConfig: AnswerConfig<GInputAnswer>
-  ) => AnswersLayoutCell<GOutputAnswer>
+    answerConfig: AnswerConfig<GInputAnswer>,
+  ) => AnswersLayoutCell<GOutputAnswer>,
 ): AnswerList<GOutputAnswer> {
   if (typeof answerList === 'object' && !Array.isArray(answerList)) {
     return {
       rows: (answerList as AnswersLayout<GInputAnswer>).rows.map(
         (row): AnswerLayoutRow<GOutputAnswer> =>
-          typeof row === 'string' ? row : mapAnswerCellList(row)
+          typeof row === 'string' ? row : mapAnswerCellList(row),
       ),
     };
   } else {
@@ -304,13 +304,13 @@ export function mapAnswerList<
   }
 
   function mapAnswerCellList(
-    answerCellList: Exclude<AnswersLayoutCell<GInputAnswer>, null>[]
+    answerCellList: Exclude<AnswersLayoutCell<GInputAnswer>, null>[],
   ): Exclude<AnswersLayoutCell<GOutputAnswer>, null>[];
   function mapAnswerCellList(
-    answerCellList: AnswersLayoutCell<GInputAnswer>[]
+    answerCellList: AnswersLayoutCell<GInputAnswer>[],
   ): AnswersLayoutCell<GOutputAnswer>[];
   function mapAnswerCellList(
-    answerCellList: AnswersLayoutCell<GInputAnswer>[]
+    answerCellList: AnswersLayoutCell<GInputAnswer>[],
   ): AnswersLayoutCell<GOutputAnswer>[] {
     return _.map(answerCellList, (answerCell) => {
       if (answerCell === null) {
@@ -324,7 +324,7 @@ export function mapAnswerList<
           ...answerCell,
           innerAnswersList: mapAnswerList(
             answerCell.innerAnswersList,
-            callback
+            callback,
           ),
         };
       } else {
@@ -336,7 +336,7 @@ export function mapAnswerList<
 
 export function addViewLabelToAnswerList<GAnswer extends string>(
   answerList: AnswerList<GAnswer>,
-  getAnswerViewLabel: (answer: GAnswer) => string
+  getAnswerViewLabel: (answer: GAnswer) => string,
 ): AnswerList<GAnswer> {
   return mapAnswerList(answerList, (answerConfig) =>
     answerConfig.answer
@@ -344,7 +344,7 @@ export function addViewLabelToAnswerList<GAnswer extends string>(
           ...answerConfig,
           displayLabel: getAnswerViewLabel(answerConfig.answer),
         }
-      : answerConfig
+      : answerConfig,
   );
 }
 
@@ -384,7 +384,7 @@ export interface CheckboxControlDescriptor
 }
 
 export interface IncludedAnswersControlDescriptor<
-  GAnswer extends string = string
+  GAnswer extends string = string,
 > extends BaseSettingsControlDescriptor {
   controlType: 'included-answers';
   answerList: AnswerList<GAnswer>;
@@ -406,7 +406,7 @@ export type ControlDescriptor =
  * */
 export type SettingsControlDescriptor<
   GSettings extends Settings = Settings,
-  GKey extends keyof GSettings = keyof GSettings
+  GKey extends keyof GSettings = keyof GSettings,
 > =
   /*GKey extends string ?*/
   (
@@ -421,7 +421,7 @@ export type SettingsControlDescriptor<
         onChange: (
           newValue: any,
           prevValue: any,
-          currentSetting: GSettings
+          currentSetting: GSettings,
         ) => Partial<GSettings>;
       }
   ) & {
@@ -440,7 +440,7 @@ export type ExerciseExplanationContent = string | Type<any>;
 
 export type Exercise<
   GAnswer extends string = string,
-  GSettings extends Settings = Settings
+  GSettings extends Settings = Settings,
 > = {
   /**
    * Do not change the keys for the same exercise between versions, as it will break the persistent storage

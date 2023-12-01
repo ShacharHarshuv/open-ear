@@ -1,37 +1,39 @@
-<ng-container *ngIf="answerConfig() as answerConfig">
+@if (answerConfig(); as answerConfig) {
+  @if (answerConfig.answer) {
+    <div class="answer-cell" [style.flex]="answerConfig.space">
+      <ng-template
+        [ngTemplateOutlet]="buttonTemplate"
+        [ngTemplateOutletContext]="{ $implicit: answerConfig }"
+      />
+    </div>
+  }
+  @if (!answerConfig.answer) {
+    <div [style.flex]="answerConfig.space"></div>
+  }
+}
+@if (multiAnswerCell(); as multiAnswerCell) {
   <div
     class="answer-cell"
-    *ngIf="answerConfig.answer"
-    [style.flex]="answerConfig.space"
-  >
-    <ng-template
-      [ngTemplateOutlet]="buttonTemplate"
-      [ngTemplateOutletContext]="{ $implicit: answerConfig }"
-    />
-  </div>
-  <div *ngIf="!answerConfig.answer" [style.flex]="answerConfig.space"></div>
-</ng-container>
-<ng-container *ngIf="multiAnswerCell() as multiAnswerCell">
-  <div
-    class="answer-cell"
-    [style.flex]="multiAnswerCell.space"
     id="{{ multiAnswerCell.id }}"
+    [style.flex]="multiAnswerCell.space"
   >
-    <ng-template
-      *ngIf="
-        multiAnswerCellButtonTemplateContext() as multiAnswerButtonTemplateContext
-      "
-      [ngTemplateOutlet]="multiAnswerButtonTemplate"
-      [ngTemplateOutletContext]="{
-        $implicit: multiAnswerButtonTemplateContext
-      }"
-    />
+    @if (
+      multiAnswerCellButtonTemplateContext();
+      as multiAnswerButtonTemplateContext
+    ) {
+      <ng-template
+        [ngTemplateOutlet]="multiAnswerButtonTemplate"
+        [ngTemplateOutletContext]="{
+          $implicit: multiAnswerButtonTemplateContext
+        }"
+      />
+    }
     <div class="multi-answer-arrow"></div>
   </div>
   <ion-popover
-    trigger="{{ multiAnswerCell.id }}"
     [dismissOnSelect]="multiAnswerCellConfig.dismissOnSelect"
     [triggerAction]="multiAnswerCellConfig.triggerAction"
+    trigger="{{ multiAnswerCell.id }}"
   >
     <ng-template>
       <div class="multi-answer-popover-content">
@@ -44,4 +46,4 @@
       </div>
     </ng-template>
   </ion-popover>
-</ng-container>
+}

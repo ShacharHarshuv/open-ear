@@ -20,13 +20,15 @@
             <ion-item (click)="resetStatistics()" button>
               Reset statistics
             </ion-item>
-            <ion-item
-              *ngIf="state.exercise.explanation"
+            @if (state.exercise.explanation) {
+<ion-item
+             
               (click)="exerciseExplanation.openExplanation()"
               button
             >
               Help
             </ion-item>
+}
           </ion-list>
         </ng-template>
       </ion-popover>
@@ -37,29 +39,37 @@
 <ion-content [fullscreen]="true" [padding]="true">
   <div class="exercise__content-container" cdkDropListGroup>
     <section>
-      <p
-        *ngIf="!state.globalSettings().answerQuestionAutomatically"
+      @if (!state.globalSettings().answerQuestionAutomatically) {
+<p
+       
         class="exercise__stats-container"
       >
         Correct answers:
         {{state.totalCorrectAnswers()}}/{{state.totalQuestions()}}
         ({{correctAnswersPercentage() | number: '1.0-2'}}%)
       </p>
-      <p class="exercise__info" *ngIf="state.info">{{state.info}}</p>
+}
+      @if (state.info) {
+<p class="exercise__info">{{state.info}}</p>
+}
     </section>
     <div class="exercise__answers-container">
-      <div
-        *ngFor="let answersPlayedTogether of (getCurrentAnswersLayout | pureFunction: state.currentAnswers())"
+      @for (answersPlayedTogether of (getCurrentAnswersLayout | pureFunction: state.currentAnswers()); track answersPlayedTogether) {
+<div
+       
       >
-        <app-answer-indication
-          *ngFor="let answer of answersPlayedTogether"
+        @for (answer of answersPlayedTogether; track answer) {
+<app-answer-indication
+         
           [answerDisplay]="answer.answer && state.answerToLabelStringMap[answer.answer]"
           [isFocused]="state.currentlyPlayingSegments.has(answer.index)"
           [wasAnsweredWrong]="answer.wasWrong"
           cdkDropList
           [cdkDropListData]="answer.index"
         ></app-answer-indication>
+}
       </div>
+}
     </div>
     <app-answers-layout
       [answerList]="state.answerList()"
@@ -72,11 +82,12 @@
     ></app-answers-layout>
     <ng-template let-answerConfig #answerButton>
       <div cdkDropList>
-        <app-answer-button
+        @if (answerConfig.answer; as answer) {
+<app-answer-button
           cdkDrag
           [cdkDragData]="answerConfig"
           (cdkDragDropped)="onDragDropped($event)"
-          *ngIf="answerConfig.answer as answer"
+         
           (click)="onAnswerClick(answerConfig)"
           [disabled]="!state.isAnswerEnabled()"
           [right]="answer === rightAnswer()"
@@ -86,6 +97,7 @@
           <ng-container *cdkDragPlaceholder></ng-container>
           <span [innerHTML]="answerConfig.displayLabel"></span>
         </app-answer-button>
+}
       </div>
     </ng-template>
     <ng-template let-multiAnswerCell #multiAnswerButton>
@@ -99,13 +111,15 @@
         <ion-icon name="repeat"></ion-icon>
         Repeat
       </ion-button>
-      <ion-button
-        *ngIf="state.hasCadence"
+      @if (state.hasCadence) {
+<ion-button
+       
         [disabled]="!state.playerReady"
         (click)="state.playCurrentQuestion()"
       >
         <ion-icon name="musical-note"></ion-icon>
       </ion-button>
+}
       <ion-button
         [disabled]="!state.isQuestionCompleted"
         (click)="state.nextQuestion()"

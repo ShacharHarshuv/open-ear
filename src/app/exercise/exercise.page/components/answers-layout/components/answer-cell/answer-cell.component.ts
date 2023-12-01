@@ -19,7 +19,7 @@ import { signalFromProperty } from '../../../../../../shared/ng-utilities/signal
 import { uniqueId, first } from 'lodash';
 import { AnswersLayoutComponent } from '../../answers-layout.component';
 import { IonicModule } from '@ionic/angular';
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 
 export type MultiAnswerButtonTemplateContext = Required<
   Pick<MultiAnswerCell, 'displayLabel'>
@@ -33,11 +33,10 @@ export type MultiAnswerButtonTemplateContext = Required<
   styleUrls: ['./answer-cell.component.scss'],
   standalone: true,
   imports: [
-    NgIf,
     NgTemplateOutlet,
     IonicModule,
-    forwardRef(() => AnswersLayoutComponent),
-  ],
+    forwardRef(() => AnswersLayoutComponent)
+],
 })
 export class AnswerCellComponent {
   @Input({

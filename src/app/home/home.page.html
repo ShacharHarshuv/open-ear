@@ -20,9 +20,11 @@
 
 <ion-content [fullscreen]="true">
   <ion-list>
-    <app-exercise-summary
-      *ngFor="let exercise of exerciseList"
+    @for (exercise of exerciseList; track exercise) {
+<app-exercise-summary
+     
       [exercise]="exercise"
     ></app-exercise-summary>
+}
   </ion-list>
 </ion-content>

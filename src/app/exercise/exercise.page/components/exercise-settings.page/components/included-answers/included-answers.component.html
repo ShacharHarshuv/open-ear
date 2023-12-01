@@ -1,4 +1,5 @@
-<ng-container *ngIf="value$ | async as value">
+@if (value$ | async; as value) {
+
   <app-answers-layout
     [answerList]="answerList()"
     [buttonTemplate]="buttonTemplate"
@@ -9,18 +10,22 @@
     }"
   ></app-answers-layout>
 
-  <p *ngIf="hasMultiAnswerButtons()" class="long-press-hint">
+  @if (hasMultiAnswerButtons()) {
+<p class="long-press-hint">
     Long-press a button to see more options
   </p>
+}
 
   <ng-template let-answerConfig #buttonTemplate>
-    <app-included-answers-button
-      *ngIf="answerConfig.answer as answer"
+    @if (answerConfig.answer; as answer) {
+<app-included-answers-button
+     
       [included]="value.includes(answer)"
       (click)="toggleInclusion(answer)"
     >
       <span [innerHTML]="answerConfig.displayLabel"></span>
     </app-included-answers-button>
+}
   </ng-template>
 
   <ng-template let-multiAnswerCell #multiAnswerButtonTemplate>
@@ -28,4 +33,5 @@
       [multiAnswerCell]="multiAnswerCell"
     />
   </ng-template>
-</ng-container>
+
+}

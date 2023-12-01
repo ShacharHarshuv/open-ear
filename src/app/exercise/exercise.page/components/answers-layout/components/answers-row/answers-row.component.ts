@@ -5,14 +5,14 @@ import {
 } from '../../../../../exercise-logic';
 import { signalFromProperty } from '../../../../../../shared/ng-utilities/signalFromProperty';
 import { AnswerCellComponent } from '../answer-cell/answer-cell.component';
-import { NgIf, NgFor } from '@angular/common';
+
 
 @Component({
   selector: 'app-answers-row',
   templateUrl: './answers-row.component.html',
   styleUrls: ['./answers-row.component.scss'],
   standalone: true,
-  imports: [NgIf, NgFor, forwardRef(() => AnswerCellComponent)],
+  imports: [forwardRef(() => AnswerCellComponent)],
 })
 export class AnswersRowComponent<GAnswer extends string> {
   @Input({

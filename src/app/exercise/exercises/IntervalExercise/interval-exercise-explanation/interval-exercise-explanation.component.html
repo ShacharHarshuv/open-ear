@@ -19,9 +19,11 @@
 <p>(Click to play)</p>
 
 <ion-list>
-  <ng-container *ngFor="let interval of intervalDescriptorList">
+  @for (interval of intervalDescriptorList; track interval) {
+
     <ion-item button [appPlayOnClick]="interval.toPlay">
       {{ interval.name }}
     </ion-item>
-  </ng-container>
+  
+}
 </ion-list>

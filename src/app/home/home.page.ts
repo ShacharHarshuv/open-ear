@@ -4,7 +4,7 @@ import { ExerciseService } from '../exercise/exercise.service';
 import { Exercise } from '../exercise/exercise-logic';
 import { IonicModule } from '@ionic/angular';
 import { ExerciseSummaryComponent } from './components/exercise-summary/exercise-summary.component';
-import { CommonModule } from '@angular/common';
+
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -12,7 +12,7 @@ import { RouterLink } from '@angular/router';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, ExerciseSummaryComponent, RouterLink],
+  imports: [IonicModule, ExerciseSummaryComponent, RouterLink],
 })
 export class HomePage {
   private readonly _exerciseService = inject(ExerciseService);
