@@ -14,7 +14,6 @@ import {
 } from '../../../services/player.service';
 import { YouTubePlayerService } from '../../../services/you-tube-player.service';
 import { listenToChanges } from '../../../shared/ts-utility/rxjs/listen-to-changes';
-import { onChange } from '../../../shared/ts-utility/signals/on-change';
 import Exercise from '../../exercise-logic';
 import { ExerciseService } from '../../exercise.service';
 import {
@@ -60,14 +59,14 @@ export class ExerciseStateService implements OnDestroy {
 
   private readonly _originalExercise: Exercise.Exercise =
     this._exerciseService.getExercise(
-      this._activatedRoute.snapshot.params['id']!
+      this._activatedRoute.snapshot.params['id']!,
     );
   private readonly _globalSettings = signal<GlobalExerciseSettings>(
-    DEFAULT_EXERCISE_SETTINGS
+    DEFAULT_EXERCISE_SETTINGS,
   );
   private _adaptiveExercise: AdaptiveExercise =
     this._adaptiveExerciseService.createAdaptiveExercise(
-      this._originalExercise
+      this._originalExercise,
     );
   private _currentQuestion: Exercise.Question = {
     segments: [],
@@ -82,11 +81,9 @@ export class ExerciseStateService implements OnDestroy {
   readonly error = this._error.asReadonly();
   readonly name: string = this.exercise.name;
   private readonly _answerList = signal<AnswerList>(
-    this.exercise.getAnswerList()
+    this.exercise.getAnswerList(),
   );
-  readonly answerList = onChange(this._answerList.asReadonly(), (value) => {
-    console.log('answerList', value);
-  });
+  readonly answerList = this._answerList.asReadonly();
   private _answerToLabelStringMap: Record<string, string> =
     this._getAnswerToLabelStringMap();
 
@@ -95,7 +92,7 @@ export class ExerciseStateService implements OnDestroy {
       .pipe(
         filter(isValueTruthy),
         map((question: this['currentQuestion']) => question?.drone ?? null),
-        takeUntilDestroyed()
+        takeUntilDestroyed(),
       )
       .subscribe((drone) => {
         if (drone) {
@@ -193,10 +190,10 @@ export class ExerciseStateService implements OnDestroy {
 
   answer(
     answer: string,
-    answerIndex: number = this._currentSegmentToAnswer
+    answerIndex: number = this._currentSegmentToAnswer,
   ): boolean {
     this._currentAnswers.update((currentAnswers) =>
-      _.cloneDeep(currentAnswers)
+      _.cloneDeep(currentAnswers),
     ); // creating new reference to trigger change detection
     if (this._currentAnswers()[answerIndex].answer) {
       return this._currentAnswers()[answerIndex].answer === answer;
@@ -226,13 +223,13 @@ export class ExerciseStateService implements OnDestroy {
       if (
         _.every(
           this._currentAnswers(),
-          (currentAnswer) => !!currentAnswer.answer
+          (currentAnswer) => !!currentAnswer.answer,
         )
       ) {
         // if not all answers are correct
         if (this._globalSettings().adaptive) {
           const areAllSegmentsCorrect: boolean = !this._currentAnswers().filter(
-            (answerSegment) => answerSegment.wasWrong
+            (answerSegment) => answerSegment.wasWrong,
           ).length;
           this._adaptiveExercise.reportAnswerCorrectness(areAllSegmentsCorrect);
         }
@@ -241,7 +238,7 @@ export class ExerciseStateService implements OnDestroy {
             await this.onQuestionPlayingFinished();
             // Make sure we are still in the same question and nothing is playing (i.e. "Next" wasn't clicked by user)
             const numberOfAnsweredSegments = this._currentAnswers().filter(
-              (answer) => !!answer.answer
+              (answer) => !!answer.answer,
             ).length;
             if (
               numberOfAnsweredSegments === this._currentQuestion.segments.length
@@ -312,7 +309,7 @@ export class ExerciseStateService implements OnDestroy {
       await this._playYouTubeQuestion(this._currentQuestion);
     } else {
       await this._notesPlayer.playMultipleParts(
-        this._getCurrentQuestionPartsToPlay()
+        this._getCurrentQuestionPartsToPlay(),
       );
     }
     await this._afterPlaying();
@@ -329,7 +326,7 @@ export class ExerciseStateService implements OnDestroy {
       while (!this.isQuestionCompleted) {
         this.answer(
           this._currentQuestion.segments[this._currentSegmentToAnswer]
-            .rightAnswer
+            .rightAnswer,
         );
       }
     }
@@ -360,8 +357,8 @@ export class ExerciseStateService implements OnDestroy {
           wasWrong: false,
           answer: null,
           playAfter: segment.playAfter,
-        })
-      )
+        }),
+      ),
     );
     this._currentSegmentToAnswer = 0;
 
@@ -394,7 +391,7 @@ export class ExerciseStateService implements OnDestroy {
     const settings: Partial<ExerciseSettingsData> | undefined =
       await this._exerciseSettingsData.getExerciseSettings(this.exercise.id);
     this._globalSettings.set(
-      defaults(settings?.globalSettings, DEFAULT_EXERCISE_SETTINGS)
+      defaults(settings?.globalSettings, DEFAULT_EXERCISE_SETTINGS),
     );
     if (settings?.exerciseSettings) {
       this._updateExerciseSettings(settings.exerciseSettings);
@@ -410,7 +407,7 @@ export class ExerciseStateService implements OnDestroy {
     }
     this._notesPlayer.playPart(
       toSteadyPart(partToPlay),
-      this._globalSettings().instrument
+      this._globalSettings().instrument,
     );
   }
 
@@ -447,13 +444,13 @@ export class ExerciseStateService implements OnDestroy {
   }
 
   private async _loadYoutubeQuestion(
-    question: Exercise.YouTubeQuestion
+    question: Exercise.YouTubeQuestion,
   ): Promise<void> {
     await this._youtubePlayer.loadVideoById(question.videoId);
   }
 
   private async _playYouTubeQuestion(
-    question: Exercise.YouTubeQuestion
+    question: Exercise.YouTubeQuestion,
   ): Promise<void> {
     if (this._destroyed) {
       return;
@@ -481,7 +478,7 @@ export class ExerciseStateService implements OnDestroy {
             this._youtubePlayer.stop();
           },
         },
-      ]
+      ],
     );
     await this._youtubePlayer.onStop();
   }
@@ -501,7 +498,7 @@ export class ExerciseStateService implements OnDestroy {
           this._currentlyPlayingSegments.delete(i);
         },
         playAfter: segment.playAfter,
-      })
+      }),
     );
   }
 
@@ -529,7 +526,7 @@ export class ExerciseStateService implements OnDestroy {
         },
         partOrTime: partToPlay,
         instrumentName: this._globalSettings().instrument,
-      })
+      }),
     );
   }
 
