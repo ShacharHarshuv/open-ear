@@ -30,27 +30,27 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     name: 'Girlfriend',
     artist: 'Avril Lavigne',
     key: 'D',
-    mode: Mode.Major,
+    mode: 1,
     videoId: 'Bg59q4puhmg',
     chords: [
       {
-        seconds: 36,
+        seconds: 36.39,
         chord: 'I',
       },
       {
-        seconds: 39,
+        seconds: 39.34,
         chord: 'V',
       },
       {
-        seconds: 42,
+        seconds: 42.23,
         chord: 'vi',
       },
       {
-        seconds: 45,
+        seconds: 45.14,
         chord: 'IV',
       },
     ],
-    endSeconds: 48,
+    endSeconds: 48.1,
   },
   {
     name: `It's your love`,
@@ -3373,7 +3373,6 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     endSeconds: 63.76,
     section: 'chorus',
   },
-
   {
     name: 'Broken',
     artist: 'Seether ft. Amy Lee',
@@ -3413,7 +3412,6 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     endSeconds: 34.01,
     section: 'verse',
   },
-
   {
     name: 'Broken',
     artist: 'Seether ft. Amy Lee',
@@ -3441,7 +3439,6 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     endSeconds: 118.73,
     section: 'chorus',
   },
-
   {
     name: 'When The Sun Goes Down',
     artist: 'Arctic Monkeys',
@@ -3481,7 +3478,6 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     endSeconds: 13.6,
     section: 'intro',
   },
-
   {
     name: 'When The Sun Goes Down',
     artist: 'Arctic Monkeys',
@@ -3490,39 +3486,39 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     videoId: 'yUatH8zI6Qc',
     chords: [
       {
-        seconds: 104.57,
+        seconds: 104.27,
         chord: 'iv',
       },
       {
-        seconds: 105.41,
+        seconds: 105.01,
         chord: 'v',
       },
       {
-        seconds: 106,
+        seconds: 105.73,
         chord: 'i',
       },
       {
-        seconds: 107.73,
+        seconds: 107.19,
         chord: 'iv',
       },
       {
         chord: 'v',
-        seconds: 108.41,
+        seconds: 107.98,
       },
       {
         chord: 'i',
-        seconds: 108.99,
+        seconds: 108.74,
       },
       {
         chord: 'bVII',
-        seconds: 110.49,
+        seconds: 110.21,
       },
       {
-        seconds: 112.03,
+        seconds: 111.69,
         chord: 'V',
       },
     ],
-    endSeconds: 113.2,
+    endSeconds: 113.09,
     section: 'chorus',
   },
 ];
