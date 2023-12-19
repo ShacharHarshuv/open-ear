@@ -1,240 +1,308 @@
-import {
-  TonalExerciseSettings,
-  tonalExercise,
-  TonalExerciseUtils,
-} from '../utility/exerciseAttributes/tonalExercise';
-import Exercise from '../../exercise-logic';
-import { randomFromList } from '../../../shared/ts-utility';
-import { Chord, Direction } from '../../utility/music/chords';
+import * as _ from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { NoteType } from '../../utility/music/notes/NoteType';
+import { randomFromList } from '../../../shared/ts-utility';
+import Exercise from '../../exercise-logic';
 import {
   Interval,
-  toNoteNumber,
   NotesRange,
   RomanNumeralChordSymbol,
   SolfegeNote,
   solfegeNoteToScaleDegree,
+  toNoteNumber,
 } from '../../utility';
+import { Chord, Direction } from '../../utility/music/chords';
+import { romanNumeralToChordInC } from '../../utility/music/harmony/romanNumeralToChordInC';
+import { NoteType } from '../../utility/music/notes/NoteType';
+import { scaleDegreeToNoteType } from '../../utility/music/scale-degrees/scaleDegreeToNoteType';
 import { transpose } from '../../utility/music/transpose';
-import * as _ from 'lodash';
-import { NotesWithChordsExplanationComponent } from './notes-with-chords-explanation/notes-with-chords-explanation.component';
+import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
+import { createExercise } from '../utility/exerciseAttributes/createExercise';
+import {
+  TonalExerciseSettings,
+  TonalExerciseUtils,
+  tonalExercise,
+} from '../utility/exerciseAttributes/tonalExercise';
 import {
   IncludedAnswersSettings,
   includedAnswersSettings,
 } from '../utility/settings/IncludedAnswersSettings';
-import { scaleDegreeToNoteType } from '../../utility/music/scale-degrees/scaleDegreeToNoteType';
-import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
-import { createExercise } from '../utility/exerciseAttributes/createExercise';
-import { romanNumeralToChordInC } from '../../utility/music/harmony/romanNumeralToChordInC';
+import { NotesWithChordsExplanationComponent } from './notes-with-chords-explanation/notes-with-chords-explanation.component';
 
 type ChordDegree = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
 type NoteWithChord = `${SolfegeNote}${ChordDegree}`;
 
-const noteWithChordDescriptorMap: {
-  [noteWithHarmonicContext in NoteWithChord]?: {
-    chord: RomanNumeralChordSymbol;
-    solfegeNote: SolfegeNote;
+type HarmonyMode = 'triad' | 'seventh';
+
+const chords: Record<HarmonyMode, RomanNumeralChordSymbol>[] = [
+  {
+    triad: 'I',
+    seventh: 'Imaj7',
+  },
+  {
+    triad: 'ii',
+    seventh: 'ii7',
+  },
+  {
+    triad: 'iii',
+    seventh: 'iii7',
+  },
+  {
+    triad: 'IV',
+    seventh: 'IVmaj7',
+  },
+  {
+    triad: 'V',
+    seventh: 'V7',
+  },
+  {
+    triad: 'vi',
+    seventh: 'vi7',
+  },
+  {
+    triad: 'viidim',
+    seventh: 'viidim7',
+  },
+];
+
+const noteWithChordDescriptorMap = ((): Partial<
+  Record<
+    NoteWithChord,
+    {
+      chord: Record<HarmonyMode, RomanNumeralChordSymbol>;
+      solfegeNote: SolfegeNote;
+    }
+  >
+> => {
+  const I: Record<HarmonyMode, RomanNumeralChordSymbol> = {
+    triad: 'I',
+    seventh: 'Imaj7',
   };
-} = {
-  Do1: {
-    chord: 'I',
-    solfegeNote: 'Do',
-  },
-  Do2: {
-    chord: 'viidim',
-    solfegeNote: 'Do',
-  },
-  Do3: {
-    chord: 'vi',
-    solfegeNote: 'Do',
-  },
-  Do4: {
-    chord: 'V',
-    solfegeNote: 'Do',
-  },
-  Do5: {
-    chord: 'IV',
-    solfegeNote: 'Do',
-  },
-  Do6: {
-    chord: 'iii',
-    solfegeNote: 'Do',
-  },
-  Do7: {
-    chord: 'ii',
-    solfegeNote: 'Do',
-  },
-  Re1: {
-    chord: 'ii',
-    solfegeNote: 'Re',
-  },
-  Re2: {
-    chord: 'I',
-    solfegeNote: 'Re',
-  },
-  Re3: {
-    chord: 'viidim',
-    solfegeNote: 'Re',
-  },
-  Re4: {
-    chord: 'vi',
-    solfegeNote: 'Re',
-  },
-  Re5: {
-    chord: 'V',
-    solfegeNote: 'Re',
-  },
-  Re6: {
-    chord: 'IV',
-    solfegeNote: 'Re',
-  },
-  Re7: {
-    chord: 'iii',
-    solfegeNote: 'Re',
-  },
-  Mi1: {
-    chord: 'iii',
-    solfegeNote: 'Mi',
-  },
-  Mi2: {
-    chord: 'ii',
-    solfegeNote: 'Mi',
-  },
-  Mi3: {
-    chord: 'I',
-    solfegeNote: 'Mi',
-  },
-  Mi4: {
-    chord: 'viidim',
-    solfegeNote: 'Mi',
-  },
-  Mi5: {
-    chord: 'vi',
-    solfegeNote: 'Mi',
-  },
-  Mi6: {
-    chord: 'V',
-    solfegeNote: 'Mi',
-  },
-  Mi7: {
-    chord: 'IV',
-    solfegeNote: 'Mi',
-  },
-  Fa1: {
-    chord: 'IV',
-    solfegeNote: 'Fa',
-  },
-  Fa2: {
-    chord: 'iii',
-    solfegeNote: 'Fa',
-  },
-  Fa3: {
-    chord: 'ii',
-    solfegeNote: 'Fa',
-  },
-  Fa4: {
-    chord: 'I',
-    solfegeNote: 'Fa',
-  },
-  Fa5: {
-    chord: 'viidim',
-    solfegeNote: 'Fa',
-  },
-  Fa6: {
-    chord: 'vi',
-    solfegeNote: 'Fa',
-  },
-  Fa7: {
-    chord: 'V',
-    solfegeNote: 'Fa',
-  },
-  Sol1: {
-    chord: 'V',
-    solfegeNote: 'Sol',
-  },
-  Sol2: {
-    chord: 'IV',
-    solfegeNote: 'Sol',
-  },
-  Sol3: {
-    chord: 'iii',
-    solfegeNote: 'Sol',
-  },
-  Sol4: {
-    chord: 'ii',
-    solfegeNote: 'Sol',
-  },
-  Sol5: {
-    chord: 'I',
-    solfegeNote: 'Sol',
-  },
-  Sol6: {
-    chord: 'viidim',
-    solfegeNote: 'Sol',
-  },
-  Sol7: {
-    chord: 'vi',
-    solfegeNote: 'Sol',
-  },
-  La1: {
-    chord: 'vi',
-    solfegeNote: 'La',
-  },
-  La2: {
-    chord: 'V',
-    solfegeNote: 'La',
-  },
-  La3: {
-    chord: 'IV',
-    solfegeNote: 'La',
-  },
-  La4: {
-    chord: 'iii',
-    solfegeNote: 'La',
-  },
-  La5: {
-    chord: 'ii',
-    solfegeNote: 'La',
-  },
-  La6: {
-    chord: 'I',
-    solfegeNote: 'La',
-  },
-  Ti1: {
-    chord: 'viidim',
-    solfegeNote: 'Ti',
-  },
-  Ti2: {
-    chord: 'vi',
-    solfegeNote: 'Ti',
-  },
-  Ti3: {
-    chord: 'V',
-    solfegeNote: 'Ti',
-  },
-  Ti4: {
-    chord: 'IV',
-    solfegeNote: 'Ti',
-  },
-  Ti5: {
-    chord: 'iii',
-    solfegeNote: 'Ti',
-  },
-  Ti6: {
-    chord: 'ii',
-    solfegeNote: 'Ti',
-  },
-  Ti7: {
-    chord: 'I',
-    solfegeNote: 'Ti',
-  },
-};
+  const ii: Record<HarmonyMode, RomanNumeralChordSymbol> = {
+    triad: 'ii',
+    seventh: 'ii7',
+  };
+  const iii: Record<HarmonyMode, RomanNumeralChordSymbol> = {
+    triad: 'iii',
+    seventh: 'iii7',
+  };
+  const IV: Record<HarmonyMode, RomanNumeralChordSymbol> = {
+    triad: 'IV',
+    seventh: 'IVmaj7',
+  };
+  const V: Record<HarmonyMode, RomanNumeralChordSymbol> = {
+    triad: 'V',
+    seventh: 'V7',
+  };
+  const vi: Record<HarmonyMode, RomanNumeralChordSymbol> = {
+    triad: 'vi',
+    seventh: 'vi7',
+  };
+  const viidim: Record<HarmonyMode, RomanNumeralChordSymbol> = {
+    triad: 'viidim',
+    seventh: 'viidim7',
+  };
+
+  return {
+    Do1: {
+      chord: I,
+      solfegeNote: 'Do',
+    },
+    Do2: {
+      chord: viidim,
+      solfegeNote: 'Do',
+    },
+    Do3: {
+      chord: vi,
+      solfegeNote: 'Do',
+    },
+    Do4: {
+      chord: V,
+      solfegeNote: 'Do',
+    },
+    Do5: {
+      chord: IV,
+      solfegeNote: 'Do',
+    },
+    Do6: {
+      chord: iii,
+      solfegeNote: 'Do',
+    },
+    Do7: {
+      chord: ii,
+      solfegeNote: 'Do',
+    },
+    Re1: {
+      chord: ii,
+      solfegeNote: 'Re',
+    },
+    Re2: {
+      chord: I,
+      solfegeNote: 'Re',
+    },
+    Re3: {
+      chord: viidim,
+      solfegeNote: 'Re',
+    },
+    Re4: {
+      chord: vi,
+      solfegeNote: 'Re',
+    },
+    Re5: {
+      chord: V,
+      solfegeNote: 'Re',
+    },
+    Re6: {
+      chord: IV,
+      solfegeNote: 'Re',
+    },
+    Re7: {
+      chord: iii,
+      solfegeNote: 'Re',
+    },
+    Mi1: {
+      chord: iii,
+      solfegeNote: 'Mi',
+    },
+    Mi2: {
+      chord: ii,
+      solfegeNote: 'Mi',
+    },
+    Mi3: {
+      chord: I,
+      solfegeNote: 'Mi',
+    },
+    Mi4: {
+      chord: viidim,
+      solfegeNote: 'Mi',
+    },
+    Mi5: {
+      chord: vi,
+      solfegeNote: 'Mi',
+    },
+    Mi6: {
+      chord: V,
+      solfegeNote: 'Mi',
+    },
+    Mi7: {
+      chord: IV,
+      solfegeNote: 'Mi',
+    },
+    Fa1: {
+      chord: IV,
+      solfegeNote: 'Fa',
+    },
+    Fa2: {
+      chord: iii,
+      solfegeNote: 'Fa',
+    },
+    Fa3: {
+      chord: ii,
+      solfegeNote: 'Fa',
+    },
+    Fa4: {
+      chord: I,
+      solfegeNote: 'Fa',
+    },
+    Fa5: {
+      chord: viidim,
+      solfegeNote: 'Fa',
+    },
+    Fa6: {
+      chord: vi,
+      solfegeNote: 'Fa',
+    },
+    Fa7: {
+      chord: V,
+      solfegeNote: 'Fa',
+    },
+    Sol1: {
+      chord: V,
+      solfegeNote: 'Sol',
+    },
+    Sol2: {
+      chord: IV,
+      solfegeNote: 'Sol',
+    },
+    Sol3: {
+      chord: iii,
+      solfegeNote: 'Sol',
+    },
+    Sol4: {
+      chord: ii,
+      solfegeNote: 'Sol',
+    },
+    Sol5: {
+      chord: I,
+      solfegeNote: 'Sol',
+    },
+    Sol6: {
+      chord: viidim,
+      solfegeNote: 'Sol',
+    },
+    Sol7: {
+      chord: vi,
+      solfegeNote: 'Sol',
+    },
+    La1: {
+      chord: vi,
+      solfegeNote: 'La',
+    },
+    La2: {
+      chord: V,
+      solfegeNote: 'La',
+    },
+    La3: {
+      chord: IV,
+      solfegeNote: 'La',
+    },
+    La4: {
+      chord: iii,
+      solfegeNote: 'La',
+    },
+    La5: {
+      chord: ii,
+      solfegeNote: 'La',
+    },
+    La6: {
+      chord: I,
+      solfegeNote: 'La',
+    },
+    Ti1: {
+      chord: viidim,
+      solfegeNote: 'Ti',
+    },
+    Ti2: {
+      chord: vi,
+      solfegeNote: 'Ti',
+    },
+    Ti3: {
+      chord: V,
+      solfegeNote: 'Ti',
+    },
+    Ti4: {
+      chord: IV,
+      solfegeNote: 'Ti',
+    },
+    Ti5: {
+      chord: iii,
+      solfegeNote: 'Ti',
+    },
+    Ti6: {
+      chord: ii,
+      solfegeNote: 'Ti',
+    },
+    Ti7: {
+      chord: I,
+      solfegeNote: 'Ti',
+    },
+  };
+})();
 
 type NoteWithChordsSettings = TonalExerciseSettings &
   IncludedAnswersSettings<NoteWithChord> & {
     voiceMode: 'soprano' | 'bass';
+    harmonyMode: HarmonyMode;
   };
 
 export function notesWithChordsExercise() {
@@ -252,7 +320,7 @@ export function notesWithChordsExercise() {
     tonalExercise({
       cadenceTypeSelection: false,
     }),
-    createExercise
+    createExercise,
   )({
     settingsDescriptors: [
       {
@@ -275,37 +343,55 @@ export function notesWithChordsExercise() {
           ],
         },
       },
+      {
+        key: 'harmonyMode',
+        info:
+          'With triad mode, the chords will be triads. \n' +
+          'With seventh mode, the chords will be seventh chords',
+        descriptor: {
+          label: 'Harmony Mode',
+          controlType: 'select',
+          options: [
+            {
+              label: 'Triad',
+              value: 'triad',
+            },
+            {
+              label: 'Seventh',
+              value: 'seventh',
+            },
+          ],
+        },
+      },
     ],
     defaultSettings: {
       voiceMode: 'soprano',
+      harmonyMode: 'triad',
     },
     id: 'notesWithChords',
-    name: 'Notes with Chords',
+    name: 'Scale Degrees With Chords',
     summary:
-      'Identify scale degrees in the context of different diatonic chords',
+      '(previously "Notes With Chords")\n Identify scale degrees in the context of different diatonic chords',
     explanation: NotesWithChordsExplanationComponent,
     getQuestion(
       settings: NoteWithChordsSettings,
-      tonalExerciseUtils: TonalExerciseUtils
+      tonalExerciseUtils: TonalExerciseUtils,
     ): Exclude<Exercise.NotesQuestion<NoteWithChord>, 'cadence'> {
       const randomAnswer: NoteWithChord = randomFromList(
-        settings.includedAnswers
+        settings.includedAnswers,
       );
-      const descriptor:
-        | {
-            chord: RomanNumeralChordSymbol;
-            solfegeNote: SolfegeNote;
-          }
-        | undefined = noteWithChordDescriptorMap[randomAnswer];
+      const descriptor = noteWithChordDescriptorMap[randomAnswer];
 
       if (!descriptor) {
         throw new Error(`Missing descriptor for ${randomAnswer}`);
       }
 
-      const chord: Chord = romanNumeralToChordInC(descriptor.chord)!;
+      const chord: Chord = romanNumeralToChordInC(
+        descriptor.chord[settings.harmonyMode],
+      )!;
       const noteType: NoteType = scaleDegreeToNoteType(
         solfegeNoteToScaleDegree[descriptor.solfegeNote]!,
-        'C'
+        'C',
       );
 
       let chordVoicing: Note[] = chord.getVoicing({
@@ -378,8 +464,8 @@ export function notesWithChordsExercise() {
       return {
         rows: chordDegrees.map((chordDegree) =>
           solfegeSyllables.map(
-            (solfegeNote): NoteWithChord => `${solfegeNote}${chordDegree}`
-          )
+            (solfegeNote): NoteWithChord => `${solfegeNote}${chordDegree}`,
+          ),
         ),
       };
     })(),
