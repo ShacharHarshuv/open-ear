@@ -162,4 +162,8 @@ export const releaseNotes: ReleaseNotes = [
     notes:
       'Support for analyzing chord progressions in real songs in the relative major mode, turned out by default. (Android only at the moment)',
   },
+  {
+    version: '1.6.1',
+    notes: 'Practice "Notes With Chords" with 7th chords',
+  },
 ];
