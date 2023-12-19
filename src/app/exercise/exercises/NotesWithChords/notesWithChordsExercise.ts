@@ -34,37 +34,6 @@ type NoteWithChord = `${SolfegeNote}${ChordDegree}`;
 
 type HarmonyMode = 'triad' | 'seventh';
 
-const chords: Record<HarmonyMode, RomanNumeralChordSymbol>[] = [
-  {
-    triad: 'I',
-    seventh: 'Imaj7',
-  },
-  {
-    triad: 'ii',
-    seventh: 'ii7',
-  },
-  {
-    triad: 'iii',
-    seventh: 'iii7',
-  },
-  {
-    triad: 'IV',
-    seventh: 'IVmaj7',
-  },
-  {
-    triad: 'V',
-    seventh: 'V7',
-  },
-  {
-    triad: 'vi',
-    seventh: 'vi7',
-  },
-  {
-    triad: 'viidim',
-    seventh: 'viidim7',
-  },
-];
-
 const noteWithChordDescriptorMap = ((): Partial<
   Record<
     NoteWithChord,
