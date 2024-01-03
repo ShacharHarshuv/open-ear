@@ -3521,4 +3521,961 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     endSeconds: 113.09,
     section: 'chorus',
   },
+  {
+    name: 'Here It Goes Again',
+    artist: 'OK Go',
+    key: 'C',
+    mode: 1,
+    videoId: 'XJulhGUh8vU',
+    chords: [
+      {
+        seconds: 39.29,
+        chord: 'I',
+      },
+      {
+        seconds: 40.91,
+        chord: 'V',
+      },
+      {
+        seconds: 42.58,
+        chord: 'bVII',
+      },
+      {
+        seconds: 44.22,
+        chord: 'IV',
+      },
+    ],
+    endSeconds: 45.9,
+  },
+  {
+    name: 'Build Me Up Buttercup',
+    artist: 'The Foundations',
+    key: 'C',
+    mode: 1,
+    videoId: 'hSofzQURQDk',
+    chords: [
+      {
+        seconds: 51.26,
+        chord: 'I',
+      },
+      {
+        seconds: 52.11,
+        chord: 'V',
+      },
+      {
+        seconds: 53.02,
+        chord: 'bVII',
+      },
+      {
+        seconds: 53.89,
+        chord: 'IV',
+      },
+    ],
+    endSeconds: 54.79,
+  },
+  {
+    name: 'We Used to Be Friends',
+    artist: 'The Dandy Warhols',
+    key: 'A',
+    mode: 1,
+    videoId: 'Bm1g5Yg0hUw',
+    chords: [
+      {
+        seconds: 55.54,
+        chord: 'I',
+      },
+      {
+        seconds: 56.41,
+        chord: 'V',
+      },
+      {
+        seconds: 57.73,
+        chord: 'bVII',
+      },
+      {
+        seconds: 58.72,
+        chord: 'IV',
+      },
+    ],
+    endSeconds: 60,
+  },
+  {
+    name: 'Wateerfalls',
+    artist: 'TLC',
+    key: 'Eb',
+    mode: 1,
+    videoId: '8WEtxJ4-sh4',
+    chords: [
+      {
+        seconds: 62.14,
+        chord: 'I',
+      },
+      {
+        seconds: 64.83,
+        chord: 'V',
+      },
+      {
+        seconds: 67.65,
+        chord: 'bVII',
+      },
+      {
+        seconds: 70.4,
+        chord: 'IV',
+      },
+    ],
+    endSeconds: 73.26,
+  },
+  {
+    name: 'Rio',
+    artist: 'Duran Duran',
+    key: 'E',
+    mode: 1,
+    videoId: 'nTizYn3-QN0',
+    chords: [
+      {
+        seconds: 64.11,
+        chord: 'I',
+      },
+      {
+        seconds: 65.61,
+        chord: 'V',
+      },
+      {
+        seconds: 67.32,
+        chord: 'bVII',
+      },
+      {
+        seconds: 69.03,
+        chord: 'IV',
+      },
+    ],
+    endSeconds: 70.69,
+  },
+  {
+    name: 'Show Me Love',
+    artist: 'Robyn',
+    key: 'E',
+    mode: 1,
+    videoId: 'bhWEI6-_w9E',
+    chords: [
+      {
+        seconds: 55.97,
+        chord: 'I',
+      },
+      {
+        seconds: 57.23,
+        chord: 'V',
+      },
+      {
+        seconds: 58.58,
+        chord: 'bVII',
+      },
+      {
+        seconds: 59.87,
+        chord: 'IV',
+      },
+    ],
+    endSeconds: 61.24,
+  },
+  {
+    name: 'Linger',
+    artist: 'The Cranberries',
+    key: 'D',
+    mode: 1,
+    videoId: 'G6Kspj3OO0s',
+    chords: [
+      {
+        seconds: 153.32,
+        chord: 'I',
+      },
+      {
+        seconds: 158.39,
+        chord: 'V',
+      },
+      {
+        seconds: 163.42,
+        chord: 'bVII',
+      },
+      {
+        seconds: 168.55,
+        chord: 'IV',
+      },
+    ],
+    endSeconds: 173.55,
+  },
+  {
+    name: 'Satellite of Love',
+    artist: 'Lou Reed',
+    key: 'F',
+    mode: 1,
+    videoId: 'kJoHspUta-E',
+    chords: [
+      {
+        seconds: 26.59,
+        chord: 'I',
+      },
+      {
+        seconds: 28.57,
+        chord: 'V',
+      },
+      {
+        seconds: 30.52,
+        chord: 'bVII',
+      },
+      {
+        seconds: 32.54,
+        chord: 'IV',
+      },
+    ],
+    endSeconds: 34.4,
+  },
+  {
+    name: 'Trurning Japanese',
+    artist: 'The Vapors',
+    key: 'G',
+    mode: 1,
+    videoId: 'nGy9uomagO4',
+    chords: [
+      {
+        seconds: 73.5,
+        chord: 'I',
+      },
+      {
+        seconds: 76.18,
+        chord: 'V',
+      },
+      {
+        seconds: 78.87,
+        chord: 'bVII',
+      },
+      {
+        seconds: 81.54,
+        chord: 'IV',
+      },
+    ],
+    endSeconds: 84.19,
+  },
+  {
+    name: 'Up&Up',
+    artist: 'Coldplay',
+    key: 'G',
+    mode: 1,
+    videoId: 'BPNTC7uZYrI',
+    chords: [
+      {
+        seconds: 60.44,
+        chord: 'I',
+      },
+      {
+        seconds: 63.29,
+        chord: 'V',
+      },
+      {
+        seconds: 66.12,
+        chord: 'bVII',
+      },
+      {
+        seconds: 69.08,
+        chord: 'IV',
+      },
+    ],
+    endSeconds: 71.85,
+  },
+  {
+    name: 'Ashes To Ashes',
+    artist: 'David Bowie',
+    key: 'Bb',
+    mode: 1,
+    videoId: 'HyMm4rJemtI',
+    chords: [
+      {
+        seconds: 40.94,
+        chord: 'I',
+      },
+      {
+        seconds: 44.82,
+        chord: 'V',
+      },
+      {
+        seconds: 48.84,
+        chord: 'bVII',
+      },
+      {
+        seconds: 52.77,
+        chord: 'IV',
+      },
+    ],
+    endSeconds: 56.76,
+  },
+  {
+    name: 'My Girl',
+    artist: 'The Temptations',
+    key: 'C',
+    mode: 1,
+    videoId: 'eepLY8J4E6c',
+    chords: [
+      {
+        seconds: 37.36,
+        chord: 'I',
+      },
+      {
+        seconds: 38.45,
+        chord: 'ii',
+      },
+      {
+        seconds: 39.62,
+        chord: 'IV',
+      },
+      {
+        seconds: 40.78,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 41.88,
+  },
+  {
+    name: 'My Girl',
+    artist: 'blink-182',
+    key: 'C',
+    mode: 1,
+    videoId: 'vVy9Lgpg1m8',
+    chords: [
+      {
+        seconds: 26.82,
+        chord: 'I',
+      },
+      {
+        seconds: 27.97,
+        chord: 'ii',
+      },
+      {
+        seconds: 29.2,
+        chord: 'IV',
+      },
+      {
+        seconds: 30.48,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 31.66,
+  },
+  {
+    name: 'Catch My Disease',
+    artist: 'blink-182',
+    key: 'B',
+    mode: 1,
+    videoId: 'enhQYHxoNMY',
+    chords: [
+      {
+        seconds: 57.88,
+        chord: 'I',
+      },
+      {
+        seconds: 58.65,
+        chord: 'ii',
+      },
+      {
+        seconds: 59.91,
+        chord: 'IV',
+      },
+      {
+        seconds: 60.65,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 61.93,
+  },
+  {
+    name: 'Beneath Your Beautiful',
+    artist: 'Labrinth',
+    key: 'D',
+    mode: 1,
+    videoId: 'bqIxCtEveG8',
+    chords: [
+      {
+        seconds: 28.62,
+        chord: 'I',
+      },
+      {
+        seconds: 30,
+        chord: 'ii',
+      },
+      {
+        seconds: 31.41,
+        chord: 'IV',
+      },
+      {
+        seconds: 32.8,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 34.19,
+    section: 'Verse',
+  },
+  {
+    name: 'Beneath Your Beautiful',
+    artist: 'Labrinth',
+    key: 'D',
+    mode: 1,
+    videoId: 'bqIxCtEveG8',
+    chords: [
+      {
+        seconds: 57.08,
+        chord: 'I',
+      },
+      {
+        seconds: 58.54,
+        chord: 'ii',
+      },
+      {
+        seconds: 59.97,
+        chord: 'IV',
+      },
+      {
+        seconds: 61.36,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 62.82,
+    section: 'Chorus',
+  },
+  {
+    name: 'Accidently In Love',
+    artist: 'Counting Crows',
+    key: 'G',
+    mode: 1,
+    videoId: 'Yn8CZyqfex8',
+    chords: [
+      {
+        seconds: 42.37,
+        chord: 'I',
+      },
+      {
+        seconds: 43.01,
+        chord: 'ii',
+      },
+      {
+        seconds: 43.77,
+        chord: 'IV',
+      },
+      {
+        seconds: 44.82,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 45.76,
+    section: '',
+  },
+  {
+    name: 'Sell Out',
+    artist: 'Reel Big Fish',
+    key: 'G',
+    mode: 1,
+    videoId: 'AEKbFMvkLIc',
+    chords: [
+      {
+        seconds: 48.22,
+        chord: 'I',
+      },
+      {
+        seconds: 49.24,
+        chord: 'ii',
+      },
+      {
+        seconds: 50.47,
+        chord: 'IV',
+      },
+      {
+        seconds: 51.52,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 52.68,
+    section: 'Intro',
+  },
+  {
+    name: 'Sell Out',
+    artist: 'Reel Big Fish',
+    key: 'G',
+    mode: 1,
+    videoId: 'AEKbFMvkLIc',
+    chords: [
+      {
+        seconds: 57.16,
+        chord: 'I',
+      },
+      {
+        seconds: 58.26,
+        chord: 'ii',
+      },
+      {
+        seconds: 59.38,
+        chord: 'IV',
+      },
+      {
+        seconds: 60.47,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 61.61,
+    section: 'Verse',
+  },
+  {
+    name: '99 Luftballons',
+    artist: 'NENA',
+    key: 'E',
+    mode: 1,
+    videoId: 'Fpu5a0Bl8eY',
+    chords: [
+      {
+        seconds: 71.34,
+        chord: 'I',
+      },
+      {
+        seconds: 72.65,
+        chord: 'ii',
+      },
+      {
+        seconds: 73.88,
+        chord: 'IV',
+      },
+      {
+        seconds: 75.05,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 76.34,
+  },
+  {
+    name: 'Your Song',
+    artist: 'Elton John',
+    key: 'Eb',
+    mode: 1,
+    videoId: 'GlPlfCy1urI',
+    chords: [
+      {
+        seconds: 87.87,
+        chord: 'I',
+      },
+      {
+        seconds: 89.83,
+        chord: 'ii',
+      },
+      {
+        seconds: 91.63,
+        chord: 'IV',
+      },
+      {
+        seconds: 93.48,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 95.61,
+    section: '',
+  },
+  {
+    name: 'Brown Eyed Girl',
+    artist: 'Van Morrison',
+    key: 'G',
+    mode: 1,
+    videoId: 'UfmkgQRmmeE',
+    chords: [
+      {
+        seconds: 13.89,
+        chord: 'I',
+      },
+      {
+        seconds: 15.51,
+        chord: 'IV',
+      },
+      {
+        seconds: 17.1,
+        chord: 'I',
+      },
+      {
+        seconds: 18.73,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 20.38,
+    section: '',
+  },
+  {
+    name: "C'est la vie",
+    artist: 'B*Witched',
+    key: 'G',
+    mode: 1,
+    videoId: 'UvjLgjtJKsc',
+    chords: [
+      {
+        seconds: 52.82,
+        chord: 'I',
+      },
+      {
+        seconds: 53.77,
+        chord: 'IV',
+      },
+      {
+        seconds: 54.98,
+        chord: 'I',
+      },
+      {
+        seconds: 55.82,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 57.07,
+    section: '',
+  },
+  {
+    name: 'Accidently In Love',
+    artist: 'Counting Crows',
+    key: 'G',
+    mode: 1,
+    videoId: 'Yn8CZyqfex8',
+    chords: [
+      {
+        seconds: 0.97,
+        chord: 'I',
+      },
+      {
+        seconds: 2.23,
+        chord: 'IV',
+      },
+      {
+        seconds: 3.96,
+        chord: 'I',
+      },
+      {
+        seconds: 5.69,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 7.46,
+    section: 'Intro',
+  },
+  {
+    name: 'American Pie',
+    artist: 'Don McLean',
+    key: 'G',
+    mode: 1,
+    videoId: 'y5ecvBaqHBk',
+    chords: [
+      {
+        seconds: 145.5,
+        chord: 'I',
+      },
+      {
+        seconds: 146.28,
+        chord: 'IV',
+      },
+      {
+        seconds: 147.26,
+        chord: 'I',
+      },
+      {
+        seconds: 148.08,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 148.97,
+    section: '',
+  },
+  {
+    name: 'Sing The Changes',
+    artist: 'Paul McCartney',
+    key: 'F',
+    mode: 1,
+    videoId: 'S6EbORrYL0k',
+    chords: [
+      {
+        seconds: 27.67,
+        chord: 'I',
+      },
+      {
+        seconds: 29.51,
+        chord: 'IV',
+      },
+      {
+        seconds: 31.43,
+        chord: 'I',
+      },
+      {
+        seconds: 33.39,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 35.24,
+    section: '',
+  },
+  {
+    name: 'The Lion Sleeps Tonight',
+    artist: 'The Tokens',
+    key: 'F',
+    mode: 1,
+    videoId: 'OQlByoPdG6c',
+    chords: [
+      {
+        seconds: 79.55,
+        chord: 'I',
+      },
+      {
+        seconds: 81.49,
+        chord: 'IV',
+      },
+      {
+        seconds: 83.42,
+        chord: 'I',
+      },
+      {
+        seconds: 85.37,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 87.27,
+    section: '',
+  },
+  {
+    name: 'Another Saturday Night',
+    artist: 'Sam Cooke',
+    key: 'A',
+    mode: 1,
+    videoId: '82Zee5X70EQ',
+    chords: [
+      {
+        seconds: 1.75,
+        chord: 'I',
+      },
+      {
+        seconds: 3.69,
+        chord: 'IV',
+      },
+      {
+        seconds: 5.61,
+        chord: 'I',
+      },
+      {
+        seconds: 7.54,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 9.42,
+    section: '',
+  },
+  {
+    name: 'MMMBop',
+    artist: 'Hanson',
+    key: 'A',
+    mode: 1,
+    videoId: 'NHozn0YXAeE',
+    chords: [
+      {
+        seconds: 54.81,
+        chord: 'I',
+      },
+      {
+        seconds: 57.1,
+        chord: 'IV',
+      },
+      {
+        seconds: 59.41,
+        chord: 'I',
+      },
+      {
+        seconds: 61.7,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 63.97,
+    section: '',
+  },
+  {
+    name: 'MMMBop',
+    artist: 'Hanson',
+    key: 'A',
+    mode: 1,
+    videoId: 'NHozn0YXAeE',
+    chords: [
+      {
+        seconds: 54.81,
+        chord: 'I',
+      },
+      {
+        seconds: 57.1,
+        chord: 'IV',
+      },
+      {
+        seconds: 59.41,
+        chord: 'I',
+      },
+      {
+        seconds: 61.7,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 63.97,
+    section: '',
+  },
+  {
+    name: 'Goodbye Earl',
+    artist: 'The Chicks',
+    key: 'C',
+    mode: 1,
+    videoId: 'Gw7gNf_9njs',
+    chords: [
+      {
+        seconds: 32.02,
+        chord: 'I',
+      },
+      {
+        seconds: 33.9,
+        chord: 'IV',
+      },
+      {
+        seconds: 35.89,
+        chord: 'I',
+      },
+      {
+        seconds: 37.85,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 39.78,
+    section: '',
+  },
+  {
+    name: 'Try Everything',
+    artist: 'Shakira',
+    key: 'Db',
+    mode: 1,
+    videoId: 'c6rP-YP4c5I',
+    chords: [
+      {
+        seconds: 0.33,
+        chord: 'I',
+      },
+      {
+        seconds: 2.69,
+        chord: 'IV',
+      },
+      {
+        seconds: 4.8,
+        chord: 'I',
+      },
+      {
+        seconds: 6.89,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 8.84,
+    section: '',
+  },
+  {
+    name: 'Killing in the Name',
+    artist: 'Rage Against the Machine',
+    key: 'D',
+    mode: 3,
+    videoId: 'JYJ6QJqy92s',
+    chords: [
+      {
+        seconds: 17.64,
+        chord: 'i',
+      },
+      {
+        seconds: 18.39,
+        chord: 'bII',
+      },
+      {
+        seconds: 19.25,
+        chord: 'i',
+      },
+      {
+        seconds: 20.21,
+        chord: 'bII',
+      },
+    ],
+    endSeconds: 21.14,
+    section: '',
+  },
+  {
+    name: 'Points of Authority',
+    artist: 'Linkin Park',
+    key: 'Eb',
+    mode: 3,
+    videoId: 'yoCD5wZEgo4',
+    chords: [
+      {
+        seconds: 50.43,
+        chord: 'i',
+      },
+      {
+        seconds: 52.88,
+        chord: 'bII',
+      },
+      {
+        seconds: 55.4,
+        chord: 'i',
+      },
+      {
+        seconds: 57.9,
+        chord: 'bII',
+      },
+    ],
+    endSeconds: 60.45,
+    section: '',
+  },
+  {
+    name: 'How You Like That',
+    artist: 'Blackpink',
+    key: 'Eb',
+    mode: 3,
+    videoId: 'ioNng23DkIM',
+    chords: [
+      {
+        seconds: 2.64,
+        chord: 'i',
+      },
+      {
+        seconds: 3.32,
+        chord: 'bII',
+      },
+      {
+        seconds: 4.29,
+        chord: 'i',
+      },
+      {
+        seconds: 5.21,
+        chord: 'bII',
+      },
+    ],
+    endSeconds: 6.09,
+    section: '',
+  },
+  {
+    name: 'Remember Tomorrow',
+    artist: 'Iron Maiden',
+    key: 'E',
+    mode: 3,
+    videoId: 'C5OkO-Tg2uk',
+    chords: [
+      {
+        seconds: 19.71,
+        chord: 'i',
+      },
+      {
+        seconds: 24.67,
+        chord: 'bII',
+      },
+      {
+        seconds: 27.02,
+        chord: 'i',
+      },
+      {
+        seconds: 34.48,
+        chord: 'bII',
+      },
+    ],
+    endSeconds: 36.93,
+    section: '',
+  },
 ];

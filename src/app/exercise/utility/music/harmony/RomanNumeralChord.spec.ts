@@ -1,12 +1,12 @@
-import { RomanNumeralChord } from './RomanNumeralChord';
-import { ChordType, ChordSymbol } from '../chords';
-import { DiatonicScaleDegree, ScaleDegree, Accidental } from '../scale-degrees';
-import { RomanNumeralChordSymbol } from './RomanNumeralChordSymbol';
-import { testPureFunction } from '../../../../shared/testing-utility/testPureFunction';
-import { toRelativeMode, Mode } from './Mode';
-import { Key } from '../keys/Key';
-import { chordTypeConfigMap } from '../chords/Chord/ChordType';
 import * as _ from 'lodash';
+import { testPureFunction } from '../../../../shared/testing-utility/testPureFunction';
+import { ChordSymbol, ChordType } from '../chords';
+import { chordTypeConfigMap } from '../chords/Chord/ChordType';
+import { Key } from '../keys/Key';
+import { Accidental, DiatonicScaleDegree, ScaleDegree } from '../scale-degrees';
+import { Mode } from './Mode';
+import { RomanNumeralChord } from './RomanNumeralChord';
+import { RomanNumeralChordSymbol } from './RomanNumeralChordSymbol';
 
 describe('RomanNumeralBuilder', () => {
   const testCases: {
@@ -286,7 +286,7 @@ describe('RomanNumeralBuilder', () => {
 
   it('should cover all chord types', () => {
     const existingChordTypes: ChordType[] = _.keys(
-      chordTypeConfigMap
+      chordTypeConfigMap,
     ) as (keyof typeof chordTypeConfigMap)[];
     const coveredChordTypes: ChordType[] = _.chain(testCases)
       .map('type')
@@ -294,7 +294,7 @@ describe('RomanNumeralBuilder', () => {
       .value();
     const missingChordTypes: ChordType[] = _.difference(
       existingChordTypes,
-      coveredChordTypes
+      coveredChordTypes,
     );
     expect(missingChordTypes).toEqual([]);
   });
@@ -321,13 +321,13 @@ describe('RomanNumeralBuilder', () => {
 
           it('diatonicDegree', () => {
             expect(romanNumeral.diatonicDegree).toEqual(
-              testCase.diatonicDegree
+              testCase.diatonicDegree,
             );
           });
 
           it('accidental', () => {
             expect(romanNumeral.accidental).toEqual(
-              testCase.accidental ?? Accidental.Natural
+              testCase.accidental ?? Accidental.Natural,
             );
           });
 
@@ -341,7 +341,7 @@ describe('RomanNumeralBuilder', () => {
 
           it('chordSymbol', () => {
             expect(romanNumeral.romanNumeralChordSymbol).toEqual(
-              testCase.romanNumeralChordSymbol
+              testCase.romanNumeralChordSymbol,
             );
           });
 
@@ -352,7 +352,7 @@ describe('RomanNumeralBuilder', () => {
           it('getChord', () => {
             for (let chordKey in testCase.getChord) {
               expect(romanNumeral.getChord(chordKey as Key).symbol).toEqual(
-                testCase.getChord[chordKey]
+                testCase.getChord[chordKey],
               );
             }
           });
@@ -360,7 +360,7 @@ describe('RomanNumeralBuilder', () => {
           it('isDiatonic', () => {
             expect(romanNumeral.isDiatonic).toEqual(testCase.isDiatonic);
           });
-        }
+        },
       );
     });
   });

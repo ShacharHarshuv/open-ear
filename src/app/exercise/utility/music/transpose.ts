@@ -1,41 +1,42 @@
-import { NoteEvent } from '../../../services/player.service';
-import { Frequency } from 'tone/Tone/core/type/Units';
-import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { toNoteName, toNoteNumber } from './notes/toNoteName';
 import * as _ from 'lodash';
-import { NoteType, ALL_NOTE_TYPES } from './notes/NoteType';
-import { toNoteTypeName, toNoteTypeNumber } from './notes/toNoteTypeNumber';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { Frequency } from 'tone/Tone/core/type/Units';
+import { NoteEvent } from '../../../services/player.service';
 import { OneOrMany, isValueTruthy } from '../../../shared/ts-utility';
-import { Interval } from './intervals/Interval';
+import { mod } from '../../../shared/ts-utility/mod';
 import { NotesRange } from './NotesRange';
+import { Interval } from './intervals/Interval';
+import { ALL_NOTE_TYPES, NoteType } from './notes/NoteType';
 import { MAX_NOTE_NUMBER, MIN_NOTE_NUMBER } from './notes/consts';
+import { toNoteName, toNoteNumber } from './notes/toNoteName';
+import { toNoteTypeName, toNoteTypeNumber } from './notes/toNoteTypeNumber';
 
 export function transpose(partOrNotes: Note, semitones: number): Note;
 export function transpose(partOrNotes: NoteType, semitones: number): NoteType;
 export function transpose(partOrNotes: Note[], semitones: number): Note[];
 export function transpose(
   partOrNotes: Note | Note[],
-  semitones: number
+  semitones: number,
 ): Note | Note[];
 export function transpose(
   partOrNotes: NoteEvent[],
-  semitones: number
+  semitones: number,
 ): NoteEvent[];
 export function transpose(
   partOrNotes: NoteEvent[] | OneOrMany<Note>,
-  semitones: number
+  semitones: number,
 ): NoteEvent[] | OneOrMany<Note>;
 export function transpose(
   partOrNotes: NotesRange,
-  semitones: number
+  semitones: number,
 ): NotesRange;
 export function transpose(
   partOrNotes: NoteEvent[] | Note[] | Note | NoteType,
-  semitones: number
+  semitones: number,
 ): NoteEvent[] | Frequency[] | Frequency | NoteType;
 export function transpose(
   partOrNotes: NoteEvent[] | Note[] | Note | NoteType | NotesRange,
-  semitones: number
+  semitones: number,
 ): NoteEvent[] | Frequency[] | Frequency | NoteType | NotesRange {
   if (partOrNotes instanceof NotesRange) {
     // in the case the range goes out of available range, we'll trim it
@@ -45,26 +46,29 @@ export function transpose(
       MAX_NOTE_NUMBER - partOrNotes.highestNoteNumber;
     const semitonesToTranspose = Math.max(
       minSemitonesToTranspose,
-      Math.min(maxSemitonesToTranspose, semitones)
+      Math.min(maxSemitonesToTranspose, semitones),
     );
     return new NotesRange(
       transpose(partOrNotes.lowestNoteName, semitonesToTranspose),
-      transpose(partOrNotes.highestNoteName, semitonesToTranspose)
+      transpose(partOrNotes.highestNoteName, semitonesToTranspose),
     );
   }
 
   if (!Array.isArray(partOrNotes)) {
     const note: Note | NoteType = partOrNotes;
     if (ALL_NOTE_TYPES.includes(note as NoteType)) {
-      return toNoteTypeName(
-        (toNoteTypeNumber(note as NoteType) + semitones) % Interval.Octave
+      const noteTypeNumber = toNoteTypeNumber(note as NoteType);
+      const transposedNoteTypeNumber = mod(
+        noteTypeNumber + semitones,
+        Interval.Octave,
       );
+      return toNoteTypeName(transposedNoteTypeNumber);
     }
 
     const newNoteNumber: number = toNoteNumber(note as Note) + semitones;
     if (newNoteNumber > MAX_NOTE_NUMBER || newNoteNumber < MIN_NOTE_NUMBER) {
       throw new Error(
-        `Out of range. Cannot transpose ${partOrNotes} by ${semitones} semitones`
+        `Out of range. Cannot transpose ${partOrNotes} by ${semitones} semitones`,
       );
     }
     return toNoteName(newNoteNumber);
@@ -101,6 +105,6 @@ export function transpose(
     (noteEvent: NoteEvent): NoteEvent => ({
       ...noteEvent,
       notes: transpose(noteEvent.notes, semitones),
-    })
+    }),
   );
 }

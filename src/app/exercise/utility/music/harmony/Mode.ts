@@ -1,10 +1,3 @@
-import {
-  ScaleDegree,
-  scaleDegreeToChromaticDegree,
-  chromaticDegreeToScaleDegree,
-} from '../scale-degrees';
-import { mod } from '../../../../shared/ts-utility/mod';
-
 export enum Mode {
   Ionian = 1,
   Dorian,
@@ -15,21 +8,4 @@ export enum Mode {
   Locrian,
   Major = Ionian,
   Minor = Aeolian,
-}
-
-export function toRelativeMode(
-  scaleDegree: ScaleDegree,
-  source: Mode,
-  target: Mode
-): ScaleDegree {
-  if (source === target) {
-    return scaleDegree;
-  }
-  let distance: number =
-    scaleDegreeToChromaticDegree[source] - scaleDegreeToChromaticDegree[target];
-  const chromaticScaleDegree: number =
-    scaleDegreeToChromaticDegree[scaleDegree];
-  return chromaticDegreeToScaleDegree[
-    mod(chromaticScaleDegree + distance - 1, 12) + 1
-  ];
 }

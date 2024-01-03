@@ -1,5 +1,6 @@
 import { TitleCasePipe } from '@angular/common';
 import * as _ from 'lodash';
+import { isEmpty } from 'lodash';
 import { NoteEvent } from '../../../services/player.service';
 import {
   DeepReadonly,
@@ -13,7 +14,7 @@ import {
   iv_V_i_CADENCE_IN_C,
 } from '../../utility/music/chords';
 import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
-import { getRelativeKeyTonic } from '../../utility/music/harmony/getRelativeKeyTonic';
+import { toRelativeModeTonic } from '../../utility/music/harmony/toRelativeModeTonic';
 import { getDistanceOfKeys } from '../../utility/music/keys/getDistanceOfKeys';
 import { transpose } from '../../utility/music/transpose';
 import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
@@ -33,10 +34,15 @@ interface ChordsInRealSongsSettings extends AnalyzeBySettings {
   includedChords: RomanNumeralChordSymbol[];
 }
 
+const soloedChordsInRealSongsDescriptorList =
+  chordsInRealSongsDescriptorList.filter(({ solo }) => solo);
+
 export function chordsInRealSongsExercise(
   progressionList: DeepReadonly<
     ProgressionInSongFromYouTubeDescriptor[]
-  > = chordsInRealSongsDescriptorList,
+  > = isEmpty(soloedChordsInRealSongsDescriptorList)
+    ? chordsInRealSongsDescriptorList
+    : soloedChordsInRealSongsDescriptorList,
 ) {
   function getAvailableProgressions(
     settings: ChordsInRealSongsSettings,
@@ -48,17 +54,6 @@ export function chordsInRealSongsExercise(
         settings.includedChords.includes(chord.chord),
       );
     };
-
-    /**
-     * Used for debugging purposes only,
-     * should be empty in real situation
-     * */
-    const soloedProgressions: DeepReadonly<
-      ProgressionInSongFromYouTubeDescriptor[]
-    > = _.filter(progressionList, 'solo');
-    if (!_.isEmpty(soloedProgressions)) {
-      return soloedProgressions;
-    }
 
     const validChordProgressionsDescriptorList: DeepReadonly<
       ProgressionInSongFromYouTubeDescriptor[]
@@ -82,7 +77,11 @@ export function chordsInRealSongsExercise(
             ),
           })),
           mode: Mode.Major,
-          key: getRelativeKeyTonic(chordProgression.key, chordProgression.mode),
+          key: toRelativeModeTonic(
+            chordProgression.key,
+            chordProgression.mode,
+            Mode.Major,
+          ),
         };
       })
       .map(
@@ -104,14 +103,16 @@ export function chordsInRealSongsExercise(
                 ),
               }),
             );
+
             if (isChordProgressionValid(chordsInRelativeKey)) {
               return {
                 ...chordProgression,
                 chords: chordsInRelativeKey,
                 mode: Mode.Major,
-                key: getRelativeKeyTonic(
+                key: toRelativeModeTonic(
                   chordProgression.key,
                   chordProgression.mode,
+                  Mode.Major,
                 ),
               };
             } else {

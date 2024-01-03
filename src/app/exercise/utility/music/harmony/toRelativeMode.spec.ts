@@ -1,7 +1,8 @@
 import { testPureFunction } from '../../../../shared/testing-utility/testPureFunction';
-import { toRelativeMode, Mode } from './Mode';
+import { Mode } from './Mode';
+import { toRelativeMode } from './toRelativeMode';
 
-describe('toRelativeMode', () => {
+describe(toRelativeMode.name, () => {
   testPureFunction(toRelativeMode, [
     {
       args: ['1', Mode.Major, Mode.Minor],

@@ -1,30 +1,31 @@
-import { ChordType, Chord } from '../chords';
-import { RomanNumeralChordSymbol } from './RomanNumeralChordSymbol';
 import * as _ from 'lodash';
-import {
-  DiatonicScaleDegree,
-  ScaleDegree,
-  scaleDegreeToChromaticDegree,
-  getDiatonicScaleDegreeWithAccidental,
-  Accidental,
-} from '../scale-degrees';
-import { Mode, toRelativeMode } from './Mode';
 import { MusicSymbol } from '../MusicSymbol';
-import { Key } from '../keys/Key';
-import { NoteType } from '../notes/NoteType';
-import { transpose } from '../transpose';
+import { Chord, ChordType } from '../chords';
 import {
   chordTypeConfigMap,
   romanNumeralChordTypeParserMap,
 } from '../chords/Chord/ChordType';
 import { isChordTypeMajor } from '../chords/Chord/isChordTypeMajor';
+import { Key } from '../keys/Key';
+import { NoteType } from '../notes/NoteType';
+import {
+  Accidental,
+  DiatonicScaleDegree,
+  ScaleDegree,
+  getDiatonicScaleDegreeWithAccidental,
+  scaleDegreeToChromaticDegree,
+} from '../scale-degrees';
+import { transpose } from '../transpose';
+import { Mode } from './Mode';
+import { RomanNumeralChordSymbol } from './RomanNumeralChordSymbol';
+import { toRelativeMode } from './toRelativeMode';
 
 const allRomanNumeralPostfix: string[] = _.map(
   chordTypeConfigMap,
-  (chordTypeConfig) => chordTypeConfig.romanNumeral.postfix
+  (chordTypeConfig) => chordTypeConfig.romanNumeral.postfix,
 );
 const romanNumeralChordSymbolRegex = new RegExp(
-  `(b|#)?([ivIV]+)(${allRomanNumeralPostfix.map(_.escapeRegExp).join('|')})?$`
+  `(b|#)?([ivIV]+)(${allRomanNumeralPostfix.map(_.escapeRegExp).join('|')})?$`,
 );
 
 export class RomanNumeralChord {
@@ -55,7 +56,7 @@ export class RomanNumeralChord {
   get isDiatonic(): boolean {
     const chordInC = this.getChord('C');
     return _.every(chordInC.noteTypes, (noteType) =>
-      ['C', 'D', 'E', 'F', 'G', 'A', 'B'].includes(noteType)
+      ['C', 'D', 'E', 'F', 'G', 'A', 'B'].includes(noteType),
     );
   }
 
@@ -87,7 +88,7 @@ export class RomanNumeralChord {
     DiatonicScaleDegree
   > = _.mapValues(
     _.invert(RomanNumeralChord.romanNumerals),
-    (value) => +value as DiatonicScaleDegree
+    (value) => +value as DiatonicScaleDegree,
   );
 
   static accidentalToString: Record<Accidental, string> = {
@@ -102,12 +103,12 @@ export class RomanNumeralChord {
       | {
           scaleDegree: ScaleDegree;
           type: ChordType;
-        }
+        },
   ) {
     if (typeof romanNumeralInput === 'object') {
       this.type = romanNumeralInput.type;
       const diatonicDegreeWithAccidental = getDiatonicScaleDegreeWithAccidental(
-        romanNumeralInput.scaleDegree
+        romanNumeralInput.scaleDegree,
       );
       this.diatonicDegree = diatonicDegreeWithAccidental.diatonicScaleDegree;
       this.accidental = diatonicDegreeWithAccidental.accidental;
@@ -115,11 +116,11 @@ export class RomanNumeralChord {
     }
 
     const regexMatch: RegExpMatchArray | null = romanNumeralInput.match(
-      romanNumeralChordSymbolRegex
+      romanNumeralChordSymbolRegex,
     );
     if (!regexMatch) {
       throw new Error(
-        `RomanNumeralChordSymbol: ${romanNumeralInput} is not a valid input`
+        `RomanNumeralChordSymbol: ${romanNumeralInput} is not a valid input`,
       );
     }
 
@@ -155,7 +156,7 @@ export class RomanNumeralChord {
   getChord(key: Key): Chord {
     const baseNote: NoteType = (transpose(
       key,
-      scaleDegreeToChromaticDegree[this.diatonicDegree] - 1
+      scaleDegreeToChromaticDegree[this.diatonicDegree] - 1,
     ) + this.accidental) as NoteType;
 
     return new Chord({
@@ -181,7 +182,7 @@ export class RomanNumeralChord {
   static toRelativeMode(
     chordSymbol: RomanNumeralChordSymbol,
     source: Mode,
-    target: Mode
+    target: Mode,
   ): RomanNumeralChordSymbol {
     const chord = new RomanNumeralChord(chordSymbol);
     const scaleDegree = toRelativeMode(chord.scaleDegree, source, target);
