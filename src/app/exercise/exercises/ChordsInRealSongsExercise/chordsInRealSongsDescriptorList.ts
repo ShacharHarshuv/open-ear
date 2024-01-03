@@ -4478,4 +4478,292 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     endSeconds: 36.93,
     section: '',
   },
+  {
+    key: 'G',
+    mode: 3,
+    videoId: 'qlv3ZzFd_xg',
+    name: 'Hunter',
+    artist: 'Björk',
+    chords: [
+      {
+        seconds: 28.12,
+        chord: 'i',
+      },
+      {
+        seconds: 31.12,
+        chord: 'bII',
+      },
+      {
+        seconds: 34.05,
+        chord: 'i',
+      },
+      {
+        seconds: 37.14,
+        chord: 'bII',
+      },
+    ],
+    endSeconds: 40.09,
+  },
+  {
+    key: 'A',
+    mode: 3,
+    videoId: 'bcCQw4iv7uM',
+    name: 'Like a Pen',
+    artist: 'The Knife',
+    chords: [
+      {
+        seconds: 51.87,
+        chord: 'i',
+      },
+      {
+        seconds: 53.76,
+        chord: 'bII',
+      },
+      {
+        seconds: 57.55,
+        chord: 'i',
+      },
+      {
+        seconds: 61.41,
+        chord: 'bII',
+      },
+    ],
+    endSeconds: 65.32,
+  },
+  {
+    key: 'Eb',
+    mode: 3,
+    videoId: 'rRZdai5UPjE',
+    name: 'Mysterons',
+    artist: 'Portishead',
+    chords: [
+      {
+        seconds: 69.9,
+        chord: 'i',
+      },
+      {
+        seconds: 72.7,
+        chord: 'bII',
+      },
+      {
+        seconds: 75.63,
+        chord: 'i',
+      },
+      {
+        seconds: 78.44,
+        chord: 'bII',
+      },
+    ],
+    endSeconds: 81.39,
+  },
+  {
+    key: 'F',
+    mode: 3,
+    videoId: 'oPQ3o14ksaM',
+    name: 'Get Busy',
+    artist: 'Sean Paul',
+    chords: [
+      {
+        seconds: 3,
+        chord: 'i',
+      },
+      {
+        seconds: 4.78,
+        chord: 'bII',
+      },
+      {
+        seconds: 5.42,
+        chord: 'i',
+      },
+      {
+        seconds: 7.12,
+        chord: 'bII',
+      },
+    ],
+    endSeconds: 7.81,
+  },
+  {
+    key: 'G',
+    mode: 3,
+    videoId: 'A8RDBD7D7QE',
+    name: 'Dead Right Now',
+    artist: 'Lil Nas X',
+    chords: [
+      {
+        seconds: 53.28,
+        chord: 'i',
+      },
+      {
+        seconds: 57.04,
+        chord: 'bII',
+      },
+      {
+        seconds: 60.67,
+        chord: 'i',
+      },
+      {
+        seconds: 64.5,
+        chord: 'bII',
+      },
+    ],
+    endSeconds: 68.11,
+  },
+  {
+    key: 'G',
+    mode: 3,
+    videoId: 'jHYFgP4Btrc',
+    name: 'Good Stuff',
+    artist: 'Kelis',
+    chords: [
+      {
+        seconds: 62.16,
+        chord: 'i',
+      },
+      {
+        seconds: 64.55,
+        chord: 'bII',
+      },
+      {
+        seconds: 66.98,
+        chord: 'i',
+      },
+      {
+        seconds: 69.39,
+        chord: 'bII',
+      },
+    ],
+    endSeconds: 71.83,
+  },
+  {
+    key: 'E',
+    mode: 1,
+    videoId: 'R_rUYuFtNO4',
+    name: 'Red',
+    artist: 'Taylor Swift',
+    chords: [
+      {
+        seconds: 38.5,
+        chord: 'IV',
+      },
+      {
+        seconds: 40.4,
+        chord: 'I',
+      },
+      {
+        seconds: 42.3,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 46.15,
+  },
+  {
+    key: 'D',
+    mode: 1,
+    videoId: 'V_A20lBsBMM',
+    name: 'Stoned at the Nail Salon',
+    artist: 'Lorde',
+    chords: [
+      {
+        seconds: 48.57,
+        chord: 'IV',
+      },
+      {
+        seconds: 50.47,
+        chord: 'I',
+      },
+      {
+        seconds: 52.42,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 56.06,
+  },
+  {
+    key: 'Eb',
+    mode: 1,
+    videoId: 'k0QWX2M7W7M',
+    name: 'Boys Will Be Boys',
+    artist: 'Dua Lipa',
+    chords: [
+      {
+        seconds: 63.15,
+        chord: 'IV',
+      },
+      {
+        seconds: 65.13,
+        chord: 'I',
+      },
+      {
+        seconds: 66.97,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 70.91,
+  },
+  {
+    key: 'Eb',
+    mode: 1,
+    videoId: 'XoFJbeBXuCc',
+    name: "I'm Outta Here!",
+    artist: 'Shania Twain',
+    chords: [
+      {
+        seconds: 91.27,
+        chord: 'IV',
+      },
+      {
+        seconds: 93.2,
+        chord: 'I',
+      },
+      {
+        seconds: 95.07,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 99.04,
+  },
+  {
+    key: 'G',
+    mode: 1,
+    videoId: 'agrXgrAgQ0U',
+    name: "Big Girls Don't Cry",
+    artist: 'Fergie',
+    chords: [
+      {
+        seconds: 74.37,
+        chord: 'IV',
+      },
+      {
+        seconds: 76.31,
+        chord: 'I',
+      },
+      {
+        seconds: 78.51,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 82.72,
+  },
+  {
+    key: 'F',
+    mode: 1,
+    videoId: '79fzeNUqQbQ',
+    name: 'Like A Prayer',
+    artist: 'Madonna',
+    chords: [
+      {
+        seconds: 84.57,
+        chord: 'IV',
+      },
+      {
+        seconds: 86.74,
+        chord: 'I',
+      },
+      {
+        seconds: 88.8,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 92.53,
+  },
 ];
