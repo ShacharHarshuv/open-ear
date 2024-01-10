@@ -691,22 +691,22 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     chords: [
       {
         chord: 'I',
-        seconds: 15.06,
+        seconds: 15.89,
       },
       {
         chord: 'V',
-        seconds: 15.92,
+        seconds: 16.93,
       },
       {
         chord: 'vi',
-        seconds: 17.16,
+        seconds: 18.04,
       },
       {
         chord: 'IV',
-        seconds: 18.06,
+        seconds: 19.04,
       },
     ],
-    endSeconds: 20.01,
+    endSeconds: 20.54,
   },
   {
     key: 'Ab',
@@ -944,29 +944,29 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
   },
   {
     key: 'G#',
-    mode: Mode.Minor,
-    videoId: 'ZKvhxapM5zo',
+    mode: 6,
+    videoId: 'uSiHqxgE2d0',
     name: 'Hit The Road Jack',
     artist: 'Ray Charles',
     chords: [
       {
         chord: 'i',
-        seconds: 9.7,
+        seconds: 2.94,
       },
       {
         chord: 'bVII',
-        seconds: 10.49,
+        seconds: 3.62,
       },
       {
         chord: 'bVI',
-        seconds: 11.09,
+        seconds: 4.32,
       },
       {
         chord: 'V',
-        seconds: 11.78,
+        seconds: 4.93,
       },
     ],
-    endSeconds: 12.78,
+    endSeconds: 5.66,
   },
   {
     key: 'D#',
@@ -1417,25 +1417,25 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
   },
   {
     key: 'G',
-    mode: Mode.Major,
-    videoId: 'CZXLLMbJdZ4',
+    mode: 1,
+    videoId: '-CCfIJgVM6M',
     name: 'There she goes',
     artist: "The La's",
     chords: [
       {
         chord: 'I',
-        seconds: 16.9,
+        seconds: 33.64,
       },
       {
         chord: 'V',
-        seconds: 17.84,
+        seconds: 34.57,
       },
       {
         chord: 'IV',
-        seconds: 18.78,
+        seconds: 35.6,
       },
     ],
-    endSeconds: 20.65,
+    endSeconds: 37.51,
   },
   {
     key: 'F#',
