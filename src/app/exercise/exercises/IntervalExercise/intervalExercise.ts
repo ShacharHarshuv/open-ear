@@ -1,12 +1,10 @@
 import * as _ from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { NoteEvent } from '../../../services/player.service';
 import Exercise from '../../exercise-logic';
 import {
   DeepReadonly,
   NotesRange,
   randomFromList,
-  toArray,
   toNoteName,
   toNoteNumber,
 } from '../../utility';
@@ -117,32 +115,6 @@ export const intervalExercise = () => {
       row.map((interval: IntervalName) => {
         return {
           answer: interval,
-          // todo: consider removing, and use playOnWrong instead
-          playOnClick: (question: Exercise.NotesQuestion<IntervalName>) => {
-            const noteList: Note[] = toArray<NoteEvent | Note>(
-              question.segments[0].partToPlay,
-            ).map((noteOrEvent): Note => {
-              if (typeof noteOrEvent === 'object') {
-                return toArray(noteOrEvent.notes)[0]; // assuming no harmonic notes
-              } else {
-                return noteOrEvent;
-              }
-            });
-            const startNote: Note = _.first(noteList)!;
-            const endNote: Note = _.last(noteList)!;
-            const originalInterval: number =
-              toNoteNumber(endNote) - toNoteNumber(startNote);
-            const direction: 1 | -1 = (originalInterval /
-              Math.abs(originalInterval)) as 1 | -1;
-            return [
-              startNote,
-              transpose(
-                startNote,
-                direction *
-                  intervalNameToIntervalDescriptor[interval].semitones,
-              ),
-            ];
-          },
         };
       }),
     ),

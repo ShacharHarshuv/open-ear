@@ -79,7 +79,6 @@ export type Answer<GAnswer extends string = string> = GAnswer;
 
 export type AnswerConfig<GAnswer extends string> = CellConfig & {
   answer: Answer<GAnswer> | null;
-  // todo: consider removing based on the existence of playOnWrong
   playOnClick?: StaticOrGetter<PartToPlay | null, [Question<GAnswer>]>;
 };
 

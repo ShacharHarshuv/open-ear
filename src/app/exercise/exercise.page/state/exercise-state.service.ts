@@ -4,14 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
 import { defaults } from 'lodash';
 import { filter, map } from 'rxjs/operators';
-import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { DronePlayerService } from '../../../services/drone-player.service';
 import { ExerciseSettingsDataService } from '../../../services/exercise-settings-data.service';
-import {
-  NoteEvent,
-  PartToPlay,
-  PlayerService,
-} from '../../../services/player.service';
+import { PartToPlay, PlayerService } from '../../../services/player.service';
 import { YouTubePlayerService } from '../../../services/you-tube-player.service';
 import { listenToChanges } from '../../../shared/ts-utility/rxjs/listen-to-changes';
 import Exercise from '../../exercise-logic';
@@ -20,7 +15,6 @@ import {
   ExerciseSettingsData,
   GlobalExerciseSettings,
   isValueTruthy,
-  OneOrMany,
   timeoutAsPromise,
   toGetter,
   toSteadyPart,
@@ -411,8 +405,20 @@ export class ExerciseStateService implements OnDestroy {
   }
 
   playAnswer(answerConfig: Exercise.AnswerConfig<string>): void {
-    const partToPlay: NoteEvent[] | OneOrMany<Note> | null | undefined =
-      toGetter(answerConfig.playOnClick)(this._currentQuestion);
+    let partToPlay = toGetter(answerConfig.playOnClick)(this._currentQuestion);
+
+    if (!partToPlay && answerConfig.answer) {
+      const lastSegment =
+        this._currentQuestion.segments[
+          this._currentQuestion.segments.length - 1
+        ];
+      const playOnWrong =
+        lastSegment && 'playOnWrong' in lastSegment && lastSegment.playOnWrong;
+      if (playOnWrong) {
+        partToPlay = toGetter(playOnWrong)(answerConfig.answer);
+      }
+    }
+
     if (!partToPlay) {
       return;
     }
