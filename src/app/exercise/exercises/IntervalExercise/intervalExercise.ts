@@ -153,6 +153,28 @@ export const intervalExercise = () => {
     includedAnswersSettings({
       name: 'Intervals',
     }),
+    () => ({
+      settingsDescriptors: [
+        {
+          key: 'intervalType',
+          info: 'Whether two notes are played sequentially or simultaneously.',
+          descriptor: {
+            label: 'Interval Type',
+            controlType: 'select',
+            options: [
+              {
+                label: 'Melodic',
+                value: 'melodic',
+              },
+              {
+                label: 'Harmonic',
+                value: 'harmonic',
+              },
+            ],
+          },
+        },
+      ],
+    }),
     playWrongAnswerSettings(),
     createExercise,
   )({
@@ -211,26 +233,6 @@ export const intervalExercise = () => {
       };
     },
     answerList: allAnswersList,
-    settingsDescriptors: [
-      {
-        key: 'intervalType',
-        info: 'Whether two notes are played sequentially or simultaneously.',
-        descriptor: {
-          label: 'Interval Type',
-          controlType: 'select',
-          options: [
-            {
-              label: 'Melodic',
-              value: 'melodic',
-            },
-            {
-              label: 'Harmonic',
-              value: 'harmonic',
-            },
-          ],
-        },
-      },
-    ],
     defaultSettings: {
       intervalType: 'melodic',
     },
