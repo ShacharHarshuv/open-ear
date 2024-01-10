@@ -1,24 +1,25 @@
 import * as _ from 'lodash';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { NoteEvent } from '../../../services/player.service';
 import Exercise from '../../exercise-logic';
 import {
-  randomFromList,
-  toNoteName,
-  toArray,
-  toNoteNumber,
   DeepReadonly,
   NotesRange,
+  randomFromList,
+  toArray,
+  toNoteName,
+  toNoteNumber,
 } from '../../utility';
 import { NoteNumber } from '../../utility/music/notes/NoteNumberOrName';
-import { IntervalExerciseExplanationComponent } from './interval-exercise-explanation/interval-exercise-explanation.component';
-import { NoteEvent } from '../../../services/player.service';
-import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { transpose } from '../../utility/music/transpose';
+import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
 import { createExercise } from '../utility/exerciseAttributes/createExercise';
 import {
   IncludedAnswersSettings,
   includedAnswersSettings,
 } from '../utility/settings/IncludedAnswersSettings';
-import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
+import { playWrongAnswerSettings } from '../utility/settings/PlayWrongAnswerSettings';
+import { IntervalExerciseExplanationComponent } from './interval-exercise-explanation/interval-exercise-explanation.component';
 import AnswerList = Exercise.AnswerList;
 
 export type IntervalName =
@@ -116,9 +117,10 @@ export const intervalExercise = () => {
       row.map((interval: IntervalName) => {
         return {
           answer: interval,
+          // todo: consider removing, and use playOnWrong instead
           playOnClick: (question: Exercise.NotesQuestion<IntervalName>) => {
             const noteList: Note[] = toArray<NoteEvent | Note>(
-              question.segments[0].partToPlay
+              question.segments[0].partToPlay,
             ).map((noteOrEvent): Note => {
               if (typeof noteOrEvent === 'object') {
                 return toArray(noteOrEvent.notes)[0]; // assuming no harmonic notes
@@ -136,12 +138,13 @@ export const intervalExercise = () => {
               startNote,
               transpose(
                 startNote,
-                direction * intervalNameToIntervalDescriptor[interval].semitones
+                direction *
+                  intervalNameToIntervalDescriptor[interval].semitones,
               ),
             ];
           },
         };
-      })
+      }),
     ),
   };
   const range = new NotesRange('C3', 'E5');
@@ -150,39 +153,77 @@ export const intervalExercise = () => {
     includedAnswersSettings({
       name: 'Intervals',
     }),
-    createExercise
+    () => ({
+      settingsDescriptors: [
+        {
+          key: 'intervalType',
+          info: 'Whether two notes are played sequentially or simultaneously.',
+          descriptor: {
+            label: 'Interval Type',
+            controlType: 'select',
+            options: [
+              {
+                label: 'Melodic',
+                value: 'melodic',
+              },
+              {
+                label: 'Harmonic',
+                value: 'harmonic',
+              },
+            ],
+          },
+        },
+      ],
+    }),
+    playWrongAnswerSettings(),
+    createExercise,
   )({
     id: 'interval',
     name: 'Intervals',
     summary: 'Identify intervals chromatically (no key)',
     explanation: IntervalExerciseExplanationComponent,
     getQuestion(
-      settings: IntervalExerciseSettings
+      settings: IntervalExerciseSettings,
     ): Exercise.Question<IntervalName> {
       const randomIntervalDescriptor: IntervalDescriptor = randomFromList(
         intervalDescriptorList.filter((intervalDescriptor) =>
-          settings.includedAnswers.includes(intervalDescriptor.name)
-        )
+          settings.includedAnswers.includes(intervalDescriptor.name),
+        ),
       );
       const randomStartingNoteNumber: NoteNumber = _.random(
         range.lowestNoteNumber,
-        range.highestNoteNumber - randomIntervalDescriptor.semitones
+        range.highestNoteNumber - randomIntervalDescriptor.semitones,
       );
       let lowNoteName = toNoteName(randomStartingNoteNumber);
       let highNoteName = toNoteName(
-        randomStartingNoteNumber + randomIntervalDescriptor.semitones
+        randomStartingNoteNumber + randomIntervalDescriptor.semitones,
       );
       let [startNoteName, endNoteName] = _.shuffle([lowNoteName, highNoteName]);
-      const partToPlay =
-        settings.intervalType === 'melodic'
-          ? [{ notes: startNoteName }, { notes: endNoteName }]
-          : [{ notes: [startNoteName, endNoteName] }];
+      function getPartFromNotes(start: Note, end: Note) {
+        return settings.intervalType === 'melodic'
+          ? [{ notes: start }, { notes: end }]
+          : [{ notes: [start, end] }];
+      }
+
+      const partToPlay = getPartFromNotes(startNoteName, endNoteName);
 
       return {
         segments: [
           {
             rightAnswer: randomIntervalDescriptor.name,
             partToPlay: partToPlay,
+            playOnWrong: (wrongInterval) => {
+              const isAscending =
+                toNoteNumber(startNoteName) < toNoteNumber(endNoteName);
+              const direction = isAscending ? 1 : -1;
+              const wrongEndNoteName = transpose(
+                startNoteName,
+                intervalNameToIntervalDescriptor[wrongInterval].semitones *
+                  direction,
+              );
+
+              return getPartFromNotes(startNoteName, wrongEndNoteName);
+            },
           },
         ],
         info: {
@@ -192,26 +233,6 @@ export const intervalExercise = () => {
       };
     },
     answerList: allAnswersList,
-    settingsDescriptors: [
-      {
-        key: 'intervalType',
-        info: 'Whether two notes are played sequentially or simultaneously.',
-        descriptor: {
-          label: 'Interval Type',
-          controlType: 'select',
-          options: [
-            {
-              label: 'Melodic',
-              value: 'melodic',
-            },
-            {
-              label: 'Harmonic',
-              value: 'harmonic',
-            },
-          ],
-        },
-      },
-    ],
     defaultSettings: {
       intervalType: 'melodic',
     },

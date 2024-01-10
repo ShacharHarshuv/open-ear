@@ -1,6 +1,6 @@
-import { notesWithChordsExercise } from './notesWithChordsExercise';
 import { testExercise } from '../testing-utility/test-exercise.spec';
 import { expectedKeySelectionSettingsDescriptors } from '../utility/settings/keySelectionSettingsDescriptors.spec';
+import { notesWithChordsExercise } from './notesWithChordsExercise';
 
 describe(notesWithChordsExercise.name, () => {
   testExercise({
@@ -10,6 +10,7 @@ describe(notesWithChordsExercise.name, () => {
       ...expectedKeySelectionSettingsDescriptors,
       'Drone',
       'Voice Mode',
+      'Harmony Mode',
     ],
   });
 });

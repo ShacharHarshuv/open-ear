@@ -3,8 +3,7 @@ import { toNoteTypeNumber } from '../notes/toNoteTypeNumber';
 import { Mode } from './Mode';
 import { toRelativeModeTonic } from './toRelativeModeTonic';
 
-// todo
-fdescribe(toRelativeModeTonic.name, () => {
+describe(toRelativeModeTonic.name, () => {
   testPureFunction(
     (...args: Parameters<typeof toRelativeModeTonic>) =>
       toNoteTypeNumber(toRelativeModeTonic(...args)),

@@ -1,24 +1,28 @@
-import {
-  IntervalName,
-  intervalExercise,
-  intervalDescriptorList,
-} from './intervalExercise';
 import * as _ from 'lodash';
 import { ExerciseTest } from '../../ExerciseTest';
-import { testExercise } from '../testing-utility/test-exercise.spec';
 import Exercise from '../../exercise-logic';
+import { testExercise } from '../testing-utility/test-exercise.spec';
+import {
+  IntervalName,
+  intervalDescriptorList,
+  intervalExercise,
+} from './intervalExercise';
 
 describe(intervalExercise.name, () => {
   const context = testExercise({
     getExercise: intervalExercise,
-    settingDescriptorList: ['Included Intervals', 'Interval Type'],
+    settingDescriptorList: [
+      'Included Intervals',
+      'Interval Type',
+      'Play Wrong Answer',
+    ],
   });
   const allIntervals: IntervalName[] = _.map(intervalDescriptorList, 'name');
 
   describe('getAnswersList', () => {
     it('should include all intervals by default', () => {
       expect(context.exercise.getAnswerList()).toEqual(
-        ExerciseTest.answerListContaining(allIntervals)
+        ExerciseTest.answerListContaining(allIntervals),
       );
     });
 
@@ -29,7 +33,7 @@ describe(intervalExercise.name, () => {
         includedAnswers: ['Minor 2nd', 'Major 2nd'],
       });
       expect(Exercise.flatAnswerList(context.exercise.getAnswerList())).toEqual(
-        jasmine.arrayWithExactContents(intervals)
+        jasmine.arrayWithExactContents(intervals),
       );
     });
   });
@@ -45,7 +49,7 @@ describe(intervalExercise.name, () => {
               answerList: ExerciseTest.answerListContaining(allIntervals),
             }),
           }),
-        ])
+        ]),
       );
     });
   });

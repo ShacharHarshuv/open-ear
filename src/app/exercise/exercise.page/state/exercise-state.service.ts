@@ -192,19 +192,30 @@ export class ExerciseStateService implements OnDestroy {
     answer: string,
     answerIndex: number = this._currentSegmentToAnswer,
   ): boolean {
+    const currentSegment = this._currentQuestion.segments[answerIndex];
     this._currentAnswers.update((currentAnswers) =>
       _.cloneDeep(currentAnswers),
     ); // creating new reference to trigger change detection
     if (this._currentAnswers()[answerIndex].answer) {
       return this._currentAnswers()[answerIndex].answer === answer;
     }
-    const rightAnswer = this._currentQuestion.segments[answerIndex].rightAnswer;
+    const { rightAnswer } = currentSegment;
     const isRight = rightAnswer === answer;
     if (!isRight) {
       this._currentAnswers.update((currentAnswers) => {
         currentAnswers[answerIndex].wasWrong = true;
         return currentAnswers;
       });
+
+      if ('playOnWrong' in currentSegment && currentSegment.playOnWrong) {
+        const partToPlay = toSteadyPart(
+          toGetter(currentSegment.playOnWrong)(answer),
+        );
+        this._notesPlayer.playPart(
+          partToPlay,
+          this._globalSettings().instrument,
+        );
+      }
     }
     if (isRight || this._globalSettings().revealAnswerAfterFirstMistake) {
       this._totalQuestions.update((v) => ++v);
