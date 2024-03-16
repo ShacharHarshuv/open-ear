@@ -1,17 +1,6 @@
-import {
-  chordProgressionExercise,
-  ChordProgressionExerciseConfig,
-  ChordProgressionExerciseSettings,
-  ChordProgressionQuestion,
-} from './chordProgressionExercise';
-import {
-  Chord,
-  ChordType,
-  TriadInversion,
-} from '../../../utility/music/chords';
 import * as _ from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { PlayAfterCorrectAnswerSetting } from '../settings/PlayAfterCorrectAnswerSetting';
+import { NoteEvent } from '../../../../services/player.service';
 import Exercise, {
   AnswerConfig,
   AnswersLayout,
@@ -26,16 +15,23 @@ import {
   toNoteNumber,
   toSteadyPart,
 } from '../../../utility';
-import { transpose } from '../../../utility/music/transpose';
-import { NoteEvent } from '../../../../services/player.service';
-import { RomanNumeralChord } from '../../../utility/music/harmony/RomanNumeralChord';
-import { tonalExercise, TonalExerciseSettings } from './tonalExercise';
-import { composeExercise } from './composeExercise';
-import { withSettings } from '../settings/withSettings';
-import { romanNumeralToChordInC } from '../../../utility/music/harmony/romanNumeralToChordInC';
+import { Chord, ChordType, TriadPosition } from '../../../utility/music/chords';
+import { isChordTypeDiminished } from '../../../utility/music/chords/Chord/isChordTypeDiminished';
 import { isChordTypeMajor } from '../../../utility/music/chords/Chord/isChordTypeMajor';
 import { isChordTypeMinor } from '../../../utility/music/chords/Chord/isChordTypeMinor';
-import { isChordTypeDiminished } from '../../../utility/music/chords/Chord/isChordTypeDiminished';
+import { RomanNumeralChord } from '../../../utility/music/harmony/RomanNumeralChord';
+import { romanNumeralToChordInC } from '../../../utility/music/harmony/romanNumeralToChordInC';
+import { transpose } from '../../../utility/music/transpose';
+import { PlayAfterCorrectAnswerSetting } from '../settings/PlayAfterCorrectAnswerSetting';
+import { withSettings } from '../settings/withSettings';
+import {
+  ChordProgressionExerciseConfig,
+  ChordProgressionExerciseSettings,
+  ChordProgressionQuestion,
+  chordProgressionExercise,
+} from './chordProgressionExercise';
+import { composeExercise } from './composeExercise';
+import { TonalExerciseSettings, tonalExercise } from './tonalExercise';
 
 export type RomanAnalysisChordProgressionExerciseSettings =
   TonalExerciseSettings &
@@ -59,7 +55,7 @@ const romanNumeralToResolution: {
       2: [
         {
           romanNumeral: 'I',
-          voicingConfig: { topVoicesInversion: TriadInversion.Octave },
+          voicingConfig: { position: TriadPosition.Octave },
         },
       ],
     },
@@ -68,13 +64,13 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'V',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Third,
+            position: TriadPosition.Third,
           },
         },
         {
           romanNumeral: 'I',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
             octave: 5,
           },
         },
@@ -83,13 +79,13 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'V',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Fifth,
+            position: TriadPosition.Fifth,
           },
         },
         {
           romanNumeral: 'I',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
           },
         },
       ],
@@ -97,13 +93,13 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'V',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
           },
         },
         {
           romanNumeral: 'I',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Fifth,
+            position: TriadPosition.Fifth,
           },
         },
       ],
@@ -113,20 +109,20 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'IV',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Fifth,
+            position: TriadPosition.Fifth,
             octave: 5,
           },
         },
         {
           romanNumeral: 'V',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Third,
+            position: TriadPosition.Third,
           },
         },
         {
           romanNumeral: 'I',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
             octave: 5,
           },
         },
@@ -135,20 +131,20 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'IV',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Fifth,
+            position: TriadPosition.Fifth,
           },
         },
         {
           romanNumeral: 'V',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Third,
+            position: TriadPosition.Third,
             octave: 3,
           },
         },
         {
           romanNumeral: 'I',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
           },
         },
       ],
@@ -156,19 +152,19 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'IV',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Third,
+            position: TriadPosition.Third,
           },
         },
         {
           romanNumeral: 'V',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Third,
+            position: TriadPosition.Third,
           },
         },
         {
           romanNumeral: 'I',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
             octave: 5,
           },
         },
@@ -179,34 +175,34 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'V',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Third,
+            position: TriadPosition.Third,
             octave: 3,
           },
         },
         {
           romanNumeral: 'I',
-          voicingConfig: { topVoicesInversion: TriadInversion.Octave },
+          voicingConfig: { position: TriadPosition.Octave },
         },
       ],
       1: [
         {
           romanNumeral: 'V',
-          voicingConfig: { topVoicesInversion: TriadInversion.Fifth },
+          voicingConfig: { position: TriadPosition.Fifth },
         },
         {
           romanNumeral: 'I',
-          voicingConfig: { topVoicesInversion: TriadInversion.Octave },
+          voicingConfig: { position: TriadPosition.Octave },
         },
       ],
       2: [
         {
           romanNumeral: 'V',
-          voicingConfig: { topVoicesInversion: TriadInversion.Third },
+          voicingConfig: { position: TriadPosition.Third },
         },
         {
           romanNumeral: 'I',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
             octave: 5,
           },
         },
@@ -216,14 +212,14 @@ const romanNumeralToResolution: {
       0: [
         {
           romanNumeral: 'I',
-          voicingConfig: { topVoicesInversion: TriadInversion.Octave },
+          voicingConfig: { position: TriadPosition.Octave },
         },
       ],
       1: [
         {
           romanNumeral: 'I',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
             octave: 5,
           },
         },
@@ -232,7 +228,7 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'I',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
             octave: 5,
           },
         },
@@ -243,13 +239,13 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'V',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Fifth,
+            position: TriadPosition.Fifth,
           },
         },
         {
           romanNumeral: 'I',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
           },
         },
       ],
@@ -257,13 +253,13 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'V',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Third,
+            position: TriadPosition.Third,
           },
         },
         {
           romanNumeral: 'I',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
             octave: 5,
           },
         },
@@ -272,14 +268,14 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'V',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Third,
+            position: TriadPosition.Third,
             octave: 3,
           },
         },
         {
           romanNumeral: 'I',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
             octave: 4,
           },
         },
@@ -290,7 +286,7 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'I',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Fifth,
+            position: TriadPosition.Fifth,
           },
         },
       ],
@@ -298,7 +294,7 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'I',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
             octave: 5,
           },
         },
@@ -307,7 +303,7 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'I',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
           },
         },
       ],
@@ -320,7 +316,7 @@ const romanNumeralToResolution: {
       2: [
         {
           romanNumeral: 'i',
-          voicingConfig: { topVoicesInversion: TriadInversion.Octave },
+          voicingConfig: { position: TriadPosition.Octave },
         },
       ],
     },
@@ -329,7 +325,7 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'i',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Fifth,
+            position: TriadPosition.Fifth,
           },
         },
       ],
@@ -337,7 +333,7 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'i',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
           },
         },
       ],
@@ -345,7 +341,7 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'i',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Third,
+            position: TriadPosition.Third,
           },
         },
       ],
@@ -355,13 +351,13 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'V',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Third,
+            position: TriadPosition.Third,
           },
         },
         {
           romanNumeral: 'i',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
             octave: 5,
           },
         },
@@ -370,14 +366,14 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'V',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Third,
+            position: TriadPosition.Third,
             octave: 3,
           },
         },
         {
           romanNumeral: 'i',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
           },
         },
       ],
@@ -385,13 +381,13 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'V',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Third,
+            position: TriadPosition.Third,
           },
         },
         {
           romanNumeral: 'i',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
             octave: 5,
           },
         },
@@ -402,36 +398,36 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'V',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Third,
+            position: TriadPosition.Third,
             octave: 3,
           },
         },
         {
           romanNumeral: 'i',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
           },
         },
       ],
       1: [
         {
           romanNumeral: 'V',
-          voicingConfig: { topVoicesInversion: TriadInversion.Fifth },
+          voicingConfig: { position: TriadPosition.Fifth },
         },
         {
           romanNumeral: 'i',
-          voicingConfig: { topVoicesInversion: TriadInversion.Octave },
+          voicingConfig: { position: TriadPosition.Octave },
         },
       ],
       2: [
         {
           romanNumeral: 'V',
-          voicingConfig: { topVoicesInversion: TriadInversion.Third },
+          voicingConfig: { position: TriadPosition.Third },
         },
         {
           romanNumeral: 'i',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
             octave: 5,
           },
         },
@@ -442,19 +438,19 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'bVI',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Fifth,
+            position: TriadPosition.Fifth,
           },
         },
         {
           romanNumeral: 'bVII',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Third,
+            position: TriadPosition.Third,
           },
         },
         {
           romanNumeral: 'i',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
           },
         },
       ],
@@ -462,19 +458,19 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'bVI',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Third,
+            position: TriadPosition.Third,
           },
         },
         {
           romanNumeral: 'bVII',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Third,
+            position: TriadPosition.Third,
           },
         },
         {
           romanNumeral: 'i',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
             octave: 1,
           },
         },
@@ -483,19 +479,19 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'IV',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Third,
+            position: TriadPosition.Third,
           },
         },
         {
           romanNumeral: 'V',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Third,
+            position: TriadPosition.Third,
           },
         },
         {
           romanNumeral: 'I',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
             octave: 5,
           },
         },
@@ -505,14 +501,14 @@ const romanNumeralToResolution: {
       0: [
         {
           romanNumeral: 'i',
-          voicingConfig: { topVoicesInversion: TriadInversion.Octave },
+          voicingConfig: { position: TriadPosition.Octave },
         },
       ],
       1: [
         {
           romanNumeral: 'i',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Fifth,
+            position: TriadPosition.Fifth,
           },
         },
       ],
@@ -520,7 +516,7 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'i',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
             octave: 5,
           },
         },
@@ -531,13 +527,13 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'bVII',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Third,
+            position: TriadPosition.Third,
           },
         },
         {
           romanNumeral: 'i',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
           },
         },
       ],
@@ -545,13 +541,13 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'bVII',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
           },
         },
         {
           romanNumeral: 'i',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
             octave: 5,
           },
         },
@@ -560,13 +556,13 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'bVII',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
           },
         },
         {
           romanNumeral: 'i',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
             octave: 5,
           },
         },
@@ -577,7 +573,7 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'i',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Fifth,
+            position: TriadPosition.Fifth,
           },
         },
       ],
@@ -585,7 +581,7 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'i',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
             octave: 5,
           },
         },
@@ -594,7 +590,7 @@ const romanNumeralToResolution: {
         {
           romanNumeral: 'i',
           voicingConfig: {
-            topVoicesInversion: TriadInversion.Octave,
+            position: TriadPosition.Octave,
           },
         },
       ],
@@ -611,7 +607,7 @@ export const allRomanNumeralAnswerList: Exercise.AnswerList<RomanNumeralChordSym
     function getPlayOnClickPart(chord: Chord): NoteEvent[] {
       return [
         {
-          notes: chord.getVoicing({ topVoicesInversion: TriadInversion.Fifth }),
+          notes: chord.getVoicing({ position: TriadPosition.Fifth }),
           velocity: 0.3,
           duration: '2n',
         },
@@ -704,7 +700,7 @@ export const allRomanNumeralAnswerList: Exercise.AnswerList<RomanNumeralChordSym
 
     function addChordTypesToAnswerCell(
       romanNumeralChordSymbol: RomanNumeralChordSymbol,
-      chordTypesLayout: AnswersLayout<string>
+      chordTypesLayout: AnswersLayout<string>,
     ) {
       const answerListWithTypes = mapAnswerList<
         string,
@@ -731,19 +727,19 @@ export const allRomanNumeralAnswerList: Exercise.AnswerList<RomanNumeralChordSym
 
         const romanNumeralChordSymbol = answerConfig.answer;
         const romanNumeralChord = new RomanNumeralChord(
-          romanNumeralChordSymbol
+          romanNumeralChordSymbol,
         );
         if (isChordTypeMajor(romanNumeralChord.type)) {
           return addChordTypesToAnswerCell(
             romanNumeralChordSymbol,
-            majorChordTypesLayout
+            majorChordTypesLayout,
           );
         }
 
         if (isChordTypeMinor(romanNumeralChord.type)) {
           return addChordTypesToAnswerCell(
             romanNumeralChordSymbol,
-            minorChordTypesLayout
+            minorChordTypesLayout,
           );
         }
 
@@ -753,25 +749,25 @@ export const allRomanNumeralAnswerList: Exercise.AnswerList<RomanNumeralChordSym
               scaleDegree: romanNumeralChord.scaleDegree,
               type: ChordType.Minor,
             }).romanNumeralChordSymbol, // converting to minor because the "dim" suffix is going to be included in the chord types
-            diminishedChordTypesLayout
+            diminishedChordTypesLayout,
           );
         }
 
         return answerConfig;
-      }
+      },
     );
 
     return Exercise.addViewLabelToAnswerList(
       mapAnswerList(
         answerListWithChordTypes,
         (
-          answerOrCellConfig
+          answerOrCellConfig,
         ): Exercise.AnswerConfig<RomanNumeralChordSymbol> => {
           if (typeof answerOrCellConfig === 'string') {
             return {
               answer: answerOrCellConfig,
               playOnClick: getPlayOnClickPart(
-                romanNumeralToChordInC(answerOrCellConfig)
+                romanNumeralToChordInC(answerOrCellConfig),
               ),
             };
           } else {
@@ -779,25 +775,25 @@ export const allRomanNumeralAnswerList: Exercise.AnswerList<RomanNumeralChordSym
               return {
                 ...answerOrCellConfig,
                 playOnClick: getPlayOnClickPart(
-                  romanNumeralToChordInC(answerOrCellConfig.answer)
+                  romanNumeralToChordInC(answerOrCellConfig.answer),
                 ),
               };
             } else {
               return answerOrCellConfig;
             }
           }
-        }
+        },
       ),
-      (answer) => new RomanNumeralChord(answer).toViewString()
+      (answer) => new RomanNumeralChord(answer).toViewString(),
     );
   })();
 
 export function romanAnalysisChordProgressionExercise<
-  GSettings extends Exercise.Settings
+  GSettings extends Exercise.Settings,
 >(config?: ChordProgressionExerciseConfig) {
   return function (p: {
     getChordProgressionInRomanNumerals(
-      settings: GSettings
+      settings: GSettings,
     ): RomanNumeralsChordProgressionQuestion;
   }) {
     return composeExercise(
@@ -809,10 +805,10 @@ export function romanAnalysisChordProgressionExercise<
         defaultSettings: {
           playAfterCorrectAnswer: false,
         },
-      })
+      }),
     )({
       getChordProgression(
-        settings: RomanAnalysisChordProgressionExerciseSettings & GSettings
+        settings: RomanAnalysisChordProgressionExerciseSettings & GSettings,
       ): ChordProgressionQuestion<RomanNumeralChordSymbol> {
         const chordProgressionQuestion: RomanNumeralsChordProgressionQuestion =
           p.getChordProgressionInRomanNumerals(settings);
@@ -821,7 +817,7 @@ export function romanAnalysisChordProgressionExercise<
           segments:
             chordProgressionQuestion.chordProgressionInRomanAnalysis.map(
               (
-                romanNumeralSymbol
+                romanNumeralSymbol,
               ): {
                 chord: Chord;
                 answer: RomanNumeralChordSymbol;
@@ -830,7 +826,7 @@ export function romanAnalysisChordProgressionExercise<
                   chord: romanNumeralToChordInC(romanNumeralSymbol),
                   answer: romanNumeralSymbol,
                 };
-              }
+              },
             ),
         };
 
@@ -860,14 +856,14 @@ export function romanAnalysisChordProgressionExercise<
                 {
                   romanNumeral: firstChordRomanNumeral,
                   chordVoicing: question.segments[0].chord.getVoicing({
-                    topVoicesInversion: firstChordInversion,
+                    position: firstChordInversion,
                     withBass: settings.includeBass,
                   }),
                 },
                 ...resolutionConfig[firstChordInversion].map((chord) => ({
                   romanNumeral: chord.romanNumeral,
                   chordVoicing: romanNumeralToChordInC(
-                    chord.romanNumeral
+                    chord.romanNumeral,
                   )!.getVoicing({
                     ...chord.voicingConfig,
                     withBass: settings.includeBass,
@@ -878,11 +874,11 @@ export function romanAnalysisChordProgressionExercise<
               const differenceInOctavesToNormalize: number = _.round(
                 (toNoteNumber(
                   toArray(
-                    toSteadyPart(questionSegments[0].partToPlay)[0].notes
-                  )[0]
+                    toSteadyPart(questionSegments[0].partToPlay)[0].notes,
+                  )[0],
                 ) -
                   toNoteNumber(resolution[0].chordVoicing[0])) /
-                  Interval.Octave
+                  Interval.Octave,
               );
 
               return resolution.map(
@@ -893,14 +889,14 @@ export function romanAnalysisChordProgressionExercise<
                       notes: chordVoicing.map((note) =>
                         transpose(
                           note,
-                          differenceInOctavesToNormalize * Interval.Octave
-                        )
+                          differenceInOctavesToNormalize * Interval.Octave,
+                        ),
                       ),
                       duration: index === resolution.length - 1 ? '2n' : '4n',
                       velocity: 0.3,
                     },
                   ],
-                })
+                }),
               );
             };
           }

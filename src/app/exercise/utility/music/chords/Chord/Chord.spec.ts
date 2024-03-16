@@ -18,7 +18,11 @@ fdescribe('Chord', () => {
       type: ChordType;
       bass?: NoteType; // assumes bass = root if not provided
       noteTypes: NoteType[];
-      voicing: [number, Note[]][];
+      voicing: [
+        number /*position*/,
+        Note[] /*upper voices*/,
+        Note[]? /*bass (optional)*/,
+      ][];
     };
   }[] = [
     {
@@ -373,18 +377,47 @@ fdescribe('Chord', () => {
         voicing: [[0, ['C4', 'E4', 'F#4', 'G4']]],
       },
     },
+    // Slash chords
     {
-      force: true, // todo: remove
       chordSymbolOrConfig: 'C/E',
       expectedResult: {
         root: 'C',
         type: ChordType.Major,
         bass: 'E',
         noteTypes: ['C', 'E', 'G'],
-        voicing: [[0, ['C4', 'E4', 'G4']]], // todo: check the voicing includes the bass corrects
+        voicing: [[0, ['C4', 'E4', 'G4'], ['E2', 'E3']]],
       },
     },
-    // todo: verify that slash chords work with more complex chords (accidentals in both the chord and the bass in different combination + different chord types
+    {
+      chordSymbolOrConfig: 'Bb/F',
+      expectedResult: {
+        root: 'Bb',
+        type: ChordType.Major,
+        bass: 'F',
+        noteTypes: ['Bb', 'D', 'F'],
+        voicing: [[0, ['Bb3', 'D4', 'F4'], ['F2', 'F3']]],
+      },
+    },
+    {
+      chordSymbolOrConfig: 'Eb/Bb',
+      expectedResult: {
+        root: 'Eb',
+        type: ChordType.Major,
+        bass: 'Bb',
+        noteTypes: ['Eb', 'G', 'Bb'],
+        voicing: [[0, ['Eb4', 'G4', 'Bb4'], ['Bb2', 'Bb3']]],
+      },
+    },
+    {
+      chordSymbolOrConfig: 'Cm7/Eb',
+      expectedResult: {
+        root: 'C',
+        type: ChordType.Minor7th,
+        bass: 'Eb',
+        noteTypes: ['C', 'Eb', 'G', 'Bb'],
+        voicing: [[0, ['C4', 'Eb4', 'G4', 'Bb4'], ['Eb2', 'Eb3']]],
+      },
+    },
   ];
 
   testCases.forEach(
@@ -416,20 +449,24 @@ fdescribe('Chord', () => {
         });
 
         describe('voicing', function () {
-          expectedResult.voicing.forEach(([inversion, expectedVoicing]) => {
-            it(`should have the voicing of ${expectedVoicing.join(
-              ', ',
-            )} in ${inversion}th inversion`, () => {
-              const voicing = chord.getVoicing({
-                topVoicesInversion: inversion,
-                withBass: false,
-                octave: octave,
+          expectedResult.voicing.forEach(
+            ([position, expectedVoicing, bassVoicing]) => {
+              it(`should have the voicing of ${expectedVoicing.join(
+                ', ',
+              )} in ${position}th position`, () => {
+                const voicing = chord.getVoicing({
+                  position,
+                  withBass: !!bassVoicing,
+                  octave,
+                });
+                expect(voicing.map(toNoteNumber)).toEqual(
+                  [...(bassVoicing ?? []), ...expectedVoicing].map(
+                    toNoteNumber,
+                  ),
+                );
               });
-              expect(voicing.map(toNoteNumber)).toEqual(
-                expectedVoicing.map(toNoteNumber),
-              );
-            });
-          });
+            },
+          );
         });
       });
     },

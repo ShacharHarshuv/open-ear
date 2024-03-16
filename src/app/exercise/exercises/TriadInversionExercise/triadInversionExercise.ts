@@ -1,17 +1,17 @@
-import Exercise from '../../exercise-logic';
-import { ChordSymbol, TriadInversion, Chord } from '../../utility/music/chords';
-import { randomFromList } from '../../../shared/ts-utility';
 import * as Tone from 'tone';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { randomFromList } from '../../../shared/ts-utility';
+import Exercise from '../../exercise-logic';
 import { toSteadyPart } from '../../utility';
-import { TriadInversionExplanationComponent } from './triad-inversion-explanation/triad-inversion-explanation.component';
+import { Chord, ChordSymbol, TriadPosition } from '../../utility/music/chords';
+import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
+import { createExercise } from '../utility/exerciseAttributes/createExercise';
+import { tonalExercise } from '../utility/exerciseAttributes/tonalExercise';
 import {
   IncludedAnswersSettings,
   includedAnswersSettings,
 } from '../utility/settings/IncludedAnswersSettings';
-import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
-import { tonalExercise } from '../utility/exerciseAttributes/tonalExercise';
-import { createExercise } from '../utility/exerciseAttributes/createExercise';
+import { TriadInversionExplanationComponent } from './triad-inversion-explanation/triad-inversion-explanation.component';
 
 type TriadInversionAnswer = 'Root Position' | '1st Inversion' | '2nd Inversion';
 
@@ -47,7 +47,7 @@ export const triadInversionExercise = () => {
       keySelection: false,
       droneSelection: false,
     }),
-    createExercise
+    createExercise,
   )({
     id: 'triadInversions',
     name: 'Triad Inversions',
@@ -55,19 +55,19 @@ export const triadInversionExercise = () => {
     explanation: TriadInversionExplanationComponent,
     answerList: allAnswersList,
     getQuestion(
-      settings: TriadInversionExerciseSettings
+      settings: TriadInversionExerciseSettings,
     ): Exclude<Exercise.NotesQuestion<TriadInversionAnswer>, 'cadence'> {
       const chordsInC: ChordSymbol[] = ['C', 'Dm', 'Em', 'F', 'G', 'Am'];
       const randomChordInC: ChordSymbol = randomFromList(chordsInC);
-      const invertionOptions: TriadInversion[] = [0, 1, 2].filter(
+      const invertionOptions: TriadPosition[] = [0, 1, 2].filter(
         (invertionOption) =>
-          settings.includedAnswers.includes(triadInversions[invertionOption])
+          settings.includedAnswers.includes(triadInversions[invertionOption]),
       );
-      const randomTriadInversion: TriadInversion =
+      const randomTriadInversion: TriadPosition =
         randomFromList(invertionOptions);
       const answer = triadInversions[randomTriadInversion];
       let voicing: Note[] = new Chord(randomChordInC).getVoicing({
-        topVoicesInversion: randomTriadInversion,
+        position: randomTriadInversion,
         withBass: false,
         octave: 3, // picking a lower octave as a high one is more difficult
       });

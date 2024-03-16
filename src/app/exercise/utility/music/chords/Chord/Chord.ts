@@ -12,7 +12,7 @@ export type ChordSymbol = `${NoteType}${Exclude<ChordType, 'M'> | ''}${
   | ''
   | `/${NoteType}`}`;
 
-export enum TriadInversion {
+export enum TriadPosition {
   Fifth = 0,
   Octave = 1,
   Third = 2,
@@ -27,7 +27,7 @@ const noteTypeRegex = '[A-G][#b]?';
 const chordSymbolRegex = new RegExp(
   `(${noteTypeRegex}?)(${Object.keys(chordTypeConfigMap)
     .map(_.escapeRegExp)
-    .join('|')})?(\\/${noteTypeRegex})?$`,
+    .join('|')})?(?:\/(${noteTypeRegex}))?$`,
 );
 
 export class Chord {
@@ -54,7 +54,7 @@ export class Chord {
       }
       this.root = regexMatch[1] as NoteType;
       this.type = (regexMatch[2] || ChordType.Major) as ChordType;
-      this.bass = (regexMatch[2] as NoteType) ?? this.root;
+      this.bass = (regexMatch[3] as NoteType) ?? this.root;
       this.symbol = this._symbolOrConfig;
     } else {
       this.root = this._symbolOrConfig.root;
@@ -82,24 +82,24 @@ export class Chord {
   }
 
   getBass(): Note[] {
-    return [noteTypeToNote(this.root, 2), noteTypeToNote(this.root, 3)];
+    return [noteTypeToNote(this.bass, 2), noteTypeToNote(this.bass, 3)];
   }
 
   getVoicing({
-    topVoicesInversion,
+    position,
     withBass = true,
     octave = 4,
   }: {
-    topVoicesInversion: number;
+    position: number;
     withBass?: boolean;
     /**
      * The octave of the soprano voice
      * */
     octave?: number;
   }): Note[] {
-    if (topVoicesInversion - 1 > this.noteTypes.length) {
+    if (position - 1 > this.noteTypes.length) {
       throw new Error(
-        `Invalid inversion ${topVoicesInversion} from chord with notes ${this.noteTypes}`,
+        `Invalid inversion ${position} from chord with notes ${this.noteTypes}`,
       );
     }
 
@@ -109,10 +109,10 @@ export class Chord {
       transpose(rootNote, interval),
     );
 
-    while (topVoicesInversion) {
+    while (position) {
       const lowestNote: Note = chordVoicing.shift()!;
       chordVoicing.push(transpose(lowestNote, Interval.Octave));
-      topVoicesInversion--;
+      position--;
     }
 
     //normalize to the right octave

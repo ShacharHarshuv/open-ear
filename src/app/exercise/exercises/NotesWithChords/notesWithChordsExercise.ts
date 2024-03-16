@@ -364,7 +364,7 @@ export function notesWithChordsExercise() {
       );
 
       let chordVoicing: Note[] = chord.getVoicing({
-        topVoicesInversion: randomFromList([0, 1, 2]),
+        position: randomFromList([0, 1, 2]),
         octave: 4,
         withBass: false,
       });
