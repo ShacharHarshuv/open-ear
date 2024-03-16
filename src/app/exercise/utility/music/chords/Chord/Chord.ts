@@ -1,16 +1,18 @@
-import { expandedScaleDegreeToChromaticDegree } from '../../scale-degrees';
-import { NoteType } from '../../notes/NoteType';
-import { transpose } from '../../transpose';
-import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { noteTypeToNote } from '../../notes/noteTypeToNote';
 import * as _ from 'lodash';
-import { getNoteOctave } from '../../notes/getNoteOctave';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { Interval } from '../../intervals/Interval';
+import { NoteType } from '../../notes/NoteType';
+import { getNoteOctave } from '../../notes/getNoteOctave';
+import { noteTypeToNote } from '../../notes/noteTypeToNote';
+import { expandedScaleDegreeToChromaticDegree } from '../../scale-degrees';
+import { transpose } from '../../transpose';
 import { ChordType, chordTypeConfigMap } from './ChordType';
 
-export type ChordSymbol = `${NoteType}${Exclude<ChordType, 'M'> | ''}`;
+export type ChordSymbol = `${NoteType}${Exclude<ChordType, 'M'> | ''}${
+  | ''
+  | `/${NoteType}`}`;
 
-export enum TriadInversion {
+export enum TriadPosition {
   Fifth = 0,
   Octave = 1,
   Third = 2,
@@ -21,10 +23,11 @@ export enum Direction {
   Down = -1,
 }
 
+const noteTypeRegex = '[A-G][#b]?';
 const chordSymbolRegex = new RegExp(
-  `([A-G][#b]?)(${Object.keys(chordTypeConfigMap)
+  `(${noteTypeRegex}?)(${Object.keys(chordTypeConfigMap)
     .map(_.escapeRegExp)
-    .join('|')})?$`
+    .join('|')})?(?:\/(${noteTypeRegex}))?$`,
 );
 
 export class Chord {
@@ -33,6 +36,7 @@ export class Chord {
   readonly type: ChordType;
   readonly symbol: ChordSymbol;
   readonly noteTypes: NoteType[];
+  readonly bass: NoteType;
 
   constructor(
     private readonly _symbolOrConfig:
@@ -40,7 +44,8 @@ export class Chord {
       | {
           root: NoteType;
           type: ChordType;
-        }
+          bass?: NoteType;
+        },
   ) {
     if (typeof this._symbolOrConfig === 'string') {
       const regexMatch = this._symbolOrConfig.match(chordSymbolRegex);
@@ -49,6 +54,7 @@ export class Chord {
       }
       this.root = regexMatch[1] as NoteType;
       this.type = (regexMatch[2] || ChordType.Major) as ChordType;
+      this.bass = (regexMatch[3] as NoteType) ?? this.root;
       this.symbol = this._symbolOrConfig;
     } else {
       this.root = this._symbolOrConfig.root;
@@ -56,6 +62,7 @@ export class Chord {
       this.symbol = `${this.root}${
         this.type === ChordType.Major ? '' : this.type
       }` as ChordSymbol;
+      this.bass = this._symbolOrConfig.bass ?? this.root;
     }
     this._intervals = this._getChordIntervals();
     this.noteTypes = this._getNoteTypes();
@@ -75,37 +82,37 @@ export class Chord {
   }
 
   getBass(): Note[] {
-    return [noteTypeToNote(this.root, 2), noteTypeToNote(this.root, 3)];
+    return [noteTypeToNote(this.bass, 2), noteTypeToNote(this.bass, 3)];
   }
 
   getVoicing({
-    topVoicesInversion,
+    position,
     withBass = true,
     octave = 4,
   }: {
-    topVoicesInversion: number;
+    position: number;
     withBass?: boolean;
     /**
      * The octave of the soprano voice
      * */
     octave?: number;
   }): Note[] {
-    if (topVoicesInversion - 1 > this.noteTypes.length) {
+    if (position - 1 > this.noteTypes.length) {
       throw new Error(
-        `Invalid inversion ${topVoicesInversion} from chord with notes ${this.noteTypes}`
+        `Invalid inversion ${position} from chord with notes ${this.noteTypes}`,
       );
     }
 
     // first build the chord without inversions
     const rootNote: Note = noteTypeToNote(this.root, 1);
     let chordVoicing: Note[] = this._intervals.map((interval) =>
-      transpose(rootNote, interval)
+      transpose(rootNote, interval),
     );
 
-    while (topVoicesInversion) {
+    while (position) {
       const lowestNote: Note = chordVoicing.shift()!;
       chordVoicing.push(transpose(lowestNote, Interval.Octave));
-      topVoicesInversion--;
+      position--;
     }
 
     //normalize to the right octave
@@ -113,7 +120,7 @@ export class Chord {
     const highestVoiceOctave = getNoteOctave(highestVoice);
     chordVoicing = transpose(
       chordVoicing,
-      (octave - highestVoiceOctave) * Interval.Octave
+      (octave - highestVoiceOctave) * Interval.Octave,
     );
 
     if (withBass) {

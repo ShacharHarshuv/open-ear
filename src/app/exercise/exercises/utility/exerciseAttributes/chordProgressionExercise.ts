@@ -1,23 +1,23 @@
-import Exercise from '../../../exercise-logic';
+import * as _ from 'lodash';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { NoteEvent } from '../../../../services/player.service';
 import {
   randomFromList,
   StaticOrGetter,
   toGetter,
 } from '../../../../shared/ts-utility';
-import * as _ from 'lodash';
+import Exercise from '../../../exercise-logic';
+import { getInterval, NotesRange } from '../../../utility';
 import {
   Chord,
   ChordSymbol,
   voiceChordProgressionWithVoiceLeading,
 } from '../../../utility/music/chords';
-import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { NoteEvent } from '../../../../services/player.service';
-import { getInterval, NotesRange } from '../../../utility';
-import { transpose } from '../../../utility/music/transpose';
 import { Interval } from '../../../utility/music/intervals/Interval';
-import { CreateExerciseParams } from './createExercise';
+import { transpose } from '../../../utility/music/transpose';
 import { SettingsParams } from '../settings/SettingsParams';
 import { withSettings } from '../settings/withSettings';
+import { CreateExerciseParams } from './createExercise';
 
 export type ChordProgressionExerciseSettings<GAnswer extends string> = {
   voiceLeading: 'RANDOM' | 'CORRECT';
@@ -40,17 +40,17 @@ export interface ChordProgressionQuestion<GAnswer extends string>
       {
         firstChordInversion: 0 | 1 | 2;
         questionSegments: Exercise.NotesQuestion<GAnswer>['segments'];
-      }
+      },
     ]
   >;
 }
 
 export type ChordProgressionExerciseParams<
   GAnswer extends string,
-  GSettings extends Exercise.Settings
+  GSettings extends Exercise.Settings,
 > = {
   getChordProgression: (
-    settings: GSettings
+    settings: GSettings,
   ) => ChordProgressionQuestion<GAnswer>;
 };
 
@@ -132,17 +132,17 @@ export function chordVoicingSettings() {
 
 export function chordProgressionExercise<
   GAnswer extends string,
-  GSettings extends Exercise.Settings
+  GSettings extends Exercise.Settings,
 >(config?: ChordProgressionExerciseConfig) {
   const fullConfig: Required<ChordProgressionExerciseConfig> = _.defaults(
     config,
     {
       voicingSettings: true,
-    }
+    },
   );
 
   return function (
-    params: ChordProgressionExerciseParams<GAnswer, GSettings>
+    params: ChordProgressionExerciseParams<GAnswer, GSettings>,
   ): Pick<CreateExerciseParams<GAnswer, GSettings>, 'getQuestion'> &
     SettingsParams<ChordProgressionExerciseSettings<GAnswer>> {
     const range = new NotesRange('G3', 'E5');
@@ -153,17 +153,17 @@ export function chordProgressionExercise<
         : [],
       defaultSettings: chordVoicingDefaultSettings,
       getQuestion(
-        settings: GSettings & ChordProgressionExerciseSettings<GAnswer>
+        settings: GSettings & ChordProgressionExerciseSettings<GAnswer>,
       ): Exercise.NotesQuestion<GAnswer> {
         const chordProgression: ChordProgressionQuestion<GAnswer> =
           params.getChordProgression(settings);
 
         const firstChordInversion: 0 | 1 | 2 = randomFromList(
-          settings.includedPositions
+          settings.includedPositions,
         );
 
         const voiceChordProgression = (
-          chordOrChordSymbolList: (ChordSymbol | Chord)[]
+          chordOrChordSymbolList: (ChordSymbol | Chord)[],
         ): Note[][] => {
           if (settings.voiceLeading === 'CORRECT') {
             return voiceChordProgressionWithVoiceLeading(
@@ -171,13 +171,13 @@ export function chordProgressionExercise<
               firstChordInversion,
               {
                 withBass: settings.includeBass,
-              }
+              },
             );
           }
 
           const getAllVoicingsInRange = (
             chord: Chord,
-            params: Parameters<Chord['getVoicing']>[0]
+            params: Parameters<Chord['getVoicing']>[0],
           ): Note[][] => {
             const voicing: Note[] = chord.getVoicing(params);
             const bassNotes: Note[] = [];
@@ -198,11 +198,11 @@ export function chordProgressionExercise<
 
             while (
               range.isInRange(
-                transpose(_.last(possibleVoicingList)!, +Interval.Octave)
+                transpose(_.last(possibleVoicingList)!, +Interval.Octave),
               )
             ) {
               possibleVoicingList.push(
-                transpose(_.last(possibleVoicingList)!, +Interval.Octave)
+                transpose(_.last(possibleVoicingList)!, +Interval.Octave),
               );
             }
 
@@ -215,9 +215,9 @@ export function chordProgressionExercise<
           const voicingList: Note[][] = [
             randomFromList(
               getAllVoicingsInRange(chordProgression.segments[0].chord, {
-                topVoicesInversion: firstChordInversion,
+                position: firstChordInversion,
                 withBass: settings.includeBass,
-              })
+              }),
             ),
           ];
 
@@ -230,9 +230,9 @@ export function chordProgressionExercise<
             const possibleNextVoicingList: Note[][] = getAllVoicingsInRange(
               chordProgression.segments[i].chord,
               {
-                topVoicesInversion: randomFromList(settings.includedPositions),
+                position: randomFromList(settings.includedPositions),
                 withBass: settings.includeBass,
-              }
+              },
             );
 
             const validNextVoicingList: Note[][] =
@@ -250,8 +250,8 @@ export function chordProgressionExercise<
               randomFromList(
                 _.isEmpty(validNextVoicingList)
                   ? possibleNextVoicingList
-                  : validNextVoicingList
-              )
+                  : validNextVoicingList,
+              ),
             );
           }
 
@@ -260,11 +260,11 @@ export function chordProgressionExercise<
 
         const question: Exclude<Exercise.Question<GAnswer>, 'cadence'> = {
           segments: voiceChordProgression(
-            _.map(chordProgression.segments, 'chord')
+            _.map(chordProgression.segments, 'chord'),
           ).map(
             (
               voicing: Note[],
-              index: number
+              index: number,
             ): Exercise.NotesQuestion<GAnswer>['segments'][0] => {
               return {
                 rightAnswer: chordProgression.segments[index].answer,
@@ -276,13 +276,13 @@ export function chordProgressionExercise<
                   },
                 ],
               };
-            }
+            },
           ),
         };
 
         if (chordProgression.afterCorrectAnswer) {
           question.afterCorrectAnswer = toGetter(
-            chordProgression.afterCorrectAnswer
+            chordProgression.afterCorrectAnswer,
           )({
             firstChordInversion: firstChordInversion,
             questionSegments: question.segments,

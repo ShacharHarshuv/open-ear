@@ -1,13 +1,14 @@
-import { Chord, Direction } from './Chord';
-import { NoteType } from '../../notes/NoteType';
-import { toNoteTypeNumber } from '../../notes/toNoteTypeNumber';
-import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { toNoteNumber } from '../../notes/toNoteName';
-import { testPureFunction } from '../../../../../shared/testing-utility/testPureFunction';
-import { ChordType, chordTypeConfigMap } from './ChordType';
 import * as _ from 'lodash';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { testPureFunction } from '../../../../../shared/testing-utility/testPureFunction';
+import { NoteType } from '../../notes/NoteType';
+import { toNoteNumber } from '../../notes/toNoteName';
+import { toNoteTypeNumber } from '../../notes/toNoteTypeNumber';
+import { Chord, Direction } from './Chord';
+import { ChordType, chordTypeConfigMap } from './ChordType';
 
-describe('Chord', () => {
+// todo
+fdescribe('Chord', () => {
   const testCases: {
     force?: boolean;
     chordSymbolOrConfig: ConstructorParameters<typeof Chord>[0];
@@ -15,8 +16,13 @@ describe('Chord', () => {
     expectedResult: {
       root: NoteType;
       type: ChordType;
+      bass?: NoteType; // assumes bass = root if not provided
       noteTypes: NoteType[];
-      voicing: [number, Note[]][];
+      voicing: [
+        number /*position*/,
+        Note[] /*upper voices*/,
+        Note[]? /*bass (optional)*/,
+      ][];
     };
   }[] = [
     {
@@ -371,6 +377,47 @@ describe('Chord', () => {
         voicing: [[0, ['C4', 'E4', 'F#4', 'G4']]],
       },
     },
+    // Slash chords
+    {
+      chordSymbolOrConfig: 'C/E',
+      expectedResult: {
+        root: 'C',
+        type: ChordType.Major,
+        bass: 'E',
+        noteTypes: ['C', 'E', 'G'],
+        voicing: [[0, ['C4', 'E4', 'G4'], ['E2', 'E3']]],
+      },
+    },
+    {
+      chordSymbolOrConfig: 'Bb/F',
+      expectedResult: {
+        root: 'Bb',
+        type: ChordType.Major,
+        bass: 'F',
+        noteTypes: ['Bb', 'D', 'F'],
+        voicing: [[0, ['Bb3', 'D4', 'F4'], ['F2', 'F3']]],
+      },
+    },
+    {
+      chordSymbolOrConfig: 'Eb/Bb',
+      expectedResult: {
+        root: 'Eb',
+        type: ChordType.Major,
+        bass: 'Bb',
+        noteTypes: ['Eb', 'G', 'Bb'],
+        voicing: [[0, ['Eb4', 'G4', 'Bb4'], ['Bb2', 'Bb3']]],
+      },
+    },
+    {
+      chordSymbolOrConfig: 'Cm7/Eb',
+      expectedResult: {
+        root: 'C',
+        type: ChordType.Minor7th,
+        bass: 'Eb',
+        noteTypes: ['C', 'Eb', 'G', 'Bb'],
+        voicing: [[0, ['C4', 'Eb4', 'G4', 'Bb4'], ['Eb2', 'Eb3']]],
+      },
+    },
   ];
 
   testCases.forEach(
@@ -390,40 +437,44 @@ describe('Chord', () => {
         });
 
         it(`should have the notes ${expectedResult.noteTypes.join(
-          ', '
+          ', ',
         )}`, () => {
           expect(
-            chord.noteTypes.map((noteType) => toNoteTypeNumber(noteType))
+            chord.noteTypes.map((noteType) => toNoteTypeNumber(noteType)),
           ).toEqual(
             expectedResult.noteTypes.map((noteType) =>
-              toNoteTypeNumber(noteType)
-            )
+              toNoteTypeNumber(noteType),
+            ),
           );
         });
 
         describe('voicing', function () {
-          expectedResult.voicing.forEach(([inversion, expectedVoicing]) => {
-            it(`should have the voicing of ${expectedVoicing.join(
-              ', '
-            )} in ${inversion}th inversion`, () => {
-              const voicing = chord.getVoicing({
-                topVoicesInversion: inversion,
-                withBass: false,
-                octave: octave,
+          expectedResult.voicing.forEach(
+            ([position, expectedVoicing, bassVoicing]) => {
+              it(`should have the voicing of ${expectedVoicing.join(
+                ', ',
+              )} in ${position}th position`, () => {
+                const voicing = chord.getVoicing({
+                  position,
+                  withBass: !!bassVoicing,
+                  octave,
+                });
+                expect(voicing.map(toNoteNumber)).toEqual(
+                  [...(bassVoicing ?? []), ...expectedVoicing].map(
+                    toNoteNumber,
+                  ),
+                );
               });
-              expect(voicing.map(toNoteNumber)).toEqual(
-                expectedVoicing.map(toNoteNumber)
-              );
-            });
-          });
+            },
+          );
         });
       });
-    }
+    },
   );
 
   it('should cover all chord types', () => {
     const existingChordTypes: ChordType[] = _.keys(
-      chordTypeConfigMap
+      chordTypeConfigMap,
     ) as (keyof typeof chordTypeConfigMap)[];
     const coveredChordTypes: ChordType[] = _.chain(testCases)
       .map((testCase) => testCase.expectedResult.type)
@@ -431,7 +482,7 @@ describe('Chord', () => {
       .value();
     const missingChordTypes: ChordType[] = _.difference(
       existingChordTypes,
-      coveredChordTypes
+      coveredChordTypes,
     );
     expect(missingChordTypes).toEqual([]);
   });

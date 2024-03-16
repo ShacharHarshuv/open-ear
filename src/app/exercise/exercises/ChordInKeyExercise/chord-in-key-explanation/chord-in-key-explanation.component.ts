@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
 import { NoteEvent } from '../../../../services/player.service';
+import { CollapsibleComponent } from '../../../../shared/components/shared-components/collapsible/collapsible.component';
+import { InfoPanelComponent } from '../../../../shared/components/shared-components/info-panel/info-panel.component';
+import { PlayOnClickDirective } from '../../../../shared/components/shared-components/play-on-click.directive';
 import {
   Chord,
   ChordSymbol,
   IV_V_I_CADENCE_IN_C,
-  TriadInversion,
+  TriadPosition,
 } from '../../../utility/music/chords';
-import { InfoPanelComponent } from '../../../../shared/components/shared-components/info-panel/info-panel.component';
-import { CollapsibleComponent } from '../../../../shared/components/shared-components/collapsible/collapsible.component';
-import { IonicModule } from '@ionic/angular';
-import { PlayOnClickDirective } from '../../../../shared/components/shared-components/play-on-click.directive';
-import {RomanNumeralSymbolComponent} from "./roman-numeral-symbol.component";
+import { RomanNumeralSymbolComponent } from './roman-numeral-symbol.component';
 
 @Component({
   selector: 'app-chord-in-key-explanation',
@@ -27,7 +27,7 @@ import {RomanNumeralSymbolComponent} from "./roman-numeral-symbol.component";
 export class ChordInKeyExplanationComponent {
   getChordExample(
     chordSymbol: ChordSymbol,
-    topVoicesInversion: TriadInversion
+    position: TriadPosition,
   ): NoteEvent[] {
     return [
       ...IV_V_I_CADENCE_IN_C,
@@ -36,7 +36,9 @@ export class ChordInKeyExplanationComponent {
         duration: '4n',
       },
       {
-        notes: new Chord(chordSymbol).getVoicing({ topVoicesInversion }),
+        notes: new Chord(chordSymbol).getVoicing({
+          position: position,
+        }),
         velocity: 0.3,
         duration: '1n',
       },
@@ -45,11 +47,11 @@ export class ChordInKeyExplanationComponent {
 
   readonly cadenceAndIChord: NoteEvent[] = this.getChordExample(
     'C',
-    TriadInversion.Octave
+    TriadPosition.Octave,
   );
 
   readonly cadenceAndVChord: NoteEvent[] = this.getChordExample(
     'G',
-    TriadInversion.Third
+    TriadPosition.Third,
   );
 }
