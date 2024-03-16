@@ -7,8 +7,7 @@ import { toNoteTypeNumber } from '../../notes/toNoteTypeNumber';
 import { Chord, Direction } from './Chord';
 import { ChordType, chordTypeConfigMap } from './ChordType';
 
-// todo
-fdescribe('Chord', () => {
+describe('Chord', () => {
   const testCases: {
     force?: boolean;
     chordSymbolOrConfig: ConstructorParameters<typeof Chord>[0];
