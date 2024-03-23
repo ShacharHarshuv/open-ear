@@ -124,10 +124,10 @@ export function voiceChordProgressionWithVoiceLeading(
   }
   // adding bass notes
   return chordVoicingWithoutBass.map((chordVoicing: Note[], index): Note[] => {
-    const rootNote: NoteType = chordList[index].root;
+    const bassNote: NoteType = chordList[index].bass;
     return [
       ...(options.withBass
-        ? [noteTypeToNote(rootNote, 2), noteTypeToNote(rootNote, 3)]
+        ? [noteTypeToNote(bassNote, 2), noteTypeToNote(bassNote, 3)]
         : []),
       ...chordVoicing,
     ];

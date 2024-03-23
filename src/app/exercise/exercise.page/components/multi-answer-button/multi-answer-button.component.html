@@ -3,5 +3,5 @@
   [wrong]="isWrong()"
   [disabled]="!state.isAnswerEnabled()"
 >
-  {{ multiAnswerCell().displayLabel }}
+  <span [innerHTML]="multiAnswerCell().displayLabel"></span>
 </app-answer-button>

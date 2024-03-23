@@ -11,6 +11,9 @@ import {
   MajorChordTypesPostfix,
   MinorChordTypesPostfix,
   RomanNumeralChordSymbol,
+  ScaleDegree,
+  chromaticDegreeToScaleDegree,
+  scaleDegreeToChromaticDegree,
   toArray,
   toNoteNumber,
   toSteadyPart,
@@ -662,6 +665,12 @@ export const allRomanNumeralAnswerList: Exercise.AnswerList<RomanNumeralChordSym
       ],
     };
 
+    const chordTypesToAddInversionsFor: ChordType[] = [
+      ChordType.Major,
+      ChordType.Minor,
+      ChordType.Dominant7th,
+    ];
+
     const majorChordTypesLayout: AnswersLayout<MajorChordTypesPostfix> = {
       rows: [
         [
@@ -705,13 +714,45 @@ export const allRomanNumeralAnswerList: Exercise.AnswerList<RomanNumeralChordSym
       const answerListWithTypes = mapAnswerList<
         string,
         RomanNumeralChordSymbol
-      >(chordTypesLayout, (answerConfig: AnswerConfig<string>) => {
-        const chordTypeSuffix = answerConfig.answer satisfies string | null;
-        if (answerConfig.answer === null) {
-          return answerConfig as AnswerConfig<never>;
+      >(chordTypesLayout, (chordTypeAnswerConfig: AnswerConfig<ChordType>) => {
+        const chordTypeSuffix = chordTypeAnswerConfig.answer satisfies
+          | string
+          | null;
+        if (chordTypeAnswerConfig.answer === null) {
+          return chordTypeAnswerConfig as AnswerConfig<never>;
         }
-        return (romanNumeralChordSymbol +
+        const fullRomanNumeralSymbol = (romanNumeralChordSymbol +
           chordTypeSuffix) as RomanNumeralChordSymbol;
+
+        if (
+          !chordTypesToAddInversionsFor.includes(
+            chordTypeAnswerConfig.answer || ChordType.Major,
+          )
+        ) {
+          return fullRomanNumeralSymbol;
+        }
+
+        const romanNumeral = new RomanNumeralChord(fullRomanNumeralSymbol);
+        const intervals = romanNumeral.getChord('C').intervals;
+        const possibleBasses = intervals.map((interval): ScaleDegree => {
+          const chromaticRoot =
+            scaleDegreeToChromaticDegree[romanNumeral.scaleDegree];
+          let chromaticBass = chromaticRoot + interval;
+          if (chromaticBass > 12) {
+            chromaticBass = chromaticBass % 12;
+          }
+          return chromaticDegreeToScaleDegree[chromaticBass];
+        });
+
+        return {
+          innerAnswersList: possibleBasses.map((bass) => {
+            return new RomanNumeralChord({
+              scaleDegree: romanNumeral.scaleDegree,
+              type: romanNumeral.type,
+              bass,
+            }).romanNumeralChordSymbol;
+          }),
+        };
       });
       return {
         innerAnswersList: answerListWithTypes,
