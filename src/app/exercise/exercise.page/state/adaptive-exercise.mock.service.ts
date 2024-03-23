@@ -10,6 +10,7 @@ export class AdaptiveExerciseMock implements PublicMembers<AdaptiveExercise> {
   id: string = '';
   name: string = '';
   explanation: Exercise.ExerciseExplanationContent = '';
+  isPlayWrongAnswerSupported = false;
 
   getSettingsDescriptor(): Exercise.SettingsControlDescriptor<
     { [p: string]: Exercise.SettingValueType },

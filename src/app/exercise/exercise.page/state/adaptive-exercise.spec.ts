@@ -29,6 +29,7 @@ describe('adaptive exercise', function () {
     id = '';
     summary = '';
     explanation = '';
+    isPlayWrongAnswerSupported = false;
 
     // used to test for incorrect reference to "this"
     private _innerGetMethod(): any[] {
