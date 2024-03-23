@@ -1,4 +1,5 @@
 import { ChordType } from '../chords';
+import { ScaleDegree } from '../scale-degrees';
 
 export type UppercaseRomanNumeralChordSymbol =
   | 'I'
@@ -51,6 +52,11 @@ export type MinorChordTypesPostfix =
   | ChordType.Sus4
   | ChordType.Sus2;
 
-export type RomanNumeralChordSymbol =
+type SlashChordPostfix = `/${ScaleDegree}`;
+
+type RomanNumeralChordSymbolInRootInversion =
   | `${UppercaseRomanNumeralChordSymbol}${MajorChordTypesPostfix}`
   | `${LowercaseRomanNumeralChordSymbol}${MinorChordTypesPostfix}`;
+
+export type RomanNumeralChordSymbol =
+  `${RomanNumeralChordSymbolInRootInversion}${'' | SlashChordPostfix}`;

@@ -1,4 +1,6 @@
 import * as _ from 'lodash';
+import { sortBy } from 'lodash';
+import { keys } from '../../../../shared/ts-utility/keys';
 import { MusicSymbol } from '../MusicSymbol';
 import { Chord, ChordType } from '../chords';
 import {
@@ -14,6 +16,7 @@ import {
   ScaleDegree,
   getDiatonicScaleDegreeWithAccidental,
   scaleDegreeToChromaticDegree,
+  scaleDegreeToSolfegeNote,
 } from '../scale-degrees';
 import { transpose } from '../transpose';
 import { Mode } from './Mode';
@@ -24,14 +27,26 @@ const allRomanNumeralPostfix: string[] = _.map(
   chordTypeConfigMap,
   (chordTypeConfig) => chordTypeConfig.romanNumeral.postfix,
 );
+const scaleDegrees = keys(scaleDegreeToSolfegeNote);
 const romanNumeralChordSymbolRegex = new RegExp(
-  `(b|#)?([ivIV]+)(${allRomanNumeralPostfix.map(_.escapeRegExp).join('|')})?$`,
+  `(b|#)?([ivIV]+)(${sortBy(allRomanNumeralPostfix, 'length')
+    .reverse() // sorting by length to match the longest postfix first
+    .map(_.escapeRegExp)
+    .join('|')})?(?:\/(${scaleDegrees.join('|')}))?$`,
 );
 
 export class RomanNumeralChord {
   readonly diatonicDegree: DiatonicScaleDegree;
   readonly accidental: Accidental;
   readonly type: ChordType;
+  readonly bass: ScaleDegree;
+
+  get isInversion(): boolean {
+    return (
+      scaleDegreeToChromaticDegree[this.bass] !==
+      scaleDegreeToChromaticDegree[this.scaleDegree]
+    );
+  }
 
   get scaleDegree(): ScaleDegree {
     return (this.accidental + this.diatonicDegree) as ScaleDegree;
@@ -44,13 +59,17 @@ export class RomanNumeralChord {
   get romanNumeralChordSymbol(): RomanNumeralChordSymbol {
     const romanNumeral: string =
       RomanNumeralChord.romanNumerals[this.diatonicDegree];
-    return `${this.accidental}${
+    const symbol = `${this.accidental}${
       this._isLowercase
         ? romanNumeral.toLowerCase()
         : romanNumeral.toUpperCase()
-    }${
-      chordTypeConfigMap[this.type].romanNumeral.postfix
-    }` as RomanNumeralChordSymbol;
+    }${chordTypeConfigMap[this.type].romanNumeral.postfix}`;
+
+    if (this.isInversion) {
+      return `${symbol}/${this.bass}` as RomanNumeralChordSymbol;
+    }
+
+    return symbol as RomanNumeralChordSymbol;
   }
 
   get isDiatonic(): boolean {
@@ -103,6 +122,7 @@ export class RomanNumeralChord {
       | {
           scaleDegree: ScaleDegree;
           type: ChordType;
+          bass?: ScaleDegree;
         },
   ) {
     if (typeof romanNumeralInput === 'object') {
@@ -112,6 +132,7 @@ export class RomanNumeralChord {
       );
       this.diatonicDegree = diatonicDegreeWithAccidental.diatonicScaleDegree;
       this.accidental = diatonicDegreeWithAccidental.accidental;
+      this.bass = romanNumeralInput.bass ?? this.scaleDegree;
       return;
     }
 
@@ -127,6 +148,7 @@ export class RomanNumeralChord {
     const accidentalString: string | undefined = regexMatch[1];
     const romanNumeralString: string | undefined = regexMatch[2];
     const typeString: string | undefined = regexMatch[3];
+    const bassDegree: string | undefined = regexMatch[4];
 
     this.diatonicDegree =
       RomanNumeralChord.romanNumeralsToScaleDegree[
@@ -151,17 +173,22 @@ export class RomanNumeralChord {
       b: Accidental.Flat,
       '': Accidental.Natural,
     }[accidentalString ?? '']!;
+
+    this.bass = (bassDegree as ScaleDegree) ?? this.scaleDegree;
   }
 
   getChord(key: Key): Chord {
-    const baseNote: NoteType = (transpose(
+    const rootNode: NoteType = (transpose(
       key,
       scaleDegreeToChromaticDegree[this.diatonicDegree] - 1,
     ) + this.accidental) as NoteType;
 
     return new Chord({
-      root: baseNote,
+      root: rootNode,
       type: this.type,
+      bass: this.isInversion
+        ? transpose(key, scaleDegreeToChromaticDegree[this.bass] - 1)
+        : undefined,
     });
   }
 
@@ -172,11 +199,17 @@ export class RomanNumeralChord {
       ];
     let postfix: string =
       chordTypeConfigMap[this.type].romanNumeral.viewPostfix;
-    return `${RomanNumeralChord.accidentalToString[this.accidental]}${
+    const symbol = `${RomanNumeralChord.accidentalToString[this.accidental]}${
       this._isLowercase
         ? romanNumeral.toLowerCase()
         : romanNumeral.toUpperCase()
     }${postfix}`;
+
+    if (this.bass !== this.scaleDegree) {
+      return `${symbol}/${this.bass}`;
+    }
+
+    return symbol;
   }
 
   static toRelativeMode(
@@ -186,9 +219,11 @@ export class RomanNumeralChord {
   ): RomanNumeralChordSymbol {
     const chord = new RomanNumeralChord(chordSymbol);
     const scaleDegree = toRelativeMode(chord.scaleDegree, source, target);
+    const bass = toRelativeMode(chord.bass, source, target);
     return new RomanNumeralChord({
       scaleDegree,
       type: chord.type,
+      bass: bass,
     }).romanNumeralChordSymbol;
   }
 }
