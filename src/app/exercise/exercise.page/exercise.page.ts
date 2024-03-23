@@ -7,11 +7,7 @@ import * as _ from 'lodash';
 import { ContentPaddingDirective } from '../../shared/components/shared-components/content-padding.directive';
 import { PureFunctionPipe } from '../../shared/ng-utilities/pure-function-pipe/pure-function.pipe';
 import { BaseComponent } from '../../shared/ts-utility';
-import Exercise, {
-  SettingValueType,
-  SettingsControlDescriptor,
-} from '../exercise-logic';
-import { GlobalExerciseSettings } from '../utility';
+import Exercise from '../exercise-logic';
 import { AnswerButtonComponent } from './components/answer-button/answer-button.component';
 import { AnswerIndicationComponent } from './components/answer-indication/answer-indication.component';
 import { AnswersLayoutComponent } from './components/answers-layout/answers-layout.component';
@@ -103,14 +99,8 @@ export class ExercisePage extends BaseComponent {
     const allAvailableAnswers: string[] =
       typeof answerList === 'object' ? _.flatMap(answerList) : answerList;
 
-    const props: {
-      exerciseName: string;
-      currentGlobalSettings: GlobalExerciseSettings;
-      exerciseSettingsDescriptorInput: SettingsControlDescriptor[];
-      currentExerciseSettings: { [key: string]: SettingValueType };
-      allAvailableAnswers: string[];
-    } = {
-      exerciseName: this.state.name,
+    const props = {
+      exercise: this.state.exercise,
       currentGlobalSettings: this.state.globalSettings(),
       exerciseSettingsDescriptorInput: this.state.exerciseSettingsDescriptor, // must be before currentExerciseSettings
       currentExerciseSettings: this.state.exerciseSettings,

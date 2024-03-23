@@ -16,7 +16,6 @@ import {
   IncludedAnswersSettings,
   includedAnswersSettings,
 } from '../utility/settings/IncludedAnswersSettings';
-import { playWrongAnswerSettings } from '../utility/settings/PlayWrongAnswerSettings';
 import { IntervalExerciseExplanationComponent } from './interval-exercise-explanation/interval-exercise-explanation.component';
 import AnswerList = Exercise.AnswerList;
 
@@ -147,7 +146,6 @@ export const intervalExercise = () => {
         },
       ],
     }),
-    playWrongAnswerSettings(),
     createExercise,
   )({
     id: 'interval',

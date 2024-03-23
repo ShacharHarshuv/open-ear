@@ -229,6 +229,11 @@ export function tonalExercise<
           ...questionInC,
           segments: questionInC.segments.map((segment) => ({
             ...segment,
+            playOnWrong: segment.playOnWrong
+              ? (answer) => {
+                  return transposeToKey(toGetter(segment.playOnWrong)(answer)!);
+                }
+              : undefined,
             rightAnswer: segment.rightAnswer,
             partToPlay: transposeToKey(segment.partToPlay),
           })),

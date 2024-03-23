@@ -1,5 +1,5 @@
 <app-modal-frame
-  title="{{exerciseName}} Settings"
+  title="{{exercise.name}} Settings"
   [padding]="false"
   [onClose]="onClose.bind(this)"
   closeIcon="checkmark-outline"
@@ -10,7 +10,7 @@
         Sound
         <app-field-info
           message="Choose instrument sound that will be playing the questions. Use this to get used to different tibres"
-        ></app-field-info>
+        />
       </ion-label>
       <ion-select
         [formControl]="generalFormGroup.controls.instrument"
@@ -18,17 +18,18 @@
       >
         @for (instrumentOption of instrumentOptions; track instrumentOption) {
         <ion-select-option [value]="instrumentOption.value">
-          {{instrumentOption.label}}
+          {{ instrumentOption.label }}
         </ion-select-option>
         }
       </ion-select>
     </ion-item>
     <ion-item>
-      <ion-label
-        >Play Cadence<app-field-info
+      <ion-label>
+        Play Cadence
+        <app-field-info
           message="Choose when the cadence is played. Relevant only to exercises that play a Cadence."
-        ></app-field-info
-      ></ion-label>
+        />
+      </ion-label>
       <ion-select
         [formControl]="generalFormGroup.controls.playCadenceOptions"
         [interface]="'popover'"
@@ -38,8 +39,8 @@
         <!--<ion-select-option value="'EVERY'">Every...</ion-select-option>-->
         <ion-select-option [value]="'NEVER'">Every New Key</ion-select-option>
         <ion-select-option [value]="'ONLY_ON_REPEAT'"
-          >Only on repeat</ion-select-option
-        >
+          >Only on repeat
+        </ion-select-option>
       </ion-select>
     </ion-item>
     <ion-item>
@@ -47,8 +48,8 @@
         >Auto-play next question
         <app-field-info
           message="Next question will be played immediately after answering current question"
-        ></app-field-info
-      ></ion-label>
+        ></app-field-info>
+      </ion-label>
       <ion-toggle
         [formControl]="generalFormGroup.controls.moveToNextQuestionAutomatically"
       >
@@ -71,8 +72,8 @@
         >BPM
         <app-field-info
           message="Tempo in Beats Per Minute. Change this to control the speed of the question's playback."
-        ></app-field-info
-      ></ion-label>
+        ></app-field-info>
+      </ion-label>
       <ion-range
         [formControl]="generalFormGroup.controls.bpm"
         [max]="200"
@@ -88,19 +89,32 @@
         >Adaptive
         <app-field-info
           [message]="'When turned on, questions that were answered wrong will repeat until answered right enough time. <br>Great for learning from mistakes.'"
-        ></app-field-info
-      ></ion-label>
+        ></app-field-info>
+      </ion-label>
       <ion-toggle
         [formControl]="generalFormGroup.controls.adaptive"
       ></ion-toggle>
     </ion-item>
+    @if (exercise.isPlayWrongAnswerSupported) {
+    <ion-item>
+      <ion-label>
+        Play wrong answer
+        <app-field-info
+          [message]="'When picking the wrong answer, your answer will be played, so you can hear the difference.'"
+        ></app-field-info>
+      </ion-label>
+      <ion-toggle
+        [formControl]="generalFormGroup.controls.playWrongAnswer"
+      ></ion-toggle>
+    </ion-item>
+    }
     <ion-item>
       <ion-label
         >Reveal answer after first mistake
         <app-field-info
           [message]="'Even if you got the answer wrong in the first attempt, the correct answer will be revealed. <br> Turn it off if you want a second chance to guess the correct answer'"
-        ></app-field-info
-      ></ion-label>
+        ></app-field-info>
+      </ion-label>
       <ion-toggle
         [formControl]="generalFormGroup.controls.revealAnswerAfterFirstMistake"
       ></ion-toggle>
@@ -115,7 +129,7 @@
 
     <ng-template #label>
       <ion-label
-        >{{descriptor.label}}@if (exerciseControlSettings.info) {
+        >{{ descriptor.label }}@if (exerciseControlSettings.info) {
         <app-field-info
           [message]="exerciseControlSettings.info"
         ></app-field-info>
@@ -133,7 +147,7 @@
         @for (option of asSelectControlDescriptor(descriptor).options; track
         option) {
         <ion-select-option [value]="option.value">
-          {{option.label}}
+          {{ option.label }}
         </ion-select-option>
         }
       </ion-select>
@@ -176,7 +190,7 @@
     } @case ('included-answers') {
     <ion-list>
       <ion-list-header
-        >{{descriptor.label}}@if (exerciseControlSettings.info) {
+        >{{ descriptor.label }}@if (exerciseControlSettings.info) {
         <app-field-info
           [message]="exerciseControlSettings.info"
         ></app-field-info>
