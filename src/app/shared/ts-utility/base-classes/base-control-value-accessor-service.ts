@@ -1,6 +1,6 @@
 import { ControlValueAccessor } from '@angular/forms';
-import { BehaviorSubject, ReplaySubject, Observable } from 'rxjs';
 import * as _ from 'lodash';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 
 export class BaseControlValueAccessorService<T>
   implements ControlValueAccessor

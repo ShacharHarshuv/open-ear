@@ -1,15 +1,15 @@
 import { Injectable, Type, inject } from '@angular/core';
-import * as _ from 'lodash';
-import { intervalExercise } from './exercises/IntervalExercise/intervalExercise';
-import { Exercise } from './exercise-logic';
 import { Platform } from '@ionic/angular';
-import { triadInversionExercise } from './exercises/TriadInversionExercise/triadInversionExercise';
-import { chordsInRealSongsExercise } from './exercises/ChordsInRealSongsExercise/chordsInRealSongsExercise';
-import { notesWithChordsExercise } from './exercises/NotesWithChords/notesWithChordsExercise';
-import { notesInKeyExercise } from './exercises/NotesInKeyExercise/notesInKeyExercise';
-import { chordTypeExercise } from './exercises/ChordTypeInKeyExercise/chordTypeInKeyExercise';
+import * as _ from 'lodash';
+import { Exercise } from './exercise-logic';
 import { chordInKeyExercise } from './exercises/ChordInKeyExercise/chordsInKeyExercise';
+import { chordTypeExercise } from './exercises/ChordTypeInKeyExercise/chordTypeInKeyExercise';
+import { chordsInRealSongsExercise } from './exercises/ChordsInRealSongsExercise/chordsInRealSongsExercise';
 import { commonChordProgressionExercise } from './exercises/CommonChordProgressionExercise/commonChordProgressionsExercise';
+import { intervalExercise } from './exercises/IntervalExercise/intervalExercise';
+import { notesInKeyExercise } from './exercises/NotesInKeyExercise/notesInKeyExercise';
+import { notesWithChordsExercise } from './exercises/NotesWithChords/notesWithChordsExercise';
+import { triadInversionExercise } from './exercises/TriadInversionExercise/triadInversionExercise';
 
 const exerciseList: Exercise[] = [
   notesInKeyExercise(),
@@ -33,7 +33,7 @@ export class ExerciseService {
     .map((exercise) => exercise.explanation)
     .filter(
       (explanation): explanation is Type<any> =>
-        !!explanation && typeof explanation != 'string'
+        !!explanation && typeof explanation != 'string',
     );
 
   getExercise(id: string): Exercise {
@@ -44,7 +44,7 @@ export class ExerciseService {
     return exerciseList.filter(
       (exercise: Exercise) =>
         !exercise.blackListPlatform ||
-        !this._platform.is(exercise.blackListPlatform)
+        !this._platform.is(exercise.blackListPlatform),
     );
   }
 }

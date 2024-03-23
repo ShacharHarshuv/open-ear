@@ -1,22 +1,22 @@
 import { Component, inject } from '@angular/core';
 import {
-  ModalController,
   AlertController,
-  Platform,
   IonicModule,
+  ModalController,
+  Platform,
 } from '@ionic/angular';
+import * as _ from 'lodash';
 import { ReleaseNotesPage } from './release-notes/release-notes-page.component';
 import { ReleaseNotesService } from './release-notes/release-notes.service';
 import { toPromise } from './shared/ts-utility/rxjs/toPromise';
-import * as _ from 'lodash';
 import { StorageMigrationService } from './storage/storage-migration.service';
 
 @Component({
-    selector: 'app-root',
-    templateUrl: 'app.component.html',
-    styleUrls: ['app.component.scss'],
-    standalone: true,
-    imports: [IonicModule],
+  selector: 'app-root',
+  templateUrl: 'app.component.html',
+  styleUrls: ['app.component.scss'],
+  standalone: true,
+  imports: [IonicModule],
 })
 export class AppComponent {
   private readonly _modalController = inject(ModalController);
@@ -42,7 +42,7 @@ export class AppComponent {
 
   async showReleaseNotes(): Promise<void> {
     const releaseNotes = await toPromise(
-      this._releaseNotesService.relevantReleaseNotes$
+      this._releaseNotesService.relevantReleaseNotes$,
     );
     if (_.isEmpty(releaseNotes)) {
       await this._releaseNotesService.setReleaseNotesWereViewed();

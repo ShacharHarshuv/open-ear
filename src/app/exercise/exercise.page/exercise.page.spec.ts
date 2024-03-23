@@ -1,17 +1,17 @@
-import { ExercisePage } from './exercise.page';
+import { fakeAsync, flush, TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ExerciseSettingsDataMockService } from '../../services/exercise-settings-data.mock.service';
-import { MockExercise } from '../MockExercise';
-import { fakeAsync, flush, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
-import { ExerciseService } from '../exercise.service';
-import { timeoutAsPromise } from '../../shared/ts-utility';
 import { NoteEvent, PlayerService } from '../../services/player.service';
-import { ExercisePageDebugger } from './exerice.page.debugger.spec';
-import { TestingUtility } from '../../shared/testing-utility';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { ExerciseTestingModule } from '../exercise-testing.module';
 import { ModalFrameComponent } from '../../shared/modal/modal-frame/modal-frame.component';
+import { TestingUtility } from '../../shared/testing-utility';
+import { timeoutAsPromise } from '../../shared/ts-utility';
+import { ExerciseTestingModule } from '../exercise-testing.module';
+import { ExerciseService } from '../exercise.service';
+import { MockExercise } from '../MockExercise';
+import { ExercisePage } from './exercise.page';
+import { ExercisePageDebugger } from './exerice.page.debugger.spec';
 
 describe(ExercisePage.name, () => {
   const spies: jasmine.Spy[] = [];
@@ -42,7 +42,7 @@ describe(ExercisePage.name, () => {
 
     spies.push(
       spyOn(TestBed.inject(ExerciseService), 'getExercise').and.returnValue(
-        MockExercise.instance
+        MockExercise.instance,
       ),
       spyOn(MockExercise.instance, 'getAnswerList').and.returnValue([
         {
@@ -51,7 +51,7 @@ describe(ExercisePage.name, () => {
         },
         'Answer 2',
         'Answer 3',
-      ])
+      ]),
     );
 
     TestBed.inject(ExerciseSettingsDataMockService).exerciseIdToSettings[
@@ -81,7 +81,7 @@ describe(ExercisePage.name, () => {
   //#region Utility functions
   function createComponent(): void {
     exercisePageDebugger = new ExercisePageDebugger(
-      TestBed.createComponent(ExercisePage)
+      TestBed.createComponent(ExercisePage),
     );
     exercisePageDebugger.spectator.detectChanges();
   }
@@ -96,7 +96,7 @@ describe(ExercisePage.name, () => {
     exercisePageDebugger.clickOnAnswer('Answer 1');
     exercisePageDebugger.clickOnAnswer('Answer 2');
     expect(
-      TestingUtility.isDisabled(exercisePageDebugger.getNextButton())
+      TestingUtility.isDisabled(exercisePageDebugger.getNextButton()),
     ).toBeFalse();
   }
 
@@ -123,7 +123,7 @@ describe(ExercisePage.name, () => {
   it('exercise name should be visible in the header', async () => {
     createComponent();
     expect(exercisePageDebugger.getExerciseTitle()).toEqual(
-      MockExercise.instance.name
+      MockExercise.instance.name,
     );
   });
 
@@ -132,7 +132,7 @@ describe(ExercisePage.name, () => {
     const expectedExplanation = MockExercise.instance.explanation;
     if (typeof expectedExplanation !== 'string') {
       throw Error(
-        `Expected MockExercise name to be of type string. Received ${expectedExplanation}`
+        `Expected MockExercise name to be of type string. Received ${expectedExplanation}`,
       );
     }
     expect(document.body.innerText).not.toContain(expectedExplanation);
@@ -161,7 +161,7 @@ describe(ExercisePage.name, () => {
         jasmine.arrayWithExactContents([
           ...MockExercise.cadenceToPlayExpectation,
           ...MockExercise.questionToPlayExpectation,
-        ])
+        ]),
       );
       playMultiplePartsSpy.and.callThrough();
     }));
@@ -177,7 +177,7 @@ describe(ExercisePage.name, () => {
         jasmine.arrayWithExactContents([
           ...MockExercise.cadenceToPlayExpectation,
           ...MockExercise.questionToPlayExpectation,
-        ])
+        ]),
       );
     }));
 
@@ -193,7 +193,7 @@ describe(ExercisePage.name, () => {
       expect(playMultiplePartsSpy).toHaveBeenCalledOnceWith(
         jasmine.arrayWithExactContents([
           ...MockExercise.questionToPlayExpectation,
-        ])
+        ]),
       );
     }));
 
@@ -291,14 +291,14 @@ describe(ExercisePage.name, () => {
     describe('Next question', function () {
       it('should be disabled before answering', () => {
         expect(
-          TestingUtility.isDisabled(exercisePageDebugger.getNextButton())
+          TestingUtility.isDisabled(exercisePageDebugger.getNextButton()),
         ).toBeTrue();
       });
 
       it('should be disabled when partially answered', fakeAsync(() => {
         exercisePageDebugger.clickOnAnswer('Answer 1');
         expect(
-          TestingUtility.isDisabled(exercisePageDebugger.getNextButton())
+          TestingUtility.isDisabled(exercisePageDebugger.getNextButton()),
         ).toBeTrue();
       }));
 
@@ -306,7 +306,7 @@ describe(ExercisePage.name, () => {
         exercisePageDebugger.clickOnAnswer('Answer 1');
         exercisePageDebugger.clickOnAnswer('Answer 2');
         expect(
-          TestingUtility.isDisabled(exercisePageDebugger.getNextButton())
+          TestingUtility.isDisabled(exercisePageDebugger.getNextButton()),
         ).toBeFalse();
       }));
 
@@ -338,7 +338,7 @@ describe(ExercisePage.name, () => {
           jasmine.arrayWithExactContents([
             ...MockExercise.cadenceToPlayExpectation,
             ...MockExercise.questionToPlayExpectation,
-          ])
+          ]),
         );
 
         playMultiplePartsSpy.and.callThrough();
@@ -369,7 +369,7 @@ describe(ExercisePage.name, () => {
         answerAllSegmentsOfMockQuestion();
         const playPartSpy = spyOn<PlayerService, 'playPart'>(
           TestBed.inject(PlayerService),
-          'playPart'
+          'playPart',
         );
         exercisePageDebugger.clickOnAnswer('Answer 1');
         expect(playPartSpy).toHaveBeenCalledOnceWith(
@@ -379,7 +379,7 @@ describe(ExercisePage.name, () => {
               duration: '4n',
             }),
           ]),
-          jasmine.anything()
+          jasmine.anything(),
         );
 
         // verify answers indication remain

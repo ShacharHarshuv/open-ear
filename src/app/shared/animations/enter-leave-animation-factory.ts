@@ -11,7 +11,7 @@ import * as CSS from 'csstype';
 import * as _ from 'lodash';
 
 function reverseSteps(
-  steps: AnimationStyleMetadata[]
+  steps: AnimationStyleMetadata[],
 ): AnimationStyleMetadata[] {
   return [...steps].reverse().map((step, i) => ({
     ...step,
@@ -48,7 +48,7 @@ export function enterLeaveAnimationFactory(args: {
       transition('visible => hidden', [
         animate(args.timing!, keyframes(reversedSteps)),
       ]),
-      transition(':leave', [animate(args.timing!, keyframes(reversedSteps))])
+      transition(':leave', [animate(args.timing!, keyframes(reversedSteps))]),
     );
   }
 

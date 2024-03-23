@@ -1,6 +1,6 @@
+import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { NotesRange } from './NotesRange';
 import { toNoteNumber } from './notes/toNoteName';
-import { Note } from 'tone/Tone/core/type/NoteUnits';
 
 describe('Range', function () {
   it('range constructor', () => {
@@ -62,7 +62,7 @@ describe('Range', function () {
       ];
       const result: Note[] = range.getAllNotes();
       expect(result.map(toNoteNumber)).toEqual(
-        expectedNotesInRange.map(toNoteNumber)
+        expectedNotesInRange.map(toNoteNumber),
       );
     });
 
@@ -77,7 +77,7 @@ describe('Range', function () {
         'G4',
       ];
       expect(range.getAllNotes('Bb').map(toNoteNumber)).toEqual(
-        expectedNotesInRange.map(toNoteNumber)
+        expectedNotesInRange.map(toNoteNumber),
       );
     });
 
@@ -95,7 +95,7 @@ describe('Range', function () {
       expect(
         range
           .getAllNotes(['Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'Ab'])
-          .map(toNoteNumber)
+          .map(toNoteNumber),
       ).toEqual(expectedNotesInRange.map(toNoteNumber));
     });
   });

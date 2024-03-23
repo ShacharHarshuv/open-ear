@@ -36,5 +36,5 @@ const noteTypeMap: { [noteType in NoteType]: true } = {
   Gb: true,
 };
 export const ALL_NOTE_TYPES: NoteType[] = Object.keys(
-  noteTypeMap
+  noteTypeMap,
 ) as NoteType[];

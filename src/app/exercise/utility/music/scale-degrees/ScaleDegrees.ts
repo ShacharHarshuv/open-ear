@@ -1,12 +1,12 @@
 import * as _ from 'lodash';
-import { Key } from '../keys/Key';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { transpose } from '../transpose';
-import { noteTypeToNote } from '../notes/noteTypeToNote';
+import { mod } from '../../../../shared/ts-utility/mod';
+import { Interval } from '../intervals/Interval';
+import { Key } from '../keys/Key';
 import { getDistanceOfKeys } from '../keys/getDistanceOfKeys';
 import { getNoteType } from '../notes/getNoteType';
-import { Interval } from '../intervals/Interval';
-import { mod } from '../../../../shared/ts-utility/mod';
+import { noteTypeToNote } from '../notes/noteTypeToNote';
+import { transpose } from '../transpose';
 
 export enum Accidental {
   Natural = '',
@@ -87,30 +87,30 @@ export const expandedScaleDegreeToChromaticDegree: Record<
 };
 
 export const chromaticDegreeToScaleDegree = _.invert(
-  scaleDegreeToChromaticDegree
+  scaleDegreeToChromaticDegree,
 ) as Record<ChromaticScaleDegree, ScaleDegree>;
 
 export function getNoteFromScaleDegree(
   key: Key,
   scaleDegree: ScaleDegree,
-  octave: number = 4
+  octave: number = 4,
 ): Note {
   return noteTypeToNote(
     transpose(key, scaleDegreeToChromaticDegree[scaleDegree] - 1),
-    octave
+    octave,
   );
 }
 
 export function getScaleDegreeFromNote(key: Key, note: Note): ScaleDegree {
   const chromaticDegree: ChromaticScaleDegree = (mod(
     getDistanceOfKeys(getNoteType(note), key),
-    Interval.Octave
+    Interval.Octave,
   ) + 1) as ChromaticScaleDegree;
   return chromaticDegreeToScaleDegree[chromaticDegree];
 }
 
 export function getDiatonicScaleDegreeWithAccidental(
-  scaleDegree: ScaleDegree
+  scaleDegree: ScaleDegree,
 ): {
   diatonicScaleDegree: DiatonicScaleDegree;
   accidental: Accidental;

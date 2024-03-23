@@ -1,9 +1,9 @@
-import Exercise from './exercise-logic';
 import {
-  PlayerService,
-  PartToPlay,
   NoteEvent,
+  PartToPlay,
+  PlayerService,
 } from '../services/player.service';
+import Exercise from './exercise-logic';
 import { createExercise } from './exercises/utility/exerciseAttributes/createExercise';
 import MatchableArgs = jasmine.MatchableArgs;
 

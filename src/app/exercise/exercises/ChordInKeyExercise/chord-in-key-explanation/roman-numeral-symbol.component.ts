@@ -1,7 +1,7 @@
 import { Component, computed, HostBinding, Input } from '@angular/core';
 
-import { RomanNumeralChordSymbol } from '../../../utility';
 import { signalFromProperty } from '../../../../shared/ng-utilities/signalFromProperty';
+import { RomanNumeralChordSymbol } from '../../../utility';
 import { RomanNumeralChord } from '../../../utility/music/harmony/RomanNumeralChord';
 
 @Component({

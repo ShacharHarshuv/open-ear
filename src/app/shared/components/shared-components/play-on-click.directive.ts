@@ -1,9 +1,9 @@
 import { Directive, HostListener, Input, inject } from '@angular/core';
+import * as _ from 'lodash';
+import { toSteadyPart } from '../../../exercise/utility';
+import { NoteNumberOrName } from '../../../exercise/utility/music/notes/NoteNumberOrName';
 import { NoteEvent, PlayerService } from '../../../services/player.service';
 import { OneOrMany } from '../../ts-utility';
-import { NoteNumberOrName } from '../../../exercise/utility/music/notes/NoteNumberOrName';
-import { toSteadyPart } from '../../../exercise/utility';
-import * as _ from 'lodash';
 
 @Directive({
   selector: '[appPlayOnClick]',

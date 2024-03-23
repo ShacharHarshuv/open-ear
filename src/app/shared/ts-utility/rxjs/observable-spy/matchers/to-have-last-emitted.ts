@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
-import { ObservableSpy } from '../observable-spy';
 import { compareEquality } from '../../../../testing-utility/jasmine/custom-matchers/utility';
+import { ObservableSpy } from '../observable-spy';
 import MatchersUtil = jasmine.MatchersUtil;
 import CustomEqualityTester = jasmine.CustomEqualityTester;
 import CustomMatcherResult = jasmine.CustomMatcherResult;
@@ -16,12 +16,12 @@ declare global {
 
 export function toHaveLastEmitted<G>(
   util: MatchersUtil,
-  customEqualityTester: CustomEqualityTester[]
+  customEqualityTester: CustomEqualityTester[],
 ): CustomMatcher {
   return {
     compare: function (
       actual: Observable<G>,
-      expected: G
+      expected: G,
     ): CustomMatcherResult {
       const observableSpy = ObservableSpy.getSpy(actual);
       const mostRecentCall = observableSpy.spy.calls.mostRecent();
@@ -39,7 +39,7 @@ export function toHaveLastEmitted<G>(
         `Expected observable to have last emitted:
         ${util.pp(expected)}
         but actual emission was:
-        ${util.pp(actualEmission)}\n\n`
+        ${util.pp(actualEmission)}\n\n`,
       );
     },
   };

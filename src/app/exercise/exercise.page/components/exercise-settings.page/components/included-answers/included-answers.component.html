@@ -1,37 +1,32 @@
 @if (value$ | async; as value) {
-
   <app-answers-layout
     [answerList]="answerList()"
     [buttonTemplate]="buttonTemplate"
     [multiAnswerButtonTemplate]="multiAnswerButtonTemplate"
     [multiAnswerCellConfig]="{
       dismissOnSelect: false,
-      triggerAction: 'context-menu',
+      triggerAction: 'context-menu'
     }"
   ></app-answers-layout>
 
   @if (hasMultiAnswerButtons()) {
-<p class="long-press-hint">
-    Long-press a button to see more options
-  </p>
-}
+    <p class="long-press-hint">Long-press a button to see more options</p>
+  }
 
-  <ng-template let-answerConfig #buttonTemplate>
+  <ng-template #buttonTemplate let-answerConfig>
     @if (answerConfig.answer; as answer) {
-<app-included-answers-button
-     
-      [included]="value.includes(answer)"
-      (click)="toggleInclusion(answer)"
-    >
-      <span [innerHTML]="answerConfig.displayLabel"></span>
-    </app-included-answers-button>
-}
+      <app-included-answers-button
+        [included]="value.includes(answer)"
+        (click)="toggleInclusion(answer)"
+      >
+        <span [innerHTML]="answerConfig.displayLabel"></span>
+      </app-included-answers-button>
+    }
   </ng-template>
 
-  <ng-template let-multiAnswerCell #multiAnswerButtonTemplate>
+  <ng-template #multiAnswerButtonTemplate let-multiAnswerCell>
     <app-included-answers-multi-answer-button
       [multiAnswerCell]="multiAnswerCell"
     />
   </ng-template>
-
 }

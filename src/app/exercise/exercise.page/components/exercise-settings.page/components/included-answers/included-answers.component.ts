@@ -1,16 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, Signal, computed } from '@angular/core';
-import Exercise, { isMultiAnswerCell } from '../../../../../exercise-logic';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { IonicModule } from '@ionic/angular';
+import { signalFromProperty } from '../../../../../../shared/ng-utilities/signalFromProperty';
 import {
   BaseControlValueAccessorComponent,
   getNgValueAccessorProvider,
 } from '../../../../../../shared/ts-utility';
-import { IonicModule } from '@ionic/angular';
-import { CommonModule } from '@angular/common';
+import Exercise, { isMultiAnswerCell } from '../../../../../exercise-logic';
+import { AnswersLayoutComponent } from '../../../answers-layout/answers-layout.component';
 import { IncludedAnswersButtonComponent } from './components/included-answers-button/included-answers-button.component';
 import { IncludedAnswersMultiAnswerButtonComponent } from './components/included-answers-multi-answer-button/included-answers-multi-answer-button.component';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { signalFromProperty } from '../../../../../../shared/ng-utilities/signalFromProperty';
-import { AnswersLayoutComponent } from '../../../answers-layout/answers-layout.component';
 
 @Component({
   selector: 'app-included-answers',
@@ -27,7 +27,7 @@ import { AnswersLayoutComponent } from '../../../answers-layout/answers-layout.c
   ],
 })
 export class IncludedAnswersComponent<
-  GAnswer extends string
+  GAnswer extends string,
 > extends BaseControlValueAccessorComponent<GAnswer[]> {
   @Input({
     required: true,
@@ -62,7 +62,7 @@ export class IncludedAnswersComponent<
 }
 
 function* getAnswersLayoutCellIterator<GAnswer extends string>(
-  answerList: Exercise.AnswerList<GAnswer>
+  answerList: Exercise.AnswerList<GAnswer>,
 ): Generator<Exercise.AnswersLayoutCell<GAnswer>, void, undefined> {
   if (Array.isArray(answerList)) {
     return;

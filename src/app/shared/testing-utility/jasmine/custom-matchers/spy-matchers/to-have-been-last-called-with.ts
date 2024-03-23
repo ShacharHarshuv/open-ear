@@ -7,7 +7,7 @@ import MatchableArgs = jasmine.MatchableArgs;
 
 declare global {
   function expect<T extends jasmine.Func>(
-    spy: jasmine.Spy<T>
+    spy: jasmine.Spy<T>,
   ): jasmine.SpyMatchers<T>;
 
   namespace jasmine {
@@ -20,7 +20,7 @@ declare global {
 
 export function toHaveBeenLastCalledWith<Fn extends Func>(
   util: MatchersUtil,
-  customEqualityTester: CustomEqualityTester[]
+  customEqualityTester: CustomEqualityTester[],
 ): CustomMatcher {
   return {
     // @ts-ignore // type declaration for this function are too strict
@@ -41,7 +41,7 @@ export function toHaveBeenLastCalledWith<Fn extends Func>(
               'toHaveBeenLastCalledWith',
               false,
               actual,
-              expectedArgs
+              expectedArgs,
             ) +
             '\n' +
             'but actual last call was:\n' +

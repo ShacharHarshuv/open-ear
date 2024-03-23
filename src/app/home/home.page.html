@@ -21,10 +21,7 @@
 <ion-content [fullscreen]="true">
   <ion-list>
     @for (exercise of exerciseList; track exercise) {
-<app-exercise-summary
-     
-      [exercise]="exercise"
-    ></app-exercise-summary>
-}
+    <app-exercise-summary [exercise]="exercise"></app-exercise-summary>
+    }
   </ion-list>
 </ion-content>

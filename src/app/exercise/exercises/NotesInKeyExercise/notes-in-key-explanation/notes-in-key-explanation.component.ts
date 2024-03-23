@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { NoteEvent } from '../../../../services/player.service';
-import { IV_V_I_CADENCE_IN_C } from '../../../utility/music/chords';
-import { InfoPanelComponent } from '../../../../shared/components/shared-components/info-panel/info-panel.component';
-import { CollapsibleComponent } from '../../../../shared/components/shared-components/collapsible/collapsible.component';
 import { IonicModule } from '@ionic/angular';
+import { NoteEvent } from '../../../../services/player.service';
+import { CollapsibleComponent } from '../../../../shared/components/shared-components/collapsible/collapsible.component';
+import { InfoPanelComponent } from '../../../../shared/components/shared-components/info-panel/info-panel.component';
 import { PlayOnClickDirective } from '../../../../shared/components/shared-components/play-on-click.directive';
+import { IV_V_I_CADENCE_IN_C } from '../../../utility/music/chords';
 
 @Component({
   selector: 'app-notes-in-key-explanation',

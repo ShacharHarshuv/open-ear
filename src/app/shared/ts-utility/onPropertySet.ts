@@ -6,17 +6,17 @@ const errorMsg = (key): string =>
 export function onPropertySet<G, K extends keyof G>(
   object: G,
   key: K,
-  onSet: (value: G[K]) => unknown
+  onSet: (value: G[K]) => unknown,
 );
 export function onPropertySet<G, K extends keyof G>(
   object: any,
   key: string | symbol | number,
-  onSet: (value: any) => unknown
+  onSet: (value: any) => unknown,
 );
 export function onPropertySet<G, K extends keyof G>(
   object: any,
   key: string | symbol | number,
-  onSet: (value: any) => unknown
+  onSet: (value: any) => unknown,
 ) {
   function getPropertyDescriptor(_object): PropertyDescriptor | undefined {
     if (!_object) {
@@ -37,22 +37,22 @@ export function onPropertySet<G, K extends keyof G>(
   if (!descriptor) {
     throw new Error(
       `${errorMsg(
-        key
+        key,
       )} it's not defined. Please make sure it's initialized before calling ${
         listenToChanges.name
-      }`
+      }`,
     );
   }
 
   if (descriptor.get && !descriptor.set) {
     throw new Error(
-      `${errorMsg(key)} because it only has a getter and not a setter`
+      `${errorMsg(key)} because it only has a getter and not a setter`,
     );
   }
 
   if (!descriptor.get && descriptor.set) {
     throw new Error(
-      `${errorMsg(key)} because it only has a setter and not a getter`
+      `${errorMsg(key)} because it only has a setter and not a getter`,
     );
   }
 

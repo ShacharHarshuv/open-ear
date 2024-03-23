@@ -1,29 +1,39 @@
+import * as _ from 'lodash';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
 import Exercise from '../../exercise-logic';
 import {
+  DeepReadonly,
+  Interval,
   NotesRange,
-  randomFromList,
+  ScaleDegree,
   SolfegeNote,
-  scaleDegreeToSolfegeNote,
+  getDiatonicScaleDegreeWithAccidental,
   getResolutionFromScaleDegree,
   getScaleDegreeFromNote,
+  randomFromList,
+  scaleDegreeToSolfegeNote,
   solfegeNoteToScaleDegree,
-  ScaleDegree,
-  DeepReadonly,
-  getDiatonicScaleDegreeWithAccidental,
-  Interval,
   toNoteNumber,
 } from '../../utility';
-import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { getNoteType } from '../../utility/music/notes/getNoteType';
 import { NoteType } from '../../utility/music/notes/NoteType';
 import { getNoteOctave } from '../../utility/music/notes/getNoteOctave';
+import { getNoteType } from '../../utility/music/notes/getNoteType';
 import { noteTypeToNote } from '../../utility/music/notes/noteTypeToNote';
-import { NotesInKeyExplanationComponent } from './notes-in-key-explanation/notes-in-key-explanation.component';
+import { noteTypeToScaleDegree } from '../../utility/music/scale-degrees/noteTypeToScaleDegree';
+import { scaleDegreeToNoteType } from '../../utility/music/scale-degrees/scaleDegreeToNoteType';
+import { transpose } from '../../utility/music/transpose';
+import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
+import { createExercise } from '../utility/exerciseAttributes/createExercise';
 import {
-  MelodicDictationExerciseSettings,
   IMelodicQuestion,
+  MelodicDictationExerciseSettings,
   melodicExercise,
 } from '../utility/exerciseAttributes/melodicDictationExercise';
+import { TonalExerciseUtils } from '../utility/exerciseAttributes/tonalExercise';
+import {
+  IncludedAnswersSettings,
+  includedAnswersSettings,
+} from '../utility/settings/IncludedAnswersSettings';
 import {
   NumberOfSegmentsSetting,
   numberOfSegmentsControlDescriptorList,
@@ -32,17 +42,7 @@ import {
   PlayAfterCorrectAnswerSetting,
   playAfterCorrectAnswerControlDescriptorList,
 } from '../utility/settings/PlayAfterCorrectAnswerSetting';
-import {
-  IncludedAnswersSettings,
-  includedAnswersSettings,
-} from '../utility/settings/IncludedAnswersSettings';
-import { noteTypeToScaleDegree } from '../../utility/music/scale-degrees/noteTypeToScaleDegree';
-import { scaleDegreeToNoteType } from '../../utility/music/scale-degrees/scaleDegreeToNoteType';
-import { transpose } from '../../utility/music/transpose';
-import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
-import { createExercise } from '../utility/exerciseAttributes/createExercise';
-import { TonalExerciseUtils } from '../utility/exerciseAttributes/tonalExercise';
-import * as _ from 'lodash';
+import { NotesInKeyExplanationComponent } from './notes-in-key-explanation/notes-in-key-explanation.component';
 
 export type NoteInKeySettings = IncludedAnswersSettings<SolfegeNote> &
   MelodicDictationExerciseSettings &
@@ -77,7 +77,7 @@ export function notesInKeyExercise() {
       defaultSelectedAnswers: ['Do', 'Re', 'Mi'],
       name: 'Scale Degrees',
     }),
-    createExercise
+    createExercise,
   )({
     id: 'noteInKey',
     name: `Scale Degrees`,
@@ -85,7 +85,7 @@ export function notesInKeyExercise() {
     explanation: NotesInKeyExplanationComponent,
     getMelodicQuestionInC(
       settings: NoteInKeySettings,
-      tonalExerciseUtils: TonalExerciseUtils
+      tonalExerciseUtils: TonalExerciseUtils,
     ): IMelodicQuestion {
       function getNoteOptionsFromRange(notesRange: NotesRange): Note[] {
         const rangeForKeyOfC: NotesRange =
@@ -94,8 +94,8 @@ export function notesInKeyExercise() {
           .getAllNotes()
           .filter((questionOption) =>
             settings.includedAnswers.includes(
-              getSolfegeNoteOfNoteInC(questionOption)
-            )
+              getSolfegeNoteOfNoteInC(questionOption),
+            ),
           );
       }
 
@@ -105,13 +105,13 @@ export function notesInKeyExercise() {
       const topVoiceRange: NotesRange = new NotesRange(
         transpose(
           notesRange.lowestNoteName,
-          voiceRangeGap * (settings.numberOfVoices - 1)
+          voiceRangeGap * (settings.numberOfVoices - 1),
         ),
-        notesRange.highestNoteName
+        notesRange.highestNoteName,
       );
       const noteOptions: Note[] = getNoteOptionsFromRange(topVoiceRange);
       let randomNotesInC: Note[] = Array.from(
-        Array(settings.numberOfSegments)
+        Array(settings.numberOfSegments),
       ).map(() => randomFromList(noteOptions));
       const randomQuestionInC: Note[][] = [randomNotesInC];
 
@@ -138,7 +138,7 @@ export function notesInKeyExercise() {
             case '8':
               return [Interval.Octave];
           }
-        }
+        },
       );
       let currentVoiceRange: NotesRange = notesRange;
       while (randomQuestionInC.length < settings.numberOfVoices) {
@@ -154,7 +154,7 @@ export function notesInKeyExercise() {
           });
           if (_.isEmpty(options)) {
             console.error(
-              `No options for note ${note} in range ${currentVoiceRange.lowestNoteName} - ${currentVoiceRange.highestNoteName}`
+              `No options for note ${note} in range ${currentVoiceRange.lowestNoteName} - ${currentVoiceRange.highestNoteName}`,
             );
             options.push(note);
           }
@@ -177,16 +177,16 @@ export function notesInKeyExercise() {
           getResolutionFromScaleDegree(
             scaleDegree,
             settings.includedAnswers.map(
-              (solfege) => solfegeNoteToScaleDegree[solfege]
+              (solfege) => solfegeNoteToScaleDegree[solfege],
             ),
-            settings.cadenceType
+            settings.cadenceType,
           );
         const resolutionInNoteTypes: NoteType[] = resolutionInScaleDegrees.map(
-          (scaleDegree) => scaleDegreeToNoteType(scaleDegree, 'C')
+          (scaleDegree) => scaleDegreeToNoteType(scaleDegree, 'C'),
         );
         let octaveNumber = getNoteOctave(note);
         resolution = resolutionInNoteTypes.map((noteType) =>
-          noteTypeToNote(noteType, octaveNumber)
+          noteTypeToNote(noteType, octaveNumber),
         );
         /**
          * For resolutions up the last note should be an octave above
@@ -198,7 +198,7 @@ export function notesInKeyExercise() {
         ) {
           resolution[resolution.length - 1] = transpose(
             resolution[resolution.length - 1],
-            Interval.Octave
+            Interval.Octave,
           );
         }
       }
@@ -213,8 +213,8 @@ export function notesInKeyExercise() {
                 index === 0
                   ? '4n'
                   : index === resolution.length - 1
-                  ? '2n'
-                  : '8n',
+                    ? '2n'
+                    : '8n',
             },
           ],
           answerToHighlight: getSolfegeNoteOfNoteInC(note),

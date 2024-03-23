@@ -1,10 +1,10 @@
-import { Injectable, Inject, InjectionToken, inject } from '@angular/core';
-import { OneOrMany, toObservable, toArray } from '../shared/ts-utility';
-import { VersionService } from '../version.service';
-import { StorageService } from './storage.service';
+import { Injectable, InjectionToken, inject } from '@angular/core';
+import * as _ from 'lodash';
 import { firstValueFrom } from 'rxjs';
 import { versionComparator } from '../release-notes/version-comparator';
-import * as _ from 'lodash';
+import { OneOrMany, toArray, toObservable } from '../shared/ts-utility';
+import { VersionService } from '../version.service';
+import { StorageService } from './storage.service';
 
 export interface StorageMigrationScript<GData = any> {
   breakingChangeVersion: string;
@@ -13,7 +13,7 @@ export interface StorageMigrationScript<GData = any> {
 }
 
 export const MIGRATION_SCRIPTS = new InjectionToken<StorageMigrationScript[]>(
-  'MigrationScrtips'
+  'MigrationScrtips',
 );
 
 @Injectable({
@@ -28,10 +28,10 @@ export class StorageMigrationService {
 
   async getScriptsToRun(): Promise<readonly StorageMigrationScript[]> {
     const currentVersion: string = await firstValueFrom(
-      toObservable(await this._versionService.version$)
+      toObservable(await this._versionService.version$),
     );
     const lastVersion: string = await this._storageService.get(
-      this._lastVersionKey
+      this._lastVersionKey,
     );
     if (!lastVersion && currentVersion !== 'development') {
       return this._migrationScrips;
@@ -45,7 +45,7 @@ export class StorageMigrationService {
           0 &&
         versionComparator(
           migrationScript.breakingChangeVersion,
-          currentVersion
+          currentVersion,
         ) <= 0
       );
     });
@@ -55,7 +55,7 @@ export class StorageMigrationService {
     migrationScript: Omit<
       StorageMigrationScript<GData>,
       'breakingChangeVersion'
-    >
+    >,
   ): Promise<void> {
     for (let key of toArray(migrationScript.storageKey)) {
       const currentValue: GData = await this._storageService.get(key);

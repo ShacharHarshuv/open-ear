@@ -7,20 +7,20 @@
   <ion-list>
     <ion-item>
       <ion-label>
-        Sound <app-field-info message="Choose instrument sound that will be playing the questions. Use this to get used to different tibres"></app-field-info>
+        Sound
+        <app-field-info
+          message="Choose instrument sound that will be playing the questions. Use this to get used to different tibres"
+        ></app-field-info>
       </ion-label>
       <ion-select
         [formControl]="generalFormGroup.controls.instrument"
         [interface]="'popover'"
       >
         @for (instrumentOption of instrumentOptions; track instrumentOption) {
-<ion-select-option
-         
-          [value]="instrumentOption.value"
-        >
+        <ion-select-option [value]="instrumentOption.value">
           {{instrumentOption.label}}
         </ion-select-option>
-}
+        }
       </ion-select>
     </ion-item>
     <ion-item>
@@ -108,109 +108,86 @@
   </ion-list>
 
   @if (exerciseFormGroup) {
-<ion-list>
-    @for (exerciseControlSettings of exerciseSettingsDescriptor; track exerciseControlSettings) {
+  <ion-list>
+    @for (exerciseControlSettings of exerciseSettingsDescriptor; track
+    exerciseControlSettings) { @if (((getControlDescriptorStream | pureFunction:
+    exerciseControlSettings) | async); as descriptor) {
 
-      @if (((getControlDescriptorStream | pureFunction: exerciseControlSettings) | async); as descriptor) {
-
-        <ng-template #label>
-          <ion-label
-            >{{descriptor.label}}@if (exerciseControlSettings.info) {
-<app-field-info
-             
-              [message]="exerciseControlSettings.info"
-            ></app-field-info
-          >
-}</ion-label>
-        </ng-template>
-        @if (isShowExerciseControl(exerciseControlSettings)) {
-
-@switch (descriptor.controlType) {
-          @case ('select') {
-<ion-item @collapseVertical>
-            <ng-container *ngTemplateOutlet="label"></ng-container>
-            <ion-select
-              [appExerciseControl]="exerciseControlSettings"
-              [interface]="'popover'"
-            >
-              @for (option of asSelectControlDescriptor(descriptor).options; track option) {
-<ion-select-option
-               
-                [value]="option.value"
-              >
-                {{option.label}}
-              </ion-select-option>
-}
-            </ion-select>
-          </ion-item>
-}
-          @case ('slider') {
-<ion-item
-           
-            class="exercise-settings__item --label-above"
-            @collapseVertical
-          >
-            <ng-container *ngTemplateOutlet="label"></ng-container>
-            <ion-range
-              [appExerciseControl]="exerciseControlSettings"
-              [max]="asSliderControlDescriptor(descriptor).max"
-              [min]="asSliderControlDescriptor(descriptor).min"
-              [snaps]="true"
-              [step]="asSliderControlDescriptor(descriptor).step"
-              pin
-            >
-            </ion-range>
-          </ion-item>
-}
-          @case ('list-select') {
-<app-list-select
-           
-            [allAvailableOptions]="asListSelectControlDescriptor(descriptor).allOptions"
-            [appExerciseControl]="exerciseControlSettings"
-            [label]="descriptor.label"
-            @collapseVertical
-          >
-            @if (exerciseControlSettings.info) {
-<app-field-info
-             
-              [message]="exerciseControlSettings.info"
-              list-select-proj__after-label
-            ></app-field-info>
-}
-          </app-list-select>
-}
-          @case ('checkbox') {
-<ion-item @collapseVertical>
-            <ng-container *ngTemplateOutlet="label"></ng-container>
-            <ion-toggle
-              [appExerciseControl]="exerciseControlSettings"
-              slot="end"
-            ></ion-toggle>
-          </ion-item>
-}
-          @case ('included-answers') {
-<ion-list>
-            <ion-list-header
-              >{{descriptor.label}}@if (exerciseControlSettings.info) {
-<app-field-info
-               
-                [message]="exerciseControlSettings.info"
-              ></app-field-info
-            >
-}</ion-list-header>
-            <app-included-answers
-              [answerList]="asIncludedAnswersControlDescriptor(descriptor).answerList"
-              [appExerciseControl]="exerciseControlSettings"
-            ></app-included-answers>
-          </ion-list>
-}
+    <ng-template #label>
+      <ion-label
+        >{{descriptor.label}}@if (exerciseControlSettings.info) {
+        <app-field-info
+          [message]="exerciseControlSettings.info"
+        ></app-field-info>
+        }</ion-label
+      >
+    </ng-template>
+    @if (isShowExerciseControl(exerciseControlSettings)) { @switch
+    (descriptor.controlType) { @case ('select') {
+    <ion-item @collapseVertical>
+      <ng-container *ngTemplateOutlet="label"></ng-container>
+      <ion-select
+        [appExerciseControl]="exerciseControlSettings"
+        [interface]="'popover'"
+      >
+        @for (option of asSelectControlDescriptor(descriptor).options; track
+        option) {
+        <ion-select-option [value]="option.value">
+          {{option.label}}
+        </ion-select-option>
         }
-
-}
-      
-}
-    
-}
+      </ion-select>
+    </ion-item>
+    } @case ('slider') {
+    <ion-item class="exercise-settings__item --label-above" @collapseVertical>
+      <ng-container *ngTemplateOutlet="label"></ng-container>
+      <ion-range
+        [appExerciseControl]="exerciseControlSettings"
+        [max]="asSliderControlDescriptor(descriptor).max"
+        [min]="asSliderControlDescriptor(descriptor).min"
+        [snaps]="true"
+        [step]="asSliderControlDescriptor(descriptor).step"
+        pin
+      >
+      </ion-range>
+    </ion-item>
+    } @case ('list-select') {
+    <app-list-select
+      [allAvailableOptions]="asListSelectControlDescriptor(descriptor).allOptions"
+      [appExerciseControl]="exerciseControlSettings"
+      [label]="descriptor.label"
+      @collapseVertical
+    >
+      @if (exerciseControlSettings.info) {
+      <app-field-info
+        [message]="exerciseControlSettings.info"
+        list-select-proj__after-label
+      ></app-field-info>
+      }
+    </app-list-select>
+    } @case ('checkbox') {
+    <ion-item @collapseVertical>
+      <ng-container *ngTemplateOutlet="label"></ng-container>
+      <ion-toggle
+        [appExerciseControl]="exerciseControlSettings"
+        slot="end"
+      ></ion-toggle>
+    </ion-item>
+    } @case ('included-answers') {
+    <ion-list>
+      <ion-list-header
+        >{{descriptor.label}}@if (exerciseControlSettings.info) {
+        <app-field-info
+          [message]="exerciseControlSettings.info"
+        ></app-field-info>
+        }</ion-list-header
+      >
+      <app-included-answers
+        [answerList]="asIncludedAnswersControlDescriptor(descriptor).answerList"
+        [appExerciseControl]="exerciseControlSettings"
+      ></app-included-answers>
+    </ion-list>
+    } } } } }
   </ion-list>
-}
+  }
 </app-modal-frame>

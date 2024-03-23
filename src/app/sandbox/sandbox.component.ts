@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { PlayerService } from '../services/player.service';
-import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { IonicModule } from '@ionic/angular';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { PlayerService } from '../services/player.service';
 
 @Component({
   selector: 'app-sandbox',

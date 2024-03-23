@@ -5,7 +5,7 @@ export type PlayAfterCorrectAnswerSetting = {
 };
 
 export const playAfterCorrectAnswerControlDescriptorList = <
-  GSettings extends PlayAfterCorrectAnswerSetting
+  GSettings extends PlayAfterCorrectAnswerSetting,
 >(param?: {
   show?: (settings: GSettings) => boolean;
 }): Exercise.SettingsControlDescriptor<PlayAfterCorrectAnswerSetting>[] => [

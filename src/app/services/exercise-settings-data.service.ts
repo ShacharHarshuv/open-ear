@@ -11,7 +11,7 @@ export class ExerciseSettingsDataService {
 
   async saveExerciseSettings(
     exerciseId: string,
-    settings: Partial<ExerciseSettingsData>
+    settings: Partial<ExerciseSettingsData>,
   ): Promise<void> {
     const currentExercisesSettings: {
       [exerciseKey: string]: ExerciseSettingsData;
@@ -22,12 +22,12 @@ export class ExerciseSettingsDataService {
     };
     await this._storageService.set(
       this._exerciseSettingsKey,
-      currentExercisesSettings
+      currentExercisesSettings,
     );
   }
 
   async getExerciseSettings(
-    exerciseId: string
+    exerciseId: string,
   ): Promise<Partial<ExerciseSettingsData> | undefined> {
     return (await this._storageService.get(this._exerciseSettingsKey))?.[
       exerciseId

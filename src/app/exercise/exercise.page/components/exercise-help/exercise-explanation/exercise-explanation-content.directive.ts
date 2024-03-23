@@ -24,7 +24,7 @@ export class ExerciseExplanationContentDirective {
     } else {
       this._viewContainerRef.clear();
       this._viewContainerRef.createComponent(
-        this._cfResolver.resolveComponentFactory(content)
+        this._cfResolver.resolveComponentFactory(content),
       );
     }
   }

@@ -1,26 +1,26 @@
+import * as _ from 'lodash';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { Time } from 'tone/Tone/core/type/Units';
+import Exercise from '../../../exercise-logic';
 import {
+  OneOrMany,
+  ScaleDegree,
+  SolfegeNote,
+  StaticOrGetter,
+  getNoteFromScaleDegree,
+  scaleDegreeToSolfegeNote,
+  toGetter,
+} from '../../../utility';
+import { toMusicalTextDisplay } from '../../../utility/music/getMusicTextDisplay';
+import { getNoteType } from '../../../utility/music/notes/getNoteType';
+import { noteTypeToScaleDegree } from '../../../utility/music/scale-degrees/noteTypeToScaleDegree';
+import { scaleLayout } from '../answer-layouts/scale-layout';
+import {
+  TonalExerciseConfig,
   TonalExerciseSettings,
   TonalExerciseUtils,
   tonalExercise,
-  TonalExerciseConfig,
 } from './tonalExercise';
-import * as _ from 'lodash';
-import Exercise from '../../../exercise-logic';
-import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { getNoteType } from '../../../utility/music/notes/getNoteType';
-import { Time } from 'tone/Tone/core/type/Units';
-import { toMusicalTextDisplay } from '../../../utility/music/getMusicTextDisplay';
-import { scaleLayout } from '../answer-layouts/scale-layout';
-import {
-  ScaleDegree,
-  SolfegeNote,
-  scaleDegreeToSolfegeNote,
-  getNoteFromScaleDegree,
-  StaticOrGetter,
-  toGetter,
-  OneOrMany,
-} from '../../../utility';
-import { noteTypeToScaleDegree } from '../../../utility/music/scale-degrees/noteTypeToScaleDegree';
 
 type NoteInKeyDisplayMode = 'solfege' | 'numeral';
 
@@ -37,7 +37,7 @@ export interface IMelodicQuestion
 }
 
 export function melodicExercise<
-  GSettings extends MelodicDictationExerciseSettings
+  GSettings extends MelodicDictationExerciseSettings,
 >(config?: TonalExerciseConfig) {
   const noteDuration: Time = '2n';
 
@@ -50,14 +50,14 @@ export function melodicExercise<
     return tonalExercise(config)({
       getQuestion(
         settings: GSettings,
-        tonalExerciseUtils: TonalExerciseUtils
+        tonalExerciseUtils: TonalExerciseUtils,
       ): Exclude<Exercise.NotesQuestion<SolfegeNote>, 'cadence'> {
         const melodicQuestionInC: IMelodicQuestion = toGetter(
-          params.getMelodicQuestionInC
+          params.getMelodicQuestionInC,
         )(settings, tonalExerciseUtils);
 
         function isManyVoices(
-          segments: OneOrMany<Note[]>
+          segments: OneOrMany<Note[]>,
         ): segments is Note[][] {
           return Array.isArray(segments[0]);
         }
@@ -98,7 +98,7 @@ export function melodicExercise<
         Exercise.mapAnswerList(
           scaleLayout,
           (
-            _answerConfig: Exercise.AnswerConfig<ScaleDegree>
+            _answerConfig: Exercise.AnswerConfig<ScaleDegree>,
           ): Exercise.AnswerConfig<SolfegeNote> => {
             const scaleDegree: ScaleDegree | null = _answerConfig.answer;
             const answerConfig: Exercise.AnswerConfig<SolfegeNote> = {
@@ -115,7 +115,7 @@ export function melodicExercise<
             }
 
             return answerConfig;
-          }
+          },
         ),
     });
   };

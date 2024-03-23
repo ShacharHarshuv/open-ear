@@ -14,7 +14,7 @@ export class StorageMigrationServiceMock
   }
 
   async runMigrationScript(
-    migrationScript: StorageMigrationScript
+    migrationScript: StorageMigrationScript,
   ): Promise<void> {}
 
   async runMigrationScripts(): Promise<void> {}

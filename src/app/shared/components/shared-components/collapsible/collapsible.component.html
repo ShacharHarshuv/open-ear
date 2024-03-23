@@ -3,7 +3,7 @@
 </p>
 
 @if (!isCollapsed) {
-<div style="overflow: hidden" @collapseVertical>
-  <ng-content></ng-content>
-</div>
+  <div @collapseVertical style="overflow: hidden">
+    <ng-content></ng-content>
+  </div>
 }

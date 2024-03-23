@@ -20,5 +20,5 @@ export const collapseVertical: AnimationTriggerMetadata = trigger(
         display: 'block',
       }),
     ],
-  })
+  }),
 );

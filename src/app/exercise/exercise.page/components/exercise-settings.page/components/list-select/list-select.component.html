@@ -1,18 +1,18 @@
 @if (modelValue$ | async; as modelValue) {
-<ion-list>
-  <ion-list-header>
-    {{ label }}
-    <ng-content select="[list-select-proj__after-label]"></ng-content>
-  </ion-list-header>
-  @for (answer of allAvailableOptions; track answer) {
-<ion-item>
-    <ion-label>{{ answer.label }}</ion-label>
-    <ion-checkbox
-      (ionChange)="onChange(answer.value, $any($event).detail.checked)"
-      [checked]="modelValue.includes(answer.value)"
-      slot="start"
-    ></ion-checkbox>
-  </ion-item>
-}
-</ion-list>
+  <ion-list>
+    <ion-list-header>
+      {{ label }}
+      <ng-content select="[list-select-proj__after-label]"></ng-content>
+    </ion-list-header>
+    @for (answer of allAvailableOptions; track answer) {
+      <ion-item>
+        <ion-label>{{ answer.label }}</ion-label>
+        <ion-checkbox
+          [checked]="modelValue.includes(answer.value)"
+          (ionChange)="onChange(answer.value, $any($event).detail.checked)"
+          slot="start"
+        ></ion-checkbox>
+      </ion-item>
+    }
+  </ion-list>
 }

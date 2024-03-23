@@ -32,8 +32,10 @@
 
     &:not(.--highlighted) {
       &::part(native) {
-        transition: background-color 700ms ease-in,
-          border-color 300ms ease-in-out, border-width 300ms ease-in-out;
+        transition:
+          background-color 700ms ease-in,
+          border-color 300ms ease-in-out,
+          border-width 300ms ease-in-out;
       }
     }
   }
@@ -48,8 +50,10 @@
 
     &:not(.--right):not(.--wrong) {
       &::part(native) {
-        transition: background-color 700ms ease-in,
-          border-color 300ms ease-in-out, border-width 300ms ease-in-out;
+        transition:
+          background-color 700ms ease-in,
+          border-color 300ms ease-in-out,
+          border-width 300ms ease-in-out;
       }
     }
   }
@@ -64,7 +68,9 @@
     &::part(native) {
       border-color: rgba(0, 0, 0, 0.2);
       border-width: 4px;
-      transition: border-color 10ms ease-in-out, border-width 10ms ease-in-out;
+      transition:
+        border-color 10ms ease-in-out,
+        border-width 10ms ease-in-out;
     }
   }
 }

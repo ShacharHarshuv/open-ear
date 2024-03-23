@@ -1,10 +1,10 @@
+import { flush } from '@angular/core/testing';
 import {
   BaseComponentDebugger,
   TestingUtility,
 } from '../../shared/testing-utility';
-import { ExercisePage } from './exercise.page';
 import Exercise from '../exercise-logic';
-import { flush } from '@angular/core/testing';
+import { ExercisePage } from './exercise.page';
 
 export class ExercisePageDebugger extends BaseComponentDebugger<ExercisePage> {
   //#region Getters
@@ -39,7 +39,7 @@ export class ExercisePageDebugger extends BaseComponentDebugger<ExercisePage> {
               : answerIndication.innerText,
           wasWrong: answerIndication.classList.contains('--wrong'),
         };
-      }
+      },
     );
   }
 
@@ -59,11 +59,11 @@ export class ExercisePageDebugger extends BaseComponentDebugger<ExercisePage> {
       throw new Error(`Could not find stats element`);
     }
     const match: RegExpMatchArray | null = text.match(
-      /Correct answers: ([0-9]+)\/([0-9]+) \(([0-9\.]+)\%\)/
+      /Correct answers: ([0-9]+)\/([0-9]+) \(([0-9\.]+)\%\)/,
     );
     if (!match) {
       throw new Error(
-        `String "${text}" is not in the expected format for stats`
+        `String "${text}" is not in the expected format for stats`,
       );
     }
 

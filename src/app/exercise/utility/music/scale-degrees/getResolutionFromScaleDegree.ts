@@ -1,11 +1,11 @@
-import {
-  ScaleDegree,
-  getDiatonicScaleDegreeWithAccidental,
-  DiatonicScaleDegree,
-} from './ScaleDegrees';
-import { CadenceType } from '../../../exercises/utility/exerciseAttributes/tonalExercise';
 import * as _ from 'lodash';
 import { DeepReadonly } from '../../../../shared/ts-utility';
+import { CadenceType } from '../../../exercises/utility/exerciseAttributes/tonalExercise';
+import {
+  DiatonicScaleDegree,
+  ScaleDegree,
+  getDiatonicScaleDegreeWithAccidental,
+} from './ScaleDegrees';
 
 interface ScaleOption {
   scale: ScaleDegree[];
@@ -62,13 +62,13 @@ const optionsForUpperHalf: DeepReadonly<ScaleOption[]> = [
 export function getResolutionFromScaleDegree(
   scaleDegree: ScaleDegree,
   includedNotes: ScaleDegree[],
-  cadenceType: CadenceType
+  cadenceType: CadenceType,
 ): DeepReadonly<ScaleDegree[]> {
   if (!includedNotes.includes(scaleDegree)) {
     throw new Error(
       `includedNotes (${includedNotes.join(
-        ','
-      )}) must include scaleDegree ${scaleDegree}`
+        ',',
+      )}) must include scaleDegree ${scaleDegree}`,
     );
   }
 
@@ -76,7 +76,7 @@ export function getResolutionFromScaleDegree(
     const diatonicDegreeToIncludedNotes = _.groupBy(
       includedNotes,
       (includedNote) =>
-        getDiatonicScaleDegreeWithAccidental(includedNote).diatonicScaleDegree
+        getDiatonicScaleDegreeWithAccidental(includedNote).diatonicScaleDegree,
     );
     const options =
       getDiatonicScaleDegreeWithAccidental(scaleDegree).diatonicScaleDegree < 5
@@ -86,12 +86,12 @@ export function getResolutionFromScaleDegree(
       return _.every(option.scale, (scaleDegreeInScaleCandidate) => {
         const diatonicDegree: DiatonicScaleDegree =
           getDiatonicScaleDegreeWithAccidental(
-            scaleDegreeInScaleCandidate
+            scaleDegreeInScaleCandidate,
           ).diatonicScaleDegree;
         return (
           _.isEmpty(diatonicDegreeToIncludedNotes[diatonicDegree]) ||
           diatonicDegreeToIncludedNotes[diatonicDegree].includes(
-            scaleDegreeInScaleCandidate
+            scaleDegreeInScaleCandidate,
           )
         );
       });
@@ -100,14 +100,14 @@ export function getResolutionFromScaleDegree(
     if (optionsThatWorksWithIncludedNotes.length === 0) {
       throw new Error(
         `Unexpected empty options for resolution. (includedNotes=${includedNotes.join(
-          ','
-        )})`
+          ',',
+        )})`,
       );
     }
 
     const optionsThatWorkWithCadenceType: DeepReadonly<ScaleOption>[] =
       optionsThatWorksWithIncludedNotes.filter((option) =>
-        cadenceType === 'I IV V I' ? option.isMajor : !option.isMajor
+        cadenceType === 'I IV V I' ? option.isMajor : !option.isMajor,
       );
 
     if (_.isEmpty(optionsThatWorkWithCadenceType)) {

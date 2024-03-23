@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
-import { ObservableSpy } from '../observable-spy';
 import { compareEquality } from '../../../../testing-utility/jasmine/custom-matchers/utility';
+import { ObservableSpy } from '../observable-spy';
 import MatchersUtil = jasmine.MatchersUtil;
 import CustomEqualityTester = jasmine.CustomEqualityTester;
 import CustomMatcher = jasmine.CustomMatcher;
@@ -16,12 +16,12 @@ declare global {
 
 export function toHaveOnlyEmitted<G>(
   util: MatchersUtil,
-  customEqualityTester: CustomEqualityTester[]
+  customEqualityTester: CustomEqualityTester[],
 ): CustomMatcher {
   return {
     compare: function (
       actual: Observable<G>,
-      expected: G
+      expected: G,
     ): CustomMatcherResult {
       const observableSpy = ObservableSpy.getSpy(actual);
       const calls = observableSpy.spy.calls;
@@ -47,7 +47,7 @@ export function toHaveOnlyEmitted<G>(
         `Expected observable to emit:
         ${util.pp(expected)}
         but actual emission was:
-        ${util.pp(actualEmission)}\n\n`
+        ${util.pp(actualEmission)}\n\n`,
       );
     },
   };

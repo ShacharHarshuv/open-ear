@@ -5,7 +5,7 @@ export function compareEquality<G>(
   util: MatchersUtil,
   expected: G,
   actual: G,
-  failureMessage: string = ''
+  failureMessage: string = '',
 ): CustomMatcherResult {
   const result: CustomMatcherResult = jasmine.matchers
     .toEqual(util)

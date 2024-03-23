@@ -1,9 +1,9 @@
 import Exercise from '../../exercise-logic';
-import { chordInKeyExercise } from './chordsInKeyExercise';
-import { allRomanNumeralAnswerList } from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
 import { testExercise } from '../testing-utility/test-exercise.spec';
 import { expectedVoicingSettingsDescriptors } from '../utility/exerciseAttributes/chordProgressionExercise.spec';
+import { allRomanNumeralAnswerList } from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
 import { expectedTonalExerciseSettingsDescriptors } from '../utility/exerciseAttributes/tonalExercise.spec';
+import { chordInKeyExercise } from './chordsInKeyExercise';
 
 describe(chordInKeyExercise.name, () => {
   const context = testExercise({
@@ -30,7 +30,7 @@ describe(chordInKeyExercise.name, () => {
           // @ts-ignore
           expect(question.segments[0].partToPlay).toBeTruthy();
         });
-      }
+      },
     );
   });
 });

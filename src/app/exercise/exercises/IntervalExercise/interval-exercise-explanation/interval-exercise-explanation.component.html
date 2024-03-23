@@ -20,10 +20,8 @@
 
 <ion-list>
   @for (interval of intervalDescriptorList; track interval) {
-
-    <ion-item button [appPlayOnClick]="interval.toPlay">
+    <ion-item [appPlayOnClick]="interval.toPlay" button>
       {{ interval.name }}
     </ion-item>
-  
-}
+  }
 </ion-list>

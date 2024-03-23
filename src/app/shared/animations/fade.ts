@@ -12,5 +12,5 @@ export const fade: AnimationTriggerMetadata = trigger(
         opacity: 1,
       }),
     ],
-  })
+  }),
 );

@@ -16,7 +16,7 @@ declare global {
 
 export function toHaveOnlyBeenCalledWith<Fn extends Func>(
   util: MatchersUtil,
-  customEqualityTester: CustomEqualityTester[]
+  customEqualityTester: CustomEqualityTester[],
 ): CustomMatcher {
   return {
     // @ts-ignore // type declaration for this function are too strict
@@ -32,7 +32,7 @@ export function toHaveOnlyBeenCalledWith<Fn extends Func>(
               'toHaveOnlyBeenCalledWith',
               false,
               actual,
-              expectedArgs
+              expectedArgs,
             ) +
             '\n' +
             'but it was called ' +
@@ -54,7 +54,7 @@ export function toHaveOnlyBeenCalledWith<Fn extends Func>(
               'toHaveOnlyBeenCalledWith',
               false,
               actual,
-              expectedArgs
+              expectedArgs,
             ) +
             '\n' +
             'but actual last call was:\n' +

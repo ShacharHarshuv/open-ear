@@ -2,8 +2,8 @@
  * Additions to jasmine built in declaration
  * Used for custom matchers
  * */
-import { spyMatchers } from './spy-matchers/spy-matchers';
 import { observableSpyMatchers } from '../../../ts-utility/rxjs/observable-spy/observable-spy-matchers';
+import { spyMatchers } from './spy-matchers/spy-matchers';
 
 declare global {
   namespace jasmine {
@@ -11,7 +11,7 @@ declare global {
       equals(
         a: any,
         b: any,
-        customTesters?: ReadonlyArray<CustomEqualityTester> | DiffBuilder
+        customTesters?: ReadonlyArray<CustomEqualityTester> | DiffBuilder,
       ): boolean;
     }
 

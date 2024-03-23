@@ -1,5 +1,5 @@
 import { Component, Input, inject } from '@angular/core';
-import { ModalController, IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { ContentPaddingDirective } from '../../components/shared-components/content-padding.directive';
 
 @Component({
@@ -27,7 +27,7 @@ export class ModalFrameComponent {
 
   async close(): Promise<void> {
     await this._modalController.dismiss(
-      this.onClose ? await this.onClose() : undefined
+      this.onClose ? await this.onClose() : undefined,
     );
   }
 }

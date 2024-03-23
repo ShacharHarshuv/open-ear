@@ -1,6 +1,6 @@
 import { testExercise } from '../testing-utility/test-exercise.spec';
-import { notesInKeyExercise, NoteInKeySettings } from './notesInKeyExercise';
 import { expectedTonalExerciseSettingsDescriptors } from '../utility/exerciseAttributes/tonalExercise.spec';
+import { NoteInKeySettings, notesInKeyExercise } from './notesInKeyExercise';
 
 describe(notesInKeyExercise.name, () => {
   const context = testExercise<NoteInKeySettings>({

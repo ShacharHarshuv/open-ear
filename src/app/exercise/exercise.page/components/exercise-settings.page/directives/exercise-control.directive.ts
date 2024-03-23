@@ -1,13 +1,13 @@
-import { Directive, Input, inject, DestroyRef } from '@angular/core';
-import Exercise from '../../../../exercise-logic';
-import { ExerciseSettingsPage } from '../exercise-settings.page';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { DestroyRef, Directive, Input, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import * as _ from 'lodash';
+import { Observable } from 'rxjs';
 import { map, pairwise, startWith } from 'rxjs/operators';
 import { BaseComponent } from '../../../../../shared/ts-utility';
-import { Observable } from 'rxjs';
-import * as _ from 'lodash';
 import { shareReplayUntilDestroyed } from '../../../../../shared/ts-utility/rxjs/shareReplayUntil';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import Exercise from '../../../../exercise-logic';
+import { ExerciseSettingsPage } from '../exercise-settings.page';
 
 @Directive({
   selector: '[appExerciseControl]',
@@ -21,7 +21,7 @@ export class ExerciseControlDirective extends BaseComponent {
 
   @Input('appExerciseControl')
   set exerciseControlSettings(
-    exerciseControlSettings: Exercise.SettingsControlDescriptor
+    exerciseControlSettings: Exercise.SettingsControlDescriptor,
   ) {
     if (exerciseControlSettings?.key) {
       const control =
@@ -42,7 +42,7 @@ export class ExerciseControlDirective extends BaseComponent {
       for (let valueAccessor of this._valueAccessors) {
         const updateDisabledState = (settings, value) => {
           valueAccessor.setDisabledState?.(
-            exerciseControlSettings.isDisabled?.(settings, value) ?? false
+            exerciseControlSettings.isDisabled?.(settings, value) ?? false,
           );
         };
         const controlValue$ = new Observable((subscriber) => {
@@ -50,10 +50,10 @@ export class ExerciseControlDirective extends BaseComponent {
         }).pipe(
           startWith(
             exerciseControlSettings.getter?.(
-              this._exerciseSettingsPage.exerciseFormGroup.value
-            )
+              this._exerciseSettingsPage.exerciseFormGroup.value,
+            ),
           ),
-          shareReplayUntilDestroyed(this._destroyRef)
+          shareReplayUntilDestroyed(this._destroyRef),
         );
 
         // Update settings on change
@@ -64,22 +64,22 @@ export class ExerciseControlDirective extends BaseComponent {
               newSettings: exerciseControlSettings.onChange?.(
                 newValue,
                 prevValue,
-                this._exerciseSettingsPage.exerciseFormGroup.value
+                this._exerciseSettingsPage.exerciseFormGroup.value,
               ),
               newValue,
             })),
-            takeUntilDestroyed(this._destroyRef)
+            takeUntilDestroyed(this._destroyRef),
           )
           .subscribe(({ newSettings, newValue }) => {
             if (
               newSettings &&
               !_.isEqual(
                 newSettings,
-                this._exerciseSettingsPage.exerciseFormGroup.value
+                this._exerciseSettingsPage.exerciseFormGroup.value,
               )
             ) {
               this._exerciseSettingsPage.exerciseFormGroup.patchValue(
-                newSettings
+                newSettings,
               );
               updateDisabledState(newSettings, newValue);
             }
@@ -89,13 +89,13 @@ export class ExerciseControlDirective extends BaseComponent {
         this._exerciseSettingsPage.exerciseFormGroup.value$
           .pipe(
             map((settings) => exerciseControlSettings.getter?.(settings)),
-            takeUntilDestroyed(this._destroyRef)
+            takeUntilDestroyed(this._destroyRef),
           )
           .subscribe((newValue) => {
             valueAccessor.writeValue(newValue);
             updateDisabledState(
               this._exerciseSettingsPage.exerciseFormGroup.value,
-              newValue
+              newValue,
             );
           });
       }

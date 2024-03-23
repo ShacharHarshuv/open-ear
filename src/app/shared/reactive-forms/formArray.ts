@@ -1,39 +1,39 @@
 import { UntypedFormArray } from '@angular/forms';
+import * as _ from 'lodash';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged, startWith } from 'rxjs/operators';
+import {
+  IAbstractControl,
+  IControlErrorRef,
+  IControlsParent,
+} from './abstractControl';
 import { ControlMethods } from './control-methods';
 import {
   AsyncValidatorFn,
   IAbstractControlOptions,
   IControlUpdateOptions,
   TAbstractControlOf,
+  TAbstractControlParent,
   TControlPath,
   TControlStatus,
   TControlValue,
   ValidationErrors,
   ValidatorFn,
-  TAbstractControlParent,
 } from './types';
-import {
-  IAbstractControl,
-  IControlErrorRef,
-  IControlsParent,
-} from './abstractControl';
-import * as _ from 'lodash';
 
 export interface IFormArrayOptions<
   GControlOrValue = any,
-  GErrors extends ValidationErrors = ValidationErrors
+  GErrors extends ValidationErrors = ValidationErrors,
 > {
   controlFactory?: (
-    value?: TControlValue<GControlOrValue>
+    value?: TControlValue<GControlOrValue>,
   ) => TAbstractControlOf<GControlOrValue>;
 }
 
 export class FormArray<
     GControlOrValue = any,
     GErrors extends ValidationErrors = ValidationErrors,
-    GParent extends TAbstractControlParent = any
+    GParent extends TAbstractControlParent = any,
   >
   extends UntypedFormArray
   implements
@@ -76,7 +76,7 @@ export class FormArray<
 
   readonly value$: Observable<TControlValue<GControlOrValue>[]> =
     ControlMethods.getValueStream<TControlValue<GControlOrValue>[], GErrors>(
-      this
+      this,
     );
   readonly isDisabled$: Observable<boolean> =
     ControlMethods.getIsDisabledStream(this);
@@ -87,7 +87,7 @@ export class FormArray<
   readonly errors$: Observable<Partial<GErrors> | null> =
     ControlMethods.getErrorStream<TControlValue<GControlOrValue>[], GErrors>(
       this,
-      this._errorsSubject$.asObservable()
+      this._errorsSubject$.asObservable(),
     );
   readonly errorRefList$: Observable<IControlErrorRef<GErrors>[]> =
     ControlMethods.getErrorRefListStream(this, this._options?.errorMsgMap);
@@ -100,7 +100,7 @@ export class FormArray<
   readonly disabledReasonList$: Observable<string[]> =
     ControlMethods.getDisabledReasonList(
       this,
-      this._options?.disabledReason$List
+      this._options?.disabledReason$List,
     );
   readonly firstDisabledReason$: Observable<string | null> =
     ControlMethods.getFirstDisabledReasonStream(this);
@@ -125,7 +125,7 @@ export class FormArray<
     asyncValidator: AsyncValidatorFn<
       TControlValue<GControlOrValue>[],
       GErrors
-    > | null
+    > | null,
   ) {
     super.asyncValidator = asyncValidator;
   }
@@ -141,7 +141,7 @@ export class FormArray<
   }
 
   override set validator(
-    validator: ValidatorFn<TControlValue<GControlOrValue>[], GErrors> | null
+    validator: ValidatorFn<TControlValue<GControlOrValue>[], GErrors> | null,
   ) {
     super.validator = validator;
   }
@@ -161,7 +161,7 @@ export class FormArray<
       TControlValue<GControlOrValue>[],
       GErrors
     > &
-      IFormArrayOptions<GControlOrValue, GErrors>
+      IFormArrayOptions<GControlOrValue, GErrors>,
   );
   /**
    * @Deprecated
@@ -181,7 +181,7 @@ export class FormArray<
     asyncValidator?:
       | AsyncValidatorFn<TControlValue<GControlOrValue>[], GErrors>
       | AsyncValidatorFn<TControlValue<GControlOrValue>[], GErrors>[]
-      | null
+      | null,
   );
   constructor(
     controls: Array<
@@ -196,7 +196,7 @@ export class FormArray<
       | null
       | (IAbstractControlOptions<TControlValue<GControlOrValue>[], GErrors> &
           IFormArrayOptions<GControlOrValue, GErrors>),
-    asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null
+    asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null,
   ) {
     super(
       controls,
@@ -204,12 +204,12 @@ export class FormArray<
         TControlValue<GControlOrValue>[],
         GErrors
       >(_validatorOrOpts),
-      asyncValidator
+      asyncValidator,
     );
   }
 
   private _setControlsFromValue(
-    value?: TControlValue<GControlOrValue>[]
+    value?: TControlValue<GControlOrValue>[],
   ): void {
     const currentControlsLength: number = this.controls.length;
     const newControlsLength: number = (value || []).length;
@@ -223,7 +223,7 @@ export class FormArray<
       let controlsToAdd = -controlLengthDiff;
       const controlFactory:
         | ((
-            _value?: TControlValue<GControlOrValue>
+            _value?: TControlValue<GControlOrValue>,
           ) => TAbstractControlOf<GControlOrValue>)
         | undefined = this._options?.controlFactory;
       if (controlFactory) {
@@ -248,7 +248,7 @@ export class FormArray<
 
   override setValue(
     value: TControlValue<GControlOrValue>[],
-    options?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>
+    options?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>,
   ): void {
     try {
       this._setControlsFromValue(value);
@@ -265,7 +265,7 @@ export class FormArray<
    * */
   override patchValue(
     value: Partial<TControlValue<GControlOrValue>>[],
-    options?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>
+    options?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>,
   ): void {
     super.patchValue(value as GControlOrValue[], options);
   }
@@ -285,14 +285,14 @@ export class FormArray<
 
   override insert(
     index: number,
-    control: TAbstractControlOf<GControlOrValue>
+    control: TAbstractControlOf<GControlOrValue>,
   ): void {
     return super.insert(index, control);
   }
 
   override setControl(
     index: number,
-    control: TAbstractControlOf<GControlOrValue>
+    control: TAbstractControlOf<GControlOrValue>,
   ): void {
     return super.setControl(index, control);
   }
@@ -302,13 +302,13 @@ export class FormArray<
    * */
   disableWhile(
     observable: Observable<boolean>,
-    options?: IControlUpdateOptions
+    options?: IControlUpdateOptions,
   ): Subscription {
     return ControlMethods.disableWhile(
       this,
       observable,
       this._options,
-      options
+      options,
     );
   }
 
@@ -318,14 +318,14 @@ export class FormArray<
   }
 
   override markAsUntouched(
-    opts?: Pick<IControlUpdateOptions, 'onlySelf'>
+    opts?: Pick<IControlUpdateOptions, 'onlySelf'>,
   ): void {
     super.markAsUntouched(opts);
     this._touchChanges$.next(false);
   }
 
   override markAsPristine(
-    opts?: Pick<IControlUpdateOptions, 'onlySelf'>
+    opts?: Pick<IControlUpdateOptions, 'onlySelf'>,
   ): void {
     super.markAsPristine(opts);
     this._dirtyChanges$.next(false);
@@ -338,7 +338,7 @@ export class FormArray<
 
   override reset(
     value?: TControlValue<GControlOrValue>[],
-    options?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>
+    options?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>,
   ): void {
     try {
       this._setControlsFromValue(value);
@@ -352,7 +352,7 @@ export class FormArray<
   override setValidators(
     newValidator:
       | ValidatorFn<TControlValue<GControlOrValue>[], GErrors>
-      | ValidatorFn<TControlValue<GControlOrValue>[], GErrors>[]
+      | ValidatorFn<TControlValue<GControlOrValue>[], GErrors>[],
   ): void {
     super.setValidators(newValidator);
     super.updateValueAndValidity();
@@ -362,7 +362,7 @@ export class FormArray<
     newValidator:
       | AsyncValidatorFn<TControlValue<GControlOrValue>[], GErrors>
       | AsyncValidatorFn<TControlValue<GControlOrValue>[], GErrors>[]
-      | null
+      | null,
   ): void {
     super.setAsyncValidators(newValidator);
     super.updateValueAndValidity();
@@ -370,14 +370,14 @@ export class FormArray<
 
   override hasError(
     errorCode: Extract<keyof GErrors, string>,
-    path?: TControlPath
+    path?: TControlPath,
   ): boolean {
     return super.hasError(errorCode, path);
   }
 
   override async setErrors(
     errors: Partial<GErrors> | null,
-    opts: Pick<IControlUpdateOptions, 'emitEvent'> = {}
+    opts: Pick<IControlUpdateOptions, 'emitEvent'> = {},
   ): Promise<void> {
     await ControlMethods.setErrors(
       this,
@@ -385,34 +385,34 @@ export class FormArray<
         return this._errorsSubject$;
       },
       errors,
-      opts
+      opts,
     );
   }
 
   override getError<K extends Extract<keyof GErrors, string>>(
     errorCode: K,
-    path?: TControlPath
+    path?: TControlPath,
   ): GErrors[K] | null {
     return super.getError(errorCode, path) as GErrors[K] | null;
   }
 
   hasErrorAndDirty(
     errorCode: Extract<keyof GErrors, string>,
-    path?: TControlPath
+    path?: TControlPath,
   ): boolean {
     return ControlMethods.hasErrorAndDirty(this, errorCode, path);
   }
 
   setIsEnabled(
     enable = true,
-    opts?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>
+    opts?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>,
   ): void {
     return ControlMethods.setIsEnabled(this, enable, opts);
   }
 
   setIsDisabled(
     disable = true,
-    opts?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>
+    opts?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>,
   ): void {
     return ControlMethods.setIsDisabled(this, disable, opts);
   }

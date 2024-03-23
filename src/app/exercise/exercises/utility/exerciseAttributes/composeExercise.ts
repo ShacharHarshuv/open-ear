@@ -1,9 +1,6 @@
-import { composeWithMerge } from "../../../../shared/ts-utility/compose";
-import Exercise from "../../../exercise-logic";
-import {
-  StaticOrGetter,
-  toGetter
-} from "../../../../shared/ts-utility";
+import { StaticOrGetter, toGetter } from '../../../../shared/ts-utility';
+import { composeWithMerge } from '../../../../shared/ts-utility/compose';
+import Exercise from '../../../exercise-logic';
 
 // todo: consider if we can make passing "createExercise" to this, currently we had issues with typing inference
 export const composeExercise = composeWithMerge({
@@ -19,7 +16,7 @@ export const composeExercise = composeWithMerge({
     value2: StaticOrGetter<
       Exercise.SettingsControlDescriptor<Exercise.Settings>[],
       [Exercise.Settings]
-    >
+    >,
   ) => {
     return (settings) => [
       ...toGetter(value1)(settings),

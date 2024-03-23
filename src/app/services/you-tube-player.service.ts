@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, interval, NEVER } from 'rxjs';
-import { YouTubePlayer } from 'youtube-player/dist/types';
-import * as PriorityQueue from 'js-priority-queue';
-import PlayerFactory from 'youtube-player';
-import { filter, switchMap, take, takeUntil } from 'rxjs/operators';
-import * as _ from 'lodash';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import * as PriorityQueue from 'js-priority-queue';
+import * as _ from 'lodash';
+import { BehaviorSubject, interval, NEVER } from 'rxjs';
+import { filter, switchMap, take } from 'rxjs/operators';
+import PlayerFactory from 'youtube-player';
+import { YouTubePlayer } from 'youtube-player/dist/types';
 
 export interface YouTubeCallbackDescriptor {
   seconds: number;
@@ -26,7 +26,7 @@ export class YouTubePlayerService {
   private _callBackQueue = new PriorityQueue<YouTubeCallbackDescriptor>({
     comparator: (
       a: YouTubeCallbackDescriptor,
-      b: YouTubeCallbackDescriptor
+      b: YouTubeCallbackDescriptor,
     ) => {
       return a.seconds - b.seconds;
     },
@@ -52,7 +52,7 @@ export class YouTubePlayerService {
       const currentTime: number = _.round(
         (await this._youTubePlayer.getCurrentTime()) -
           0.3 /*compensating for delay*/,
-        2
+        2,
       );
       if (currentTime > 0) {
         console.log(currentTime);
@@ -79,7 +79,7 @@ export class YouTubePlayerService {
                   this._youTubePlayer.off(listener);
                   resolve();
                 }
-              }
+              },
             );
           });
         })
@@ -103,7 +103,7 @@ export class YouTubePlayerService {
   async play(
     videoId: string,
     time: number,
-    callbacks: YouTubeCallbackDescriptor[] = []
+    callbacks: YouTubeCallbackDescriptor[] = [],
   ): Promise<void> {
     console.log('play', videoId, time);
     if (videoId !== this._currentlyLoadedVideoId) {
@@ -131,7 +131,7 @@ export class YouTubePlayerService {
       return this._isPlaying$
         .pipe(
           filter((isPlaying) => !isPlaying),
-          take(1)
+          take(1),
         )
         .toPromise();
     } else {
@@ -160,7 +160,7 @@ export class YouTubePlayerService {
             return interval(TIME_STAMP_POLLING);
           }
         }),
-        takeUntilDestroyed()
+        takeUntilDestroyed(),
       )
       .subscribe(async () => {
         if (!this._callBackQueue.length) {

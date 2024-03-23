@@ -6,7 +6,7 @@ export function testPureFunction<GFunc extends (...args) => any>(
     args: Parameters<GFunc>;
     returnValue: Expected<ReturnType<GFunc>>;
     force?: boolean;
-  }[]
+  }[],
 ): void {
   cases.forEach((testCase) => {
     (testCase.force ? fit : it)(
@@ -15,7 +15,7 @@ export function testPureFunction<GFunc extends (...args) => any>(
         .join(', ')}) = ${JSON.stringify(testCase.returnValue)}`,
       () => {
         expect(func(...testCase.args)).toEqual(testCase.returnValue);
-      }
+      },
     );
   });
 }

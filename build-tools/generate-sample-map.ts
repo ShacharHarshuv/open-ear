@@ -45,11 +45,10 @@ const sourceFile = project.createSourceFile(outputFile, undefined, {
         }
 
         const key = path.basename(sampleFile, '.mp3').replace('s', '#');
-        samples[instrumentFolder][
-          key
-        ] = `samples/${instrumentFolder}/${sampleFile}`;
+        samples[instrumentFolder][key] =
+          `samples/${instrumentFolder}/${sampleFile}`;
       });
-    })
+    }),
   );
 
   sourceFile.addVariableStatement({

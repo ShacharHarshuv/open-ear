@@ -3,15 +3,15 @@ import { Observable } from 'rxjs';
 import {
   AsyncValidatorFn,
   IControlUpdateOptions,
+  TAbstractControlParent,
   TControlStatus,
   TControlValueState,
   ValidationErrors,
   ValidatorFn,
-  TAbstractControlParent,
 } from './types';
 
 export interface IControlErrorRef<
-  GErrors extends ValidationErrors = ValidationErrors
+  GErrors extends ValidationErrors = ValidationErrors,
 > {
   /**
    * Made the type less generic because of a bug in typescript: https://github.com/microsoft/TypeScript/issues/41595
@@ -24,7 +24,7 @@ export interface IControlErrorRef<
 export interface IAbstractControl<
   GValue = any,
   GErrors extends ValidationErrors = ValidationErrors,
-  GParent extends TAbstractControlParent = any
+  GParent extends TAbstractControlParent = any,
 > extends NgAbstractControl {
   readonly parent: GParent | null;
   readonly value: GValue;
@@ -54,58 +54,58 @@ export interface IAbstractControl<
     newValidator:
       | ValidatorFn<GValue, GErrors>
       | ValidatorFn<GValue, GErrors>[]
-      | null
+      | null,
   ): void;
 
   setAsyncValidators(
     newValidator:
       | AsyncValidatorFn<GValue, GErrors>
       | AsyncValidatorFn<GValue, GErrors>[]
-      | null
+      | null,
   ): void;
 
   setValue(value: GValue, options?: IControlUpdateOptions): void;
 
   reset(
     formState?: TControlValueState<GValue>,
-    options?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>
+    options?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>,
   ): void;
 
   setErrors(
     errors: Partial<GErrors> | null,
-    opts?: Pick<IControlUpdateOptions, 'emitEvent'>
+    opts?: Pick<IControlUpdateOptions, 'emitEvent'>,
   ): void;
 
   getError<K extends Extract<keyof GErrors, string>>(
     errorCode: K,
-    path?: Array<string | number> | string
+    path?: Array<string | number> | string,
   ): GErrors[K] | null;
 
   hasError<K extends Extract<keyof GErrors, string>>(
     errorCode: K,
-    path?: Array<string | number> | string
+    path?: Array<string | number> | string,
   ): boolean;
 
   setIsDisabled(
     isDisabled?: boolean,
-    opts?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>
+    opts?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>,
   ): void;
 
   setIsEnabled(
     isEnabled?: boolean,
-    opts?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>
+    opts?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>,
   ): void;
 
   disableWhile(
     isDisabled$: Observable<boolean>,
-    options?: IControlUpdateOptions & { takeUntil$?: Observable<any> }
+    options?: IControlUpdateOptions & { takeUntil$?: Observable<any> },
   ): void;
 }
 
 // To be used with FormGroup and FormArray
 export interface IControlsParent<
   GValue = any,
-  GErrors extends ValidationErrors = ValidationErrors
+  GErrors extends ValidationErrors = ValidationErrors,
 > {
   controls: IAbstractControl[] | { [key: string]: IAbstractControl };
   readonly aggregatedErrorRefList$: Observable<IControlErrorRef<GErrors>[]>; // Includes all children's error

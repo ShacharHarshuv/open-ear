@@ -1,12 +1,12 @@
 import {
-  map,
   filter,
-  toPairs,
-  orderBy,
   groupBy,
-  sortBy,
-  mapValues,
   keyBy,
+  map,
+  mapValues,
+  orderBy,
+  sortBy,
+  toPairs,
 } from 'lodash';
 
 const collectionChainableFunctions = {

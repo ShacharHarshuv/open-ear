@@ -2,7 +2,7 @@ export function LogReturnValue(label?: string): MethodDecorator {
   return function (
     target: Object,
     propertyKey: string,
-    descriptor: PropertyDescriptor
+    descriptor: PropertyDescriptor,
   ): void {
     const childFunction = descriptor.value;
     descriptor.value = function (...args: any[]) {
@@ -17,7 +17,7 @@ export function LogAsyncReturnValue(label?: string): MethodDecorator {
   return function (
     target: Object,
     propertyKey: string,
-    descriptor: PropertyDescriptor
+    descriptor: PropertyDescriptor,
   ): void {
     const childFunction = descriptor.value;
     descriptor.value = async function (...args: any[]) {

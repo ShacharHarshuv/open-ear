@@ -38,7 +38,7 @@ bootstrapApplication(AppComponent, {
       BrowserModule,
       IonicModule.forRoot(),
       IonicStorageModule.forRoot(),
-      DragDropModule
+      DragDropModule,
     ),
     {
       provide: RouteReuseStrategy,

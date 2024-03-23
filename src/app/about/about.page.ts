@@ -1,8 +1,8 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { VersionService } from '../version.service';
 import { IonicModule } from '@ionic/angular';
 import { ContentPaddingDirective } from '../shared/components/shared-components/content-padding.directive';
-import { CommonModule } from '@angular/common';
+import { VersionService } from '../version.service';
 
 @Component({
   selector: 'app-about',

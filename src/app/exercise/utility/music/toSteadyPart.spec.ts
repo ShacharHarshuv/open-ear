@@ -1,18 +1,18 @@
-import { toSteadyPart } from './toSteadyPart';
+import * as Tone from 'tone';
 import { NoteEvent } from '../../../services/player.service';
 import { toArray } from '../../../shared/ts-utility/toArray';
 import { toNoteNumber } from './notes/toNoteName';
-import * as Tone from 'tone';
+import { toSteadyPart } from './toSteadyPart';
 
 function assertNoteEvent(actual: NoteEvent, expected: NoteEvent): void {
   expect(toArray(actual.notes).map(toNoteNumber)).toEqual(
-    toArray(actual.notes).map(toNoteNumber)
+    toArray(actual.notes).map(toNoteNumber),
   );
   expect(Tone.Time(actual.time).toSeconds()).toEqual(
-    Tone.Time(expected.time).toSeconds()
+    Tone.Time(expected.time).toSeconds(),
   );
   expect(Tone.Time(actual.duration).toSeconds()).toEqual(
-    Tone.Time(expected.duration).toSeconds()
+    Tone.Time(expected.duration).toSeconds(),
   );
 }
 
@@ -80,7 +80,7 @@ describe('toSteadyPart', function () {
           },
           duration: '4n',
         },
-      ]
+      ],
     );
   });
 
@@ -97,7 +97,7 @@ describe('toSteadyPart', function () {
           time: 0,
           duration: '4n',
         },
-      ]
+      ],
     );
   });
 });

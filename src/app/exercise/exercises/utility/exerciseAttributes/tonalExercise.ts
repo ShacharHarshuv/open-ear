@@ -1,36 +1,36 @@
+import * as _ from 'lodash';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { Frequency } from 'tone/Tone/core/type/Units';
+import { NoteEvent } from '../../../../services/player.service';
+import { mod } from '../../../../shared/ts-utility/mod';
+import Exercise from '../../../exercise-logic';
 import {
   Key,
-  OneOrMany,
-  randomFromList,
-  toGetter,
   NotesRange,
+  OneOrMany,
   StaticOrGetter,
+  randomFromList,
   scaleDegreeToChromaticDegree,
+  toGetter,
 } from '../../../utility';
-import Exercise from '../../../exercise-logic';
-import { transpose } from '../../../utility/music/transpose';
-import { getDistanceOfKeys } from '../../../utility/music/keys/getDistanceOfKeys';
 import {
-  iv_V_i_CADENCE_IN_C,
   IV_V_I_CADENCE_IN_C,
+  iv_V_i_CADENCE_IN_C,
 } from '../../../utility/music/chords';
-import { NoteEvent } from '../../../../services/player.service';
-import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { getDistanceOfKeys } from '../../../utility/music/keys/getDistanceOfKeys';
 import { NoteType } from '../../../utility/music/notes/NoteType';
-import { Frequency } from 'tone/Tone/core/type/Units';
-import { CreateExerciseParams } from './createExercise';
+import { noteTypeToNote } from '../../../utility/music/notes/noteTypeToNote';
+import { transpose } from '../../../utility/music/transpose';
 import {
   CadenceTypeSetting,
   cadenceTypeSettingsDescriptors,
 } from '../settings/CadenceTypeSetting';
 import { SettingsParams } from '../settings/SettingsParams';
-import * as _ from 'lodash';
 import {
-  keySelectionSettingsDescriptors,
   KeySelectionSettings,
+  keySelectionSettingsDescriptors,
 } from '../settings/keySelectionSettingsDescriptors';
-import { mod } from '../../../../shared/ts-utility/mod';
-import { noteTypeToNote } from '../../../utility/music/notes/noteTypeToNote';
+import { CreateExerciseParams } from './createExercise';
 import AnswerList = Exercise.AnswerList;
 
 export type CadenceType = 'I IV V I' | 'i iv V i' | 'vi ii III vi';
@@ -104,7 +104,7 @@ export type TonalExerciseUtils = {
 
 export type TonalExerciseParams<
   GAnswer extends string,
-  GSettings extends Exercise.Settings
+  GSettings extends Exercise.Settings,
 > = {
   /*
    * question in C
@@ -135,7 +135,7 @@ export type TonalExerciseConfig = (
 
 export function tonalExercise<
   GAnswer extends string,
-  GSettings extends Exercise.Settings
+  GSettings extends Exercise.Settings,
 >(config?: TonalExerciseConfig) {
   const fullConfig: Required<TonalExerciseConfig> = _.defaults(config, {
     playCadence: true,
@@ -189,10 +189,10 @@ export function tonalExercise<
   function transposeToKey(partOrNotes: Note | Note[]): Note | Note[];
   function transposeToKey(partOrNotes: NoteEvent[]): NoteEvent[];
   function transposeToKey(
-    partOrNotes: NoteEvent[] | OneOrMany<Note>
+    partOrNotes: NoteEvent[] | OneOrMany<Note>,
   ): NoteEvent[] | OneOrMany<Note>;
   function transposeToKey(
-    partOrNotes: NoteEvent[] | Note[] | Note | NoteType
+    partOrNotes: NoteEvent[] | Note[] | Note | NoteType,
   ): NoteEvent[] | Frequency[] | Frequency | NoteType {
     return transpose(partOrNotes, getDistanceOfKeys(key, 'C'));
   }
@@ -206,14 +206,14 @@ export function tonalExercise<
     'answerList'
   > & {
     readonly getQuestion: (
-      settings: GSettings & TonalExerciseSettings
+      settings: GSettings & TonalExerciseSettings,
     ) => Exercise.NotesQuestion<GAnswer>;
   } & SettingsParams<TonalExerciseSettings> & {
       defaultSettings: TonalExerciseSettings;
     } {
     return {
       getQuestion(
-        settings: GSettings & TonalExerciseSettings
+        settings: GSettings & TonalExerciseSettings,
       ): Exercise.NotesQuestion<GAnswer> {
         key = getKey(settings);
         questionCount++;
@@ -239,20 +239,20 @@ export function tonalExercise<
           drone: settings.drone
             ? transpose(
                 noteTypeToNote(key, settings.drone > 4 ? 1 : 2),
-                scaleDegreeToChromaticDegree[settings.drone.toString()] - 1
+                scaleDegreeToChromaticDegree[settings.drone.toString()] - 1,
               )
             : null,
           afterCorrectAnswer: questionInC.afterCorrectAnswer?.map(
             (afterCorrectAnswerSegment) => ({
               answerToHighlight: afterCorrectAnswerSegment.answerToHighlight,
               partToPlay: transposeToKey(afterCorrectAnswerSegment.partToPlay),
-            })
+            }),
           ),
         };
       },
       answerList: (settings: GSettings) => {
         const answerListInC: Exercise.AnswerList<GAnswer> = toGetter(
-          params.answerList
+          params.answerList,
         )(settings);
         return Exercise.mapAnswerList(answerListInC, (answerConfig) => ({
           ...answerConfig,

@@ -1,38 +1,38 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { samples } from 'generated/samples';
+import * as _ from 'lodash';
+import { capitalize } from 'lodash';
+import { Observable, of } from 'rxjs';
+import { distinctUntilChanged, map } from 'rxjs/operators';
+import { InstrumentName } from '../../../../services/player.service';
+import { collapseVertical } from '../../../../shared/animations';
+import { ModalFrameComponent } from '../../../../shared/modal/modal-frame/modal-frame.component';
+import { PureFunctionPipe } from '../../../../shared/ng-utilities/pure-function-pipe/pure-function.pipe';
 import {
   FormControl,
   FormGroup,
   TAbstractControlsOf,
 } from '../../../../shared/reactive-forms';
+import { keys } from '../../../../shared/ts-utility/keys';
 import Exercise, {
   ControlDescriptor,
-  SelectControlDescriptor,
-  ListSelectControlDescriptor,
-  SliderControlDescriptor,
   IncludedAnswersControlDescriptor,
+  ListSelectControlDescriptor,
+  SelectControlDescriptor,
+  SliderControlDescriptor,
 } from '../../../exercise-logic';
 import {
   ExerciseSettingsData,
   GlobalExerciseSettings,
   toGetter,
 } from '../../../utility';
-import * as _ from 'lodash';
-import { capitalize } from 'lodash';
-import { collapseVertical } from '../../../../shared/animations';
-import { Observable, of } from 'rxjs';
-import { map, distinctUntilChanged } from 'rxjs/operators';
-import { InstrumentName } from '../../../../services/player.service';
-import { keys } from '../../../../shared/ts-utility/keys';
-import { samples } from 'generated/samples';
-import { IonicModule } from '@ionic/angular';
 import { FieldInfoComponent } from './components/field-info/field-info.component';
 import { IncludedAnswersComponent } from './components/included-answers/included-answers.component';
-import { ExerciseControlDirective } from './directives/exercise-control.directive';
-import { CommonModule } from '@angular/common';
 import { ListSelectComponent } from './components/list-select/list-select.component';
-import { ModalFrameComponent } from '../../../../shared/modal/modal-frame/modal-frame.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { PureFunctionPipe } from '../../../../shared/ng-utilities/pure-function-pipe/pure-function.pipe';
+import { ExerciseControlDirective } from './directives/exercise-control.directive';
 import SettingValueType = Exercise.SettingValueType;
 import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
 
@@ -133,14 +133,14 @@ export class ExerciseSettingsPage {
   allAvailableAnswers: string[] = [];
 
   getControlDescriptorStream = (
-    settings: SettingsControlDescriptor
+    settings: SettingsControlDescriptor,
   ): Observable<Exercise.ControlDescriptor> => {
     if (settings.descriptor instanceof Function) {
       return this.exerciseFormGroup.value$.pipe(
         map((value) => {
           return toGetter(settings.descriptor)(value);
         }),
-        distinctUntilChanged(_.isEqual)
+        distinctUntilChanged(_.isEqual),
       );
     }
 
@@ -150,7 +150,7 @@ export class ExerciseSettingsPage {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('exerciseSettingsDescriptor')
   set exerciseSettingsDescriptorInput(
-    settingsDescriptor: Exercise.SettingsControlDescriptor[]
+    settingsDescriptor: Exercise.SettingsControlDescriptor[],
   ) {
     this.exerciseSettingsDescriptor = settingsDescriptor;
     const controls: TAbstractControlsOf<{ [key: string]: any }, {}> = {};
@@ -197,7 +197,7 @@ export class ExerciseSettingsPage {
   }
 
   isShowExerciseControl(
-    controlDescriptor: Exercise.SettingsControlDescriptor
+    controlDescriptor: Exercise.SettingsControlDescriptor,
   ): boolean {
     return _.isNil(controlDescriptor.show)
       ? true
@@ -211,57 +211,57 @@ export class ExerciseSettingsPage {
         ({
           value: instrumentName,
           label: capitalize(instrumentName.split('-').join(' ')),
-        } as const)
+        }) as const,
     );
   }
 
   asListSelectControlDescriptor(
-    descriptor: ControlDescriptor
+    descriptor: ControlDescriptor,
   ): ListSelectControlDescriptor {
     if (descriptor.controlType !== 'list-select') {
       throw new Error(
         `Descriptor ${JSON.stringify(
-          descriptor
-        )} is not a ListSelectControlDescriptor`
+          descriptor,
+        )} is not a ListSelectControlDescriptor`,
       );
     }
     return descriptor;
   }
 
   asSliderControlDescriptor(
-    descriptor: ControlDescriptor
+    descriptor: ControlDescriptor,
   ): SliderControlDescriptor {
     if (descriptor.controlType !== 'slider') {
       throw new Error(
         `Descriptor ${JSON.stringify(
-          descriptor
-        )} is not a ListSelectControlDescriptor`
+          descriptor,
+        )} is not a ListSelectControlDescriptor`,
       );
     }
     return descriptor;
   }
 
   asIncludedAnswersControlDescriptor(
-    descriptor: ControlDescriptor
+    descriptor: ControlDescriptor,
   ): IncludedAnswersControlDescriptor {
     if (descriptor.controlType !== 'included-answers') {
       throw new Error(
         `Descriptor ${JSON.stringify(
-          descriptor
-        )} is not a IncludedAnswersControlDescriptor`
+          descriptor,
+        )} is not a IncludedAnswersControlDescriptor`,
       );
     }
     return descriptor;
   }
 
   asSelectControlDescriptor(
-    descriptor: ControlDescriptor
+    descriptor: ControlDescriptor,
   ): SelectControlDescriptor {
     if (descriptor.controlType !== 'select') {
       throw new Error(
         `Descriptor ${JSON.stringify(
-          descriptor
-        )} is not a SelectControlDescriptor`
+          descriptor,
+        )} is not a SelectControlDescriptor`,
       );
     }
     return descriptor;

@@ -1,6 +1,6 @@
+import * as _ from 'lodash';
 import { MusicSymbol } from '../../MusicSymbol';
 import { MajorChordTypesPostfix, MinorChordTypesPostfix } from '../../harmony';
-import * as _ from 'lodash';
 import { EnharmonicScaleDegree } from '../../scale-degrees';
 
 export enum ChordType {
@@ -243,5 +243,5 @@ export const romanNumeralChordTypeParserMap: RomanNumeralChordTypeParserMap =
       map[key][config.romanNumeral.postfix] = type;
       return map;
     },
-    {}
+    {},
   ) as RomanNumeralChordTypeParserMap;

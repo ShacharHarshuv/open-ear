@@ -1,11 +1,11 @@
 import { Component, Input, Signal, computed, inject } from '@angular/core';
 
 import { IonicModule } from '@ionic/angular';
-import { AnswerButtonComponent } from '../answer-button/answer-button.component';
 import { signalFromProperty } from '../../../../shared/ng-utilities/signalFromProperty';
-import { ExerciseStateService } from '../../state/exercise-state.service';
-import { MultiAnswerButtonTemplateContext } from '../answers-layout/components/answer-cell/answer-cell.component';
 import { ExercisePage } from '../../exercise.page';
+import { ExerciseStateService } from '../../state/exercise-state.service';
+import { AnswerButtonComponent } from '../answer-button/answer-button.component';
+import { MultiAnswerButtonTemplateContext } from '../answers-layout/components/answer-cell/answer-cell.component';
 
 @Component({
   selector: 'app-multi-answer-button',
@@ -37,7 +37,7 @@ export class MultiAnswerButtonComponent {
 
   readonly isWrong = computed(() => {
     return this.multiAnswerCell().innerAnswers.every((answer) =>
-      this.wrongAnswers().includes(answer)
+      this.wrongAnswers().includes(answer),
     );
   });
 }

@@ -5,15 +5,14 @@ import {
   computed,
   forwardRef,
 } from '@angular/core';
+import { signalFromProperty } from '../../../../shared/ng-utilities/signalFromProperty';
 import {
   AnswerList,
   AnswersLayout,
   AnswersLayoutCell,
 } from '../../../exercise-logic';
 import { AnswerCellComponent } from './components/answer-cell/answer-cell.component';
-import { signalFromProperty } from '../../../../shared/ng-utilities/signalFromProperty';
 import { AnswersRowComponent } from './components/answers-row/answers-row.component';
-
 
 @Component({
   selector: 'app-answers-layout',
@@ -23,8 +22,8 @@ import { AnswersRowComponent } from './components/answers-row/answers-row.compon
   standalone: true,
   imports: [
     forwardRef(() => AnswersRowComponent),
-    forwardRef(() => AnswerCellComponent)
-],
+    forwardRef(() => AnswerCellComponent),
+  ],
 })
 export class AnswersLayoutComponent<GAnswer extends string = string> {
   @Input({
@@ -52,7 +51,7 @@ export class AnswersLayoutComponent<GAnswer extends string = string> {
       }
 
       return answerList;
-    }
+    },
   );
 
   readonly customAnswersLayout = computed((): AnswersLayout<GAnswer> | null => {

@@ -1,8 +1,8 @@
-import { TypeProvider, Provider } from '@angular/core';
+import { Provider, TypeProvider } from '@angular/core';
 
 export function createMockProviders(
   mock: TypeProvider,
-  real: TypeProvider
+  real: TypeProvider,
 ): Provider[] {
   return [
     mock,

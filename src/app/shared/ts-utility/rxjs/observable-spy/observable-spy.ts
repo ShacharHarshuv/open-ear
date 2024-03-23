@@ -29,7 +29,7 @@ export namespace ObservableSpy {
   export function spyOn<G>(obs$: Observable<G>): void {
     if (map.get(obs$)) {
       throw new Error(
-        `Cannot spy on Observable ${obs$} because it's already spied on`
+        `Cannot spy on Observable ${obs$} because it's already spied on`,
       );
     }
     const observableSpy = new ObservableSpy(obs$);
@@ -41,7 +41,7 @@ export namespace ObservableSpy {
       ObservableSpy.map.get(observable);
     if (!observableSpy) {
       throw new Error(
-        `Cannot assert emission of Observable because it wasn't spied on.\n Please call spyOnObservable first.`
+        `Cannot assert emission of Observable because it wasn't spied on.\n Please call spyOnObservable first.`,
       );
     }
     return observableSpy as ObservableSpy<G>;

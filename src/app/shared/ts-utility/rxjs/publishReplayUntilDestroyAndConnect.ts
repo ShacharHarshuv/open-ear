@@ -1,18 +1,18 @@
+import { DestroyRef, inject } from '@angular/core';
 import {
+  ConnectableObservable,
   MonoTypeOperatorFunction,
   Observable,
-  ConnectableObservable,
   Subscription,
 } from 'rxjs';
-import { publishReplay, take } from 'rxjs/operators';
-import { DestroyRef, inject } from '@angular/core';
+import { publishReplay } from 'rxjs/operators';
 
 export function publishReplayUntilDestroyAndConnect<G>(
-  destroyRef: DestroyRef = inject(DestroyRef)
+  destroyRef: DestroyRef = inject(DestroyRef),
 ): MonoTypeOperatorFunction<G> {
   return (source$: Observable<G>) => {
     const connectableObservable: ConnectableObservable<G> = source$.pipe(
-      publishReplay(1)
+      publishReplay(1),
     ) as ConnectableObservable<G>;
     const subscription: Subscription = connectableObservable.connect();
     destroyRef.onDestroy(() => {

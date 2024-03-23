@@ -1,6 +1,6 @@
-import Exercise from '../../exercise-logic';
 import { toGetter } from '../../../shared/ts-utility';
 import { ExerciseTest } from '../../ExerciseTest';
+import Exercise from '../../exercise-logic';
 import Expected = jasmine.Expected;
 
 export function testExercise<GSettings extends Exercise.Settings>(p: {
@@ -38,7 +38,7 @@ export function testExercise<GSettings extends Exercise.Settings>(p: {
       ?.map((descriptor) => ({
         ...descriptor,
         descriptor: toGetter(descriptor.descriptor)(
-          exercise.getCurrentSettings?.()!
+          exercise.getCurrentSettings?.()!,
         ),
       }));
     const expected = p.settingDescriptorList.map((expected) => {
@@ -67,7 +67,7 @@ export function testExercise<GSettings extends Exercise.Settings>(p: {
   if (p.defaultAnswers) {
     it('should have the correct default answers', () => {
       expect(exercise.getAnswerList()).toEqual(
-        ExerciseTest.answerListContaining(p.defaultAnswers!)
+        ExerciseTest.answerListContaining(p.defaultAnswers!),
       );
     });
   }

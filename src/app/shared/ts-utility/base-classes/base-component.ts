@@ -1,5 +1,5 @@
-import { Directive, AfterViewInit } from '@angular/core';
-import { ReplaySubject, Observable } from 'rxjs';
+import { AfterViewInit, Directive } from '@angular/core';
+import { Observable, ReplaySubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 @Directive()

@@ -1,11 +1,10 @@
 import { Component, Input, computed, forwardRef } from '@angular/core';
+import { signalFromProperty } from '../../../../../../shared/ng-utilities/signalFromProperty';
 import {
   AnswerLayoutRow,
   AnswersLayoutCell,
 } from '../../../../../exercise-logic';
-import { signalFromProperty } from '../../../../../../shared/ng-utilities/signalFromProperty';
 import { AnswerCellComponent } from '../answer-cell/answer-cell.component';
-
 
 @Component({
   selector: 'app-answers-row',

@@ -1,13 +1,13 @@
-import { Inject, Injectable, inject } from '@angular/core';
-import { Observable, of, Subject } from 'rxjs';
-import { VersionService } from '../version.service';
+import { Injectable, inject } from '@angular/core';
+import * as _ from 'lodash';
+import { Observable, Subject, of } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
 import { toObservable } from '../shared/ts-utility';
-import { RELEASE_NOTES_TOKEN, ReleaseNotes } from './release-notes';
-import * as _ from 'lodash';
 import { toPromise } from '../shared/ts-utility/rxjs/toPromise';
-import { versionComparator } from './version-comparator';
 import { StorageService } from '../storage/storage.service';
+import { VersionService } from '../version.service';
+import { RELEASE_NOTES_TOKEN, ReleaseNotes } from './release-notes';
+import { versionComparator } from './version-comparator';
 
 @Injectable({
   providedIn: 'root',
@@ -39,13 +39,13 @@ export class ReleaseNotesService {
         }
 
         const releaseNotesLastViewedOn$ = toObservable(
-          this._storageService.get(this._releaseNotesKey)
+          this._storageService.get(this._releaseNotesKey),
         ).pipe(
           switchMap((releaseNotesLastViewedOn) => {
             return this._releaseNotesViewedOnChange$.pipe(
-              startWith(releaseNotesLastViewedOn)
+              startWith(releaseNotesLastViewedOn),
             );
-          })
+          }),
         );
 
         return releaseNotesLastViewedOn$.pipe(
@@ -56,16 +56,16 @@ export class ReleaseNotesService {
                   !!releaseNotesLastViewedOn &&
                   versionComparator(
                     releaseNote.version,
-                    releaseNotesLastViewedOn
-                  ) > 0
+                    releaseNotesLastViewedOn,
+                  ) > 0,
               ),
               (releaseNote) => {
                 return releaseNote.notes;
-              }
+              },
             );
-          })
+          }),
         );
-      })
+      }),
     );
   }
 }

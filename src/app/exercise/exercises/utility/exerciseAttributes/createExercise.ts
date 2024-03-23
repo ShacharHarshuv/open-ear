@@ -1,14 +1,14 @@
-import Exercise from '../../../exercise-logic';
+import { Platforms } from '@ionic/core/dist/types/utils/platform';
 import * as _ from 'lodash';
 import { StaticOrGetter, toGetter } from '../../../../shared/ts-utility';
+import Exercise from '../../../exercise-logic';
 import { SettingsParams } from '../settings/SettingsParams';
-import { Platforms } from '@ionic/core/dist/types/utils/platform';
 import AnswerList = Exercise.AnswerList;
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 
 export type CreateExerciseParams<
   GAnswer extends string,
-  GSettings extends Exercise.Settings
+  GSettings extends Exercise.Settings,
 > = {
   readonly id: string;
   readonly summary: string;
@@ -21,9 +21,9 @@ export type CreateExerciseParams<
 
 export function createExercise<
   GAnswer extends string,
-  GSettings extends Exercise.Settings
+  GSettings extends Exercise.Settings,
 >(
-  params: CreateExerciseParams<GAnswer, GSettings>
+  params: CreateExerciseParams<GAnswer, GSettings>,
 ): Exercise.Exercise<GAnswer, GSettings> {
   const settings: GSettings = params.defaultSettings;
   return {

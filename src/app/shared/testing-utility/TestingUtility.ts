@@ -1,7 +1,7 @@
 export class TestingUtility {
   static getButtonByIcon(iconName: string): HTMLElement {
     const iconButton = document.querySelector<HTMLElement>(
-      `ion-button ion-icon[name="${iconName}"]`
+      `ion-button ion-icon[name="${iconName}"]`,
     );
     if (!iconButton) {
       throw new Error(`Could not find button with icon ${iconName}`);
@@ -11,7 +11,7 @@ export class TestingUtility {
 
   static getElementByText(text: string, selector: string): HTMLElement {
     const element = Array.from(
-      document.querySelectorAll<HTMLElement>(selector)
+      document.querySelectorAll<HTMLElement>(selector),
     ).find((element: HTMLElement | null) => {
       return element?.innerText.toLowerCase() === text.toLowerCase();
     });

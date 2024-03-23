@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  StorageMigrationService,
-  StorageMigrationScript,
-  MIGRATION_SCRIPTS,
-} from './storage-migration.service';
+import { createMockProviders } from '../shared/testing-utility';
 import {
   VersionServiceMock,
   VersionTestingModule,
 } from '../version.service.mock';
-import { StorageServiceMock } from './storage.service.mock';
+import {
+  MIGRATION_SCRIPTS,
+  StorageMigrationScript,
+  StorageMigrationService,
+} from './storage-migration.service';
 import { StorageService } from './storage.service';
-import { createMockProviders } from '../shared/testing-utility';
+import { StorageServiceMock } from './storage.service.mock';
 import Expected = jasmine.Expected;
 import ArrayContaining = jasmine.ArrayContaining;
 
@@ -49,7 +49,7 @@ describe('StorageMigrationService', function () {
       },
     ];
     spyOn(storageMigrationService, 'getScriptsToRun').and.returnValue(
-      Promise.resolve(migrationScriptsMock)
+      Promise.resolve(migrationScriptsMock),
     );
     const runScriptSpy = spyOn(storageMigrationService, 'runMigrationScript');
     await storageMigrationService.runMigrationScripts();
@@ -57,8 +57,8 @@ describe('StorageMigrationService', function () {
       migrationScriptsMock.map((script) =>
         jasmine.objectContaining({
           args: [script],
-        })
-      )
+        }),
+      ),
     );
   });
 
@@ -136,7 +136,7 @@ describe('StorageMigrationService', function () {
         });
         storageMigrationService = TestBed.inject(StorageMigrationService);
         TestBed.inject(VersionServiceMock).version$.next(
-          testCase.currentVersion
+          testCase.currentVersion,
         );
         spyOn(TestBed.inject(StorageService), 'get').and.callFake((key) => {
           if (key === 'lastVersion') {
@@ -145,7 +145,7 @@ describe('StorageMigrationService', function () {
           return Promise.resolve();
         });
         expect(await storageMigrationService.getScriptsToRun()).toEqual(
-          testCase.expectedValue
+          testCase.expectedValue,
         );
       });
     });

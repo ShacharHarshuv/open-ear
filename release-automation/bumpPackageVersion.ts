@@ -1,9 +1,9 @@
 import * as fs from 'fs';
-import { parseVersion, Version, formatVersion } from './version';
+import { Version, formatVersion, parseVersion } from './version';
 
 export function bumpPackageVersion(
   bump: 'major' | 'minor' | 'patch',
-  path: string = '../package.json'
+  path: string = '../package.json',
 ): Version {
   const packageJson = JSON.parse(fs.readFileSync(path, 'utf8'));
   const version: Version = parseVersion(packageJson.version);

@@ -1,17 +1,17 @@
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { onPropertySet } from '../onPropertySet';
 
 export function listenToChanges<G, K extends keyof G>(
   object: G,
-  key: K
+  key: K,
 ): Observable<G[K]>;
 export function listenToChanges<G, K extends keyof G>(
   object: any,
-  key: string
+  key: string,
 ): Observable<any>;
 export function listenToChanges<G, K extends keyof G>(
   object: any,
-  key: string
+  key: string,
 ): Observable<any> {
   const subject$ = new BehaviorSubject<G[K]>(object[key]);
   onPropertySet(object, key, (value) => {

@@ -1,5 +1,5 @@
-import Exercise from '../../../exercise-logic';
 import { toGetter } from '../../../../shared/ts-utility';
+import Exercise from '../../../exercise-logic';
 import { CreateExerciseParams } from '../exerciseAttributes/createExercise';
 import { SettingsParams } from './SettingsParams';
 import filterIncludedAnswers = Exercise.filterIncludedAnswers;
@@ -18,7 +18,7 @@ export function includedAnswersSettings<GAnswer extends string>(config?: {
       CreateExerciseParams<GAnswer, Exercise.Settings>,
       'answerList'
     > &
-      Partial<Pick<SettingsParams<Exercise.Settings>, 'defaultSettings'>>
+      Partial<Pick<SettingsParams<Exercise.Settings>, 'defaultSettings'>>,
   ): SettingsParams<IncludedAnswersSettings<GAnswer>> &
     Pick<
       CreateExerciseParams<GAnswer, IncludedAnswersSettings<GAnswer>>,
@@ -29,7 +29,7 @@ export function includedAnswersSettings<GAnswer extends string>(config?: {
         includedAnswers:
           config?.defaultSelectedAnswers ??
           Exercise.flatAnswerList(
-            toGetter(params.answerList)(params.defaultSettings ?? {})
+            toGetter(params.answerList)(params.defaultSettings ?? {}),
           ),
       },
       settingsDescriptors: (settings) => [
@@ -43,11 +43,11 @@ export function includedAnswersSettings<GAnswer extends string>(config?: {
         },
       ],
       answerList: (
-        settings: IncludedAnswersSettings<GAnswer>
+        settings: IncludedAnswersSettings<GAnswer>,
       ): AnswerList<GAnswer> => {
         return filterIncludedAnswers(
           toGetter(params.answerList)(settings),
-          settings.includedAnswers
+          settings.includedAnswers,
         );
       },
     };

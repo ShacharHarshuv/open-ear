@@ -1,25 +1,20 @@
 import { Component } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
+import { NoteEvent } from '../../../../services/player.service';
+import { InfoPanelComponent } from '../../../../shared/components/shared-components/info-panel/info-panel.component';
+import { PlayOnClickDirective } from '../../../../shared/components/shared-components/play-on-click.directive';
+import { OneOrMany, toNoteNumber } from '../../../utility';
+import { NoteNumberOrName } from '../../../utility/music/notes/NoteNumberOrName';
 import {
   IntervalDescriptor,
   intervalDescriptorList,
 } from '../intervalExercise';
-import { NoteEvent } from '../../../../services/player.service';
-import { OneOrMany, toNoteNumber } from '../../../utility';
-import { NoteNumberOrName } from '../../../utility/music/notes/NoteNumberOrName';
-import { InfoPanelComponent } from '../../../../shared/components/shared-components/info-panel/info-panel.component';
-import { IonicModule } from '@ionic/angular';
-import { PlayOnClickDirective } from '../../../../shared/components/shared-components/play-on-click.directive';
-
 
 @Component({
   selector: 'app-interval-exercise-explanation',
   templateUrl: './interval-exercise-explanation.component.html',
   standalone: true,
-  imports: [
-    InfoPanelComponent,
-    IonicModule,
-    PlayOnClickDirective
-],
+  imports: [InfoPanelComponent, IonicModule, PlayOnClickDirective],
 })
 export class IntervalExerciseExplanationComponent {
   readonly intervalDescriptorList: (IntervalDescriptor & {

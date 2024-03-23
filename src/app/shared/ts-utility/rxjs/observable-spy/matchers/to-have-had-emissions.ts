@@ -15,7 +15,7 @@ declare global {
 
 export function toHaveHadEmissions<G>(
   util: MatchersUtil,
-  customEqualityTester: CustomEqualityTester[]
+  customEqualityTester: CustomEqualityTester[],
 ): CustomMatcher {
   return {
     compare: function (actual: Observable<G>): CustomMatcherResult {
@@ -32,7 +32,7 @@ export function toHaveHadEmissions<G>(
       };
     },
     negativeCompare: function (
-      actual: Observable<G>
+      actual: Observable<G>,
     ): jasmine.CustomMatcherResult {
       const observableSpy = ObservableSpy.getSpy(actual);
       if (!observableSpy.spy.calls.count()) {

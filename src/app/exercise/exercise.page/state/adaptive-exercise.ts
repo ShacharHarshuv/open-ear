@@ -1,5 +1,5 @@
-import Exercise from '../../exercise-logic';
 import Heap from 'heap-js';
+import Exercise from '../../exercise-logic';
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
 
 interface QuestionToRepeat {
@@ -17,7 +17,7 @@ export class AdaptiveExercise implements Exercise.Exercise {
   private _lastQuestion: QuestionToRepeat | null = null;
   private _wrongQuestionsHeap = new Heap<Required<QuestionToRepeat>>(
     (a: Required<QuestionToRepeat>, b: Required<QuestionToRepeat>) =>
-      a.timeToReAsk - b.timeToReAsk
+      a.timeToReAsk - b.timeToReAsk,
   );
   private _questionIndex: number = -1;
 
@@ -45,7 +45,7 @@ export class AdaptiveExercise implements Exercise.Exercise {
     this._questionIndex++;
     if (!!this._lastQuestion) {
       throw new Error(
-        `New getQuestion was called but previous answer not reported`
+        `New getQuestion was called but previous answer not reported`,
       );
     }
     const nextQuestionToRepeat: Required<QuestionToRepeat> | undefined =
@@ -71,7 +71,7 @@ export class AdaptiveExercise implements Exercise.Exercise {
     }
     if (!this._lastQuestion) {
       throw new Error(
-        `Can't report answer for a question that was never asked`
+        `Can't report answer for a question that was never asked`,
       );
     }
 

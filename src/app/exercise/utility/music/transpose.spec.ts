@@ -1,5 +1,5 @@
-import { transpose } from './transpose';
 import { NotesRange } from './NotesRange';
+import { transpose } from './transpose';
 
 describe('transpose', function () {
   describe('Single note type', function () {
@@ -61,8 +61,8 @@ describe('transpose', function () {
               velocity: 0.9,
             },
           ],
-          3
-        )
+          3,
+        ),
       ).toEqual([
         {
           notes: 'D#4',
@@ -96,8 +96,8 @@ describe('transpose', function () {
               velocity: 0.9,
             },
           ],
-          -4
-        )
+          -4,
+        ),
       ).toEqual([
         {
           notes: 'A#1',
@@ -126,8 +126,8 @@ describe('transpose', function () {
               velocity: 0.8,
             },
           ],
-          -12
-        )
+          -12,
+        ),
       ).toEqual([
         {
           notes: ['D#1'],
@@ -157,8 +157,8 @@ describe('transpose', function () {
               velocity: 0.8,
             },
           ],
-          -12
-        )
+          -12,
+        ),
       ).toThrow();
     });
   });
@@ -166,7 +166,7 @@ describe('transpose', function () {
   describe('note range', function () {
     it('should work', () => {
       expect(transpose(new NotesRange('C1', 'G1'), 3)).toEqual(
-        new NotesRange('D#1', 'A#1')
+        new NotesRange('D#1', 'A#1'),
       );
     });
   });

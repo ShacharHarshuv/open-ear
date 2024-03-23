@@ -34,7 +34,7 @@ export class YouTubePlayerMockService
   async play(
     videoId: string,
     time: number,
-    callbacks: YouTubeCallbackDescriptor[] | undefined
+    callbacks: YouTubeCallbackDescriptor[] | undefined,
   ): Promise<void> {
     return Promise.resolve();
   }

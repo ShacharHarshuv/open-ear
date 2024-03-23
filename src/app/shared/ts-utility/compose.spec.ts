@@ -23,7 +23,7 @@ describe('compose', function () {
   it('should work with 2 functions', () => {
     const returnedValue = compose(
       fn1,
-      fn2
+      fn2,
     )({
       a: 1,
       c: 1,
@@ -39,7 +39,7 @@ describe('compose', function () {
     const returnValue = compose(
       fn1,
       fn2,
-      fn3
+      fn3,
     )({
       a: 1,
       c: 1,
@@ -57,7 +57,7 @@ describe('compose with merge', function () {
   const customCompose = composeWithMerge({
     dictionary: (
       dic1: Record<string, number>,
-      dic2: Record<string, number>
+      dic2: Record<string, number>,
     ): Record<string, number> => {
       return {
         ...dic1,
@@ -80,7 +80,7 @@ describe('compose with merge', function () {
         dictionary: {
           b: 2,
         },
-      })
+      }),
     )({ n: 1 });
     expect(returnValue).toEqual({
       dictionary: {
@@ -101,7 +101,7 @@ describe('compose with merge', function () {
         return {
           finalList: p.array,
         };
-      }
+      },
     )({
       array: ['2'],
     });
@@ -119,7 +119,7 @@ describe('compose with merge', function () {
       }),
       (p: { array: string[] }): { b: string[] } => ({
         b: p.array,
-      })
+      }),
     );
 
     expect(myFunc({ a: 1 })).toEqual({

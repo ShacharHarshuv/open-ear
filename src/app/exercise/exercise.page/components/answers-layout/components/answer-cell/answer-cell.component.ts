@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   Input,
@@ -5,21 +6,20 @@ import {
   computed,
   forwardRef,
 } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
+import { uniqueId } from 'lodash';
+import { signalFromProperty } from '../../../../../../shared/ng-utilities/signalFromProperty';
 import {
-  AnswerConfig,
-  normalizeAnswerConfig,
-  AnswersLayoutCell,
-  isMultiAnswerCell,
-  MultiAnswerCell,
   Answer,
+  AnswerConfig,
+  AnswersLayoutCell,
+  MultiAnswerCell,
   flatAnswerList,
   getAnswerListIterator,
+  isMultiAnswerCell,
+  normalizeAnswerConfig,
 } from '../../../../../exercise-logic';
-import { signalFromProperty } from '../../../../../../shared/ng-utilities/signalFromProperty';
-import { uniqueId, first } from 'lodash';
 import { AnswersLayoutComponent } from '../../answers-layout.component';
-import { IonicModule } from '@ionic/angular';
-import { NgTemplateOutlet } from '@angular/common';
 
 export type MultiAnswerButtonTemplateContext = Required<
   Pick<MultiAnswerCell, 'displayLabel'>
@@ -35,8 +35,8 @@ export type MultiAnswerButtonTemplateContext = Required<
   imports: [
     NgTemplateOutlet,
     IonicModule,
-    forwardRef(() => AnswersLayoutComponent)
-],
+    forwardRef(() => AnswersLayoutComponent),
+  ],
 })
 export class AnswerCellComponent {
   @Input({
@@ -78,7 +78,7 @@ export class AnswerCellComponent {
       }
 
       const firstAnswer: Required<AnswerConfig<string>> = getAnswerListIterator(
-        cell.innerAnswersList
+        cell.innerAnswersList,
       ).next().value;
 
       return {
@@ -87,7 +87,7 @@ export class AnswerCellComponent {
         ...cell,
         id: uniqueId('multi-answer-cell-'),
       };
-    }
+    },
   );
 
   readonly multiAnswerCellButtonTemplateContext = computed(
@@ -101,6 +101,6 @@ export class AnswerCellComponent {
         ...multiAnswerCell,
         innerAnswers: flatAnswerList(multiAnswerCell.innerAnswersList),
       };
-    }
+    },
   );
 }

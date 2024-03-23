@@ -1,15 +1,15 @@
-import {
-  TonalExerciseSettings,
-  tonalExercise,
-  TonalExerciseParams,
-} from './tonalExercise';
-import { expectedKeySelectionSettingsDescriptors } from '../settings/keySelectionSettingsDescriptors.spec';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { ResolvedValueOf } from '../../../../shared/ts-utility';
 import Exercise from '../../../exercise-logic';
 import { Key } from '../../../utility';
 import { noteOfType } from '../../../utility/music/notes/NoteType.spec';
-import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { toNoteTypeNumber } from '../../../utility/music/notes/toNoteTypeNumber';
+import { expectedKeySelectionSettingsDescriptors } from '../settings/keySelectionSettingsDescriptors.spec';
+import {
+  TonalExerciseParams,
+  TonalExerciseSettings,
+  tonalExercise,
+} from './tonalExercise';
 import NotesQuestion = Exercise.NotesQuestion;
 import AsymmetricMatcher = jasmine.AsymmetricMatcher;
 
@@ -61,14 +61,14 @@ describe(tonalExercise.name, function () {
       return {
         asymmetricMatch(
           question: Exercise.NotesQuestion,
-          customTesters: ReadonlyArray<jasmine.CustomEqualityTester>
+          customTesters: ReadonlyArray<jasmine.CustomEqualityTester>,
         ): boolean {
           return (
             !!question.key &&
             toNoteTypeNumber(question.key) === toNoteTypeNumber(key) &&
             noteOfType(key).asymmetricMatch(
               question.segments[0].partToPlay as Note,
-              customTesters
+              customTesters,
             )
           );
         },

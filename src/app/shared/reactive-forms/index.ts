@@ -1,13 +1,13 @@
+export { ControlValueAccessor } from './ControlValueAccessor';
 export { IAbstractControl } from './abstractControl';
+export * from './formArray';
 export { FormControl } from './formControl';
 export { FormGroup } from './formGroup';
-export * from './formArray';
+export * from './types';
 export {
-  ValidatorFn,
   AsyncValidatorFn,
   NgValidatorsErrors,
-  TFlatControlsOf,
   TControlsOf,
+  TFlatControlsOf,
+  ValidatorFn,
 } from './types';
-export { ControlValueAccessor } from './ControlValueAccessor';
-export * from './types';

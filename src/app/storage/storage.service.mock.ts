@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { StorageService } from './storage.service';
 import { PublicMembers } from '../shared/ts-utility/PublicMembers';
+import { StorageService } from './storage.service';
 
 @Injectable()
 export class StorageServiceMock implements PublicMembers<StorageService> {

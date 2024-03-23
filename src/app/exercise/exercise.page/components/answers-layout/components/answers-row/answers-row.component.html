@@ -1,16 +1,13 @@
 @if (textRow(); as textRow) {
-<span>{{ textRow }}</span>
+  <span>{{ textRow }}</span>
 }
 @if (cellList(); as cellList) {
-
   @for (cellConfig of cellList; track cellConfig) {
-<app-answer-cell
-   
-    [cell]="cellConfig"
-    [buttonTemplate]="buttonTemplate"
-    [multiAnswerButtonTemplate]="multiAnswerButtonTemplate"
-    [multiAnswerCellConfig]="multiAnswerCellConfig"
-  />
-}
-
+    <app-answer-cell
+      [cell]="cellConfig"
+      [buttonTemplate]="buttonTemplate"
+      [multiAnswerButtonTemplate]="multiAnswerButtonTemplate"
+      [multiAnswerCellConfig]="multiAnswerCellConfig"
+    />
+  }
 }

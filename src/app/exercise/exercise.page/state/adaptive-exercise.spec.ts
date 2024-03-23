@@ -1,12 +1,12 @@
-import { AdaptiveExercise } from './adaptive-exercise';
 import {
+  AnswerList,
   Exercise,
   Question,
-  AnswerList,
-  SettingsControlDescriptor,
   SettingValueType,
+  SettingsControlDescriptor,
 } from '../../exercise-logic';
 import { toNoteName } from '../../utility';
+import { AdaptiveExercise } from './adaptive-exercise';
 
 describe('adaptive exercise', function () {
   let questionIndex: number;
@@ -57,11 +57,11 @@ describe('adaptive exercise', function () {
   });
 
   function testAdaptiveExercise(
-    questionsAndAnswers: [number, boolean][]
+    questionsAndAnswers: [number, boolean][],
   ): void {
     questionsAndAnswers.forEach(([questionIndex, wasAnswerRight]) => {
       expect(adaptiveExercise.getQuestion()).toEqual(
-        generateQuestion(questionIndex)
+        generateQuestion(questionIndex),
       );
       adaptiveExercise.reportAnswerCorrectness(wasAnswerRight);
     });
@@ -70,7 +70,7 @@ describe('adaptive exercise', function () {
   function generateTestCases(
     questionIndexToStart: number,
     numberOfQuestions: number,
-    answer = true
+    answer = true,
   ): [number, boolean][] {
     const x: [number, boolean][] = [];
     let index: number = questionIndexToStart;

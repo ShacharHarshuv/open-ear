@@ -21,11 +21,9 @@
 <p>(Click to play)</p>
 <ion-list>
   @for (chord of chords; track chord) {
-
-    <ion-item button [appPlayOnClick]="chord.toPlay">
+    <ion-item [appPlayOnClick]="chord.toPlay" button>
       <b>{{ chord.displayName }}</b
       >&nbsp;({{ chord.notesInC.join("-") }})
     </ion-item>
-  
-}
+  }
 </ion-list>

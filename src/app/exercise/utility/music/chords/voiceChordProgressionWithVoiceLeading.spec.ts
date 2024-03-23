@@ -1,8 +1,8 @@
-import { voiceChordProgressionWithVoiceLeading } from './voiceChordProgressionWithVoiceLeading';
-import { ChordSymbol } from './Chord/Chord';
+import * as _ from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { toNoteNumber } from '../notes/toNoteName';
-import * as _ from 'lodash';
+import { ChordSymbol } from './Chord/Chord';
+import { voiceChordProgressionWithVoiceLeading } from './voiceChordProgressionWithVoiceLeading';
 import Spy = jasmine.Spy;
 
 describe('voiceChordProgressionWithVoiceLeading', function () {
@@ -155,24 +155,24 @@ describe('voiceChordProgressionWithVoiceLeading', function () {
             if (!!voicingOption.expectedResult) {
               const result: Note[][] = voiceChordProgressionWithVoiceLeading(
                 testCase.progression,
-                testCase.startingInversion
+                testCase.startingInversion,
               );
               expect(result.map((chord) => chord.map(toNoteNumber))).toEqual(
                 voicingOption.expectedResult.map((chord) =>
-                  chord.map(toNoteNumber)
-                )
+                  chord.map(toNoteNumber),
+                ),
               );
             } else {
               expect(() =>
                 voiceChordProgressionWithVoiceLeading(
                   testCase.progression,
-                  testCase.startingInversion
-                )
+                  testCase.startingInversion,
+                ),
               ).toThrow();
             }
           });
         });
-      }
+      },
     );
   });
 });

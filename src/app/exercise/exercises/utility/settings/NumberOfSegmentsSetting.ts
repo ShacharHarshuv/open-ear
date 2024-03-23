@@ -6,7 +6,7 @@ export type NumberOfSegmentsSetting = {
 };
 
 export const numberOfSegmentsControlDescriptorList = (
-  name: string
+  name: string,
 ): Exercise.SettingsControlDescriptor<NumberOfSegmentsSetting>[] => [
   {
     key: 'numberOfSegments',

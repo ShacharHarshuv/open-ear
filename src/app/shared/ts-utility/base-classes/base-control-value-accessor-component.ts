@@ -3,24 +3,23 @@ import {
   ElementRef,
   Input,
   Output,
-  Injector,
-  forwardRef,
   Provider,
   Type,
+  forwardRef,
   inject,
 } from '@angular/core';
-import { BaseComponent } from './base-component';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import * as _ from 'lodash';
 import {
   BehaviorSubject,
+  Observable,
   ReplaySubject,
   Subject,
-  Observable,
-  merge,
   firstValueFrom,
+  merge,
 } from 'rxjs';
 import { publishReplayUntilDestroyAndConnect } from '../rxjs';
-import * as _ from 'lodash';
+import { BaseComponent } from './base-component';
 
 export function getNgValueAccessorProvider(type: Type<any>): Provider {
   return {
@@ -60,7 +59,7 @@ export abstract class BaseControlValueAccessorComponent<T>
 
   readonly value$: Observable<T> = merge(
     this.modelValue$,
-    this.valueChange
+    this.valueChange,
   ).pipe(publishReplayUntilDestroyAndConnect());
 
   get isDisabled(): boolean {

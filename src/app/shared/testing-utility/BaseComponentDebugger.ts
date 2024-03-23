@@ -1,6 +1,6 @@
+import { DebugElement } from '@angular/core';
 import { ComponentFixture } from '@angular/core/testing';
 import { Spectator } from '@ngneat/spectator';
-import { DebugElement, inject } from '@angular/core';
 
 export abstract class BaseComponentDebugger<GComponent> {
   constructor(readonly fixture: ComponentFixture<GComponent>) {}
@@ -9,7 +9,7 @@ export abstract class BaseComponentDebugger<GComponent> {
     this.fixture,
     this.debugElement,
     this.componentInstance,
-    this.nativeElement
+    this.nativeElement,
   );
 
   get componentInstance(): GComponent {

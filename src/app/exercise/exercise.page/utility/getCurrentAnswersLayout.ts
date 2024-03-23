@@ -1,5 +1,5 @@
-import { CurrentAnswer } from '../state/exercise-state.service';
 import * as _ from 'lodash';
+import { CurrentAnswer } from '../state/exercise-state.service';
 
 // todo: it's probably better to group by voice, as later we might want to give each answer a different duration for different contrapuntal scenarios
 export function getCurrentAnswersLayout(currentAnswers: CurrentAnswer[]) {

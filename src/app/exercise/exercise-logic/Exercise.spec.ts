@@ -1,13 +1,13 @@
+import { testPureFunction } from '../../shared/testing-utility/testPureFunction';
 import {
   AnswerList,
-  mapAnswerList,
   addViewLabelToAnswerList,
-  getAnswerListIterator,
-  flatAnswerList,
   filterIncludedAnswers,
+  flatAnswerList,
+  getAnswerListIterator,
+  mapAnswerList,
   normalizedAnswerList,
 } from './Exercise';
-import { testPureFunction } from '../../shared/testing-utility/testPureFunction';
 
 const mockAnswerList: AnswerList = {
   rows: [
@@ -163,7 +163,7 @@ describe('filterIncludedAnswers', () => {
     (allAnswerList: AnswerList<string>, includedAnswersList: string[]) =>
       // normalizing to make it easier to test
       normalizedAnswerList(
-        filterIncludedAnswers(allAnswerList, includedAnswersList)
+        filterIncludedAnswers(allAnswerList, includedAnswersList),
       ),
     [
       {
@@ -187,6 +187,6 @@ describe('filterIncludedAnswers', () => {
           ],
         },
       },
-    ]
+    ],
   );
 });

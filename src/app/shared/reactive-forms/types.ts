@@ -1,35 +1,35 @@
 import {
-  AbstractControlOptions as NgAbstractControlOptions,
   ValidationErrors as AnyValidationErrors,
+  AbstractControlOptions as NgAbstractControlOptions,
 } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { FormControl } from './formControl';
-import { FormArray } from './formArray';
-import { FormGroup } from './formGroup';
+import { ArrayItemType, OneOrMany, Primitive } from '../ts-utility';
 import { IAbstractControl } from './abstractControl';
-import { OneOrMany, Primitive, ArrayItemType } from '../ts-utility';
+import { FormArray } from './formArray';
+import { FormControl } from './formControl';
+import { FormGroup } from './formGroup';
 
 export type ValidationErrors<
-  GErrors extends AnyValidationErrors = AnyValidationErrors
+  GErrors extends AnyValidationErrors = AnyValidationErrors,
 > = GErrors;
 export type ValidatorFn<
   GValue = any,
-  GErrors extends ValidationErrors = ValidationErrors
+  GErrors extends ValidationErrors = ValidationErrors,
 > = (
-  control: IAbstractControl<GValue, GErrors>
+  control: IAbstractControl<GValue, GErrors>,
 ) => ValidationErrors<Partial<GErrors>> | null;
 export type AsyncValidatorFn<
   GValue = any,
-  GErrors extends ValidationErrors = ValidationErrors
+  GErrors extends ValidationErrors = ValidationErrors,
 > = (
-  control: IAbstractControl<GValue, GErrors>
+  control: IAbstractControl<GValue, GErrors>,
 ) =>
   | Promise<ValidationErrors<Partial<GErrors>> | null>
   | Observable<ValidationErrors<Partial<GErrors>> | null>;
 
 interface IAbstractControlOptionsBase<
   GValue = any,
-  GErrors extends ValidationErrors = ValidationErrors
+  GErrors extends ValidationErrors = ValidationErrors,
 > extends NgAbstractControlOptions {
   validators?:
     | ValidatorFn<GValue, GErrors>
@@ -47,14 +47,14 @@ interface IAbstractControlOptionsBase<
 
 interface IAbstractControlOptionsWithoutDisabledReasonConfigList<
   GValue,
-  GErrors extends ValidationErrors
+  GErrors extends ValidationErrors,
 > extends IAbstractControlOptionsBase<GValue, GErrors> {
   disabledReason$List?: undefined;
 }
 
 interface IAbstractControlOptionsWithDisabledReasonConfigList<
   GValue,
-  GErrors extends ValidationErrors
+  GErrors extends ValidationErrors,
 > extends IAbstractControlOptionsBase<GValue, GErrors> {
   /**
    * To use disabledReasonConfigList you must supply takeUntil$
@@ -65,7 +65,7 @@ interface IAbstractControlOptionsWithDisabledReasonConfigList<
 
 export type IAbstractControlOptions<
   GValue = any,
-  GErrors extends ValidationErrors = ValidationErrors
+  GErrors extends ValidationErrors = ValidationErrors,
 > =
   | IAbstractControlOptionsWithoutDisabledReasonConfigList<GValue, GErrors>
   | IAbstractControlOptionsWithDisabledReasonConfigList<GValue, GErrors>;
@@ -101,14 +101,14 @@ export type TAbstractControlParent = FormGroup | FormArray | null;
  * **/
 export type TControlWithParent<
   GControl extends IAbstractControl,
-  GParent extends TAbstractControlParent
+  GParent extends TAbstractControlParent,
 > = GControl extends FormArray
   ? FormArray<GControl['controls'][0], NonNullable<GControl['errors']>, GParent>
   : GControl extends FormGroup
-  ? FormGroup<GControl['controls'], NonNullable<GControl['errors']>, GParent>
-  : GControl extends FormControl
-  ? FormControl<GControl['value'], NonNullable<GControl['errors']>, GParent>
-  : never;
+    ? FormGroup<GControl['controls'], NonNullable<GControl['errors']>, GParent>
+    : GControl extends FormControl
+      ? FormControl<GControl['value'], NonNullable<GControl['errors']>, GParent>
+      : never;
 /*
  * Convert a Control type or a value type
  * Leaving non-control types as is
@@ -131,16 +131,16 @@ export type IControlsValue<T extends { [p: string]: any }> = {
  * */
 type TAbstractControlOfWithPotentialUnion<
   T,
-  GParent extends TAbstractControlParent = any
+  GParent extends TAbstractControlParent = any,
 > = [T] extends [IAbstractControl]
   ? T
   : [T] extends [Primitive]
-  ? FormControl<T, any, GParent>
-  : IAbstractControl<T, any, GParent>;
+    ? FormControl<T, any, GParent>
+    : IAbstractControl<T, any, GParent>;
 
 export type TAbstractControlOf<
   T,
-  GParent extends TAbstractControlParent = any
+  GParent extends TAbstractControlParent = any,
 > = IAbstractControl<
   any,
   any,
@@ -159,7 +159,7 @@ export type TAbstractControlOf<
  * */
 export type TAbstractControlsOf<
   GValueOrControls extends { [key: string]: any },
-  GParentErrors extends ValidationErrors
+  GParentErrors extends ValidationErrors,
 > = {
   [K in keyof GValueOrControls]: GValueOrControls[K] extends IAbstractControl
     ? TControlWithParent<
@@ -173,16 +173,16 @@ export type TAbstractControlsOf<
 };
 
 export type TControlOf<T, GParent extends TAbstractControlParent = any> = [
-  T
+  T,
 ] extends [any[]]
   ? FormArray<TControlOf<ArrayItemType<T>>, any, GParent>
   : [T] extends [object]
-  ? FormGroup<TControlsOf<T>, any, GParent>
-  : FormControl<T, any, GParent>;
+    ? FormGroup<TControlsOf<T>, any, GParent>
+    : FormControl<T, any, GParent>;
 export type TControlsOf<
   T extends Object,
   TOverrides extends { [p in keyof T]?: IAbstractControl } = {},
-  GParent extends TAbstractControlParent = any
+  GParent extends TAbstractControlParent = any,
 > = {
   [key in keyof T]: key extends keyof TOverrides
     ? TOverrides[key]

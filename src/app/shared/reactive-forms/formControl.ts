@@ -1,23 +1,23 @@
 import { UntypedFormControl } from '@angular/forms';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged, startWith } from 'rxjs/operators';
+import { IAbstractControl, IControlErrorRef } from './abstractControl';
 import { ControlMethods } from './control-methods';
 import {
   AsyncValidatorFn,
   IAbstractControlOptions,
   IControlUpdateOptions,
+  TAbstractControlParent,
   TControlStatus,
   TControlValueState,
   ValidationErrors,
   ValidatorFn,
-  TAbstractControlParent,
 } from './types';
-import { IAbstractControl, IControlErrorRef } from './abstractControl';
 
 export class FormControl<
     GValue = any,
     GErrors extends ValidationErrors = any,
-    GParent extends TAbstractControlParent = any
+    GParent extends TAbstractControlParent = any,
   >
   extends UntypedFormControl
   implements IAbstractControl<GValue, GErrors, GParent>
@@ -28,7 +28,7 @@ export class FormControl<
   private readonly _options:
     | IAbstractControlOptions<GValue, GErrors>
     | undefined = ControlMethods.getOptions<GValue, GErrors>(
-    this._validatorOrOpts
+    this._validatorOrOpts,
   );
 
   // @ts-ignore
@@ -66,7 +66,7 @@ export class FormControl<
   readonly errors$: Observable<Partial<GErrors> | null> =
     ControlMethods.getErrorStream<GValue, GErrors>(
       this,
-      this._errorsSubject$.asObservable()
+      this._errorsSubject$.asObservable(),
     );
   readonly isValid$: Observable<boolean> = ControlMethods.getIsValidStream<
     GValue,
@@ -81,14 +81,14 @@ export class FormControl<
   readonly errorRefList$: Observable<IControlErrorRef<GErrors>[]> =
     ControlMethods.getErrorRefListStream<GValue, GErrors>(
       this,
-      this._options?.errorMsgMap
+      this._options?.errorMsgMap,
     );
   readonly firstErrorMsg$: Observable<string | null> =
     ControlMethods.getFirstErrorMsgStream(this);
   readonly disabledReasonList$: Observable<string[]> =
     ControlMethods.getDisabledReasonList(
       this,
-      this._options?.disabledReason$List
+      this._options?.disabledReason$List,
     );
   readonly firstDisabledReason$: Observable<string | null> =
     ControlMethods.getFirstDisabledReasonStream(this);
@@ -98,7 +98,7 @@ export class FormControl<
   }
 
   override set asyncValidator(
-    asyncValidator: AsyncValidatorFn<GValue, GErrors> | null
+    asyncValidator: AsyncValidatorFn<GValue, GErrors> | null,
   ) {
     super.asyncValidator = asyncValidator;
   }
@@ -117,7 +117,7 @@ export class FormControl<
 
   constructor(
     formState?: TControlValueState<GValue>,
-    options?: IAbstractControlOptions<GValue, GErrors>
+    options?: IAbstractControlOptions<GValue, GErrors>,
   );
   /**
    * @Deprecated
@@ -132,7 +132,7 @@ export class FormControl<
     asyncValidator?:
       | AsyncValidatorFn<GValue, GErrors>
       | AsyncValidatorFn<GValue, GErrors>[]
-      | null
+      | null,
   );
   constructor(
     formState?: TControlValueState<GValue>,
@@ -144,18 +144,18 @@ export class FormControl<
     asyncValidator?:
       | AsyncValidatorFn<GValue, GErrors>
       | AsyncValidatorFn<GValue, GErrors>[]
-      | null
+      | null,
   ) {
     super(
       formState,
       ControlMethods.getBaseConstructorSecondParam(_validatorOrOpts),
-      asyncValidator
+      asyncValidator,
     );
   }
 
   override setValue(
     valueOrObservable: GValue,
-    options?: IControlUpdateOptions
+    options?: IControlUpdateOptions,
   ): void {
     super.setValue(valueOrObservable, options);
   }
@@ -169,13 +169,13 @@ export class FormControl<
    * */
   disableWhile(
     observable: Observable<boolean>,
-    options?: IControlUpdateOptions & { takeUntil$?: Observable<any> }
+    options?: IControlUpdateOptions & { takeUntil$?: Observable<any> },
   ): Subscription {
     return ControlMethods.disableWhile(
       this,
       observable,
       this._options,
-      options
+      options,
     );
   }
 
@@ -185,14 +185,14 @@ export class FormControl<
   }
 
   override markAsUntouched(
-    opts?: Pick<IControlUpdateOptions, 'onlySelf'>
+    opts?: Pick<IControlUpdateOptions, 'onlySelf'>,
   ): void {
     super.markAsUntouched(opts);
     this._touchChanges$.next(false);
   }
 
   override markAsPristine(
-    opts?: Pick<IControlUpdateOptions, 'onlySelf'>
+    opts?: Pick<IControlUpdateOptions, 'onlySelf'>,
   ): void {
     super.markAsPristine(opts);
     this._dirtyChanges$.next(false);
@@ -205,7 +205,7 @@ export class FormControl<
 
   override reset(
     formState?: TControlValueState<GValue>,
-    options?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>
+    options?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>,
   ): void {
     super.reset(formState, options);
   }
@@ -214,7 +214,7 @@ export class FormControl<
     newValidator:
       | ValidatorFn<GValue, GErrors>
       | ValidatorFn<GValue, GErrors>[]
-      | null
+      | null,
   ): void {
     super.setValidators(newValidator);
     super.updateValueAndValidity();
@@ -224,27 +224,27 @@ export class FormControl<
     newValidator:
       | AsyncValidatorFn<GValue, GErrors>
       | AsyncValidatorFn<GValue, GErrors>[]
-      | null
+      | null,
   ): void {
     super.setAsyncValidators(newValidator);
     super.updateValueAndValidity();
   }
 
   override getError<K extends Extract<keyof GErrors, string>>(
-    errorCode: K
+    errorCode: K,
   ): GErrors[K] | null {
     return super.getError(errorCode) as GErrors[K] | null;
   }
 
   override hasError<K extends Extract<keyof GErrors, string>>(
-    errorCode: K
+    errorCode: K,
   ): boolean {
     return super.hasError(errorCode);
   }
 
   override async setErrors(
     errors: Partial<GErrors> | null,
-    opts: Pick<IControlUpdateOptions, 'emitEvent'> = {}
+    opts: Pick<IControlUpdateOptions, 'emitEvent'> = {},
   ): Promise<void> {
     await ControlMethods.setErrors(
       this,
@@ -252,7 +252,7 @@ export class FormControl<
         return this._errorsSubject$;
       },
       errors,
-      opts
+      opts,
     );
   }
 
@@ -262,14 +262,14 @@ export class FormControl<
 
   setIsEnabled(
     enable = true,
-    opts?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>
+    opts?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>,
   ): void {
     ControlMethods.setIsEnabled(this, enable, opts);
   }
 
   setIsDisabled(
     disable = true,
-    opts?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>
+    opts?: Pick<IControlUpdateOptions, 'emitEvent' | 'onlySelf'>,
   ): void {
     ControlMethods.setIsDisabled(this, disable, opts);
   }

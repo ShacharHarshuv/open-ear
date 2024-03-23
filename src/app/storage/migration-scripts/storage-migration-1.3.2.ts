@@ -1,5 +1,5 @@
-import { StorageMigrationScript } from '../storage-migration.service';
 import * as _ from 'lodash';
+import { StorageMigrationScript } from '../storage-migration.service';
 
 export const migrationScript_1_3_2: StorageMigrationScript<
   Record<string, { exerciseSettings?: { includedAnswers?: any[] } }>
@@ -19,7 +19,7 @@ export const migrationScript_1_3_2: StorageMigrationScript<
             exerciseSettings.exerciseSettings.includedAnswers,
             (answer) => {
               return answer.replace('♭', 'b').replace('ᵒ', 'dim');
-            }
+            },
           ),
         },
       };

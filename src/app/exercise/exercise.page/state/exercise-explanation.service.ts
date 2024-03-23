@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { ExerciseStateService } from './exercise-state.service';
-import { ExerciseExplanationPage } from '../components/exercise-help/exercise-explanation/exercise-explanation.page';
 import { ModalController } from '@ionic/angular';
 import { ExerciseSettingsDataService } from '../../../services/exercise-settings-data.service';
+import { ExerciseExplanationPage } from '../components/exercise-help/exercise-explanation/exercise-explanation.page';
+import { ExerciseStateService } from './exercise-state.service';
 
 @Injectable()
 export class ExerciseExplanationService {
@@ -30,7 +30,7 @@ export class ExerciseExplanationService {
   async init(): Promise<void> {
     const exerciseSettings =
       await this._exerciseSettingsData.getExerciseSettings(
-        this._state.exercise.id
+        this._state.exercise.id,
       );
     if (
       this._state.exercise.explanation &&
@@ -41,7 +41,7 @@ export class ExerciseExplanationService {
         this._state.exercise.id,
         {
           wasExplanationDisplayed: true,
-        }
+        },
       );
     }
   }

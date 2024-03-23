@@ -1,8 +1,8 @@
-import { commonChordProgressionExercise } from './commonChordProgressionsExercise';
 import Exercise from '../../exercise-logic';
 import { testExercise } from '../testing-utility/test-exercise.spec';
 import { expectedVoicingSettingsDescriptors } from '../utility/exerciseAttributes/chordProgressionExercise.spec';
 import { expectedKeySelectionSettingsDescriptors } from '../utility/settings/keySelectionSettingsDescriptors.spec';
+import { commonChordProgressionExercise } from './commonChordProgressionsExercise';
 
 describe(commonChordProgressionExercise.name, () => {
   const context = testExercise({
@@ -24,7 +24,7 @@ describe(commonChordProgressionExercise.name, () => {
         includedProgressions: ['I IV V I'],
       });
       expect(Exercise.flatAnswerList(context.exercise.getAnswerList())).toEqual(
-        jasmine.arrayWithExactContents(['I', 'IV', 'V'])
+        jasmine.arrayWithExactContents(['I', 'IV', 'V']),
       );
     });
   });

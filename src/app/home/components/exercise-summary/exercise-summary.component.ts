@@ -1,8 +1,8 @@
 import { Component, Input, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
 import Exercise from '../../../exercise/exercise-logic';
 import { PlayerService } from '../../../services/player.service';
-import { IonicModule } from '@ionic/angular';
-import { RouterLink } from '@angular/router';
 import IExercise = Exercise.Exercise;
 
 @Component({

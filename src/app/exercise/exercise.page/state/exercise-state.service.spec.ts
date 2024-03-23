@@ -1,11 +1,11 @@
 import { TestBed, fakeAsync, flush } from '@angular/core/testing';
-import { ExerciseStateService } from './exercise-state.service';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ExerciseMockService } from '../../exercise.mock.service';
-import { AdaptiveExerciseMockService } from './adaptive-exercise.mock.service';
-import { noteTypeToNote } from '../../utility/music/notes/noteTypeToNote';
-import { NoteType } from '../../utility/music/notes/NoteType';
 import { ExerciseTestingModule } from '../../exercise-testing.module';
+import { ExerciseMockService } from '../../exercise.mock.service';
+import { NoteType } from '../../utility/music/notes/NoteType';
+import { noteTypeToNote } from '../../utility/music/notes/noteTypeToNote';
+import { AdaptiveExerciseMockService } from './adaptive-exercise.mock.service';
+import { ExerciseStateService } from './exercise-state.service';
 
 describe('ExerciseStateService', function () {
   let exerciseStateService: ExerciseStateService;
@@ -36,7 +36,7 @@ describe('ExerciseStateService', function () {
     it('should reset adaptive exercise memory', () => {
       const adaptiveExerciseResetSpy = spyOn(
         AdaptiveExerciseMockService.adaptiveExerciseMock,
-        'reset'
+        'reset',
       );
       expect(adaptiveExerciseResetSpy).not.toHaveBeenCalled();
       exerciseStateService.resetStatistics();

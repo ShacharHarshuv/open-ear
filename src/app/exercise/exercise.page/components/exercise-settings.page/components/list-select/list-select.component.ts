@@ -1,11 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
+import { firstValueFrom } from 'rxjs';
 import {
   BaseControlValueAccessorComponent,
   getNgValueAccessorProvider,
 } from '../../../../../../shared/ts-utility';
-import { firstValueFrom } from 'rxjs';
-import { IonicModule } from '@ionic/angular';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-list-select',

@@ -1,15 +1,12 @@
-<app-modal-frame title="What's new in OpenEar?" #modal="modal">
+<app-modal-frame #modal="modal" title="What's new in OpenEar?">
   <p>Version: {{ versionService.version$ | async }}</p>
   <ul>
     @for (
-        releaseNote of releaseNotesService.relevantReleaseNotes$ | async
-      ; track 
-        releaseNote) {
-<li
-     
-      [innerHtml]="releaseNote"
-    ></li>
-}
+      releaseNote of releaseNotesService.relevantReleaseNotes$ | async;
+      track releaseNote
+    ) {
+      <li [innerHtml]="releaseNote"></li>
+    }
   </ul>
-  <ion-button expand="block" (click)="modal.close()">Nice! Let's go</ion-button>
+  <ion-button (click)="modal.close()" expand="block">Nice! Let's go</ion-button>
 </app-modal-frame>

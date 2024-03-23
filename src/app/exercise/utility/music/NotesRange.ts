@@ -1,12 +1,12 @@
-import { NoteNumber, NoteNumberOrName } from './notes/NoteNumberOrName';
-import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { toNoteName, toNoteNumber } from './notes/toNoteName';
-import { Key } from './keys/Key';
 import { Memoize } from 'lodash-decorators';
+import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { Key } from './keys/Key';
 import { isInKey } from './keys/isInKey';
+import { NoteNumber, NoteNumberOrName } from './notes/NoteNumberOrName';
 import { NoteType } from './notes/NoteType';
-import { toNoteTypeNumber } from './notes/toNoteTypeNumber';
 import { getNoteType } from './notes/getNoteType';
+import { toNoteName, toNoteNumber } from './notes/toNoteName';
+import { toNoteTypeNumber } from './notes/toNoteTypeNumber';
 
 export class NotesRange {
   readonly lowestNoteNumber: NoteNumber;
@@ -29,7 +29,7 @@ export class NotesRange {
           lowestNote: NoteNumberOrName;
           highestNote: NoteNumberOrName;
         },
-    highestNote?: NoteNumberOrName
+    highestNote?: NoteNumberOrName,
   ) {
     // let lowestNote:
     if (typeof lowestNoteOrRange === 'object') {
@@ -45,7 +45,7 @@ export class NotesRange {
     if (this.rangeSizeInSemitones < 0) {
       throw new Error(
         // @ts-ignore
-        `Invalid note range ${this.lowestNoteName}-${this.highestNoteName}`
+        `Invalid note range ${this.lowestNoteName}-${this.highestNoteName}`,
       );
     }
 

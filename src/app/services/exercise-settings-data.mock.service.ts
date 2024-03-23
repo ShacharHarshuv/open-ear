@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import { ExerciseSettingsData } from '../exercise/utility';
 import { PublicMembers } from '../shared/ts-utility/PublicMembers';
 import { ExerciseSettingsDataService } from './exercise-settings-data.service';
-import { ExerciseSettingsData } from '../exercise/utility';
 
 @Injectable()
 export class ExerciseSettingsDataMockService
@@ -12,14 +12,14 @@ export class ExerciseSettingsDataMockService
   } = {};
 
   async getExerciseSettings(
-    exerciseId: string
+    exerciseId: string,
   ): Promise<Partial<ExerciseSettingsData> | undefined> {
     return this.exerciseIdToSettings[exerciseId];
   }
 
   async saveExerciseSettings(
     exerciseId: string,
-    settings: Partial<ExerciseSettingsData>
+    settings: Partial<ExerciseSettingsData>,
   ): Promise<void> {
     this.exerciseIdToSettings[exerciseId] = settings;
   }

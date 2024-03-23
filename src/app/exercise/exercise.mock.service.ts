@@ -1,8 +1,8 @@
-import { PublicMembers } from '../shared/ts-utility/PublicMembers';
-import { ExerciseService } from './exercise.service';
 import { Injectable } from '@angular/core';
-import Exercise from './exercise-logic';
+import { PublicMembers } from '../shared/ts-utility/PublicMembers';
 import { MockExercise } from './MockExercise';
+import Exercise from './exercise-logic';
+import { ExerciseService } from './exercise.service';
 
 @Injectable()
 export class ExerciseMockService implements PublicMembers<ExerciseService> {

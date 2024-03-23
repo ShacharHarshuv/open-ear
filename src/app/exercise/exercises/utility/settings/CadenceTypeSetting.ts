@@ -1,5 +1,5 @@
-import { CadenceType } from '../exerciseAttributes/tonalExercise';
 import Exercise from '../../../exercise-logic';
+import { CadenceType } from '../exerciseAttributes/tonalExercise';
 import { withSettings } from './withSettings';
 
 export type CadenceTypeSetting = {
@@ -7,7 +7,7 @@ export type CadenceTypeSetting = {
 };
 
 export function cadenceTypeSettingsDescriptors<
-  GAnswer extends string
+  GAnswer extends string,
 >(): Exercise.SettingsControlDescriptor<CadenceTypeSetting>[] {
   return [
     {

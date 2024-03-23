@@ -1,27 +1,27 @@
-import { randomFromList, RomanNumeralChordSymbol } from '../../utility';
 import * as _ from 'lodash';
+import { randomFromList, RomanNumeralChordSymbol } from '../../utility';
+import { chordVoicingSettings } from '../utility/exerciseAttributes/chordProgressionExercise';
+import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
+import { createExercise } from '../utility/exerciseAttributes/createExercise';
 import {
-  numberOfSegmentsControlDescriptorList,
-  NumberOfSegmentsSetting,
-} from '../utility/settings/NumberOfSegmentsSetting';
-import { ChordInKeyExplanationComponent } from './chord-in-key-explanation/chord-in-key-explanation.component';
-import {
-  playAfterCorrectAnswerControlDescriptorList,
-  PlayAfterCorrectAnswerSetting,
-} from '../utility/settings/PlayAfterCorrectAnswerSetting';
-import {
+  romanAnalysisChordProgressionExercise,
   RomanAnalysisChordProgressionExerciseSettings,
   RomanNumeralsChordProgressionQuestion,
-  romanAnalysisChordProgressionExercise,
 } from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
+import { cadenceTypeSettings } from '../utility/settings/CadenceTypeSetting';
 import {
   IncludedAnswersSettings,
   includedAnswersSettings,
 } from '../utility/settings/IncludedAnswersSettings';
-import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
-import { createExercise } from '../utility/exerciseAttributes/createExercise';
-import { chordVoicingSettings } from '../utility/exerciseAttributes/chordProgressionExercise';
-import { cadenceTypeSettings } from '../utility/settings/CadenceTypeSetting';
+import {
+  numberOfSegmentsControlDescriptorList,
+  NumberOfSegmentsSetting,
+} from '../utility/settings/NumberOfSegmentsSetting';
+import {
+  playAfterCorrectAnswerControlDescriptorList,
+  PlayAfterCorrectAnswerSetting,
+} from '../utility/settings/PlayAfterCorrectAnswerSetting';
+import { ChordInKeyExplanationComponent } from './chord-in-key-explanation/chord-in-key-explanation.component';
 
 type ChordInKeySettings = IncludedAnswersSettings<RomanNumeralChordSymbol> &
   RomanAnalysisChordProgressionExerciseSettings &
@@ -39,14 +39,14 @@ export function chordInKeyExercise() {
       name: 'Roman Numerals',
     }),
     chordVoicingSettings(),
-    createExercise
+    createExercise,
   )({
     id: 'chordInKey',
     name: 'Chord Functions',
     summary: 'Identify chords based on their tonal context in a key',
     explanation: ChordInKeyExplanationComponent,
     getChordProgressionInRomanNumerals(
-      settings: ChordInKeySettings
+      settings: ChordInKeySettings,
     ): RomanNumeralsChordProgressionQuestion {
       const numberOfSegments = settings.numberOfSegments;
       const availableChords: RomanNumeralChordSymbol[] =
@@ -60,9 +60,9 @@ export function chordInKeyExercise() {
             availableChords.filter(
               (chord) =>
                 chord !== _.last(chordProgression)! ||
-                availableChords.length <= 1
-            )
-          )
+                availableChords.length <= 1,
+            ),
+          ),
         );
       }
 

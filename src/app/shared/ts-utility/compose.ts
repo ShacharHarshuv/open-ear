@@ -5,29 +5,29 @@ export type ComposableFunction = (params: object) => object;
 type ComposedParamsForTwoFns<
   MergeMap extends PropertiesMergeConfig<object>,
   Fn1 extends ComposableFunction,
-  Fn2 extends ComposableFunction
+  Fn2 extends ComposableFunction,
 > = Parameters<Fn1>[0] &
   Omit<Parameters<Fn2>[0], keyof ReturnType<Fn1>> & // require parameters that Fn2 needs and Fn1 doesn't supply
   Partial<Omit<Parameters<Fn2>[0], keyof Parameters<Fn1>[0]>>; // optional parameters that Fn2 needs even if Fn1 supplies them
 
 type ComposedReturnForTwoFns<
   Fn1 extends ComposableFunction,
-  Fn2 extends ComposableFunction
+  Fn2 extends ComposableFunction,
 > = ReturnType<Fn1> & ReturnType<Fn2>;
 
 type ComposedFunctionForTwoFns<
   MergeMap extends PropertiesMergeConfig<object>,
   Fn1 extends ComposableFunction,
-  Fn2 extends ComposableFunction
+  Fn2 extends ComposableFunction,
 > = (
-  params: ComposedParamsForTwoFns<MergeMap, Fn1, Fn2>
+  params: ComposedParamsForTwoFns<MergeMap, Fn1, Fn2>,
 ) => ComposedReturnForTwoFns<Fn1, Fn2>;
 
 type ComposedParams<
   MergeMap extends PropertiesMergeConfig<object>,
   Fn1 extends ComposableFunction,
   Fn2 extends ComposableFunction,
-  FnList extends ComposableFunction[]
+  FnList extends ComposableFunction[],
 > = FnList extends [infer Fn3, ...infer FnListRest]
   ? Fn3 extends ComposableFunction
     ? FnListRest extends ComposableFunction[]
@@ -45,7 +45,7 @@ type ComposedReturn<
   MergeMap extends PropertiesMergeConfig<object>,
   Fn1 extends ComposableFunction,
   Fn2 extends ComposableFunction,
-  FnList extends ComposableFunction[]
+  FnList extends ComposableFunction[],
 > = FnList extends [infer Fn3, ...infer FnListRest]
   ? Fn3 extends ComposableFunction
     ? FnListRest extends ComposableFunction[]
@@ -66,17 +66,17 @@ export type PropertiesMergeConfig<Params extends object> = {
 };
 
 export function composeWithMerge<
-  MergeMap extends PropertiesMergeConfig<object>
+  MergeMap extends PropertiesMergeConfig<object>,
 >(keyToMergeFn: MergeMap) {
   return function compose<
     Fn1 extends ComposableFunction,
     Fn2 extends ComposableFunction,
-    FnList extends ComposableFunction[]
+    FnList extends ComposableFunction[],
   >(fn1: Fn1, fn2: Fn2, ...fnList: FnList) {
     function mergeValues(
       value1: object,
       value2: object,
-      flipMergeOrder: boolean = false
+      flipMergeOrder: boolean = false,
     ): object {
       let returnValue = _.cloneDeep(value1);
       for (let key in value2) {
@@ -96,13 +96,13 @@ export function composeWithMerge<
     }
 
     return (
-      params: ComposedParams<MergeMap, Fn1, Fn2, FnList>
+      params: ComposedParams<MergeMap, Fn1, Fn2, FnList>,
     ): ComposedReturn<MergeMap, Fn1, Fn2, FnList> => {
       if (fnList.length) {
         return compose(
           compose(fn1, fn2),
           fnList[0],
-          ...fnList.slice(1)
+          ...fnList.slice(1),
         )(params) as ComposedReturn<MergeMap, Fn1, Fn2, FnList>;
       }
 

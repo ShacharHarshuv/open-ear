@@ -1,11 +1,11 @@
-import { Component, Input, inject, computed, Signal } from '@angular/core';
+import { Component, Input, Signal, computed, inject } from '@angular/core';
 
-import { IncludedAnswersButtonComponent } from '../included-answers-button/included-answers-button.component';
+import { IonicModule } from '@ionic/angular';
+import { first, intersection, isEmpty } from 'lodash';
+import { signalFromProperty } from '../../../../../../../../shared/ng-utilities/signalFromProperty';
 import { MultiAnswerButtonTemplateContext } from '../../../../../answers-layout/components/answer-cell/answer-cell.component';
 import { IncludedAnswersComponent } from '../../included-answers.component';
-import { signalFromProperty } from '../../../../../../../../shared/ng-utilities/signalFromProperty';
-import { IonicModule } from '@ionic/angular';
-import { first, isEmpty, intersection } from 'lodash';
+import { IncludedAnswersButtonComponent } from '../included-answers-button/included-answers-button.component';
 
 @Component({
   selector: 'app-included-answers-multi-answer-button',
@@ -36,7 +36,7 @@ export class IncludedAnswersMultiAnswerButtonComponent {
   readonly isIncluded = computed(() => {
     return (
       this.multiAnswerCell()?.innerAnswers.some((answer) =>
-        this.includedAnswers().includes(answer)
+        this.includedAnswers().includes(answer),
       ) ?? false
     );
   });
@@ -44,18 +44,18 @@ export class IncludedAnswersMultiAnswerButtonComponent {
   toggleAnswer() {
     const includedAnswersInThisButton = intersection(
       this.multiAnswerCell()?.innerAnswers,
-      this.includedAnswers()
+      this.includedAnswers(),
     );
 
     if (!isEmpty(includedAnswersInThisButton)) {
       includedAnswersInThisButton.forEach((answer) =>
-        this.includedAnswersComponent.toggleInclusion(answer)
+        this.includedAnswersComponent.toggleInclusion(answer),
       );
       return;
     }
 
     this.includedAnswersComponent.toggleInclusion(
-      first(this.multiAnswerCell()?.innerAnswers)
+      first(this.multiAnswerCell()?.innerAnswers),
     );
   }
 }
