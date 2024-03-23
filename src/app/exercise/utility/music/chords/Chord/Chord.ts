@@ -31,7 +31,7 @@ const chordSymbolRegex = new RegExp(
 );
 
 export class Chord {
-  private readonly _intervals: Interval[];
+  readonly intervals: Interval[];
   readonly root: NoteType;
   readonly type: ChordType;
   readonly symbol: ChordSymbol;
@@ -67,7 +67,7 @@ export class Chord {
         this.symbol = `${this.symbol}/${this.bass}` as string as ChordSymbol;
       }
     }
-    this._intervals = this._getChordIntervals();
+    this.intervals = this._getChordIntervals();
     this.noteTypes = this._getNoteTypes();
   }
 
@@ -81,7 +81,7 @@ export class Chord {
   }
 
   private _getNoteTypes(): NoteType[] {
-    return this._intervals.map((interval) => transpose(this.root, interval));
+    return this.intervals.map((interval) => transpose(this.root, interval));
   }
 
   getBass(): Note[] {
@@ -108,7 +108,7 @@ export class Chord {
 
     // first build the chord without inversions
     const rootNote: Note = noteTypeToNote(this.root, 1);
-    let chordVoicing: Note[] = this._intervals.map((interval) =>
+    let chordVoicing: Note[] = this.intervals.map((interval) =>
       transpose(rootNote, interval),
     );
 
