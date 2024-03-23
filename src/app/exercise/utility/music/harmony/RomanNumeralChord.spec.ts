@@ -14,6 +14,7 @@ describe('RomanNumeralBuilder', () => {
     romanNumeralChordSymbol: RomanNumeralChordSymbol;
     diatonicDegree: DiatonicScaleDegree;
     scaleDegree: ScaleDegree;
+    bass?: ScaleDegree;
     accidental?: Accidental;
     type: ChordType;
     serialized: string;
@@ -282,6 +283,46 @@ describe('RomanNumeralBuilder', () => {
       },
       serialized: 'Ⅰ<sup>add#4</sup>',
     },
+    // slash chords
+    {
+      romanNumeralChordSymbol: 'I/3',
+      type: ChordType.Major,
+      isDiatonic: true,
+      scaleDegree: '1',
+      bass: '3',
+      diatonicDegree: 1,
+      accidental: Accidental.Natural,
+      getChord: {
+        C: 'C/E',
+      },
+      serialized: 'Ⅰ/3',
+    },
+    {
+      romanNumeralChordSymbol: 'I/5',
+      type: ChordType.Major,
+      isDiatonic: true,
+      scaleDegree: '1',
+      bass: '5',
+      diatonicDegree: 1,
+      accidental: Accidental.Natural,
+      getChord: {
+        C: 'C/G',
+      },
+      serialized: 'Ⅰ/5',
+    },
+    {
+      romanNumeralChordSymbol: 'V7/7',
+      type: ChordType.Dominant7th,
+      isDiatonic: true,
+      scaleDegree: '5',
+      bass: '7',
+      diatonicDegree: 5,
+      accidental: Accidental.Natural,
+      getChord: {
+        C: 'G7/B',
+      },
+      serialized: 'Ⅴ<sup>7</sup>/7',
+    },
   ];
 
   it('should cover all chord types', () => {
@@ -306,12 +347,13 @@ describe('RomanNumeralBuilder', () => {
         {
           scaleDegree: testCase.scaleDegree,
           type: testCase.type,
+          bass: testCase.bass,
         },
       ],
     ];
     inputs.forEach((input) => {
       (testCase.force ? fdescribe : describe)(
-        `${JSON.stringify(inputs)}`,
+        `${JSON.stringify(input)}`,
         () => {
           let romanNumeral: RomanNumeralChord;
 
@@ -394,6 +436,10 @@ describe('RomanNumeralBuilder', () => {
       {
         args: ['I', Mode.Mixolydian, Mode.Major],
         returnValue: 'V',
+      },
+      {
+        args: ['bIII/5', Mode.Minor, Mode.Major],
+        returnValue: 'I/3',
       },
     ]);
   });

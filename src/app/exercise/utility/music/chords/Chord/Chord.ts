@@ -63,6 +63,9 @@ export class Chord {
         this.type === ChordType.Major ? '' : this.type
       }` as ChordSymbol;
       this.bass = this._symbolOrConfig.bass ?? this.root;
+      if (this.bass !== this.root) {
+        this.symbol = `${this.symbol}/${this.bass}` as string as ChordSymbol;
+      }
     }
     this._intervals = this._getChordIntervals();
     this.noteTypes = this._getNoteTypes();
