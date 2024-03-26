@@ -669,6 +669,7 @@ export const allRomanNumeralAnswerList: Exercise.AnswerList<RomanNumeralChordSym
       ChordType.Major,
       ChordType.Minor,
       ChordType.Dominant7th,
+      ChordType.Diminished,
     ];
 
     const majorChordTypesLayout: AnswersLayout<MajorChordTypesPostfix> = {
