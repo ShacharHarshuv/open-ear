@@ -9,6 +9,14 @@
   chord feels most at rest, while the
   <app-roman-numeral-symbol symbol="V" /> has tension - it "wants" to move.
 </app-info-panel>
+
+<p>
+  <b>Note!</b> This app uses a <b>unique notation for slash chords</b>, which is
+  a combination of classical roman numeral analysis and Jazz chord symbols. In
+  that notation <app-roman-numeral-symbol symbol="I/3" /> in C major is "C/E".
+  See later for details
+</p>
+
 <app-collapsible>
   <h2>Triads & Roman Numerals</h2>
   <p>Triadic chords are chords built from 3 notes using thirds.</p>
@@ -56,6 +64,12 @@
       <app-roman-numeral-symbol symbol="I6" /> in C major is C6 (C-E-G-A), NOT
       C/E (C in first inversion)
     </li>
-    <!--TODO: add explanation about inversions when we decide to support them-->
+    <li>
+      Inversions are notated with a slash symbol followed by the scale degree of
+      the bass note. For example: <app-roman-numeral-symbol symbol="I/3" /> in C
+      major is C/E (E-C-E-G with E on the bass).
+      <app-roman-numeral-symbol symbol="I" /> denotes that it's the first chord
+      (C) and /3 denotes the bass has the 3rd scale degree (E).
+    </li>
   </ul>
 </app-collapsible>
