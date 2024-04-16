@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
+    namespace "com.openear.www"
     signingConfigs {
       debug {
         storeFile file('G:\\My Drive\\Computers, Engineering, Games\\OpenEar\\openear.jks')
