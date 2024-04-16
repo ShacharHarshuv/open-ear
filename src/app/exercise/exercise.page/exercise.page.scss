@@ -20,7 +20,7 @@
 
   &__actions-container {
     display: flex;
-    min-height: 10 * $unit;
+    padding-bottom: 3 * $unit;
 
     ion-button {
       flex-grow: 1;
