@@ -1,4 +1,15 @@
 @if (value$ | async; as value) {
+  <span>
+    <ion-button
+      (click)="toggleSelectAll()"
+      fill="clear"
+      size="small"
+      color="dark"
+    >
+      {{ areAllAnswersSelected() ? "Deselect all" : "Select all" }}
+    </ion-button>
+  </span>
+
   <app-answers-layout
     [answerList]="answerList()"
     [buttonTemplate]="buttonTemplate"
