@@ -4766,4 +4766,31 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     ],
     endSeconds: 92.53,
   },
+  {
+    name: 'On My Way',
+    artist: 'Phil Collins',
+    key: 'C',
+    mode: 1,
+    videoId: 'vsE0KtttoBs',
+    chords: [
+      {
+        seconds: 9.53,
+        chord: 'I',
+      },
+      {
+        seconds: 11.76,
+        chord: 'I7/b7',
+      },
+      {
+        seconds: 13.99,
+        chord: 'vi7',
+      },
+      {
+        seconds: 16.34,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 18.8,
+    section: 'Intro',
+  },
 ];

@@ -830,6 +830,8 @@ export const allRomanNumeralAnswerList: Exercise.AnswerList<RomanNumeralChordSym
     );
   })();
 
+// console.log(flatAnswerList(allRomanNumeralAnswerList)); // use to update chord transcriber app when more options are available
+
 export function romanAnalysisChordProgressionExercise<
   GSettings extends Exercise.Settings,
 >(config?: ChordProgressionExerciseConfig) {
