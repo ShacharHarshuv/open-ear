@@ -4793,4 +4793,78 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     endSeconds: 18.8,
     section: 'Intro',
   },
+  {
+    name: 'Perry The Platypus',
+    artist: 'Phineas And Ferb',
+    key: 'G',
+    mode: 6,
+    videoId: 'AsYREFwxYFI',
+    chords: [
+      {
+        seconds: 20.77,
+        chord: 'i',
+      },
+      {
+        seconds: 22.18,
+        chord: 'i#5',
+      },
+      {
+        seconds: 23.69,
+        chord: 'i6',
+      },
+      {
+        seconds: 25.18,
+        chord: 'i#5',
+      },
+    ],
+    endSeconds: 26.61,
+  },
+  {
+    name: 'Perry The Platypus',
+    artist: 'Phineas And Ferb',
+    key: 'G',
+    mode: 6,
+    videoId: 'AsYREFwxYFI',
+    chords: [
+      {
+        seconds: 26.65,
+        chord: 'i',
+      },
+      {
+        seconds: 28,
+        chord: 'i#5',
+      },
+      {
+        seconds: 29.54,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 32.51,
+  },
+  {
+    name: 'Perry The Platypus',
+    artist: 'Phineas And Ferb',
+    key: 'G',
+    mode: 6,
+    videoId: 'AsYREFwxYFI',
+    chords: [
+      {
+        seconds: 32.59,
+        chord: 'iv',
+      },
+      {
+        seconds: 35.53,
+        chord: 'i',
+      },
+      {
+        seconds: 38.43,
+        chord: 'iv',
+      },
+      {
+        chord: 'V',
+        seconds: 41.57,
+      },
+    ],
+    endSeconds: 45.46,
+  },
 ];
