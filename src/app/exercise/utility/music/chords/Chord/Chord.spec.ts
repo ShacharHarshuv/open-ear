@@ -323,7 +323,7 @@ describe('Chord', () => {
       },
     },
     {
-      chordSymbolOrConfig: 'C+',
+      chordSymbolOrConfig: 'C#5',
       octave: 4,
       expectedResult: {
         root: 'C',
@@ -332,7 +332,7 @@ describe('Chord', () => {
           [1, ['E3', 'G#3', 'C4']],
           [2, ['G#3', 'C4', 'E4']],
         ],
-        type: ChordType.Augmented,
+        type: ChordType.Sharp5,
         noteTypes: ['C', 'E', 'G#'],
       },
     },
@@ -415,6 +415,16 @@ describe('Chord', () => {
         bass: 'Eb',
         noteTypes: ['C', 'Eb', 'G', 'Bb'],
         voicing: [[0, ['C4', 'Eb4', 'G4', 'Bb4'], ['Eb2', 'Eb3']]],
+      },
+    },
+    {
+      chordSymbolOrConfig: 'Am#5',
+      expectedResult: {
+        root: 'A',
+        type: ChordType.MinorSharp5,
+        bass: 'A',
+        noteTypes: ['A', 'C', 'F'],
+        voicing: [[0, ['A3', 'C4', 'F4'], ['A2', 'A3']]],
       },
     },
   ];

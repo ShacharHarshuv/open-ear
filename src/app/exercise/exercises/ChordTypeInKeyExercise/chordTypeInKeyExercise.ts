@@ -41,7 +41,7 @@ export const chordTypeAnswerList: Exercise.AnswerList<ChordType> =
         [ChordType.Major6th, ChordType.Minorb6th],
         [ChordType.Diminished, ChordType.Dominant7th],
         [ChordType.Minor7th, ChordType.Major7th],
-        [ChordType.MinorMajor7th, ChordType.Augmented],
+        [ChordType.MinorMajor7th, ChordType.Sharp5],
         [ChordType.Diminished7th, ChordType.HalfDiminished7th],
         [ChordType.MajorAdd9, ChordType.MinorAdd9],
         [ChordType.Dominant9th, ChordType.MajorAddSharp4],

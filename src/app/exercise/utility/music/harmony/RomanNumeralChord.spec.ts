@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import { testPureFunction } from '../../../../shared/testing-utility/testPureFunction';
+import { MusicSymbol } from '../MusicSymbol';
 import { ChordSymbol, ChordType } from '../chords';
 import { chordTypeConfigMap } from '../chords/Chord/ChordType';
 import { Key } from '../keys/Key';
@@ -212,14 +213,14 @@ describe('RomanNumeralBuilder', () => {
       isDiatonic: true,
     },
     {
-      romanNumeralChordSymbol: 'bVI+',
-      type: ChordType.Augmented,
+      romanNumeralChordSymbol: 'bVI#5',
+      type: ChordType.Sharp5,
       scaleDegree: 'b6',
-      serialized: '♭Ⅵ+',
+      serialized: `♭Ⅵ<sup>${MusicSymbol.Sharp}5</sup>`,
       diatonicDegree: 6,
       accidental: Accidental.Flat,
       getChord: {
-        C: 'Ab+',
+        C: 'Ab#5',
       },
       isDiatonic: false,
     },
@@ -322,6 +323,19 @@ describe('RomanNumeralBuilder', () => {
         C: 'G7/B',
       },
       serialized: 'Ⅴ<sup>7</sup>/7',
+    },
+    {
+      romanNumeralChordSymbol: 'vi#5',
+      type: ChordType.MinorSharp5,
+      isDiatonic: true, // since #3 = 4, all notes are technically within the key
+      scaleDegree: '6',
+      bass: '6',
+      diatonicDegree: 6,
+      accidental: Accidental.Natural,
+      getChord: {
+        C: 'Am#5',
+      },
+      serialized: `ⅵ<sup>${MusicSymbol.Sharp}5</sup>`,
     },
   ];
 

@@ -685,7 +685,7 @@ export const allRomanNumeralAnswerList: Exercise.AnswerList<RomanNumeralChordSym
           },
         ], // not dominants
         [
-          ChordType.Augmented,
+          ChordType.Sharp5,
           ChordType.Dominant7th,
           ChordType.Dominant9th,
           ChordType.Dominant7thSharp9th,
@@ -695,7 +695,7 @@ export const allRomanNumeralAnswerList: Exercise.AnswerList<RomanNumeralChordSym
     };
 
     const minorChordTypesLayout: AnswersLayout<MinorChordTypesPostfix> = {
-      rows: [['', '7', 'add9', ChordType.Major7th]],
+      rows: [['', '7', ChordType.Sharp5, 'add9', ChordType.Major7th]],
     };
 
     const diminishedChordTypesLayout: AnswersLayout<MinorChordTypesPostfix> = {

@@ -34,11 +34,12 @@ export type MajorChordTypesPostfix =
   | ChordType.Sus4
   | ChordType.Sus2
   | ChordType.Major6th
-  | ChordType.Augmented
+  | ChordType.Sharp5
   | ChordType.MajorAdd9
   | ChordType.Dominant9th
   | ChordType.Dominant7thSharp9th
-  | ChordType.MajorAddSharp4;
+  | ChordType.MajorAddSharp4
+  | ChordType.Sharp5;
 export type MinorChordTypesPostfix =
   | ''
   | ChordType.Diminished
@@ -50,7 +51,8 @@ export type MinorChordTypesPostfix =
   | 'M9'
   | 'add9'
   | ChordType.Sus4
-  | ChordType.Sus2;
+  | ChordType.Sus2
+  | ChordType.Sharp5;
 
 type SlashChordPostfix = `/${ScaleDegree}`;
 

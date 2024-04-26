@@ -7,7 +7,7 @@ export enum ChordType {
   Major = 'M',
   Minor = 'm',
   Diminished = 'dim',
-  Augmented = '+',
+  Sharp5 = '#5',
   Dominant7th = '7',
   Major7th = 'maj7',
   Minor7th = 'm7',
@@ -24,6 +24,7 @@ export enum ChordType {
   MajorAdd9 = 'add9',
   MinorAdd9 = 'madd9',
   MajorAddSharp4 = 'add#4',
+  MinorSharp5 = 'm#5',
 }
 
 interface IChordTypeConfig {
@@ -71,13 +72,13 @@ export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
       viewPostfix: MusicSymbol.Diminished,
     },
   },
-  [ChordType.Augmented]: {
+  [ChordType.Sharp5]: {
     scaleDegreeList: ['3', '#5'],
     displayName: 'Augmented Triad',
     romanNumeral: {
       isLowercase: false,
-      postfix: '+',
-      viewPostfix: '+',
+      postfix: '#5',
+      viewPostfix: `<sup>${MusicSymbol.Sharp}5</sup>`,
     },
   },
   [ChordType.Dominant7th]: {
@@ -224,6 +225,15 @@ export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
       viewPostfix: `<sup>add#4</sup>`,
     },
   },
+  [ChordType.MinorSharp5]: {
+    scaleDegreeList: ['b3', '#5'],
+    displayName: `${MusicSymbol}5`,
+    romanNumeral: {
+      isLowercase: true,
+      postfix: '#5',
+      viewPostfix: `<sup>${MusicSymbol.Sharp}5</sup>`,
+    },
+  },
 };
 
 type RomanNumeralChordTypeParserMap = Record<
@@ -245,3 +255,5 @@ export const romanNumeralChordTypeParserMap: RomanNumeralChordTypeParserMap =
     },
     {},
   ) as RomanNumeralChordTypeParserMap;
+
+console.log(romanNumeralChordTypeParserMap); // todo
