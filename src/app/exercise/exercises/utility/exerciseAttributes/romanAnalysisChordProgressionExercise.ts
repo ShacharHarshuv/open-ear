@@ -695,7 +695,7 @@ export const allRomanNumeralAnswerList: Exercise.AnswerList<RomanNumeralChordSym
     };
 
     const minorChordTypesLayout: AnswersLayout<MinorChordTypesPostfix> = {
-      rows: [['', '7', ChordType.Sharp5, 'add9', ChordType.Major7th]],
+      rows: [['', '7', ChordType.Sharp5, '6', 'add9', ChordType.Major7th]],
     };
 
     const diminishedChordTypesLayout: AnswersLayout<MinorChordTypesPostfix> = {

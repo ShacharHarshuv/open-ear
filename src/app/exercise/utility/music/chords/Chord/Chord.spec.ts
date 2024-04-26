@@ -427,6 +427,16 @@ describe('Chord', () => {
         voicing: [[0, ['A3', 'C4', 'F4'], ['A2', 'A3']]],
       },
     },
+    {
+      chordSymbolOrConfig: 'Am6',
+      expectedResult: {
+        root: 'A',
+        type: ChordType.Minor6th,
+        bass: 'A',
+        noteTypes: ['A', 'C', 'E', 'F#'],
+        voicing: [[0, ['A3', 'C4', 'E4', 'F#4'], ['A2', 'A3']]],
+      },
+    },
   ];
 
   testCases.forEach(

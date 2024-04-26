@@ -177,7 +177,7 @@ describe('RomanNumeralBuilder', () => {
       isDiatonic: true,
     },
     {
-      romanNumeralChordSymbol: 'vi6',
+      romanNumeralChordSymbol: 'vib6',
       type: ChordType.Minorb6th,
       scaleDegree: '6',
       getChord: {
@@ -185,7 +185,7 @@ describe('RomanNumeralBuilder', () => {
       },
       accidental: Accidental.Natural,
       diatonicDegree: 6,
-      serialized: 'ⅵ<sup>6</sup>',
+      serialized: `ⅵ<sup>${MusicSymbol.Flat}6</sup>`,
       isDiatonic: true,
     },
     {
@@ -336,6 +336,19 @@ describe('RomanNumeralBuilder', () => {
         C: 'Am#5',
       },
       serialized: `ⅵ<sup>${MusicSymbol.Sharp}5</sup>`,
+    },
+    {
+      romanNumeralChordSymbol: 'vi6',
+      type: ChordType.Minor6th,
+      isDiatonic: false,
+      scaleDegree: '6',
+      bass: '6',
+      diatonicDegree: 6,
+      accidental: Accidental.Natural,
+      getChord: {
+        C: 'Am6',
+      },
+      serialized: `ⅵ<sup>6</sup>`,
     },
   ];
 

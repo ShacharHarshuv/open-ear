@@ -38,14 +38,14 @@ export type MajorChordTypesPostfix =
   | ChordType.MajorAdd9
   | ChordType.Dominant9th
   | ChordType.Dominant7thSharp9th
-  | ChordType.MajorAddSharp4
-  | ChordType.Sharp5;
+  | ChordType.MajorAddSharp4;
 export type MinorChordTypesPostfix =
   | ''
   | ChordType.Diminished
   | '7'
   | ChordType.HalfDiminished7th
   | ChordType.Diminished7th
+  | 'b6'
   | '6'
   | ChordType.Major7th
   | 'M9'
