@@ -171,4 +171,9 @@ export const releaseNotes: ReleaseNotes = [
     notes:
       'Support Chord Inversions (aka Slash Chords) in Chord Functions. Note the special notation used in this app: "I/3" in C major is C/E (equivalent to I6 in classical analysis) while I6 in C major is C6 (equivalent to I65 in classical analysis). See exercise explanation for more details. To use it - long press a chord option in the setting, and then long press one of the extension options to see inversions options.',
   },
+  {
+    version: '1.8.1',
+    notes:
+      'In Chords in Real Songs, Mixolydian progressions will now be analyzed in the mixolydian tonic by default. This can be customized so every mode is analyzed in the relative major.',
+  },
 ];

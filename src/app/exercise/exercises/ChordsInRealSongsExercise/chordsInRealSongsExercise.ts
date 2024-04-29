@@ -66,6 +66,13 @@ export function chordsInRealSongsExercise(
           return chordProgression;
         }
 
+        if (
+          settings.tonicForAnalyzing === 'major' &&
+          [Mode.Mixolydian, Mode.Lydian].includes(chordProgression.mode)
+        ) {
+          return chordProgression;
+        }
+
         return {
           ...chordProgression,
           chords: _.map(chordProgression.chords, (chord) => ({
@@ -128,6 +135,8 @@ export function chordsInRealSongsExercise(
 
     // todo: handle this better (Seems like it is not actually being caught)
     if (_.isEmpty(validChordProgressionsDescriptorList)) {
+      // Note, when soloing songs that are not included in the difficult (I IV V vi) settings, this exception will fire and prevent testing of the progression
+      // In that case, just comment out the exception for testing purposes
       throw new Error(
         `No chord progression matching selected chords! Please select more chords. (I IV V vi will work)`,
       );

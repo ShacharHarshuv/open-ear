@@ -2,7 +2,7 @@ import { Settings } from '../../../exercise-logic';
 import { SettingsParams } from './SettingsParams';
 
 export interface AnalyzeBySettings extends Settings {
-  tonicForAnalyzing: 'major' | 'original';
+  tonicForAnalyzing: 'major' | 'always-major' | 'original';
 }
 
 export const analyzeBySettings: SettingsParams<AnalyzeBySettings> = {
@@ -11,14 +11,20 @@ export const analyzeBySettings: SettingsParams<AnalyzeBySettings> = {
       key: 'tonicForAnalyzing',
       info:
         'Determines how chord progression in different modes are analyzed. <br>' +
-        'For example - Am G F G Am can be analyzed in relation to its "True Tonic" tonic in A-Minor: i bVII bVI bVII i, or in its relative "Major Tonic" - vi V IV V vi. Some musicians can find it useful to use the relative major analysis for all modes.',
+        'For example - Am G F G Am can be analyzed in relation to its "True Tonic" tonic in A-Minor: i bVII bVI bVII i, or in its "Relative Major" - vi V IV V vi. Both analysis can be found in music theory resources.<br>' +
+        '"Minor -> Relative Major" will only convert Minor, Dorian, and Phrygian modes, so Myxolodian progressions such as I bVII IV will stay as is, which is the recommended mode to practice. <br>' +
+        '"Always Relative Major" will always convert ALL modes to the relative major tonic, so Myxolodian progressions such as I bVII IV will be converted to V IV I<br>',
       descriptor: {
         label: 'Analyze By',
         controlType: 'select',
         options: [
           {
-            label: 'Relative Major Tonic',
+            label: 'Minor -> Relative Major',
             value: 'major',
+          },
+          {
+            label: 'Always Relative Major',
+            value: 'always-major',
           },
           {
             label: 'True Tonic',
