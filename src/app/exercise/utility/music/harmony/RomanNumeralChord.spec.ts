@@ -105,6 +105,18 @@ describe('RomanNumeralBuilder', () => {
       isDiatonic: true,
     },
     {
+      romanNumeralChordSymbol: 'V11',
+      type: ChordType.Dominant11th,
+      scaleDegree: '5',
+      getChord: {
+        C: 'G11',
+      },
+      accidental: Accidental.Natural,
+      diatonicDegree: 5,
+      serialized: 'Ⅴ<sup>11</sup>',
+      isDiatonic: true,
+    },
+    {
       romanNumeralChordSymbol: 'V7#9',
       type: ChordType.Dominant7thSharp9th,
       scaleDegree: '5',

@@ -37,6 +37,7 @@ export type MajorChordTypesPostfix =
   | ChordType.Sharp5
   | ChordType.MajorAdd9
   | ChordType.Dominant9th
+  | ChordType.Dominant11th
   | ChordType.Dominant7thSharp9th
   | ChordType.MajorAddSharp4;
 export type MinorChordTypesPostfix =

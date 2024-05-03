@@ -4867,4 +4867,372 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     ],
     endSeconds: 45.46,
   },
+  {
+    name: "Driver's License",
+    artist: 'Olivia Rodrigo ',
+    key: 'Bb',
+    mode: 1,
+    videoId: 'ZmDBbnmKpqQ',
+    chords: [
+      {
+        seconds: 58.8,
+        chord: 'IV',
+      },
+      {
+        seconds: 65.51,
+        chord: 'I',
+      },
+      {
+        seconds: 68.82,
+        chord: 'IV',
+      },
+      {
+        seconds: 75.42,
+        chord: 'I',
+      },
+    ],
+    endSeconds: 78.68,
+  },
+  {
+    name: "Driver's License",
+    artist: 'Olivia Rodrigo ',
+    key: 'Bb',
+    mode: 1,
+    videoId: 'ZmDBbnmKpqQ',
+    chords: [
+      {
+        seconds: 78.84,
+        chord: 'vi',
+      },
+      {
+        seconds: 79.63,
+        chord: 'V',
+      },
+      {
+        seconds: 80.49,
+        chord: 'I',
+      },
+      {
+        seconds: 81.32,
+        chord: 'I/3',
+      },
+      {
+        chord: 'IV',
+        seconds: 82.26,
+      },
+    ],
+    endSeconds: 85.41,
+  },
+  {
+    name: "Driver's License",
+    artist: 'Olivia Rodrigo ',
+    key: 'Bb',
+    mode: 1,
+    videoId: 'ZmDBbnmKpqQ',
+    chords: [
+      {
+        seconds: 85.48,
+        chord: 'ii',
+      },
+      {
+        seconds: 87.21,
+        chord: 'V',
+      },
+      {
+        seconds: 88.77,
+        chord: 'I',
+      },
+    ],
+    endSeconds: 90.82,
+  },
+  {
+    name: 'Welcome To The Black Parade',
+    artist: 'Chemical Romance',
+    key: 'G',
+    mode: 1,
+    videoId: 'RRKJiM9Njr8',
+    chords: [
+      {
+        seconds: 51.23,
+        chord: 'I',
+      },
+      {
+        seconds: 52.78,
+        chord: 'V/7',
+      },
+      {
+        seconds: 54.36,
+        chord: 'vi',
+      },
+      {
+        seconds: 55.95,
+        chord: 'I/5',
+      },
+      {
+        chord: 'IV',
+        seconds: 57.58,
+      },
+      {
+        chord: 'iii',
+        seconds: 59.16,
+      },
+      {
+        chord: 'ii',
+        seconds: 60.75,
+      },
+      {
+        chord: 'V',
+        seconds: 62.44,
+      },
+    ],
+    endSeconds: 64.07,
+  },
+  {
+    name: 'A whiter shade of pale',
+    artist: 'Procol Harum',
+    key: 'G',
+    mode: 1,
+    videoId: '_BADDeIQWVQ',
+    chords: [
+      {
+        seconds: 26.46,
+        chord: 'I',
+      },
+      {
+        seconds: 28.22,
+        chord: 'iii/7',
+      },
+      {
+        seconds: 29.85,
+        chord: 'vi',
+      },
+      {
+        seconds: 31.48,
+        chord: 'I/5',
+      },
+      {
+        chord: 'IV',
+        seconds: 33.06,
+      },
+      {
+        chord: 'vi/3',
+        seconds: 34.76,
+      },
+      {
+        chord: 'ii',
+        seconds: 36.49,
+      },
+      {
+        chord: 'IV/1',
+        seconds: 38.09,
+      },
+    ],
+    endSeconds: 39.76,
+  },
+  {
+    name: 'Changes',
+    artist: 'David Bowie',
+    key: 'C',
+    mode: 1,
+    videoId: '4BgF7Y3q-as',
+    chords: [
+      {
+        seconds: 56.16,
+        chord: 'I',
+      },
+      {
+        seconds: 57.08,
+        chord: 'iii/7',
+      },
+      {
+        seconds: 58.31,
+        chord: 'vi',
+      },
+      {
+        seconds: 59.27,
+        chord: 'I/5',
+      },
+      {
+        chord: 'IV',
+        seconds: 60.39,
+      },
+      {
+        chord: 'vi/3',
+        seconds: 61.47,
+      },
+      {
+        chord: 'II',
+        seconds: 62.51,
+      },
+      {
+        chord: 'V',
+        seconds: 63.53,
+      },
+    ],
+    endSeconds: 64.6,
+  },
+  {
+    name: 'Piano Man',
+    artist: 'Billy Joel',
+    key: 'C',
+    mode: 1,
+    videoId: 'gxEPV4kolz0',
+    chords: [
+      {
+        seconds: 30.98,
+        chord: 'I',
+      },
+      {
+        seconds: 31.96,
+        chord: 'V/7',
+      },
+      {
+        seconds: 32.94,
+        chord: 'IV/6',
+      },
+      {
+        seconds: 33.95,
+        chord: 'I/5',
+      },
+      {
+        chord: 'IVmaj7',
+        seconds: 35.18,
+      },
+      {
+        chord: 'I/3',
+        seconds: 36.12,
+      },
+      {
+        chord: 'II7',
+        seconds: 37.13,
+      },
+      {
+        chord: 'V',
+        seconds: 38.22,
+      },
+    ],
+    endSeconds: 39.21,
+  },
+  {
+    name: 'Better Together',
+    artist: 'Jack Johnson',
+    key: 'F',
+    mode: 1,
+    videoId: 'RSsTx2TBrww',
+    chords: [
+      {
+        seconds: 8.44,
+        chord: 'I',
+      },
+      {
+        seconds: 9.54,
+        chord: 'Imaj7/7',
+      },
+      {
+        seconds: 10.58,
+        chord: 'vi',
+      },
+      {
+        seconds: 11.66,
+        chord: 'V',
+      },
+      {
+        chord: 'IV',
+        seconds: 12.8,
+      },
+      {
+        chord: 'IVmaj7/3',
+        seconds: 13.79,
+      },
+      {
+        chord: 'ii',
+        seconds: 14.89,
+      },
+      {
+        chord: 'V',
+        seconds: 15.96,
+      },
+    ],
+    endSeconds: 17.09,
+  },
+  {
+    name: 'Say Yes',
+    artist: 'Elliot Smith',
+    key: 'F',
+    mode: 1,
+    videoId: 'IdroEbyrB3s',
+    chords: [
+      {
+        seconds: 16.75,
+        chord: 'I',
+      },
+      {
+        seconds: 18.22,
+        chord: 'iii/7',
+      },
+      {
+        seconds: 19.82,
+        chord: 'vi',
+      },
+      {
+        seconds: 21.39,
+        chord: 'V',
+      },
+      {
+        chord: 'IV',
+        seconds: 22.89,
+      },
+      {
+        chord: 'vi7/3',
+        seconds: 24.47,
+      },
+      {
+        chord: 'II7',
+        seconds: 26.02,
+      },
+    ],
+    endSeconds: 29.24,
+  },
+  {
+    name: 'I Want You Back',
+    artist: 'The Jackson 5',
+    key: 'Ab',
+    mode: 1,
+    videoId: 'ZDhCVN31kCs',
+    chords: [
+      {
+        seconds: 49.62,
+        chord: 'I',
+      },
+      {
+        seconds: 50.26,
+        chord: 'Imaj7/7',
+      },
+      {
+        seconds: 50.86,
+        chord: 'vi7',
+      },
+      {
+        seconds: 51.4,
+        chord: 'I/5',
+      },
+      {
+        chord: 'IV',
+        seconds: 52.05,
+      },
+      {
+        chord: 'IVmaj7/3',
+        seconds: 52.66,
+      },
+      {
+        chord: 'ii7',
+        seconds: 53.23,
+      },
+      {
+        seconds: 53.86,
+        chord: 'V11',
+      },
+    ],
+    endSeconds: 54.46,
+  },
 ];

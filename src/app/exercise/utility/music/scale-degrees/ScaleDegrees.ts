@@ -36,7 +36,8 @@ export type EnharmonicScaleDegree =
   | 'bb7'
   | '8'
   | '9'
-  | '#9';
+  | '#9'
+  | '11';
 
 export type ChromaticScaleDegree =
   | 1
@@ -54,7 +55,12 @@ export type ChromaticScaleDegree =
   | 13
   | 14
   | 15
-  | 16;
+  | 16
+  | 17
+  | 18
+  | 19
+  | 20
+  | 21;
 export const scaleDegreeToChromaticDegree: Record<
   ScaleDegree,
   ChromaticScaleDegree
@@ -84,6 +90,7 @@ export const expandedScaleDegreeToChromaticDegree: Record<
   '8': 13,
   '9': 15,
   '#9': 16,
+  '11': 18,
 };
 
 export const chromaticDegreeToScaleDegree = _.invert(

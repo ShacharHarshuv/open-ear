@@ -4,6 +4,7 @@ import { NoteEvent } from '../../../../services/player.service';
 import Exercise, {
   AnswerConfig,
   AnswersLayout,
+  flatAnswerList,
   mapAnswerList,
 } from '../../../exercise-logic';
 import {
@@ -667,7 +668,9 @@ export const allRomanNumeralAnswerList: Exercise.AnswerList<RomanNumeralChordSym
 
     const chordTypesToAddInversionsFor: ChordType[] = [
       ChordType.Major,
+      ChordType.Major7th,
       ChordType.Minor,
+      ChordType.Minor7th,
       ChordType.Dominant7th,
       ChordType.Diminished,
     ];
@@ -688,6 +691,7 @@ export const allRomanNumeralAnswerList: Exercise.AnswerList<RomanNumeralChordSym
           ChordType.Sharp5,
           ChordType.Dominant7th,
           ChordType.Dominant9th,
+          ChordType.Dominant11th,
           ChordType.Dominant7thSharp9th,
         ], // dominants
         [ChordType.Sus4, ChordType.Sus2], // suspensions
@@ -830,7 +834,7 @@ export const allRomanNumeralAnswerList: Exercise.AnswerList<RomanNumeralChordSym
     );
   })();
 
-// console.log(flatAnswerList(allRomanNumeralAnswerList)); // use to update chord transcriber app when more options are available
+console.log(flatAnswerList(allRomanNumeralAnswerList)); // use to update chord transcriber app when more options are available
 
 export function romanAnalysisChordProgressionExercise<
   GSettings extends Exercise.Settings,
