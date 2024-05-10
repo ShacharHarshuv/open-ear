@@ -5235,4 +5235,182 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     ],
     endSeconds: 54.46,
   },
+  {
+    name: 'Paradise',
+    artist: 'Coldplay',
+    key: 'F',
+    mode: 1,
+    videoId: '1G4isv_Fylg',
+    chords: [
+      {
+        seconds: 168.17,
+        chord: 'IV',
+      },
+      {
+        seconds: 169.82,
+        chord: 'I',
+      },
+      {
+        seconds: 171.54,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 174.92,
+  },
+  {
+    name: 'Paradise',
+    artist: 'Coldplay',
+    key: 'F',
+    mode: 1,
+    videoId: '1G4isv_Fylg',
+    chords: [
+      {
+        seconds: 181.94,
+        chord: 'ii',
+      },
+      {
+        seconds: 183.36,
+        chord: 'IV',
+      },
+      {
+        seconds: 185.22,
+        chord: 'I',
+      },
+      {
+        chord: 'V/7',
+        seconds: 186.57,
+      },
+    ],
+    endSeconds: 188.61,
+  },
+  {
+    name: 'Paradise',
+    artist: 'Coldplay',
+    key: 'F',
+    mode: 1,
+    videoId: '1G4isv_Fylg',
+    chords: [
+      {
+        seconds: 13.78,
+        chord: 'ii',
+      },
+      {
+        seconds: 15.05,
+        chord: 'IV',
+      },
+      {
+        seconds: 16.85,
+        chord: 'I',
+      },
+      {
+        chord: 'V/7',
+        seconds: 18.29,
+      },
+    ],
+    endSeconds: 20.37,
+  },
+  {
+    name: 'Paradise',
+    artist: 'Coldplay',
+    key: 'F',
+    mode: 1,
+    videoId: '1G4isv_Fylg',
+    chords: [
+      {
+        seconds: 20.42,
+        chord: 'ii',
+      },
+      {
+        seconds: 21.79,
+        chord: 'IV',
+      },
+      {
+        seconds: 23.72,
+        chord: 'I',
+      },
+      {
+        chord: 'V',
+        seconds: 25.1,
+      },
+    ],
+    endSeconds: 27.35,
+  },
+  {
+    name: 'Migraine',
+    artist: 'Twenty One Pilots',
+    key: 'C',
+    mode: 1,
+    videoId: 'Bs92ejAGLdw',
+    chords: [
+      {
+        seconds: 38.56,
+        chord: 'vi',
+      },
+      {
+        seconds: 41.4,
+        chord: 'I',
+      },
+      {
+        chord: 'V',
+        seconds: 43.43,
+      },
+    ],
+    endSeconds: 44.14,
+  },
+  {
+    name: 'Migraine',
+    artist: 'Twenty One Pilots',
+    key: 'C',
+    mode: 1,
+    videoId: 'Bs92ejAGLdw',
+    chords: [
+      {
+        seconds: 77.12,
+        chord: 'IV',
+      },
+      {
+        seconds: 78.53,
+        chord: 'I',
+      },
+      {
+        chord: 'V',
+        seconds: 79.93,
+      },
+    ],
+    endSeconds: 82.7,
+  },
+  {
+    name: 'Some Ngiths',
+    artist: 'Fun',
+    key: 'C',
+    mode: 1,
+    videoId: 'qQkBeOisNM0',
+    chords: [
+      {
+        seconds: 89.78,
+        chord: 'IV',
+      },
+      {
+        seconds: 90.79,
+        chord: 'I',
+      },
+      {
+        chord: 'IV',
+        seconds: 91.95,
+      },
+      {
+        chord: 'I',
+        seconds: 93.13,
+      },
+      {
+        chord: 'vi',
+        seconds: 94.2,
+      },
+      {
+        chord: 'V',
+        seconds: 96.41,
+      },
+    ],
+    endSeconds: 98.69,
+  },
 ];
