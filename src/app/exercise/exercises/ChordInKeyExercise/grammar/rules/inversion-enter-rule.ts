@@ -1,39 +1,8 @@
-import {
-  Interval,
-  RomanNumeralChordSymbol,
-  ScaleDegree,
-  scaleDegreeToChromaticDegree,
-  transposeScaleDegree,
-} from '../../../../utility';
+import { RomanNumeralChordSymbol } from '../../../../utility';
 import { Rule } from '../../../../utility/grammer';
 import { RomanNumeralChord } from '../../../../utility/music/harmony/RomanNumeralChord';
-
-function isFirstInversionTriad(chord: RomanNumeralChord) {
-  if (chord.intervals().length !== 3) {
-    return false;
-  }
-
-  const third = chord.intervals()[1];
-
-  if (third !== Interval.MajorThird && third !== Interval.MinorThird) {
-    return false;
-  }
-
-  if (chord.bass !== transposeScaleDegree(chord.scaleDegree, third)) {
-    return false;
-  }
-
-  return true;
-}
-
-function isStep(scaleDegree1: ScaleDegree, scaleDegree2: ScaleDegree) {
-  return (
-    Math.abs(
-      scaleDegreeToChromaticDegree[scaleDegree1] -
-        scaleDegreeToChromaticDegree[scaleDegree2],
-    ) <= 2
-  );
-}
+import { isFirstInversionTriad } from '../utilities/is-first-inversion-triad';
+import { isStepOrUnison } from '../utilities/is-step-or-unison';
 
 export const inversionEnterRule: Rule<RomanNumeralChordSymbol> = (prev) => {
   const prevChord = new RomanNumeralChord(prev);
@@ -58,9 +27,9 @@ export const inversionEnterRule: Rule<RomanNumeralChordSymbol> = (prev) => {
       }
 
       // todo: check if the bass is a step apart.
-      return isStep(prevChord.bass, nextChord.bass);
+      return isStepOrUnison(prevChord.bass, nextChord.bass);
     } else {
-      return isStep(prevChord.bass, nextChord.bass);
+      return isStepOrUnison(prevChord.bass, nextChord.bass); // will also allow for a stationary bass motion
     }
   };
 };
