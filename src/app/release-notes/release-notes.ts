@@ -177,7 +177,7 @@ export const releaseNotes: ReleaseNotes = [
       'In Chords in Real Songs, Mixolydian progressions will now be analyzed in the mixolydian tonic by default. This can be customized so every mode is analyzed in the relative major.',
   },
   {
-    version: '1.8.2',
+    version: '1.8.4',
     notes:
       'Chord functions progressions will attempt to put chords in sensible musical context, when using un-diatonic notes or inversions.',
   },
