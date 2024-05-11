@@ -10,11 +10,22 @@ export function composeSequenceWithGrammar<T>(
   let lastChoice: T = randomFromList(availableOptions);
   const sequence = [lastChoice];
   while (sequence.length < length) {
-    lastChoice = randomFromList(
-      availableOptions.filter((chord) =>
-        rules.every((rule) => rule(lastChoice)(chord)),
-      ),
+    let optionsForNext = availableOptions.filter((option) =>
+      rules.every((rule) => rule(lastChoice)(option)),
     );
+
+    console.log('optionsForNext', optionsForNext, 'lastChoice', lastChoice);
+
+    if (optionsForNext.length === 0) {
+      console.warn(
+        `No valid options for next choice after ${lastChoice}, falling back to random choice`,
+      );
+      optionsForNext = availableOptions.filter(
+        (option) => option !== lastChoice,
+      );
+    }
+
+    lastChoice = randomFromList(optionsForNext);
     sequence.push(lastChoice);
   }
 

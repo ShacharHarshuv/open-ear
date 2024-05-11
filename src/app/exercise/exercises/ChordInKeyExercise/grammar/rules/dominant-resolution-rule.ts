@@ -1,21 +1,15 @@
 import {
-  RomanNumeralChordSymbol,
   Interval,
-  scaleDegreeToChromaticDegree,
-  chromaticDegreeToScaleDegree,
-  transposeScaleDegree,
+  RomanNumeralChordSymbol,
   isDiatonic,
+  transposeScaleDegree,
 } from '../../../../utility';
-import {
-  Rule,
-  acceptAll,
-} from '../../../../utility/grammer';
+import { Rule, acceptAll } from '../../../../utility/grammer';
 import { RomanNumeralChord } from '../../../../utility/music/harmony/RomanNumeralChord';
-import { transpose } from '../../../../utility/music/transpose';
 
 function isDominant(chord: RomanNumeralChord) {
   if (!chord.intervals().includes(Interval.MajorThird)) {
-    return;
+    return false;
   }
 
   const root = chord.scaleDegree;
@@ -32,11 +26,18 @@ export const dominantResolutionRule: Rule<RomanNumeralChordSymbol> = (prev) => {
 
   return (next) => {
     const nextChord = new RomanNumeralChord(next);
-    if (nextChord.isInversion) {
-      return false;
-    }
 
-    // todo: allow for more kinds of resolutions.
-    return nextChord.scaleDegree === transposeScaleDegree(prevChord.scaleDegree, Interval.PerfectFourth);
-  }
-}
+    const resolutionDegree = transposeScaleDegree(
+      prevChord.scaleDegree,
+      Interval.PerfectFourth,
+    );
+
+    return (
+      (nextChord.scaleDegree === resolutionDegree && !nextChord.isInversion) ||
+      // deceptive resolution
+      (nextChord.scaleDegrees()[1] === resolutionDegree &&
+        !nextChord.isInversion) ||
+      (nextChord.scaleDegree === prevChord.scaleDegree && isDominant(nextChord)) // prolongation
+    );
+  };
+};

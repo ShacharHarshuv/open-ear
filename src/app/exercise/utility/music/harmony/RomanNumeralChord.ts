@@ -1,11 +1,9 @@
+import { computed } from '@angular/core';
 import * as _ from 'lodash';
 import { sortBy } from 'lodash';
 import { keys } from '../../../../shared/ts-utility/keys';
 import { MusicSymbol } from '../MusicSymbol';
-import {
-  Chord,
-  ChordType,
-} from '../chords';
+import { Chord, ChordType } from '../chords';
 import {
   chordTypeConfigMap,
   romanNumeralChordTypeParserMap,
@@ -20,13 +18,12 @@ import {
   getDiatonicScaleDegreeWithAccidental,
   scaleDegreeToChromaticDegree,
   scaleDegreeToSolfegeNote,
-  chromaticDegreeToScaleDegree,
+  transposeScaleDegree,
 } from '../scale-degrees';
 import { transpose } from '../transpose';
 import { Mode } from './Mode';
 import { RomanNumeralChordSymbol } from './RomanNumeralChordSymbol';
 import { toRelativeMode } from './toRelativeMode';
-import { computed } from '@angular/core';
 
 const allRomanNumeralPostfix: string[] = _.map(
   chordTypeConfigMap,
@@ -87,7 +84,13 @@ export class RomanNumeralChord {
 
   readonly intervals = computed(() => {
     return this.getChord('C').intervals;
-  })
+  });
+
+  readonly scaleDegrees = computed(() => {
+    return this.intervals().map((interval) =>
+      transposeScaleDegree(this.scaleDegree, interval),
+    );
+  });
 
   static readonly romanNumerals: Record<DiatonicScaleDegree, string> = {
     1: 'i',
@@ -130,10 +133,10 @@ export class RomanNumeralChord {
     romanNumeralInput:
       | RomanNumeralChordSymbol
       | {
-      scaleDegree: ScaleDegree;
-      type: ChordType;
-      bass?: ScaleDegree;
-    },
+          scaleDegree: ScaleDegree;
+          type: ChordType;
+          bass?: ScaleDegree;
+        },
   ) {
     if (typeof romanNumeralInput === 'object') {
       this.type = romanNumeralInput.type;
@@ -163,7 +166,7 @@ export class RomanNumeralChord {
     this.diatonicDegree =
       RomanNumeralChord.romanNumeralsToScaleDegree[
         romanNumeralString.toLowerCase()
-        ];
+      ];
     if (!this.diatonicDegree) {
       throw new Error(`${romanNumeralString} is not a valid roman numeral`);
     }
@@ -171,8 +174,8 @@ export class RomanNumeralChord {
     const isLowercase = romanNumeralString.toLowerCase() === romanNumeralString;
     this.type =
       romanNumeralChordTypeParserMap[isLowercase ? 'lowercase' : 'uppercase'][
-      typeString ?? ''
-        ];
+        typeString ?? ''
+      ];
 
     if (!this.type) {
       throw new Error(`Unable to determine type of ${romanNumeralInput}`);
@@ -206,7 +209,7 @@ export class RomanNumeralChord {
     const romanNumeral: string =
       RomanNumeralChord.romanNumeralsUnicode[this.diatonicDegree][
         isChordTypeMajor(this.type) ? 0 : 1
-        ];
+      ];
     let postfix: string =
       chordTypeConfigMap[this.type].romanNumeral.viewPostfix;
     const symbol = `${RomanNumeralChord.accidentalToString[this.accidental]}${
