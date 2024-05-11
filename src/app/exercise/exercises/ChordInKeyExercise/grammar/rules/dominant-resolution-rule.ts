@@ -32,12 +32,27 @@ export const dominantResolutionRule: Rule<RomanNumeralChordSymbol> = (prev) => {
       Interval.PerfectFourth,
     );
 
-    return (
-      (nextChord.scaleDegree === resolutionDegree && !nextChord.isInversion) ||
-      // deceptive resolution
-      (nextChord.scaleDegrees()[1] === resolutionDegree &&
-        !nextChord.isInversion) ||
-      (nextChord.scaleDegree === prevChord.scaleDegree && isDominant(nextChord)) // prolongation
-    );
+    // authentic resolution
+    if (nextChord.scaleDegree === resolutionDegree && !nextChord.isInversion) {
+      return true;
+    }
+
+    // deceptive resolution
+    if (
+      nextChord.scaleDegrees()[1] === resolutionDegree &&
+      !nextChord.isInversion
+    ) {
+      return true;
+    }
+
+    // dominant prolongation
+    if (
+      nextChord.scaleDegree === prevChord.scaleDegree &&
+      isDominant(nextChord)
+    ) {
+      return true;
+    }
+
+    return false;
   };
 };

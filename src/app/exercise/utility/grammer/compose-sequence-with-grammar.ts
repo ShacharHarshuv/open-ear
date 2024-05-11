@@ -14,8 +14,6 @@ export function composeSequenceWithGrammar<T>(
       rules.every((rule) => rule(lastChoice)(option)),
     );
 
-    console.log('optionsForNext', optionsForNext, 'lastChoice', lastChoice);
-
     if (optionsForNext.length === 0) {
       console.warn(
         `No valid options for next choice after ${lastChoice}, falling back to random choice`,
