@@ -15,7 +15,9 @@ function isDominant(chord: RomanNumeralChord) {
   const root = chord.scaleDegree;
   const third = transposeScaleDegree(root, Interval.MajorThird);
 
-  return !isDiatonic(third);
+  return (
+    !isDiatonic(third) || chord.intervals().includes(Interval.MinorSeventh)
+  );
 }
 
 export const dominantResolutionRule: Rule<RomanNumeralChordSymbol> = (prev) => {
