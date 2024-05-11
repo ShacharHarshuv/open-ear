@@ -1,3 +1,4 @@
+import { computed } from '@angular/core';
 import * as _ from 'lodash';
 import { sortBy } from 'lodash';
 import { keys } from '../../../../shared/ts-utility/keys';
@@ -17,6 +18,7 @@ import {
   getDiatonicScaleDegreeWithAccidental,
   scaleDegreeToChromaticDegree,
   scaleDegreeToSolfegeNote,
+  transposeScaleDegree,
 } from '../scale-degrees';
 import { transpose } from '../transpose';
 import { Mode } from './Mode';
@@ -48,6 +50,7 @@ export class RomanNumeralChord {
     );
   }
 
+  // todo: consider renaming to "root"
   get scaleDegree(): ScaleDegree {
     return (this.accidental + this.diatonicDegree) as ScaleDegree;
   }
@@ -78,6 +81,16 @@ export class RomanNumeralChord {
       ['C', 'D', 'E', 'F', 'G', 'A', 'B'].includes(noteType),
     );
   }
+
+  readonly intervals = computed(() => {
+    return this.getChord('C').intervals;
+  });
+
+  readonly scaleDegrees = computed(() => {
+    return this.intervals().map((interval) =>
+      transposeScaleDegree(this.scaleDegree, interval),
+    );
+  });
 
   static readonly romanNumerals: Record<DiatonicScaleDegree, string> = {
     1: 'i',

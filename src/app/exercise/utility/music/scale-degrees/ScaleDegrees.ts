@@ -132,3 +132,17 @@ export function getDiatonicScaleDegreeWithAccidental(
     accidental: (regexMatch[1] as Accidental) ?? Accidental.Natural,
   };
 }
+
+export function transposeScaleDegree(
+  scaleDegree: ScaleDegree,
+  interval: Interval,
+) {
+  const key = 'C';
+  const note = getNoteFromScaleDegree('C', scaleDegree);
+  const transposedNote = transpose(note, interval);
+  return getScaleDegreeFromNote('C', transposedNote);
+}
+
+export function isDiatonic(scaleDegree: ScaleDegree) {
+  return !(scaleDegree.includes('b') || scaleDegree.includes('#'));
+}

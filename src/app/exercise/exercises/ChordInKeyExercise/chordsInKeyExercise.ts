@@ -1,12 +1,18 @@
-import * as _ from 'lodash';
-import { randomFromList, RomanNumeralChordSymbol } from '../../utility';
+import { RomanNumeralChordSymbol } from '../../utility';
+import {
+  composeSequenceWithGrammar,
+  noRepeatsRule,
+  acceptOnly,
+  acceptAll,
+} from '../../utility/grammer';
+import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
 import { chordVoicingSettings } from '../utility/exerciseAttributes/chordProgressionExercise';
 import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
 import { createExercise } from '../utility/exerciseAttributes/createExercise';
 import {
-  romanAnalysisChordProgressionExercise,
   RomanAnalysisChordProgressionExerciseSettings,
   RomanNumeralsChordProgressionQuestion,
+  romanAnalysisChordProgressionExercise,
 } from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
 import { cadenceTypeSettings } from '../utility/settings/CadenceTypeSetting';
 import {
@@ -14,14 +20,15 @@ import {
   includedAnswersSettings,
 } from '../utility/settings/IncludedAnswersSettings';
 import {
-  numberOfSegmentsControlDescriptorList,
   NumberOfSegmentsSetting,
+  numberOfSegmentsControlDescriptorList,
 } from '../utility/settings/NumberOfSegmentsSetting';
 import {
-  playAfterCorrectAnswerControlDescriptorList,
   PlayAfterCorrectAnswerSetting,
+  playAfterCorrectAnswerControlDescriptorList,
 } from '../utility/settings/PlayAfterCorrectAnswerSetting';
 import { ChordInKeyExplanationComponent } from './chord-in-key-explanation/chord-in-key-explanation.component';
+import { chordProgressionRules } from './grammar/chord-progression-rules';
 
 type ChordInKeySettings = IncludedAnswersSettings<RomanNumeralChordSymbol> &
   RomanAnalysisChordProgressionExerciseSettings &
@@ -49,25 +56,16 @@ export function chordInKeyExercise() {
       settings: ChordInKeySettings,
     ): RomanNumeralsChordProgressionQuestion {
       const numberOfSegments = settings.numberOfSegments;
-      const availableChords: RomanNumeralChordSymbol[] =
+      const availableChords =
         settings.includedAnswers;
-      const chordProgression: RomanNumeralChordSymbol[] = [
-        randomFromList(availableChords),
-      ];
-      while (chordProgression.length < numberOfSegments) {
-        chordProgression.push(
-          randomFromList(
-            availableChords.filter(
-              (chord) =>
-                chord !== _.last(chordProgression)! ||
-                availableChords.length <= 1,
-            ),
-          ),
-        );
-      }
 
+      const sequence = composeSequenceWithGrammar(
+        availableChords,
+        numberOfSegments,
+        chordProgressionRules,
+      );
       return {
-        chordProgressionInRomanAnalysis: chordProgression,
+        chordProgressionInRomanAnalysis: sequence,
       };
     },
     settingsDescriptors: [
