@@ -17,6 +17,7 @@ export type CreateExerciseParams<
   readonly answerList: StaticOrGetter<AnswerList<GAnswer>, [GSettings]>;
   readonly getQuestion: (settings: GSettings) => Exercise.Question<GAnswer>;
   readonly blackListPlatform?: Platforms;
+  readonly isPlayWrongAnswerSupported?: boolean;
 } & SettingsParams<GSettings>;
 
 export function createExercise<
@@ -32,6 +33,7 @@ export function createExercise<
     name: params.name,
     explanation: params.explanation,
     blackListPlatform: params.blackListPlatform,
+    isPlayWrongAnswerSupported: params.isPlayWrongAnswerSupported ?? false,
     getSettingsDescriptor: () =>
       params.settingsDescriptors
         ? toGetter(params.settingsDescriptors)(settings)

@@ -26,6 +26,7 @@ describe('StorageService', function () {
         revealAnswerAfterFirstMistake: false,
         answerQuestionAutomatically: false,
         instrument: 'piano',
+        playWrongAnswer: false,
       },
       exerciseSettings: {
         a: 1,

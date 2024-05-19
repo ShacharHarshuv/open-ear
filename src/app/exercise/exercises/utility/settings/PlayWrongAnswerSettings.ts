@@ -6,6 +6,7 @@ export interface PlayWrongAnswerSettings extends Exercise.Settings {
   playWrongAnswer: boolean;
 }
 
+// todo: we need to rewrite this instead of changing the getQuestion function it adds the flag on the exercise, and use it in the two places where we have it
 export function playWrongAnswerSettings<GAnswer extends string>() {
   return function (
     params: Pick<

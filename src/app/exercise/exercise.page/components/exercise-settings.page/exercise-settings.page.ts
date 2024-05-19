@@ -39,18 +39,12 @@ import SettingsControlDescriptor = Exercise.SettingsControlDescriptor;
 /**
  * TODO: consider making the form generation more generic, so that we won't have to repeat ourselves so many times
  * */
-interface ExerciseSettingsControls {
+interface ExerciseSettingsControls
+  extends Omit<GlobalExerciseSettings, 'playCadence'> {
   playCadenceOptions:
     | 'ALWAYS'
     | 'ONLY_ON_REPEAT'
     | /*'EVERY_NEW_KEY' TODO(OE-12) |*/ 'NEVER' /*| 'EVERY TODO(OE-13)'*/;
-  // playCadenceEvery: number; // todo(OE-13)
-  bpm: number;
-  moveToNextQuestionAutomatically: boolean;
-  answerQuestionAutomatically: boolean;
-  adaptive: boolean;
-  revealAnswerAfterFirstMistake: boolean;
-  instrument: InstrumentName;
 }
 
 @Component({
@@ -75,12 +69,13 @@ export class ExerciseSettingsPage {
   readonly generalFormGroup = new FormGroup<ExerciseSettingsControls>({
     playCadenceOptions: new FormControl('ALWAYS'),
     // playCadenceEvery: new FormControl(5),
-    adaptive: new FormControl<boolean>(false),
-    revealAnswerAfterFirstMistake: new FormControl<boolean>(false),
+    adaptive: new FormControl(false),
+    revealAnswerAfterFirstMistake: new FormControl(false),
     bpm: new FormControl<number>(120),
-    moveToNextQuestionAutomatically: new FormControl<boolean>(false),
-    answerQuestionAutomatically: new FormControl<boolean>(false),
+    moveToNextQuestionAutomatically: new FormControl(false),
+    answerQuestionAutomatically: new FormControl(false),
     instrument: new FormControl<InstrumentName>(),
+    playWrongAnswer: new FormControl(false),
   });
 
   exerciseSettingsDescriptor: Exercise.SettingsControlDescriptor[] = [];
@@ -89,12 +84,13 @@ export class ExerciseSettingsPage {
 
   readonly instrumentOptions = this._getInstrumentOptions();
 
-  @Input()
-  exerciseName: string = '';
+  @Input({ required: true })
+  exercise!: Pick<Exercise.Exercise, 'name' | 'isPlayWrongAnswerSupported'>;
 
   @Input()
   set currentGlobalSettings(currentSettings: GlobalExerciseSettings) {
     this.generalFormGroup.reset({
+      ...currentSettings,
       playCadenceOptions:
         ((): ExerciseSettingsControls['playCadenceOptions'] => {
           switch (currentSettings.playCadence) {
@@ -111,14 +107,6 @@ export class ExerciseSettingsPage {
               return 'ALWAYS';
           }
         })(),
-      adaptive: currentSettings.adaptive,
-      revealAnswerAfterFirstMistake:
-        currentSettings.revealAnswerAfterFirstMistake,
-      bpm: currentSettings.bpm,
-      moveToNextQuestionAutomatically:
-        currentSettings.moveToNextQuestionAutomatically,
-      answerQuestionAutomatically: currentSettings.answerQuestionAutomatically,
-      instrument: currentSettings.instrument,
     });
   }
 
@@ -174,6 +162,7 @@ export class ExerciseSettingsPage {
   private _getNewSettings(): GlobalExerciseSettings {
     const formGroupValue = this.generalFormGroup.getRawValue();
     return {
+      ...formGroupValue,
       playCadence: ((): GlobalExerciseSettings['playCadence'] => {
         const valueMapping: {
           [key in ExerciseSettingsControls['playCadenceOptions']]: GlobalExerciseSettings['playCadence'];
@@ -185,14 +174,6 @@ export class ExerciseSettingsPage {
         };
         return valueMapping[formGroupValue.playCadenceOptions];
       })(),
-      adaptive: formGroupValue.adaptive,
-      revealAnswerAfterFirstMistake:
-        formGroupValue.revealAnswerAfterFirstMistake,
-      bpm: formGroupValue.bpm,
-      moveToNextQuestionAutomatically:
-        formGroupValue.moveToNextQuestionAutomatically,
-      answerQuestionAutomatically: formGroupValue.answerQuestionAutomatically,
-      instrument: formGroupValue.instrument,
     };
   }
 

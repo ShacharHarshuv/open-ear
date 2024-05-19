@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import { minBy } from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { Time } from 'tone/Tone/core/type/Units';
 import Exercise from '../../../exercise-logic';
@@ -7,13 +8,17 @@ import {
   ScaleDegree,
   SolfegeNote,
   StaticOrGetter,
-  getNoteFromScaleDegree,
   scaleDegreeToSolfegeNote,
+  solfegeNoteToScaleDegree,
   toGetter,
+  toNoteNumber,
 } from '../../../utility';
 import { toMusicalTextDisplay } from '../../../utility/music/getMusicTextDisplay';
+import { getNoteOctave } from '../../../utility/music/notes/getNoteOctave';
 import { getNoteType } from '../../../utility/music/notes/getNoteType';
+import { noteTypeToNote } from '../../../utility/music/notes/noteTypeToNote';
 import { noteTypeToScaleDegree } from '../../../utility/music/scale-degrees/noteTypeToScaleDegree';
+import { scaleDegreeToNoteType } from '../../../utility/music/scale-degrees/scaleDegreeToNoteType';
 import { scaleLayout } from '../answer-layouts/scale-layout';
 import {
   TonalExerciseConfig,
@@ -79,6 +84,21 @@ export function melodicExercise<
                   duration: noteDuration,
                 },
               ],
+              playOnWrong: (wrongAnswer) => {
+                const wrongNoteType = scaleDegreeToNoteType(
+                  solfegeNoteToScaleDegree[wrongAnswer],
+                  'C',
+                );
+                const correctNoteOctave = getNoteOctave(note);
+                const options = [
+                  noteTypeToNote(wrongNoteType, correctNoteOctave - 1),
+                  noteTypeToNote(wrongNoteType, correctNoteOctave),
+                  noteTypeToNote(wrongNoteType, correctNoteOctave + 1),
+                ];
+                return minBy(options, (option) =>
+                  Math.abs(toNoteNumber(option) - toNoteNumber(note)),
+                )!;
+              },
               playAfter: index === 0 ? 0 : undefined,
             });
           });
@@ -106,8 +126,6 @@ export function melodicExercise<
               answer: scaleDegree
                 ? scaleDegreeToSolfegeNote[scaleDegree]
                 : null,
-              playOnClick:
-                scaleDegree && getNoteFromScaleDegree('C', scaleDegree),
             };
 
             if (scaleDegree && settings.displayMode === 'numeral') {
