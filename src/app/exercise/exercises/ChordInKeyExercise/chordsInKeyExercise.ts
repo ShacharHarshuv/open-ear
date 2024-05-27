@@ -13,7 +13,7 @@ import {
   RomanAnalysisChordProgressionExerciseSettings,
   RomanNumeralsChordProgressionQuestion,
   romanAnalysisChordProgressionExercise,
-} from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
+} from '../utility/exerciseAttributes/roman-analysis-chord-progression-exercise/romanAnalysisChordProgressionExercise';
 import { cadenceTypeSettings } from '../utility/settings/CadenceTypeSetting';
 import {
   IncludedAnswersSettings,

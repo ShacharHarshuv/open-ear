@@ -19,7 +19,6 @@ import { getDistanceOfKeys } from '../../utility/music/keys/getDistanceOfKeys';
 import { transpose } from '../../utility/music/transpose';
 import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
 import { createExercise } from '../utility/exerciseAttributes/createExercise';
-import { allRomanNumeralAnswerList } from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
 import {
   AnalyzeBySettings,
   analyzeBySettings,
@@ -29,6 +28,7 @@ import {
   ProgressionInSongFromYouTubeDescriptor,
   chordsInRealSongsDescriptorList,
 } from './chordsInRealSongsDescriptorList';
+import { allRomanNumeralAnswerList } from '../utility/exerciseAttributes/roman-analysis-chord-progression-exercise/roman-numeral-answer-list';
 
 interface ChordsInRealSongsSettings extends AnalyzeBySettings {
   includedChords: RomanNumeralChordSymbol[];
