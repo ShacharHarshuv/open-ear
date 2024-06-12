@@ -180,7 +180,7 @@ export const allRomanNumeralAnswerList: AnswerList<RomanNumeralChordSymbol> =
       ChordType.Diminished,
     ];
     const chordsIterator = getAnswerListIterator(answerListWithChordTypes);
-    const bassToInversions: RomanNumeralChordSymbol[] = [];
+    const bassToInversions: RomanNumeralChord[] = [];
     for (const answerConfig of chordsIterator) {
       const rootInversionChord = answerConfig.answer!;
       const romanNumeralChord = new RomanNumeralChord(rootInversionChord);
@@ -197,21 +197,46 @@ export const allRomanNumeralAnswerList: AnswerList<RomanNumeralChordSymbol> =
           bass: possibleBassNote,
         });
 
-        (bassToInversions[possibleBassNote] ??= []).push(invertedChord.romanNumeralChordSymbol);
+        (bassToInversions[possibleBassNote] ??= []).push(invertedChord);
       }
     }
 
     for (let bassNote in bassToAnswerLayout) {
       const invertedChords = bassToInversions[bassNote];
-      const invertedChordsRows = Object.values(groupBy(invertedChords, chordSymbol => {
-        const chord = new RomanNumeralChord(chordSymbol);
+      const invertedChordsRows = Object.values(groupBy(invertedChords, chord => {
         if (chord.type !== ChordType.Diminished) {
           return chord.scaleDegree;
         } else {
           return transposeScaleDegree(chord.scaleDegree, -Interval.MajorThird);
         }
       }));
-      bassToAnswerLayout[bassNote].forEach(({rows}) => rows.push(...invertedChordsRows))
+      invertedChordsRows.forEach(row => row.sort((a,b) => {
+        if (a.isDiatonic && !b.isDiatonic) {
+          return -1;
+        } else if (!a.isDiatonic && !b.isInversion) {
+          return 1;
+        }
+
+        if (a.type === ChordType.Diminished && b.type === ChordType.Dominant7th) {
+          return 1;
+        } else if (b.type === ChordType.Diminished && a.type === ChordType.Dominant7th) {
+          return -1;
+        }
+
+        return 0;
+      }));
+      invertedChordsRows.sort((a, b) => {
+        const aFirstChord = a[0];
+        const bFirstChord = b[0];
+        if (aFirstChord.isDiatonic && !bFirstChord.isDiatonic) {
+          return -1;
+        } else if (!aFirstChord.isDiatonic && bFirstChord.isDiatonic) {
+          return 1;
+        }
+
+        return aFirstChord.inversionIndex() - bFirstChord.inversionIndex();
+      })
+      bassToAnswerLayout[bassNote].forEach(({rows}) => rows.push(...invertedChordsRows.map(row => row.map(chord => chord.romanNumeralChordSymbol))))
     }
 
     return addViewLabelToAnswerList(

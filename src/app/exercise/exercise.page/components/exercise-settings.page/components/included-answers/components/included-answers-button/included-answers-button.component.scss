@@ -6,4 +6,8 @@ ion-button {
   &:not(.--included) {
     opacity: 0.3;
   }
+
+  &::part(native) {
+    padding: 0 0.5rem;
+  }
 }
