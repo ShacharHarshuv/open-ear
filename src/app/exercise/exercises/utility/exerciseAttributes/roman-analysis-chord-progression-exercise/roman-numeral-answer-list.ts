@@ -1,6 +1,8 @@
 import {
   RomanNumeralChordSymbol,
   ScaleDegree,
+  transposeScaleDegree,
+  Interval,
 } from '../../../../utility';
 import {
   Chord,
@@ -19,6 +21,7 @@ import {
 } from '../../../../exercise-logic';
 import { RomanNumeralChord } from '../../../../utility/music/harmony/RomanNumeralChord';
 import { romanNumeralToChordInC } from '../../../../utility/music/harmony/romanNumeralToChordInC';
+import { groupBy } from 'lodash';
 
 export const allRomanNumeralAnswerList: AnswerList<RomanNumeralChordSymbol> =
   (() => {
@@ -117,7 +120,7 @@ export const allRomanNumeralAnswerList: AnswerList<RomanNumeralChordSymbol> =
       ],
     };
 
-    const bassToAnswerLayout: Partial<Record<ScaleDegree, AnswersLayout<RomanNumeralChordSymbol>>> = {};
+    const bassToAnswerLayout: Partial<Record<ScaleDegree, AnswersLayout<RomanNumeralChordSymbol>[]>> = {};
 
     const answerListWithChordTypes: AnswerList<RomanNumeralChordSymbol> = mapAnswerList(
       answerList,
@@ -160,8 +163,7 @@ export const allRomanNumeralAnswerList: AnswerList<RomanNumeralChordSymbol> =
           }).romanNumeralChordSymbol;
         });
 
-        // todo
-        // (bassToAnswerLayout[romanNumeralChord.bass] ??= []).push(answerListWithTypes)
+        (bassToAnswerLayout[romanNumeralChord.bass] ??= []).push(answerListWithTypes)
 
         return {
           innerAnswersList: answerListWithTypes,
@@ -178,20 +180,39 @@ export const allRomanNumeralAnswerList: AnswerList<RomanNumeralChordSymbol> =
       ChordType.Diminished,
     ];
     const chordsIterator = getAnswerListIterator(answerListWithChordTypes);
+    const bassToInversions: RomanNumeralChordSymbol[] = [];
     for (const answerConfig of chordsIterator) {
       const rootInversionChord = answerConfig.answer!;
       const romanNumeralChord = new RomanNumeralChord(rootInversionChord);
 
       if (!chordTypesToAddInversionsFor.includes(romanNumeralChord.type)) {
-        break;
+        continue;
       }
 
       const [, ...scaleDegreesInChord] = romanNumeralChord.scaleDegrees();
       for (const possibleBassNote of scaleDegreesInChord) {
+        const invertedChord = new RomanNumeralChord({
+          scaleDegree: romanNumeralChord.scaleDegree,
+          type: romanNumeralChord.type,
+          bass: possibleBassNote,
+        });
 
+        (bassToInversions[possibleBassNote] ??= []).push(invertedChord.romanNumeralChordSymbol);
       }
     }
 
+    for (let bassNote in bassToAnswerLayout) {
+      const invertedChords = bassToInversions[bassNote];
+      const invertedChordsRows = Object.values(groupBy(invertedChords, chordSymbol => {
+        const chord = new RomanNumeralChord(chordSymbol);
+        if (chord.type !== ChordType.Diminished) {
+          return chord.scaleDegree;
+        } else {
+          return transposeScaleDegree(chord.scaleDegree, -Interval.MajorThird);
+        }
+      }));
+      bassToAnswerLayout[bassNote].forEach(({rows}) => rows.push(...invertedChordsRows))
+    }
 
     return addViewLabelToAnswerList(
       mapAnswerList(

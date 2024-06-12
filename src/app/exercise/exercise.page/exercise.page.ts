@@ -165,7 +165,6 @@ export class ExercisePage extends BaseComponent {
     }
 
     if (this._developerModeActivationCount >= 3) {
-      console.log();
       const alert = await this._alertController.create({
         message: `<pre>${JSON.stringify(this.state.lastPlayed, null, 2)}</pre>`,
       });

@@ -379,8 +379,6 @@ export function notesWithChordsExercise() {
           chordVoicing = Chord.invertVoicing(chordVoicing, Direction.Down);
         }
       } else {
-        console.log('note', note);
-        console.log('chordVoicing', chordVoicing);
         while (toNoteNumber(note) > toNoteNumber(_.first(chordVoicing)!)) {
           chordVoicing = Chord.invertVoicing(chordVoicing, Direction.Up);
         }

@@ -33,8 +33,10 @@ export type ScaleDegree =
 export type EnharmonicScaleDegree =
   | ScaleDegree
   | '#1'
+  | '#2'
   | 'b5'
   | '#5'
+  | '#6'
   | 'bb7'
   | '8'
   | '9'
@@ -87,8 +89,10 @@ export const expandedScaleDegreeToChromaticDegree: Record<
 > = {
   ...scaleDegreeToChromaticDegree,
   '#1': 2,
+  '#2': 4,
   b5: 7,
   '#5': 9,
+  '#6': 11,
   bb7: 10,
   '8': 13,
   '9': 15,
@@ -107,7 +111,7 @@ export function getNoteFromScaleDegree(
 ): Note {
   const chromaticDegree = expandedScaleDegreeToChromaticDegree[scaleDegree];
   if (chromaticDegree === undefined) {
-    console.log(`Unknown Scale Degree ${chromaticDegree}`)
+    throw new Error(`Unknown Scale Degree ${scaleDegree}`)
   }
   return noteTypeToNote(
     transpose(key, mod((chromaticDegree - 1), 12)),

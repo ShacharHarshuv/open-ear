@@ -237,8 +237,6 @@ export function filterIncludedAnswers<GAnswer extends string>(
             return !(cell === null || ('answer' in cell && !cell.answer));
           });
 
-          console.log(innerAnswerCells);
-
           if (!innerAnswerCells.length) {
             return null;
           }
@@ -294,6 +292,24 @@ export function* getAnswerListIterator<GAnswer extends string>(
   }
 }
 
+export function mapAnswerList<
+  GInputAnswer extends string = string,
+  GOutputAnswer extends string = GInputAnswer,
+>(
+  answerList: AnswersLayout<GInputAnswer>,
+  callback: (
+    answerConfig: AnswerConfig<GInputAnswer>,
+  ) => AnswersLayoutCell<GOutputAnswer>,
+): AnswersLayout<GOutputAnswer>;
+export function mapAnswerList<
+  GInputAnswer extends string = string,
+  GOutputAnswer extends string = GInputAnswer,
+>(
+  answerList: AnswerList<GInputAnswer>,
+  callback: (
+    answerConfig: AnswerConfig<GInputAnswer>,
+  ) => AnswersLayoutCell<GOutputAnswer>,
+): AnswerList<GOutputAnswer>;
 export function mapAnswerList<
   GInputAnswer extends string = string,
   GOutputAnswer extends string = GInputAnswer,
