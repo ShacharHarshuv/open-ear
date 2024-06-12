@@ -13,6 +13,7 @@ export enum Accidental {
   Sharp = '#',
   Flat = 'b',
 }
+
 export type DiatonicScaleDegree = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 // Each chromatic note is spelled once, for all enharmonic alternatives use EnharmonicScaleDegree
 export type ScaleDegree =
@@ -31,6 +32,7 @@ export type ScaleDegree =
 // Contains enharmonic alternative to ScaleDegree's values
 export type EnharmonicScaleDegree =
   | ScaleDegree
+  | '#1'
   | 'b5'
   | '#5'
   | 'bb7'
@@ -84,6 +86,7 @@ export const expandedScaleDegreeToChromaticDegree: Record<
   ChromaticScaleDegree
 > = {
   ...scaleDegreeToChromaticDegree,
+  '#1': 2,
   b5: 7,
   '#5': 9,
   bb7: 10,
@@ -99,11 +102,15 @@ export const chromaticDegreeToScaleDegree = _.invert(
 
 export function getNoteFromScaleDegree(
   key: Key,
-  scaleDegree: ScaleDegree,
+  scaleDegree: EnharmonicScaleDegree,
   octave: number = 4,
 ): Note {
+  const chromaticDegree = expandedScaleDegreeToChromaticDegree[scaleDegree];
+  if (chromaticDegree === undefined) {
+    console.log(`Unknown Scale Degree ${chromaticDegree}`)
+  }
   return noteTypeToNote(
-    transpose(key, scaleDegreeToChromaticDegree[scaleDegree] - 1),
+    transpose(key, mod((chromaticDegree - 1), 12)),
     octave,
   );
 }
@@ -137,7 +144,9 @@ export function transposeScaleDegree(
   scaleDegree: ScaleDegree,
   interval: Interval,
 ) {
-  const key = 'C';
+  if (!interval) {
+    return scaleDegree;
+  }
   const note = getNoteFromScaleDegree('C', scaleDegree);
   const transposedNote = transpose(note, interval);
   return getScaleDegreeFromNote('C', transposedNote);

@@ -1,4 +1,7 @@
-import { RomanNumeralChordSymbol } from '../../../../utility';
+import {
+  RomanNumeralChordSymbol,
+  ScaleDegree,
+} from '../../../../utility';
 import {
   Chord,
   TriadPosition,
@@ -12,6 +15,7 @@ import {
   AnswersLayoutCell,
   AnswerList,
   addViewLabelToAnswerList,
+  getAnswerListIterator,
 } from '../../../../exercise-logic';
 import { RomanNumeralChord } from '../../../../utility/music/harmony/RomanNumeralChord';
 import { romanNumeralToChordInC } from '../../../../utility/music/harmony/romanNumeralToChordInC';
@@ -113,6 +117,8 @@ export const allRomanNumeralAnswerList: AnswerList<RomanNumeralChordSymbol> =
       ],
     };
 
+    const bassToAnswerLayout: Partial<Record<ScaleDegree, AnswersLayout<RomanNumeralChordSymbol>>> = {};
+
     const answerListWithChordTypes: AnswerList<RomanNumeralChordSymbol> = mapAnswerList(
       answerList,
       (answerConfig: AnswerConfig<RomanNumeralChordSymbol>): AnswersLayoutCell<RomanNumeralChordSymbol> => {
@@ -154,18 +160,37 @@ export const allRomanNumeralAnswerList: AnswerList<RomanNumeralChordSymbol> =
           }).romanNumeralChordSymbol;
         });
 
+        // todo
+        // (bassToAnswerLayout[romanNumeralChord.bass] ??= []).push(answerListWithTypes)
+
         return {
           innerAnswersList: answerListWithTypes,
         };
       },
     );
 
-    // const bassToAnswerLayout: Partial<Record<ScaleDegree, AnswersLayout<RomanNumeralChordSymbol>>> = {};
-    //
-    // const chordsIterator = Exercise.getAnswerListIterator(answerListWithChordTypes);
-    // for (const rootInversionChord of chordsIterator) {
-    //   const romanNumeralChord = new RomanNumeralChord(rootInversionChord);
-    // }
+    const chordTypesToAddInversionsFor: ChordType[] = [
+      ChordType.Major,
+      ChordType.Major7th,
+      ChordType.Minor,
+      ChordType.Minor7th,
+      ChordType.Dominant7th,
+      ChordType.Diminished,
+    ];
+    const chordsIterator = getAnswerListIterator(answerListWithChordTypes);
+    for (const answerConfig of chordsIterator) {
+      const rootInversionChord = answerConfig.answer!;
+      const romanNumeralChord = new RomanNumeralChord(rootInversionChord);
+
+      if (!chordTypesToAddInversionsFor.includes(romanNumeralChord.type)) {
+        break;
+      }
+
+      const [, ...scaleDegreesInChord] = romanNumeralChord.scaleDegrees();
+      for (const possibleBassNote of scaleDegreesInChord) {
+
+      }
+    }
 
 
     return addViewLabelToAnswerList(
