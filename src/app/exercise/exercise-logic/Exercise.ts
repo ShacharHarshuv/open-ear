@@ -90,6 +90,7 @@ type CellConfig = {
 
 export type MultiAnswerCell<GAnswer extends string = string> = CellConfig & {
   innerAnswersList: AnswerList<GAnswer>;
+  innerAnswersList2?: AnswerList<GAnswer> | null;
 };
 
 export function isMultiAnswerCell<GAnswer extends string>(
@@ -162,6 +163,9 @@ export function normalizedAnswerList<GAnswer extends string = string>(
                 displayLabel: defaultDisplayLabel,
                 ...cell,
                 innerAnswersList: normalizedAnswerList(cell.innerAnswersList),
+                innerAnswersList2: cell.innerAnswersList2
+                  ? normalizedAnswerList(cell.innerAnswersList2)
+                  : null,
               };
             }
 
@@ -354,6 +358,9 @@ export function mapAnswerList<
             answerCell.innerAnswersList,
             callback,
           ),
+          innerAnswersList2: answerCell.innerAnswersList2
+            ? mapAnswerList(answerCell.innerAnswersList2, callback)
+            : null,
         };
       } else {
         return callback(answerCell);

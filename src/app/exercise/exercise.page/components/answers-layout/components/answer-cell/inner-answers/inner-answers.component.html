@@ -1,0 +1,20 @@
+<ion-popover
+  [dismissOnSelect]="answerCellComponent.multiAnswerCellConfig.dismissOnSelect"
+  [triggerAction]="answerCellComponent.multiAnswerCellConfig.triggerAction"
+  [showBackdrop]="false"
+  (didDismiss)="answerCellComponent.dismissBothPopovers()"
+  trigger="{{ triggerId() }}"
+>
+  <ng-template>
+    <div class="multi-answer-popover-content">
+      <app-answers-layout
+        [answerList]="innerAnswerList()"
+        [buttonTemplate]="answerCellComponent.buttonTemplate"
+        [multiAnswerButtonTemplate]="
+          answerCellComponent.multiAnswerButtonTemplate
+        "
+        [multiAnswerCellConfig]="answerCellComponent.multiAnswerCellConfig"
+      />
+    </div>
+  </ng-template>
+</ion-popover>

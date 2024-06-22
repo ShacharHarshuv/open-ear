@@ -5,8 +5,9 @@ import {
   TemplateRef,
   computed,
   forwardRef,
+  viewChildren,
 } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { IonPopover, IonicModule } from '@ionic/angular';
 import { uniqueId } from 'lodash';
 import { signalFromProperty } from '../../../../../../shared/ng-utilities/signalFromProperty';
 import {
@@ -19,7 +20,7 @@ import {
   isMultiAnswerCell,
   normalizeAnswerConfig,
 } from '../../../../../exercise-logic';
-import { AnswersLayoutComponent } from '../../answers-layout.component';
+import { InnerAnswersComponent } from './inner-answers/inner-answers.component';
 
 export type MultiAnswerButtonTemplateContext = Required<
   Pick<MultiAnswerCell, 'displayLabel'>
@@ -35,7 +36,7 @@ export type MultiAnswerButtonTemplateContext = Required<
   imports: [
     NgTemplateOutlet,
     IonicModule,
-    forwardRef(() => AnswersLayoutComponent),
+    forwardRef(() => InnerAnswersComponent),
   ],
 })
 export class AnswerCellComponent {
@@ -84,6 +85,7 @@ export class AnswerCellComponent {
       return {
         space: 1,
         displayLabel: firstAnswer.displayLabel ?? firstAnswer.answer,
+        innerAnswersList2: null,
         ...cell,
         id: uniqueId('multi-answer-cell-'),
       };
@@ -103,4 +105,10 @@ export class AnswerCellComponent {
       };
     },
   );
+
+  readonly popovers = viewChildren(IonPopover);
+
+  dismissBothPopovers() {
+    this.popovers().forEach((popover) => popover.dismiss());
+  }
 }
