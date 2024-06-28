@@ -9,6 +9,7 @@
   <ng-template>
     <div class="multi-answer-popover-content">
       <app-answers-layout
+        [bottomUp]="side() === 'top'"
         [answerList]="innerAnswerList()"
         [buttonTemplate]="answerCellComponent.buttonTemplate"
         [multiAnswerButtonTemplate]="

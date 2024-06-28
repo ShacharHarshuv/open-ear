@@ -9,7 +9,11 @@ import { AnswerCellComponent } from '../answer-cell.component';
   standalone: true,
   imports: [forwardRef(() => AnswersLayoutComponent), IonicModule],
   templateUrl: `inner-answers.component.html`,
-  styles: ``,
+  styles: `
+    .multi-answer-popover-content {
+      padding: 0.5em;
+    }
+  `,
 })
 export class InnerAnswersComponent {
   readonly answerCellComponent = inject(AnswerCellComponent);

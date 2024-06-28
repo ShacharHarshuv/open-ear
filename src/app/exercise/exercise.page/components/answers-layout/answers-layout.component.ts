@@ -1,11 +1,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
   computed,
   forwardRef,
+  input,
 } from '@angular/core';
-import { signalFromProperty } from '../../../../shared/ng-utilities/signalFromProperty';
 import {
   AnswerList,
   AnswersLayout,
@@ -26,22 +25,18 @@ import { AnswersRowComponent } from './components/answers-row/answers-row.compon
   ],
 })
 export class AnswersLayoutComponent<GAnswer extends string = string> {
-  @Input({
-    required: true,
-    alias: 'answerList',
-  })
-  answerListInput: AnswerList<GAnswer> = [];
+  readonly answerList = input.required<AnswerList<GAnswer>>();
 
-  @Input({ required: true })
-  buttonTemplate!: AnswersRowComponent<GAnswer>['buttonTemplate'];
+  readonly buttonTemplate =
+    input.required<AnswersRowComponent<GAnswer>['buttonTemplate']>();
 
-  @Input({ required: true })
-  multiAnswerButtonTemplate!: AnswersRowComponent<GAnswer>['multiAnswerButtonTemplate'];
+  readonly multiAnswerButtonTemplate =
+    input.required<AnswersRowComponent<GAnswer>['multiAnswerButtonTemplate']>();
 
-  @Input({ required: true })
-  multiAnswerCellConfig!: AnswerCellComponent['multiAnswerCellConfig'];
+  readonly multiAnswerCellConfig =
+    input.required<AnswerCellComponent['multiAnswerCellConfig']>();
 
-  readonly answerList = signalFromProperty(this, 'answerListInput');
+  readonly bottomUp = input(false);
 
   readonly autoLayoutAnswers = computed(
     (): AnswersLayoutCell<GAnswer>[] | null => {
