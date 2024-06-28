@@ -33,11 +33,13 @@
   <app-inner-answers
     [innerAnswerList]="multiAnswerCell.innerAnswersList"
     [triggerId]="multiAnswerCell.id"
+    side="bottom"
   />
   @if (multiAnswerCell.innerAnswersList2) {
     <app-inner-answers
       [innerAnswerList]="multiAnswerCell.innerAnswersList2"
       [triggerId]="multiAnswerCell.id"
+      side="top"
     />
   }
 }

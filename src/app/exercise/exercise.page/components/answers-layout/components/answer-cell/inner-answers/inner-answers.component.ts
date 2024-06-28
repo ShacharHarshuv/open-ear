@@ -1,5 +1,5 @@
-import { Component, forwardRef, inject, input } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { Component, forwardRef, inject, input, viewChild } from '@angular/core';
+import { IonPopover, IonicModule } from '@ionic/angular';
 import { AnswerList } from '../../../../../../exercise-logic';
 import { AnswersLayoutComponent } from '../../../answers-layout.component';
 import { AnswerCellComponent } from '../answer-cell.component';
@@ -15,4 +15,6 @@ export class InnerAnswersComponent {
   readonly answerCellComponent = inject(AnswerCellComponent);
   readonly triggerId = input.required<string>();
   readonly innerAnswerList = input.required<AnswerList>();
+  readonly side = input.required<'top' | 'bottom'>();
+  readonly popover = viewChild(IonPopover);
 }

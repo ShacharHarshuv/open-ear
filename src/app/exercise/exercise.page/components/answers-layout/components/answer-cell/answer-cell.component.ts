@@ -7,7 +7,7 @@ import {
   forwardRef,
   viewChildren,
 } from '@angular/core';
-import { IonPopover, IonicModule } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { uniqueId } from 'lodash';
 import { signalFromProperty } from '../../../../../../shared/ng-utilities/signalFromProperty';
 import {
@@ -106,9 +106,11 @@ export class AnswerCellComponent {
     },
   );
 
-  readonly popovers = viewChildren(IonPopover);
+  readonly innerAnswersComponents = viewChildren(InnerAnswersComponent);
 
   dismissBothPopovers() {
-    this.popovers().forEach((popover) => popover.dismiss());
+    this.innerAnswersComponents().forEach(({ popover }) =>
+      popover()?.dismiss(),
+    );
   }
 }

@@ -2,7 +2,8 @@
   [dismissOnSelect]="answerCellComponent.multiAnswerCellConfig.dismissOnSelect"
   [triggerAction]="answerCellComponent.multiAnswerCellConfig.triggerAction"
   [showBackdrop]="false"
-  (didDismiss)="answerCellComponent.dismissBothPopovers()"
+  [side]="side()"
+  (willDismiss)="answerCellComponent.dismissBothPopovers()"
   trigger="{{ triggerId() }}"
 >
   <ng-template>
