@@ -3,7 +3,7 @@
   [triggerAction]="answerCellComponent.multiAnswerCellConfig.triggerAction"
   [showBackdrop]="false"
   [side]="side()"
-  (willDismiss)="answerCellComponent.dismissBothPopovers()"
+  [backdropDismiss]="false"
   trigger="{{ triggerId() }}"
 >
   <ng-template>

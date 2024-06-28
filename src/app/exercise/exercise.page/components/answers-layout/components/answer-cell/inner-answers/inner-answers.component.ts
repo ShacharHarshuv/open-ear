@@ -1,4 +1,11 @@
-import { Component, forwardRef, inject, input, viewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  forwardRef,
+  inject,
+  input,
+  viewChild,
+} from '@angular/core';
 import { IonPopover, IonicModule } from '@ionic/angular';
 import { AnswerList } from '../../../../../../exercise-logic';
 import { AnswersLayoutComponent } from '../../../answers-layout.component';
@@ -20,5 +27,10 @@ export class InnerAnswersComponent {
   readonly triggerId = input.required<string>();
   readonly innerAnswerList = input.required<AnswerList>();
   readonly side = input.required<'top' | 'bottom'>();
-  readonly popover = viewChild(IonPopover);
+  readonly popover = viewChild.required(IonPopover);
+  readonly popoverElm = viewChild<
+    ElementRef<HTMLElement>,
+    ElementRef<HTMLElement>
+  >('popoverElm', { read: ElementRef });
+  readonly hostElement = inject(ElementRef) as ElementRef<HTMLElement>;
 }

@@ -1,0 +1,7 @@
+ion-popover {
+  pointer-events: none;
+
+  &::part(content) {
+    pointer-events: auto;
+  }
+}

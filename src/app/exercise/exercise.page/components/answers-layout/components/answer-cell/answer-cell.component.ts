@@ -4,12 +4,14 @@ import {
   Input,
   TemplateRef,
   computed,
+  effect,
   forwardRef,
   viewChildren,
 } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { uniqueId } from 'lodash';
+import { isEmpty, uniqueId } from 'lodash';
 import { signalFromProperty } from '../../../../../../shared/ng-utilities/signalFromProperty';
+import { isValueTruthy } from '../../../../../../shared/ts-utility';
 import {
   Answer,
   AnswerConfig,
@@ -59,6 +61,10 @@ export class AnswerCellComponent {
     dismissOnSelect: boolean;
     triggerAction: 'click' | 'context-menu';
   };
+
+  constructor() {
+    this._dismissInnerAnswersOnClickOutside();
+  }
 
   readonly cell = signalFromProperty(this, 'cellInput');
 
@@ -112,5 +118,37 @@ export class AnswerCellComponent {
     this.innerAnswersComponents().forEach(({ popover }) =>
       popover()?.dismiss(),
     );
+  }
+
+  private _dismissInnerAnswersOnClickOutside() {
+    const elements = computed(() => {
+      return this.innerAnswersComponents()
+        .map(({ popoverElm }) => popoverElm()?.nativeElement)
+        .filter(isValueTruthy);
+    });
+
+    effect((onCleanup) => {
+      const elementsValue = elements();
+      if (isEmpty(elementsValue)) {
+        return;
+      }
+      const listener = (event: MouseEvent) => {
+        if (
+          elementsValue.some((element) =>
+            element.contains(event.target as Node),
+          )
+        ) {
+          return;
+        }
+
+        this.dismissBothPopovers();
+      };
+
+      document.addEventListener('click', listener);
+
+      onCleanup(() => {
+        document.removeEventListener('click', listener);
+      });
+    });
   }
 }
