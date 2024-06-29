@@ -28,9 +28,7 @@ export class InnerAnswersComponent {
   readonly innerAnswerList = input.required<AnswerList>();
   readonly side = input.required<'top' | 'bottom'>();
   readonly popover = viewChild.required(IonPopover);
-  readonly popoverElm = viewChild<
-    ElementRef<HTMLElement>,
-    ElementRef<HTMLElement>
-  >('popoverElm', { read: ElementRef });
-  readonly hostElement = inject(ElementRef) as ElementRef<HTMLElement>;
+  readonly contentElementRef = viewChild('popoverContent', {
+    read: ElementRef,
+  });
 }

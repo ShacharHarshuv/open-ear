@@ -123,18 +123,19 @@ export class AnswerCellComponent {
   private _dismissInnerAnswersOnClickOutside() {
     const elements = computed(() => {
       return this.innerAnswersComponents()
-        .map(({ popoverElm }) => popoverElm()?.nativeElement)
+        .map(({ contentElementRef }) => contentElementRef()?.nativeElement)
         .filter(isValueTruthy);
     });
 
     effect((onCleanup) => {
-      const elementsValue = elements();
-      if (isEmpty(elementsValue)) {
+      const currentElements = elements();
+      if (isEmpty(currentElements)) {
         return;
       }
+
       const listener = (event: MouseEvent) => {
         if (
-          elementsValue.some((element) =>
+          currentElements.some((element) =>
             element.contains(event.target as Node),
           )
         ) {
@@ -142,6 +143,8 @@ export class AnswerCellComponent {
         }
 
         this.dismissBothPopovers();
+        event.stopImmediatePropagation();
+        document.removeEventListener('click', listener);
       };
 
       document.addEventListener('click', listener);

@@ -7,7 +7,7 @@
   trigger="{{ triggerId() }}"
 >
   <ng-template>
-    <div class="multi-answer-popover-content">
+    <div class="multi-answer-popover-content" #popoverContent>
       <app-answers-layout
         [bottomUp]="side() === 'top'"
         [answerList]="innerAnswerList()"
