@@ -6,3 +6,8 @@
 @forward "ion-title";
 @forward "bdc-walk-popup";
 @forward "html";
+
+ion-toggle,
+ion-select {
+  flex-grow: 0;
+}
