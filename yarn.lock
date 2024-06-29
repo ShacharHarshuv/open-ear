@@ -1813,12 +1813,12 @@
     tslib "^2.0.3"
     ws "^7.0.1"
 
-"@ionic/angular@^7.0.9":
-  version "7.8.4"
-  resolved "https://registry.yarnpkg.com/@ionic/angular/-/angular-7.8.4.tgz#89ceabd3d1cd3559acd9ad75de957d73162bec46"
-  integrity sha512-lBnACcIyoO8E/LJoXhmx8ZyC3SAUZrJoh+LHTkH10GDfpAJw9mmEiK8pol+Z1bBFbHR0mMTOlS2Myh+q46hgQg==
+"@ionic/angular@^8.2.4":
+  version "8.2.4"
+  resolved "https://registry.yarnpkg.com/@ionic/angular/-/angular-8.2.4.tgz#d4d7f71c13352b47e961bfebcc8aae78576e229a"
+  integrity sha512-g1TqPkozujTSDo7DjiweGIQS9Pl5ZtauCj6dy60/MJek5ptKXQ2Yvgjs6U3SndQhGwzJ6W/mDJbYNc+wurfm4g==
   dependencies:
-    "@ionic/core" "7.8.4"
+    "@ionic/core" "8.2.4"
     ionicons "^7.0.0"
     jsonc-parser "^3.0.0"
     tslib "^2.3.0"
@@ -1832,12 +1832,12 @@
     debug "^4.0.0"
     tslib "^2.0.1"
 
-"@ionic/core@7.8.4":
-  version "7.8.4"
-  resolved "https://registry.yarnpkg.com/@ionic/core/-/core-7.8.4.tgz#ee9e7e1e5103ed6c9f2a03f7592c0a2a4e5e79c5"
-  integrity sha512-GiQM3Gb1kjaxQyDTQfXd54p/a8cK+ccaYKH30pRpzFMborqCZwhcCUQWV1zNAUuFI8YkC5CWTi6bdHyiYuxw4w==
+"@ionic/core@8.2.4":
+  version "8.2.4"
+  resolved "https://registry.yarnpkg.com/@ionic/core/-/core-8.2.4.tgz#43f16c8d468f792127fe6ab2fc663feb20e9c76f"
+  integrity sha512-lCsPzSEVs/XQMF25/phHlwhDNUlz4gqotzY/fEbhq2PT6Z5w81NndRAPsLQ4JM2k4N2gjJNeUFZJi+W78z2qtA==
   dependencies:
-    "@stencil/core" "^4.12.2"
+    "@stencil/core" "^4.19.1"
     ionicons "^7.2.2"
     tslib "^2.1.0"
 
@@ -3308,10 +3308,15 @@
   resolved "https://registry.yarnpkg.com/@socket.io/component-emitter/-/component-emitter-3.1.1.tgz#621270c02c0a5d4f4669eb1caa9723c91cf201de"
   integrity sha512-dzJtaDAAoXx4GCOJpbB2eG/Qj8VDpdwkLsWGzGm+0L7E8/434RyMbAHmk9ubXWVAb9nXmc44jUf8GKqVDiKezg==
 
-"@stencil/core@^4.0.3", "@stencil/core@^4.12.2":
+"@stencil/core@^4.0.3":
   version "4.16.0"
   resolved "https://registry.yarnpkg.com/@stencil/core/-/core-4.16.0.tgz#79c430d5875e0ce3a7666607b6fb53512890577b"
   integrity sha512-gXaC5IrquV/Hw5JIZTCWkM5lJEbBQtnvHLhDebjar6A6+YBqxah04dardS+YUNVuRbnE6Hcja7KKiAXT3oVsvw==
+
+"@stencil/core@^4.19.1":
+  version "4.19.1"
+  resolved "https://registry.yarnpkg.com/@stencil/core/-/core-4.19.1.tgz#f497a26f50b0429024783e1eddcbc8ba5d875fdb"
+  integrity sha512-fjSBctHrobeSL2+XcuX7GVk/eaUhZ/lvIu21RJmzHAPcNyueuSAEv7J/Isn4UlYNk70o+yOK72H0FTlNkUibvw==
 
 "@testing-library/dom@^8.11.0":
   version "8.20.1"
