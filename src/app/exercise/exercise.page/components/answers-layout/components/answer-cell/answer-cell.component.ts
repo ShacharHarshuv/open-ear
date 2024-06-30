@@ -1,16 +1,15 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
-  Input,
   TemplateRef,
   computed,
   effect,
   forwardRef,
+  input,
   viewChildren,
 } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { isEmpty, uniqueId } from 'lodash';
-import { signalFromProperty } from '../../../../../../shared/ng-utilities/signalFromProperty';
 import { isValueTruthy } from '../../../../../../shared/ts-utility';
 import {
   Answer,
@@ -30,6 +29,19 @@ export type MultiAnswerButtonTemplateContext = Required<
   innerAnswers: Answer[];
 };
 
+export type MultiAnswerButtonTemplate = TemplateRef<{
+  $implicit: MultiAnswerButtonTemplateContext;
+}>;
+
+export type ButtonTemplate = TemplateRef<{
+  $implicit: Required<AnswerConfig<string>>;
+}>;
+
+export interface MultiAnswerCellConfig {
+  dismissOnSelect: boolean;
+  triggerAction: 'click' | 'context-menu';
+}
+
 @Component({
   selector: 'app-answer-cell',
   templateUrl: './answer-cell.component.html',
@@ -42,31 +54,18 @@ export type MultiAnswerButtonTemplateContext = Required<
   ],
 })
 export class AnswerCellComponent {
-  @Input({
-    required: true,
-    alias: 'cell',
-  })
-  cellInput: AnswersLayoutCell = null;
+  readonly cell = input.required<AnswersLayoutCell>();
 
-  @Input({ required: true })
-  buttonTemplate!: TemplateRef<{ $implicit: Required<AnswerConfig<string>> }>;
+  readonly buttonTemplate = input.required<ButtonTemplate>();
 
-  @Input({ required: true })
-  multiAnswerButtonTemplate!: TemplateRef<{
-    $implicit: MultiAnswerButtonTemplateContext;
-  }>;
+  readonly multiAnswerButtonTemplate =
+    input.required<MultiAnswerButtonTemplate>();
 
-  @Input({ required: true })
-  multiAnswerCellConfig!: {
-    dismissOnSelect: boolean;
-    triggerAction: 'click' | 'context-menu';
-  };
+  readonly multiAnswerCellConfig = input.required<MultiAnswerCellConfig>();
 
   constructor() {
     this._dismissInnerAnswersOnClickOutside();
   }
-
-  readonly cell = signalFromProperty(this, 'cellInput');
 
   readonly answerConfig = computed(() => {
     const cell = this.cell();

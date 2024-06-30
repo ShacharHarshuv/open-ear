@@ -2,7 +2,7 @@
   @if (answerConfig.answer) {
     <div class="answer-cell" [style.flex]="answerConfig.space">
       <ng-template
-        [ngTemplateOutlet]="buttonTemplate"
+        [ngTemplateOutlet]="buttonTemplate()"
         [ngTemplateOutletContext]="{ $implicit: answerConfig }"
       />
     </div>
@@ -22,7 +22,7 @@
       as multiAnswerButtonTemplateContext
     ) {
       <ng-template
-        [ngTemplateOutlet]="multiAnswerButtonTemplate"
+        [ngTemplateOutlet]="multiAnswerButtonTemplate()"
         [ngTemplateOutletContext]="{
           $implicit: multiAnswerButtonTemplateContext
         }"

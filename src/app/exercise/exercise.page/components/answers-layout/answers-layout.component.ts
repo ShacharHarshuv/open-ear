@@ -10,7 +10,12 @@ import {
   AnswersLayout,
   AnswersLayoutCell,
 } from '../../../exercise-logic';
-import { AnswerCellComponent } from './components/answer-cell/answer-cell.component';
+import {
+  AnswerCellComponent,
+  ButtonTemplate,
+  MultiAnswerButtonTemplate,
+  MultiAnswerCellConfig,
+} from './components/answer-cell/answer-cell.component';
 import { AnswersRowComponent } from './components/answers-row/answers-row.component';
 
 @Component({
@@ -27,14 +32,12 @@ import { AnswersRowComponent } from './components/answers-row/answers-row.compon
 export class AnswersLayoutComponent<GAnswer extends string = string> {
   readonly answerList = input.required<AnswerList<GAnswer>>();
 
-  readonly buttonTemplate =
-    input.required<AnswersRowComponent<GAnswer>['buttonTemplate']>();
+  readonly buttonTemplate = input.required<ButtonTemplate>();
 
   readonly multiAnswerButtonTemplate =
-    input.required<AnswersRowComponent<GAnswer>['multiAnswerButtonTemplate']>();
+    input.required<MultiAnswerButtonTemplate>();
 
-  readonly multiAnswerCellConfig =
-    input.required<AnswerCellComponent['multiAnswerCellConfig']>();
+  readonly multiAnswerCellConfig = input.required<MultiAnswerCellConfig>();
 
   readonly bottomUp = input(false);
 

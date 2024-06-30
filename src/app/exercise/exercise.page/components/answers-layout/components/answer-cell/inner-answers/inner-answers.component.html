@@ -1,6 +1,8 @@
 <ion-popover
-  [dismissOnSelect]="answerCellComponent.multiAnswerCellConfig.dismissOnSelect"
-  [triggerAction]="answerCellComponent.multiAnswerCellConfig.triggerAction"
+  [dismissOnSelect]="
+    answerCellComponent.multiAnswerCellConfig().dismissOnSelect
+  "
+  [triggerAction]="answerCellComponent.multiAnswerCellConfig().triggerAction"
   [showBackdrop]="false"
   [side]="side()"
   [backdropDismiss]="false"
@@ -11,11 +13,11 @@
       <app-answers-layout
         [bottomUp]="side() === 'top'"
         [answerList]="innerAnswerList()"
-        [buttonTemplate]="answerCellComponent.buttonTemplate"
+        [buttonTemplate]="answerCellComponent.buttonTemplate()"
         [multiAnswerButtonTemplate]="
-          answerCellComponent.multiAnswerButtonTemplate
+          answerCellComponent.multiAnswerButtonTemplate()
         "
-        [multiAnswerCellConfig]="answerCellComponent.multiAnswerCellConfig"
+        [multiAnswerCellConfig]="answerCellComponent.multiAnswerCellConfig()"
       />
     </div>
   </ng-template>

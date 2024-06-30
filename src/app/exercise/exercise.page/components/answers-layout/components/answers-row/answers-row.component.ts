@@ -1,10 +1,14 @@
-import { Component, Input, computed, forwardRef } from '@angular/core';
-import { signalFromProperty } from '../../../../../../shared/ng-utilities/signalFromProperty';
+import { Component, computed, forwardRef, input } from '@angular/core';
 import {
   AnswerLayoutRow,
   AnswersLayoutCell,
 } from '../../../../../exercise-logic';
-import { AnswerCellComponent } from '../answer-cell/answer-cell.component';
+import {
+  AnswerCellComponent,
+  ButtonTemplate,
+  MultiAnswerButtonTemplate,
+  MultiAnswerCellConfig,
+} from '../answer-cell/answer-cell.component';
 
 @Component({
   selector: 'app-answers-row',
@@ -14,22 +18,14 @@ import { AnswerCellComponent } from '../answer-cell/answer-cell.component';
   imports: [forwardRef(() => AnswerCellComponent)],
 })
 export class AnswersRowComponent<GAnswer extends string> {
-  @Input({
-    required: true,
-    alias: 'row',
-  })
-  rowInput: AnswerLayoutRow<GAnswer> = [];
+  readonly row = input.required<AnswerLayoutRow<GAnswer>>();
 
-  @Input({ required: true })
-  buttonTemplate!: AnswerCellComponent['buttonTemplate'];
+  readonly buttonTemplate = input.required<ButtonTemplate>();
 
-  @Input({ required: true })
-  multiAnswerButtonTemplate!: AnswerCellComponent['multiAnswerButtonTemplate'];
+  readonly multiAnswerButtonTemplate =
+    input.required<MultiAnswerButtonTemplate>();
 
-  @Input({ required: true })
-  multiAnswerCellConfig!: AnswerCellComponent['multiAnswerCellConfig'];
-
-  readonly row = signalFromProperty(this, 'rowInput');
+  readonly multiAnswerCellConfig = input.required<MultiAnswerCellConfig>();
 
   readonly textRow = computed((): string | null => {
     const row = this.row();
