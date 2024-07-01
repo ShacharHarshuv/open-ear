@@ -1,16 +1,14 @@
+import { CdkConnectedOverlay, ConnectedPosition } from '@angular/cdk/overlay';
 import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   TemplateRef,
   computed,
-  effect,
   forwardRef,
   input,
-  viewChildren,
+  signal,
 } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { isEmpty, uniqueId } from 'lodash';
-import { isValueTruthy } from '../../../../../../shared/ts-utility';
 import {
   Answer,
   AnswerConfig,
@@ -51,7 +49,11 @@ export interface MultiAnswerCellConfig {
     NgTemplateOutlet,
     IonicModule,
     forwardRef(() => InnerAnswersComponent),
+    CdkConnectedOverlay,
   ],
+  host: {
+    '[style.flex]': 'answerConfig()?.space',
+  },
 })
 export class AnswerCellComponent {
   readonly cell = input.required<AnswersLayoutCell>();
@@ -62,10 +64,9 @@ export class AnswerCellComponent {
     input.required<MultiAnswerButtonTemplate>();
 
   readonly multiAnswerCellConfig = input.required<MultiAnswerCellConfig>();
+  readonly isOpen = signal(false);
 
-  constructor() {
-    this._dismissInnerAnswersOnClickOutside();
-  }
+  constructor() {}
 
   readonly answerConfig = computed(() => {
     const cell = this.cell();
@@ -76,26 +77,23 @@ export class AnswerCellComponent {
     return normalizeAnswerConfig(cell);
   });
 
-  readonly multiAnswerCell = computed(
-    (): (Required<MultiAnswerCell> & { id: string }) | null => {
-      const cell = this.cell();
-      if (!isMultiAnswerCell(cell)) {
-        return null;
-      }
+  readonly multiAnswerCell = computed((): Required<MultiAnswerCell> | null => {
+    const cell = this.cell();
+    if (!isMultiAnswerCell(cell)) {
+      return null;
+    }
 
-      const firstAnswer: Required<AnswerConfig<string>> = getAnswerListIterator(
-        cell.innerAnswersList,
-      ).next().value;
+    const firstAnswer: Required<AnswerConfig<string>> = getAnswerListIterator(
+      cell.innerAnswersList,
+    ).next().value;
 
-      return {
-        space: 1,
-        displayLabel: firstAnswer.displayLabel ?? firstAnswer.answer,
-        innerAnswersList2: null,
-        ...cell,
-        id: uniqueId('multi-answer-cell-'),
-      };
-    },
-  );
+    return {
+      space: 1,
+      displayLabel: firstAnswer.displayLabel ?? firstAnswer.answer,
+      innerAnswersList2: null,
+      ...cell,
+    };
+  });
 
   readonly multiAnswerCellButtonTemplateContext = computed(
     (): MultiAnswerButtonTemplateContext | null => {
@@ -110,47 +108,20 @@ export class AnswerCellComponent {
       };
     },
   );
-
-  readonly innerAnswersComponents = viewChildren(InnerAnswersComponent);
-
-  dismissBothPopovers() {
-    this.innerAnswersComponents().forEach(({ popover }) =>
-      popover()?.dismiss(),
-    );
-  }
-
-  private _dismissInnerAnswersOnClickOutside() {
-    const elements = computed(() => {
-      return this.innerAnswersComponents()
-        .map(({ contentElementRef }) => contentElementRef()?.nativeElement)
-        .filter(isValueTruthy);
-    });
-
-    effect((onCleanup) => {
-      const currentElements = elements();
-      if (isEmpty(currentElements)) {
-        return;
-      }
-
-      const listener = (event: MouseEvent) => {
-        if (
-          currentElements.some((element) =>
-            element.contains(event.target as Node),
-          )
-        ) {
-          return;
-        }
-
-        this.dismissBothPopovers();
-        event.stopImmediatePropagation();
-        document.removeEventListener('click', listener);
-      };
-
-      document.addEventListener('click', listener);
-
-      onCleanup(() => {
-        document.removeEventListener('click', listener);
-      });
-    });
-  }
+  readonly bottomOverlayPositions: ConnectedPosition[] = [
+    {
+      originX: 'center',
+      originY: 'bottom',
+      overlayX: 'center',
+      overlayY: 'top',
+    },
+  ];
+  readonly topOverlayPositions: ConnectedPosition[] = [
+    {
+      originX: 'center',
+      originY: 'top',
+      overlayX: 'center',
+      overlayY: 'bottom',
+    },
+  ];
 }

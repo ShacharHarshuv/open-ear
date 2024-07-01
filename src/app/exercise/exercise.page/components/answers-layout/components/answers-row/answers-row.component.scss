@@ -2,10 +2,8 @@
 @use "main" as *;
 
 :host {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  display: flex;
   gap: math.div($unit, 2);
-  margin-bottom: math.div($unit, 2);
   height: 4.5 * $unit;
   align-items: center;
 

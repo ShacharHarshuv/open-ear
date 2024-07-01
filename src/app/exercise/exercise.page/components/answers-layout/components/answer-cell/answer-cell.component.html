@@ -1,21 +1,19 @@
 @if (answerConfig(); as answerConfig) {
   @if (answerConfig.answer) {
-    <div class="answer-cell" [style.flex]="answerConfig.space">
+    <div class="answer-cell">
       <ng-template
         [ngTemplateOutlet]="buttonTemplate()"
         [ngTemplateOutletContext]="{ $implicit: answerConfig }"
       />
     </div>
   }
-  @if (!answerConfig.answer) {
-    <div [style.flex]="answerConfig.space"></div>
-  }
 }
 @if (multiAnswerCell(); as multiAnswerCell) {
   <div
     class="answer-cell"
-    id="{{ multiAnswerCell.id }}"
+    #innerAnswersTrigger
     [style.flex]="multiAnswerCell.space"
+    (contextmenu)="isOpen.set(true); $event.preventDefault()"
   >
     @if (
       multiAnswerCellButtonTemplateContext();
@@ -30,15 +28,18 @@
     }
     <div class="multi-answer-arrow"></div>
   </div>
+
   <app-inner-answers
     [innerAnswerList]="multiAnswerCell.innerAnswersList"
-    [triggerId]="multiAnswerCell.id"
+    [targetElement]="innerAnswersTrigger"
     side="bottom"
   />
+
+  <!--TODO: consider avoiding this code duplication somehow-->
   @if (multiAnswerCell.innerAnswersList2) {
     <app-inner-answers
       [innerAnswerList]="multiAnswerCell.innerAnswersList2"
-      [triggerId]="multiAnswerCell.id"
+      [targetElement]="innerAnswersTrigger"
       side="top"
     />
   }
