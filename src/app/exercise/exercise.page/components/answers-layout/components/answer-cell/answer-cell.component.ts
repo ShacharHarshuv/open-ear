@@ -1,9 +1,10 @@
-import { CdkConnectedOverlay, ConnectedPosition } from '@angular/cdk/overlay';
+import { CdkConnectedOverlay } from '@angular/cdk/overlay';
 import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   TemplateRef,
   computed,
+  effect,
   forwardRef,
   input,
   signal,
@@ -66,7 +67,9 @@ export class AnswerCellComponent {
   readonly multiAnswerCellConfig = input.required<MultiAnswerCellConfig>();
   readonly isOpen = signal(false);
 
-  constructor() {}
+  constructor() {
+    this._handleCloseOnClickOutside();
+  }
 
   readonly answerConfig = computed(() => {
     const cell = this.cell();
@@ -108,20 +111,29 @@ export class AnswerCellComponent {
       };
     },
   );
-  readonly bottomOverlayPositions: ConnectedPosition[] = [
-    {
-      originX: 'center',
-      originY: 'bottom',
-      overlayX: 'center',
-      overlayY: 'top',
-    },
-  ];
-  readonly topOverlayPositions: ConnectedPosition[] = [
-    {
-      originX: 'center',
-      originY: 'top',
-      overlayX: 'center',
-      overlayY: 'bottom',
-    },
-  ];
+
+  private _handleCloseOnClickOutside() {
+    let backdrop: HTMLElement | null = null;
+    const handleBackdropClick = () => {
+      this.isOpen.set(false);
+    };
+    effect((onCleanup) => {
+      function cleanup() {
+        backdrop?.remove();
+        backdrop?.removeEventListener('click', handleBackdropClick);
+        backdrop = null;
+      }
+
+      if (this.isOpen() && !backdrop) {
+        backdrop = document.createElement('div');
+        backdrop.classList.add('backdrop');
+        document.body.appendChild(backdrop);
+        backdrop.addEventListener('click', handleBackdropClick);
+      } else {
+        cleanup();
+      }
+
+      onCleanup(cleanup);
+    });
+  }
 }
