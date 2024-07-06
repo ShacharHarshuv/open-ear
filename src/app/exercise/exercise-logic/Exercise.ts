@@ -1,7 +1,6 @@
 import { Type } from '@angular/core';
 import { Platforms } from '@ionic/core/dist/types/utils/platform';
 import * as _ from 'lodash';
-import { flatMap } from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { NoteEvent } from '../../services/player.service';
 import {
@@ -235,29 +234,9 @@ export function filterIncludedAnswers<GAnswer extends string>(
               includedAnswersList,
             );
 
-          function getInnerAnswersCells(
-            innerAnswers: AnswerList<GAnswer> | null,
-          ): AnswersLayoutCell<GAnswer>[] {
-            if (!innerAnswers) {
-              return [];
-            }
-
-            return (() => {
-              if (Array.isArray(innerAnswersList1)) {
-                return innerAnswersList1;
-              }
-
-              return flatMap(
-                innerAnswersList1.rows.filter((row) => typeof row !== 'string'),
-              );
-            })().filter((cell) => {
-              return !(cell === null || ('answer' in cell && !cell.answer));
-            });
-          }
-
           const innerAnswerCells = [
-            ...getInnerAnswersCells(innerAnswersList1),
-            ...getInnerAnswersCells(innerAnswersList2),
+            ...flatAnswerList(innerAnswersList1),
+            ...(innerAnswersList2 ? flatAnswerList(innerAnswersList2) : []),
           ];
 
           if (!innerAnswerCells.length) {
