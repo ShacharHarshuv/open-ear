@@ -224,22 +224,41 @@ export function filterIncludedAnswers<GAnswer extends string>(
       }
       return _.map(row, (answerLayoutCellConfig) => {
         if (isMultiAnswerCell(answerLayoutCellConfig)) {
-          const innerAnswersList = filterIncludedAnswers(
+          const innerAnswersList1 = filterIncludedAnswers(
             answerLayoutCellConfig.innerAnswersList,
             includedAnswersList,
           );
+          const innerAnswersList2 =
+            answerLayoutCellConfig.innerAnswersList2 &&
+            filterIncludedAnswers(
+              answerLayoutCellConfig.innerAnswersList2,
+              includedAnswersList,
+            );
 
-          const innerAnswerCells: AnswersLayoutCell<GAnswer>[] = (() => {
-            if (Array.isArray(innerAnswersList)) {
-              return innerAnswersList;
+          function getInnerAnswersCells(
+            innerAnswers: AnswerList<GAnswer> | null,
+          ): AnswersLayoutCell<GAnswer>[] {
+            if (!innerAnswers) {
+              return [];
             }
 
-            return flatMap(
-              innerAnswersList.rows.filter((row) => typeof row !== 'string'),
-            );
-          })().filter((cell) => {
-            return !(cell === null || ('answer' in cell && !cell.answer));
-          });
+            return (() => {
+              if (Array.isArray(innerAnswersList1)) {
+                return innerAnswersList1;
+              }
+
+              return flatMap(
+                innerAnswersList1.rows.filter((row) => typeof row !== 'string'),
+              );
+            })().filter((cell) => {
+              return !(cell === null || ('answer' in cell && !cell.answer));
+            });
+          }
+
+          const innerAnswerCells = [
+            ...getInnerAnswersCells(innerAnswersList1),
+            ...getInnerAnswersCells(innerAnswersList2),
+          ];
 
           if (!innerAnswerCells.length) {
             return null;
@@ -251,7 +270,8 @@ export function filterIncludedAnswers<GAnswer extends string>(
 
           return {
             ...answerLayoutCellConfig,
-            innerAnswersList,
+            innerAnswersList: innerAnswersList1,
+            innerAnswersList2: innerAnswersList2,
           };
         }
 

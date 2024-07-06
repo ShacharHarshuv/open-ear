@@ -45,10 +45,13 @@ export function includedAnswersSettings<GAnswer extends string>(config?: {
       answerList: (
         settings: IncludedAnswersSettings<GAnswer>,
       ): AnswerList<GAnswer> => {
-        return filterIncludedAnswers(
+        console.log('included answers', settings.includedAnswers);
+        const includedAnswers = filterIncludedAnswers(
           toGetter(params.answerList)(settings),
           settings.includedAnswers,
         );
+        console.log('included answers', includedAnswers); // todo
+        return includedAnswers;
       },
     };
   };
