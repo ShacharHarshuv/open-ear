@@ -5,9 +5,9 @@
   @for (cellConfig of cellList; track cellConfig) {
     <app-answer-cell
       [cell]="cellConfig"
-      [buttonTemplate]="buttonTemplate"
-      [multiAnswerButtonTemplate]="multiAnswerButtonTemplate"
-      [multiAnswerCellConfig]="multiAnswerCellConfig"
+      [buttonTemplate]="buttonTemplate()"
+      [multiAnswerButtonTemplate]="multiAnswerButtonTemplate()"
+      [multiAnswerCellConfig]="multiAnswerCellConfig()"
     />
   }
 }

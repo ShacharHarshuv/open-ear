@@ -5413,4 +5413,214 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     ],
     endSeconds: 98.69,
   },
+  {
+    name: 'Familiar',
+    artist: 'Rebeca Sugar',
+    key: 'Gb',
+    mode: 1,
+    videoId: 'butnuhBwQ0A',
+    chords: [
+      {
+        seconds: 10.18,
+        chord: 'Imaj7',
+      },
+      {
+        seconds: 12.95,
+        chord: 'vi',
+      },
+      {
+        seconds: 15.57,
+        chord: 'Imaj7',
+      },
+      {
+        seconds: 18.18,
+        chord: 'vi',
+      },
+    ],
+    endSeconds: 20.67,
+  },
+  {
+    name: 'Familiar',
+    artist: 'Rebeca Sugar',
+    key: 'Gb',
+    mode: 1,
+    videoId: 'butnuhBwQ0A',
+    chords: [
+      {
+        seconds: 20.82,
+        chord: 'Imaj7',
+      },
+      {
+        seconds: 23.34,
+        chord: 'vi',
+      },
+      {
+        seconds: 25.92,
+        chord: 'Imaj7',
+      },
+      {
+        seconds: 28.52,
+        chord: 'vi',
+      },
+    ],
+    endSeconds: 31.04,
+  },
+  {
+    name: 'Familiar',
+    artist: 'Rebeca Sugar',
+    key: 'Gb',
+    mode: 1,
+    videoId: 'butnuhBwQ0A',
+    chords: [
+      {
+        seconds: 31.09,
+        chord: 'ii',
+      },
+      {
+        seconds: 33.71,
+        chord: 'V',
+      },
+      {
+        seconds: 36.22,
+        chord: 'ii',
+      },
+      {
+        seconds: 38.88,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 41.23,
+  },
+  {
+    name: 'Familiar',
+    artist: 'Rebeca Sugar',
+    key: 'Gb',
+    mode: 1,
+    videoId: 'butnuhBwQ0A',
+    chords: [
+      {
+        seconds: 41.44,
+        chord: 'v',
+      },
+      {
+        seconds: 42.74,
+        chord: 'I',
+      },
+      {
+        seconds: 44.04,
+        chord: 'IVmaj7',
+      },
+      {
+        seconds: 46.63,
+        chord: 'ii',
+      },
+      {
+        chord: 'V',
+        seconds: 47.96,
+      },
+      {
+        chord: 'Imaj7',
+        seconds: 49.2,
+      },
+    ],
+    endSeconds: 51.76,
+  },
+  {
+    name: 'Familiar',
+    artist: 'Rebeca Sugar',
+    key: 'Gb',
+    mode: 1,
+    videoId: 'butnuhBwQ0A',
+    chords: [
+      {
+        seconds: 51.9,
+        chord: 'v',
+      },
+      {
+        seconds: 53.09,
+        chord: 'I',
+      },
+      {
+        seconds: 54.39,
+        chord: 'IVmaj7',
+      },
+      {
+        seconds: 57.02,
+        chord: 'ii',
+      },
+      {
+        chord: 'V',
+        seconds: 59.55,
+      },
+    ],
+    endSeconds: 62.47,
+  },
+  {
+    name: 'Familiar',
+    artist: 'Rebeca Sugar',
+    key: 'Gb',
+    mode: 1,
+    videoId: 'butnuhBwQ0A',
+    chords: [
+      {
+        seconds: 83.64,
+        chord: 'v',
+      },
+      {
+        seconds: 84.92,
+        chord: 'I',
+      },
+      {
+        seconds: 86.2,
+        chord: 'IVmaj7',
+      },
+      {
+        seconds: 88.82,
+        chord: 'i',
+      },
+      {
+        chord: 'bVII',
+        seconds: 90.2,
+      },
+      {
+        chord: 'III',
+        seconds: 91.49,
+      },
+    ],
+    endSeconds: 93.99,
+  },
+  {
+    name: 'Familiar',
+    artist: 'Rebeca Sugar',
+    key: 'G',
+    mode: 1,
+    videoId: 'butnuhBwQ0A',
+    chords: [
+      {
+        seconds: 94.03,
+        chord: 'ii7',
+      },
+      {
+        seconds: 95.34,
+        chord: 'V',
+      },
+      {
+        seconds: 96.67,
+        chord: 'Imaj7',
+      },
+      {
+        seconds: 99.23,
+        chord: 'IV7',
+      },
+      {
+        chord: 'bVII7',
+        seconds: 101.86,
+      },
+      {
+        chord: 'VI7',
+        seconds: 103.16,
+      },
+    ],
+    endSeconds: 104.52,
+  },
 ];

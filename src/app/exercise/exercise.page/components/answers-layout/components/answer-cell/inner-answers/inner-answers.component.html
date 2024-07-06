@@ -1,0 +1,20 @@
+<ng-template
+  [cdkConnectedOverlayOrigin]="targetElement()"
+  [cdkConnectedOverlayOpen]="isOpen()"
+  [cdkConnectedOverlayPositions]="overlayPositions()"
+  [cdkConnectedOverlayPush]="true"
+  cdkConnectedOverlay
+>
+  <!--TODO: figure out how to allow for the comment to set the width so that the overlay still works properly-->
+  <ion-card style="width: 270px">
+    <app-answers-layout
+      [bottomUp]="side() === 'top'"
+      [answerList]="innerAnswerList()"
+      [buttonTemplate]="answerCellComponent.buttonTemplate()"
+      [multiAnswerButtonTemplate]="
+        answerCellComponent.multiAnswerButtonTemplate()
+      "
+      [multiAnswerCellConfig]="answerCellComponent.multiAnswerCellConfig()"
+    />
+  </ion-card>
+</ng-template>

@@ -1,14 +1,17 @@
+import { CdkConnectedOverlay } from '@angular/cdk/overlay';
 import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
-  Input,
+  ElementRef,
   TemplateRef,
   computed,
+  effect,
   forwardRef,
+  input,
+  signal,
+  viewChild,
 } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { uniqueId } from 'lodash';
-import { signalFromProperty } from '../../../../../../shared/ng-utilities/signalFromProperty';
 import {
   Answer,
   AnswerConfig,
@@ -19,13 +22,26 @@ import {
   isMultiAnswerCell,
   normalizeAnswerConfig,
 } from '../../../../../exercise-logic';
-import { AnswersLayoutComponent } from '../../answers-layout.component';
+import { InnerAnswersComponent } from './inner-answers/inner-answers.component';
 
 export type MultiAnswerButtonTemplateContext = Required<
   Pick<MultiAnswerCell, 'displayLabel'>
 > & {
   innerAnswers: Answer[];
 };
+
+export type MultiAnswerButtonTemplate = TemplateRef<{
+  $implicit: MultiAnswerButtonTemplateContext;
+}>;
+
+export type ButtonTemplate = TemplateRef<{
+  $implicit: Required<AnswerConfig<string>>;
+}>;
+
+export interface MultiAnswerCellConfig {
+  dismissOnSelect: boolean;
+  triggerAction: 'click' | 'context-menu';
+}
 
 @Component({
   selector: 'app-answer-cell',
@@ -35,31 +51,31 @@ export type MultiAnswerButtonTemplateContext = Required<
   imports: [
     NgTemplateOutlet,
     IonicModule,
-    forwardRef(() => AnswersLayoutComponent),
+    forwardRef(() => InnerAnswersComponent),
+    CdkConnectedOverlay,
   ],
+  host: {
+    '[style.flex]': 'answerConfig()?.space',
+  },
 })
 export class AnswerCellComponent {
-  @Input({
-    required: true,
-    alias: 'cell',
-  })
-  cellInput: AnswersLayoutCell = null;
+  readonly cell = input.required<AnswersLayoutCell>();
 
-  @Input({ required: true })
-  buttonTemplate!: TemplateRef<{ $implicit: Required<AnswerConfig<string>> }>;
+  readonly buttonTemplate = input.required<ButtonTemplate>();
 
-  @Input({ required: true })
-  multiAnswerButtonTemplate!: TemplateRef<{
-    $implicit: MultiAnswerButtonTemplateContext;
-  }>;
+  readonly multiAnswerButtonTemplate =
+    input.required<MultiAnswerButtonTemplate>();
 
-  @Input({ required: true })
-  multiAnswerCellConfig!: {
-    dismissOnSelect: boolean;
-    triggerAction: 'click' | 'context-menu';
-  };
+  readonly multiAnswerCellConfig = input.required<MultiAnswerCellConfig>();
+  readonly isOpen = signal(false);
+  readonly innerAnswersTrigger = viewChild<ElementRef<HTMLElement>>(
+    'innerAnswersTrigger',
+  );
 
-  readonly cell = signalFromProperty(this, 'cellInput');
+  constructor() {
+    this._handleCloseOnClickOutside();
+    this._handleOpenTrigger();
+  }
 
   readonly answerConfig = computed(() => {
     const cell = this.cell();
@@ -70,25 +86,23 @@ export class AnswerCellComponent {
     return normalizeAnswerConfig(cell);
   });
 
-  readonly multiAnswerCell = computed(
-    (): (Required<MultiAnswerCell> & { id: string }) | null => {
-      const cell = this.cell();
-      if (!isMultiAnswerCell(cell)) {
-        return null;
-      }
+  readonly multiAnswerCell = computed((): Required<MultiAnswerCell> | null => {
+    const cell = this.cell();
+    if (!isMultiAnswerCell(cell)) {
+      return null;
+    }
 
-      const firstAnswer: Required<AnswerConfig<string>> = getAnswerListIterator(
-        cell.innerAnswersList,
-      ).next().value;
+    const firstAnswer: Required<AnswerConfig<string>> = getAnswerListIterator(
+      cell.innerAnswersList,
+    ).next().value;
 
-      return {
-        space: 1,
-        displayLabel: firstAnswer.displayLabel ?? firstAnswer.answer,
-        ...cell,
-        id: uniqueId('multi-answer-cell-'),
-      };
-    },
-  );
+    return {
+      space: 1,
+      displayLabel: firstAnswer.displayLabel ?? firstAnswer.answer,
+      innerAnswersList2: null,
+      ...cell,
+    };
+  });
 
   readonly multiAnswerCellButtonTemplateContext = computed(
     (): MultiAnswerButtonTemplateContext | null => {
@@ -103,4 +117,53 @@ export class AnswerCellComponent {
       };
     },
   );
+
+  private _handleCloseOnClickOutside() {
+    let backdrop: HTMLElement | null = null;
+    const handleBackdropClick = () => {
+      this.isOpen.set(false);
+    };
+    effect((onCleanup) => {
+      function cleanup() {
+        backdrop?.remove();
+        backdrop?.removeEventListener('click', handleBackdropClick);
+        backdrop = null;
+      }
+
+      if (this.isOpen() && !backdrop) {
+        backdrop = document.createElement('div');
+        backdrop.classList.add('backdrop');
+        document.body.appendChild(backdrop);
+        backdrop.addEventListener('click', handleBackdropClick);
+      } else {
+        cleanup();
+      }
+
+      onCleanup(cleanup);
+    });
+  }
+
+  private _handleOpenTrigger() {
+    effect(() => {
+      const triggerElement = this.innerAnswersTrigger()?.nativeElement;
+
+      if (!triggerElement) {
+        return;
+      }
+
+      switch (this.multiAnswerCellConfig().triggerAction) {
+        case 'click':
+          triggerElement.addEventListener('click', () => {
+            this.isOpen.set(true);
+          });
+          break;
+        case 'context-menu':
+          triggerElement.addEventListener('contextmenu', (event) => {
+            event.preventDefault();
+            this.isOpen.set(true);
+          });
+          break;
+      }
+    });
+  }
 }

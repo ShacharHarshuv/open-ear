@@ -10,9 +10,8 @@ import { createExercise } from '../utility/exerciseAttributes/createExercise';
 import {
   RomanAnalysisChordProgressionExerciseSettings,
   RomanNumeralsChordProgressionQuestion,
-  allRomanNumeralAnswerList,
   romanAnalysisChordProgressionExercise,
-} from '../utility/exerciseAttributes/romanAnalysisChordProgressionExercise';
+} from '../utility/exerciseAttributes/roman-analysis-chord-progression-exercise/romanAnalysisChordProgressionExercise';
 import { analyzeBySettings } from '../utility/settings/AnalyzeBySettings';
 import { withSettings } from '../utility/settings/withSettings';
 import { CommonChordProgressionsExplanationComponent } from './common-chord-progressions-explanation/common-chord-progressions-explanation.component';
@@ -20,6 +19,7 @@ import {
   ProgressionDescriptor,
   commonProgressionDescriptorList,
 } from './commonProgressions';
+import { allRomanNumeralAnswerList } from '../utility/exerciseAttributes/roman-analysis-chord-progression-exercise/roman-numeral-answer-list';
 
 type CommonChordProgressionExerciseSettings =
   RomanAnalysisChordProgressionExerciseSettings & {

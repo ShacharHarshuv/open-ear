@@ -90,6 +90,7 @@ type CellConfig = {
 
 export type MultiAnswerCell<GAnswer extends string = string> = CellConfig & {
   innerAnswersList: AnswerList<GAnswer>;
+  innerAnswersList2?: AnswerList<GAnswer> | null;
 };
 
 export function isMultiAnswerCell<GAnswer extends string>(
@@ -162,6 +163,9 @@ export function normalizedAnswerList<GAnswer extends string = string>(
                 displayLabel: defaultDisplayLabel,
                 ...cell,
                 innerAnswersList: normalizedAnswerList(cell.innerAnswersList),
+                innerAnswersList2: cell.innerAnswersList2
+                  ? normalizedAnswerList(cell.innerAnswersList2)
+                  : null,
               };
             }
 
@@ -220,24 +224,41 @@ export function filterIncludedAnswers<GAnswer extends string>(
       }
       return _.map(row, (answerLayoutCellConfig) => {
         if (isMultiAnswerCell(answerLayoutCellConfig)) {
-          const innerAnswersList = filterIncludedAnswers(
+          const innerAnswersList1 = filterIncludedAnswers(
             answerLayoutCellConfig.innerAnswersList,
             includedAnswersList,
           );
+          const innerAnswersList2 =
+            answerLayoutCellConfig.innerAnswersList2 &&
+            filterIncludedAnswers(
+              answerLayoutCellConfig.innerAnswersList2,
+              includedAnswersList,
+            );
 
-          const innerAnswerCells: AnswersLayoutCell<GAnswer>[] = (() => {
-            if (Array.isArray(innerAnswersList)) {
-              return innerAnswersList;
+          function getInnerAnswersCells(
+            innerAnswers: AnswerList<GAnswer> | null,
+          ): AnswersLayoutCell<GAnswer>[] {
+            if (!innerAnswers) {
+              return [];
             }
 
-            return flatMap(
-              innerAnswersList.rows.filter((row) => typeof row !== 'string'),
-            );
-          })().filter((cell) => {
-            return !(cell === null || ('answer' in cell && !cell.answer));
-          });
+            return (() => {
+              if (Array.isArray(innerAnswersList1)) {
+                return innerAnswersList1;
+              }
 
-          console.log(innerAnswerCells);
+              return flatMap(
+                innerAnswersList1.rows.filter((row) => typeof row !== 'string'),
+              );
+            })().filter((cell) => {
+              return !(cell === null || ('answer' in cell && !cell.answer));
+            });
+          }
+
+          const innerAnswerCells = [
+            ...getInnerAnswersCells(innerAnswersList1),
+            ...getInnerAnswersCells(innerAnswersList2),
+          ];
 
           if (!innerAnswerCells.length) {
             return null;
@@ -249,7 +270,8 @@ export function filterIncludedAnswers<GAnswer extends string>(
 
           return {
             ...answerLayoutCellConfig,
-            innerAnswersList,
+            innerAnswersList: innerAnswersList1,
+            innerAnswersList2: innerAnswersList2,
           };
         }
 
@@ -298,6 +320,24 @@ export function mapAnswerList<
   GInputAnswer extends string = string,
   GOutputAnswer extends string = GInputAnswer,
 >(
+  answerList: AnswersLayout<GInputAnswer>,
+  callback: (
+    answerConfig: AnswerConfig<GInputAnswer>,
+  ) => AnswersLayoutCell<GOutputAnswer>,
+): AnswersLayout<GOutputAnswer>;
+export function mapAnswerList<
+  GInputAnswer extends string = string,
+  GOutputAnswer extends string = GInputAnswer,
+>(
+  answerList: AnswerList<GInputAnswer>,
+  callback: (
+    answerConfig: AnswerConfig<GInputAnswer>,
+  ) => AnswersLayoutCell<GOutputAnswer>,
+): AnswerList<GOutputAnswer>;
+export function mapAnswerList<
+  GInputAnswer extends string = string,
+  GOutputAnswer extends string = GInputAnswer,
+>(
   answerList: AnswerList<GInputAnswer>,
   callback: (
     answerConfig: AnswerConfig<GInputAnswer>,
@@ -338,6 +378,9 @@ export function mapAnswerList<
             answerCell.innerAnswersList,
             callback,
           ),
+          innerAnswersList2: answerCell.innerAnswersList2
+            ? mapAnswerList(answerCell.innerAnswersList2, callback)
+            : null,
         };
       } else {
         return callback(answerCell);

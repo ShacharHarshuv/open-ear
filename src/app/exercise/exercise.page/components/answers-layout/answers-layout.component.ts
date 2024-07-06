@@ -1,17 +1,21 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
   computed,
   forwardRef,
+  input,
 } from '@angular/core';
-import { signalFromProperty } from '../../../../shared/ng-utilities/signalFromProperty';
 import {
   AnswerList,
   AnswersLayout,
   AnswersLayoutCell,
 } from '../../../exercise-logic';
-import { AnswerCellComponent } from './components/answer-cell/answer-cell.component';
+import {
+  AnswerCellComponent,
+  ButtonTemplate,
+  MultiAnswerButtonTemplate,
+  MultiAnswerCellConfig,
+} from './components/answer-cell/answer-cell.component';
 import { AnswersRowComponent } from './components/answers-row/answers-row.component';
 
 @Component({
@@ -26,22 +30,16 @@ import { AnswersRowComponent } from './components/answers-row/answers-row.compon
   ],
 })
 export class AnswersLayoutComponent<GAnswer extends string = string> {
-  @Input({
-    required: true,
-    alias: 'answerList',
-  })
-  answerListInput: AnswerList<GAnswer> = [];
+  readonly answerList = input.required<AnswerList<GAnswer>>();
 
-  @Input({ required: true })
-  buttonTemplate!: AnswersRowComponent<GAnswer>['buttonTemplate'];
+  readonly buttonTemplate = input.required<ButtonTemplate>();
 
-  @Input({ required: true })
-  multiAnswerButtonTemplate!: AnswersRowComponent<GAnswer>['multiAnswerButtonTemplate'];
+  readonly multiAnswerButtonTemplate =
+    input.required<MultiAnswerButtonTemplate>();
 
-  @Input({ required: true })
-  multiAnswerCellConfig!: AnswerCellComponent['multiAnswerCellConfig'];
+  readonly multiAnswerCellConfig = input.required<MultiAnswerCellConfig>();
 
-  readonly answerList = signalFromProperty(this, 'answerListInput');
+  readonly bottomUp = input(false);
 
   readonly autoLayoutAnswers = computed(
     (): AnswersLayoutCell<GAnswer>[] | null => {

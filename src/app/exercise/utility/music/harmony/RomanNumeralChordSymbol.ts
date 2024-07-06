@@ -10,21 +10,26 @@ export type UppercaseRomanNumeralChordSymbol =
   | 'IV'
   | '#IV'
   | 'V'
+  | 'bV'
   | 'bVI'
   | 'VI'
   | 'bVII'
   | 'VII';
 export type LowercaseRomanNumeralChordSymbol =
   | 'i'
+  | '#i'
   | 'bii'
   | 'ii'
+  | '#ii'
   | 'biii'
   | 'iii'
   | 'iv'
   | '#iv'
   | 'v'
+  | '#v'
   | 'bvi'
   | 'vi'
+  | '#vi'
   | 'bvii'
   | 'vii';
 export type MajorChordTypesPostfix =
