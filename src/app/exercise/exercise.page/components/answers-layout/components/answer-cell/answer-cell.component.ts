@@ -2,12 +2,14 @@ import { CdkConnectedOverlay } from '@angular/cdk/overlay';
 import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
+  ElementRef,
   TemplateRef,
   computed,
   effect,
   forwardRef,
   input,
   signal,
+  viewChild,
 } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import {
@@ -66,9 +68,13 @@ export class AnswerCellComponent {
 
   readonly multiAnswerCellConfig = input.required<MultiAnswerCellConfig>();
   readonly isOpen = signal(false);
+  readonly innerAnswersTrigger = viewChild<ElementRef<HTMLElement>>(
+    'innerAnswersTrigger',
+  );
 
   constructor() {
     this._handleCloseOnClickOutside();
+    this._handleOpenTrigger();
   }
 
   readonly answerConfig = computed(() => {
@@ -134,6 +140,30 @@ export class AnswerCellComponent {
       }
 
       onCleanup(cleanup);
+    });
+  }
+
+  private _handleOpenTrigger() {
+    effect(() => {
+      const triggerElement = this.innerAnswersTrigger()?.nativeElement;
+
+      if (!triggerElement) {
+        return;
+      }
+
+      switch (this.multiAnswerCellConfig().triggerAction) {
+        case 'click':
+          triggerElement.addEventListener('click', () => {
+            this.isOpen.set(true);
+          });
+          break;
+        case 'context-menu':
+          triggerElement.addEventListener('contextmenu', (event) => {
+            event.preventDefault();
+            this.isOpen.set(true);
+          });
+          break;
+      }
     });
   }
 }
