@@ -144,7 +144,7 @@ export class AnswerCellComponent {
   }
 
   private _handleOpenTrigger() {
-    effect(() => {
+    effect((onCleanup) => {
       const triggerElement = this.innerAnswersTrigger()?.nativeElement;
 
       if (!triggerElement) {
@@ -153,14 +153,23 @@ export class AnswerCellComponent {
 
       switch (this.multiAnswerCellConfig().triggerAction) {
         case 'click':
-          triggerElement.addEventListener('click', () => {
-            this.isOpen.set(true);
+          const handleClick = () => this.isOpen.set(true);
+          triggerElement.addEventListener('click', handleClick);
+          onCleanup(() => {
+            triggerElement.removeEventListener('click', handleClick);
           });
           break;
         case 'context-menu':
-          triggerElement.addEventListener('contextmenu', (event) => {
+          const handleContextMenu = (event: MouseEvent) => {
             event.preventDefault();
             this.isOpen.set(true);
+          };
+          triggerElement.addEventListener('contextmenu', handleContextMenu);
+          onCleanup(() => {
+            triggerElement.removeEventListener(
+              'contextmenu',
+              handleContextMenu,
+            );
           });
           break;
       }
