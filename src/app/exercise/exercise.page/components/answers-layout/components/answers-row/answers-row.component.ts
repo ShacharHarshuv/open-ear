@@ -1,8 +1,9 @@
-import { Component, computed, forwardRef, input } from '@angular/core';
+import { Component, computed, forwardRef, input, output } from '@angular/core';
 import {
   AnswerLayoutRow,
   AnswersLayoutCell,
 } from '../../../../../exercise-logic';
+import { AnswerSelectedEvent } from '../../answers-layout.component';
 import {
   AnswerCellComponent,
   ButtonTemplate,
@@ -26,6 +27,8 @@ export class AnswersRowComponent<GAnswer extends string> {
     input.required<MultiAnswerButtonTemplate>();
 
   readonly multiAnswerCellConfig = input.required<MultiAnswerCellConfig>();
+
+  readonly answerSelected = output<AnswerSelectedEvent<GAnswer>>();
 
   readonly textRow = computed((): string | null => {
     const row = this.row();
