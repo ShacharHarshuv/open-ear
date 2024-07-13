@@ -201,6 +201,14 @@ export type AnswerList<GAnswer extends string = string> =
   | (Answer<GAnswer> | AnswerConfig<GAnswer>)[]
   | AnswersLayout<GAnswer>;
 
+export function flatMultiCell<GAnswer extends string>(
+  cell: MultiAnswerCell<GAnswer>,
+) {
+  return Array.from(getMultiCellIterator(cell))
+    .map((answerConfig): GAnswer | null => answerConfig.answer)
+    .filter(isValueTruthy);
+}
+
 export function flatAnswerList<GAnswer extends string>(
   answerList: AnswerList<GAnswer>,
 ): GAnswer[] {
@@ -264,6 +272,15 @@ export function filterIncludedAnswers<GAnswer extends string>(
       });
     }),
   };
+}
+
+export function* getMultiCellIterator<GAnswer extends string>(
+  cell: MultiAnswerCell<GAnswer>,
+): Generator<Required<AnswerConfig<GAnswer>>> {
+  yield* getAnswerListIterator(cell.innerAnswersList);
+  if (cell.innerAnswersList2) {
+    yield* getAnswerListIterator(cell.innerAnswersList2);
+  }
 }
 
 export function* getAnswerListIterator<GAnswer extends string>(
