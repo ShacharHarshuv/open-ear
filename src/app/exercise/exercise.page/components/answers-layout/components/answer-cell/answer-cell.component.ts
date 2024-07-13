@@ -40,7 +40,7 @@ export type ButtonTemplate = TemplateRef<{
 
 export interface MultiAnswerCellConfig {
   dismissOnSelect: boolean;
-  triggerAction: 'click' | 'context-menu';
+  triggerAction: 'hold' | 'context-menu';
 }
 
 @Component({
@@ -151,26 +151,44 @@ export class AnswerCellComponent {
         return;
       }
 
+      function addEventListener<K extends keyof HTMLElementEventMap>(
+        htmlElement: HTMLElement | Document,
+        type: K,
+        listener: (ev: HTMLElementEventMap[K]) => any,
+        options?: boolean | AddEventListenerOptions,
+      ) {
+        htmlElement.addEventListener(type, listener, options);
+        onCleanup(() => {
+          htmlElement.removeEventListener(type, listener, options);
+        });
+      }
+
       switch (this.multiAnswerCellConfig().triggerAction) {
-        case 'click':
-          const handleClick = () => this.isOpen.set(true);
-          triggerElement.addEventListener('click', handleClick);
-          onCleanup(() => {
-            triggerElement.removeEventListener('click', handleClick);
+        case 'hold':
+          addEventListener(triggerElement, 'touchstart', () => {
+            this.isOpen.set(true);
           });
+          addEventListener(document, 'touchcancel', () =>
+            this.isOpen.set(false),
+          );
+          addEventListener(document, 'touchend', () => this.isOpen.set(false));
+          addEventListener(
+            triggerElement,
+            'contextmenu',
+            (event: MouseEvent) => {
+              event.preventDefault();
+            },
+          );
           break;
         case 'context-menu':
-          const handleContextMenu = (event: MouseEvent) => {
-            event.preventDefault();
-            this.isOpen.set(true);
-          };
-          triggerElement.addEventListener('contextmenu', handleContextMenu);
-          onCleanup(() => {
-            triggerElement.removeEventListener(
-              'contextmenu',
-              handleContextMenu,
-            );
-          });
+          addEventListener(
+            triggerElement,
+            'contextmenu',
+            (event: MouseEvent) => {
+              event.preventDefault();
+              this.isOpen.set(true);
+            },
+          );
           break;
       }
     });
