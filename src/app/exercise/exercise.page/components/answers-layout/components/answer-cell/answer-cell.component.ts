@@ -153,25 +153,40 @@ export class AnswerCellComponent {
 
       function addEventListener<K extends keyof HTMLElementEventMap>(
         htmlElement: HTMLElement | Document,
+        type: K[],
+        listener: (ev: HTMLElementEventMap[K]) => any,
+      );
+      function addEventListener<K extends keyof HTMLElementEventMap>(
+        htmlElement: HTMLElement | Document,
         type: K,
         listener: (ev: HTMLElementEventMap[K]) => any,
-        options?: boolean | AddEventListenerOptions,
+      );
+      function addEventListener<K extends keyof HTMLElementEventMap>(
+        htmlElement: HTMLElement | Document,
+        type: K | K[],
+        listener: (ev: HTMLElementEventMap[K]) => any,
       ) {
-        htmlElement.addEventListener(type, listener, options);
+        if (Array.isArray(type)) {
+          type.forEach((type) => addEventListener(htmlElement, type, listener));
+          return;
+        }
+
+        htmlElement.addEventListener(type, listener);
         onCleanup(() => {
-          htmlElement.removeEventListener(type, listener, options);
+          htmlElement.removeEventListener(type, listener);
         });
       }
 
       switch (this.multiAnswerCellConfig().triggerAction) {
         case 'hold':
-          addEventListener(triggerElement, 'touchstart', () => {
+          addEventListener(triggerElement, ['touchstart', 'mousedown'], () => {
             this.isOpen.set(true);
           });
-          addEventListener(document, 'touchcancel', () =>
-            this.isOpen.set(false),
+          addEventListener(
+            document,
+            ['touchcancel', 'touchend', 'mouseup'],
+            () => this.isOpen.set(false),
           );
-          addEventListener(document, 'touchend', () => this.isOpen.set(false));
           addEventListener(
             triggerElement,
             'contextmenu',
