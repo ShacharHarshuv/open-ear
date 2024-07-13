@@ -22,8 +22,8 @@ import {
   AnswerConfig,
   AnswersLayoutCell,
   MultiAnswerCell,
-  flatAnswerList,
-  getAnswerListIterator,
+  flatMultiCell,
+  getMultiCellIterator,
   isMultiAnswerCell,
   normalizeAnswerConfig,
 } from '../../../../../exercise-logic';
@@ -102,19 +102,25 @@ export class AnswerCellComponent<GAnswer extends string> {
       return null;
     }
 
-    const firstAnswer: Required<AnswerConfig<string>> = getAnswerListIterator(
-      cell.innerAnswersList,
-    ).next().value;
+    const firstAnswer: Required<AnswerConfig<string>> | undefined = (() => {
+      const answersIterator = getMultiCellIterator(cell);
+      for (const answerConfig of answersIterator) {
+        if (answerConfig.answer) {
+          return answerConfig;
+        }
+      }
+      return undefined;
+    })();
 
     if (!firstAnswer) {
-      return null; // todo: is this the right way to handle it?
+      return null;
     }
 
     return {
       space: 1,
-      displayLabel: firstAnswer.displayLabel ?? firstAnswer.answer,
       innerAnswersList2: null,
       ...cell,
+      displayLabel: firstAnswer.displayLabel ?? firstAnswer.answer,
     };
   });
 
@@ -127,7 +133,7 @@ export class AnswerCellComponent<GAnswer extends string> {
 
       return {
         ...multiAnswerCell,
-        innerAnswers: flatAnswerList(multiAnswerCell.innerAnswersList),
+        innerAnswers: flatMultiCell(multiAnswerCell),
       };
     },
   );
@@ -208,8 +214,7 @@ export class AnswerCellComponent<GAnswer extends string> {
       (): Required<AnswerConfig<GAnswer> & { answer: GAnswer }> | null => {
         const cellConfig = this.cell();
         if (isMultiAnswerCell(cellConfig)) {
-          return getAnswerListIterator(cellConfig.innerAnswersList).next()
-            .value;
+          return getMultiCellIterator(cellConfig).next().value;
         }
 
         const answerConfig = normalizeAnswerConfig(cellConfig);
@@ -233,13 +238,6 @@ export class AnswerCellComponent<GAnswer extends string> {
 
       const addEventListener = getAddEventListener(onCleanup);
 
-      addEventListener(this.elementRef.nativeElement, 'mouseenter', () => {
-        isInside = true;
-      });
-      addEventListener(this.elementRef.nativeElement, 'mouseleave', () => {
-        isInside = false;
-      });
-
       addEventListener(document, ['touchmove', 'touchstart'], ($event) => {
         const { clientX, clientY } = $event.touches[0];
         const touchedElement = document.elementFromPoint(clientX, clientY);
@@ -249,9 +247,16 @@ export class AnswerCellComponent<GAnswer extends string> {
       });
       addEventListener(document, ['touchend', 'touchcancel', 'mouseup'], () => {
         if (isInside) {
-          this.answerSelected.emit(untracked(populatedAnswerConfig)!); // todo
+          this.answerSelected.emit(untracked(populatedAnswerConfig)!);
           isInside = false;
         }
+      });
+
+      addEventListener(this.elementRef.nativeElement, 'mouseenter', () => {
+        isInside = true;
+      });
+      addEventListener(this.elementRef.nativeElement, 'mouseleave', () => {
+        isInside = false;
       });
     });
   }
