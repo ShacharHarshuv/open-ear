@@ -1,11 +1,15 @@
 @if (customAnswersLayout(); as customAnswersLayout) {
-  <div class="answers-layout__answers-rows-container" [class.--reverse]="bottomUp()">
+  <div
+    class="answers-layout__answers-rows-container"
+    [class.--reverse]="bottomUp()"
+  >
     @for (row of customAnswersLayout.rows; track row) {
       <app-answers-row
         [row]="row"
         [buttonTemplate]="buttonTemplate()"
         [multiAnswerButtonTemplate]="multiAnswerButtonTemplate()"
         [multiAnswerCellConfig]="multiAnswerCellConfig()"
+        (answerSelected)="answerSelected.emit($event)"
       />
     }
   </div>
@@ -18,6 +22,7 @@
         [buttonTemplate]="buttonTemplate()"
         [multiAnswerButtonTemplate]="multiAnswerButtonTemplate()"
         [multiAnswerCellConfig]="multiAnswerCellConfig()"
+        (answerSelected)="answerSelected.emit($event)"
       />
     }
   </div>

@@ -4,8 +4,11 @@ import {
   computed,
   forwardRef,
   input,
+  output,
 } from '@angular/core';
 import {
+  Answer,
+  AnswerConfig,
   AnswerList,
   AnswersLayout,
   AnswersLayoutCell,
@@ -17,6 +20,9 @@ import {
   MultiAnswerCellConfig,
 } from './components/answer-cell/answer-cell.component';
 import { AnswersRowComponent } from './components/answers-row/answers-row.component';
+
+export type AnswerSelectedEvent<GAnswer extends string = string> =
+  AnswerConfig<GAnswer> & { answer: Answer<GAnswer> };
 
 @Component({
   selector: 'app-answers-layout',
@@ -40,6 +46,8 @@ export class AnswersLayoutComponent<GAnswer extends string = string> {
   readonly multiAnswerCellConfig = input.required<MultiAnswerCellConfig>();
 
   readonly bottomUp = input(false);
+
+  readonly answerSelected = output<AnswerSelectedEvent<GAnswer>>();
 
   readonly autoLayoutAnswers = computed(
     (): AnswersLayoutCell<GAnswer>[] | null => {

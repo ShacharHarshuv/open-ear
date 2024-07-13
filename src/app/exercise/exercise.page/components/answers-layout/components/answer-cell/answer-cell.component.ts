@@ -2,16 +2,21 @@ import { CdkConnectedOverlay } from '@angular/cdk/overlay';
 import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
+  DestroyRef,
   ElementRef,
   TemplateRef,
   computed,
   effect,
   forwardRef,
+  inject,
   input,
+  output,
   signal,
+  untracked,
   viewChild,
 } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
+import { getAddEventListener } from '../../../../../../shared/ng-utilities/get-add-event-listener';
 import {
   Answer,
   AnswerConfig,
@@ -22,6 +27,7 @@ import {
   isMultiAnswerCell,
   normalizeAnswerConfig,
 } from '../../../../../exercise-logic';
+import { AnswerSelectedEvent } from '../../answers-layout.component';
 import { InnerAnswersComponent } from './inner-answers/inner-answers.component';
 
 export type MultiAnswerButtonTemplateContext = Required<
@@ -58,8 +64,8 @@ export interface MultiAnswerCellConfig {
     '[style.flex]': 'answerConfig()?.space',
   },
 })
-export class AnswerCellComponent {
-  readonly cell = input.required<AnswersLayoutCell>();
+export class AnswerCellComponent<GAnswer extends string> {
+  readonly cell = input.required<AnswersLayoutCell<GAnswer>>();
 
   readonly buttonTemplate = input.required<ButtonTemplate>();
 
@@ -67,14 +73,18 @@ export class AnswerCellComponent {
     input.required<MultiAnswerButtonTemplate>();
 
   readonly multiAnswerCellConfig = input.required<MultiAnswerCellConfig>();
+  readonly answerSelected = output<AnswerSelectedEvent<GAnswer>>();
+
   readonly isOpen = signal(false);
   readonly innerAnswersTrigger = viewChild<ElementRef<HTMLElement>>(
     'innerAnswersTrigger',
   );
+  readonly elementRef = inject(ElementRef);
 
   constructor() {
     this._handleCloseOnClickOutside();
     this._handleOpenTrigger();
+    this._handleAnswerSelection();
   }
 
   readonly answerConfig = computed(() => {
@@ -95,6 +105,10 @@ export class AnswerCellComponent {
     const firstAnswer: Required<AnswerConfig<string>> = getAnswerListIterator(
       cell.innerAnswersList,
     ).next().value;
+
+    if (!firstAnswer) {
+      return null; // todo: is this the right way to handle it?
+    }
 
     return {
       space: 1,
@@ -123,11 +137,15 @@ export class AnswerCellComponent {
     const handleBackdropClick = () => {
       this.isOpen.set(false);
     };
-    effect((onCleanup) => {
-      function cleanup() {
-        backdrop?.remove();
-        backdrop?.removeEventListener('click', handleBackdropClick);
-        backdrop = null;
+    function cleanup() {
+      backdrop?.remove();
+      backdrop?.removeEventListener('click', handleBackdropClick);
+      backdrop = null;
+    }
+
+    effect(() => {
+      if (this.multiAnswerCellConfig().triggerAction !== 'context-menu') {
+        return;
       }
 
       if (this.isOpen() && !backdrop) {
@@ -138,9 +156,9 @@ export class AnswerCellComponent {
       } else {
         cleanup();
       }
-
-      onCleanup(cleanup);
     });
+
+    inject(DestroyRef).onDestroy(cleanup);
   }
 
   private _handleOpenTrigger() {
@@ -151,31 +169,7 @@ export class AnswerCellComponent {
         return;
       }
 
-      function addEventListener<K extends keyof HTMLElementEventMap>(
-        htmlElement: HTMLElement | Document,
-        type: K[],
-        listener: (ev: HTMLElementEventMap[K]) => any,
-      );
-      function addEventListener<K extends keyof HTMLElementEventMap>(
-        htmlElement: HTMLElement | Document,
-        type: K,
-        listener: (ev: HTMLElementEventMap[K]) => any,
-      );
-      function addEventListener<K extends keyof HTMLElementEventMap>(
-        htmlElement: HTMLElement | Document,
-        type: K | K[],
-        listener: (ev: HTMLElementEventMap[K]) => any,
-      ) {
-        if (Array.isArray(type)) {
-          type.forEach((type) => addEventListener(htmlElement, type, listener));
-          return;
-        }
-
-        htmlElement.addEventListener(type, listener);
-        onCleanup(() => {
-          htmlElement.removeEventListener(type, listener);
-        });
-      }
+      const addEventListener = getAddEventListener(onCleanup);
 
       switch (this.multiAnswerCellConfig().triggerAction) {
         case 'hold':
@@ -185,7 +179,7 @@ export class AnswerCellComponent {
           addEventListener(
             document,
             ['touchcancel', 'touchend', 'mouseup'],
-            () => this.isOpen.set(false),
+            () => setTimeout(() => this.isOpen.set(false)),
           );
           addEventListener(
             triggerElement,
@@ -206,6 +200,59 @@ export class AnswerCellComponent {
           );
           break;
       }
+    });
+  }
+
+  private _handleAnswerSelection() {
+    const populatedAnswerConfig = computed(
+      (): Required<AnswerConfig<GAnswer> & { answer: GAnswer }> | null => {
+        const cellConfig = this.cell();
+        if (isMultiAnswerCell(cellConfig)) {
+          return getAnswerListIterator(cellConfig.innerAnswersList).next()
+            .value;
+        }
+
+        const answerConfig = normalizeAnswerConfig(cellConfig);
+        if (!answerConfig || !answerConfig.answer) {
+          return null;
+        }
+
+        return {
+          ...answerConfig,
+          answer: answerConfig.answer, // for typescript
+        };
+      },
+    );
+    const hasAnswer = computed(() => !!populatedAnswerConfig());
+    let isInside = false;
+
+    effect((onCleanup) => {
+      if (!hasAnswer()) {
+        return;
+      }
+
+      const addEventListener = getAddEventListener(onCleanup);
+
+      addEventListener(this.elementRef.nativeElement, 'mouseenter', () => {
+        isInside = true;
+      });
+      addEventListener(this.elementRef.nativeElement, 'mouseleave', () => {
+        isInside = false;
+      });
+
+      addEventListener(document, ['touchmove', 'touchstart'], ($event) => {
+        const { clientX, clientY } = $event.touches[0];
+        const touchedElement = document.elementFromPoint(clientX, clientY);
+        isInside =
+          touchedElement === this.elementRef.nativeElement ||
+          this.elementRef.nativeElement.contains(touchedElement);
+      });
+      addEventListener(document, ['touchend', 'touchcancel', 'mouseup'], () => {
+        if (isInside) {
+          this.answerSelected.emit(untracked(populatedAnswerConfig)!); // todo
+          isInside = false;
+        }
+      });
     });
   }
 }

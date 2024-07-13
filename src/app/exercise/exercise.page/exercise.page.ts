@@ -72,7 +72,7 @@ export class ExercisePage extends BaseComponent {
     this._init();
   }
 
-  onAnswerClick(answerConfig: AnswerConfig<string>): void {
+  onAnswerSelected(answerConfig: AnswerConfig<string>): void {
     if (this.state.isQuestionCompleted) {
       this.state.playAnswer(answerConfig);
       return;
