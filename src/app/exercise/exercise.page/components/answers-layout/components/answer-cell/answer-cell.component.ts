@@ -230,6 +230,7 @@ export class AnswerCellComponent<GAnswer extends string> {
     );
     const hasAnswer = computed(() => !!populatedAnswerConfig());
     let isInside = false;
+    let touchTimeout: number | undefined;
 
     effect((onCleanup) => {
       if (!hasAnswer()) {
@@ -238,6 +239,17 @@ export class AnswerCellComponent<GAnswer extends string> {
 
       const addEventListener = getAddEventListener(onCleanup);
 
+      addEventListener(document, ['touchend', 'touchcancel', 'mouseup'], () => {
+        if (isInside) {
+          touchTimeout = setTimeout(() => {
+            // prevent click and touch from both triggering
+            touchTimeout = undefined;
+          }, 10);
+          this.answerSelected.emit(untracked(populatedAnswerConfig)!);
+          isInside = false;
+        }
+      });
+
       addEventListener(document, ['touchmove', 'touchstart'], ($event) => {
         const { clientX, clientY } = $event.touches[0];
         const touchedElement = document.elementFromPoint(clientX, clientY);
@@ -245,14 +257,11 @@ export class AnswerCellComponent<GAnswer extends string> {
           touchedElement === this.elementRef.nativeElement ||
           this.elementRef.nativeElement.contains(touchedElement);
       });
-      addEventListener(document, ['touchend', 'touchcancel', 'mouseup'], () => {
-        if (isInside) {
-          this.answerSelected.emit(untracked(populatedAnswerConfig)!);
-          isInside = false;
-        }
-      });
 
       addEventListener(this.elementRef.nativeElement, 'mouseenter', () => {
+        if (touchTimeout) {
+          return;
+        }
         isInside = true;
       });
       addEventListener(this.elementRef.nativeElement, 'mouseleave', () => {
