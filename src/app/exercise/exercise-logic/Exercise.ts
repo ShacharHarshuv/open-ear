@@ -300,7 +300,7 @@ export function* getAnswerListIterator<GAnswer extends string>(
       }
       for (let cell of row) {
         if (isMultiAnswerCell(cell)) {
-          yield* getAnswerListIterator(cell.innerAnswersList);
+          yield* getMultiCellIterator(cell);
         } else {
           const normalizedAnswerConfig = normalizeAnswerConfig(cell);
           if (normalizedAnswerConfig.answer) {
