@@ -22,7 +22,7 @@ import {
 import { AnswersRowComponent } from './components/answers-row/answers-row.component';
 
 export type AnswerSelectedEvent<GAnswer extends string = string> =
-  AnswerConfig<GAnswer> & { answer: Answer<GAnswer> };
+  AnswerConfig<GAnswer> & { answer: Answer<GAnswer> } & { source?: 'multi' };
 
 @Component({
   selector: 'app-answers-layout',

@@ -210,11 +210,14 @@ export class AnswerCellComponent<GAnswer extends string> {
   }
 
   private _handleAnswerSelection() {
-    const populatedAnswerConfig = computed(
-      (): Required<AnswerConfig<GAnswer> & { answer: GAnswer }> | null => {
+    const answerSelectedEvent = computed(
+      (): AnswerSelectedEvent<GAnswer> | null => {
         const cellConfig = this.cell();
         if (isMultiAnswerCell(cellConfig)) {
-          return getMultiCellIterator(cellConfig).next().value;
+          return {
+            answer: getMultiCellIterator(cellConfig).next().value,
+            source: 'multi',
+          };
         }
 
         const answerConfig = normalizeAnswerConfig(cellConfig);
@@ -228,7 +231,7 @@ export class AnswerCellComponent<GAnswer extends string> {
         };
       },
     );
-    const hasAnswer = computed(() => !!populatedAnswerConfig());
+    const hasAnswer = computed(() => !!answerSelectedEvent());
     let isInside = false;
     let touchTimeout: number | undefined;
 
@@ -239,34 +242,46 @@ export class AnswerCellComponent<GAnswer extends string> {
 
       const addEventListener = getAddEventListener(onCleanup);
 
-      addEventListener(document, ['touchend', 'touchcancel', 'mouseup'], () => {
-        if (isInside) {
-          touchTimeout = setTimeout(() => {
-            // prevent click and touch from both triggering
-            touchTimeout = undefined;
-          }, 10);
-          this.answerSelected.emit(untracked(populatedAnswerConfig)!);
+      const triggerAction = this.multiAnswerCellConfig().triggerAction;
+
+      if (triggerAction === 'context-menu') {
+        addEventListener(this.elementRef.nativeElement, 'click', () => {
+          this.answerSelected.emit(untracked(answerSelectedEvent)!);
+        });
+      } else {
+        addEventListener(
+          document,
+          ['touchend', 'touchcancel', 'mouseup'],
+          () => {
+            if (isInside) {
+              touchTimeout = setTimeout(() => {
+                // prevent click and touch from both triggering
+                touchTimeout = undefined;
+              }, 10);
+              this.answerSelected.emit(untracked(answerSelectedEvent)!);
+              isInside = false;
+            }
+          },
+        );
+
+        addEventListener(document, ['touchmove', 'touchstart'], ($event) => {
+          const { clientX, clientY } = $event.touches[0];
+          const touchedElement = document.elementFromPoint(clientX, clientY);
+          isInside =
+            touchedElement === this.elementRef.nativeElement ||
+            this.elementRef.nativeElement.contains(touchedElement);
+        });
+
+        addEventListener(this.elementRef.nativeElement, 'mouseenter', () => {
+          if (touchTimeout) {
+            return;
+          }
+          isInside = true;
+        });
+        addEventListener(this.elementRef.nativeElement, 'mouseleave', () => {
           isInside = false;
-        }
-      });
-
-      addEventListener(document, ['touchmove', 'touchstart'], ($event) => {
-        const { clientX, clientY } = $event.touches[0];
-        const touchedElement = document.elementFromPoint(clientX, clientY);
-        isInside =
-          touchedElement === this.elementRef.nativeElement ||
-          this.elementRef.nativeElement.contains(touchedElement);
-      });
-
-      addEventListener(this.elementRef.nativeElement, 'mouseenter', () => {
-        if (touchTimeout) {
-          return;
-        }
-        isInside = true;
-      });
-      addEventListener(this.elementRef.nativeElement, 'mouseleave', () => {
-        isInside = false;
-      });
+        });
+      }
     });
   }
 }
