@@ -1,8 +1,8 @@
-import { Component, Input, Signal, computed, inject } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 
 import { IonicModule } from '@ionic/angular';
 import { first, intersection, isEmpty } from 'lodash';
-import { signalFromProperty } from '../../../../../../../../shared/ng-utilities/signalFromProperty';
+import { Answer } from '../../../../../../../exercise-logic';
 import { MultiAnswerButtonTemplateContext } from '../../../../../answers-layout/components/answer-cell/answer-cell.component';
 import { IncludedAnswersComponent } from '../../included-answers.component';
 import { IncludedAnswersButtonComponent } from '../included-answers-button/included-answers-button.component';
@@ -24,14 +24,7 @@ export class IncludedAnswersMultiAnswerButtonComponent {
   readonly includedAnswersComponent = inject(IncludedAnswersComponent);
   readonly includedAnswers = this.includedAnswersComponent.includedAnswers;
 
-  @Input({
-    required: true,
-    alias: 'multiAnswerCell',
-  })
-  multiAnswerCellInput: MultiAnswerButtonTemplateContext | null = null;
-
-  readonly multiAnswerCell: Signal<MultiAnswerButtonTemplateContext | null> =
-    signalFromProperty(this, 'multiAnswerCellInput');
+  readonly multiAnswerCell = input.required<MultiAnswerButtonTemplateContext>();
 
   readonly isIncluded = computed(() => {
     return (
@@ -42,20 +35,20 @@ export class IncludedAnswersMultiAnswerButtonComponent {
   });
 
   toggleAnswer() {
-    const includedAnswersInThisButton = intersection(
-      this.multiAnswerCell()?.innerAnswers,
+    const includedAnswersInThisButton: Answer[] = intersection(
+      this.multiAnswerCell().innerAnswers,
       this.includedAnswers(),
     );
 
     if (!isEmpty(includedAnswersInThisButton)) {
       includedAnswersInThisButton.forEach((answer) =>
-        this.includedAnswersComponent.toggleInclusion(answer),
+        this.includedAnswersComponent.toggleInclusion({ answer }),
       );
       return;
+    } else {
+      this.includedAnswersComponent.toggleInclusion({
+        answer: first(this.multiAnswerCell()?.innerAnswers),
+      });
     }
-
-    this.includedAnswersComponent.toggleInclusion(
-      first(this.multiAnswerCell()?.innerAnswers),
-    );
   }
 }
