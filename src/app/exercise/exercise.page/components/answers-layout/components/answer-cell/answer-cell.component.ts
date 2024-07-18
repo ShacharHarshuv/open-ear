@@ -215,7 +215,7 @@ export class AnswerCellComponent<GAnswer extends string> {
         const cellConfig = this.cell();
         if (isMultiAnswerCell(cellConfig)) {
           return {
-            answer: getMultiCellIterator(cellConfig).next().value,
+            ...getMultiCellIterator(cellConfig).next().value,
             source: 'multi',
           };
         }
