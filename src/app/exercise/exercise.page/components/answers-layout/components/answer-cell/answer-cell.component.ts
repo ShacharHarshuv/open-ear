@@ -20,6 +20,7 @@ import { getAddEventListener } from '../../../../../../shared/ng-utilities/get-a
 import {
   Answer,
   AnswerConfig,
+  AnswerList,
   AnswersLayoutCell,
   MultiAnswerCell,
   flatMultiCell,
@@ -283,5 +284,12 @@ export class AnswerCellComponent<GAnswer extends string> {
         });
       }
     });
+  }
+
+  isEmptyLayout(innerAnswersList: AnswerList) {
+    if (Array.isArray(innerAnswersList)) {
+      return innerAnswersList.length === 0;
+    }
+    return innerAnswersList.rows.length === 0;
   }
 }
