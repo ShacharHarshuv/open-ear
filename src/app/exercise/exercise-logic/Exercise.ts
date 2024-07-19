@@ -220,57 +220,80 @@ export function flatAnswerList<GAnswer extends string>(
 export function filterIncludedAnswers<GAnswer extends string>(
   allAnswerList: AnswerList<GAnswer>,
   includedAnswersList: GAnswer[],
+  trimEmptyRows = false,
 ): AnswerList<GAnswer> {
   const normalizedAnswerLayout: NormalizedAnswerLayout<GAnswer> =
     normalizedAnswerList(allAnswerList);
 
-  return {
-    rows: normalizedAnswerLayout.rows.map((row) => {
-      if (typeof row === 'string') {
-        return row;
-      }
-      return _.map(row, (answerLayoutCellConfig) => {
-        if (isMultiAnswerCell(answerLayoutCellConfig)) {
-          const innerAnswersList1 = filterIncludedAnswers(
-            answerLayoutCellConfig.innerAnswersList,
-            includedAnswersList,
-          );
-          const innerAnswersList2 =
-            answerLayoutCellConfig.innerAnswersList2 &&
-            filterIncludedAnswers(
-              answerLayoutCellConfig.innerAnswersList2,
-              includedAnswersList,
-            );
+  function filterInner(answerList: AnswerList<GAnswer>) {
+    return filterIncludedAnswers(answerList, includedAnswersList, true);
+  }
 
-          const innerAnswerCells = [
-            ...flatAnswerList(innerAnswersList1),
-            ...(innerAnswersList2 ? flatAnswerList(innerAnswersList2) : []),
-          ];
+  const rows = normalizedAnswerLayout.rows.map((row) => {
+    if (typeof row === 'string') {
+      return row;
+    }
+    return _.map(row, (answerLayoutCellConfig) => {
+      if (isMultiAnswerCell(answerLayoutCellConfig)) {
+        const innerAnswersList1 = filterInner(
+          answerLayoutCellConfig.innerAnswersList,
+        );
+        const innerAnswersList2 =
+          answerLayoutCellConfig.innerAnswersList2 &&
+          filterInner(answerLayoutCellConfig.innerAnswersList2);
 
-          if (!innerAnswerCells.length) {
-            return null;
-          }
+        const innerAnswerCells = [
+          ...flatAnswerList(innerAnswersList1),
+          ...(innerAnswersList2 ? flatAnswerList(innerAnswersList2) : []),
+        ];
 
-          if (innerAnswerCells.length === 1) {
-            return innerAnswerCells[0];
-          }
-
-          return {
-            ...answerLayoutCellConfig,
-            innerAnswersList: innerAnswersList1,
-            innerAnswersList2: innerAnswersList2,
-          };
+        if (!innerAnswerCells.length) {
+          return null;
         }
 
-        return answerLayoutCellConfig.answer &&
-          includedAnswersList.includes(answerLayoutCellConfig.answer)
-          ? answerLayoutCellConfig
-          : {
-              ...answerLayoutCellConfig,
-              answer: null, // In the future it's possible we'll want to configure a button to be disabled instead of hidden in this case
-            };
-      });
-    }),
+        if (innerAnswerCells.length === 1) {
+          return innerAnswerCells[0];
+        }
+
+        return {
+          ...answerLayoutCellConfig,
+          innerAnswersList: innerAnswersList1,
+          innerAnswersList2: innerAnswersList2,
+        };
+      }
+
+      return answerLayoutCellConfig.answer &&
+        includedAnswersList.includes(answerLayoutCellConfig.answer)
+        ? answerLayoutCellConfig
+        : {
+            ...answerLayoutCellConfig,
+            answer: null, // In the future it's possible we'll want to configure a button to be disabled instead of hidden in this case
+          };
+    });
+  });
+
+  if (!trimEmptyRows) {
+    return {
+      rows,
+    };
+  }
+
+  const lastNonEmptyRowIndex = _.findLastIndex(rows, (row) => {
+    if (typeof row === 'string') {
+      return true;
+    }
+
+    return row.some(function isCellNonEmpty(cell) {
+      if (isMultiAnswerCell(cell)) {
+        return flatMultiCell(cell).length > 0;
+      }
+
+      return typeof cell === 'string' ? !cell : cell?.answer;
+    });
+  });
+
+  return {
+    rows: rows.slice(0, lastNonEmptyRowIndex + 1),
   };
 }
 
