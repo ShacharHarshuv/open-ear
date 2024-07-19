@@ -72,7 +72,7 @@ export class ExercisePage extends BaseComponent {
     this._init();
   }
 
-  onAnswerClick(answerConfig: AnswerConfig<string>): void {
+  onAnswerSelected(answerConfig: AnswerConfig<string>): void {
     if (this.state.isQuestionCompleted) {
       this.state.playAnswer(answerConfig);
       return;
@@ -87,7 +87,9 @@ export class ExercisePage extends BaseComponent {
       this._rightAnswer.set(answer);
       this._wrongAnswers.set([]);
     } else {
-      this._wrongAnswers.update((wrongAnswers) => [...wrongAnswers, answer]);
+      if (!this._wrongAnswers().includes(answer)) {
+        this._wrongAnswers.update((wrongAnswers) => [...wrongAnswers, answer]);
+      }
     }
     setTimeout(() => {
       if (this.state.globalSettings().revealAnswerAfterFirstMistake) {

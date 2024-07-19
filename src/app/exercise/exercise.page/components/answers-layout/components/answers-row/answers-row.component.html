@@ -8,6 +8,7 @@
       [buttonTemplate]="buttonTemplate()"
       [multiAnswerButtonTemplate]="multiAnswerButtonTemplate()"
       [multiAnswerCellConfig]="multiAnswerCellConfig()"
+      (answerSelected)="answerSelected.emit($event)"
     />
   }
 }

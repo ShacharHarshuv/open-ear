@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title (click)="onTitleClick()"> {{state.name}} </ion-title>
+    <ion-title (click)="onTitleClick()"> {{ state.name }}</ion-title>
     <ion-buttons slot="end">
       <ion-button
         (click)="editSettings()"
@@ -37,12 +37,12 @@
     <section>
       @if (!state.globalSettings().answerQuestionAutomatically) {
       <p class="exercise__stats-container">
-        Correct answers:
-        {{state.totalCorrectAnswers()}}/{{state.totalQuestions()}}
-        ({{correctAnswersPercentage() | number: '1.0-2'}}%)
+        Correct answers: {{ state.totalCorrectAnswers() }}/{{
+        state.totalQuestions() }} ({{ correctAnswersPercentage() | number:
+        '1.0-2' }}%)
       </p>
       } @if (state.info) {
-      <p class="exercise__info">{{state.info}}</p>
+      <p class="exercise__info">{{ state.info }}</p>
       }
     </section>
     <div class="exercise__answers-container">
@@ -67,8 +67,9 @@
       [multiAnswerButtonTemplate]="multiAnswerButton"
       [multiAnswerCellConfig]="{
         dismissOnSelect: true,
-        triggerAction: 'click',
+        triggerAction: 'hold',
       }"
+      (answerSelected)="onAnswerSelected($event)"
     ></app-answers-layout>
     <ng-template let-answerConfig #answerButton>
       <div cdkDropList>
@@ -77,7 +78,6 @@
           cdkDrag
           [cdkDragData]="answerConfig"
           (cdkDragDropped)="onDragDropped($event)"
-          (click)="onAnswerClick(answerConfig)"
           [disabled]="!state.isAnswerEnabled()"
           [right]="answer === rightAnswer()"
           [highlighted]="answer === state.highlightedAnswer()"
