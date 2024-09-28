@@ -12,7 +12,7 @@ describe('AppComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        IonicModule,
+        IonicModule.forRoot(),
         ReleaseNotesTestingModule,
         StorageTestingModule,
         RouterTestingModule.withRoutes([]),

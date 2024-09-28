@@ -27,6 +27,5 @@ export function composeSequenceWithGrammar<T>(
     sequence.push(lastChoice);
   }
 
-  console.log('compose sequence result', sequence);
   return sequence;
 }

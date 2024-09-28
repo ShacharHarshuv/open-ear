@@ -13,7 +13,9 @@ export class TestingUtility {
     const element = Array.from(
       document.querySelectorAll<HTMLElement>(selector),
     ).find((element: HTMLElement | null) => {
-      return element?.innerText.toLowerCase() === text.toLowerCase();
+      return (
+        element?.textContent?.trim().toLowerCase() === text.trim().toLowerCase()
+      );
     });
     if (!element) {
       throw new Error(`Could not find ${selector} element with text ${text}`);

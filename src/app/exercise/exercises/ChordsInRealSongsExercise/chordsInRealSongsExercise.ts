@@ -14,23 +14,30 @@ import {
   iv_V_i_CADENCE_IN_C,
 } from '../../utility/music/chords';
 import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
+import { simplifyExtensions } from '../../utility/music/harmony/simplifyExtensions';
 import { toRelativeModeTonic } from '../../utility/music/harmony/toRelativeModeTonic';
 import { getDistanceOfKeys } from '../../utility/music/keys/getDistanceOfKeys';
 import { transpose } from '../../utility/music/transpose';
 import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
 import { createExercise } from '../utility/exerciseAttributes/createExercise';
+import { allRomanNumeralAnswerList } from '../utility/exerciseAttributes/roman-analysis-chord-progression-exercise/roman-numeral-answer-list';
 import {
   AnalyzeBySettings,
   analyzeBySettings,
 } from '../utility/settings/AnalyzeBySettings';
+import {
+  SimplifyExtensionsSettings,
+  simplifyExtensionsSettings,
+} from '../utility/settings/simplifyExtensionsSettings';
 import { withSettings } from '../utility/settings/withSettings';
 import {
   ProgressionInSongFromYouTubeDescriptor,
   chordsInRealSongsDescriptorList,
 } from './chordsInRealSongsDescriptorList';
-import { allRomanNumeralAnswerList } from '../utility/exerciseAttributes/roman-analysis-chord-progression-exercise/roman-numeral-answer-list';
 
-interface ChordsInRealSongsSettings extends AnalyzeBySettings {
+interface ChordsInRealSongsSettings
+  extends AnalyzeBySettings,
+    SimplifyExtensionsSettings {
   includedChords: RomanNumeralChordSymbol[];
 }
 
@@ -91,6 +98,19 @@ export function chordsInRealSongsExercise(
           ),
         };
       })
+      .map((chordProgression) => {
+        if (!settings.simplifyExtensions) {
+          return chordProgression;
+        }
+
+        return {
+          ...chordProgression,
+          chords: _.map(chordProgression.chords, (chord) => ({
+            ...chord,
+            chord: simplifyExtensions(chord.chord),
+          })),
+        };
+      })
       .map(
         (
           chordProgression,
@@ -148,6 +168,7 @@ export function chordsInRealSongsExercise(
   return {
     ...composeExercise(
       withSettings(analyzeBySettings),
+      withSettings(simplifyExtensionsSettings),
       createExercise<RomanNumeralChordSymbol, ChordsInRealSongsSettings>,
     )({
       id: 'chordsInRealSongs',
@@ -172,6 +193,7 @@ export function chordsInRealSongsExercise(
       defaultSettings: {
         includedChords: ['I', 'IV', 'V', 'vi'],
         tonicForAnalyzing: 'major',
+        simplifyExtensions: true,
       },
       answerList(
         settings: ChordsInRealSongsSettings,

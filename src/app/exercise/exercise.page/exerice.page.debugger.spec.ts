@@ -23,7 +23,7 @@ export class ExercisePageDebugger extends BaseComponentDebugger<ExercisePage> {
   getExerciseTitle(): string | null {
     const toolbarElement: HTMLElement | null =
       this.spectator.query<HTMLElement>('ion-toolbar');
-    return toolbarElement?.innerText ?? null;
+    return toolbarElement?.textContent?.trim() ?? null;
   }
 
   getCurrentAnswersList(): {
@@ -34,7 +34,7 @@ export class ExercisePageDebugger extends BaseComponentDebugger<ExercisePage> {
       (answerIndication: HTMLElement) => {
         return {
           answer:
-            answerIndication.innerText === '?'
+            answerIndication.innerText.trim() === '?'
               ? null
               : answerIndication.innerText,
           wasWrong: answerIndication.classList.contains('--wrong'),
