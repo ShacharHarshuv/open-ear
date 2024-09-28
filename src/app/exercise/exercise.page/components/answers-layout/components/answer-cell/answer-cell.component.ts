@@ -2,26 +2,33 @@ import { CdkConnectedOverlay } from '@angular/cdk/overlay';
 import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
+  DestroyRef,
   ElementRef,
   TemplateRef,
   computed,
   effect,
   forwardRef,
+  inject,
   input,
+  output,
   signal,
+  untracked,
   viewChild,
 } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
+import { getAddEventListener } from '../../../../../../shared/ng-utilities/get-add-event-listener';
 import {
   Answer,
   AnswerConfig,
+  AnswerList,
   AnswersLayoutCell,
   MultiAnswerCell,
-  flatAnswerList,
-  getAnswerListIterator,
+  flatMultiCell,
+  getMultiCellIterator,
   isMultiAnswerCell,
   normalizeAnswerConfig,
 } from '../../../../../exercise-logic';
+import { AnswerSelectedEvent } from '../../answers-layout.component';
 import { InnerAnswersComponent } from './inner-answers/inner-answers.component';
 
 export type MultiAnswerButtonTemplateContext = Required<
@@ -40,7 +47,7 @@ export type ButtonTemplate = TemplateRef<{
 
 export interface MultiAnswerCellConfig {
   dismissOnSelect: boolean;
-  triggerAction: 'click' | 'context-menu';
+  triggerAction: 'hold' | 'context-menu';
 }
 
 @Component({
@@ -58,8 +65,8 @@ export interface MultiAnswerCellConfig {
     '[style.flex]': 'answerConfig()?.space',
   },
 })
-export class AnswerCellComponent {
-  readonly cell = input.required<AnswersLayoutCell>();
+export class AnswerCellComponent<GAnswer extends string> {
+  readonly cell = input.required<AnswersLayoutCell<GAnswer>>();
 
   readonly buttonTemplate = input.required<ButtonTemplate>();
 
@@ -67,14 +74,18 @@ export class AnswerCellComponent {
     input.required<MultiAnswerButtonTemplate>();
 
   readonly multiAnswerCellConfig = input.required<MultiAnswerCellConfig>();
+  readonly answerSelected = output<AnswerSelectedEvent<GAnswer>>();
+
   readonly isOpen = signal(false);
   readonly innerAnswersTrigger = viewChild<ElementRef<HTMLElement>>(
     'innerAnswersTrigger',
   );
+  readonly elementRef = inject(ElementRef);
 
   constructor() {
     this._handleCloseOnClickOutside();
     this._handleOpenTrigger();
+    this._handleAnswerSelection();
   }
 
   readonly answerConfig = computed(() => {
@@ -92,15 +103,25 @@ export class AnswerCellComponent {
       return null;
     }
 
-    const firstAnswer: Required<AnswerConfig<string>> = getAnswerListIterator(
-      cell.innerAnswersList,
-    ).next().value;
+    const firstAnswer: Required<AnswerConfig<string>> | undefined = (() => {
+      const answersIterator = getMultiCellIterator(cell);
+      for (const answerConfig of answersIterator) {
+        if (answerConfig.answer) {
+          return answerConfig;
+        }
+      }
+      return undefined;
+    })();
+
+    if (!firstAnswer) {
+      return null;
+    }
 
     return {
       space: 1,
-      displayLabel: firstAnswer.displayLabel ?? firstAnswer.answer,
       innerAnswersList2: null,
       ...cell,
+      displayLabel: firstAnswer.displayLabel ?? firstAnswer.answer,
     };
   });
 
@@ -113,7 +134,7 @@ export class AnswerCellComponent {
 
       return {
         ...multiAnswerCell,
-        innerAnswers: flatAnswerList(multiAnswerCell.innerAnswersList),
+        innerAnswers: flatMultiCell(multiAnswerCell),
       };
     },
   );
@@ -123,11 +144,15 @@ export class AnswerCellComponent {
     const handleBackdropClick = () => {
       this.isOpen.set(false);
     };
-    effect((onCleanup) => {
-      function cleanup() {
-        backdrop?.remove();
-        backdrop?.removeEventListener('click', handleBackdropClick);
-        backdrop = null;
+    function cleanup() {
+      backdrop?.remove();
+      backdrop?.removeEventListener('click', handleBackdropClick);
+      backdrop = null;
+    }
+
+    effect(() => {
+      if (this.multiAnswerCellConfig().triggerAction !== 'context-menu') {
+        return;
       }
 
       if (this.isOpen() && !backdrop) {
@@ -138,9 +163,9 @@ export class AnswerCellComponent {
       } else {
         cleanup();
       }
-
-      onCleanup(cleanup);
     });
+
+    inject(DestroyRef).onDestroy(cleanup);
   }
 
   private _handleOpenTrigger() {
@@ -151,28 +176,120 @@ export class AnswerCellComponent {
         return;
       }
 
+      const addEventListener = getAddEventListener(onCleanup);
+
       switch (this.multiAnswerCellConfig().triggerAction) {
-        case 'click':
-          const handleClick = () => this.isOpen.set(true);
-          triggerElement.addEventListener('click', handleClick);
-          onCleanup(() => {
-            triggerElement.removeEventListener('click', handleClick);
+        case 'hold':
+          addEventListener(triggerElement, ['touchstart', 'mousedown'], () => {
+            this.isOpen.set(true);
           });
+          addEventListener(
+            document,
+            ['touchcancel', 'touchend', 'mouseup'],
+            () => setTimeout(() => this.isOpen.set(false)),
+          );
+          addEventListener(
+            triggerElement,
+            'contextmenu',
+            (event: MouseEvent) => {
+              event.preventDefault();
+            },
+          );
           break;
         case 'context-menu':
-          const handleContextMenu = (event: MouseEvent) => {
-            event.preventDefault();
-            this.isOpen.set(true);
-          };
-          triggerElement.addEventListener('contextmenu', handleContextMenu);
-          onCleanup(() => {
-            triggerElement.removeEventListener(
-              'contextmenu',
-              handleContextMenu,
-            );
-          });
+          addEventListener(
+            triggerElement,
+            'contextmenu',
+            (event: MouseEvent) => {
+              event.preventDefault();
+              this.isOpen.set(true);
+            },
+          );
           break;
       }
     });
+  }
+
+  private _handleAnswerSelection() {
+    const answerSelectedEvent = computed(
+      (): AnswerSelectedEvent<GAnswer> | null => {
+        const cellConfig = this.cell();
+        if (isMultiAnswerCell(cellConfig)) {
+          return {
+            ...getMultiCellIterator(cellConfig).next().value,
+            source: 'multi',
+          };
+        }
+
+        const answerConfig = normalizeAnswerConfig(cellConfig);
+        if (!answerConfig || !answerConfig.answer) {
+          return null;
+        }
+
+        return {
+          ...answerConfig,
+          answer: answerConfig.answer, // for typescript
+        };
+      },
+    );
+    const hasAnswer = computed(() => !!answerSelectedEvent());
+    let isInside = false;
+    let touchTimeout: number | undefined;
+
+    effect((onCleanup) => {
+      if (!hasAnswer()) {
+        return;
+      }
+
+      const addEventListener = getAddEventListener(onCleanup);
+
+      const triggerAction = this.multiAnswerCellConfig().triggerAction;
+
+      if (triggerAction === 'context-menu') {
+        addEventListener(this.elementRef.nativeElement, 'click', () => {
+          this.answerSelected.emit(untracked(answerSelectedEvent)!);
+        });
+      } else {
+        addEventListener(
+          document,
+          ['touchend', 'touchcancel', 'mouseup'],
+          () => {
+            if (isInside) {
+              touchTimeout = setTimeout(() => {
+                // prevent click and touch from both triggering
+                touchTimeout = undefined;
+              }, 10);
+              this.answerSelected.emit(untracked(answerSelectedEvent)!);
+              isInside = false;
+            }
+          },
+        );
+
+        addEventListener(document, ['touchmove', 'touchstart'], ($event) => {
+          const { clientX, clientY } = $event.touches[0];
+          const touchedElement = document.elementFromPoint(clientX, clientY);
+          isInside =
+            touchedElement === this.elementRef.nativeElement ||
+            this.elementRef.nativeElement.contains(touchedElement);
+        });
+
+        addEventListener(this.elementRef.nativeElement, 'mouseenter', () => {
+          if (touchTimeout) {
+            return;
+          }
+          isInside = true;
+        });
+        addEventListener(this.elementRef.nativeElement, 'mouseleave', () => {
+          isInside = false;
+        });
+      }
+    });
+  }
+
+  isEmptyLayout(innerAnswersList: AnswerList) {
+    if (Array.isArray(innerAnswersList)) {
+      return innerAnswersList.length === 0;
+    }
+    return innerAnswersList.rows.length === 0;
   }
 }

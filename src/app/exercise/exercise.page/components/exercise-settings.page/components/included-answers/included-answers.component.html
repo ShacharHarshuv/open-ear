@@ -18,6 +18,7 @@
       dismissOnSelect: false,
       triggerAction: 'context-menu'
     }"
+    (answerSelected)="toggleInclusion($event)"
   ></app-answers-layout>
 
   @if (hasMultiAnswerButtons()) {
@@ -26,10 +27,7 @@
 
   <ng-template #buttonTemplate let-answerConfig>
     @if (answerConfig.answer; as answer) {
-      <app-included-answers-button
-        [included]="value.includes(answer)"
-        (click)="toggleInclusion(answer)"
-      >
+      <app-included-answers-button [included]="value.includes(answer)">
         <span [innerHTML]="answerConfig.displayLabel"></span>
       </app-included-answers-button>
     }

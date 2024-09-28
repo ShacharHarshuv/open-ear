@@ -15,6 +15,7 @@
         answerCellComponent.multiAnswerButtonTemplate()
       "
       [multiAnswerCellConfig]="answerCellComponent.multiAnswerCellConfig()"
+      (answerSelected)="answerCellComponent.answerSelected.emit($event)"
     />
   </ion-card>
 </ng-template>

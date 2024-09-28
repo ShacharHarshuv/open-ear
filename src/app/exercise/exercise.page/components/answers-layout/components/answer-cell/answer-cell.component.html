@@ -29,13 +29,18 @@
     <div class="multi-answer-arrow"></div>
   </div>
 
-  <app-inner-answers
-    [innerAnswerList]="multiAnswerCell.innerAnswersList"
-    [targetElement]="innerAnswersTrigger"
-    side="bottom"
-  />
+  @if (!isEmptyLayout(multiAnswerCell.innerAnswersList)) {
+    <app-inner-answers
+      [innerAnswerList]="multiAnswerCell.innerAnswersList"
+      [targetElement]="innerAnswersTrigger"
+      side="bottom"
+    />
+  }
 
-  @if (multiAnswerCell.innerAnswersList2) {
+  @if (
+    multiAnswerCell.innerAnswersList2 &&
+    !isEmptyLayout(multiAnswerCell.innerAnswersList2)
+  ) {
     <app-inner-answers
       [innerAnswerList]="multiAnswerCell.innerAnswersList2"
       [targetElement]="innerAnswersTrigger"

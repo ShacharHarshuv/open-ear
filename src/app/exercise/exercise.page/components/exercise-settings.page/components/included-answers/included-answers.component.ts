@@ -10,7 +10,10 @@ import Exercise, {
   flatAnswerList,
   isMultiAnswerCell,
 } from '../../../../../exercise-logic';
-import { AnswersLayoutComponent } from '../../../answers-layout/answers-layout.component';
+import {
+  AnswerSelectedEvent,
+  AnswersLayoutComponent,
+} from '../../../answers-layout/answers-layout.component';
 import { IncludedAnswersButtonComponent } from './components/included-answers-button/included-answers-button.component';
 import { IncludedAnswersMultiAnswerButtonComponent } from './components/included-answers-multi-answer-button/included-answers-multi-answer-button.component';
 
@@ -53,7 +56,11 @@ export class IncludedAnswersComponent<
     return false;
   });
 
-  toggleInclusion(answer: GAnswer) {
+  toggleInclusion({ answer, source }: AnswerSelectedEvent<GAnswer>) {
+    if (source === 'multi') {
+      return; // handled by IncludedAnswersMultiAnswerButtonComponent, because it needs to be aware of inner answers
+    }
+
     const currentValue: ReadonlyArray<GAnswer> = this.includedAnswers();
     if (currentValue.includes(answer)) {
       this.setViewValue(currentValue.filter((value) => value !== answer));

@@ -186,4 +186,9 @@ export const releaseNotes: ReleaseNotes = [
     notes:
       'Option for "Simplify Extensions" in Chords in Real Songs (Android only) is now available (and turned on by default)',
   },
+  {
+    version: '1.9.0',
+    notes:
+      'Nested answers in chord progression exercise have been significantly changed. To select inner answers, hold the main answer and slide outwards to the required answer.',
+  },
 ];
