@@ -1,7 +1,7 @@
 import Exercise from '../../exercise-logic';
 import { testExercise } from '../testing-utility/test-exercise.spec';
 import { expectedVoicingSettingsDescriptors } from '../utility/exerciseAttributes/chordProgressionExercise.spec';
-import { allRomanNumeralAnswerList } from '../utility/exerciseAttributes/roman-analysis-chord-progression-exercise/romanAnalysisChordProgressionExercise';
+import { allRomanNumeralAnswerList } from '../utility/exerciseAttributes/roman-analysis-chord-progression-exercise/roman-numeral-answer-list';
 import { expectedTonalExerciseSettingsDescriptors } from '../utility/exerciseAttributes/tonalExercise.spec';
 import { chordInKeyExercise } from './chordsInKeyExercise';
 

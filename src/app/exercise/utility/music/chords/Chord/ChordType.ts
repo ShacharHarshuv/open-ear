@@ -93,7 +93,7 @@ export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
     },
   },
   [ChordType.Dominant9th]: {
-    scaleDegreeList: ['5', 'b7', '9'],
+    scaleDegreeList: ['5', 'b7', '9'], // todo: change first one to 3?
     displayName: 'Dominant 9th',
     romanNumeral: {
       isLowercase: false,

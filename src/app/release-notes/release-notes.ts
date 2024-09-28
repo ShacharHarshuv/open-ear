@@ -181,4 +181,9 @@ export const releaseNotes: ReleaseNotes = [
     notes:
       'Chord functions progressions will attempt to put chords in sensible musical context, when using un-diatonic notes or inversions.',
   },
+  {
+    version: '1.9.0',
+    notes:
+      'Option for "Simplify Extensions" in Chords in Real Songs (Android only) is now available (and turned on by default)',
+  },
 ];

@@ -1,29 +1,14 @@
 import * as _ from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { NoteEvent } from '../../../../../services/player.service';
-import Exercise, {
-  AnswerConfig,
-  AnswersLayout,
-  flatAnswerList,
-  mapAnswerList,
-  AnswersLayoutCell,
-} from '../../../../exercise-logic';
+import Exercise from '../../../../exercise-logic';
 import {
   Interval,
-  MajorChordTypesPostfix,
-  MinorChordTypesPostfix,
   RomanNumeralChordSymbol,
   toArray,
   toNoteNumber,
   toSteadyPart,
-  ScaleDegree,
 } from '../../../../utility';
-import {
-  Chord,
-  ChordType,
-  TriadPosition,
-} from '../../../../utility/music/chords';
-import { RomanNumeralChord } from '../../../../utility/music/harmony/RomanNumeralChord';
+import { Chord, TriadPosition } from '../../../../utility/music/chords';
 import { romanNumeralToChordInC } from '../../../../utility/music/harmony/romanNumeralToChordInC';
 import { transpose } from '../../../../utility/music/transpose';
 import { PlayAfterCorrectAnswerSetting } from '../../settings/PlayAfterCorrectAnswerSetting';
@@ -35,17 +20,13 @@ import {
   chordProgressionExercise,
 } from '../chordProgressionExercise';
 import { composeExercise } from '../composeExercise';
-import {
-  TonalExerciseSettings,
-  tonalExercise,
-} from '../tonalExercise';
-import { Optional } from '@angular/core';
+import { TonalExerciseSettings, tonalExercise } from '../tonalExercise';
 import { allRomanNumeralAnswerList } from './roman-numeral-answer-list';
 
 export type RomanAnalysisChordProgressionExerciseSettings =
   TonalExerciseSettings &
-  ChordProgressionExerciseSettings<RomanNumeralChordSymbol> &
-  PlayAfterCorrectAnswerSetting;
+    ChordProgressionExerciseSettings<RomanNumeralChordSymbol> &
+    PlayAfterCorrectAnswerSetting;
 
 const romanNumeralToResolution: {
   [scale in 'minor' | 'major']?: {
@@ -64,7 +45,7 @@ const romanNumeralToResolution: {
       2: [
         {
           romanNumeral: 'I',
-          voicingConfig: {position: TriadPosition.Octave},
+          voicingConfig: { position: TriadPosition.Octave },
         },
       ],
     },
@@ -190,23 +171,23 @@ const romanNumeralToResolution: {
         },
         {
           romanNumeral: 'I',
-          voicingConfig: {position: TriadPosition.Octave},
+          voicingConfig: { position: TriadPosition.Octave },
         },
       ],
       1: [
         {
           romanNumeral: 'V',
-          voicingConfig: {position: TriadPosition.Fifth},
+          voicingConfig: { position: TriadPosition.Fifth },
         },
         {
           romanNumeral: 'I',
-          voicingConfig: {position: TriadPosition.Octave},
+          voicingConfig: { position: TriadPosition.Octave },
         },
       ],
       2: [
         {
           romanNumeral: 'V',
-          voicingConfig: {position: TriadPosition.Third},
+          voicingConfig: { position: TriadPosition.Third },
         },
         {
           romanNumeral: 'I',
@@ -221,7 +202,7 @@ const romanNumeralToResolution: {
       0: [
         {
           romanNumeral: 'I',
-          voicingConfig: {position: TriadPosition.Octave},
+          voicingConfig: { position: TriadPosition.Octave },
         },
       ],
       1: [
@@ -325,7 +306,7 @@ const romanNumeralToResolution: {
       2: [
         {
           romanNumeral: 'i',
-          voicingConfig: {position: TriadPosition.Octave},
+          voicingConfig: { position: TriadPosition.Octave },
         },
       ],
     },
@@ -421,17 +402,17 @@ const romanNumeralToResolution: {
       1: [
         {
           romanNumeral: 'V',
-          voicingConfig: {position: TriadPosition.Fifth},
+          voicingConfig: { position: TriadPosition.Fifth },
         },
         {
           romanNumeral: 'i',
-          voicingConfig: {position: TriadPosition.Octave},
+          voicingConfig: { position: TriadPosition.Octave },
         },
       ],
       2: [
         {
           romanNumeral: 'V',
-          voicingConfig: {position: TriadPosition.Third},
+          voicingConfig: { position: TriadPosition.Third },
         },
         {
           romanNumeral: 'i',
@@ -510,7 +491,7 @@ const romanNumeralToResolution: {
       0: [
         {
           romanNumeral: 'i',
-          voicingConfig: {position: TriadPosition.Octave},
+          voicingConfig: { position: TriadPosition.Octave },
         },
       ],
       1: [
@@ -614,7 +595,7 @@ export type RomanNumeralsChordProgressionQuestion = {
 export function romanAnalysisChordProgressionExercise<
   GSettings extends Exercise.Settings,
 >(config?: ChordProgressionExerciseConfig) {
-  return function(p: {
+  return function (p: {
     getChordProgressionInRomanNumerals(
       settings: GSettings,
     ): RomanNumeralsChordProgressionQuestion;
@@ -664,7 +645,7 @@ export function romanAnalysisChordProgressionExercise<
           const resolutionConfig =
             romanNumeralToResolution[scaleForResolution]?.[
               firstChordRomanNumeral
-              ];
+            ];
           if (resolutionConfig) {
             question.afterCorrectAnswer = ({
               firstChordInversion,
@@ -672,9 +653,9 @@ export function romanAnalysisChordProgressionExercise<
             }) => {
               const resolution:
                 | {
-                romanNumeral: RomanNumeralChordSymbol;
-                chordVoicing: Note[];
-              }[]
+                    romanNumeral: RomanNumeralChordSymbol;
+                    chordVoicing: Note[];
+                  }[]
                 | null = [
                 {
                   romanNumeral: firstChordRomanNumeral,
@@ -696,19 +677,16 @@ export function romanAnalysisChordProgressionExercise<
 
               const differenceInOctavesToNormalize: number = _.round(
                 (toNoteNumber(
-                    toArray(
-                      toSteadyPart(questionSegments[0].partToPlay)[0].notes,
-                    )[0],
-                  ) -
+                  toArray(
+                    toSteadyPart(questionSegments[0].partToPlay)[0].notes,
+                  )[0],
+                ) -
                   toNoteNumber(resolution[0].chordVoicing[0])) /
-                Interval.Octave,
+                  Interval.Octave,
               );
 
               return resolution.map(
-                ({
-                  romanNumeral,
-                  chordVoicing,
-                }, index) => ({
+                ({ romanNumeral, chordVoicing }, index) => ({
                   answerToHighlight: romanNumeral,
                   partToPlay: [
                     {

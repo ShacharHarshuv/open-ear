@@ -2,6 +2,7 @@ import { fakeAsync, flush, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { IonicModule } from '@ionic/angular';
 import { ExerciseSettingsDataMockService } from '../../services/exercise-settings-data.mock.service';
 import { NoteEvent, PlayerService } from '../../services/player.service';
 import { ModalFrameComponent } from '../../shared/modal/modal-frame/modal-frame.component';
@@ -27,6 +28,7 @@ describe(ExercisePage.name, () => {
         // }),
         NoopAnimationsModule,
         RouterTestingModule,
+        IonicModule.forRoot(),
       ],
       providers: [
         {

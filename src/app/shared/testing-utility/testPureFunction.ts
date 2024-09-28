@@ -3,7 +3,7 @@ import Expected = jasmine.Expected;
 export function testPureFunction<GFunc extends (...args) => any>(
   func: GFunc,
   cases: {
-    args: Parameters<GFunc>;
+    args: Readonly<Parameters<GFunc>>;
     returnValue: Expected<ReturnType<GFunc>>;
     force?: boolean;
   }[],
