@@ -5623,4 +5623,958 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     ],
     endSeconds: 104.52,
   },
+  {
+    name: 'Sweet Sacrifice ',
+    artist: 'Evanescence',
+    key: 'F#',
+    mode: 6,
+    videoId: 'XBYhQnjyrWo',
+    chords: [
+      {
+        seconds: 13.51,
+        chord: 'i',
+      },
+      {
+        seconds: 18.3,
+        chord: 'bVI',
+      },
+      {
+        seconds: 20.72,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 23.17,
+  },
+  {
+    name: 'We are Number One',
+    artist: 'Lazy Town',
+    key: 'F',
+    mode: 6,
+    videoId: 'PfYnvDL0Qcw',
+    chords: [
+      {
+        seconds: 34.25,
+        chord: 'i',
+      },
+      {
+        seconds: 37.03,
+        chord: 'bVI',
+      },
+      {
+        seconds: 38.47,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 39.92,
+  },
+  {
+    name: 'Seven Nation Army',
+    artist: 'The White Stripes',
+    key: 'E',
+    mode: 6,
+    videoId: '0J2QdDbelmY',
+    chords: [
+      {
+        seconds: 53.65,
+        chord: 'i',
+      },
+      {
+        seconds: 55.54,
+        chord: 'bVI',
+      },
+      {
+        seconds: 56.53,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 57.51,
+  },
+  {
+    name: 'Havana',
+    artist: 'Camila Cabella',
+    key: 'G',
+    mode: 6,
+    videoId: 'HCjNJDNzw8Y',
+    chords: [
+      {
+        seconds: 28.16,
+        chord: 'i',
+      },
+      {
+        seconds: 29.32,
+        chord: 'bVI',
+      },
+      {
+        seconds: 30.16,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 32.63,
+  },
+  {
+    name: 'Toxicity',
+    artist: 'System of a Down',
+    key: 'G',
+    mode: 6,
+    videoId: 'iywaBOMvYLI',
+    chords: [
+      {
+        seconds: 13.09,
+        chord: 'i',
+      },
+      {
+        seconds: 16.13,
+        chord: 'bVI',
+      },
+      {
+        seconds: 17.28,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 18.82,
+  },
+  {
+    name: 'Sweet Dream',
+    artist: 'Eurythmics',
+    key: 'C',
+    mode: 6,
+    videoId: 'qeMFqkcPYcg',
+    chords: [
+      {
+        seconds: 7.69,
+        chord: 'i',
+      },
+      {
+        seconds: 9.54,
+        chord: 'bVI',
+      },
+      {
+        seconds: 10.46,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 11.43,
+  },
+  {
+    name: 'Hate',
+    artist: 'Cat Power',
+    key: 'A',
+    mode: 6,
+    videoId: 'I0DmLhpbLZY',
+    chords: [
+      {
+        seconds: 19.43,
+        chord: 'i',
+      },
+      {
+        seconds: 21.8,
+        chord: 'bVI',
+      },
+      {
+        seconds: 22.97,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 24.2,
+  },
+  {
+    name: "Why'd You Lie to Me",
+    artist: 'Anastacia',
+    key: 'A',
+    mode: 6,
+    videoId: 'gJPcABsojlU',
+    chords: [
+      {
+        seconds: 9.57,
+        chord: 'i',
+      },
+      {
+        seconds: 12.01,
+        chord: 'bVI',
+      },
+      {
+        seconds: 13.4,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 14.45,
+  },
+  {
+    name: 'History Song',
+    artist: 'The Good The Bad, & The Queen',
+    key: 'A',
+    mode: 6,
+    videoId: 'kDh1BZouKps',
+    chords: [
+      {
+        seconds: 11.82,
+        chord: 'i',
+      },
+      {
+        seconds: 13.29,
+        chord: 'bVI',
+      },
+      {
+        seconds: 14.01,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 14.8,
+  },
+  {
+    name: 'Everybody',
+    artist: 'Backstreet Boys',
+    key: 'Bb',
+    mode: 6,
+    videoId: '6M6samPEMpM',
+    chords: [
+      {
+        seconds: 159.84,
+        chord: 'i',
+      },
+      {
+        seconds: 162,
+        chord: 'bVI',
+      },
+      {
+        seconds: 162.86,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 164.31,
+  },
+  {
+    name: 'Smooth',
+    artist: 'Santana',
+    key: 'A',
+    mode: 6,
+    videoId: '6Whgn_iE5uc',
+    chords: [
+      {
+        seconds: 25.25,
+        chord: 'i',
+      },
+      {
+        seconds: 26.24,
+        chord: 'bVI',
+      },
+      {
+        seconds: 27.05,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 28.21,
+  },
+  {
+    name: 'Viva La Vida',
+    artist: 'Coldplay',
+    key: 'Ab',
+    mode: 1,
+    videoId: 'dvgZkm1xWPE',
+    chords: [
+      {
+        seconds: 0.2,
+        chord: 'IV',
+      },
+      {
+        seconds: 2.07,
+        chord: 'V',
+      },
+      {
+        seconds: 3.94,
+        chord: 'I',
+      },
+      {
+        chord: 'vi',
+        seconds: 5.37,
+      },
+    ],
+    endSeconds: 7.34,
+  },
+  {
+    name: 'Somewhere Else',
+    artist: 'Razorlight',
+    key: 'D',
+    mode: 1,
+    videoId: 'Iun3RtbCE6A',
+    chords: [
+      {
+        seconds: 15.73,
+        chord: 'IV',
+      },
+      {
+        seconds: 17.18,
+        chord: 'V',
+      },
+      {
+        seconds: 18.65,
+        chord: 'I',
+      },
+      {
+        chord: 'vi',
+        seconds: 20.2,
+      },
+    ],
+    endSeconds: 21.7,
+  },
+  {
+    name: 'I Want to Hold Your Hand',
+    artist: 'The Beatles',
+    key: 'Gb',
+    mode: 1,
+    videoId: 'jenWdylTtzs',
+    chords: [
+      {
+        seconds: 22.6,
+        chord: 'IV',
+      },
+      {
+        seconds: 23.48,
+        chord: 'V',
+      },
+      {
+        seconds: 24.43,
+        chord: 'I',
+      },
+      {
+        chord: 'vi',
+        seconds: 25.36,
+      },
+    ],
+    endSeconds: 26.19,
+  },
+  {
+    name: 'Feliz Navidad',
+    artist: 'Jose Felicano',
+    key: 'D',
+    mode: 1,
+    videoId: 'N8NcQzMQN_U',
+    chords: [
+      {
+        seconds: 39.97,
+        chord: 'IV',
+      },
+      {
+        seconds: 41.58,
+        chord: 'V',
+      },
+      {
+        seconds: 43.25,
+        chord: 'I',
+      },
+      {
+        chord: 'vi',
+        seconds: 44.88,
+      },
+    ],
+    endSeconds: 46.54,
+  },
+  {
+    name: 'Rude',
+    artist: 'MAGIC!',
+    key: 'Db',
+    mode: 1,
+    videoId: 'PIh2xe4jnpk',
+    chords: [
+      {
+        seconds: 41.11,
+        chord: 'IV',
+      },
+      {
+        seconds: 42.8,
+        chord: 'V',
+      },
+      {
+        seconds: 44.44,
+        chord: 'I',
+      },
+      {
+        chord: 'vi',
+        seconds: 45.97,
+      },
+    ],
+    endSeconds: 47.71,
+  },
+  {
+    name: "Danny's Song",
+    artist: 'Kenny Loggins',
+    key: 'D',
+    mode: 1,
+    videoId: '322_GED6Ccs',
+    chords: [
+      {
+        seconds: 28.83,
+        chord: 'IV',
+      },
+      {
+        seconds: 30.32,
+        chord: 'V',
+      },
+      {
+        seconds: 31.73,
+        chord: 'I',
+      },
+      {
+        chord: 'vi',
+        seconds: 33.31,
+      },
+    ],
+    endSeconds: 34.7,
+  },
+  {
+    name: 'Collar Full',
+    artist: 'Panic! At The Disco',
+    key: 'D',
+    mode: 1,
+    videoId: 'yZAIEAG6Vgk',
+    chords: [
+      {
+        seconds: 50.91,
+        chord: 'IV',
+      },
+      {
+        seconds: 52.2,
+        chord: 'V',
+      },
+      {
+        seconds: 53.64,
+        chord: 'I',
+      },
+      {
+        chord: 'vi',
+        seconds: 55.05,
+      },
+    ],
+    endSeconds: 56.44,
+  },
+  {
+    name: 'Trade Mistakes',
+    artist: 'Panic! At The Disco',
+    key: 'Eb',
+    mode: 1,
+    videoId: 'sWutvUNc-f8',
+    chords: [
+      {
+        seconds: 26.14,
+        chord: 'IV',
+      },
+      {
+        seconds: 27.94,
+        chord: 'V',
+      },
+      {
+        seconds: 29.64,
+        chord: 'I',
+      },
+      {
+        chord: 'vi',
+        seconds: 31.59,
+      },
+    ],
+    endSeconds: 33.49,
+  },
+  {
+    name: "Don't Dream It's Over",
+    artist: 'Crowded House',
+    key: 'Eb',
+    mode: 1,
+    videoId: 'J9gKyRmic20',
+    chords: [
+      {
+        seconds: 46.86,
+        chord: 'IV',
+      },
+      {
+        seconds: 48.28,
+        chord: 'V',
+      },
+      {
+        seconds: 49.67,
+        chord: 'I',
+      },
+      {
+        chord: 'vi',
+        seconds: 51.19,
+      },
+    ],
+    endSeconds: 52.64,
+  },
+  {
+    name: 'The Man',
+    artist: 'Taylor Swift',
+    key: 'C',
+    mode: 1,
+    videoId: 'AqAJLh9wuZ0',
+    chords: [
+      {
+        seconds: 32.75,
+        chord: 'IV',
+      },
+      {
+        seconds: 34.92,
+        chord: 'V',
+      },
+      {
+        seconds: 37.11,
+        chord: 'I',
+      },
+      {
+        chord: 'vi',
+        seconds: 39.3,
+      },
+    ],
+    endSeconds: 41.48,
+  },
+  {
+    name: "I'm Not Gonna Teach Your Boyfriend How to Dance With You",
+    artist: 'Black Kids',
+    key: 'C',
+    mode: 1,
+    videoId: 'rOV6I4fYnvQ',
+    chords: [
+      {
+        seconds: 23.47,
+        chord: 'IV',
+      },
+      {
+        seconds: 25.17,
+        chord: 'V',
+      },
+      {
+        seconds: 27.05,
+        chord: 'I',
+      },
+      {
+        chord: 'vi',
+        seconds: 28.97,
+      },
+    ],
+    endSeconds: 30.97,
+  },
+  {
+    name: 'Walking in Memphis',
+    artist: 'Marc Cohn',
+    key: 'C',
+    mode: 1,
+    videoId: 'PgRafRp-P-o',
+    chords: [
+      {
+        seconds: 36.67,
+        chord: 'IV',
+      },
+      {
+        seconds: 37.69,
+        chord: 'V',
+      },
+      {
+        seconds: 38.56,
+        chord: 'I',
+      },
+      {
+        chord: 'vi',
+        seconds: 39.39,
+      },
+    ],
+    endSeconds: 40.33,
+  },
+  {
+    name: 'Cheerleader',
+    artist: 'OMI ',
+    key: 'E',
+    mode: 1,
+    videoId: 'I_NVUZNsh2E',
+    chords: [
+      {
+        seconds: 31.01,
+        chord: 'I',
+      },
+      {
+        seconds: 32.17,
+        chord: 'IV',
+      },
+      {
+        seconds: 33.38,
+        chord: 'V',
+      },
+      {
+        seconds: 34.54,
+        chord: 'IV',
+      },
+    ],
+    endSeconds: 35.73,
+  },
+  {
+    name: 'L.I.F.E.G.O.E.S.O.N.',
+    artist: 'Noah And The Whale',
+    key: 'E',
+    mode: 1,
+    videoId: 'mCHzicKq3W4',
+    chords: [
+      {
+        seconds: 42.02,
+        chord: 'I',
+      },
+      {
+        seconds: 43.46,
+        chord: 'IV',
+      },
+      {
+        seconds: 45.01,
+        chord: 'V',
+      },
+      {
+        seconds: 46.28,
+        chord: 'IV',
+      },
+    ],
+    endSeconds: 47.77,
+  },
+  {
+    name: 'Summer Nights',
+    artist: 'Grease',
+    key: 'D',
+    mode: 1,
+    videoId: '6WIW20iaLcE',
+    chords: [
+      {
+        seconds: 8.03,
+        chord: 'I',
+      },
+      {
+        seconds: 9.04,
+        chord: 'IV',
+      },
+      {
+        seconds: 10.03,
+        chord: 'V',
+      },
+      {
+        seconds: 11.03,
+        chord: 'IV',
+      },
+    ],
+    endSeconds: 11.97,
+  },
+  {
+    name: 'Hang On Sloopy',
+    artist: 'The McCoys',
+    key: 'G',
+    mode: 1,
+    videoId: 'Nuw8GJbqx94',
+    chords: [
+      {
+        seconds: 8.03,
+        chord: 'I',
+      },
+      {
+        seconds: 9.36,
+        chord: 'IV',
+      },
+      {
+        seconds: 10.37,
+        chord: 'V',
+      },
+      {
+        seconds: 11.5,
+        chord: 'IV',
+      },
+    ],
+    endSeconds: 12.52,
+  },
+  {
+    name: 'Ana Ng',
+    artist: 'They Might Be Giants',
+    key: 'G',
+    mode: 1,
+    videoId: 'MEjutUbgpH8',
+    chords: [
+      {
+        seconds: 47.47,
+        chord: 'I',
+      },
+      {
+        seconds: 48.36,
+        chord: 'IV',
+      },
+      {
+        seconds: 49.25,
+        chord: 'V',
+      },
+      {
+        seconds: 50.11,
+        chord: 'IV',
+      },
+    ],
+    endSeconds: 51.07,
+  },
+  {
+    name: 'Hey Julie',
+    artist: 'Fountain of Wayne',
+    key: 'G',
+    mode: 1,
+    videoId: 'NpxYtIrJ-6I',
+    chords: [
+      {
+        seconds: 27.96,
+        chord: 'I',
+      },
+      {
+        seconds: 28.76,
+        chord: 'IV',
+      },
+      {
+        seconds: 29.65,
+        chord: 'V',
+      },
+      {
+        seconds: 30.42,
+        chord: 'IV',
+      },
+    ],
+    endSeconds: 31.25,
+  },
+  {
+    name: 'Wild Thing',
+    artist: 'The Troggs',
+    key: 'A',
+    mode: 1,
+    videoId: 'gSWInYFVksg',
+    chords: [
+      {
+        seconds: 7.83,
+        chord: 'I',
+      },
+      {
+        seconds: 8.76,
+        chord: 'IV',
+      },
+      {
+        seconds: 9.94,
+        chord: 'V',
+      },
+      {
+        seconds: 11.13,
+        chord: 'IV',
+      },
+    ],
+    endSeconds: 12.34,
+  },
+  {
+    name: 'Walking On Sunshine',
+    artist: 'Katrina & The Waves',
+    key: 'Eb',
+    mode: 1,
+    videoId: 'iPUmE-tne5U',
+    chords: [
+      {
+        seconds: 18.6,
+        chord: 'I',
+      },
+      {
+        seconds: 19.61,
+        chord: 'IV',
+      },
+      {
+        seconds: 20.76,
+        chord: 'V',
+      },
+      {
+        seconds: 21.8,
+        chord: 'IV',
+      },
+    ],
+    endSeconds: 22.98,
+  },
+  {
+    name: 'Lucky',
+    artist: 'Radio Head',
+    key: 'E',
+    mode: 2,
+    videoId: 'FsyqsnY7dRA',
+    chords: [
+      {
+        seconds: 68.34,
+        chord: 'i',
+      },
+      {
+        seconds: 71.9,
+        chord: 'IV',
+      },
+    ],
+    endSeconds: 75.59,
+  },
+  {
+    name: 'Apache',
+    artist: 'The Shadows',
+    key: 'E',
+    mode: 2,
+    videoId: '-ss22jmrs_E',
+    chords: [
+      {
+        seconds: 11.02,
+        chord: 'i',
+      },
+      {
+        seconds: 12.5,
+        chord: 'IV',
+      },
+      {
+        chord: 'i',
+        seconds: 14.29,
+      },
+    ],
+    endSeconds: 17.81,
+  },
+  {
+    name: 'No Quarter',
+    artist: 'Led Zepelin',
+    key: 'C#',
+    mode: 2,
+    videoId: '_BZLM2j8p5E',
+    chords: [
+      {
+        seconds: 62.15,
+        chord: 'i',
+      },
+      {
+        seconds: 66.21,
+        chord: 'IV',
+      },
+      {
+        chord: 'i',
+        seconds: 68.9,
+      },
+    ],
+    endSeconds: 72.31,
+  },
+  {
+    name: 'The Strokes',
+    artist: 'Reptilia',
+    key: 'B',
+    mode: 2,
+    videoId: 'b8-tXG8KrWs',
+    chords: [
+      {
+        seconds: 13.57,
+        chord: 'i',
+      },
+      {
+        seconds: 16.84,
+        chord: 'IV',
+      },
+      {
+        chord: 'i',
+        seconds: 19.85,
+      },
+      {
+        seconds: 22.87,
+        chord: 'IV',
+      },
+    ],
+    endSeconds: 25.92,
+  },
+  {
+    name: 'Evil Ways',
+    artist: 'Santana',
+    key: 'G',
+    mode: 2,
+    videoId: 'gVPUAntzOl4',
+    chords: [
+      {
+        seconds: 18.52,
+        chord: 'i7',
+      },
+      {
+        seconds: 19.47,
+        chord: 'IV',
+      },
+      {
+        chord: 'i7',
+        seconds: 20.45,
+      },
+      {
+        seconds: 21.55,
+        chord: 'IV',
+      },
+    ],
+    endSeconds: 22.63,
+  },
+  {
+    name: 'Laser Gun',
+    artist: 'M83',
+    key: 'A',
+    mode: 2,
+    videoId: 'eISdgDJMFnA',
+    chords: [
+      {
+        seconds: 10.36,
+        chord: 'i7',
+      },
+      {
+        seconds: 12.89,
+        chord: 'IV',
+      },
+      {
+        chord: 'i7',
+        seconds: 15.44,
+      },
+      {
+        seconds: 18.06,
+        chord: 'IV',
+      },
+    ],
+    endSeconds: 20.53,
+  },
+  {
+    name: 'I Wish',
+    artist: 'Stevie Wonder',
+    key: 'Eb',
+    mode: 2,
+    videoId: 'B6cqrjlqjuM',
+    chords: [
+      {
+        seconds: 18.11,
+        chord: 'i7',
+      },
+      {
+        seconds: 19.26,
+        chord: 'IV7',
+      },
+      {
+        chord: 'i7',
+        seconds: 20.39,
+      },
+      {
+        seconds: 21.5,
+        chord: 'IV7',
+      },
+    ],
+    endSeconds: 22.57,
+  },
+  {
+    name: 'Flash Light',
+    artist: 'Parliament',
+    key: 'C',
+    mode: 2,
+    videoId: '0wBqWb43y6I',
+    chords: [
+      {
+        seconds: 27.59,
+        chord: 'i7',
+      },
+      {
+        seconds: 29.83,
+        chord: 'IV9',
+      },
+      {
+        chord: 'i7',
+        seconds: 32.11,
+      },
+      {
+        seconds: 34.43,
+        chord: 'IV9',
+      },
+    ],
+    endSeconds: 36.55,
+  },
 ];
