@@ -6577,4 +6577,26 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     ],
     endSeconds: 36.55,
   },
+  {
+    name: 'Good Times',
+    artist: 'Chic',
+    key: 'E',
+    mode: 2,
+    videoId: '51r5f5OdIY0',
+    chords: [
+      {
+        seconds: 18.69,
+        chord: 'i7',
+      },
+      {
+        seconds: 23.01,
+        chord: 'IVsus',
+      },
+      {
+        chord: 'IV6',
+        seconds: 25.24,
+      },
+    ],
+    endSeconds: 27.49,
+  },
 ];
