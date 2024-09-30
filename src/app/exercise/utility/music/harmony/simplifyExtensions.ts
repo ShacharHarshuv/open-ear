@@ -1,70 +1,62 @@
-import { isEqual, last } from 'lodash';
-import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { keys } from '../../../../shared/ts-utility/keys';
-import { Chord, ChordType } from '../chords';
-import { chordTypeConfigMap } from '../chords/Chord/ChordType';
-import { getInterval } from '../intervals/getInterval';
-import { getNoteType } from '../notes/getNoteType';
+import { ChordType } from '../chords';
+import { Interval } from '../intervals/Interval';
+import { ScaleDegree, isDiatonic } from '../scale-degrees';
 import { RomanNumeralChord } from './RomanNumeralChord';
 import { RomanNumeralChordSymbol } from './index';
+import { transposeScaleDegree } from './transposeScaleDegree';
+
+function isIntervalDiatonic(root: ScaleDegree, interval: Interval) {
+  const scaleDegree = transposeScaleDegree(root, interval);
+  return isDiatonic(scaleDegree);
+}
 
 export function simplifyExtensions(
   chordSymbol: RomanNumeralChordSymbol,
 ): RomanNumeralChordSymbol {
   const romanNumeral = new RomanNumeralChord(chordSymbol);
 
-  const typeConfig = chordTypeConfigMap[romanNumeral.type];
-
-  const includesTriad = (() => {
-    const triadScaleDegrees = typeConfig.scaleDegreeList.slice(0, 2);
-    const triads = [
-      chordTypeConfigMap[ChordType.Major],
-      chordTypeConfigMap[ChordType.Minor],
-      chordTypeConfigMap[ChordType.Diminished],
-      chordTypeConfigMap[ChordType.Sharp5],
-    ];
-    return triads.some(({ scaleDegreeList }) =>
-      isEqual(scaleDegreeList, triadScaleDegrees),
-    );
-  })();
-
-  if (!includesTriad) {
-    return chordSymbol; // not simplifying for more complex tensions
-  }
+  const { type } = romanNumeral;
 
   const simplifiedType = (() => {
-    const chordInC = romanNumeral.getChord('C');
-    const notes = chordInC.getVoicing({
-      position: 0,
-      withBass: false,
-    });
-    const simplifiedNotes = [...notes];
-    function isDiatonic(note: Note) {
-      return ['C', 'D', 'E', 'F', 'G', 'A', 'B'].includes(getNoteType(note));
-    }
-    while (simplifiedNotes.length > 3 && isDiatonic(last(simplifiedNotes)!)) {
-      simplifiedNotes.pop();
+    if (
+      type === ChordType.Major7th &&
+      isIntervalDiatonic(romanNumeral.scaleDegree, Interval.MajorSeventh)
+    ) {
+      return ChordType.Major;
     }
 
-    if (simplifiedNotes.length === notes.length) {
-      return romanNumeral.type;
+    if (
+      type === ChordType.Minor7th &&
+      isIntervalDiatonic(romanNumeral.scaleDegree, Interval.MinorSeventh)
+    ) {
+      return ChordType.Minor;
     }
 
-    const simplifiedIntervals = simplifiedNotes.map((note) =>
-      getInterval(simplifiedNotes[0], note),
-    );
-
-    const type = keys(chordTypeConfigMap).find((type: ChordType) => {
-      const candidateTypeIntervals = new Chord({
-        root: 'C', // doesn't matter
-        type: type,
-      }).intervals;
-      return isEqual(candidateTypeIntervals, simplifiedIntervals);
-    });
-
-    if (!type) {
-      throw new Error(`Could not simplify chord ${chordSymbol}`);
+    if (
+      type === ChordType.Major6th &&
+      isIntervalDiatonic(romanNumeral.scaleDegree, Interval.MajorSixth)
+    ) {
+      return ChordType.Major;
     }
+
+    if (
+      type === ChordType.Dominant7th &&
+      isIntervalDiatonic(romanNumeral.scaleDegree, Interval.MinorSeventh)
+    ) {
+      return ChordType.Major;
+    }
+
+    if (type === ChordType.Dominant9th) {
+      if (isIntervalDiatonic(romanNumeral.scaleDegree, Interval.MinorSeventh)) {
+        return ChordType.Major;
+      } else {
+        return ChordType.Dominant7th;
+      }
+    }
+
+    // if (type === ChordType.Dominant13th) {
+    //   return ChordType.Dominant11th;
+    // }
 
     return type;
   })();

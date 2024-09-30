@@ -29,8 +29,8 @@ describe('simplifyExtensions', () => {
     simplify('Imaj7/3').to('I/3'),
     simplify('vi7').to('vi'),
     simplify('III7').to('III'),
-    // for now, we will not be converting 9ths and up
-    noChange('V9'),
+    simplify('V9').to('V'),
+    simplify('IV9').to('IV7'),
     noChange('V11'),
   ]);
 });

@@ -111,12 +111,9 @@ export function getNoteFromScaleDegree(
 ): Note {
   const chromaticDegree = expandedScaleDegreeToChromaticDegree[scaleDegree];
   if (chromaticDegree === undefined) {
-    throw new Error(`Unknown Scale Degree ${scaleDegree}`)
+    throw new Error(`Unknown Scale Degree ${scaleDegree}`);
   }
-  return noteTypeToNote(
-    transpose(key, mod((chromaticDegree - 1), 12)),
-    octave,
-  );
+  return noteTypeToNote(transpose(key, mod(chromaticDegree - 1, 12)), octave);
 }
 
 export function getScaleDegreeFromNote(key: Key, note: Note): ScaleDegree {
