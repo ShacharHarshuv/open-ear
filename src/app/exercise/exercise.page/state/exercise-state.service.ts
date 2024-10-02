@@ -33,6 +33,7 @@ const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   moveToNextQuestionAutomatically: false,
   answerQuestionAutomatically: false,
   instrument: 'piano',
+  playWrongAnswer: false,
 };
 
 export interface CurrentAnswer {
@@ -201,7 +202,11 @@ export class ExerciseStateService implements OnDestroy {
         return currentAnswers;
       });
 
-      if ('playOnWrong' in currentSegment && currentSegment.playOnWrong) {
+      if (
+        this._globalSettings().playWrongAnswer &&
+        'playOnWrong' in currentSegment &&
+        currentSegment.playOnWrong
+      ) {
         const partToPlay = toSteadyPart(
           toGetter(currentSegment.playOnWrong)(answer),
         );

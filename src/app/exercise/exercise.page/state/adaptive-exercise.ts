@@ -14,6 +14,8 @@ export class AdaptiveExercise implements Exercise.Exercise {
   readonly name: string = this._exercise.name;
   readonly explanation: ExerciseExplanationContent | undefined =
     this._exercise.explanation;
+  readonly isPlayWrongAnswerSupported =
+    this._exercise.isPlayWrongAnswerSupported;
   private _lastQuestion: QuestionToRepeat | null = null;
   private _wrongQuestionsHeap = new Heap<Required<QuestionToRepeat>>(
     (a: Required<QuestionToRepeat>, b: Required<QuestionToRepeat>) =>

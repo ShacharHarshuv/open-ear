@@ -11,11 +11,7 @@ import {
 describe(intervalExercise.name, () => {
   const context = testExercise({
     getExercise: intervalExercise,
-    settingDescriptorList: [
-      'Included Intervals',
-      'Interval Type',
-      'Play Wrong Answer',
-    ],
+    settingDescriptorList: ['Included Intervals', 'Interval Type'],
   });
   const allIntervals: IntervalName[] = _.map(intervalDescriptorList, 'name');
 

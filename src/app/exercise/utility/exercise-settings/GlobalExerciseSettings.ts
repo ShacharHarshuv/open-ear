@@ -11,4 +11,5 @@ export interface GlobalExerciseSettings {
   moveToNextQuestionAutomatically: boolean;
   answerQuestionAutomatically: boolean;
   instrument: InstrumentName;
+  playWrongAnswer: boolean;
 }

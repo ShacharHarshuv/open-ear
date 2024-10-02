@@ -68,6 +68,7 @@ describe(ExercisePage.name, () => {
         adaptive: false,
         playCadence: true,
         instrument: 'piano',
+        playWrongAnswer: false,
       },
       wasExplanationDisplayed: true,
     };

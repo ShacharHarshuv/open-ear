@@ -524,6 +524,7 @@ export type Exercise<
   readonly summary: string;
   readonly explanation?: ExerciseExplanationContent;
   readonly blackListPlatform?: Platforms;
+  readonly isPlayWrongAnswerSupported: boolean;
 
   getAnswerList(): AnswerList<GAnswer>;
 
