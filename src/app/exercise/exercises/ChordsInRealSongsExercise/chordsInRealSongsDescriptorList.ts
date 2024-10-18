@@ -6599,4 +6599,600 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     ],
     endSeconds: 27.49,
   },
+  {
+    name: 'Canon in D',
+    artist: 'Pachelbel',
+    key: 'D',
+    mode: 1,
+    videoId: 'NlprozGcs80',
+    chords: [
+      {
+        seconds: 139.8,
+        chord: 'I',
+      },
+      {
+        seconds: 141.38,
+        chord: 'V',
+      },
+      {
+        seconds: 142.97,
+        chord: 'vi',
+      },
+      {
+        seconds: 144.46,
+        chord: 'iii',
+      },
+      {
+        chord: 'IV',
+        seconds: 146.13,
+      },
+      {
+        chord: 'I',
+        seconds: 147.65,
+      },
+      {
+        chord: 'IV',
+        seconds: 149.1,
+      },
+      {
+        chord: 'V',
+        seconds: 150.91,
+      },
+    ],
+    endSeconds: 152.5,
+  },
+  {
+    name: 'All Together Now',
+    artist: 'The Farm',
+    key: 'D',
+    mode: 1,
+    videoId: 'iRgtzZ-mOQo',
+    chords: [
+      {
+        seconds: 85.97,
+        chord: 'I',
+      },
+      {
+        seconds: 87.98,
+        chord: 'V',
+      },
+      {
+        seconds: 90.05,
+        chord: 'vi',
+      },
+      {
+        seconds: 92.23,
+        chord: 'iii',
+      },
+      {
+        chord: 'IV',
+        seconds: 94.34,
+      },
+      {
+        chord: 'I',
+        seconds: 96.36,
+      },
+      {
+        chord: 'IV',
+        seconds: 98.83,
+      },
+      {
+        chord: 'V',
+        seconds: 100.94,
+      },
+    ],
+    endSeconds: 103.01,
+  },
+  {
+    name: 'Ladies and Gentlemen We Are Floating in Space',
+    artist: 'Spiritualized',
+    key: 'D',
+    mode: 1,
+    videoId: 'iB7E1D_3Na4',
+    chords: [
+      {
+        seconds: 60.46,
+        chord: 'I',
+      },
+      {
+        seconds: 62.14,
+        chord: 'V',
+      },
+      {
+        seconds: 63.94,
+        chord: 'vi',
+      },
+      {
+        seconds: 65.69,
+        chord: 'iii',
+      },
+      {
+        chord: 'IV',
+        seconds: 67.46,
+      },
+      {
+        chord: 'I',
+        seconds: 69.29,
+      },
+      {
+        chord: 'IV',
+        seconds: 71.07,
+      },
+      {
+        chord: 'V',
+        seconds: 72.87,
+      },
+    ],
+    endSeconds: 74.76,
+  },
+  {
+    name: 'Eyes of the World',
+    artist: 'Fleetwood Mac',
+    key: 'Bb',
+    mode: 1,
+    videoId: '-W9pfefHa9I',
+    chords: [
+      {
+        seconds: 1.89,
+        chord: 'I',
+      },
+      {
+        seconds: 3.08,
+        chord: 'V',
+      },
+      {
+        seconds: 4.72,
+        chord: 'vi',
+      },
+      {
+        seconds: 6.33,
+        chord: 'iii',
+      },
+      {
+        chord: 'IV',
+        seconds: 7.94,
+      },
+      {
+        chord: 'I',
+        seconds: 9.5,
+      },
+      {
+        chord: 'IV',
+        seconds: 11.06,
+      },
+      {
+        chord: 'V',
+        seconds: 12.51,
+      },
+    ],
+    endSeconds: 14.11,
+  },
+  {
+    name: 'Memories',
+    artist: 'Maroon 5',
+    key: 'B',
+    mode: 1,
+    videoId: 'SlPhMPnQ58k',
+    chords: [
+      {
+        seconds: 10.86,
+        chord: 'I',
+      },
+      {
+        seconds: 12.04,
+        chord: 'V',
+      },
+      {
+        seconds: 13.44,
+        chord: 'vi',
+      },
+      {
+        seconds: 14.64,
+        chord: 'iii',
+      },
+      {
+        chord: 'IV',
+        seconds: 16.02,
+      },
+      {
+        chord: 'I',
+        seconds: 17.33,
+      },
+      {
+        chord: 'IV',
+        seconds: 18.71,
+      },
+      {
+        chord: 'V',
+        seconds: 19.97,
+      },
+    ],
+    endSeconds: 21.31,
+  },
+  {
+    name: 'Step',
+    artist: 'Vampire Weekend',
+    key: 'Bb',
+    mode: 1,
+    videoId: '_mDxcDjg9P4',
+    chords: [
+      {
+        seconds: 61.74,
+        chord: 'I',
+      },
+      {
+        seconds: 63.18,
+        chord: 'V',
+      },
+      {
+        seconds: 64.79,
+        chord: 'vi',
+      },
+      {
+        seconds: 66.29,
+        chord: 'iii/5',
+      },
+      {
+        chord: 'IV',
+        seconds: 67.87,
+      },
+      {
+        chord: 'I',
+        seconds: 69.42,
+      },
+      {
+        chord: 'IV',
+        seconds: 70.87,
+      },
+      {
+        chord: 'V',
+        seconds: 72.41,
+      },
+    ],
+    endSeconds: 73.99,
+  },
+  {
+    name: 'Hook',
+    artist: 'Blues Traveler',
+    key: 'A',
+    mode: 1,
+    videoId: 'pdz5kCaCRFM',
+    chords: [
+      {
+        seconds: 58.03,
+        chord: 'I',
+      },
+      {
+        seconds: 59.35,
+        chord: 'V',
+      },
+      {
+        seconds: 60.83,
+        chord: 'vi',
+      },
+      {
+        seconds: 62.19,
+        chord: 'III',
+      },
+      {
+        chord: 'IV',
+        seconds: 63.68,
+      },
+      {
+        chord: 'I',
+        seconds: 65.06,
+      },
+      {
+        chord: 'IV',
+        seconds: 66.5,
+      },
+      {
+        chord: 'V',
+        seconds: 67.87,
+      },
+    ],
+    endSeconds: 69.52,
+  },
+  {
+    name: "Don't Look Back in Anger",
+    artist: 'Oasis',
+    key: 'Db',
+    mode: 1,
+    videoId: 'cmpRLQZkTb8',
+    chords: [
+      {
+        seconds: 70.66,
+        chord: 'I',
+      },
+      {
+        seconds: 72.11,
+        chord: 'V',
+      },
+      {
+        seconds: 73.56,
+        chord: 'vi',
+      },
+      {
+        seconds: 74.88,
+        chord: 'III',
+      },
+      {
+        chord: 'IV',
+        seconds: 76.45,
+      },
+      {
+        chord: 'V',
+        seconds: 77.84,
+      },
+      {
+        chord: 'I',
+        seconds: 79.25,
+      },
+      {
+        chord: 'vi',
+        seconds: 80.97,
+      },
+      {
+        chord: 'V',
+        seconds: 81.65,
+      },
+    ],
+    endSeconds: 82.4,
+  },
+  {
+    name: 'Rain and Tears',
+    artist: "Aphrodite's Child",
+    key: 'Bb',
+    mode: 1,
+    videoId: '2I7QG12ojg0',
+    chords: [
+      {
+        seconds: 27.55,
+        chord: 'I',
+      },
+      {
+        seconds: 29.02,
+        chord: 'V/7',
+      },
+      {
+        seconds: 30.55,
+        chord: 'vi',
+      },
+      {
+        seconds: 32.32,
+        chord: 'iii',
+      },
+      {
+        chord: 'IV',
+        seconds: 33.98,
+      },
+      {
+        chord: 'I',
+        seconds: 35.62,
+      },
+      {
+        chord: 'IV',
+        seconds: 37.32,
+      },
+      {
+        chord: 'V',
+        seconds: 38.84,
+      },
+    ],
+    endSeconds: 40.62,
+  },
+  {
+    name: 'Rain and Tears',
+    artist: "Aphrodite's Child",
+    key: 'Bb',
+    mode: 1,
+    videoId: '2I7QG12ojg0',
+    chords: [
+      {
+        seconds: 40.54,
+        chord: 'I',
+      },
+      {
+        seconds: 42.19,
+        chord: 'V/7',
+      },
+      {
+        seconds: 43.74,
+        chord: 'vi',
+      },
+      {
+        seconds: 45.33,
+        chord: 'iii',
+      },
+      {
+        chord: 'IV',
+        seconds: 47.16,
+      },
+      {
+        chord: 'I',
+        seconds: 48.68,
+      },
+      {
+        chord: 'ii',
+        seconds: 50.33,
+      },
+      {
+        chord: 'V',
+        seconds: 51.21,
+      },
+      {
+        chord: 'I',
+        seconds: 52.08,
+      },
+    ],
+    endSeconds: 53.06,
+  },
+  {
+    name: 'Go West',
+    artist: 'Pet Shop Boys',
+    key: 'C',
+    mode: 1,
+    videoId: 'LNBjMRvOB5M',
+    chords: [
+      {
+        seconds: 66.81,
+        chord: 'I',
+      },
+      {
+        seconds: 68.63,
+        chord: 'V',
+      },
+      {
+        seconds: 70.52,
+        chord: 'vi',
+      },
+      {
+        seconds: 72.6,
+        chord: 'iii',
+      },
+      {
+        chord: 'IV',
+        seconds: 74.56,
+      },
+      {
+        chord: 'I',
+        seconds: 76.49,
+      },
+      {
+        chord: 'ii',
+        seconds: 78.49,
+      },
+      {
+        chord: 'V',
+        seconds: 80.43,
+      },
+    ],
+    endSeconds: 82.43,
+  },
+  {
+    name: 'Basket Case',
+    artist: 'Green Day',
+    key: 'Eb',
+    mode: 1,
+    videoId: 'NUTGr5t3MoY',
+    chords: [
+      {
+        seconds: 64.1,
+        chord: 'I',
+      },
+      {
+        seconds: 65.52,
+        chord: 'V',
+      },
+      {
+        seconds: 66.94,
+        chord: 'vi',
+      },
+      {
+        seconds: 68.22,
+        chord: 'iii',
+      },
+      {
+        chord: 'IV',
+        seconds: 69.56,
+      },
+      {
+        chord: 'I',
+        seconds: 70.81,
+      },
+      {
+        chord: 'V',
+        seconds: 72.3,
+      },
+    ],
+    endSeconds: 75.25,
+  },
+  {
+    name: 'The Luckiest',
+    artist: 'Ben Folds',
+    key: 'D',
+    mode: 1,
+    videoId: 'zcBqmN62wtw',
+    chords: [
+      {
+        seconds: 90.04,
+        chord: 'I',
+      },
+      {
+        seconds: 92.06,
+        chord: 'V',
+      },
+      {
+        seconds: 94.05,
+        chord: 'vi',
+      },
+      {
+        seconds: 95.94,
+        chord: 'iii',
+      },
+      {
+        chord: 'IV',
+        seconds: 98,
+      },
+      {
+        chord: 'Vsus',
+        seconds: 100.08,
+      },
+      {
+        chord: 'V',
+        seconds: 101.21,
+      },
+      {
+        chord: 'I',
+        seconds: 102.38,
+      },
+      {
+        chord: 'V',
+        seconds: 104.62,
+      },
+    ],
+    endSeconds: 107.12,
+  },
+  {
+    name: 'Spicks and Specks',
+    artist: 'Bee Gees',
+    key: 'G',
+    mode: 1,
+    videoId: 'WpK7ZmRaeys',
+    chords: [
+      {
+        seconds: 35.63,
+        chord: 'I',
+      },
+      {
+        seconds: 37.52,
+        chord: 'V7',
+      },
+      {
+        seconds: 39.47,
+        chord: 'vi',
+      },
+      {
+        seconds: 41.39,
+        chord: 'III',
+      },
+      {
+        chord: 'IV',
+        seconds: 43.27,
+      },
+      {
+        chord: 'I',
+        seconds: 45.25,
+      },
+      {
+        chord: 'V7',
+        seconds: 47.23,
+      },
+      {
+        chord: 'I',
+        seconds: 49.13,
+      },
+    ],
+    endSeconds: 50.25,
+  },
 ];
