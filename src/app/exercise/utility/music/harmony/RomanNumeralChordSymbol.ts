@@ -49,6 +49,7 @@ export type MinorChordTypesPostfix =
   | ''
   | ChordType.Diminished
   | '7'
+  | '9'
   | ChordType.HalfDiminished7th
   | ChordType.Diminished7th
   | 'b6'

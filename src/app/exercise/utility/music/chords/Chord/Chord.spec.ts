@@ -230,6 +230,21 @@ describe('Chord', () => {
       },
     },
     {
+      chordSymbolOrConfig: 'Am9',
+      octave: 4,
+      expectedResult: {
+        root: 'A',
+        type: ChordType.Minor9th,
+        voicing: [
+          [0, ['A3', 'C4', 'E4', 'G4', 'B4']],
+          [1, ['C4', 'E4', 'G4', 'B4', 'A4']],
+          [2, ['E3', 'G3', 'B3', 'A3', 'C4']],
+          [3, ['G3', 'B3', 'A3', 'C4', 'E4']],
+        ],
+        noteTypes: ['A', 'C', 'E', 'G', 'B'],
+      },
+    },
+    {
       chordSymbolOrConfig: 'Csus',
       octave: 5,
       expectedResult: {

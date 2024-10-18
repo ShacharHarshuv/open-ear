@@ -362,6 +362,19 @@ describe('RomanNumeralBuilder', () => {
       },
       serialized: `ⅵ<sup>6</sup>`,
     },
+    {
+      romanNumeralChordSymbol: 'vi9',
+      type: ChordType.Minor9th,
+      isDiatonic: true,
+      scaleDegree: '6',
+      bass: '6',
+      diatonicDegree: 6,
+      accidental: Accidental.Natural,
+      getChord: {
+        C: 'Am9',
+      },
+      serialized: `ⅵ<sup>9</sup>`,
+    },
   ];
 
   it('should cover all chord types', () => {

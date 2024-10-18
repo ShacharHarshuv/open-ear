@@ -81,20 +81,21 @@ export const allRomanNumeralAnswerList: AnswerList<RomanNumeralChordSymbol> =
       ChordType.Diminished7th,
     ];
 
-    const minorChordTypes: ChordType[] = [
-      ChordType.Minor,
-      ChordType.Minor7th,
-      ChordType.MinorSharp5,
-      ChordType.Minor6th,
-      ChordType.MinorAdd9,
-      ChordType.MinorMajor7th,
+    const minorChordTypes: ChordType[][] = [
+      [ChordType.Minor, ChordType.Minor7th, ChordType.Minor9th],
+      [
+        ChordType.MinorSharp5,
+        ChordType.Minor6th,
+        ChordType.MinorAdd9,
+        ChordType.MinorMajor7th,
+      ],
     ];
     const minorChordTypesLayout: AnswersLayout<ChordType> = {
-      rows: [minorChordTypes, diminisehdChordTypes],
+      rows: [...minorChordTypes, diminisehdChordTypes],
     };
 
     const diminishedChordTypesLayout: AnswersLayout<ChordType> = {
-      rows: [diminisehdChordTypes, minorChordTypes],
+      rows: [diminisehdChordTypes, ...minorChordTypes],
     };
 
     const bassToAnswerLayout: Partial<
