@@ -14,7 +14,8 @@ export type UppercaseRomanNumeralChordSymbol =
   | 'bVI'
   | 'VI'
   | 'bVII'
-  | 'VII';
+  | 'VII'
+  | '#V';
 export type LowercaseRomanNumeralChordSymbol =
   | 'i'
   | '#i'

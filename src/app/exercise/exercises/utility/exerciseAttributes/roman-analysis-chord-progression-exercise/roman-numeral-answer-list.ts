@@ -1,4 +1,4 @@
-import { groupBy } from 'lodash';
+import { groupBy, uniq } from 'lodash';
 import { NoteEvent } from '../../../../../services/player.service';
 import {
   AnswerConfig,
@@ -6,6 +6,7 @@ import {
   AnswersLayout,
   AnswersLayoutCell,
   addViewLabelToAnswerList,
+  flatAnswerList,
   getAnswerListIterator,
   mapAnswerList,
 } from '../../../../exercise-logic';
@@ -79,6 +80,7 @@ export const allRomanNumeralAnswerList: AnswerList<RomanNumeralChordSymbol> =
       ChordType.Diminished,
       ChordType.HalfDiminished7th,
       ChordType.Diminished7th,
+      ChordType.Sharp5,
     ];
 
     const minorChordTypes: ChordType[][] = [
@@ -286,3 +288,5 @@ export const allRomanNumeralAnswerList: AnswerList<RomanNumeralChordSymbol> =
       (answer) => new RomanNumeralChord(answer).toViewString(),
     );
   })();
+
+console.log(uniq(flatAnswerList(allRomanNumeralAnswerList)));

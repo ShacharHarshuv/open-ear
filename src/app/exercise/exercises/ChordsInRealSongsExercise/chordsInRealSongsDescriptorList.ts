@@ -7195,4 +7195,458 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     ],
     endSeconds: 50.25,
   },
+  {
+    name: 'With One Look',
+    artist: 'Andrew Lloyd Webber',
+    key: 'A',
+    mode: 1,
+    videoId: 'O4UAt67wyc4',
+    chords: [
+      {
+        seconds: 17.61,
+        chord: 'Iadd9',
+      },
+      {
+        seconds: 21.27,
+        chord: 'vi7',
+      },
+      {
+        seconds: 24.71,
+        chord: 'ii9',
+      },
+      {
+        seconds: 27.72,
+        chord: 'V11',
+      },
+      {
+        chord: 'V7/4',
+        seconds: 29.39,
+      },
+    ],
+    endSeconds: 30.77,
+  },
+  {
+    name: 'With One Look',
+    artist: 'Andrew Lloyd Webber',
+    key: 'A',
+    mode: 1,
+    videoId: 'O4UAt67wyc4',
+    chords: [
+      {
+        seconds: 31.1,
+        chord: 'I/3',
+      },
+      {
+        seconds: 32.97,
+        chord: 'v',
+      },
+      {
+        seconds: 34.62,
+        chord: 'I',
+      },
+      {
+        seconds: 37.97,
+        chord: 'IV',
+      },
+      {
+        chord: 'I/3',
+        seconds: 39.29,
+      },
+      {
+        chord: 'ii7',
+        seconds: 40.82,
+      },
+      {
+        seconds: 42.67,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 44.78,
+  },
+  {
+    name: 'With One Look',
+    artist: 'Andrew Lloyd Webber',
+    key: 'A',
+    mode: 1,
+    videoId: 'O4UAt67wyc4',
+    chords: [
+      {
+        seconds: 57.5,
+        chord: 'I/3',
+      },
+      {
+        seconds: 58.99,
+        chord: 'v',
+      },
+      {
+        seconds: 60.66,
+        chord: 'I',
+      },
+      {
+        seconds: 62.57,
+        chord: 'IV',
+      },
+      {
+        chord: 'I/5',
+        seconds: 63.73,
+      },
+      {
+        chord: 'V',
+        seconds: 65.48,
+      },
+      {
+        seconds: 67.98,
+        chord: 'I',
+      },
+    ],
+    endSeconds: 69.36,
+  },
+  {
+    name: 'You And Me (But Mostly Me)',
+    artist: 'Book of Mormon',
+    key: 'C',
+    mode: Mode.Major,
+    videoId: 'T-c82omcEn8',
+    chords: [
+      {
+        seconds: 3.99,
+        chord: 'I',
+      },
+      {
+        seconds: 5.4,
+        chord: 'IV',
+      },
+      {
+        seconds: 7.22,
+        chord: 'ii7',
+      },
+      {
+        seconds: 9.14,
+        chord: 'Vsus',
+      },
+      {
+        chord: 'V',
+        seconds: 10.31,
+      },
+    ],
+    endSeconds: 11.1,
+  },
+  {
+    name: 'You And Me (But Mostly Me)',
+    artist: 'Book of Mormon',
+    key: 'C',
+    mode: Mode.Major,
+    videoId: 'T-c82omcEn8',
+    chords: [
+      {
+        seconds: 18.12,
+        chord: 'IV',
+      },
+      {
+        seconds: 18.88,
+        chord: 'V',
+      },
+      {
+        seconds: 19.73,
+        chord: 'I/3',
+      },
+      {
+        seconds: 20.64,
+        chord: 'IV',
+      },
+    ],
+    endSeconds: 21.68,
+  },
+  {
+    name: 'You And Me (But Mostly Me)',
+    artist: 'Book of Mormon',
+    key: 'C',
+    mode: Mode.Major,
+    videoId: 'T-c82omcEn8',
+    chords: [
+      {
+        seconds: 21.73,
+        chord: 'IV/6',
+      },
+      {
+        seconds: 22.55,
+        chord: 'V/7',
+      },
+      {
+        seconds: 23.27,
+        chord: 'I',
+      },
+    ],
+    endSeconds: 25.16,
+  },
+  {
+    name: 'You And Me (But Mostly Me)',
+    artist: 'Book of Mormon',
+    key: 'C',
+    mode: Mode.Major,
+    videoId: 'T-c82omcEn8',
+    chords: [
+      {
+        seconds: 25.14,
+        chord: 'I/3',
+      },
+      {
+        seconds: 26.95,
+        chord: 'IVsus2',
+      },
+      {
+        seconds: 28.38,
+        chord: 'Vsus',
+      },
+    ],
+    endSeconds: 30.15,
+  },
+  {
+    name: 'You And Me (But Mostly Me)',
+    artist: 'Book of Mormon',
+    key: 'C',
+    mode: Mode.Major,
+    videoId: 'T-c82omcEn8',
+    chords: [
+      {
+        seconds: 30.26,
+        chord: 'I',
+      },
+      {
+        seconds: 30.91,
+        chord: 'I/3',
+      },
+      {
+        seconds: 31.56,
+        chord: 'IVsus2',
+      },
+      {
+        chord: 'I',
+        seconds: 33.23,
+      },
+      {
+        chord: 'I/5',
+        seconds: 34.01,
+      },
+      {
+        chord: 'IVsus2',
+        seconds: 34.7,
+      },
+    ],
+    endSeconds: 36.45,
+  },
+  {
+    name: 'You And Me (But Mostly Me)',
+    artist: 'Book of Mormon',
+    key: 'C',
+    mode: Mode.Major,
+    videoId: 'T-c82omcEn8',
+    chords: [
+      {
+        seconds: 36.48,
+        chord: 'I',
+      },
+      {
+        seconds: 37.52,
+        chord: 'I/3',
+      },
+      {
+        seconds: 37.91,
+        chord: 'IV',
+      },
+      {
+        chord: 'ii7',
+        seconds: 39.73,
+      },
+      {
+        chord: 'Vsus',
+        seconds: 41.01,
+      },
+      {
+        chord: 'V',
+        seconds: 42.33,
+      },
+    ],
+    endSeconds: 42.79,
+  },
+  {
+    name: 'You And Me (But Mostly Me)',
+    artist: 'Book of Mormon',
+    key: 'C',
+    mode: Mode.Major,
+    videoId: 'T-c82omcEn8',
+    chords: [
+      {
+        seconds: 49.01,
+        chord: 'IV',
+      },
+      {
+        seconds: 49.68,
+        chord: 'V',
+      },
+      {
+        seconds: 50.43,
+        chord: 'I/3',
+      },
+      {
+        chord: 'IV',
+        seconds: 51.17,
+      },
+      {
+        chord: 'IV/6',
+        seconds: 52.13,
+      },
+      {
+        chord: 'V/7',
+        seconds: 52.84,
+      },
+      {
+        chord: 'I',
+        seconds: 53.58,
+      },
+    ],
+    endSeconds: 55.09,
+  },
+  {
+    name: 'You And Me (But Mostly Me)',
+    artist: 'Book of Mormon',
+    key: 'C',
+    mode: Mode.Major,
+    videoId: 'T-c82omcEn8',
+    chords: [
+      {
+        seconds: 55.39,
+        chord: 'IV',
+      },
+      {
+        seconds: 56.01,
+        chord: 'V',
+      },
+      {
+        seconds: 56.75,
+        chord: 'I/3',
+      },
+      {
+        chord: 'IV',
+        seconds: 57.56,
+      },
+      {
+        chord: 'bVII',
+        seconds: 58.51,
+      },
+      {
+        chord: 'Vsus',
+        seconds: 60.01,
+      },
+      {
+        chord: 'V',
+        seconds: 60.8,
+      },
+    ],
+    endSeconds: 61.61,
+  },
+  {
+    name: 'You And Me (But Mostly Me)',
+    artist: 'Book of Mormon',
+    key: 'C',
+    mode: Mode.Major,
+    videoId: 'T-c82omcEn8',
+    chords: [
+      {
+        seconds: 61.57,
+        chord: 'vi',
+      },
+      {
+        seconds: 62.27,
+        chord: 'IV',
+      },
+      {
+        seconds: 62.97,
+        chord: 'V',
+      },
+      {
+        chord: 'I',
+        seconds: 63.76,
+      },
+    ],
+    endSeconds: 64.76,
+  },
+  {
+    name: 'You And Me (But Mostly Me)',
+    artist: 'Book of Mormon',
+    key: 'C',
+    mode: Mode.Major,
+    videoId: 'T-c82omcEn8',
+    chords: [
+      {
+        seconds: 62.97,
+        chord: 'V',
+      },
+      {
+        chord: 'I',
+        seconds: 63.76,
+      },
+      {
+        chord: 'bVIIsus2',
+        seconds: 64.82,
+      },
+      {
+        chord: 'Vsus',
+        seconds: 66.21,
+      },
+      {
+        chord: 'V',
+        seconds: 67.19,
+      },
+    ],
+    endSeconds: 67.98,
+  },
+  {
+    name: 'You And Me (But Mostly Me)',
+    artist: 'Book of Mormon',
+    key: 'C',
+    mode: 1,
+    videoId: 'T-c82omcEn8',
+    chords: [
+      {
+        chord: 'IV',
+        seconds: 69.5,
+      },
+      {
+        chord: 'Vsus',
+        seconds: 71.06,
+      },
+      {
+        chord: '#V#5',
+        seconds: 72.68,
+      },
+    ],
+    endSeconds: 75.27,
+  },
+  {
+    name: 'You And Me (But Mostly Me)',
+    artist: 'Book of Mormon',
+    key: 'E',
+    mode: 1,
+    videoId: 'T-c82omcEn8',
+    chords: [
+      {
+        chord: 'IV',
+        seconds: 75.96,
+      },
+      {
+        chord: 'V7/4',
+        seconds: 77.4,
+      },
+      {
+        chord: 'iii7',
+        seconds: 79.01,
+      },
+      {
+        chord: 'vi',
+        seconds: 80.59,
+      },
+    ],
+    endSeconds: 82.14,
+  },
 ];
