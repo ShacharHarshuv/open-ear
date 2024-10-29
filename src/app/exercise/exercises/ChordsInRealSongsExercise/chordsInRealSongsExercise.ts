@@ -165,6 +165,39 @@ export function chordsInRealSongsExercise(
     return validChordProgressionsDescriptorList;
   }
 
+  function getQuestionFromProgression(
+    progression: DeepReadonly<ProgressionInSongFromYouTubeDescriptor>,
+  ): Exercise.Question<RomanNumeralChordSymbol> {
+    const modeToCadenceInC: Record<Mode, NoteEvent[]> = {
+      [Mode.Lydian]: IV_V_I_CADENCE_IN_C,
+      [Mode.Major]: IV_V_I_CADENCE_IN_C,
+      [Mode.Mixolydian]: IV_V_I_CADENCE_IN_C,
+      [Mode.Dorian]: iv_V_i_CADENCE_IN_C,
+      [Mode.Minor]: iv_V_i_CADENCE_IN_C,
+      [Mode.Phrygian]: iv_V_i_CADENCE_IN_C,
+      [Mode.Locrian]: iv_V_i_CADENCE_IN_C,
+    };
+    return {
+      type: 'youtube',
+      id: progression.videoId,
+      videoId: progression.videoId,
+      segments: progression.chords.map((chordDesc) => ({
+        rightAnswer: chordDesc.chord,
+        seconds: chordDesc.seconds,
+      })),
+      endSeconds: progression.endSeconds,
+      cadence: transpose(
+        modeToCadenceInC[progression.mode],
+        getDistanceOfKeys(progression.key, 'C'),
+      ),
+      info: `${progression.name ?? ''}${
+        progression.artist ? ` by ${progression.artist} ` : ''
+      }(${progression.key} ${TitleCasePipe.prototype.transform(
+        Mode[progression.mode],
+      )})`,
+    };
+  }
+
   return {
     ...composeExercise(
       withSettings(analyzeBySettings),
@@ -219,37 +252,35 @@ export function chordsInRealSongsExercise(
       },
       getQuestion(
         settings: ChordsInRealSongsSettings,
+        questionsToExclude: string[],
       ): Exercise.Question<RomanNumeralChordSymbol> {
+        console.log('questions to exclude', questionsToExclude);
+        const questionsToExcludeSet = new Set(questionsToExclude);
+
+        const availableProgressions = getAvailableProgressions(settings).filter(
+          (question) => !questionsToExcludeSet.has(question.videoId),
+        );
+
+        console.log('# of songs to choose from', availableProgressions.length);
+
         const progression: DeepReadonly<ProgressionInSongFromYouTubeDescriptor> =
           randomFromList(getAvailableProgressions(settings));
 
-        const modeToCadenceInC: Record<Mode, NoteEvent[]> = {
-          [Mode.Lydian]: IV_V_I_CADENCE_IN_C,
-          [Mode.Major]: IV_V_I_CADENCE_IN_C,
-          [Mode.Mixolydian]: IV_V_I_CADENCE_IN_C,
-          [Mode.Dorian]: iv_V_i_CADENCE_IN_C,
-          [Mode.Minor]: iv_V_i_CADENCE_IN_C,
-          [Mode.Phrygian]: iv_V_i_CADENCE_IN_C,
-          [Mode.Locrian]: iv_V_i_CADENCE_IN_C,
-        };
-        return {
-          type: 'youtube',
-          videoId: progression.videoId,
-          segments: progression.chords.map((chordDesc) => ({
-            rightAnswer: chordDesc.chord,
-            seconds: chordDesc.seconds,
-          })),
-          endSeconds: progression.endSeconds,
-          cadence: transpose(
-            modeToCadenceInC[progression.mode],
-            getDistanceOfKeys(progression.key, 'C'),
-          ),
-          info: `${progression.name ?? ''}${
-            progression.artist ? ` by ${progression.artist} ` : ''
-          }(${progression.key} ${TitleCasePipe.prototype.transform(
-            Mode[progression.mode],
-          )})`,
-        };
+        return getQuestionFromProgression(progression);
+      },
+      getQuestionById(
+        settings: ChordsInRealSongsSettings,
+        questionId: string,
+      ): Exercise.Question<RomanNumeralChordSymbol> | undefined {
+        const availableProgressions = getAvailableProgressions(settings);
+        const progression = _.find(
+          availableProgressions,
+          (progression) => progression.videoId === questionId,
+        );
+
+        return progression
+          ? getQuestionFromProgression(progression)
+          : undefined;
       },
       // todo: consider encorporating this or something similar
       // getIsQuestionValid(

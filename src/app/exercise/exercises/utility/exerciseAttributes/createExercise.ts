@@ -15,11 +15,18 @@ export type CreateExerciseParams<
   readonly name: string;
   readonly explanation?: ExerciseExplanationContent;
   readonly answerList: StaticOrGetter<AnswerList<GAnswer>, [GSettings]>;
-  readonly getQuestion: (settings: GSettings) => Exercise.Question<GAnswer>;
+  readonly getQuestion: (
+    settings: GSettings,
+    questionsToExclude?: string[],
+  ) => Exercise.Question<GAnswer>;
   readonly getIsQuestionValid?: (
     settings: GSettings,
     question: Exercise.Question<GAnswer>,
   ) => boolean;
+  readonly getQuestionById?: (
+    settings: GSettings,
+    id: string,
+  ) => Exercise.Question<GAnswer> | undefined;
   readonly blackListPlatform?: Platforms;
 } & SettingsParams<GSettings>;
 
@@ -53,10 +60,14 @@ export function createExercise<
     getAnswerList: (): AnswerList<GAnswer> => {
       return toGetter(params.answerList)(settings);
     },
-    getQuestion: () => params.getQuestion(settings),
+    getQuestion: (questionsToExclude?: string[]) =>
+      params.getQuestion(settings, questionsToExclude),
     getIsQuestionValid: params.getIsQuestionValid
       ? (question: Question<GAnswer>) =>
           params.getIsQuestionValid!(settings, question)
+      : undefined,
+    getQuestionById: params.getQuestionById
+      ? (id: string) => params.getQuestionById!(settings, id)
       : undefined,
   };
 }

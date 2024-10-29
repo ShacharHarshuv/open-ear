@@ -15,6 +15,7 @@ type PartToPlay = NoteEvent[] | OneOrMany<Note>;
 // TODO(#166): split this file to multiple files
 
 interface BaseQuestion<GAnswer extends string, GSegment> {
+  id?: string;
   type?: string; // default: 'notes'
   /**
    * Use more than one segment for serial exercises
@@ -527,7 +528,9 @@ export type Exercise<
 
   getAnswerList(): AnswerList<GAnswer>;
 
-  getQuestion(): Question<GAnswer>;
+  getQuestion(questionsToExclude?: string[]): Question<GAnswer>;
+
+  getQuestionById?(id: string): Question<GAnswer> | undefined;
 
   getSettingsDescriptor?(): SettingsControlDescriptor<GSettings>[];
 

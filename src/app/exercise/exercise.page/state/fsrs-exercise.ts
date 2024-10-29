@@ -73,7 +73,18 @@ export class QuestionCardsCollection {
 export function fsrsExercise(exercise: Exercise) {
   console.log('fsrsExercise');
   const cardsCollections = new QuestionCardsCollection(exercise.id);
-  let currentQuestion: QuestionCard | null = null;
+  let currentQuestionCard: QuestionCard | null = null;
+  function getCurrentQuestion() {
+    if (!currentQuestionCard) {
+      return null;
+    }
+
+    return (
+      (currentQuestionCard.question.id &&
+        exercise.getQuestionById?.(currentQuestionCard.question.id)) ||
+      currentQuestionCard.question
+    );
+  }
   let questionReceivedTime = new Date();
 
   function questionStartedPlaying() {
@@ -93,21 +104,24 @@ export function fsrsExercise(exercise: Exercise) {
       const randomDueQuestion =
         dueQuestions[Math.floor(Math.random() * dueQuestions.length)];
       cardsCollections.pop(randomDueQuestion);
-      currentQuestion = randomDueQuestion;
-      return currentQuestion.question;
+      currentQuestionCard = randomDueQuestion;
+      return getCurrentQuestion()!;
     }
 
     // fetching new question
-    currentQuestion = {
-      question: exercise.getQuestion(), // todo: we are going to want to specify which questions we don't want, then we also need to do something if there isn't anymore
+    currentQuestionCard = {
+      question: exercise.getQuestion(
+        cardsCollections.savedQuestions
+          .map((q) => q.question.id)
+          .filter((id): id is string => !!id),
+      ),
       card: createEmptyCard(),
     };
 
     questionReceivedTime = new Date();
-    return currentQuestion.question;
+    return getCurrentQuestion()!;
   };
 
-  // todo: we probably want to change the interface here to get more information
   function handleFinishedAnswering(numberOfMistakes: number): void {
     const rating = ((): Grade => {
       if (numberOfMistakes > 1) {
@@ -126,9 +140,9 @@ export function fsrsExercise(exercise: Exercise) {
       const totalTimeToAnswer =
         answerTime.getTime() - questionReceivedTime.getTime();
       const totalQuestionPlayingTime = getQuestionPlayingTime(
-        currentQuestion!.question,
+        currentQuestionCard!.question,
       );
-      const numberOfSegments = currentQuestion!.question.segments.length;
+      const numberOfSegments = currentQuestionCard!.question.segments.length;
       const perfectTime = totalQuestionPlayingTime + numberOfSegments * 1000;
 
       if (totalTimeToAnswer < perfectTime) {
@@ -147,10 +161,14 @@ export function fsrsExercise(exercise: Exercise) {
     })();
 
     console.log('rating', rating);
-    const updatedCard = f.next(currentQuestion!.card, new Date(), rating).card;
+    const updatedCard = f.next(
+      currentQuestionCard!.card,
+      new Date(),
+      rating,
+    ).card;
     console.log('card will come up next on', updatedCard.due);
     cardsCollections.insert({
-      question: currentQuestion!.question,
+      question: currentQuestionCard!.question,
       card: updatedCard,
     });
   }
