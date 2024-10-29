@@ -6200,18 +6200,18 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     chords: [
       {
         seconds: 36.67,
-        chord: 'IV',
-      },
-      {
-        seconds: 37.69,
-        chord: 'V',
-      },
-      {
-        seconds: 38.56,
         chord: 'I',
       },
       {
+        seconds: 37.69,
         chord: 'vi',
+      },
+      {
+        seconds: 38.56,
+        chord: 'IV',
+      },
+      {
+        chord: 'V',
         seconds: 39.39,
       },
     ],
