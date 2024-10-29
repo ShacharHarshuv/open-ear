@@ -244,8 +244,10 @@ export function filterIncludedAnswers<GAnswer extends string>(
           filterInner(answerLayoutCellConfig.innerAnswersList2);
 
         const innerAnswerCells = [
-          ...flatAnswerList(innerAnswersList1),
-          ...(innerAnswersList2 ? flatAnswerList(innerAnswersList2) : []),
+          ...Array.from(getAnswerListIterator(innerAnswersList1)),
+          ...(innerAnswersList2
+            ? Array.from(getAnswerListIterator(innerAnswersList2))
+            : []),
         ];
 
         if (!innerAnswerCells.length) {
