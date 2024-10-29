@@ -8,6 +8,7 @@ export interface ProgressionInSongFromYouTubeDescriptor {
   mode: Mode; // will determinate the cadence to play
   cadence?: CadenceType; // if not provided, will be determined by the mode
   videoId: string;
+  subId?: number;
   name?: string;
   artist?: string;
   section?: string;
@@ -82,6 +83,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'B',
     mode: Mode.Major,
     videoId: '1cCBqY2B7lI',
+    subId: 1,
     name: 'Confusion and Frustration in Modern Times',
     artist: 'Sum 41',
     chords: [
@@ -128,6 +130,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'B',
     mode: Mode.Major,
     videoId: '1cCBqY2B7lI',
+    subId: 2,
     name: 'Confusion and Frustration in Modern Times',
     artist: 'Sum 41',
     chords: [
@@ -166,6 +169,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'B',
     mode: Mode.Major,
     videoId: '1cCBqY2B7lI',
+    subId: 3,
     name: 'Confusion and Frustration in Modern Times',
     artist: 'Sum 41',
     chords: [
@@ -200,6 +204,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'B',
     mode: Mode.Major,
     videoId: '1cCBqY2B7lI',
+    subId: 4,
     name: 'Confusion and Frustration in Modern Times',
     artist: 'Sum 41',
     chords: [
@@ -226,6 +231,8 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'B',
     mode: Mode.Major,
     videoId: '1cCBqY2B7lI',
+    subId: 5,
+
     name: 'Confusion and Frustration in Modern Times',
     artist: 'Sum 41',
     chords: [
@@ -252,6 +259,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'B',
     mode: Mode.Major,
     videoId: 'dZX6Q-Bj_xg',
+    subId: 1,
     name: 'Passion Pit Take A Walk',
     artist: 'MilkMan',
     chords: [
@@ -278,6 +286,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'B',
     mode: Mode.Major,
     videoId: 'dZX6Q-Bj_xg',
+    subId: 2,
     name: 'Passion Pit Take A Walk',
     artist: 'MilkMan',
     chords: [
@@ -304,6 +313,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'B',
     mode: Mode.Major,
     videoId: 'dZX6Q-Bj_xg',
+    subId: 3,
     name: 'Passion Pit Take A Walk',
     artist: 'MilkMan',
     chords: [
@@ -356,6 +366,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'F',
     mode: Mode.Minor,
     videoId: 'hTWKbfoikeg',
+    subId: 1,
     name: 'Smells Like Teen Spirit',
     artist: '',
     chords: [
@@ -398,6 +409,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'F',
     mode: Mode.Minor,
     videoId: 'hTWKbfoikeg',
+    subId: 2,
     name: 'Smells Like Teen Spirit',
     artist: 'Nirvana',
     chords: [
@@ -482,6 +494,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'Db',
     mode: Mode.Mixolydian,
     videoId: '1w7OgIMMRc4',
+    subId: 1,
     name: "Sweet Child O' Mine",
     artist: "Guns N' Roses",
     chords: [
@@ -508,6 +521,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'Db',
     mode: Mode.Mixolydian,
     videoId: '1w7OgIMMRc4',
+    subId: 2,
     name: "Sweet Child O' Mine",
     artist: "Guns N' Roses",
     chords: [
@@ -998,6 +1012,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'A',
     mode: Mode.Minor,
     videoId: 'Vyc8lezaa9g',
+    subId: 1,
     name: 'Citizen Erased',
     artist: 'Muse',
     chords: [
@@ -1024,6 +1039,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'A',
     mode: Mode.Minor,
     videoId: 'Vyc8lezaa9g',
+    subId: 2,
     name: 'Summer in the City',
     artist: 'Quincy Jones',
     chords: [
@@ -1520,6 +1536,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'A',
     mode: Mode.Major,
     videoId: 'NHozn0YXAeE',
+    subId: 1,
     name: 'MMMBop',
     artist: 'Hanson',
     chords: [
@@ -2822,6 +2839,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     artist: 'Train',
     mode: Mode.Major,
     videoId: 'oxqnFJ3lp5k',
+    subId: 1,
     key: 'E',
     chords: [
       {
@@ -2856,6 +2874,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     artist: 'Train',
     mode: Mode.Major,
     videoId: 'oxqnFJ3lp5k',
+    subId: 2,
     key: 'E',
     chords: [
       {
@@ -2882,6 +2901,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     artist: 'Train',
     mode: Mode.Major,
     videoId: 'oxqnFJ3lp5k',
+    subId: 3,
     key: 'E',
     chords: [
       {
@@ -4268,6 +4288,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'A',
     mode: 1,
     videoId: 'NHozn0YXAeE',
+    subId: 2,
     chords: [
       {
         seconds: 54.81,
@@ -4295,6 +4316,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'A',
     mode: 1,
     videoId: 'NHozn0YXAeE',
+    subId: 3,
     chords: [
       {
         seconds: 54.81,
@@ -4799,6 +4821,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'G',
     mode: 6,
     videoId: 'AsYREFwxYFI',
+    subId: 1,
     chords: [
       {
         seconds: 20.77,
@@ -4825,6 +4848,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'G',
     mode: 6,
     videoId: 'AsYREFwxYFI',
+    subId: 2,
     chords: [
       {
         seconds: 26.65,
@@ -4847,6 +4871,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'G',
     mode: 6,
     videoId: 'AsYREFwxYFI',
+    subId: 3,
     chords: [
       {
         seconds: 32.59,
@@ -4873,6 +4898,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'Bb',
     mode: 1,
     videoId: 'ZmDBbnmKpqQ',
+    subId: 1,
     chords: [
       {
         seconds: 58.8,
@@ -4899,6 +4925,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'Bb',
     mode: 1,
     videoId: 'ZmDBbnmKpqQ',
+    subId: 2,
     chords: [
       {
         seconds: 78.84,
@@ -4929,6 +4956,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'Bb',
     mode: 1,
     videoId: 'ZmDBbnmKpqQ',
+    subId: 3,
     chords: [
       {
         seconds: 85.48,
@@ -5241,6 +5269,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'F',
     mode: 1,
     videoId: '1G4isv_Fylg',
+    subId: 1,
     chords: [
       {
         seconds: 168.17,
@@ -5263,6 +5292,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'F',
     mode: 1,
     videoId: '1G4isv_Fylg',
+    subId: 2,
     chords: [
       {
         seconds: 181.94,
@@ -5289,6 +5319,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'F',
     mode: 1,
     videoId: '1G4isv_Fylg',
+    subId: 3,
     chords: [
       {
         seconds: 13.78,
@@ -5341,6 +5372,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'C',
     mode: 1,
     videoId: 'Bs92ejAGLdw',
+    subId: 1,
     chords: [
       {
         seconds: 38.56,
@@ -5363,6 +5395,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'C',
     mode: 1,
     videoId: 'Bs92ejAGLdw',
+    subId: 2,
     chords: [
       {
         seconds: 77.12,
@@ -5419,6 +5452,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'Gb',
     mode: 1,
     videoId: 'butnuhBwQ0A',
+    subId: 1,
     chords: [
       {
         seconds: 10.18,
@@ -5445,6 +5479,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'Gb',
     mode: 1,
     videoId: 'butnuhBwQ0A',
+    subId: 2,
     chords: [
       {
         seconds: 20.82,
@@ -5471,6 +5506,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'Gb',
     mode: 1,
     videoId: 'butnuhBwQ0A',
+    subId: 3,
     chords: [
       {
         seconds: 31.09,
@@ -5497,6 +5533,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'Gb',
     mode: 1,
     videoId: 'butnuhBwQ0A',
+    subId: 4,
     chords: [
       {
         seconds: 41.44,
@@ -5531,6 +5568,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'Gb',
     mode: 1,
     videoId: 'butnuhBwQ0A',
+    subId: 5,
     chords: [
       {
         seconds: 51.9,
@@ -5561,6 +5599,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'Gb',
     mode: 1,
     videoId: 'butnuhBwQ0A',
+    subId: 6,
     chords: [
       {
         seconds: 83.64,
@@ -5595,6 +5634,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'G',
     mode: 1,
     videoId: 'butnuhBwQ0A',
+    subId: 7,
     chords: [
       {
         seconds: 94.03,
@@ -6945,6 +6985,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'Bb',
     mode: 1,
     videoId: '2I7QG12ojg0',
+    subId: 1,
     chords: [
       {
         seconds: 27.55,
@@ -6987,6 +7028,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'Bb',
     mode: 1,
     videoId: '2I7QG12ojg0',
+    subId: 2,
     chords: [
       {
         seconds: 40.54,
@@ -7201,6 +7243,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'A',
     mode: 1,
     videoId: 'O4UAt67wyc4',
+    subId: 1,
     chords: [
       {
         seconds: 17.61,
@@ -7231,6 +7274,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'A',
     mode: 1,
     videoId: 'O4UAt67wyc4',
+    subId: 2,
     chords: [
       {
         seconds: 31.1,
@@ -7269,6 +7313,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'A',
     mode: 1,
     videoId: 'O4UAt67wyc4',
+    subId: 3,
     chords: [
       {
         seconds: 57.5,
@@ -7307,6 +7352,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'C',
     mode: Mode.Major,
     videoId: 'T-c82omcEn8',
+    subId: 1,
     chords: [
       {
         seconds: 3.99,
@@ -7337,6 +7383,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'C',
     mode: Mode.Major,
     videoId: 'T-c82omcEn8',
+    subId: 2,
     chords: [
       {
         seconds: 18.12,
@@ -7363,6 +7410,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'C',
     mode: Mode.Major,
     videoId: 'T-c82omcEn8',
+    subId: 3,
     chords: [
       {
         seconds: 21.73,
@@ -7385,6 +7433,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'C',
     mode: Mode.Major,
     videoId: 'T-c82omcEn8',
+    subId: 4,
     chords: [
       {
         seconds: 25.14,
@@ -7407,6 +7456,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'C',
     mode: Mode.Major,
     videoId: 'T-c82omcEn8',
+    subId: 5,
     chords: [
       {
         seconds: 30.26,
@@ -7441,6 +7491,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'C',
     mode: Mode.Major,
     videoId: 'T-c82omcEn8',
+    subId: 6,
     chords: [
       {
         seconds: 36.48,
@@ -7475,6 +7526,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'C',
     mode: Mode.Major,
     videoId: 'T-c82omcEn8',
+    subId: 7,
     chords: [
       {
         seconds: 49.01,
@@ -7513,6 +7565,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'C',
     mode: Mode.Major,
     videoId: 'T-c82omcEn8',
+    subId: 8,
     chords: [
       {
         seconds: 55.39,
@@ -7551,6 +7604,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'C',
     mode: Mode.Major,
     videoId: 'T-c82omcEn8',
+    subId: 9,
     chords: [
       {
         seconds: 61.57,
@@ -7577,6 +7631,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'C',
     mode: Mode.Major,
     videoId: 'T-c82omcEn8',
+    subId: 10,
     chords: [
       {
         seconds: 62.97,
@@ -7607,6 +7662,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'C',
     mode: 1,
     videoId: 'T-c82omcEn8',
+    subId: 11,
     chords: [
       {
         chord: 'IV',
@@ -7629,6 +7685,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'E',
     mode: 1,
     videoId: 'T-c82omcEn8',
+    subId: 12,
     chords: [
       {
         chord: 'IV',

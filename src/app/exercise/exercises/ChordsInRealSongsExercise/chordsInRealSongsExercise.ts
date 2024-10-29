@@ -44,6 +44,22 @@ interface ChordsInRealSongsSettings
 const soloedChordsInRealSongsDescriptorList =
   chordsInRealSongsDescriptorList.filter(({ solo }) => solo);
 
+function getId(
+  progression: DeepReadonly<ProgressionInSongFromYouTubeDescriptor>,
+): string {
+  return `${progression.videoId} ${progression.section ?? ''} ${progression.subId ?? ''}`;
+}
+
+const duplicates = _(chordsInRealSongsDescriptorList)
+  .groupBy(getId)
+  .pickBy((x) => x.length > 1)
+  .mapValues((x) => x.length)
+  .value();
+
+if (!isEmpty(duplicates)) {
+  console.log('duplicates', duplicates);
+  throw new Error('Duplicate ids found. Use "subId" to eliminate them'); // todo
+}
 export function chordsInRealSongsExercise(
   progressionList: DeepReadonly<
     ProgressionInSongFromYouTubeDescriptor[]
@@ -179,7 +195,7 @@ export function chordsInRealSongsExercise(
     };
     return {
       type: 'youtube',
-      id: progression.videoId,
+      id: getId(progression),
       videoId: progression.videoId,
       segments: progression.chords.map((chordDesc) => ({
         rightAnswer: chordDesc.chord,
@@ -258,7 +274,7 @@ export function chordsInRealSongsExercise(
         const questionsToExcludeSet = new Set(questionsToExclude);
 
         const availableProgressions = getAvailableProgressions(settings).filter(
-          (question) => !questionsToExcludeSet.has(question.videoId),
+          (progression) => !questionsToExcludeSet.has(getId(progression)),
         );
 
         console.log('# of songs to choose from', availableProgressions.length);
