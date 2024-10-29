@@ -251,6 +251,15 @@ export function chordsInRealSongsExercise(
           )})`,
         };
       },
+      // todo: consider encorporating this or something similar
+      // getIsQuestionValid(
+      //   settings: ChordsInRealSongsSettings,
+      //   question: Exercise.YouTubeQuestion<RomanNumeralChordSymbol>,
+      // ) {
+      //   return _.every(question.segments, (segment) =>
+      //     settings.includedChords.includes(segment.rightAnswer),
+      //   );
+      // },
     }),
     getAvailableProgressions,
   };

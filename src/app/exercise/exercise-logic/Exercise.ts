@@ -535,6 +535,8 @@ export type Exercise<
 
   getCurrentSettings?(): GSettings;
 
+  getIsQuestionValid?(question?: Question<GAnswer>): boolean;
+
   onDestroy?(): void;
 };
 

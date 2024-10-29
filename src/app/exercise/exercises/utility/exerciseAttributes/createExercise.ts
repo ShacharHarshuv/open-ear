@@ -1,7 +1,7 @@
 import { Platforms } from '@ionic/core/dist/types/utils/platform';
 import * as _ from 'lodash';
 import { StaticOrGetter, toGetter } from '../../../../shared/ts-utility';
-import Exercise from '../../../exercise-logic';
+import Exercise, { Question } from '../../../exercise-logic';
 import { SettingsParams } from '../settings/SettingsParams';
 import AnswerList = Exercise.AnswerList;
 import ExerciseExplanationContent = Exercise.ExerciseExplanationContent;
@@ -16,6 +16,10 @@ export type CreateExerciseParams<
   readonly explanation?: ExerciseExplanationContent;
   readonly answerList: StaticOrGetter<AnswerList<GAnswer>, [GSettings]>;
   readonly getQuestion: (settings: GSettings) => Exercise.Question<GAnswer>;
+  readonly getIsQuestionValid?: (
+    settings: GSettings,
+    question: Exercise.Question<GAnswer>,
+  ) => boolean;
   readonly blackListPlatform?: Platforms;
 } & SettingsParams<GSettings>;
 
@@ -50,5 +54,9 @@ export function createExercise<
       return toGetter(params.answerList)(settings);
     },
     getQuestion: () => params.getQuestion(settings),
+    getIsQuestionValid: params.getIsQuestionValid
+      ? (question: Question<GAnswer>) =>
+          params.getIsQuestionValid!(settings, question)
+      : undefined,
   };
 }
