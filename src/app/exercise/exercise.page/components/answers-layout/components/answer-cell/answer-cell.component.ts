@@ -86,6 +86,15 @@ export class AnswerCellComponent<GAnswer extends string> {
     this._handleCloseOnClickOutside();
     this._handleOpenTrigger();
     this._handleAnswerSelection();
+
+    // When open, main app UI should not be responsive
+    effect(() => {
+      if (this.isOpen()) {
+        document.querySelector('app-root')?.setAttribute('inert', '');
+      } else {
+        document.querySelector('app-root')?.removeAttribute('inert');
+      }
+    });
   }
 
   readonly answerConfig = computed(() => {
@@ -139,6 +148,7 @@ export class AnswerCellComponent<GAnswer extends string> {
     },
   );
 
+  // relevant only for triggerAction === 'context-menu'
   private _handleCloseOnClickOutside() {
     let backdrop: HTMLElement | null = null;
     const handleBackdropClick = () => {

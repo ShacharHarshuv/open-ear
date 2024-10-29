@@ -54,8 +54,10 @@ export class QuestionCardsCollection {
     return this._savedQuestions;
   }
 
-  pop(savedQuestion: QuestionCard) {
-    this._savedQuestions.splice(this._savedQuestions.indexOf(savedQuestion), 1);
+  remove(savedQuestion: QuestionCard) {
+    this._savedQuestions = this._savedQuestions.filter(
+      (q) => q.question.id !== savedQuestion.question.id,
+    );
     this._save();
   }
 
@@ -103,12 +105,13 @@ export function fsrsExercise(exercise: Exercise) {
       // todo: consider taking into account which question is due more closely
       const randomDueQuestion =
         dueQuestions[Math.floor(Math.random() * dueQuestions.length)];
-      cardsCollections.pop(randomDueQuestion);
+      console.log('selected question', randomDueQuestion.question.info);
       currentQuestionCard = randomDueQuestion;
       return getCurrentQuestion()!;
     }
 
     // fetching new question
+    console.log('fetching new question');
     currentQuestionCard = {
       question: exercise.getQuestion(
         cardsCollections.savedQuestions
@@ -167,6 +170,8 @@ export function fsrsExercise(exercise: Exercise) {
       rating,
     ).card;
     console.log('card will come up next on', updatedCard.due);
+    console.log('updated card', updatedCard);
+    cardsCollections.remove(currentQuestionCard!);
     cardsCollections.insert({
       question: currentQuestionCard!.question,
       card: updatedCard,

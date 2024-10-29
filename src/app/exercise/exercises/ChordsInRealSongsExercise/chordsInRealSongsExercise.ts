@@ -291,7 +291,7 @@ export function chordsInRealSongsExercise(
         const availableProgressions = getAvailableProgressions(settings);
         const progression = _.find(
           availableProgressions,
-          (progression) => progression.videoId === questionId,
+          (progression) => getId(progression) === questionId,
         );
 
         return progression

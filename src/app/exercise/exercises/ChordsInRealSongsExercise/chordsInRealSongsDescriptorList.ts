@@ -5530,7 +5530,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
   {
     name: 'Familiar',
     artist: 'Rebeca Sugar',
-    key: 'Gb',
+    key: 'B',
     mode: 1,
     videoId: 'butnuhBwQ0A',
     subId: 4,
@@ -5596,33 +5596,33 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
   {
     name: 'Familiar',
     artist: 'Rebeca Sugar',
-    key: 'Gb',
+    key: 'B',
     mode: 1,
     videoId: 'butnuhBwQ0A',
     subId: 6,
     chords: [
       {
         seconds: 83.64,
-        chord: 'v',
+        chord: 'ii',
       },
       {
         seconds: 84.92,
-        chord: 'I',
+        chord: 'V',
       },
       {
         seconds: 86.2,
-        chord: 'IVmaj7',
+        chord: 'Imaj7',
       },
       {
         seconds: 88.82,
-        chord: 'i',
+        chord: 'i7',
       },
       {
-        chord: 'bVII',
+        chord: 'IV',
         seconds: 90.2,
       },
       {
-        chord: 'III',
+        chord: 'bVII',
         seconds: 91.49,
       },
     ],
