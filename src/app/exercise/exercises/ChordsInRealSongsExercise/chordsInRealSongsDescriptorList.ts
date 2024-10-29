@@ -1037,7 +1037,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
   },
   {
     key: 'A',
-    mode: Mode.Minor,
+    mode: 6,
     videoId: 'Vyc8lezaa9g',
     subId: 2,
     name: 'Summer in the City',
@@ -1045,22 +1045,22 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     chords: [
       {
         chord: 'i',
-        seconds: 481.7,
+        seconds: 478.34,
       },
       {
         chord: 'bVII',
-        seconds: 482.54,
+        seconds: 479.69,
       },
       {
         chord: 'bVI',
-        seconds: 484,
+        seconds: 481.2,
       },
       {
         chord: 'V',
-        seconds: 485.53,
+        seconds: 482.8,
       },
     ],
-    endSeconds: 487,
+    endSeconds: 484.17,
   },
   {
     key: 'F#',
