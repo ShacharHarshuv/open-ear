@@ -88,12 +88,15 @@ export function fsrsExercise(exercise: Exercise) {
     );
   }
   let questionReceivedTime = new Date();
+  let isQuestionStartedPlaying = false;
 
   function questionStartedPlaying() {
-    questionReceivedTime = new Date();
+    !isQuestionStartedPlaying && (questionReceivedTime = new Date());
+    isQuestionStartedPlaying = true;
   }
 
   const getQuestion: Exercise['getQuestion'] = () => {
+    isQuestionStartedPlaying = false;
     console.log('savedQuestions', cardsCollections.savedQuestions);
     const dueQuestions = cardsCollections.savedQuestions.filter(
       (q) => q.card.due.getTime() < new Date().getTime(),
