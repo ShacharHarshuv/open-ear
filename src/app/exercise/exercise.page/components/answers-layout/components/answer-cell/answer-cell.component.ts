@@ -139,6 +139,7 @@ export class AnswerCellComponent<GAnswer extends string> {
     },
   );
 
+  // relevant only for triggerAction === 'context-menu'
   private _handleCloseOnClickOutside() {
     let backdrop: HTMLElement | null = null;
     const handleBackdropClick = () => {
@@ -233,9 +234,13 @@ export class AnswerCellComponent<GAnswer extends string> {
       },
     );
     const hasAnswer = computed(() => !!answerSelectedEvent());
-    let isInside = false;
-    let touchTimeout: number | undefined;
 
+    const parentCellComponent = inject(AnswerCellComponent, {
+      optional: true,
+      skipSelf: true,
+    });
+
+    // Click trigger
     effect((onCleanup) => {
       if (!hasAnswer()) {
         return;
@@ -243,46 +248,58 @@ export class AnswerCellComponent<GAnswer extends string> {
 
       const addEventListener = getAddEventListener(onCleanup);
 
-      const triggerAction = this.multiAnswerCellConfig().triggerAction;
+      addEventListener(this.elementRef.nativeElement, 'click', () => {
+        this.answerSelected.emit(untracked(answerSelectedEvent)!);
+      });
+    });
 
-      if (triggerAction === 'context-menu') {
-        addEventListener(this.elementRef.nativeElement, 'click', () => {
-          this.answerSelected.emit(untracked(answerSelectedEvent)!);
-        });
-      } else {
-        addEventListener(
-          document,
-          ['touchend', 'touchcancel', 'mouseup'],
-          () => {
-            if (isInside) {
-              touchTimeout = setTimeout(() => {
-                // prevent click and touch from both triggering
-                touchTimeout = undefined;
-              }, 10);
-              this.answerSelected.emit(untracked(answerSelectedEvent)!);
-              isInside = false;
-            }
-          },
-        );
-
-        addEventListener(document, ['touchmove', 'touchstart'], ($event) => {
-          const { clientX, clientY } = $event.touches[0];
-          const touchedElement = document.elementFromPoint(clientX, clientY);
-          isInside =
-            touchedElement === this.elementRef.nativeElement ||
-            this.elementRef.nativeElement.contains(touchedElement);
-        });
-
-        addEventListener(this.elementRef.nativeElement, 'mouseenter', () => {
-          if (touchTimeout) {
-            return;
-          }
-          isInside = true;
-        });
-        addEventListener(this.elementRef.nativeElement, 'mouseleave', () => {
-          isInside = false;
-        });
+    // hover released trigger
+    let isInside = false;
+    let touchTimeout: number | undefined;
+    effect((onCleanup) => {
+      if (
+        !hasAnswer() ||
+        !parentCellComponent?.isOpen() ||
+        parentCellComponent?.multiAnswerCellConfig().triggerAction !== 'hold'
+      ) {
+        return;
       }
+
+      const addEventListener = getAddEventListener(onCleanup);
+
+      // Select answer on release (if parent is of trigger 'hold')
+      addEventListener(document, ['touchend', 'touchcancel', 'mouseup'], () => {
+        if (!isInside) {
+          return;
+        }
+
+        if (isInside) {
+          touchTimeout = setTimeout(() => {
+            // prevent click and touch from both triggering
+            touchTimeout = undefined;
+          }, 10);
+          this.answerSelected.emit(untracked(answerSelectedEvent)!);
+          isInside = false;
+        }
+      });
+
+      addEventListener(document, ['touchmove', 'touchstart'], ($event) => {
+        const { clientX, clientY } = $event.touches[0];
+        const touchedElement = document.elementFromPoint(clientX, clientY);
+        isInside =
+          touchedElement === this.elementRef.nativeElement ||
+          this.elementRef.nativeElement.contains(touchedElement);
+      });
+
+      addEventListener(this.elementRef.nativeElement, 'mouseenter', () => {
+        if (touchTimeout) {
+          return;
+        }
+        isInside = true;
+      });
+      addEventListener(this.elementRef.nativeElement, 'mouseleave', () => {
+        isInside = false;
+      });
     });
   }
 

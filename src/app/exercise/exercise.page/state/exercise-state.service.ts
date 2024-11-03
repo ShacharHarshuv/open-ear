@@ -19,8 +19,7 @@ import {
   toGetter,
   toSteadyPart,
 } from '../../utility';
-import { AdaptiveExercise } from './adaptive-exercise';
-import { AdaptiveExerciseService } from './adaptive-exercise.service';
+import { fsrsExercise } from './fsrs-exercise';
 import AnswerList = Exercise.AnswerList;
 import Answer = Exercise.Answer;
 import getAnswerListIterator = Exercise.getAnswerListIterator;
@@ -49,7 +48,6 @@ export class ExerciseStateService implements OnDestroy {
   private readonly _youtubePlayer = inject(YouTubePlayerService);
   private readonly _dronePlayer = inject(DronePlayerService);
   private readonly _exerciseSettingsData = inject(ExerciseSettingsDataService);
-  private readonly _adaptiveExerciseService = inject(AdaptiveExerciseService);
 
   private readonly _originalExercise: Exercise.Exercise =
     this._exerciseService.getExercise(
@@ -58,10 +56,7 @@ export class ExerciseStateService implements OnDestroy {
   private readonly _globalSettings = signal<GlobalExerciseSettings>(
     DEFAULT_EXERCISE_SETTINGS,
   );
-  private _adaptiveExercise: AdaptiveExercise =
-    this._adaptiveExerciseService.createAdaptiveExercise(
-      this._originalExercise,
-    );
+  private _adaptiveExercise = fsrsExercise(this._originalExercise);
   private _currentQuestion: Exercise.Question = {
     segments: [],
   };
@@ -120,6 +115,7 @@ export class ExerciseStateService implements OnDestroy {
   readonly totalQuestions = this._totalQuestions.asReadonly();
 
   private _currentAnswers = signal<CurrentAnswer[]>([]);
+  private _mistakesCounter = signal(0);
 
   readonly currentAnswers = this._currentAnswers.asReadonly();
 
@@ -196,6 +192,7 @@ export class ExerciseStateService implements OnDestroy {
     const { rightAnswer } = currentSegment;
     const isRight = rightAnswer === answer;
     if (!isRight) {
+      this._mistakesCounter.update((value) => ++value);
       this._currentAnswers.update((currentAnswers) => {
         currentAnswers[answerIndex].wasWrong = true;
         return currentAnswers;
@@ -233,10 +230,9 @@ export class ExerciseStateService implements OnDestroy {
       ) {
         // if not all answers are correct
         if (this._globalSettings().adaptive) {
-          const areAllSegmentsCorrect: boolean = !this._currentAnswers().filter(
-            (answerSegment) => answerSegment.wasWrong,
-          ).length;
-          this._adaptiveExercise.reportAnswerCorrectness(areAllSegmentsCorrect);
+          this._adaptiveExercise.handleFinishedAnswering(
+            this._mistakesCounter(),
+          );
         }
         this._afterCorrectAnswer().then(async () => {
           if (this._globalSettings().moveToNextQuestionAutomatically) {
@@ -345,7 +341,7 @@ export class ExerciseStateService implements OnDestroy {
       !this._areAllSegmentsAnswered
     ) {
       try {
-        this._adaptiveExercise.reportAnswerCorrectness(true); // reporting true to ignore it in the future
+        this._adaptiveExercise.handleFinishedAnswering(0); // skip means we don't want to see it again (probably)
       } catch (e) {}
     }
     try {
@@ -356,6 +352,7 @@ export class ExerciseStateService implements OnDestroy {
       this._error.set(e);
       console.error(e);
     }
+    this._mistakesCounter.set(0);
     this._currentAnswers.set(
       this._currentQuestion.segments.map(
         (segment): CurrentAnswer => ({
@@ -497,6 +494,7 @@ export class ExerciseStateService implements OnDestroy {
         },
       ],
     );
+    this._adaptiveExercise.questionStartedPlaying();
     await this._youtubePlayer.onStop();
   }
 
@@ -528,7 +526,7 @@ export class ExerciseStateService implements OnDestroy {
     this.exercise.updateSettings(exerciseSettings);
     this._answerList.set(this.exercise.getAnswerList());
     this._answerToLabelStringMap = this._getAnswerToLabelStringMap();
-    this._adaptiveExercise.reset();
+    // this._adaptiveExercise.reset(); // todo: we need to prevent irrelevant exercises without removing cards memory
   }
 
   private _getAfterCorrectAnswerParts(): PartToPlay[] {

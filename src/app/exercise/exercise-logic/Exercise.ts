@@ -15,6 +15,7 @@ type PartToPlay = NoteEvent[] | OneOrMany<Note>;
 // TODO(#166): split this file to multiple files
 
 interface BaseQuestion<GAnswer extends string, GSegment> {
+  id?: string;
   type?: string; // default: 'notes'
   /**
    * Use more than one segment for serial exercises
@@ -243,8 +244,10 @@ export function filterIncludedAnswers<GAnswer extends string>(
           filterInner(answerLayoutCellConfig.innerAnswersList2);
 
         const innerAnswerCells = [
-          ...flatAnswerList(innerAnswersList1),
-          ...(innerAnswersList2 ? flatAnswerList(innerAnswersList2) : []),
+          ...Array.from(getAnswerListIterator(innerAnswersList1)),
+          ...(innerAnswersList2
+            ? Array.from(getAnswerListIterator(innerAnswersList2))
+            : []),
         ];
 
         if (!innerAnswerCells.length) {
@@ -527,13 +530,17 @@ export type Exercise<
 
   getAnswerList(): AnswerList<GAnswer>;
 
-  getQuestion(): Question<GAnswer>;
+  getQuestion(questionsToExclude?: string[]): Question<GAnswer>;
+
+  getQuestionById?(id: string): Question<GAnswer> | undefined;
 
   getSettingsDescriptor?(): SettingsControlDescriptor<GSettings>[];
 
   updateSettings?(settings: GSettings): void;
 
   getCurrentSettings?(): GSettings;
+
+  getIsQuestionValid?(question?: Question<GAnswer>): boolean;
 
   onDestroy?(): void;
 };

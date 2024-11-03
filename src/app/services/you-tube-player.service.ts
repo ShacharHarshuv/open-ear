@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import * as PriorityQueue from 'js-priority-queue';
-import * as _ from 'lodash';
 import { BehaviorSubject, interval, NEVER } from 'rxjs';
 import { filter, switchMap, take } from 'rxjs/operators';
 import PlayerFactory from 'youtube-player';
@@ -46,18 +45,6 @@ export class YouTubePlayerService {
 
   constructor() {
     this._startTimeListener();
-
-    // this helps to sync the chords faster
-    document.addEventListener('click', async () => {
-      const currentTime: number = _.round(
-        (await this._youTubePlayer.getCurrentTime()) -
-          0.3 /*compensating for delay*/,
-        2,
-      );
-      if (currentTime > 0) {
-        console.log(currentTime);
-      }
-    });
   }
 
   /**

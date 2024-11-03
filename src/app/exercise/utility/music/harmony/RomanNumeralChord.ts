@@ -24,7 +24,6 @@ import { transpose } from '../transpose';
 import { Mode } from './Mode';
 import { RomanNumeralChordSymbol } from './RomanNumeralChordSymbol';
 import { toRelativeMode } from './toRelativeMode';
-import { findIndex } from 'rxjs';
 
 const allRomanNumeralPostfix: string[] = _.map(
   chordTypeConfigMap,
@@ -52,8 +51,8 @@ export class RomanNumeralChord {
   }
 
   readonly inversionIndex = computed(() => {
-    return this.scaleDegrees().findIndex(value => value === this.bass);
-  })
+    return this.scaleDegrees().findIndex((value) => value === this.bass);
+  });
 
   // todo: consider renaming to "root"
   get scaleDegree(): ScaleDegree {

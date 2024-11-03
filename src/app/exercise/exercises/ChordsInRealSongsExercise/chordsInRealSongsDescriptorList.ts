@@ -8,6 +8,7 @@ export interface ProgressionInSongFromYouTubeDescriptor {
   mode: Mode; // will determinate the cadence to play
   cadence?: CadenceType; // if not provided, will be determined by the mode
   videoId: string;
+  subId?: number;
   name?: string;
   artist?: string;
   section?: string;
@@ -82,6 +83,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'B',
     mode: Mode.Major,
     videoId: '1cCBqY2B7lI',
+    subId: 1,
     name: 'Confusion and Frustration in Modern Times',
     artist: 'Sum 41',
     chords: [
@@ -128,6 +130,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'B',
     mode: Mode.Major,
     videoId: '1cCBqY2B7lI',
+    subId: 2,
     name: 'Confusion and Frustration in Modern Times',
     artist: 'Sum 41',
     chords: [
@@ -166,6 +169,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'B',
     mode: Mode.Major,
     videoId: '1cCBqY2B7lI',
+    subId: 3,
     name: 'Confusion and Frustration in Modern Times',
     artist: 'Sum 41',
     chords: [
@@ -200,6 +204,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'B',
     mode: Mode.Major,
     videoId: '1cCBqY2B7lI',
+    subId: 4,
     name: 'Confusion and Frustration in Modern Times',
     artist: 'Sum 41',
     chords: [
@@ -226,6 +231,8 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'B',
     mode: Mode.Major,
     videoId: '1cCBqY2B7lI',
+    subId: 5,
+
     name: 'Confusion and Frustration in Modern Times',
     artist: 'Sum 41',
     chords: [
@@ -252,6 +259,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'B',
     mode: Mode.Major,
     videoId: 'dZX6Q-Bj_xg',
+    subId: 1,
     name: 'Passion Pit Take A Walk',
     artist: 'MilkMan',
     chords: [
@@ -278,6 +286,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'B',
     mode: Mode.Major,
     videoId: 'dZX6Q-Bj_xg',
+    subId: 2,
     name: 'Passion Pit Take A Walk',
     artist: 'MilkMan',
     chords: [
@@ -304,6 +313,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'B',
     mode: Mode.Major,
     videoId: 'dZX6Q-Bj_xg',
+    subId: 3,
     name: 'Passion Pit Take A Walk',
     artist: 'MilkMan',
     chords: [
@@ -356,6 +366,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'F',
     mode: Mode.Minor,
     videoId: 'hTWKbfoikeg',
+    subId: 1,
     name: 'Smells Like Teen Spirit',
     artist: '',
     chords: [
@@ -398,6 +409,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'F',
     mode: Mode.Minor,
     videoId: 'hTWKbfoikeg',
+    subId: 2,
     name: 'Smells Like Teen Spirit',
     artist: 'Nirvana',
     chords: [
@@ -482,6 +494,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'Db',
     mode: Mode.Mixolydian,
     videoId: '1w7OgIMMRc4',
+    subId: 1,
     name: "Sweet Child O' Mine",
     artist: "Guns N' Roses",
     chords: [
@@ -508,6 +521,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'Db',
     mode: Mode.Mixolydian,
     videoId: '1w7OgIMMRc4',
+    subId: 2,
     name: "Sweet Child O' Mine",
     artist: "Guns N' Roses",
     chords: [
@@ -998,6 +1012,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'A',
     mode: Mode.Minor,
     videoId: 'Vyc8lezaa9g',
+    subId: 1,
     name: 'Citizen Erased',
     artist: 'Muse',
     chords: [
@@ -1022,29 +1037,30 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
   },
   {
     key: 'A',
-    mode: Mode.Minor,
+    mode: 6,
     videoId: 'Vyc8lezaa9g',
+    subId: 2,
     name: 'Summer in the City',
     artist: 'Quincy Jones',
     chords: [
       {
         chord: 'i',
-        seconds: 481.7,
+        seconds: 478.34,
       },
       {
         chord: 'bVII',
-        seconds: 482.54,
+        seconds: 479.69,
       },
       {
         chord: 'bVI',
-        seconds: 484,
+        seconds: 481.2,
       },
       {
         chord: 'V',
-        seconds: 485.53,
+        seconds: 482.8,
       },
     ],
-    endSeconds: 487,
+    endSeconds: 484.17,
   },
   {
     key: 'F#',
@@ -1520,6 +1536,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'A',
     mode: Mode.Major,
     videoId: 'NHozn0YXAeE',
+    subId: 1,
     name: 'MMMBop',
     artist: 'Hanson',
     chords: [
@@ -2822,6 +2839,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     artist: 'Train',
     mode: Mode.Major,
     videoId: 'oxqnFJ3lp5k',
+    subId: 1,
     key: 'E',
     chords: [
       {
@@ -2856,6 +2874,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     artist: 'Train',
     mode: Mode.Major,
     videoId: 'oxqnFJ3lp5k',
+    subId: 2,
     key: 'E',
     chords: [
       {
@@ -2882,6 +2901,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     artist: 'Train',
     mode: Mode.Major,
     videoId: 'oxqnFJ3lp5k',
+    subId: 3,
     key: 'E',
     chords: [
       {
@@ -4268,6 +4288,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'A',
     mode: 1,
     videoId: 'NHozn0YXAeE',
+    subId: 2,
     chords: [
       {
         seconds: 54.81,
@@ -4295,6 +4316,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'A',
     mode: 1,
     videoId: 'NHozn0YXAeE',
+    subId: 3,
     chords: [
       {
         seconds: 54.81,
@@ -4451,33 +4473,34 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     endSeconds: 6.09,
     section: '',
   },
-  {
-    name: 'Remember Tomorrow',
-    artist: 'Iron Maiden',
-    key: 'E',
-    mode: 3,
-    videoId: 'C5OkO-Tg2uk',
-    chords: [
-      {
-        seconds: 19.71,
-        chord: 'i',
-      },
-      {
-        seconds: 24.67,
-        chord: 'bII',
-      },
-      {
-        seconds: 27.02,
-        chord: 'i',
-      },
-      {
-        seconds: 34.48,
-        chord: 'bII',
-      },
-    ],
-    endSeconds: 36.93,
-    section: '',
-  },
+  // video not available
+  // {
+  //   name: 'Remember Tomorrow',
+  //   artist: 'Iron Maiden',
+  //   key: 'E',
+  //   mode: 3,
+  //   videoId: 'C5OkO-Tg2uk',
+  //   chords: [
+  //     {
+  //       seconds: 19.71,
+  //       chord: 'i',
+  //     },
+  //     {
+  //       seconds: 24.67,
+  //       chord: 'bII',
+  //     },
+  //     {
+  //       seconds: 27.02,
+  //       chord: 'i',
+  //     },
+  //     {
+  //       seconds: 34.48,
+  //       chord: 'bII',
+  //     },
+  //   ],
+  //   endSeconds: 36.93,
+  //   section: '',
+  // },
   {
     key: 'G',
     mode: 3,
@@ -4799,6 +4822,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'G',
     mode: 6,
     videoId: 'AsYREFwxYFI',
+    subId: 1,
     chords: [
       {
         seconds: 20.77,
@@ -4825,6 +4849,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'G',
     mode: 6,
     videoId: 'AsYREFwxYFI',
+    subId: 2,
     chords: [
       {
         seconds: 26.65,
@@ -4847,6 +4872,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'G',
     mode: 6,
     videoId: 'AsYREFwxYFI',
+    subId: 3,
     chords: [
       {
         seconds: 32.59,
@@ -4873,6 +4899,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'Bb',
     mode: 1,
     videoId: 'ZmDBbnmKpqQ',
+    subId: 1,
     chords: [
       {
         seconds: 58.8,
@@ -4899,6 +4926,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'Bb',
     mode: 1,
     videoId: 'ZmDBbnmKpqQ',
+    subId: 2,
     chords: [
       {
         seconds: 78.84,
@@ -4929,6 +4957,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'Bb',
     mode: 1,
     videoId: 'ZmDBbnmKpqQ',
+    subId: 3,
     chords: [
       {
         seconds: 85.48,
@@ -5241,6 +5270,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'F',
     mode: 1,
     videoId: '1G4isv_Fylg',
+    subId: 1,
     chords: [
       {
         seconds: 168.17,
@@ -5263,6 +5293,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'F',
     mode: 1,
     videoId: '1G4isv_Fylg',
+    subId: 2,
     chords: [
       {
         seconds: 181.94,
@@ -5289,6 +5320,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'F',
     mode: 1,
     videoId: '1G4isv_Fylg',
+    subId: 3,
     chords: [
       {
         seconds: 13.78,
@@ -5341,6 +5373,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'C',
     mode: 1,
     videoId: 'Bs92ejAGLdw',
+    subId: 1,
     chords: [
       {
         seconds: 38.56,
@@ -5363,6 +5396,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'C',
     mode: 1,
     videoId: 'Bs92ejAGLdw',
+    subId: 2,
     chords: [
       {
         seconds: 77.12,
@@ -5419,6 +5453,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'Gb',
     mode: 1,
     videoId: 'butnuhBwQ0A',
+    subId: 1,
     chords: [
       {
         seconds: 10.18,
@@ -5445,6 +5480,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'Gb',
     mode: 1,
     videoId: 'butnuhBwQ0A',
+    subId: 2,
     chords: [
       {
         seconds: 20.82,
@@ -5471,6 +5507,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'Gb',
     mode: 1,
     videoId: 'butnuhBwQ0A',
+    subId: 3,
     chords: [
       {
         seconds: 31.09,
@@ -5494,9 +5531,10 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
   {
     name: 'Familiar',
     artist: 'Rebeca Sugar',
-    key: 'Gb',
+    key: 'B',
     mode: 1,
     videoId: 'butnuhBwQ0A',
+    subId: 4,
     chords: [
       {
         seconds: 41.44,
@@ -5531,6 +5569,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'Gb',
     mode: 1,
     videoId: 'butnuhBwQ0A',
+    subId: 5,
     chords: [
       {
         seconds: 51.9,
@@ -5558,32 +5597,33 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
   {
     name: 'Familiar',
     artist: 'Rebeca Sugar',
-    key: 'Gb',
+    key: 'B',
     mode: 1,
     videoId: 'butnuhBwQ0A',
+    subId: 6,
     chords: [
       {
         seconds: 83.64,
-        chord: 'v',
+        chord: 'ii',
       },
       {
         seconds: 84.92,
-        chord: 'I',
+        chord: 'V',
       },
       {
         seconds: 86.2,
-        chord: 'IVmaj7',
+        chord: 'Imaj7',
       },
       {
         seconds: 88.82,
-        chord: 'i',
+        chord: 'i7',
       },
       {
-        chord: 'bVII',
+        chord: 'IV',
         seconds: 90.2,
       },
       {
-        chord: 'III',
+        chord: 'bVII',
         seconds: 91.49,
       },
     ],
@@ -5595,6 +5635,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'G',
     mode: 1,
     videoId: 'butnuhBwQ0A',
+    subId: 7,
     chords: [
       {
         seconds: 94.03,
@@ -6160,18 +6201,18 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     chords: [
       {
         seconds: 36.67,
-        chord: 'IV',
-      },
-      {
-        seconds: 37.69,
-        chord: 'V',
-      },
-      {
-        seconds: 38.56,
         chord: 'I',
       },
       {
+        seconds: 37.69,
         chord: 'vi',
+      },
+      {
+        seconds: 38.56,
+        chord: 'IV',
+      },
+      {
+        chord: 'V',
         seconds: 39.39,
       },
     ],
@@ -6945,6 +6986,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'Bb',
     mode: 1,
     videoId: '2I7QG12ojg0',
+    subId: 1,
     chords: [
       {
         seconds: 27.55,
@@ -6987,6 +7029,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'Bb',
     mode: 1,
     videoId: '2I7QG12ojg0',
+    subId: 2,
     chords: [
       {
         seconds: 40.54,
@@ -7201,6 +7244,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'A',
     mode: 1,
     videoId: 'O4UAt67wyc4',
+    subId: 1,
     chords: [
       {
         seconds: 17.61,
@@ -7231,6 +7275,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'A',
     mode: 1,
     videoId: 'O4UAt67wyc4',
+    subId: 2,
     chords: [
       {
         seconds: 31.1,
@@ -7269,6 +7314,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'A',
     mode: 1,
     videoId: 'O4UAt67wyc4',
+    subId: 3,
     chords: [
       {
         seconds: 57.5,
@@ -7307,6 +7353,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'C',
     mode: Mode.Major,
     videoId: 'T-c82omcEn8',
+    subId: 1,
     chords: [
       {
         seconds: 3.99,
@@ -7337,6 +7384,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'C',
     mode: Mode.Major,
     videoId: 'T-c82omcEn8',
+    subId: 2,
     chords: [
       {
         seconds: 18.12,
@@ -7363,6 +7411,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'C',
     mode: Mode.Major,
     videoId: 'T-c82omcEn8',
+    subId: 3,
     chords: [
       {
         seconds: 21.73,
@@ -7385,6 +7434,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'C',
     mode: Mode.Major,
     videoId: 'T-c82omcEn8',
+    subId: 4,
     chords: [
       {
         seconds: 25.14,
@@ -7407,6 +7457,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'C',
     mode: Mode.Major,
     videoId: 'T-c82omcEn8',
+    subId: 5,
     chords: [
       {
         seconds: 30.26,
@@ -7441,6 +7492,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'C',
     mode: Mode.Major,
     videoId: 'T-c82omcEn8',
+    subId: 6,
     chords: [
       {
         seconds: 36.48,
@@ -7475,6 +7527,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'C',
     mode: Mode.Major,
     videoId: 'T-c82omcEn8',
+    subId: 7,
     chords: [
       {
         seconds: 49.01,
@@ -7513,6 +7566,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'C',
     mode: Mode.Major,
     videoId: 'T-c82omcEn8',
+    subId: 8,
     chords: [
       {
         seconds: 55.39,
@@ -7551,6 +7605,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'C',
     mode: Mode.Major,
     videoId: 'T-c82omcEn8',
+    subId: 9,
     chords: [
       {
         seconds: 61.57,
@@ -7577,6 +7632,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'C',
     mode: Mode.Major,
     videoId: 'T-c82omcEn8',
+    subId: 10,
     chords: [
       {
         seconds: 62.97,
@@ -7607,6 +7663,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'C',
     mode: 1,
     videoId: 'T-c82omcEn8',
+    subId: 11,
     chords: [
       {
         chord: 'IV',
@@ -7629,6 +7686,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'E',
     mode: 1,
     videoId: 'T-c82omcEn8',
+    subId: 12,
     chords: [
       {
         chord: 'IV',
@@ -7648,5 +7706,529 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
       },
     ],
     endSeconds: 82.14,
+  },
+  {
+    name: 'Someone Gets Hurt',
+    artist: 'Mean Girls',
+    key: 'B',
+    mode: 6,
+    videoId: '7hBy11aK-qw',
+    chords: [
+      {
+        seconds: 0.01,
+        chord: 'i',
+      },
+      {
+        seconds: 3.34,
+        chord: 'i#5',
+      },
+      {
+        seconds: 6.53,
+        chord: 'i6',
+      },
+      {
+        seconds: 9.71,
+        chord: 'i#5',
+      },
+    ],
+    endSeconds: 13,
+    section: 'Intro',
+  },
+  {
+    name: 'Someone Gets Hurt',
+    artist: 'Mean Girls',
+    key: 'D',
+    mode: 1,
+    videoId: '7hBy11aK-qw',
+    chords: [
+      {
+        seconds: 12.99,
+        chord: 'vi',
+      },
+      {
+        seconds: 16.18,
+        chord: 'IV',
+      },
+      {
+        seconds: 19.43,
+        chord: 'II7',
+      },
+      {
+        seconds: 22.62,
+        chord: 'vii7b5',
+      },
+      {
+        chord: 'III7',
+        seconds: 24.75,
+      },
+      {
+        chord: 'III7/b6',
+        seconds: 25.25,
+      },
+    ],
+    endSeconds: 25.78,
+    section: 'Verse 1',
+  },
+  {
+    name: 'Someone Gets Hurt',
+    artist: 'Mean Girls',
+    key: 'D',
+    mode: 1,
+    videoId: '7hBy11aK-qw',
+    chords: [
+      {
+        seconds: 25.8,
+        chord: 'vi',
+      },
+      {
+        seconds: 28.93,
+        chord: 'IV',
+      },
+      {
+        seconds: 32.06,
+        chord: 'I',
+      },
+      {
+        seconds: 35.32,
+        chord: 'vii7b5',
+      },
+      {
+        chord: 'III7',
+        seconds: 37.49,
+      },
+      {
+        chord: 'III7/b6',
+        seconds: 38,
+      },
+    ],
+    endSeconds: 38.52,
+    section: 'Verse 2',
+  },
+  {
+    name: 'Someone Gets Hurt',
+    artist: 'Mean Girls',
+    key: 'D',
+    mode: 1,
+    videoId: '7hBy11aK-qw',
+    chords: [
+      {
+        seconds: 38.56,
+        chord: 'vi',
+      },
+      {
+        seconds: 41.81,
+        chord: 'IV',
+      },
+      {
+        seconds: 44.93,
+        chord: 'II7',
+      },
+      {
+        seconds: 48.21,
+        chord: 'vii7b5',
+      },
+      {
+        chord: 'III7',
+        seconds: 49.71,
+      },
+    ],
+    endSeconds: 51.39,
+    section: 'Verse 3',
+  },
+  {
+    name: 'Someone Gets Hurt',
+    artist: 'Mean Girls',
+    key: 'D',
+    mode: 1,
+    videoId: '7hBy11aK-qw',
+    chords: [
+      {
+        seconds: 51.42,
+        chord: 'vi',
+      },
+      {
+        seconds: 54.68,
+        chord: 'V',
+      },
+      {
+        seconds: 57.91,
+        chord: 'II7/#4',
+      },
+      {
+        seconds: 61.03,
+        chord: 'IV',
+      },
+      {
+        chord: 'vi',
+        seconds: 64.18,
+      },
+    ],
+    endSeconds: 64.93,
+    section: 'Chorus 1',
+  },
+  {
+    name: 'Someone Gets Hurt',
+    artist: 'Mean Girls',
+    key: 'D',
+    mode: 1,
+    videoId: '7hBy11aK-qw',
+    chords: [
+      {
+        seconds: 64.27,
+        chord: 'vi',
+      },
+      {
+        seconds: 65.4,
+        chord: 'IV',
+      },
+      {
+        seconds: 67.27,
+        chord: 'I',
+      },
+      {
+        seconds: 68.61,
+        chord: 'II',
+      },
+    ],
+    endSeconds: 70.49,
+    section: 'Post-Chorus 1',
+  },
+  {
+    name: 'Someone Gets Hurt',
+    artist: 'Mean Girls',
+    key: 'D',
+    mode: 1,
+    videoId: '7hBy11aK-qw',
+    chords: [
+      {
+        seconds: 70.63,
+        chord: 'vi',
+      },
+      {
+        seconds: 71.79,
+        chord: 'IV',
+      },
+      {
+        seconds: 73.7,
+        chord: 'I',
+      },
+      {
+        seconds: 75.05,
+        chord: 'II',
+      },
+    ],
+    endSeconds: 75.86,
+    section: 'Post-Chorus 2',
+  },
+  {
+    name: 'Someone Gets Hurt',
+    artist: 'Mean Girls',
+    key: 'D',
+    mode: 1,
+    videoId: '7hBy11aK-qw',
+    chords: [
+      {
+        seconds: 76.98,
+        chord: 'vi',
+      },
+      {
+        seconds: 80.18,
+        chord: 'IV',
+      },
+      {
+        seconds: 83.42,
+        chord: 'II7',
+      },
+      {
+        seconds: 86.63,
+        chord: 'vii7b5',
+      },
+      {
+        chord: 'III7',
+        seconds: 88.67,
+      },
+      {
+        chord: 'III7/b6',
+        seconds: 89.26,
+      },
+    ],
+    endSeconds: 89.79,
+    section: 'Verse 4',
+  },
+  {
+    name: 'Someone Gets Hurt',
+    artist: 'Mean Girls',
+    key: 'D',
+    mode: 1,
+    videoId: '7hBy11aK-qw',
+    chords: [
+      {
+        seconds: 89.72,
+        chord: 'vi',
+      },
+      {
+        seconds: 93.04,
+        chord: 'IV',
+      },
+      {
+        seconds: 96.24,
+        chord: 'I',
+      },
+      {
+        seconds: 99.34,
+        chord: 'vii7b5',
+      },
+      {
+        chord: 'III7',
+        seconds: 101.46,
+      },
+      {
+        chord: 'III7/b6',
+        seconds: 102.02,
+      },
+    ],
+    endSeconds: 38.52,
+    section: 'Verse 5',
+  },
+  {
+    name: 'Someone Gets Hurt',
+    artist: 'Mean Girls',
+    key: 'D',
+    mode: 1,
+    videoId: '7hBy11aK-qw',
+    chords: [
+      {
+        seconds: 102.57,
+        chord: 'vi',
+      },
+      {
+        seconds: 105.75,
+        chord: 'IV',
+      },
+      {
+        seconds: 108.97,
+        chord: 'II7',
+      },
+      {
+        seconds: 112.24,
+        chord: 'vii7b5',
+      },
+      {
+        chord: 'III7',
+        seconds: 113.75,
+      },
+      {
+        chord: 'ii',
+        seconds: 115.39,
+      },
+      {
+        chord: 'III',
+        seconds: 116.99,
+      },
+    ],
+    endSeconds: 118.55,
+    section: 'Verse 6',
+  },
+  {
+    name: 'Someone Gets Hurt',
+    artist: 'Mean Girls',
+    key: 'D',
+    mode: 1,
+    videoId: '7hBy11aK-qw',
+    chords: [
+      {
+        seconds: 118.58,
+        chord: 'IV',
+      },
+      {
+        seconds: 119.73,
+        chord: 'V',
+      },
+      {
+        seconds: 121.86,
+        chord: 'VIsus',
+      },
+      {
+        seconds: 123.44,
+        chord: 'VI',
+      },
+      {
+        chord: 'ii',
+        seconds: 124.95,
+      },
+      {
+        chord: 'bVII',
+        seconds: 126.16,
+      },
+      {
+        chord: 'V7/7',
+        seconds: 128.21,
+      },
+      {
+        chord: 'III7',
+        seconds: 129.9,
+      },
+      {
+        chord: 'IV',
+        seconds: 135.41,
+      },
+    ],
+    endSeconds: 136.19,
+    section: 'Bridge',
+  },
+  {
+    name: 'Someone Gets Hurt',
+    artist: 'Mean Girls',
+    key: 'Eb',
+    mode: 1,
+    videoId: '7hBy11aK-qw',
+    chords: [
+      {
+        seconds: 136.29,
+        chord: 'vi',
+      },
+      {
+        seconds: 139.36,
+        chord: 'V',
+      },
+      {
+        seconds: 142.68,
+        chord: 'II7/#4',
+      },
+      {
+        seconds: 145.86,
+        chord: 'ii',
+      },
+      {
+        chord: 'IV',
+        seconds: 147.35,
+      },
+    ],
+    endSeconds: 148.94,
+    section: 'Chorus 2',
+  },
+  {
+    name: 'Someone Gets Hurt',
+    artist: 'Mean Girls',
+    key: 'Eb',
+    mode: 1,
+    videoId: '7hBy11aK-qw',
+    chords: [
+      {
+        seconds: 149.06,
+        chord: 'I',
+      },
+      {
+        seconds: 152.19,
+        chord: 'II9',
+      },
+      {
+        seconds: 155.35,
+        chord: 'iv',
+      },
+    ],
+    endSeconds: 161.86,
+    section: 'Chorus 3',
+  },
+  {
+    name: 'Someone Gets Hurt',
+    artist: 'Mean Girls',
+    key: 'Eb',
+    mode: 1,
+    videoId: '7hBy11aK-qw',
+    chords: [
+      {
+        seconds: 161.83,
+        chord: 'vi',
+      },
+      {
+        seconds: 162.95,
+        chord: 'IV',
+      },
+      {
+        seconds: 164.96,
+        chord: 'I',
+      },
+      {
+        chord: 'II',
+        seconds: 166.14,
+      },
+    ],
+    endSeconds: 168.13,
+    section: 'Post-Chorus 3',
+  },
+  {
+    name: 'Someone Gets Hurt',
+    artist: 'Mean Girls',
+    key: 'Eb',
+    mode: 1,
+    videoId: '7hBy11aK-qw',
+    chords: [
+      {
+        seconds: 161.83,
+        chord: 'vi',
+      },
+      {
+        seconds: 162.95,
+        chord: 'IV',
+      },
+      {
+        seconds: 164.96,
+        chord: 'I',
+      },
+      {
+        chord: 'II',
+        seconds: 166.14,
+      },
+    ],
+    endSeconds: 168.13,
+    section: 'Post-Chorus 4',
+  },
+  {
+    name: 'Someone Gets Hurt',
+    artist: 'Mean Girls',
+    key: 'Eb',
+    mode: 1,
+    videoId: '7hBy11aK-qw',
+    chords: [
+      {
+        seconds: 176.3,
+        chord: 'vi',
+      },
+      {
+        seconds: 176.93,
+        chord: 'vi#5',
+      },
+      {
+        seconds: 177.69,
+        chord: 'II7',
+      },
+      {
+        chord: 'IV7',
+        seconds: 178.46,
+      },
+      {
+        chord: 'II',
+        seconds: 179.43,
+      },
+      {
+        chord: 'vi/1',
+        seconds: 180.19,
+      },
+      {
+        chord: 'II7',
+        seconds: 180.92,
+      },
+      {
+        chord: 'III',
+        seconds: 181.67,
+      },
+      {
+        chord: 'vi',
+        seconds: 182.48,
+      },
+    ],
+    endSeconds: 183.91,
+    section: 'Outro',
   },
 ];
