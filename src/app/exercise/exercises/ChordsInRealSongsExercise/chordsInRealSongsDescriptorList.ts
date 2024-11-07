@@ -8231,4 +8231,124 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     endSeconds: 183.91,
     section: 'Outro',
   },
+  {
+    name: 'Where is Love?',
+    artist: 'Oliver!',
+    key: 'C',
+    mode: 1,
+    videoId: 'yvX5zv3P4Gg',
+    chords: [
+      {
+        seconds: 59.12,
+        chord: 'V',
+      },
+      {
+        seconds: 61.16,
+        chord: 'I7',
+      },
+      {
+        seconds: 62.04,
+        chord: 'IV7',
+      },
+      {
+        seconds: 62.86,
+        chord: 'bVII',
+      },
+      {
+        chord: 'bIII7',
+        seconds: 65.42,
+      },
+      {
+        chord: 'bVImaj7/1',
+        seconds: 66.18,
+      },
+      {
+        chord: 'V',
+        seconds: 69.76,
+      },
+    ],
+    endSeconds: 72.87,
+    section: 'A',
+  },
+  {
+    name: 'Where is Love?',
+    artist: 'Oliver!',
+    key: 'C',
+    mode: 1,
+    videoId: 'yvX5zv3P4Gg',
+    chords: [
+      {
+        seconds: 160.23,
+        chord: 'ii7',
+      },
+      {
+        seconds: 161.95,
+        chord: 'V',
+      },
+      {
+        seconds: 163.43,
+        chord: 'I',
+      },
+      {
+        seconds: 165.29,
+        chord: 'IV7',
+      },
+      {
+        chord: 'bVII',
+        seconds: 167.07,
+      },
+      {
+        chord: 'bVImaj7',
+        seconds: 170.39,
+      },
+    ],
+    endSeconds: 174.26,
+    section: 'B',
+  },
+  {
+    name: 'Where is Love?',
+    artist: 'Oliver!',
+    key: 'C',
+    mode: 1,
+    videoId: 'yvX5zv3P4Gg',
+    chords: [
+      {
+        seconds: 174.35,
+        chord: 'ii',
+      },
+      {
+        seconds: 180.21,
+        chord: 'V',
+      },
+      {
+        seconds: 183.01,
+        chord: 'bVI',
+      },
+    ],
+    endSeconds: 184.85,
+    section: 'Cadence 2',
+  },
+  {
+    name: 'Where is Love?',
+    artist: 'Oliver!',
+    key: 'C',
+    mode: 1,
+    videoId: 'yvX5zv3P4Gg',
+    chords: [
+      {
+        seconds: 130.82,
+        chord: 'ii',
+      },
+      {
+        seconds: 136.8,
+        chord: 'V',
+      },
+      {
+        seconds: 138.84,
+        chord: 'I',
+      },
+    ],
+    endSeconds: 139.87,
+    section: 'Cadence 1',
+  },
 ];
