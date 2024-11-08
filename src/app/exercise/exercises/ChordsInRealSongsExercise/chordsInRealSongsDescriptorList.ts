@@ -8351,4 +8351,85 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     endSeconds: 139.87,
     section: 'Cadence 1',
   },
+  {
+    name: 'Light My Candle',
+    artist: 'RENT',
+    key: 'Eb',
+    mode: 1,
+    videoId: 'c7H1zqvKObM',
+    chords: [
+      {
+        seconds: 6.08,
+        chord: 'I',
+      },
+      {
+        seconds: 6.73,
+        chord: 'vi',
+      },
+      {
+        seconds: 7.84,
+        chord: 'I',
+      },
+      {
+        seconds: 8.61,
+        chord: 'vi',
+      },
+    ],
+    endSeconds: 9.52,
+    section: 'A',
+  },
+  {
+    name: 'Light My Candle',
+    artist: 'RENT',
+    key: 'Eb',
+    mode: 1,
+    videoId: 'c7H1zqvKObM',
+    chords: [
+      {
+        seconds: 11.56,
+        chord: 'IV',
+      },
+      {
+        seconds: 13.24,
+        chord: 'V',
+      },
+      {
+        seconds: 15.16,
+        chord: 'IV',
+      },
+      {
+        seconds: 16.96,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 18.63,
+    section: 'B',
+  },
+  {
+    name: 'Light My Candle',
+    artist: 'RENT',
+    key: 'Eb',
+    mode: 1,
+    videoId: 'c7H1zqvKObM',
+    chords: [
+      {
+        seconds: 18.9,
+        chord: 'iii',
+      },
+      {
+        seconds: 20.76,
+        chord: 'IVsus2',
+      },
+      {
+        seconds: 22.49,
+        chord: 'iii',
+      },
+      {
+        seconds: 24.29,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 26.12,
+    section: 'Chorus',
+  },
 ];
