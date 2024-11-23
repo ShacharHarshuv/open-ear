@@ -8500,7 +8500,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
       },
     ],
     endSeconds: 26.26,
-    section: 'Intro',
+    section: 'Intro 2',
   },
   {
     name: "You'll Be In My Heart",
