@@ -180,6 +180,7 @@ export const allRomanNumeralAnswerList: AnswerList<RomanNumeralChordSymbol> =
       ChordType.Minor7th,
       ChordType.Dominant7th,
       ChordType.Diminished,
+      ChordType.HalfDiminished7th,
     ];
     const chordsIterator = getAnswerListIterator(answerListWithChordTypes);
     const bassToInversions: RomanNumeralChord[] = [];

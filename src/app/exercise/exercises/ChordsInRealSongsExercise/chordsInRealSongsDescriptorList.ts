@@ -8432,4 +8432,276 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     endSeconds: 26.12,
     section: 'Chorus',
   },
+  {
+    name: 'This is Hallowing',
+    artist: 'Danny Elfman',
+    key: 'C',
+    mode: 6,
+    videoId: 'ZVuToMilP0A',
+    chords: [
+      {
+        seconds: 3.33,
+        chord: 'i',
+      },
+      {
+        seconds: 6.25,
+        chord: 'ii7b5/1',
+      },
+      {
+        seconds: 9.13,
+        chord: 'iii',
+      },
+      {
+        seconds: 11.97,
+        chord: 'iv',
+      },
+      {
+        chord: 'V',
+        seconds: 13.37,
+      },
+    ],
+    endSeconds: 14.79,
+    section: 'Intro',
+  },
+  {
+    name: 'This is Hallowing',
+    artist: 'Danny Elfman',
+    key: 'C',
+    mode: 6,
+    videoId: 'ZVuToMilP0A',
+    chords: [
+      {
+        seconds: 14.9,
+        chord: 'i',
+      },
+      {
+        seconds: 16.41,
+        chord: 'ii7b5/1',
+      },
+      {
+        seconds: 19.93,
+        chord: 'i',
+      },
+      {
+        seconds: 22.04,
+        chord: 'V7',
+      },
+      {
+        chord: 'V7/2',
+        seconds: 23.41,
+      },
+      {
+        chord: 'i',
+        seconds: 24.94,
+      },
+      {
+        chord: 'V',
+        seconds: 25.65,
+      },
+    ],
+    endSeconds: 26.26,
+    section: 'Intro',
+  },
+  {
+    name: "You'll Be In My Heart",
+    artist: 'Phil Collins',
+    key: 'Gb',
+    mode: 1,
+    section: 'Verse 1',
+    videoId: 'EfHLHdSxQA0',
+    chords: [
+      {
+        seconds: 10.61,
+        chord: 'I',
+      },
+      {
+        seconds: 20.45,
+        chord: 'IV',
+      },
+      {
+        seconds: 25.44,
+        chord: 'ii',
+      },
+      {
+        seconds: 27.95,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 30.36,
+  },
+  {
+    name: "You'll Be In My Heart",
+    artist: 'Phil Collins',
+    key: 'Gb',
+    mode: 1,
+    videoId: 'EfHLHdSxQA0',
+    chords: [
+      {
+        seconds: 30.46,
+        chord: 'I',
+      },
+      {
+        seconds: 32.73,
+        chord: 'V',
+      },
+      {
+        seconds: 33.83,
+        chord: 'I',
+      },
+      {
+        seconds: 37.87,
+        chord: 'V',
+      },
+      {
+        chord: 'I',
+        seconds: 38.81,
+      },
+      {
+        chord: 'IV',
+        seconds: 40.34,
+      },
+      {
+        chord: 'ii',
+        seconds: 45.39,
+      },
+      {
+        chord: 'V',
+        seconds: 47.9,
+      },
+      {
+        chord: 'III',
+        seconds: 49.1,
+      },
+    ],
+    endSeconds: 50.38,
+    section: 'Verse 2',
+  },
+  {
+    name: "You'll Be In My Heart",
+    artist: 'Phil Collins',
+    key: 'Eb',
+    mode: 1,
+    videoId: 'EfHLHdSxQA0',
+    chords: [
+      {
+        seconds: 50.44,
+        chord: 'Iadd9',
+      },
+      {
+        seconds: 52.87,
+        chord: 'IVadd9',
+      },
+      {
+        seconds: 55.35,
+        chord: 'V',
+      },
+      {
+        seconds: 56.52,
+        chord: 'V7/4',
+      },
+      {
+        chord: 'iii7',
+        seconds: 57.79,
+      },
+      {
+        chord: 'vi7',
+        seconds: 60.38,
+      },
+      {
+        chord: 'IVadd9',
+        seconds: 62.84,
+      },
+      {
+        chord: 'bVIIadd9',
+        seconds: 65.32,
+      },
+      {
+        chord: 'V',
+        seconds: 67.8,
+      },
+    ],
+    endSeconds: 70.28,
+    section: 'Chorus',
+  },
+  {
+    name: "You'll Be In My Heart",
+    artist: 'Phil Collins',
+    key: 'Ab',
+    mode: 1,
+    videoId: 'EfHLHdSxQA0',
+    chords: [
+      {
+        chord: 'I',
+        seconds: 132.34,
+      },
+      {
+        chord: 'vi7',
+        seconds: 137.23,
+      },
+      {
+        chord: 'iii',
+        seconds: 142.27,
+      },
+      {
+        chord: 'IVadd9',
+        seconds: 147.19,
+      },
+    ],
+    endSeconds: 152.07,
+    section: 'Bridge',
+  },
+  {
+    name: "You'll Be In My Heart",
+    artist: 'Phil Collins',
+    key: 'Ab',
+    mode: 1,
+    videoId: 'EfHLHdSxQA0',
+    chords: [
+      {
+        chord: 'IVadd9',
+        seconds: 167.13,
+      },
+      {
+        chord: 'V',
+        seconds: 169.62,
+      },
+      {
+        chord: 'II',
+        seconds: 170.8,
+      },
+      {
+        chord: 'VI',
+        seconds: 172.08,
+      },
+    ],
+    endSeconds: 173.44,
+    section: 'Bridge Turnaround',
+  },
+  {
+    name: "You'll Be In My Heart",
+    artist: 'Phil Collins',
+    key: 'F',
+    mode: 1,
+    videoId: 'EfHLHdSxQA0',
+    chords: [
+      {
+        chord: 'IV',
+        seconds: 211.96,
+      },
+      {
+        chord: 'I',
+        seconds: 216.82,
+      },
+      {
+        chord: 'IV',
+        seconds: 221.8,
+      },
+      {
+        chord: 'I',
+        seconds: 226.83,
+      },
+    ],
+    endSeconds: 231.77,
+    section: 'Outro',
+  },
 ];
