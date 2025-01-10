@@ -8704,4 +8704,43 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     endSeconds: 231.77,
     section: 'Outro',
   },
+  {
+    name: 'Some People',
+    artist: 'Gypsy',
+    key: 'F',
+    mode: 1,
+    videoId: 'oxUD409wAxA',
+    chords: [
+      {
+        seconds: 8.88,
+        chord: 'vi',
+      },
+      {
+        seconds: 10.45,
+        chord: 'V7',
+      },
+      {
+        seconds: 11.05,
+        chord: 'III7#5',
+      },
+      {
+        seconds: 12.12,
+        chord: 'VI7',
+      },
+      {
+        chord: 'II7#5',
+        seconds: 13,
+      },
+      {
+        chord: 'V7',
+        seconds: 13.94,
+      },
+      {
+        chord: '#iv7',
+        seconds: 14.72,
+      },
+    ],
+    endSeconds: 15.62,
+    section: 'A',
+  },
 ];
