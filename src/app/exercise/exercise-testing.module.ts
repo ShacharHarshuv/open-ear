@@ -14,8 +14,6 @@ import { ModalFrameComponent } from '../shared/modal/modal-frame/modal-frame.com
 import { ConsoleLogComponent } from '../shared/ng-utilities/console-log-component/console-log.component';
 import { createMockProviders } from '../shared/testing-utility';
 import { ExerciseMockService } from './exercise.mock.service';
-import { AdaptiveExerciseMockService } from './exercise.page/state/adaptive-exercise.mock.service';
-import { AdaptiveExerciseService } from './exercise.page/state/adaptive-exercise.service';
 import { ExerciseService } from './exercise.service';
 
 @NgModule({
@@ -36,10 +34,6 @@ import { ExerciseService } from './exercise.service';
     ...createMockProviders(ExerciseMockService, ExerciseService),
     ...createMockProviders(PlayerMockService, PlayerService),
     ...createMockProviders(YouTubePlayerMockService, YouTubePlayerService),
-    ...createMockProviders(
-      AdaptiveExerciseMockService,
-      AdaptiveExerciseService,
-    ),
   ],
 })
 export class ExerciseTestingModule {}

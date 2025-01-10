@@ -63,15 +63,14 @@ export const allRomanNumeralAnswerList: AnswerList<RomanNumeralChordSymbol> =
           ChordType.Major6th,
           ChordType.Major7th,
           ChordType.MajorAdd9,
-          empty, // ChordType.Major69
+          // empty, // ChordType.Major69
         ], // not dominants
+        [ChordType.Dominant7th, ChordType.Dominant9th, ChordType.Dominant11th], // dominants
         [
           ChordType.Sharp5,
-          ChordType.Dominant7th,
-          ChordType.Dominant9th,
-          ChordType.Dominant11th,
+          ChordType.Dominant7thSharp5th,
           ChordType.Dominant7thSharp9th,
-        ], // dominants
+        ], // dominants alterations
         [ChordType.Sus4, ChordType.Sus2], // suspensions
       ],
     };

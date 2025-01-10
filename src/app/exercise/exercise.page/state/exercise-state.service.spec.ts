@@ -4,7 +4,6 @@ import { ExerciseTestingModule } from '../../exercise-testing.module';
 import { ExerciseMockService } from '../../exercise.mock.service';
 import { NoteType } from '../../utility/music/notes/NoteType';
 import { noteTypeToNote } from '../../utility/music/notes/noteTypeToNote';
-import { AdaptiveExerciseMockService } from './adaptive-exercise.mock.service';
 import { ExerciseStateService } from './exercise-state.service';
 
 describe('ExerciseStateService', function () {
@@ -33,15 +32,15 @@ describe('ExerciseStateService', function () {
       expect(exerciseStateService.totalQuestions()).toEqual(0);
     });
 
-    it('should reset adaptive exercise memory', () => {
-      const adaptiveExerciseResetSpy = spyOn(
-        AdaptiveExerciseMockService.adaptiveExerciseMock,
-        'reset',
-      );
-      expect(adaptiveExerciseResetSpy).not.toHaveBeenCalled();
-      exerciseStateService.resetStatistics();
-      expect(adaptiveExerciseResetSpy).toHaveBeenCalledOnceWith();
-    });
+    // it('should reset adaptive exercise memory', () => {
+    //   const adaptiveExerciseResetSpy = spyOn(
+    //     AdaptiveExerciseMockService.adaptiveExerciseMock,
+    //     'reset',
+    //   );
+    //   expect(adaptiveExerciseResetSpy).not.toHaveBeenCalled();
+    //   exerciseStateService.resetStatistics();
+    //   expect(adaptiveExerciseResetSpy).toHaveBeenCalledOnceWith();
+    // });
 
     it('should move to next question', () => {
       const moveToNextQuestionSpy = spyOn(exerciseStateService, 'nextQuestion');

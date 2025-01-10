@@ -37,6 +37,7 @@ export type MajorChordTypesPostfix =
   | ''
   | ChordType.Major7th
   | ChordType.Dominant7th
+  | ChordType.Dominant7thSharp5th
   | ChordType.Sus4
   | ChordType.Sus2
   | ChordType.Major6th

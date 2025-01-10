@@ -11,7 +11,11 @@ import { chordsInRealSongsExercise } from './chordsInRealSongsExercise';
 describe(chordsInRealSongsExercise.name, () => {
   const context = testExercise({
     getExercise: chordsInRealSongsExercise,
-    settingDescriptorList: ['Analyze By', 'Included Chords'],
+    settingDescriptorList: [
+      'Analyze By',
+      'Simplify Extensions',
+      'Included Chords',
+    ],
   });
 
   describe('Songs', () => {

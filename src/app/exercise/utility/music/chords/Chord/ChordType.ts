@@ -9,6 +9,7 @@ export enum ChordType {
   Diminished = 'dim',
   Sharp5 = '#5',
   Dominant7th = '7',
+  Dominant7thSharp5th = '7#5',
   Major7th = 'maj7',
   Minor7th = 'm7',
   Minor9th = 'm9',
@@ -91,6 +92,15 @@ export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
       isLowercase: false,
       postfix: '7',
       viewPostfix: `<sup>7</sup>`,
+    },
+  },
+  [ChordType.Dominant7thSharp5th]: {
+    scaleDegreeList: ['3', '#5', 'b7'],
+    displayName: 'Dominant 7th',
+    romanNumeral: {
+      isLowercase: false,
+      postfix: '7#5',
+      viewPostfix: `<sup>7(${MusicSymbol.Sharp}5)</sup>`,
     },
   },
   [ChordType.Dominant9th]: {

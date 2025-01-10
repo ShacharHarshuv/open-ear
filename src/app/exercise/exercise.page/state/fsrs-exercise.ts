@@ -98,9 +98,9 @@ export function fsrsExercise(exercise: Exercise) {
   const getQuestion: Exercise['getQuestion'] = () => {
     isQuestionStartedPlaying = false;
     console.log('savedQuestions', cardsCollections.savedQuestions);
-    const dueQuestions = cardsCollections.savedQuestions.filter(
-      (q) => q.card.due.getTime() < new Date().getTime(),
-    );
+    const dueQuestions = cardsCollections.savedQuestions
+      .filter((q) => q.card.due.getTime() < new Date().getTime())
+      .sort((a, b) => a.card.due.getTime() - b.card.due.getTime());
 
     console.log(`There are ${dueQuestions.length} due questions`);
 

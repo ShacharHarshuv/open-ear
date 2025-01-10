@@ -375,6 +375,19 @@ describe('RomanNumeralBuilder', () => {
       },
       serialized: `ⅵ<sup>9</sup>`,
     },
+    {
+      romanNumeralChordSymbol: 'III7#5',
+      type: ChordType.Dominant7thSharp5th,
+      isDiatonic: false,
+      scaleDegree: '3',
+      bass: '3',
+      diatonicDegree: 3,
+      accidental: Accidental.Natural,
+      getChord: {
+        F: 'A7#5',
+      },
+      serialized: `Ⅲ<sup>7(♯5)</sup>`,
+    },
   ];
 
   it('should cover all chord types', () => {

@@ -462,6 +462,16 @@ describe('Chord', () => {
         voicing: [[0, ['A3', 'C4', 'E4', 'F#4'], ['A2', 'A3']]],
       },
     },
+    {
+      chordSymbolOrConfig: 'A7#5',
+      expectedResult: {
+        root: 'A',
+        type: ChordType.Dominant7thSharp5th,
+        bass: 'A',
+        noteTypes: ['A', 'C#', 'F', 'G'],
+        voicing: [[0, ['A3', 'C#4', 'F4', 'G4'], ['A2', 'A3']]],
+      },
+    },
   ];
 
   testCases.forEach(
