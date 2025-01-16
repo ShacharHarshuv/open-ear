@@ -8240,7 +8240,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     chords: [
       {
         seconds: 59.12,
-        chord: 'V',
+        chord: 'V7',
       },
       {
         seconds: 61.16,
@@ -8252,14 +8252,14 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
       },
       {
         seconds: 62.86,
-        chord: 'bVII',
+        chord: 'bVIImaj7',
       },
       {
         chord: 'bIII7',
         seconds: 65.42,
       },
       {
-        chord: 'bVImaj7/1',
+        chord: 'bVImaj7',
         seconds: 66.18,
       },
       {
