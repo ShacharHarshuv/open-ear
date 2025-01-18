@@ -8743,4 +8743,51 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     endSeconds: 15.62,
     section: 'A',
   },
+  {
+    name: 'Grow For Me',
+    artist: 'Little Shop of Horrors',
+    key: 'Eb',
+    mode: 1,
+    videoId: 'JgVnpMkXOas',
+    chords: [
+      {
+        seconds: 26.55,
+        chord: 'I',
+      },
+      {
+        seconds: 29.32,
+        chord: 'iii',
+      },
+      {
+        chord: 'I7',
+        seconds: 31.28,
+      },
+      {
+        seconds: 31.94,
+        chord: 'IV',
+      },
+      {
+        seconds: 34.77,
+        chord: '#iv7',
+      },
+      {
+        seconds: 37.48,
+        chord: 'I/5',
+      },
+      {
+        seconds: 40.25,
+        chord: 'iv/b6',
+      },
+      {
+        seconds: 43.02,
+        chord: 'II/6',
+      },
+      {
+        seconds: 45.69,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 47.05,
+    section: 'A',
+  },
 ];
