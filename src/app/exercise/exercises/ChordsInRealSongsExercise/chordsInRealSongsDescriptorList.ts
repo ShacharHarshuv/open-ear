@@ -698,7 +698,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
   },
   {
     key: 'F#',
-    mode: Mode.Major,
+    mode: 1,
     videoId: 'i8dh9gDzmz8',
     name: 'When I Come Around',
     artist: 'Green Day',
@@ -2156,9 +2156,9 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
   {
     name: "Who's that Girl",
     artist: 'Eurythmics',
-    mode: Mode.Minor,
+    mode: 6,
     videoId: '-5iDKWV6Chg',
-    key: 'A',
+    key: 'C',
     chords: [
       {
         chord: 'i',
@@ -3004,7 +3004,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
   {
     name: "Stacy's Mom",
     artist: 'Fountains of Wayne',
-    mode: Mode.Major,
+    mode: 1,
     videoId: 'dZLfasMPOU4',
     key: 'E',
     chords: [
@@ -6171,26 +6171,26 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     artist: 'Black Kids',
     key: 'C',
     mode: 1,
-    videoId: 'rOV6I4fYnvQ',
+    videoId: 'IRo_I_WeYfI',
     chords: [
       {
-        seconds: 23.47,
+        seconds: 23.79,
         chord: 'IV',
       },
       {
-        seconds: 25.17,
+        seconds: 25.5,
         chord: 'V',
       },
       {
-        seconds: 27.05,
+        seconds: 27.46,
         chord: 'I',
       },
       {
         chord: 'vi',
-        seconds: 28.97,
+        seconds: 29.32,
       },
     ],
-    endSeconds: 30.97,
+    endSeconds: 31.15,
   },
   {
     name: 'Walking in Memphis',
