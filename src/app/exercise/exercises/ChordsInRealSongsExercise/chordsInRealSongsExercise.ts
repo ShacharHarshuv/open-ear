@@ -47,7 +47,7 @@ const soloedChordsInRealSongsDescriptorList =
 function getId(
   progression: DeepReadonly<ProgressionInSongFromYouTubeDescriptor>,
 ): string {
-  return `${progression.videoId} ${progression.section ?? ''} ${progression.subId ?? ''}`;
+  return `${progression.legacyVideoId ?? progression.videoId} ${progression.section ?? ''} ${progression.subId ?? ''}`;
 }
 
 const duplicates = _(chordsInRealSongsDescriptorList)

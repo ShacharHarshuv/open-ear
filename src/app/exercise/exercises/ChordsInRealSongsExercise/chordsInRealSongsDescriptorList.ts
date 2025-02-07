@@ -7,6 +7,7 @@ export interface ProgressionInSongFromYouTubeDescriptor {
   key: NoteType;
   mode: Mode; // will determinate the cadence to play
   cadence?: CadenceType; // if not provided, will be determined by the mode
+  legacyVideoId?: string; // when we need to change the video id, but we don't want to break past references, we set this to the previous video id
   videoId: string;
   subId?: number;
   name?: string;
@@ -6171,6 +6172,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     artist: 'Black Kids',
     key: 'C',
     mode: 1,
+    legacyVideoId: 'rOV6I4fYnvQ',
     videoId: 'IRo_I_WeYfI',
     chords: [
       {
