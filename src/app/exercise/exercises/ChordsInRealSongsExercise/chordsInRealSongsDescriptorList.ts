@@ -8792,4 +8792,47 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     endSeconds: 47.05,
     section: 'A',
   },
+  {
+    name: "Make 'Em Laugh",
+    artist: 'Singing in the Rain',
+    key: 'Eb',
+    mode: 1,
+    videoId: 'K3Do-keFZbE',
+    chords: [
+      {
+        seconds: 5.5,
+        chord: 'I6',
+      },
+      {
+        seconds: 11.49,
+        chord: 'ii7',
+      },
+      {
+        seconds: 13.33,
+        chord: 'V11',
+      },
+      {
+        seconds: 14.45,
+        chord: 'I6',
+      },
+      {
+        chord: 'vi',
+        seconds: 15.29,
+      },
+      {
+        chord: 'VI7#5',
+        seconds: 15.67,
+      },
+      {
+        chord: 'II9',
+        seconds: 15.95,
+      },
+      {
+        chord: 'V9',
+        seconds: 16.52,
+      },
+    ],
+    endSeconds: 17.46,
+    section: 'A',
+  },
 ];
