@@ -8835,4 +8835,101 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     endSeconds: 17.46,
     section: 'A',
   },
+  {
+    name: 'At the End of the day',
+    artist: 'Les Miserables',
+    key: 'Ab',
+    mode: 1,
+    videoId: 'RxgJr_8LraY',
+    section: 'A(1)',
+    chords: [
+      {
+        seconds: 37.54,
+        chord: 'vi',
+      },
+      {
+        seconds: 39.38,
+        chord: 'ii/6',
+      },
+      {
+        seconds: 41.1,
+        chord: 'vi',
+      },
+      {
+        seconds: 42.97,
+        chord: 'II',
+      },
+    ],
+    endSeconds: 44.73,
+  },
+  {
+    name: 'At the End of the day',
+    artist: 'Les Miserables',
+    key: 'Ab',
+    mode: 1,
+    videoId: 'RxgJr_8LraY',
+    section: 'A(2)',
+    chords: [
+      {
+        seconds: 44.77,
+        chord: 'I',
+      },
+      {
+        seconds: 45.78,
+        chord: 'V/7',
+      },
+      {
+        seconds: 46.71,
+        chord: 'I',
+      },
+      {
+        seconds: 47.65,
+        chord: 'V/7',
+      },
+      {
+        chord: 'vi',
+        seconds: 48.55,
+      },
+      {
+        chord: 'III',
+        seconds: 49.49,
+      },
+      {
+        chord: 'IV',
+        seconds: 50.37,
+      },
+      {
+        chord: 'VIsus',
+        seconds: 53.08,
+      },
+    ],
+    endSeconds: 55.01,
+  },
+  {
+    name: 'At the End of the day',
+    artist: 'Les Miserables',
+    key: 'F',
+    mode: 1,
+    videoId: 'RxgJr_8LraY',
+    chords: [
+      {
+        seconds: 72.56,
+        chord: 'I',
+      },
+      {
+        seconds: 74.33,
+        chord: 'IV/1',
+      },
+      {
+        seconds: 76.24,
+        chord: 'I',
+      },
+      {
+        seconds: 77.99,
+        chord: 'IV',
+      },
+    ],
+    endSeconds: 79.9,
+    section: 'B(1)',
+  },
 ];
