@@ -8932,4 +8932,198 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     endSeconds: 79.9,
     section: 'B(1)',
   },
+  {
+    name: 'The Winner Takes it All',
+    artist: 'ABBA',
+    key: 'Gb',
+    mode: 1,
+    videoId: '92cwKCU8Z5c',
+    chords: [
+      {
+        seconds: 67.43,
+        chord: 'I',
+      },
+      {
+        seconds: 70.25,
+        chord: 'III/b6',
+      },
+      {
+        seconds: 71.22,
+        chord: 'vi',
+      },
+      {
+        seconds: 74.24,
+        chord: 'VI/b2',
+      },
+      {
+        chord: 'ii',
+        seconds: 75.17,
+      },
+      {
+        chord: 'V',
+        seconds: 79.13,
+      },
+    ],
+    endSeconds: 82.92,
+  },
+  {
+    name: 'You Ruined Everything',
+    artist: 'Crazy Ex Girlfriend',
+    key: 'Eb',
+    mode: 1,
+    videoId: 'zgUKQCVieWM',
+    chords: [
+      {
+        seconds: 57.01,
+        chord: 'Imaj7/3',
+      },
+      {
+        chord: 'iii7',
+        seconds: 59.36,
+      },
+      {
+        seconds: 60.13,
+        chord: 'vi7',
+      },
+      {
+        seconds: 61.75,
+        chord: 'vi7/5',
+      },
+      {
+        seconds: 63.37,
+        chord: 'ii7',
+      },
+      {
+        chord: 'ii7/1',
+        seconds: 64.87,
+      },
+      {
+        chord: 'V/7',
+        seconds: 66.58,
+      },
+      {
+        chord: 'V7',
+        seconds: 68.22,
+      },
+    ],
+    endSeconds: 69.85,
+    section: 'Chorus (1)',
+  },
+  {
+    name: 'You Ruined Everything',
+    artist: 'Crazy Ex Girlfriend',
+    key: 'Eb',
+    mode: 1,
+    videoId: 'zgUKQCVieWM',
+    chords: [
+      {
+        seconds: 69.85,
+        chord: 'I',
+      },
+      {
+        chord: 'III7',
+        seconds: 71.47,
+      },
+      {
+        chord: 'IV',
+        seconds: 73.01,
+      },
+      {
+        chord: 'iv',
+        seconds: 74.61,
+      },
+      {
+        chord: 'I/5',
+        seconds: 76.44,
+      },
+      {
+        chord: 'V11',
+        seconds: 79.65,
+      },
+      {
+        chord: 'V',
+        seconds: 81.25,
+      },
+      {
+        chord: 'I',
+        seconds: 82.79,
+      },
+    ],
+    endSeconds: 84.37,
+    section: 'Chorus (2)',
+  },
+  {
+    name: 'Waiting in the Wings',
+    artist: 'Alan Menken',
+    key: 'Gb',
+    mode: 1,
+    videoId: 'Hq3BYt6CDkY',
+    chords: [
+      {
+        seconds: 53.69,
+        chord: 'I',
+      },
+      {
+        chord: 'V7/2',
+        seconds: 55.29,
+      },
+      {
+        chord: 'I/3',
+        seconds: 56.88,
+      },
+      {
+        chord: 'IV',
+        seconds: 58.47,
+      },
+      {
+        chord: 'V',
+        seconds: 59.22,
+      },
+    ],
+    endSeconds: 60.12,
+    section: 'Chorus (1)',
+  },
+  {
+    name: 'Waiting in the Wings',
+    artist: 'Alan Menken',
+    key: 'Gb',
+    mode: 1,
+    videoId: 'Hq3BYt6CDkY',
+    chords: [
+      {
+        seconds: 66.62,
+        chord: 'vi',
+      },
+      {
+        chord: 'bVI#5',
+        seconds: 68.23,
+      },
+      {
+        chord: 'I/5',
+        seconds: 69.97,
+      },
+      {
+        chord: '#iv7b5',
+        seconds: 71.57,
+      },
+      {
+        chord: 'iv',
+        seconds: 73.19,
+      },
+      {
+        chord: 'V11',
+        seconds: 76.46,
+      },
+      {
+        chord: 'V',
+        seconds: 78.03,
+      },
+      {
+        chord: 'I',
+        seconds: 79.64,
+      },
+    ],
+    endSeconds: 80.47,
+    section: 'Chorus (2)',
+  },
 ];
