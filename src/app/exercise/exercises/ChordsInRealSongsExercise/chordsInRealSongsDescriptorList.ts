@@ -5936,13 +5936,13 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
   {
     name: 'Somewhere Else',
     artist: 'Razorlight',
-    key: 'D',
+    key: 'A',
     mode: 1,
     videoId: 'Iun3RtbCE6A',
     chords: [
       {
         seconds: 15.73,
-        chord: 'IV',
+        chord: 'ii',
       },
       {
         seconds: 17.18,
