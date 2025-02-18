@@ -191,4 +191,8 @@ export const releaseNotes: ReleaseNotes = [
     notes:
       'Nested answers in chord progression exercise have been significantly changed. To select inner answers, hold the main answer and slide outwards to the required answer.',
   },
+  {
+    version: '1.9.1',
+    notes: '(iOS) fix overlapping buttons layout',
+  },
 ];
