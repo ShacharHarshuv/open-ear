@@ -9126,4 +9126,112 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     endSeconds: 80.47,
     section: 'Chorus (2)',
   },
+  {
+    name: 'Hurricane',
+    artist: 'Lin-Manuel Miranda',
+    key: 'D',
+    mode: 2,
+    videoId: 'ZDrIMv-irD8',
+    chords: [
+      {
+        seconds: 0.01,
+        chord: 'i',
+      },
+      {
+        seconds: 2.66,
+        chord: 'bVII',
+      },
+      {
+        seconds: 2.97,
+        chord: 'IV',
+      },
+    ],
+    endSeconds: 5.62,
+    section: 'Intro',
+  },
+  {
+    name: 'Hurricane',
+    artist: 'Lin-Manuel Miranda',
+    key: 'F',
+    mode: 1,
+    videoId: 'ZDrIMv-irD8',
+    chords: [
+      {
+        seconds: 35.45,
+        chord: 'I',
+      },
+      {
+        seconds: 38.44,
+        chord: 'Isus',
+      },
+      {
+        seconds: 41.17,
+        chord: 'vi',
+      },
+    ],
+    endSeconds: 44.25,
+    section: 'Chorus',
+  },
+  {
+    name: 'Hurricane',
+    artist: 'Lin-Manuel Miranda',
+    key: 'F',
+    mode: 1,
+    videoId: 'ZDrIMv-irD8',
+    chords: [
+      {
+        seconds: 43.97,
+        chord: 'I',
+      },
+      {
+        seconds: 46.88,
+        chord: 'Isus',
+      },
+      {
+        seconds: 48.49,
+        chord: 'I',
+      },
+      {
+        chord: 'Vsus',
+        seconds: 49.81,
+      },
+      {
+        chord: 'V',
+        seconds: 51.2,
+      },
+    ],
+    endSeconds: 52.82,
+    section: 'Chorus',
+  },
+  {
+    name: 'Hurricane',
+    artist: 'Lin-Manuel Miranda',
+    key: 'F',
+    mode: 1,
+    videoId: 'ZDrIMv-irD8',
+    chords: [
+      {
+        seconds: 53.06,
+        chord: 'vi',
+      },
+      {
+        seconds: 55.98,
+        chord: 'V/7',
+      },
+      {
+        seconds: 58.95,
+        chord: 'vi/1',
+      },
+      {
+        chord: 'IIsus',
+        seconds: 61.77,
+      },
+      {
+        chord: 'II',
+        seconds: 63.37,
+      },
+    ],
+    endSeconds: 64.81,
+    section: 'Pre-Chorus',
+  },
 ];
