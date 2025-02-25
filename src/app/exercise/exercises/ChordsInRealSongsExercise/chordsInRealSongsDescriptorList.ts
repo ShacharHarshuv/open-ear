@@ -8738,7 +8738,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
         seconds: 13.94,
       },
       {
-        chord: '#iv7',
+        chord: '#iv7b5',
         seconds: 14.72,
       },
     ],
