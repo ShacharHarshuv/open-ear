@@ -9155,6 +9155,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     key: 'F',
     mode: 1,
     videoId: 'ZDrIMv-irD8',
+    subId: 1,
     chords: [
       {
         seconds: 35.45,
@@ -9202,6 +9203,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     ],
     endSeconds: 52.82,
     section: 'Chorus',
+    subId: 2,
   },
   {
     name: 'Hurricane',
