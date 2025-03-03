@@ -1,11 +1,11 @@
 ion-button {
-  min-height: 0;
   --box-shadow: none;
   text-transform: none;
   flex-shrink: 0;
 
   &.ios {
-    height: 2.4em;
+    min-height: 0;
+    height: 2.2em;
   }
 
   &::part(native) {
