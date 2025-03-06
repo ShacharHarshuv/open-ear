@@ -9236,4 +9236,74 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     endSeconds: 64.81,
     section: 'Pre-Chorus',
   },
+  {
+    name: 'Out There',
+    artist: 'Alan Menken',
+    key: 'C',
+    mode: 1,
+    section: 'Chorus (Antecedent)',
+    videoId: 'Xb5OGU8I04U',
+    chords: [
+      {
+        seconds: 148.54,
+        chord: 'Iadd9',
+      },
+      {
+        seconds: 150.73,
+        chord: 'IVmaj7',
+      },
+      {
+        seconds: 151.59,
+        chord: 'V',
+      },
+      {
+        seconds: 152.62,
+        chord: 'I/3',
+      },
+      {
+        chord: 'IV',
+        seconds: 154.71,
+      },
+      {
+        chord: 'V7',
+        seconds: 155.44,
+      },
+    ],
+    endSeconds: 156.42,
+  },
+  {
+    name: 'Out There',
+    artist: 'Alan Menken',
+    key: 'C',
+    mode: 1,
+    section: 'Chorus (Consequent)',
+    videoId: 'Xb5OGU8I04U',
+    chords: [
+      {
+        seconds: 156.38,
+        chord: 'Iadd9',
+      },
+      {
+        seconds: 158.34,
+        chord: 'IVmaj7',
+      },
+      {
+        seconds: 159.36,
+        chord: 'V',
+      },
+      {
+        seconds: 160.33,
+        chord: 'bIII',
+      },
+      {
+        chord: 'bVI',
+        seconds: 162.27,
+      },
+      {
+        chord: 'bVII',
+        seconds: 163.28,
+      },
+    ],
+    endSeconds: 164.29,
+  },
 ];
