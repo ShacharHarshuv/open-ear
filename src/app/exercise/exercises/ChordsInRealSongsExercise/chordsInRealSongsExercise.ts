@@ -73,9 +73,13 @@ export function chordsInRealSongsExercise(
     const isChordProgressionValid = (
       chords: DeepReadonly<ProgressionInSongFromYouTubeDescriptor>['chords'],
     ): boolean => {
-      return _.every(chords, (chord) =>
-        settings.includedChords.includes(chord.chord),
-      );
+      return _.every(chords, (chord) => {
+        const isChordValid = settings.includedChords.includes(chord.chord);
+        if (!isChordValid) {
+          console.log('Invalid chord', chord.chord);
+        }
+        return isChordValid;
+      });
     };
 
     const validChordProgressionsDescriptorList: DeepReadonly<
@@ -174,7 +178,8 @@ export function chordsInRealSongsExercise(
       // Note, when soloing songs that are not included in the difficult (I IV V vi) settings, this exception will fire and prevent testing of the progression
       // In that case, just comment out the exception for testing purposes
       throw new Error(
-        `No chord progression matching selected chords! Please select more chords. (I IV V vi will work)`,
+        `No chord progression matching selected chords! Please select more chords. (I IV V vi will work)\n` +
+          `If you're using it for debugging with the "solo" option, this fails because settings are not loaded immediately. Trying soloing another song with simple chords to go around the error`,
       );
     }
 
@@ -270,7 +275,6 @@ export function chordsInRealSongsExercise(
         settings: ChordsInRealSongsSettings,
         questionsToExclude: string[],
       ): Exercise.Question<RomanNumeralChordSymbol> {
-        console.log('questions to exclude', questionsToExclude);
         const questionsToExcludeSet = new Set(questionsToExclude);
 
         const availableProgressions = getAvailableProgressions(settings).filter(
@@ -280,7 +284,7 @@ export function chordsInRealSongsExercise(
         console.log('# of songs to choose from', availableProgressions.length);
 
         const progression: DeepReadonly<ProgressionInSongFromYouTubeDescriptor> =
-          randomFromList(getAvailableProgressions(settings));
+          randomFromList(availableProgressions);
 
         return getQuestionFromProgression(progression);
       },

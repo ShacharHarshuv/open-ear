@@ -10,60 +10,75 @@ function isIntervalDiatonic(root: ScaleDegree, interval: Interval) {
   return isDiatonic(scaleDegree);
 }
 
+function getSimplifiedType(chord: RomanNumeralChord): ChordType {
+  const { type } = chord;
+  if (
+    type === ChordType.Major7th &&
+    isIntervalDiatonic(chord.scaleDegree, Interval.MajorSeventh)
+  ) {
+    return ChordType.Major;
+  }
+
+  if (
+    type === ChordType.Minor7th &&
+    isIntervalDiatonic(chord.scaleDegree, Interval.MinorSeventh)
+  ) {
+    return ChordType.Minor;
+  }
+
+  if (
+    type === ChordType.Major6th &&
+    isIntervalDiatonic(chord.scaleDegree, Interval.MajorSixth)
+  ) {
+    return ChordType.Major;
+  }
+
+  if (
+    type === ChordType.Dominant7th &&
+    isIntervalDiatonic(chord.scaleDegree, Interval.MinorSeventh)
+  ) {
+    return ChordType.Major;
+  }
+
+  if (type === ChordType.Dominant9th) {
+    if (isIntervalDiatonic(chord.scaleDegree, Interval.MinorSeventh)) {
+      return ChordType.Major;
+    } else {
+      return ChordType.Dominant7th;
+    }
+  }
+
+  // if (type === ChordType.Sharp5) {
+  //   return ChordType.Major;
+  // }
+
+  if (type === ChordType.Dominant7thSharp5th) {
+    return getSimplifiedType(
+      new RomanNumeralChord({
+        scaleDegree: chord.scaleDegree,
+        bass: chord.bass,
+        type: ChordType.Dominant7th,
+      }),
+    );
+  }
+
+  // if (type === ChordType.Dominant13th) {
+  //   return ChordType.Dominant11th;
+  // }
+
+  return type;
+}
+
 export function simplifyExtensions(
-  chordSymbol: RomanNumeralChordSymbol,
+  chord: RomanNumeralChordSymbol | RomanNumeralChord,
 ): RomanNumeralChordSymbol {
-  const romanNumeral = new RomanNumeralChord(chordSymbol);
-
-  const { type } = romanNumeral;
-
-  const simplifiedType = (() => {
-    if (
-      type === ChordType.Major7th &&
-      isIntervalDiatonic(romanNumeral.scaleDegree, Interval.MajorSeventh)
-    ) {
-      return ChordType.Major;
-    }
-
-    if (
-      type === ChordType.Minor7th &&
-      isIntervalDiatonic(romanNumeral.scaleDegree, Interval.MinorSeventh)
-    ) {
-      return ChordType.Minor;
-    }
-
-    if (
-      type === ChordType.Major6th &&
-      isIntervalDiatonic(romanNumeral.scaleDegree, Interval.MajorSixth)
-    ) {
-      return ChordType.Major;
-    }
-
-    if (
-      type === ChordType.Dominant7th &&
-      isIntervalDiatonic(romanNumeral.scaleDegree, Interval.MinorSeventh)
-    ) {
-      return ChordType.Major;
-    }
-
-    if (type === ChordType.Dominant9th) {
-      if (isIntervalDiatonic(romanNumeral.scaleDegree, Interval.MinorSeventh)) {
-        return ChordType.Major;
-      } else {
-        return ChordType.Dominant7th;
-      }
-    }
-
-    // if (type === ChordType.Dominant13th) {
-    //   return ChordType.Dominant11th;
-    // }
-
-    return type;
-  })();
+  if (typeof chord === 'string') {
+    return simplifyExtensions(new RomanNumeralChord(chord));
+  }
 
   return new RomanNumeralChord({
-    scaleDegree: romanNumeral.scaleDegree,
-    type: simplifiedType,
-    bass: romanNumeral.bass,
+    scaleDegree: chord.scaleDegree,
+    type: getSimplifiedType(chord),
+    bass: chord.bass,
   }).romanNumeralChordSymbol;
 }
