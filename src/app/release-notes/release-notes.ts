@@ -195,4 +195,8 @@ export const releaseNotes: ReleaseNotes = [
     version: '1.9.1',
     notes: '(iOS) fix overlapping buttons layout',
   },
+  {
+    version: '1.9.1',
+    notes: '(Android) Simplify dominant #5 chords in chords in real songs',
+  },
 ];
