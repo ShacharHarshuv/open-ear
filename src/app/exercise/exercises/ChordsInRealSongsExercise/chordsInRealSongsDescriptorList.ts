@@ -9306,4 +9306,128 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     ],
     endSeconds: 164.29,
   },
+  {
+    name: 'Busted',
+    artist: 'Phineas and Ferb',
+    key: 'C',
+    mode: 6,
+    videoId: '6rPPXfoGvyc',
+    chords: [
+      {
+        seconds: 33.59,
+        chord: 'i',
+      },
+      {
+        seconds: 35.93,
+        chord: 'bVII',
+      },
+      {
+        seconds: 38.3,
+        chord: 'bVI',
+      },
+      {
+        seconds: 40.44,
+        chord: 'V',
+      },
+      {
+        chord: 'V/7',
+        seconds: 42.36,
+      },
+    ],
+    endSeconds: 42.98,
+    section: 'Chorus',
+  },
+  {
+    name: 'Busted',
+    artist: 'Phineas and Ferb',
+    key: 'C',
+    mode: 6,
+    videoId: '6rPPXfoGvyc',
+    chords: [
+      {
+        seconds: 54.82,
+        chord: 'i',
+      },
+      {
+        seconds: 56.91,
+        chord: 'bVII',
+      },
+      {
+        seconds: 57.18,
+        chord: 'i',
+      },
+      {
+        seconds: 59.15,
+        chord: 'bVII',
+      },
+      {
+        chord: 'i',
+        seconds: 59.37,
+      },
+    ],
+    endSeconds: 61.36,
+    section: 'Verse',
+  },
+  {
+    name: 'Busted',
+    artist: 'Phineas and Ferb',
+    key: 'C',
+    mode: 6,
+    videoId: '6rPPXfoGvyc',
+    chords: [
+      {
+        seconds: 64.11,
+        chord: 'III',
+      },
+      {
+        seconds: 66.41,
+        chord: 'IV',
+      },
+      {
+        seconds: 68.67,
+        chord: '#ivdim',
+      },
+      {
+        seconds: 71.28,
+        chord: 'III/b6',
+      },
+      {
+        chord: 'III',
+        seconds: 73.5,
+      },
+    ],
+    endSeconds: 75.88,
+    section: 'Pre-Chorus 2',
+  },
+  {
+    name: 'Busted',
+    artist: 'Phineas and Ferb',
+    key: 'C',
+    mode: 6,
+    videoId: '6rPPXfoGvyc',
+    chords: [
+      {
+        seconds: 24.18,
+        chord: 'vi',
+      },
+      {
+        seconds: 25.23,
+        chord: 'I',
+      },
+      {
+        seconds: 26.45,
+        chord: 'II',
+      },
+      {
+        seconds: 27.6,
+        chord: 'IV',
+      },
+      {
+        chord: 'vi',
+        seconds: 28.79,
+      },
+    ],
+    endSeconds: 30.03,
+    section: 'Pre-Chorus 1',
+  },
 ];
