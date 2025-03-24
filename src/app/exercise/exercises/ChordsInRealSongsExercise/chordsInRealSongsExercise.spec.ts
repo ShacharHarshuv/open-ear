@@ -27,7 +27,7 @@ describe(chordsInRealSongsExercise.name, () => {
         exercise.updateSettings?.({
           tonicForAnalyzing: 'original',
           includedChords: _.map(chordProgressionDescriptor.chords, 'chord'),
-          simplifyExtensions: false,
+          acceptEquivalentChord: false,
         });
         expect(exercise.getQuestion()).toBeTruthy();
       });
@@ -92,7 +92,7 @@ describe(chordsInRealSongsExercise.name, () => {
           ...exercise.getCurrentSettings?.(),
           tonicForAnalyzing: 'major',
           includedChords: selected,
-          simplifyExtensions: false,
+          acceptEquivalentChord: false,
         });
         return exercise.getAvailableProgressions(
           exercise.getCurrentSettings?.()!,

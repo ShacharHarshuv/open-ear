@@ -23,6 +23,8 @@ interface BaseQuestion<GAnswer extends string, GSegment> {
    * */
   segments: (GSegment & {
     rightAnswer: GAnswer;
+    // use to accept more than one possible answer
+    isAcceptable?: (answer: GAnswer) => boolean;
     /**
      * See PartToPlay#playAfter
      * */

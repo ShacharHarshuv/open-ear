@@ -189,8 +189,10 @@ export class ExerciseStateService implements OnDestroy {
     if (this._currentAnswers()[answerIndex].answer) {
       return this._currentAnswers()[answerIndex].answer === answer;
     }
-    const { rightAnswer } = currentSegment;
-    const isRight = rightAnswer === answer;
+    const { rightAnswer, isAcceptable } = currentSegment;
+    const isRight = isAcceptable
+      ? isAcceptable(answer)
+      : rightAnswer === answer;
     if (!isRight) {
       this._mistakesCounter.update((value) => ++value);
       this._currentAnswers.update((currentAnswers) => {

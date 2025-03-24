@@ -1,6 +1,7 @@
 import { TitleCasePipe } from '@angular/common';
 import * as _ from 'lodash';
 import { isEmpty } from 'lodash';
+import { isAcceptableChordAnalysis } from 'src/app/exercise/utility/music/harmony/isAcceptableChordAnalysis';
 import { NoteEvent } from '../../../services/player.service';
 import {
   DeepReadonly,
@@ -14,7 +15,6 @@ import {
   iv_V_i_CADENCE_IN_C,
 } from '../../utility/music/chords';
 import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
-import { simplifyExtensions } from '../../utility/music/harmony/simplifyExtensions';
 import { toRelativeModeTonic } from '../../utility/music/harmony/toRelativeModeTonic';
 import { getDistanceOfKeys } from '../../utility/music/keys/getDistanceOfKeys';
 import { transpose } from '../../utility/music/transpose';
@@ -26,9 +26,9 @@ import {
   analyzeBySettings,
 } from '../utility/settings/AnalyzeBySettings';
 import {
-  SimplifyExtensionsSettings,
-  simplifyExtensionsSettings,
-} from '../utility/settings/simplifyExtensionsSettings';
+  AcceptEquivalentChordSettings,
+  flexibleChordChoiceSettings,
+} from '../utility/settings/acceptEquivalentChordsSettings';
 import { withSettings } from '../utility/settings/withSettings';
 import {
   ProgressionInSongFromYouTubeDescriptor,
@@ -37,7 +37,7 @@ import {
 
 interface ChordsInRealSongsSettings
   extends AnalyzeBySettings,
-    SimplifyExtensionsSettings {
+    AcceptEquivalentChordSettings {
   includedChords: RomanNumeralChordSymbol[];
 }
 
@@ -118,19 +118,6 @@ export function chordsInRealSongsExercise(
           ),
         };
       })
-      .map((chordProgression) => {
-        if (!settings.simplifyExtensions) {
-          return chordProgression;
-        }
-
-        return {
-          ...chordProgression,
-          chords: _.map(chordProgression.chords, (chord) => ({
-            ...chord,
-            chord: simplifyExtensions(chord.chord),
-          })),
-        };
-      })
       .map(
         (
           chordProgression,
@@ -188,6 +175,7 @@ export function chordsInRealSongsExercise(
 
   function getQuestionFromProgression(
     progression: DeepReadonly<ProgressionInSongFromYouTubeDescriptor>,
+    settings: AcceptEquivalentChordSettings,
   ): Exercise.Question<RomanNumeralChordSymbol> {
     const modeToCadenceInC: Record<Mode, NoteEvent[]> = {
       [Mode.Lydian]: IV_V_I_CADENCE_IN_C,
@@ -198,12 +186,22 @@ export function chordsInRealSongsExercise(
       [Mode.Phrygian]: iv_V_i_CADENCE_IN_C,
       [Mode.Locrian]: iv_V_i_CADENCE_IN_C,
     };
+
     return {
       type: 'youtube',
       id: getId(progression),
       videoId: progression.videoId,
       segments: progression.chords.map((chordDesc) => ({
         rightAnswer: chordDesc.chord,
+        isAcceptable: (answer) =>
+          isAcceptableChordAnalysis(chordDesc.chord, answer, {
+            // TODO: consider making finer settings from the user perspective
+            ignoreExtensions: settings.acceptEquivalentChord
+              ? 'when-equivalent'
+              : false,
+            ignoreSharp5: !!settings.acceptEquivalentChord,
+            ignoreSuspensions: !!settings.acceptEquivalentChord,
+          }),
         seconds: chordDesc.seconds,
       })),
       endSeconds: progression.endSeconds,
@@ -222,7 +220,7 @@ export function chordsInRealSongsExercise(
   return {
     ...composeExercise(
       withSettings(analyzeBySettings),
-      withSettings(simplifyExtensionsSettings),
+      withSettings(flexibleChordChoiceSettings),
       createExercise<RomanNumeralChordSymbol, ChordsInRealSongsSettings>,
     )({
       id: 'chordsInRealSongs',
@@ -247,7 +245,7 @@ export function chordsInRealSongsExercise(
       defaultSettings: {
         includedChords: ['I', 'IV', 'V', 'vi'],
         tonicForAnalyzing: 'major',
-        simplifyExtensions: true,
+        acceptEquivalentChord: true,
       },
       answerList(
         settings: ChordsInRealSongsSettings,
@@ -286,7 +284,7 @@ export function chordsInRealSongsExercise(
         const progression: DeepReadonly<ProgressionInSongFromYouTubeDescriptor> =
           randomFromList(availableProgressions);
 
-        return getQuestionFromProgression(progression);
+        return getQuestionFromProgression(progression, settings);
       },
       getQuestionById(
         settings: ChordsInRealSongsSettings,
@@ -299,7 +297,7 @@ export function chordsInRealSongsExercise(
         );
 
         return progression
-          ? getQuestionFromProgression(progression)
+          ? getQuestionFromProgression(progression, settings)
           : undefined;
       },
       // todo: consider encorporating this or something similar
