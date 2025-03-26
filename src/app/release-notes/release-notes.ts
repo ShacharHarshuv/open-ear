@@ -199,4 +199,9 @@ export const releaseNotes: ReleaseNotes = [
     version: '1.9.1',
     notes: '(Android) Simplify dominant #5 chords in chords in real songs',
   },
+  {
+    version: '1.9.2',
+    notes:
+      'Chords in real songs (Android only) will now by default accept harmonicaly equivalent chords (e.g. V7 = V). This replaces the previous "simplify extensions" setting.',
+  },
 ];
