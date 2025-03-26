@@ -1,4 +1,4 @@
-import { groupBy, uniq } from 'lodash';
+import { flatMap, uniq } from 'lodash';
 import { NoteEvent } from '../../../../../services/player.service';
 import {
   AnswerConfig,
@@ -23,6 +23,7 @@ import {
 } from '../../../../utility/music/chords';
 import { RomanNumeralChord } from '../../../../utility/music/harmony/RomanNumeralChord';
 import { romanNumeralToChordInC } from '../../../../utility/music/harmony/romanNumeralToChordInC';
+import { chordTypesToAddInversionsFor } from './chord-types-to-add-inversions-for';
 
 export const allRomanNumeralAnswerList: AnswerList<RomanNumeralChordSymbol> =
   (() => {
@@ -172,27 +173,34 @@ export const allRomanNumeralAnswerList: AnswerList<RomanNumeralChordSymbol> =
         },
       );
 
-    const chordTypesToAddInversionsFor: ChordType[] = [
-      ChordType.Major,
-      ChordType.Major7th,
-      ChordType.Minor,
-      ChordType.Minor7th,
-      ChordType.Dominant7th,
-      ChordType.Diminished,
-      ChordType.HalfDiminished7th,
-    ];
     const chordsIterator = getAnswerListIterator(answerListWithChordTypes);
-    const bassToInversions: RomanNumeralChord[] = [];
+    const bassToInversions: Partial<Record<ScaleDegree, RomanNumeralChord[]>> =
+      {};
     for (const answerConfig of chordsIterator) {
       const rootInversionChord = answerConfig.answer!;
       const romanNumeralChord = new RomanNumeralChord(rootInversionChord);
 
-      if (!chordTypesToAddInversionsFor.includes(romanNumeralChord.type)) {
+      const chordTypeInversionConfig = chordTypesToAddInversionsFor.find(
+        ({ type }) => type === romanNumeralChord.type,
+      );
+      if (!chordTypeInversionConfig) {
         continue;
       }
 
       const [, ...scaleDegreesInChord] = romanNumeralChord.scaleDegrees();
-      for (const possibleBassNote of scaleDegreesInChord) {
+      scaleDegreesInChord.forEach((possibleBassNote, index) => {
+        console.log(
+          'index',
+          chordTypeInversionConfig.numberOfInversions,
+          index,
+        );
+        if (
+          chordTypeInversionConfig.numberOfInversions &&
+          index >= chordTypeInversionConfig.numberOfInversions
+        ) {
+          return;
+        }
+
         const invertedChord = new RomanNumeralChord({
           scaleDegree: romanNumeralChord.scaleDegree,
           type: romanNumeralChord.type,
@@ -200,23 +208,30 @@ export const allRomanNumeralAnswerList: AnswerList<RomanNumeralChordSymbol> =
         });
 
         (bassToInversions[possibleBassNote] ??= []).push(invertedChord);
-      }
+      });
     }
 
     for (let bassNote in bassToAnswerLayout) {
-      const invertedChords = bassToInversions[bassNote];
-      const invertedChordsRows = Object.values(
-        groupBy(invertedChords, (chord) => {
-          if (chord.type !== ChordType.Diminished) {
-            return chord.scaleDegree;
-          } else {
-            return transposeScaleDegree(
-              chord.scaleDegree,
-              -Interval.MajorThird,
-            );
-          }
-        }),
-      );
+      const invertedChords = bassToInversions[bassNote as ScaleDegree];
+      if (!invertedChords) {
+        console.error(`No inverted chords for ${bassNote}`);
+        continue;
+      }
+      let invertedChordsRows = groupBy(invertedChords, (chord) => {
+        if (chord.type !== ChordType.Diminished) {
+          return chord.scaleDegree;
+        } else {
+          return transposeScaleDegree(chord.scaleDegree, -Interval.MajorThird);
+        }
+      });
+      // if the rows are too long, break by major/minor (i.e. is roman numeral lowercase)
+      invertedChordsRows = flatMap(invertedChordsRows, (potentialRow) => {
+        if (potentialRow.length <= 4) {
+          return [potentialRow];
+        }
+
+        return groupBy(potentialRow, (chord) => chord.isLowercase);
+      });
       invertedChordsRows.forEach((row) =>
         row.sort((a, b) => {
           if (a.isDiatonic && !b.isDiatonic) {
@@ -290,3 +305,14 @@ export const allRomanNumeralAnswerList: AnswerList<RomanNumeralChordSymbol> =
   })();
 
 console.log(uniq(flatAnswerList(allRomanNumeralAnswerList)));
+
+function groupBy<T>(items: T[], fn: (item: T) => unknown): T[][] {
+  const map = new Map<unknown, T[]>();
+  for (const item of items) {
+    const key = fn(item);
+    const group = map.get(key);
+    if (group) group.push(item);
+    else map.set(key, [item]);
+  }
+  return [...map.values()];
+}

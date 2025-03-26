@@ -59,7 +59,7 @@ export class RomanNumeralChord {
     return (this.accidental + this.diatonicDegree) as ScaleDegree;
   }
 
-  private get _isLowercase(): boolean {
+  get isLowercase(): boolean {
     return chordTypeConfigMap[this.type].romanNumeral.isLowercase;
   }
 
@@ -67,9 +67,7 @@ export class RomanNumeralChord {
     const romanNumeral: string =
       RomanNumeralChord.romanNumerals[this.diatonicDegree];
     const symbol = `${this.accidental}${
-      this._isLowercase
-        ? romanNumeral.toLowerCase()
-        : romanNumeral.toUpperCase()
+      this.isLowercase ? romanNumeral.toLowerCase() : romanNumeral.toUpperCase()
     }${chordTypeConfigMap[this.type].romanNumeral.postfix}`;
 
     if (this.isInversion) {
@@ -217,9 +215,7 @@ export class RomanNumeralChord {
     let postfix: string =
       chordTypeConfigMap[this.type].romanNumeral.viewPostfix;
     const symbol = `${RomanNumeralChord.accidentalToString[this.accidental]}${
-      this._isLowercase
-        ? romanNumeral.toLowerCase()
-        : romanNumeral.toUpperCase()
+      this.isLowercase ? romanNumeral.toLowerCase() : romanNumeral.toUpperCase()
     }${postfix}`;
 
     if (this.bass !== this.scaleDegree) {

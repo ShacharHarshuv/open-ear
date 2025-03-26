@@ -9430,4 +9430,101 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     endSeconds: 30.03,
     section: 'Pre-Chorus 1',
   },
+  {
+    name: "When You're In Love",
+    artist: 'Maybe Happy Ending',
+    key: 'E',
+    mode: 1,
+    videoId: '3IefEc1h66M',
+    section: 'Chorus',
+    chords: [
+      {
+        seconds: 4.64,
+        chord: 'IV',
+      },
+      {
+        seconds: 8.3,
+        chord: 'III',
+      },
+      {
+        seconds: 11.64,
+        chord: 'iii7b5',
+      },
+      {
+        seconds: 14.99,
+        chord: 'II',
+      },
+      {
+        chord: 'IV',
+        seconds: 18.49,
+      },
+      {
+        chord: 'bVII',
+        seconds: 21.49,
+      },
+      {
+        chord: 'III',
+        seconds: 25.09,
+      },
+    ],
+    endSeconds: 28.15,
+  },
+  {
+    name: "When You're In Love",
+    artist: 'Maybe Happy Ending',
+    key: 'E',
+    mode: 1,
+    videoId: '3IefEc1h66M',
+    chords: [
+      {
+        seconds: 28.41,
+        chord: 'Imaj7',
+      },
+      {
+        seconds: 31.62,
+        chord: 'IVmaj7/1',
+      },
+      {
+        seconds: 34.91,
+        chord: 'Imaj7',
+      },
+      {
+        seconds: 38.34,
+        chord: 'IVmaj7/1',
+      },
+    ],
+    endSeconds: 41.47,
+    section: 'Verse 1',
+  },
+  {
+    name: "When You're In Love",
+    artist: 'Maybe Happy Ending',
+    key: 'E',
+    mode: 1,
+    videoId: '3IefEc1h66M',
+    chords: [
+      {
+        seconds: 41.58,
+        chord: 'bVIadd9/1',
+      },
+      {
+        seconds: 43.27,
+        chord: 'bIIImaj7/b7',
+      },
+      {
+        seconds: 44.86,
+        chord: 'bVIadd9',
+      },
+      {
+        seconds: 46.57,
+        chord: 'bIIImaj7/b7',
+      },
+      {
+        chord: 'IV/6',
+        seconds: 48.26,
+      },
+    ],
+    endSeconds: 51.53,
+    section: 'Verse 2',
+  },
 ];
