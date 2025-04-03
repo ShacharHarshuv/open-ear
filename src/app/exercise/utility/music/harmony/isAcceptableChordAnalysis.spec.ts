@@ -142,6 +142,14 @@ describe('isAcceptableChordAnalysis', () => {
         }),
       ).toBe(true);
     });
+
+    it('should simplify bVImaj7 to bVI', () => {
+      expect(
+        isAcceptableChordAnalysis('bVImaj7', 'bVI', {
+          ignoreExtensions: 'when-equivalent',
+        }),
+      ).toBe(true);
+    });
   });
 
   describe('ignoreSuspensions option', () => {

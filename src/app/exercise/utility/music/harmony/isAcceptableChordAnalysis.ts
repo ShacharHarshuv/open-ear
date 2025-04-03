@@ -1,4 +1,4 @@
-import { isEqual, last } from 'lodash';
+import { isEqual } from 'lodash';
 import { ChordType } from 'src/app/exercise/utility/music/chords';
 import { RomanNumeralChord } from 'src/app/exercise/utility/music/harmony/RomanNumeralChord';
 import { RomanNumeralChordSymbol } from 'src/app/exercise/utility/music/harmony/RomanNumeralChordSymbol';
@@ -50,19 +50,11 @@ function _isAcceptableChordAnalysis(
         }
         break;
 
-      case ChordType.Major7th:
-        if (
-          options.ignoreExtensions === 'always' ||
-          (isDiatonic(actual.bass) && isDiatonic(last(actual.scaleDegrees())!))
-        ) {
-          return acceptAsIf(ChordType.Major);
-        }
-        break;
-
       case ChordType.Minor7th:
       case ChordType.Minor9th:
         return acceptAsIf(ChordType.Minor);
 
+      case ChordType.Major7th:
       case ChordType.Major6th:
       case ChordType.MajorAdd9:
       case ChordType.MajorAddSharp4:
