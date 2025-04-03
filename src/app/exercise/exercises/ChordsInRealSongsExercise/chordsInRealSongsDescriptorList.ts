@@ -9527,4 +9527,62 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     endSeconds: 51.53,
     section: 'Verse 2',
   },
+  {
+    name: "When You're In Love",
+    artist: 'Maybe Happy Ending',
+    key: 'E',
+    mode: 1,
+    videoId: '3IefEc1h66M',
+    chords: [
+      {
+        seconds: 74.73,
+        chord: 'Imaj7',
+      },
+      {
+        seconds: 77.84,
+        chord: 'IVmaj7/1',
+      },
+      {
+        seconds: 81.13,
+        chord: 'Imaj7',
+      },
+      {
+        seconds: 84.4,
+        chord: 'iv7/1',
+      },
+    ],
+    endSeconds: 87.57,
+    section: 'Verse 3',
+  },
+  {
+    name: "When You're In Love",
+    artist: 'Maybe Happy Ending',
+    key: 'E',
+    mode: 1,
+    videoId: '3IefEc1h66M',
+    chords: [
+      {
+        seconds: 87.77,
+        chord: 'bVImaj7',
+      },
+      {
+        seconds: 89.46,
+        chord: 'bIIImaj7/b7',
+      },
+      {
+        seconds: 91.1,
+        chord: 'bVIadd9',
+      },
+      {
+        seconds: 92.63,
+        chord: 'bIIImaj7/b7',
+      },
+      {
+        chord: 'IV/6',
+        seconds: 94.36,
+      },
+    ],
+    endSeconds: 97.44,
+    section: 'Verse 4',
+  },
 ];

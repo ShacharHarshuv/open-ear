@@ -59,13 +59,8 @@ export const allRomanNumeralAnswerList: AnswerList<RomanNumeralChordSymbol> =
 
     const majorChordTypesLayout: AnswersLayout<ChordType> = {
       rows: [
-        [
-          ChordType.Major,
-          ChordType.Major6th,
-          ChordType.Major7th,
-          ChordType.MajorAdd9,
-          // empty, // ChordType.Major69
-        ], // not dominants
+        [ChordType.Major, ChordType.Major6th, ChordType.Major7th], // not dominants
+        [ChordType.MajorAdd9, ChordType.Major69, ChordType.Major611],
         [ChordType.Dominant7th, ChordType.Dominant9th, ChordType.Dominant11th], // dominants
         [
           ChordType.Sharp5,
@@ -84,7 +79,12 @@ export const allRomanNumeralAnswerList: AnswerList<RomanNumeralChordSymbol> =
     ];
 
     const minorChordTypes: ChordType[][] = [
-      [ChordType.Minor, ChordType.Minor7th, ChordType.Minor9th],
+      [
+        ChordType.Minor,
+        ChordType.Minor7th,
+        ChordType.Minor9th,
+        ChordType.Minor11th,
+      ],
       [
         ChordType.MinorSharp5,
         ChordType.Minor6th,
@@ -189,11 +189,6 @@ export const allRomanNumeralAnswerList: AnswerList<RomanNumeralChordSymbol> =
 
       const [, ...scaleDegreesInChord] = romanNumeralChord.scaleDegrees();
       scaleDegreesInChord.forEach((possibleBassNote, index) => {
-        console.log(
-          'index',
-          chordTypeInversionConfig.numberOfInversions,
-          index,
-        );
         if (
           chordTypeInversionConfig.numberOfInversions &&
           index >= chordTypeInversionConfig.numberOfInversions

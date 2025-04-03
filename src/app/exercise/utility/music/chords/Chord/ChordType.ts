@@ -13,6 +13,7 @@ export enum ChordType {
   Major7th = 'maj7',
   Minor7th = 'm7',
   Minor9th = 'm9',
+  Minor11th = 'm11',
   Sus4 = 'sus',
   Sus2 = 'sus2',
   Major6th = '6',
@@ -26,6 +27,8 @@ export enum ChordType {
   MinorMajor7th = 'mM7',
   MinorMajor9th = 'mM9',
   MajorAdd9 = 'add9',
+  Major69 = '6/9',
+  Major611 = '6/11',
   MinorAdd9 = 'madd9',
   MajorAddSharp4 = 'add#4',
   MinorSharp5 = 'm#5',
@@ -157,6 +160,15 @@ export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
       viewPostfix: `<sup>9</sup>`,
     },
   },
+  [ChordType.Minor11th]: {
+    scaleDegreeList: ['b3', '5', 'b7', '9', '11'],
+    displayName: 'Minor 11th',
+    romanNumeral: {
+      isLowercase: true,
+      postfix: '11',
+      viewPostfix: `<sup>11</sup>`,
+    },
+  },
   [ChordType.Sus4]: {
     scaleDegreeList: ['4', '5'],
     displayName: 'Suspended 4th',
@@ -237,6 +249,24 @@ export const chordTypeConfigMap: Record<ChordType, IChordTypeConfig> = {
       viewPostfix: '<sup>add9</sup>',
     },
     scaleDegreeList: ['3', '5', '9'],
+  },
+  [ChordType.Major69]: {
+    displayName: 'Major 6/9',
+    romanNumeral: {
+      isLowercase: false,
+      postfix: '6/9',
+      viewPostfix: '<sup>6/9</sup>',
+    },
+    scaleDegreeList: ['3', '5', '6', '9'],
+  },
+  [ChordType.Major611]: {
+    displayName: 'Major 6/11',
+    romanNumeral: {
+      isLowercase: false,
+      postfix: '6/11',
+      viewPostfix: '<sup>6/11</sup>',
+    },
+    scaleDegreeList: ['3', '5', '6', '9', '11'],
   },
   [ChordType.MinorAdd9]: {
     displayName: 'Minor Add 9',

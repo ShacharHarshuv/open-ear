@@ -41,6 +41,8 @@ export type MajorChordTypesPostfix =
   | ChordType.Sus4
   | ChordType.Sus2
   | ChordType.Major6th
+  | ChordType.Major69
+  | ChordType.Major611
   | ChordType.Sharp5
   | ChordType.MajorAdd9
   | ChordType.Dominant9th
@@ -52,6 +54,7 @@ export type MinorChordTypesPostfix =
   | ChordType.Diminished
   | '7'
   | '9'
+  | '11'
   | ChordType.HalfDiminished7th
   | ChordType.Diminished7th
   | 'b6'
