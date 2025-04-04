@@ -94,10 +94,10 @@ function _isAcceptableChordAnalysis(
 
   if (options?.ignoreSuspensions) {
     if (actual.type === ChordType.Sus2) {
-      return acceptAsIf(ChordType.Major) /*  || simplify(ChordType.Minor) */; // TODO: consider how to address suspensions to minor if we ever need it (right now all suspensions in song samples are to major)
+      return acceptAsIf(ChordType.Major) || acceptAsIf(ChordType.Minor);
     }
     if (actual.type === ChordType.Sus4) {
-      return acceptAsIf(ChordType.Major) /*  || simplify(ChordType.Minor) */;
+      return acceptAsIf(ChordType.Major) || acceptAsIf(ChordType.Minor);
     }
   }
 
