@@ -1,6 +1,6 @@
 import { TitleCasePipe } from '@angular/common';
 import * as _ from 'lodash';
-import { isEmpty } from 'lodash';
+import { first, isEmpty } from 'lodash';
 import { isAcceptableChordAnalysis } from 'src/app/exercise/utility/music/harmony/isAcceptableChordAnalysis';
 import { NoteEvent } from '../../../services/player.service';
 import {
@@ -271,7 +271,7 @@ export function chordsInRealSongsExercise(
       },
       getQuestion(
         settings: ChordsInRealSongsSettings,
-        questionsToExclude: string[],
+        questionsToExclude?: string[],
       ): Exercise.Question<RomanNumeralChordSymbol> {
         const questionsToExcludeSet = new Set(questionsToExclude);
 
@@ -281,8 +281,17 @@ export function chordsInRealSongsExercise(
 
         console.log('# of songs to choose from', availableProgressions.length);
 
-        const progression: DeepReadonly<ProgressionInSongFromYouTubeDescriptor> =
-          randomFromList(availableProgressions);
+        // when using "learn" mode, the questionsToExclude will be passed here. In this mode we want to learn the songs in order
+        const progression:
+          | DeepReadonly<ProgressionInSongFromYouTubeDescriptor>
+          | undefined = (questionsToExclude ? first : randomFromList)(
+          availableProgressions,
+        );
+
+        if (!progression) {
+          // todo: we might need to handle this eventually, because it's possible that there is indeed no more quesitons that are not in the "cards" (in learn mode)
+          throw new Error(`No more progressions!`);
+        }
 
         return getQuestionFromProgression(progression, settings);
       },
