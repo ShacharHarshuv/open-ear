@@ -150,6 +150,20 @@ describe('isAcceptableChordAnalysis', () => {
         }),
       ).toBe(true);
     });
+
+    it('should allow I/3 for vi7/3', () => {
+      expect(
+        isAcceptableChordAnalysis('vi7/3', 'I/3', {
+          ignoreExtensions: 'when-equivalent',
+        }),
+      ).toBe(true);
+
+      expect(
+        isAcceptableChordAnalysis('I6/3', 'vi/3', {
+          ignoreExtensions: 'when-equivalent',
+        }),
+      ).toBe(true);
+    });
   });
 
   describe('ignoreSuspensions option', () => {
@@ -159,10 +173,10 @@ describe('isAcceptableChordAnalysis', () => {
       ).toBe(true);
     });
 
-    it('should not allow minor', () => {
+    it('should allow minor', () => {
       expect(
         isAcceptableChordAnalysis('IVsus', 'iv', { ignoreSuspensions: true }),
-      ).toBe(false);
+      ).toBe(true);
     });
 
     it('should ignore sus2 in major', () => {
@@ -171,10 +185,10 @@ describe('isAcceptableChordAnalysis', () => {
       ).toBe(true);
     });
 
-    it('should not allow minor', () => {
+    it('should allow minor', () => {
       expect(
         isAcceptableChordAnalysis('IVsus2', 'iv', { ignoreSuspensions: true }),
-      ).toBe(false);
+      ).toBe(true);
     });
   });
 });

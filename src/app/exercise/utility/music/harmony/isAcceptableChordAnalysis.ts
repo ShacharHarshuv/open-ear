@@ -24,10 +24,11 @@ function _isAcceptableChordAnalysis(
   candidate: RomanNumeralChord,
   options?: Options,
 ) {
-  if (
-    actual.bass === candidate.bass &&
-    isEqual(actual.scaleDegrees().sort(), candidate.scaleDegrees().sort())
-  ) {
+  if (actual.bass !== candidate.bass) {
+    return false;
+  }
+
+  if (isEqual(actual.scaleDegrees().sort(), candidate.scaleDegrees().sort())) {
     return true;
   }
 
@@ -40,6 +41,45 @@ function _isAcceptableChordAnalysis(
   }
 
   if (options?.ignoreExtensions) {
+    // vi7 <> I6 equivalency: (relevant only if pass is the same)
+    if (
+      actual.type === ChordType.Minor7th &&
+      !candidate.isLowercase && // prevents infinite recurssion
+      _isAcceptableChordAnalysis(
+        new RomanNumeralChord({
+          scaleDegree: transposeScaleDegree(
+            actual.scaleDegree,
+            Interval.MinorThird,
+          ), // vi7 -> I6
+          bass: actual.bass,
+          type: ChordType.Major6th,
+        }),
+        candidate,
+        options,
+      )
+    ) {
+      return true;
+    }
+
+    if (
+      actual.type === ChordType.Major6th &&
+      candidate.isLowercase &&
+      _isAcceptableChordAnalysis(
+        new RomanNumeralChord({
+          scaleDegree: transposeScaleDegree(
+            actual.scaleDegree,
+            -Interval.MinorThird,
+          ), // vi7 -> I6
+          bass: actual.bass,
+          type: ChordType.Minor7th,
+        }),
+        candidate,
+        options,
+      )
+    ) {
+      return true;
+    }
+
     switch (actual.type) {
       case ChordType.Dominant7th:
         if (
