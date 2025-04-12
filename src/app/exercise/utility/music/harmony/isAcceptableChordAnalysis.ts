@@ -101,7 +101,9 @@ function _isAcceptableChordAnalysis(
       case ChordType.Dominant7th:
         if (
           options.ignoreExtensions === 'always' ||
-          isDiatonic(transposeScaleDegree(actual.bass, Interval.MinorSeventh))
+          isDiatonic(
+            transposeScaleDegree(actual.scaleDegree, Interval.MinorSeventh),
+          )
         ) {
           return acceptAsIf(ChordType.Major);
         }

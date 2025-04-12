@@ -143,6 +143,14 @@ describe('isAcceptableChordAnalysis', () => {
       ).toBe(true);
     });
 
+    it('should simplify III7/b6 to III/v6', () => {
+      expect(
+        isAcceptableChordAnalysis('III7/b6', 'III/b6', {
+          ignoreExtensions: 'when-equivalent',
+        }),
+      ).toBe(true);
+    });
+
     it('should simplify bVImaj7 to bVI', () => {
       expect(
         isAcceptableChordAnalysis('bVImaj7', 'bVI', {
