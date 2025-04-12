@@ -3,7 +3,12 @@ import { ChordType } from 'src/app/exercise/utility/music/chords';
 import { RomanNumeralChord } from 'src/app/exercise/utility/music/harmony/RomanNumeralChord';
 import { RomanNumeralChordSymbol } from 'src/app/exercise/utility/music/harmony/RomanNumeralChordSymbol';
 import { Interval } from '../intervals/Interval';
-import { isDiatonic, transposeScaleDegree } from '../scale-degrees';
+import {
+  ScaleDegree,
+  isDiatonic,
+  scaleDegreeToChromaticDegree,
+  transposeScaleDegree,
+} from '../scale-degrees';
 
 interface Options {
   ignoreExtensions?: 'always' | 'when-equivalent' | false;
@@ -28,7 +33,19 @@ function _isAcceptableChordAnalysis(
     return false;
   }
 
-  if (isEqual(actual.scaleDegrees().sort(), candidate.scaleDegrees().sort())) {
+  // actual equivalency
+  function getDegreesWithout5th(chord: RomanNumeralChord) {
+    return chord
+      .scaleDegrees()
+      .sort()
+      .filter(
+        (d) =>
+          getIntervalBetweenScaleDegrees(actual.bass, d) !==
+          Interval.PerfectFifth,
+      );
+  }
+
+  if (isEqual(getDegreesWithout5th(actual), getDegreesWithout5th(candidate))) {
     return true;
   }
 
@@ -160,4 +177,14 @@ export function isAcceptableChordAnalysis(
     new RomanNumeralChord(candidate),
     options,
   );
+}
+
+function getIntervalBetweenScaleDegrees(bass: ScaleDegree, voice: ScaleDegree) {
+  let bassChromaticDegree = scaleDegreeToChromaticDegree[bass];
+  const voiceChromaticDegree = scaleDegreeToChromaticDegree[voice];
+  if (bassChromaticDegree > voiceChromaticDegree) {
+    bassChromaticDegree -= 12;
+  }
+
+  return voiceChromaticDegree - bassChromaticDegree;
 }

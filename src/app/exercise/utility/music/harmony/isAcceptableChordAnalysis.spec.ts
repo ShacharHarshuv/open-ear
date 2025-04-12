@@ -166,6 +166,14 @@ describe('isAcceptableChordAnalysis', () => {
     });
   });
 
+  it('should allow IV/6 for vib6', () => {
+    expect(
+      isAcceptableChordAnalysis('vib6', 'IV/6', {
+        ignoreExtensions: 'when-equivalent',
+      }),
+    ).toBe(true);
+  });
+
   describe('ignoreSuspensions option', () => {
     it('should ignore sus4 in major', () => {
       expect(
