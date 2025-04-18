@@ -569,7 +569,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
   },
   {
     key: 'C',
-    mode: Mode.Major,
+    mode: 1,
     videoId: '9OQBDdNHmXo',
     name: 'All Too Well',
     artist: 'Taylor Swift',
@@ -1011,7 +1011,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
   },
   {
     key: 'A',
-    mode: Mode.Minor,
+    mode: 6,
     videoId: 'Vyc8lezaa9g',
     subId: 1,
     name: 'Citizen Erased',
@@ -1019,22 +1019,22 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     chords: [
       {
         chord: 'i',
-        seconds: 471.1,
+        seconds: 468.4,
       },
       {
         chord: 'bVII',
-        seconds: 473.44,
+        seconds: 470.67,
       },
       {
         chord: 'bVI',
-        seconds: 475.89,
+        seconds: 473.12,
       },
       {
         chord: 'V',
-        seconds: 478.51,
+        seconds: 475.68,
       },
     ],
-    endSeconds: 481.07,
+    endSeconds: 478.24,
   },
   {
     key: 'A',
@@ -1820,28 +1820,28 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
   {
     name: 'Mad World',
     artist: 'Gray Jules',
-    key: 'F',
-    mode: Mode.Dorian,
-    videoId: '4N3N1MlvVc4',
+    key: 'F#',
+    mode: 2,
+    videoId: 'u1ZvPSpLxCg',
     chords: [
       {
         chord: 'i',
-        seconds: 17.42,
+        seconds: 9.19,
       },
       {
         chord: 'bIII',
-        seconds: 20.12,
+        seconds: 11.28,
       },
       {
         chord: 'bVII',
-        seconds: 22.75,
+        seconds: 13.16,
       },
       {
         chord: 'IV',
-        seconds: 25.53,
+        seconds: 15.1,
       },
     ],
-    endSeconds: 28.42,
+    endSeconds: 17.23,
   },
   {
     name: "D'You Know What I Mean?",
