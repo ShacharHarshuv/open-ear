@@ -795,7 +795,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
         seconds: 89.89,
       },
       {
-        chord: 'V',
+        chord: 'V/7',
         seconds: 91.89,
       },
     ],
