@@ -41,6 +41,7 @@ export type IntervalDescriptor = {
 
 export type IntervalExerciseSettings = IncludedAnswersSettings<IntervalName> & {
   intervalType: 'melodic' | 'harmonic';
+  intervalDirection: 'random' | 'ascending' | 'descending';
 };
 
 export const intervalDescriptorList: DeepReadonly<IntervalDescriptor[]> = [
@@ -145,6 +146,28 @@ export const intervalExercise = () => {
             ],
           },
         },
+        {
+          key: 'intervalDirection',
+          info: 'Whether the interval is played ascending or descending. Default is for a random choice of either to be picked.',
+          descriptor: {
+            label: 'Interval Direction',
+            controlType: 'select',
+            options: [
+              {
+                label: 'Random',
+                value: 'random',
+              },
+              {
+                label: 'Ascending',
+                value: 'ascending',
+              },
+              {
+                label: 'Descending',
+                value: 'descending',
+              },
+            ],
+          },
+        },
       ],
     }),
     playWrongAnswerSettings(),
@@ -170,7 +193,15 @@ export const intervalExercise = () => {
       let highNoteName = toNoteName(
         randomStartingNoteNumber + randomIntervalDescriptor.semitones,
       );
+
       let [startNoteName, endNoteName] = _.shuffle([lowNoteName, highNoteName]);
+      if (settings.intervalDirection === 'ascending') {
+          [startNoteName, endNoteName] = [lowNoteName, highNoteName];
+      } else if (settings.intervalDirection === 'descending') {
+          [startNoteName, endNoteName] = [highNoteName, lowNoteName];
+      }
+
+
       function getPartFromNotes(start: Note, end: Note) {
         return settings.intervalType === 'melodic'
           ? [{ notes: start }, { notes: end }]

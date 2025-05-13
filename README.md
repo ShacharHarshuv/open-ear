@@ -7,12 +7,12 @@ OpenEar is an open source ear training app for musicians. It's goal is to provid
 Currently includes the following built in exercises:
 
 1. Scale degree / melodic recognition for any mode / scale including chromatic notes (fully customizable).
-2. Recognizing of chord functions (Roman numeral analysis) for every triad (major, minor, diminished) in every mode / scale. (fully customizable)
+2. Recognition of chord functions (Roman numeral analysis) for every triad (major, minor, diminished) in every mode / scale. (fully customizable)
 3. Common progressions - choose out of a set of super common progressions (like I V iv IV) to learn to identify them.
 4. Chord progressions in real songs (currently available for android only) - this will play songs directly from YouTube and ask you to identify to Roman numeral analysis of their chord progression. This is a great way to practice with real music in a fun way. (I've included many very popular songs that uses very popular chord progressions, I hope more can be added in the future)
-5. "Notes with Chords" exercise - this is a less familiar exercise in which you ear both a note in the scale an a chord, and you're required to say what scale degree it is and what chord degree it is. It's incredibly powerful in understanding the different colors a single note can have when it's played over different chords, and in my experience help develop not only melodic recognition but also harmonic recognition.
+5. "Notes with Chords" exercise - this is a less familiar exercise in which you hear both a note in the scale and a chord, and you're required to say what scale degree it is and what chord degree it is. It's incredibly powerful in understanding the different colors a single note can have when it's played over different chords, and in my experience help develop not only melodic recognition but also harmonic recognition.
 6. Recognition of chord types (major / minor) in a diatonic context. This is really useful if the chord functions exercise is a bit too difficult for you. I hope more chord types and customability can be added to this in the future.
-7. Interval recognition - the very popular exercise almost all app has. Although I do not recommend using it as I find it inaffective in confusing, since the intervals are out-of-context.
+7. Interval recognition - the very popular exercise almost every ear training app has. I do not recommend using it as I find it inaffective and confusing, as the intervals are out-of-context.
 
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
      alt="Get it on Google Play"
