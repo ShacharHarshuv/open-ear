@@ -35,3 +35,6 @@ npm-debug.log*
 /.vs
 package-lock.json
 /generated
+
+ios/App/Podfile.lock
+ios/App/build/
