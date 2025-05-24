@@ -227,7 +227,7 @@ export function chordsInRealSongsExercise(
       name: 'Chord Progressions In Real Songs',
       summary:
         'Identify chord progressions in real songs, streamed from YouTube',
-      blackListPlatform: 'ios', // currently, this exercise is not working on ios
+      // blackListPlatform: 'ios', // currently, this exercise is not working on ios
       settingsDescriptors: [
         {
           key: 'includedChords',
