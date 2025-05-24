@@ -66,6 +66,7 @@ export interface MultiAnswerCellConfig {
   },
 })
 export class AnswerCellComponent<GAnswer extends string> {
+  private _isContextMenuInProgress = false;
   readonly cell = input.required<AnswersLayoutCell<GAnswer>>();
 
   readonly buttonTemplate = input.required<ButtonTemplate>();
@@ -143,7 +144,12 @@ export class AnswerCellComponent<GAnswer extends string> {
   private _handleCloseOnClickOutside() {
     let backdrop: HTMLElement | null = null;
     const handleBackdropClick = () => {
-      this.isOpen.set(false);
+      // prevents glitch when close is triggered by the pointer release after opening
+      if (this._isContextMenuInProgress) {
+        return;
+      }
+
+      this.isOpen.set(false); // todo
     };
     function cleanup() {
       backdrop?.remove();
@@ -189,21 +195,22 @@ export class AnswerCellComponent<GAnswer extends string> {
             ['touchcancel', 'touchend', 'mouseup'],
             () => setTimeout(() => this.isOpen.set(false)),
           );
-          addEventListener(
-            triggerElement,
-            'contextmenu',
-            (event: MouseEvent) => {
-              event.preventDefault();
-            },
-          );
           break;
         case 'context-menu':
+          // contextmenu doesn't work on ios, so we need to simulate it
+          let pressTimer: ReturnType<typeof setTimeout> | undefined;
+          addEventListener(triggerElement, ['touchstart', 'mousedown'], () => {
+            pressTimer = setTimeout(() => {
+              this.isOpen.set(true);
+              this._isContextMenuInProgress = true;
+            }, 300);
+          });
           addEventListener(
             triggerElement,
-            'contextmenu',
-            (event: MouseEvent) => {
-              event.preventDefault();
-              this.isOpen.set(true);
+            ['touchcancel', 'touchend', 'mouseup', 'touchmove'],
+            () => {
+              clearTimeout(pressTimer);
+              setTimeout(() => (this._isContextMenuInProgress = false));
             },
           );
           break;
