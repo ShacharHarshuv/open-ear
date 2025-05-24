@@ -134,7 +134,11 @@ export class YouTubePlayerService {
     elm.style['width'] = '400px';
     elm.style['height'] = '200px';
     document.body.appendChild(elm);
-    return PlayerFactory(elm);
+    return PlayerFactory(elm, {
+      playerVars: {
+        playsinline: 1,
+      },
+    });
   }
 
   private _startTimeListener(): void {
