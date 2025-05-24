@@ -38,6 +38,11 @@ export class AppComponent {
         })
         .then((alert) => alert.present());
     }
+
+    document.addEventListener('contextmenu', (event) => {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    });
   }
 
   async showReleaseNotes(): Promise<void> {
