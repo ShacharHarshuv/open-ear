@@ -443,6 +443,7 @@ export class ExerciseStateService implements OnDestroy {
 
   ngOnDestroy(): void {
     this.stop();
+    this._dronePlayer.stopDrone();
     this._destroyed = true; // used to prevent playing of pending actions
   }
 
