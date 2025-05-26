@@ -81,13 +81,13 @@ export class YouTubePlayerService {
                   resolve();
                 }
                 if (data === -1) {
-                  this._alertController
-                    .create({
-                      message: 'Test popup',
-                      subHeader: 'Test popup',
-                      buttons: ['OK'],
-                    })
-                    .then((alert) => alert.present());
+                  // this._alertController
+                  //   .create({
+                  //     message: 'Test popup',
+                  //     subHeader: 'Test popup',
+                  //     buttons: ['OK'],
+                  //   })
+                  //   .then((alert) => alert.present());
                   onAutoplayBlocked();
                 }
               },

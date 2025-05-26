@@ -470,9 +470,9 @@ export class ExerciseStateService implements OnDestroy {
 
   private _autoPlayBlockedVisible = false;
   private async _handleAutoPlayBlocked() {
-    if (this._autoPlayBlockedVisible) {
-      return;
-    }
+    // if (this._autoPlayBlockedVisible) {
+    //   return;
+    // }
     this._autoPlayBlockedVisible = true;
     await this._alertController
       .create({
