@@ -1,6 +1,6 @@
 import { computed, inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AlertController, Platform } from '@ionic/angular';
+import { AlertController, Platform, ToastController } from '@ionic/angular';
 import * as PriorityQueue from 'js-priority-queue';
 import { BehaviorSubject, interval, NEVER } from 'rxjs';
 import { filter, switchMap, take } from 'rxjs/operators';
@@ -33,6 +33,7 @@ export class YouTubePlayerService {
   });
   private readonly _alertController = inject(AlertController);
   private readonly _platform = inject(Platform);
+  private readonly _toastController = inject(ToastController);
 
   get isVideoLoading(): boolean {
     return this._isVideoLoading;
@@ -64,6 +65,13 @@ export class YouTubePlayerService {
             const listener = this._youTubePlayer().on(
               'stateChange',
               ({ data }) => {
+                // todo: remove
+                this._toastController
+                  .create({
+                    message: `stateChange: ${data}`,
+                    duration: 1000,
+                  })
+                  .then((toast) => toast.present());
                 if (data === 1) {
                   // @ts-ignore
                   this._youTubePlayer().off(listener);
