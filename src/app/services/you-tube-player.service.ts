@@ -64,7 +64,7 @@ export class YouTubePlayerService {
       this._onCurrentVideoLoaded = this._youTubePlayer()
         .loadVideoById(videoId)
         .then(() => {
-          return new Promise<void>((resolve, reject) => {
+          return new Promise<void>((resolve) => {
             const listener = this._youTubePlayer().on(
               'stateChange',
               ({ data }) => {
