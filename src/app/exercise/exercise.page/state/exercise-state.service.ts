@@ -1,6 +1,7 @@
 import { Injectable, OnDestroy, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import * as _ from 'lodash';
 import { defaults } from 'lodash';
 import { filter, map } from 'rxjs/operators';
@@ -75,7 +76,7 @@ export class ExerciseStateService implements OnDestroy {
   readonly answerList = this._answerList.asReadonly();
   private _answerToLabelStringMap: Record<string, string> =
     this._getAnswerToLabelStringMap();
-  _alertController;
+  private readonly _alertController = inject(AlertController);
 
   constructor() {
     listenToChanges(this, '_currentQuestion')
@@ -470,9 +471,9 @@ export class ExerciseStateService implements OnDestroy {
 
   private _autoPlayBlockedVisible = false;
   private async _handleAutoPlayBlocked() {
-    // if (this._autoPlayBlockedVisible) {
-    //   return;
-    // }
+    if (this._autoPlayBlockedVisible) {
+      return;
+    }
     this._autoPlayBlockedVisible = true;
     await this._alertController
       .create({
