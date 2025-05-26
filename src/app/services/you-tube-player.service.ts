@@ -1,5 +1,6 @@
-import { computed, Injectable } from '@angular/core';
+import { computed, inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AlertController, Platform } from '@ionic/angular';
 import * as PriorityQueue from 'js-priority-queue';
 import { BehaviorSubject, interval, NEVER } from 'rxjs';
 import { filter, switchMap, take } from 'rxjs/operators';
@@ -30,6 +31,8 @@ export class YouTubePlayerService {
       return a.seconds - b.seconds;
     },
   });
+  private readonly _alertController = inject(AlertController);
+  private readonly _platform = inject(Platform);
 
   get isVideoLoading(): boolean {
     return this._isVideoLoading;
@@ -93,6 +96,17 @@ export class YouTubePlayerService {
     callbacks: YouTubeCallbackDescriptor[] = [],
   ): Promise<void> {
     console.log('play', videoId, time);
+    if (this._platform.is('ios')) {
+      this._alertController
+        .create({
+          message:
+            'Autoplay for videos is not support on iOS, to work around this, please manually press the video to start',
+          subHeader: 'Press Play on the Video To Start',
+          buttons: ["I'll Press Play on the Video"],
+        })
+        .then((alert) => alert.present());
+    }
+
     if (videoId !== this._currentlyLoadedVideoId) {
       await this.loadVideoById(videoId);
     }
