@@ -463,9 +463,8 @@ export class ExerciseStateService implements OnDestroy {
   private async _loadYoutubeQuestion(
     question: Exercise.YouTubeQuestion,
   ): Promise<void> {
-    await this._youtubePlayer.loadVideoById(
-      question.videoId,
-      this._handleAutoPlayBlocked,
+    await this._youtubePlayer.loadVideoById(question.videoId, () =>
+      this._handleAutoPlayBlocked(),
     );
   }
 
@@ -516,7 +515,7 @@ export class ExerciseStateService implements OnDestroy {
           },
         },
       ],
-      this._handleAutoPlayBlocked,
+      () => this._handleAutoPlayBlocked(),
     );
     this._adaptiveExercise.questionStartedPlaying();
     await this._youtubePlayer.onStop();
