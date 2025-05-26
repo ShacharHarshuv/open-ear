@@ -475,15 +475,17 @@ export class ExerciseStateService implements OnDestroy {
       return;
     }
     this._autoPlayBlockedVisible = true;
-    await this._alertController
-      .create({
-        message:
-          'Autoplay for videos is not support on iOS. To work around this, please manually press the video to start',
-        subHeader: 'Press Play on the Video To Start',
-        buttons: ["I'll Press Play on the Video"],
-      })
-      .then((alert) => alert.present());
-    this._autoPlayBlockedVisible = false;
+    const alert = await this._alertController.create({
+      message:
+        'Autoplay for videos is not support on iOS. To work around this, please manually press the video to start',
+      subHeader: 'Press Play on the Video To Start',
+      buttons: ["I'll Press Play on the Video"],
+      cssClass: 'above-toaster',
+    });
+    await alert.present();
+    alert.onDidDismiss().then(() => {
+      this._autoPlayBlockedVisible = false;
+    });
   }
 
   private async _playYouTubeQuestion(
