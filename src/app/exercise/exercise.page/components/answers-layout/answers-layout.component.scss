@@ -8,7 +8,6 @@
 .answers-layout {
   &__answers-rows-container,
   &__answers-buttons-auto-layout-container {
-    flex-grow: 1;
     display: flex;
     flex-direction: column;
     gap: math.div($unit, 2);
