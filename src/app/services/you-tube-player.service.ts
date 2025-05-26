@@ -81,6 +81,9 @@ export class YouTubePlayerService {
                   resolve();
                 }
                 if (data === -1) {
+                  alert(
+                    'Autoplay for videos is not support on iOS. To work around this, please manually press the video to start',
+                  );
                   onAutoplayBlocked();
                 }
               },
