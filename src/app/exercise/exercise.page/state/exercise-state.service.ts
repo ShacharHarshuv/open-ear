@@ -75,6 +75,7 @@ export class ExerciseStateService implements OnDestroy {
   readonly answerList = this._answerList.asReadonly();
   private _answerToLabelStringMap: Record<string, string> =
     this._getAnswerToLabelStringMap();
+  _alertController;
 
   constructor() {
     listenToChanges(this, '_currentQuestion')
@@ -462,7 +463,27 @@ export class ExerciseStateService implements OnDestroy {
   private async _loadYoutubeQuestion(
     question: Exercise.YouTubeQuestion,
   ): Promise<void> {
-    await this._youtubePlayer.loadVideoById(question.videoId);
+    await this._youtubePlayer.loadVideoById(
+      question.videoId,
+      this._handleAutoPlayBlocked,
+    );
+  }
+
+  private _autoPlayBlockedVisible = false;
+  private async _handleAutoPlayBlocked() {
+    if (this._autoPlayBlockedVisible) {
+      return;
+    }
+    this._autoPlayBlockedVisible = true;
+    await this._alertController
+      .create({
+        message:
+          'Autoplay for videos is not support on iOS. To work around this, please manually press the video to start',
+        subHeader: 'Press Play on the Video To Start',
+        buttons: ["I'll Press Play on the Video"],
+      })
+      .then((alert) => alert.present());
+    this._autoPlayBlockedVisible = false;
   }
 
   private async _playYouTubeQuestion(
@@ -471,7 +492,7 @@ export class ExerciseStateService implements OnDestroy {
     if (this._destroyed) {
       return;
     }
-    if (this._youtubePlayer.isVideoLoading) {
+    if (this._youtubePlayer.isVideoLoading && !this._autoPlayBlockedVisible) {
       this._showMessage('Video is loading...');
       this._youtubePlayer.onCurrentVideoLoaded.then(() => {
         this._hideMessage();
@@ -495,6 +516,7 @@ export class ExerciseStateService implements OnDestroy {
           },
         },
       ],
+      this._handleAutoPlayBlocked,
     );
     this._adaptiveExercise.questionStartedPlaying();
     await this._youtubePlayer.onStop();

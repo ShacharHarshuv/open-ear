@@ -54,14 +54,17 @@ export class YouTubePlayerService {
   /**
    * This method will not load the video if it's already loaded
    * */
-  async loadVideoById(videoId: string): Promise<void> {
+  async loadVideoById(
+    videoId: string,
+    onAutoplayBlocked: () => void,
+  ): Promise<void> {
     if (this._currentlyLoadedVideoId !== videoId) {
       this._currentlyLoadedVideoId = videoId;
       this._isVideoLoading = true;
       this._onCurrentVideoLoaded = this._youTubePlayer()
         .loadVideoById(videoId)
         .then(() => {
-          return new Promise<void>((resolve) => {
+          return new Promise<void>((resolve, reject) => {
             const listener = this._youTubePlayer().on(
               'stateChange',
               ({ data }) => {
@@ -76,6 +79,9 @@ export class YouTubePlayerService {
                   // @ts-ignore
                   this._youTubePlayer().off(listener);
                   resolve();
+                }
+                if (data === -1) {
+                  onAutoplayBlocked();
                 }
               },
             );
@@ -102,21 +108,11 @@ export class YouTubePlayerService {
     videoId: string,
     time: number,
     callbacks: YouTubeCallbackDescriptor[] = [],
+    onAutoplayBlocked: () => void,
   ): Promise<void> {
     console.log('play', videoId, time);
-    if (this._platform.is('ios')) {
-      this._alertController
-        .create({
-          message:
-            'Autoplay for videos is not support on iOS, to work around this, please manually press the video to start',
-          subHeader: 'Press Play on the Video To Start',
-          buttons: ["I'll Press Play on the Video"],
-        })
-        .then((alert) => alert.present());
-    }
-
     if (videoId !== this._currentlyLoadedVideoId) {
-      await this.loadVideoById(videoId);
+      await this.loadVideoById(videoId, onAutoplayBlocked);
     }
     await this._onCurrentVideoLoaded; // it's possible loadVideoById was invoked by another function but video is not loaded yet
     await this._youTubePlayer().seekTo(time, true);
