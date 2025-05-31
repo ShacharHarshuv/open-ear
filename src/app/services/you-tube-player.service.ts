@@ -1,6 +1,5 @@
-import { computed, inject, Injectable } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AlertController, Platform, ToastController } from '@ionic/angular';
+import { computed, Injectable } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import * as PriorityQueue from 'js-priority-queue';
 import { BehaviorSubject, interval, NEVER } from 'rxjs';
 import { filter, switchMap, take } from 'rxjs/operators';
@@ -22,6 +21,9 @@ export class YouTubePlayerService {
   private _currentlyLoadedVideoId: string | null = null;
   private _onCurrentVideoLoaded: Promise<void> = Promise.resolve();
   private _isPlaying$ = new BehaviorSubject(false);
+  readonly isPlaying = toSignal(this._isPlaying$.asObservable(), {
+    initialValue: false,
+  });
   private _youTubePlayer = this._getYouTubePlayer();
   private _callBackQueue = new PriorityQueue<YouTubeCallbackDescriptor>({
     comparator: (
@@ -31,9 +33,6 @@ export class YouTubePlayerService {
       return a.seconds - b.seconds;
     },
   });
-  private readonly _alertController = inject(AlertController);
-  private readonly _platform = inject(Platform);
-  private readonly _toastController = inject(ToastController);
 
   get isVideoLoading(): boolean {
     return this._isVideoLoading;
@@ -41,10 +40,6 @@ export class YouTubePlayerService {
 
   get onCurrentVideoLoaded(): Promise<void> {
     return this._onCurrentVideoLoaded;
-  }
-
-  get isPlaying() {
-    return this._isPlaying$.value;
   }
 
   constructor() {
@@ -68,26 +63,14 @@ export class YouTubePlayerService {
             const listener = this._youTubePlayer().on(
               'stateChange',
               ({ data }) => {
-                // todo: remove
-                this._toastController
-                  .create({
-                    message: `stateChange: ${data}`,
-                    duration: 1000,
-                  })
-                  .then((toast) => toast.present());
+                console.log('stateChange', data); // todo
+
                 if (data === 1) {
                   // @ts-ignore
                   this._youTubePlayer().off(listener);
                   resolve();
                 }
                 if (data === -1) {
-                  // this._alertController
-                  //   .create({
-                  //     message: 'Test popup',
-                  //     subHeader: 'Test popup',
-                  //     buttons: ['OK'],
-                  //   })
-                  //   .then((alert) => alert.present());
                   onAutoplayBlocked();
                 }
               },

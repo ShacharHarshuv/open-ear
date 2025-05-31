@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy, inject, signal } from '@angular/core';
+import { Injectable, OnDestroy, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { AlertController } from '@ionic/angular';
@@ -92,6 +92,13 @@ export class ExerciseStateService implements OnDestroy {
           this._dronePlayer.stopDrone();
         }
       });
+
+    effect(() => {
+      if (this._youtubePlayer.isPlaying() && this._autoPlayAlert) {
+        this._autoPlayAlert.dismiss();
+        this._autoPlayAlert = null;
+      }
+    });
   }
 
   get playerReady(): boolean {
@@ -469,22 +476,21 @@ export class ExerciseStateService implements OnDestroy {
     );
   }
 
-  private _autoPlayBlockedVisible = false;
+  private _autoPlayAlert: HTMLIonAlertElement | null = null;
   private async _handleAutoPlayBlocked() {
-    if (this._autoPlayBlockedVisible) {
+    if (this._autoPlayAlert) {
       return;
     }
-    this._autoPlayBlockedVisible = true;
-    const alert = await this._alertController.create({
+    this._autoPlayAlert = await this._alertController.create({
       message:
         'Autoplay for videos is not support on iOS. To work around this, please manually press the video to start',
       subHeader: 'Press Play on the Video To Start',
       buttons: ["I'll Press Play on the Video"],
       cssClass: 'above-toaster',
     });
-    await alert.present();
-    alert.onDidDismiss().then(() => {
-      this._autoPlayBlockedVisible = false;
+    await this._autoPlayAlert.present();
+    this._autoPlayAlert.onDidDismiss().then(() => {
+      this._autoPlayAlert = null;
     });
   }
 
@@ -494,7 +500,7 @@ export class ExerciseStateService implements OnDestroy {
     if (this._destroyed) {
       return;
     }
-    if (this._youtubePlayer.isVideoLoading && !this._autoPlayBlockedVisible) {
+    if (this._youtubePlayer.isVideoLoading && !this._autoPlayAlert) {
       this._showMessage('Video is loading...');
       this._youtubePlayer.onCurrentVideoLoaded.then(() => {
         this._hideMessage();
