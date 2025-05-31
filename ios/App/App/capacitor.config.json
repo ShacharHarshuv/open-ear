@@ -3,5 +3,12 @@
 	"appName": "Open Ear",
 	"webDir": "www",
 	"bundledWebRuntime": false,
-	"backgroundColor": "#9955ff"
+	"backgroundColor": "#9955ff",
+	"packageClassList": [
+		"AppPlugin",
+		"HapticsPlugin",
+		"KeyboardPlugin",
+		"StatusBarPlugin",
+		"CDVPlugin"
+	]
 }
