@@ -1,6 +1,7 @@
-import { Injectable, OnDestroy, inject, signal } from '@angular/core';
+import { Injectable, OnDestroy, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import * as _ from 'lodash';
 import { defaults } from 'lodash';
 import { filter, map } from 'rxjs/operators';
@@ -75,6 +76,7 @@ export class ExerciseStateService implements OnDestroy {
   readonly answerList = this._answerList.asReadonly();
   private _answerToLabelStringMap: Record<string, string> =
     this._getAnswerToLabelStringMap();
+  private readonly _alertController = inject(AlertController);
 
   constructor() {
     listenToChanges(this, '_currentQuestion')
@@ -90,6 +92,13 @@ export class ExerciseStateService implements OnDestroy {
           this._dronePlayer.stopDrone();
         }
       });
+
+    effect(() => {
+      if (this._youtubePlayer.isPlaying() && this._autoPlayAlert) {
+        this._autoPlayAlert.dismiss();
+        this._autoPlayAlert = null;
+      }
+    });
   }
 
   get playerReady(): boolean {
@@ -463,7 +472,27 @@ export class ExerciseStateService implements OnDestroy {
   private async _loadYoutubeQuestion(
     question: Exercise.YouTubeQuestion,
   ): Promise<void> {
-    await this._youtubePlayer.loadVideoById(question.videoId);
+    await this._youtubePlayer.loadVideoById(question.videoId, () =>
+      this._handleAutoPlayBlocked(),
+    );
+  }
+
+  private _autoPlayAlert: HTMLIonAlertElement | null = null;
+  private async _handleAutoPlayBlocked() {
+    if (this._autoPlayAlert) {
+      return;
+    }
+    this._autoPlayAlert = await this._alertController.create({
+      message:
+        'Autoplay for videos is not support on iOS. To work around this, please manually press the video to start',
+      subHeader: 'Press Play on the Video To Start',
+      buttons: ["I'll Press Play on the Video"],
+      cssClass: 'above-toaster',
+    });
+    await this._autoPlayAlert.present();
+    this._autoPlayAlert.onDidDismiss().then(() => {
+      this._autoPlayAlert = null;
+    });
   }
 
   private async _playYouTubeQuestion(
@@ -472,7 +501,7 @@ export class ExerciseStateService implements OnDestroy {
     if (this._destroyed) {
       return;
     }
-    if (this._youtubePlayer.isVideoLoading) {
+    if (this._youtubePlayer.isVideoLoading && !this._autoPlayAlert) {
       this._showMessage('Video is loading...');
       this._youtubePlayer.onCurrentVideoLoaded.then(() => {
         this._hideMessage();
@@ -496,6 +525,7 @@ export class ExerciseStateService implements OnDestroy {
           },
         },
       ],
+      () => this._handleAutoPlayBlocked(),
     );
     this._adaptiveExercise.questionStartedPlaying();
     await this._youtubePlayer.onStop();
