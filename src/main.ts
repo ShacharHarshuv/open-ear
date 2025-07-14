@@ -1,6 +1,8 @@
 import { enableProdMode, importProvidersFrom } from '@angular/core';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import {
@@ -51,5 +53,19 @@ bootstrapApplication(AppComponent, {
     VersionService,
     AppVersion,
     provideAnimations(),
+    importProvidersFrom(
+      provideFirebaseApp(() => {
+        return initializeApp({
+          apiKey: process.env['FIREBASE_API_KEY'],
+          authDomain: 'open-ear.firebaseapp.com',
+          projectId: 'open-ear',
+          storageBucket: 'open-ear.appspot.com',
+          messagingSenderId: '123456789012',
+          appId: '1:123456789012:web:abcdef1234567890',
+          measurementId: 'G-ABCDEF1234',
+        });
+      }),
+      provideFirestore(() => getFirestore()),
+    ),
   ],
 }).catch((err) => console.log(err));
