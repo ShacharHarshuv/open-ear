@@ -179,7 +179,9 @@ export class ExercisePage extends BaseComponent {
 
   readonly getCurrentAnswersLayout = getCurrentAnswersLayout;
 
-  onDragDropped(dragDropEvent: CdkDragDrop<number | undefined>): void {
+  async onDragDropped(
+    dragDropEvent: CdkDragDrop<number | undefined>,
+  ): Promise<void> {
     const answerIndex: number | undefined = dragDropEvent.container.data;
     if (_.isNil(answerIndex)) {
       return;

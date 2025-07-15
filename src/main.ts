@@ -55,14 +55,15 @@ bootstrapApplication(AppComponent, {
     provideAnimations(),
     importProvidersFrom(
       provideFirebaseApp(() => {
+        console.log('initializeApp');
         return initializeApp({
-          apiKey: process.env['FIREBASE_API_KEY'],
-          authDomain: 'open-ear.firebaseapp.com',
-          projectId: 'open-ear',
-          storageBucket: 'open-ear.appspot.com',
-          messagingSenderId: '123456789012',
-          appId: '1:123456789012:web:abcdef1234567890',
-          measurementId: 'G-ABCDEF1234',
+          apiKey: 'AIzaSyANL-ufEKaeOgg-cihiNg5NyNZkUA0iLGY',
+          authDomain: 'openear-4654a.firebaseapp.com',
+          projectId: 'openear-4654a',
+          storageBucket: 'openear-4654a.firebasestorage.app',
+          messagingSenderId: '768435529409',
+          appId: '1:768435529409:web:cb835daa8234966b99d640',
+          measurementId: 'G-NXSDJS7KT2',
         });
       }),
       provideFirestore(() => getFirestore()),

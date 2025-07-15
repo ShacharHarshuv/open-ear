@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
 import { defaults } from 'lodash';
 import { filter, map } from 'rxjs/operators';
+import { AnswerReportingService } from '../../../services/answer-reporting.service';
 import { DronePlayerService } from '../../../services/drone-player.service';
 import { ExerciseSettingsDataService } from '../../../services/exercise-settings-data.service';
 import { PartToPlay, PlayerService } from '../../../services/player.service';
@@ -48,6 +49,7 @@ export class ExerciseStateService implements OnDestroy {
   private readonly _youtubePlayer = inject(YouTubePlayerService);
   private readonly _dronePlayer = inject(DronePlayerService);
   private readonly _exerciseSettingsData = inject(ExerciseSettingsDataService);
+  private readonly _answerReporting = inject(AnswerReportingService);
 
   private readonly _originalExercise: Exercise.Exercise =
     this._exerciseService.getExercise(
@@ -178,10 +180,7 @@ export class ExerciseStateService implements OnDestroy {
     return this._answerToLabelStringMap;
   }
 
-  answer(
-    answer: string,
-    answerIndex: number = this._currentSegmentToAnswer,
-  ): boolean {
+  answer(answer: string, answerIndex: number = this._currentSegmentToAnswer) {
     const currentSegment = this._currentQuestion.segments[answerIndex];
     this._currentAnswers.update((currentAnswers) =>
       _.cloneDeep(currentAnswers),
@@ -193,6 +192,13 @@ export class ExerciseStateService implements OnDestroy {
     const isRight = isAcceptable
       ? isAcceptable(answer)
       : rightAnswer === answer;
+
+    this._answerReporting.reportAttempt({
+      segmentIndex: answerIndex,
+      userAnswer: answer,
+      correctAnswer: rightAnswer,
+    });
+
     if (!isRight) {
       this._mistakesCounter.update((value) => ++value);
       this._currentAnswers.update((currentAnswers) => {
@@ -230,6 +236,13 @@ export class ExerciseStateService implements OnDestroy {
           (currentAnswer) => !!currentAnswer.answer,
         )
       ) {
+        this._answerReporting.reportQuestion({
+          exerciseId: this.exercise.id,
+          globalSettings: this._globalSettings(),
+          exerciseSettings: this.exerciseSettings,
+          currentAnswers: this._currentAnswers(),
+        });
+
         // if not all answers are correct
         if (this._globalSettings().adaptive) {
           this._adaptiveExercise.handleFinishedAnswering(
