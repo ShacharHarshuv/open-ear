@@ -1,6 +1,12 @@
 # Specifies intentionally untracked files to ignore when using Git
 # http://git-scm.com/docs/gitignore
 
+# Environment variables
+.env
+.env.local
+.env.development
+.env.production
+
 *~
 *.sw[mnpcod]
 .tmp

@@ -22,6 +22,7 @@
     "target": "es2022",
     "module": "es2020",
     "lib": ["es2018", "dom"],
+    "types": ["node"],
     "useDefineForClassFields": false
   },
   "angularCompilerOptions": {

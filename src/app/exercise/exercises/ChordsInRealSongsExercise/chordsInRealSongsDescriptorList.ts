@@ -2040,7 +2040,7 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
   {
     name: "Can't Hold Us",
     artist: 'Macklemore & Ryan Lewis ',
-    mode: Mode.Minor,
+    mode: 6,
     videoId: '2zNSgSzhBfM',
     key: 'E',
     chords: [
