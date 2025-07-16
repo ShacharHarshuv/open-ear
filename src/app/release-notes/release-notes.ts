@@ -202,6 +202,11 @@ export const releaseNotes: ReleaseNotes = [
   {
     version: '1.9.2',
     notes:
-      'Chords in real songs (Android only) will now by default accept harmonicaly equivalent chords (e.g. V7 = V). This replaces the previous "simplify extensions" setting.',
+      'Chords in real songs (Android only) will now by default accept harmonically equivalent chords (e.g. V7 = V). This replaces the previous "simplify extensions" setting.',
+  },
+  {
+    version: '1.10.0',
+    notes:
+      'OpenEar now collects anonymous data for research about ear training. See more info in https://github.com/ShacharHarshuv/open-ear/blob/master/PRIVACY_POLICY.md',
   },
 ];

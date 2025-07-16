@@ -1,6 +1,6 @@
 {
   "name": "open-ear",
-  "version": "1.9.2",
+  "version": "1.10.0",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
   "scripts": {
@@ -11,7 +11,7 @@
     "prebuild": "npm run preprocess",
     "start": "ionic serve",
     "build": "ng build",
-    "build-android": "ng build && capacitor copy android && cordova-res android --skip-config --copy && npx cap sync && capacitor open android",
+    "build-android": "ng build --configuration production && capacitor copy android && cordova-res android --skip-config --copy && npx cap sync && capacitor open android",
     "open-android": "capacitor open android",
     "build-ios": "ng build && npx cap sync ios && npx cap open ios",
     "release": "cd release-automation && yarn release",

@@ -1,5 +1,6 @@
 import { Injectable, OnDestroy, inject } from '@angular/core';
 import { Firestore, addDoc, collection } from '@angular/fire/firestore';
+import { Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
@@ -24,6 +25,7 @@ export class AnswerReportingService implements OnDestroy {
   private readonly _firestore = inject(Firestore);
   private readonly _storageService = inject(StorageService);
   private readonly _networkConnectivity = inject(NetworkConnectivityService);
+  private readonly _platform = inject(Platform);
   private readonly _attempts: Answer[] = [];
   private readonly _userIdKey = 'userId';
   private readonly _cachedAnswersKey = 'cachedAnswers';
@@ -99,6 +101,7 @@ export class AnswerReportingService implements OnDestroy {
       correctPercentage: numberOfCorrectSegments / numberOfSegments,
       attempts: this._attempts.slice(),
       timestamp,
+      userOS: this._getUserOS(),
     };
 
     if (this._networkConnectivity.isOnline) {
@@ -108,6 +111,20 @@ export class AnswerReportingService implements OnDestroy {
     }
 
     this._attempts.length = 0;
+  }
+
+  private _getUserOS(): string {
+    if (this._platform.is('ios')) {
+      return 'iOS';
+    } else if (this._platform.is('android')) {
+      return 'Android';
+    } else if (this._platform.is('desktop')) {
+      return 'Desktop';
+    } else if (this._platform.is('mobile')) {
+      return 'Mobile Web';
+    } else {
+      return 'Web';
+    }
   }
 
   private async _sendToFirestore(data: any): Promise<void> {
