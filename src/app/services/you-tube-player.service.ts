@@ -1,10 +1,9 @@
-import { Injectable } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { computed, Injectable } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import * as PriorityQueue from 'js-priority-queue';
 import { BehaviorSubject, interval, NEVER } from 'rxjs';
 import { filter, switchMap, take } from 'rxjs/operators';
 import PlayerFactory from 'youtube-player';
-import { YouTubePlayer } from 'youtube-player/dist/types';
 
 export interface YouTubeCallbackDescriptor {
   seconds: number;
@@ -17,11 +16,15 @@ const TIME_STAMP_POLLING: number = 200;
   providedIn: 'root',
 })
 export class YouTubePlayerService {
+  private _elm = this._getHostElement();
   private _isVideoLoading: boolean = false;
   private _currentlyLoadedVideoId: string | null = null;
   private _onCurrentVideoLoaded: Promise<void> = Promise.resolve();
   private _isPlaying$ = new BehaviorSubject(false);
-  private _youTubePlayer: YouTubePlayer = this._getYouTubePlayer();
+  readonly isPlaying = toSignal(this._isPlaying$.asObservable(), {
+    initialValue: false,
+  });
+  private _youTubePlayer = this._getYouTubePlayer();
   private _callBackQueue = new PriorityQueue<YouTubeCallbackDescriptor>({
     comparator: (
       a: YouTubeCallbackDescriptor,
@@ -39,10 +42,6 @@ export class YouTubePlayerService {
     return this._onCurrentVideoLoaded;
   }
 
-  get isPlaying() {
-    return this._isPlaying$.value;
-  }
-
   constructor() {
     this._startTimeListener();
   }
@@ -50,28 +49,36 @@ export class YouTubePlayerService {
   /**
    * This method will not load the video if it's already loaded
    * */
-  async loadVideoById(videoId: string): Promise<void> {
+  async loadVideoById(
+    videoId: string,
+    onAutoplayBlocked: () => void,
+  ): Promise<void> {
     if (this._currentlyLoadedVideoId !== videoId) {
       this._currentlyLoadedVideoId = videoId;
       this._isVideoLoading = true;
-      this._onCurrentVideoLoaded = this._youTubePlayer
+      this._onCurrentVideoLoaded = this._youTubePlayer()
         .loadVideoById(videoId)
         .then(() => {
           return new Promise<void>((resolve) => {
-            const listener = this._youTubePlayer.on(
+            const listener = this._youTubePlayer().on(
               'stateChange',
               ({ data }) => {
+                console.log('stateChange', data); // todo
+
                 if (data === 1) {
                   // @ts-ignore
-                  this._youTubePlayer.off(listener);
+                  this._youTubePlayer().off(listener);
                   resolve();
+                }
+                if (data === -1) {
+                  onAutoplayBlocked();
                 }
               },
             );
           });
         })
         .then(() => {
-          this._youTubePlayer.pauseVideo(); // we don't always want it to start playing immediately
+          this._youTubePlayer().pauseVideo(); // we don't always want it to start playing immediately
         })
         .then(() => {
           this._isVideoLoading = false;
@@ -91,14 +98,15 @@ export class YouTubePlayerService {
     videoId: string,
     time: number,
     callbacks: YouTubeCallbackDescriptor[] = [],
+    onAutoplayBlocked: () => void,
   ): Promise<void> {
     console.log('play', videoId, time);
     if (videoId !== this._currentlyLoadedVideoId) {
-      await this.loadVideoById(videoId);
+      await this.loadVideoById(videoId, onAutoplayBlocked);
     }
     await this._onCurrentVideoLoaded; // it's possible loadVideoById was invoked by another function but video is not loaded yet
-    await this._youTubePlayer.seekTo(time, true);
-    await this._youTubePlayer.playVideo();
+    await this._youTubePlayer().seekTo(time, true);
+    await this._youTubePlayer().playVideo();
     this._isPlaying$.next(true);
     callbacks.forEach((callback) => {
       this._callBackQueue.queue(callback);
@@ -107,7 +115,7 @@ export class YouTubePlayerService {
 
   async stop(): Promise<void> {
     if (this._isPlaying$.value) {
-      await this._youTubePlayer.pauseVideo(); // used instead of stopVideo to avoid resetting of the play position
+      await this._youTubePlayer().pauseVideo(); // used instead of stopVideo to avoid resetting of the play position
       this._callBackQueue.clear();
       this._isPlaying$.next(false);
     }
@@ -126,15 +134,8 @@ export class YouTubePlayerService {
     }
   }
 
-  private _getYouTubePlayer(): YouTubePlayer {
-    const elm = document.createElement('div');
-    // Expose the following code for debugging purposes
-    // elm.style['position'] = 'absolute';
-    // elm.style['top'] = '0';
-    // elm.style['width'] = '100px';
-    // elm.style['height'] = '100px';
-    document.body.appendChild(elm);
-    return PlayerFactory(elm);
+  private _getYouTubePlayer() {
+    return computed(() => PlayerFactory(this._elm()));
   }
 
   private _startTimeListener(): void {
@@ -154,11 +155,33 @@ export class YouTubePlayerService {
           return;
         }
         const nextCallback = this._callBackQueue.peek();
-        const currentTime = await this._youTubePlayer.getCurrentTime();
+        const currentTime = await this._youTubePlayer().getCurrentTime();
         if (currentTime > nextCallback.seconds - TIME_STAMP_POLLING / 2000) {
           this._callBackQueue.dequeue();
           nextCallback.callback();
         }
       });
+  }
+
+  private _getHostElement() {
+    return computed(() => {
+      const elm = document.createElement('div');
+      let host =
+        document.querySelector<HTMLElement>('.video-container') ??
+        document.body;
+
+      // if (!elm) {
+      //   console.warn('Video container not found');
+
+      //   elm = document.createElement('div');
+      // }
+      // Expose the following code for debugging purposes
+      // elm.style['position'] = 'absolute';
+      // elm.style['top'] = '0';
+      elm.style['width'] = '70%';
+      elm.style['height'] = '150px';
+      host.appendChild(elm);
+      return elm;
+    });
   }
 }

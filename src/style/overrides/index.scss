@@ -11,3 +11,7 @@ ion-toggle,
 ion-select {
   flex-grow: 0;
 }
+
+.above-toaster {
+  z-index: 60003 !important;
+}
