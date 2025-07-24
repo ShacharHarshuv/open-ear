@@ -1,7 +1,11 @@
 <app-modal-frame [title]="exerciseName" #modal="modal">
-  <div class="exercise-explanation__content">
-    <ng-template [appExerciseExplanationContent]="content"></ng-template>
-  </div>
+  <ion-content>
+    <div class="safe-area-wrapper">
+      <div class="exercise-explanation__content">
+        <ng-template [appExerciseExplanationContent]="content"></ng-template>
+      </div>
 
-  <ion-button expand="block" (click)="modal.close()">Got It</ion-button>
+      <ion-button expand="block" (click)="modal.close()">Got It</ion-button>
+    </div>
+  </ion-content>
 </app-modal-frame>

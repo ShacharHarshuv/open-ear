@@ -13,3 +13,7 @@ ion-content {
     flex-direction: column;
   }
 }
+
+.safe-area-wrapper {
+  padding-bottom: env(safe-area-inset-bottom);
+}
