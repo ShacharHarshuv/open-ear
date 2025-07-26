@@ -51,7 +51,7 @@
       <div>
         @for (answer of answersPlayedTogether; track answer) {
         <app-answer-indication
-          [answerDisplay]="answer.answer && state.answerToLabelStringMap[answer.answer]"
+          [answerDisplay]="answer.answer && state.answerToLabelStringMap()[answer.answer]"
           [isFocused]="state.currentlyPlayingSegments.has(answer.index)"
           [wasAnsweredWrong]="answer.wasWrong"
           cdkDropList

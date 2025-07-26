@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy, inject, signal } from '@angular/core';
+import { Injectable, OnDestroy, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
@@ -51,14 +51,26 @@ export class ExerciseStateService implements OnDestroy {
   private readonly _exerciseSettingsData = inject(ExerciseSettingsDataService);
   private readonly _answerReporting = inject(AnswerReportingService);
 
-  private readonly _originalExercise: Exercise.Exercise =
-    this._exerciseService.getExercise(
-      this._activatedRoute.snapshot.params['id']!,
-    );
+  private _exercise = this._exerciseService.getExercise(
+    this._activatedRoute.snapshot.params['id']!,
+  );
+
+  readonly exercise = this._exercise as Omit<typeof this._exercise, 'logic'>;
+
+  readonly exerciseLogic = computed(() => {
+    const ogLogic = this._exercise.logic(this._exerciseSettings());
+    if (!this._globalSettings().adaptive) {
+      return ogLogic;
+    }
+    return fsrsExercise(this._exercise.id, ogLogic);
+  });
+
   private readonly _globalSettings = signal<GlobalExerciseSettings>(
     DEFAULT_EXERCISE_SETTINGS,
   );
-  private _adaptiveExercise = fsrsExercise(this._originalExercise);
+  private readonly _exerciseSettings = signal<{
+    [key: string]: Exercise.SettingValueType;
+  }>(this.exercise.defaultSettings);
   private _currentQuestion: Exercise.Question = {
     segments: [],
   };
@@ -71,12 +83,18 @@ export class ExerciseStateService implements OnDestroy {
   readonly message = this._message.asReadonly();
   readonly error = this._error.asReadonly();
   readonly name: string = this.exercise.name;
-  private readonly _answerList = signal<AnswerList>(
-    this.exercise.getAnswerList(),
-  );
-  readonly answerList = this._answerList.asReadonly();
-  private _answerToLabelStringMap: Record<string, string> =
-    this._getAnswerToLabelStringMap();
+  readonly answerList = computed(() => this.exerciseLogic().getAnswerList());
+  readonly answerToLabelStringMap = computed(() => {
+    const answerList = this.answerList();
+    const answerToLabelStringMap: Record<string, string> = {};
+    for (const answerConfig of getAnswerListIterator(answerList)) {
+      if (!answerConfig.answer) {
+        continue;
+      }
+      answerToLabelStringMap[answerConfig.answer] = answerConfig.displayLabel;
+    }
+    return answerToLabelStringMap;
+  });
 
   constructor() {
     listenToChanges(this, '_currentQuestion')
@@ -139,15 +157,10 @@ export class ExerciseStateService implements OnDestroy {
     return !!this._currentQuestion.cadence;
   }
 
-  get exerciseSettingsDescriptor(): Exercise.SettingsControlDescriptor[] {
-    const settingsDescriptor: Exercise.SettingsControlDescriptor[] | undefined =
-      this.exercise.getSettingsDescriptor?.();
-    return settingsDescriptor || [];
-  }
+  readonly exerciseSettingsDescriptor =
+    this.exercise.getSettingsDescriptor?.() || [];
 
-  get exerciseSettings(): { [key: string]: Exercise.SettingValueType } {
-    return this.exercise.getCurrentSettings?.() || {};
-  }
+  readonly exerciseSettings = this._exerciseSettings.asReadonly();
 
   get info(): string | null {
     if (!this._currentQuestion.info) {
@@ -168,16 +181,6 @@ export class ExerciseStateService implements OnDestroy {
   private get _areAllSegmentsAnswered(): boolean {
     return !this._currentAnswers().filter((answer) => answer.answer === null)
       .length;
-  }
-
-  get exercise(): Exercise.Exercise {
-    return this._globalSettings().adaptive
-      ? this._adaptiveExercise
-      : this._originalExercise;
-  }
-
-  get answerToLabelStringMap(): Record<string, string> {
-    return this._answerToLabelStringMap;
   }
 
   answer(answer: string, answerIndex: number = this._currentSegmentToAnswer) {
@@ -239,16 +242,11 @@ export class ExerciseStateService implements OnDestroy {
         this._answerReporting.reportQuestion({
           exerciseId: this.exercise.id,
           globalSettings: this._globalSettings(),
-          exerciseSettings: this.exerciseSettings,
+          exerciseSettings: this._exerciseSettings(),
           currentAnswers: this._currentAnswers(),
         });
 
-        // if not all answers are correct
-        if (this._globalSettings().adaptive) {
-          this._adaptiveExercise.handleFinishedAnswering(
-            this._mistakesCounter(),
-          );
-        }
+        this.exerciseLogic().handleFinishedAnswering?.(this._mistakesCounter());
         this._afterCorrectAnswer().then(async () => {
           if (this._globalSettings().moveToNextQuestionAutomatically) {
             await this.onQuestionPlayingFinished();
@@ -356,11 +354,11 @@ export class ExerciseStateService implements OnDestroy {
       !this._areAllSegmentsAnswered
     ) {
       try {
-        this._adaptiveExercise.handleFinishedAnswering(0); // skip means we don't want to see it again (probably)
+        this.exerciseLogic().handleFinishedAnswering?.(0); // skip means we don't want to see it again (probably)
       } catch (e) {}
     }
     try {
-      const newQuestion = this.exercise.getQuestion();
+      const newQuestion = this.exerciseLogic().getQuestion();
       this._wasKeyChanged = newQuestion.key !== this._currentQuestion.key;
       this._currentQuestion = newQuestion;
     } catch (e) {
@@ -396,7 +394,7 @@ export class ExerciseStateService implements OnDestroy {
     this._notesPlayer.setBpm(this._globalSettings().bpm);
     // settings may be invalid so we need to catch errors
     try {
-      this._updateExerciseSettings(settings.exerciseSettings);
+      this._exerciseSettings.set(settings.exerciseSettings);
       this._message.set(null);
       this.nextQuestion();
     } catch (e) {
@@ -411,7 +409,7 @@ export class ExerciseStateService implements OnDestroy {
       defaults(settings?.globalSettings, DEFAULT_EXERCISE_SETTINGS),
     );
     if (settings?.exerciseSettings) {
-      this._updateExerciseSettings(settings.exerciseSettings);
+      this._exerciseSettings.set(settings.exerciseSettings);
     }
     await this.nextQuestion();
   }
@@ -450,7 +448,7 @@ export class ExerciseStateService implements OnDestroy {
   resetStatistics(): void {
     this._totalCorrectAnswers.set(0);
     this._totalQuestions.set(0);
-    this._adaptiveExercise.reset();
+    this.exerciseLogic().reset?.();
     this.nextQuestion();
   }
 
@@ -510,7 +508,7 @@ export class ExerciseStateService implements OnDestroy {
         },
       ],
     );
-    this._adaptiveExercise.questionStartedPlaying();
+    this.exerciseLogic().questionStartedPlaying?.();
     await this._youtubePlayer.onStop();
   }
 
@@ -531,18 +529,6 @@ export class ExerciseStateService implements OnDestroy {
         playAfter: segment.playAfter,
       }),
     );
-  }
-
-  private _updateExerciseSettings(exerciseSettings: {
-    [key: string]: Exercise.SettingValueType;
-  }): void {
-    if (!this.exercise.updateSettings) {
-      return;
-    }
-    this.exercise.updateSettings(exerciseSettings);
-    this._answerList.set(this.exercise.getAnswerList());
-    this._answerToLabelStringMap = this._getAnswerToLabelStringMap();
-    // this._adaptiveExercise.reset(); // todo: we need to prevent irrelevant exercises without removing cards memory
   }
 
   private _getAfterCorrectAnswerParts(): PartToPlay[] {
@@ -570,18 +556,5 @@ export class ExerciseStateService implements OnDestroy {
 
     await this._notesPlayer.playMultipleParts(afterCorrectAnswerParts);
     this._highlightedAnswer.set(null);
-  }
-
-  private _getAnswerToLabelStringMap(): Record<string, string> {
-    const map: Record<string, string> = {};
-    for (let answerConfig of getAnswerListIterator(this.answerList())) {
-      const normalizedAnswerConfig =
-        Exercise.normalizeAnswerConfig(answerConfig);
-      if (normalizedAnswerConfig.answer) {
-        map[normalizedAnswerConfig.answer] =
-          normalizedAnswerConfig.displayLabel;
-      }
-    }
-    return map;
   }
 }

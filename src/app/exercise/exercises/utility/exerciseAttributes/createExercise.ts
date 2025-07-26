@@ -1,5 +1,4 @@
 import { Platforms } from '@ionic/core/dist/types/utils/platform';
-import * as _ from 'lodash';
 import { StaticOrGetter, toGetter } from '../../../../shared/ts-utility';
 import Exercise, { Question } from '../../../exercise-logic';
 import { SettingsParams } from '../settings/SettingsParams';
@@ -36,38 +35,30 @@ export function createExercise<
 >(
   params: CreateExerciseParams<GAnswer, GSettings>,
 ): Exercise.Exercise<GAnswer, GSettings> {
-  const settings: GSettings = params.defaultSettings;
   return {
     id: params.id,
     summary: params.summary,
     name: params.name,
     explanation: params.explanation,
     blackListPlatform: params.blackListPlatform,
+    defaultSettings: params.defaultSettings,
     getSettingsDescriptor: () =>
       params.settingsDescriptors
-        ? toGetter(params.settingsDescriptors)(settings)
+        ? toGetter(params.settingsDescriptors)(params.defaultSettings)
         : [],
-    updateSettings: (_settings: GSettings): void => {
-      for (let key in _settings) {
-        settings[key] = _.isNil(_settings[key])
-          ? _settings[key]
-          : _settings[key];
-      }
-    },
-    getCurrentSettings: (): GSettings => {
-      return settings;
-    },
-    getAnswerList: (): AnswerList<GAnswer> => {
-      return toGetter(params.answerList)(settings);
-    },
-    getQuestion: (questionsToExclude?: string[]) =>
-      params.getQuestion(settings, questionsToExclude),
-    getIsQuestionValid: params.getIsQuestionValid
-      ? (question: Question<GAnswer>) =>
-          params.getIsQuestionValid!(settings, question)
-      : undefined,
-    getQuestionById: params.getQuestionById
-      ? (id: string) => params.getQuestionById!(settings, id)
-      : undefined,
+    logic: (settings: GSettings) => ({
+      getAnswerList: (): AnswerList<GAnswer> => {
+        return toGetter(params.answerList)(settings);
+      },
+      getQuestion: (questionsToExclude?: string[]) =>
+        params.getQuestion(settings, questionsToExclude),
+      getIsQuestionValid: params.getIsQuestionValid
+        ? (question: Question<GAnswer>) =>
+            params.getIsQuestionValid!(settings, question)
+        : undefined,
+      getQuestionById: params.getQuestionById
+        ? (id: string) => params.getQuestionById!(settings, id)
+        : undefined,
+    }),
   };
 }

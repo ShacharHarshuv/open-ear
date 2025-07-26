@@ -517,10 +517,29 @@ export type SettingsControlDescriptor<
 
 export type ExerciseExplanationContent = string | Type<any>;
 
-export type Exercise<
+export interface ExerciseLogic<
   GAnswer extends string = string,
   GSettings extends Settings = Settings,
-> = {
+> {
+  getAnswerList(): AnswerList<GAnswer>;
+
+  getQuestion(questionsToExclude?: string[]): Question<GAnswer>;
+
+  getQuestionById?(id: string): Question<GAnswer> | undefined;
+
+  getIsQuestionValid?(question?: Question<GAnswer>): boolean;
+
+  reset?(): void;
+
+  handleFinishedAnswering?(numberOfMistakes: number): void;
+
+  questionStartedPlaying?(): void;
+}
+
+export interface Exercise<
+  GAnswer extends string = string,
+  GSettings extends Settings = Settings,
+> {
   /**
    * Do not change the keys for the same exercise between versions, as it will break the persistent storage
    * */
@@ -529,22 +548,13 @@ export type Exercise<
   readonly summary: string;
   readonly explanation?: ExerciseExplanationContent;
   readonly blackListPlatform?: Platforms;
+  readonly defaultSettings: GSettings;
 
-  getAnswerList(): AnswerList<GAnswer>;
-
-  getQuestion(questionsToExclude?: string[]): Question<GAnswer>;
-
-  getQuestionById?(id: string): Question<GAnswer> | undefined;
+  onDestroy?(): void;
 
   getSettingsDescriptor?(): SettingsControlDescriptor<GSettings>[];
 
-  updateSettings?(settings: GSettings): void;
-
-  getCurrentSettings?(): GSettings;
-
-  getIsQuestionValid?(question?: Question<GAnswer>): boolean;
-
-  onDestroy?(): void;
-};
+  logic: (settings: GSettings) => ExerciseLogic<GAnswer, GSettings>;
+}
 
 export class ExerciseError extends Error {}

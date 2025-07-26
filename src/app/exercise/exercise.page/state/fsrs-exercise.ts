@@ -2,7 +2,7 @@ import { max, sumBy } from 'lodash';
 import * as Tone from 'tone';
 import { Card, Grade, Rating, createEmptyCard, fsrs } from 'ts-fsrs';
 import { NoteEvent } from '../../../services/player.service';
-import { Exercise, Question } from '../../exercise-logic';
+import { ExerciseLogic, Question } from '../../exercise-logic';
 
 // todo: look into how to optimize parameters. Note we probably need to do that per card.
 // we might also need to accumulate
@@ -75,9 +75,9 @@ export class QuestionCardsCollection {
   }
 }
 
-export function fsrsExercise(exercise: Exercise) {
+export function fsrsExercise(id: string, logic: ExerciseLogic): ExerciseLogic {
   console.log('fsrsExercise');
-  const cardsCollections = new QuestionCardsCollection(exercise.id);
+  const cardsCollections = new QuestionCardsCollection(id);
   let currentQuestionCard: QuestionCard | null = null;
   function getCurrentQuestion() {
     if (!currentQuestionCard) {
@@ -86,7 +86,7 @@ export function fsrsExercise(exercise: Exercise) {
 
     return (
       (currentQuestionCard.question.id &&
-        exercise.getQuestionById?.(currentQuestionCard.question.id)) ||
+        logic.getQuestionById?.(currentQuestionCard.question.id)) ||
       currentQuestionCard.question
     );
   }
@@ -98,7 +98,7 @@ export function fsrsExercise(exercise: Exercise) {
     isQuestionStartedPlaying = true;
   }
 
-  const getQuestion: Exercise['getQuestion'] = () => {
+  const getQuestion: ExerciseLogic['getQuestion'] = () => {
     isQuestionStartedPlaying = false;
     console.log('savedQuestions', cardsCollections.savedQuestions);
     const dueQuestions = cardsCollections.savedQuestions
@@ -123,7 +123,7 @@ export function fsrsExercise(exercise: Exercise) {
     // fetching new question
     console.log('fetching new question');
     currentQuestionCard = {
-      question: exercise.getQuestion(
+      question: logic.getQuestion(
         cardsCollections.savedQuestions
           .map((q) => q.question.id)
           .filter((id): id is string => !!id),
@@ -187,10 +187,11 @@ export function fsrsExercise(exercise: Exercise) {
     cardsCollections.reset();
   }
 
-  return Object.assign({}, exercise, {
+  return {
+    ...logic,
     getQuestion,
     reset,
     handleFinishedAnswering,
     questionStartedPlaying,
-  });
+  };
 }
