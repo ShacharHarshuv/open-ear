@@ -4,6 +4,9 @@ import { Card, Grade, Rating, createEmptyCard, fsrs } from 'ts-fsrs';
 import { NoteEvent } from '../../../services/player.service';
 import { Exercise, Question } from '../../exercise-logic';
 
+// todo: look into how to optimize parameters. Note we probably need to do that per card.
+// we might also need to accumulate
+
 const f = fsrs();
 
 interface QuestionCard {
@@ -100,7 +103,11 @@ export function fsrsExercise(exercise: Exercise) {
     console.log('savedQuestions', cardsCollections.savedQuestions);
     const dueQuestions = cardsCollections.savedQuestions
       .filter((q) => q.card.due.getTime() < new Date().getTime())
-      .sort((a, b) => a.card.due.getTime() - b.card.due.getTime());
+      .sort(
+        (a, b) =>
+          f.get_retrievability(b.card, undefined, false) -
+          f.get_retrievability(a.card, undefined, false),
+      );
 
     console.log(`There are ${dueQuestions.length} due questions`);
 
@@ -130,16 +137,11 @@ export function fsrsExercise(exercise: Exercise) {
 
   function handleFinishedAnswering(numberOfMistakes: number): void {
     const rating = ((): Grade => {
-      if (numberOfMistakes > 1) {
+      if (numberOfMistakes > 0) {
         console.log(
           `finished with ${numberOfMistakes} mistakes. Rating: Again`,
         );
         return Rating.Again;
-      }
-
-      if (numberOfMistakes === 1) {
-        console.log('Only 1 mistake, rating: Hard');
-        return Rating.Hard;
       }
 
       const answerTime = new Date();

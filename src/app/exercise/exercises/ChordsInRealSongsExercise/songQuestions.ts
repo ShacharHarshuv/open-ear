@@ -1,9 +1,11 @@
+import * as _ from 'lodash';
+import { isEmpty } from 'lodash';
 import { DeepReadonly } from '../../../shared/ts-utility';
 import { Mode, RomanNumeralChordSymbol } from '../../utility';
 import { NoteType } from '../../utility/music/notes/NoteType';
 import { CadenceType } from '../utility/exerciseAttributes/tonalExercise';
 
-export interface ProgressionInSongFromYouTubeDescriptor {
+export interface YouTubeSongQuestion {
   key: NoteType;
   mode: Mode; // will determinate the cadence to play
   cadence?: CadenceType; // if not provided, will be determined by the mode
@@ -25,9 +27,11 @@ export interface ProgressionInSongFromYouTubeDescriptor {
   solo?: boolean;
 }
 
-export const chordsInRealSongsDescriptorList: DeepReadonly<
-  ProgressionInSongFromYouTubeDescriptor[]
-> = [
+export function getId(progression: DeepReadonly<YouTubeSongQuestion>): string {
+  return `${progression.legacyVideoId ?? progression.videoId} ${progression.section ?? ''} ${progression.subId ?? ''}`;
+}
+
+const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Girlfriend',
     artist: 'Avril Lavigne',
@@ -9586,3 +9590,22 @@ export const chordsInRealSongsDescriptorList: DeepReadonly<
     section: 'Verse 4',
   },
 ];
+
+console.log('Total Song Questions', allQuestions.length);
+
+const duplicates = _(allQuestions)
+  .groupBy(getId)
+  .pickBy((x) => x.length > 1)
+  .mapValues((x) => x.length)
+  .value();
+
+if (!isEmpty(duplicates)) {
+  console.log('duplicates', duplicates);
+  throw new Error('Duplicate ids found. Use "subId" to eliminate them'); // todo
+}
+
+const soloedQuestions = allQuestions.filter((segment) => segment.solo);
+
+export const songChordQuestions = isEmpty(soloedQuestions)
+  ? allQuestions
+  : soloedQuestions;
