@@ -10,7 +10,7 @@ import {
   transposeScaleDegree,
 } from '../scale-degrees';
 
-interface Options {
+export interface AcceptableChordAnalysisOptions {
   ignoreExtensions?: 'always' | 'when-equivalent' | false;
   ignoreSharp5?: boolean;
   ignoreSuspensions?: boolean;
@@ -27,7 +27,7 @@ function changeType(chord: RomanNumeralChord, type: ChordType) {
 function _isAcceptableChordAnalysis(
   actual: RomanNumeralChord,
   candidate: RomanNumeralChord,
-  options?: Options,
+  options?: AcceptableChordAnalysisOptions,
 ) {
   if (actual.bass !== candidate.bass) {
     return false;
@@ -167,9 +167,8 @@ function _isAcceptableChordAnalysis(
 export function isAcceptableChordAnalysis(
   actual: RomanNumeralChordSymbol,
   candidate: RomanNumeralChordSymbol,
-  options?: Options,
+  options?: AcceptableChordAnalysisOptions,
 ) {
-  console.log('isAcceptableChordAnalysis', actual, candidate, options);
   if (actual === candidate) {
     return true;
   }
@@ -189,4 +188,35 @@ function getIntervalBetweenScaleDegrees(bass: ScaleDegree, voice: ScaleDegree) {
   }
 
   return voiceChromaticDegree - bassChromaticDegree;
+}
+
+export function getSimplestAcceptableChordAnalysis(
+  original: RomanNumeralChordSymbol,
+  options?: AcceptableChordAnalysisOptions,
+): RomanNumeralChordSymbol {
+  const originalChord = new RomanNumeralChord(original);
+
+  // Try the basic triad types in order of simplicity
+  const basicTypes = [ChordType.Major, ChordType.Minor, ChordType.Diminished];
+
+  for (const type of basicTypes) {
+    const simplifiedChord = new RomanNumeralChord({
+      scaleDegree: originalChord.scaleDegree,
+      bass: originalChord.bass,
+      type,
+    });
+
+    if (
+      isAcceptableChordAnalysis(
+        original,
+        simplifiedChord.romanNumeralChordSymbol,
+        options,
+      )
+    ) {
+      return simplifiedChord.romanNumeralChordSymbol;
+    }
+  }
+
+  // If no basic triad works, return the original
+  return original;
 }

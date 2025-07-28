@@ -5,7 +5,7 @@ import { toRelativeModeTonic } from '../../utility/music/harmony/toRelativeModeT
 import { ChordsInRealSongsSettings } from './chordsInRealSongsExercise';
 import { YouTubeSongQuestion, songChordQuestions } from './songQuestions';
 
-export function getIncludedQuestions(
+export function getIncludedSegments(
   settings: Pick<
     ChordsInRealSongsSettings,
     'tonicForAnalyzing' | 'includedChords'

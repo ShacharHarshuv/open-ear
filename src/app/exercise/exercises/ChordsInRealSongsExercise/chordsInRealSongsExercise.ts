@@ -1,9 +1,11 @@
 import { TitleCasePipe } from '@angular/common';
 import * as _ from 'lodash';
+import { first } from 'lodash';
 import { isAcceptableChordAnalysis } from 'src/app/exercise/utility/music/harmony/isAcceptableChordAnalysis';
 import { NoteEvent } from '../../../services/player.service';
-import { DeepReadonly } from '../../../shared/ts-utility';
+import { DeepReadonly, randomFromList } from '../../../shared/ts-utility';
 import Exercise from '../../exercise-logic';
+import { fsrsExercise } from '../../exercise.page/state/fsrs-exercise';
 import { Mode, RomanNumeralChordSymbol } from '../../utility';
 import {
   IV_V_I_CADENCE_IN_C,
@@ -20,18 +22,22 @@ import {
 } from '../utility/settings/AnalyzeBySettings';
 import {
   AcceptEquivalentChordSettings,
+  acceptableChordAnalysisOptions,
   flexibleChordChoiceSettings,
 } from '../utility/settings/acceptEquivalentChordsSettings';
 import { withSettings } from '../utility/settings/withSettings';
-import { getIncludedQuestions } from './getIncludedQuestions';
-import { selectQuestion } from './selectQuestion';
+import { getIncludedSegments } from './getIncludedQuestions';
+import { indexQuestionsByProgression } from './indexQuestionsByProgression';
 import { YouTubeSongQuestion, getId } from './songQuestions';
 
 export interface ChordsInRealSongsSettings
   extends AnalyzeBySettings,
     AcceptEquivalentChordSettings {
   includedChords: RomanNumeralChordSymbol[];
-  learnProgressions: boolean;
+}
+
+interface LearnProgressionsSettings {
+  learnProgressions: true;
 }
 
 export function chordsInRealSongsExercise() {
@@ -56,14 +62,11 @@ export function chordsInRealSongsExercise() {
       segments: progression.chords.map((chordDesc) => ({
         rightAnswer: chordDesc.chord,
         isAcceptable: (answer) =>
-          isAcceptableChordAnalysis(chordDesc.chord, answer, {
-            // TODO: consider making finer settings from the user perspective
-            ignoreExtensions: settings.acceptEquivalentChord
-              ? 'when-equivalent'
-              : false,
-            ignoreSharp5: !!settings.acceptEquivalentChord,
-            ignoreSuspensions: !!settings.acceptEquivalentChord,
-          }),
+          isAcceptableChordAnalysis(
+            chordDesc.chord,
+            answer,
+            acceptableChordAnalysisOptions(settings),
+          ),
         seconds: chordDesc.seconds,
       })),
       endSeconds: progression.endSeconds,
@@ -79,17 +82,105 @@ export function chordsInRealSongsExercise() {
     };
   }
 
+  const id = 'chordsInRealSongs';
+
+  let settings: ChordsInRealSongsSettings & LearnProgressionsSettings;
+
+  const getUniqueProgressions = () => {
+    const availableSegments = getIncludedSegments(settings);
+    return indexQuestionsByProgression(availableSegments, settings);
+  };
+
+  const fsrsLogic = fsrsExercise(id + ':progression-mode', {
+    getQuestion: (
+      // settings: ChordsInRealSongsSettings,
+      questionsToExclude?: string[],
+    ) => {
+      const uniqueProgressions = getUniqueProgressions();
+      console.log('uniqueProgressions', uniqueProgressions);
+
+      const questionsToExcludeSet = new Set(questionsToExclude);
+      const progressionKey = Array.from(uniqueProgressions.keys()).find(
+        (progKey) => !questionsToExcludeSet.has(progKey),
+      );
+      if (!progressionKey) {
+        throw new Error('No more progressions!'); // todo: we should handle this somehow, perhaps even inside fsrs itself
+      }
+      const randomSegment = randomFromList(
+        uniqueProgressions.get(progressionKey)!,
+      );
+      const question = getQuestionFromProgression(randomSegment, settings);
+      return {
+        ...question,
+        id: progressionKey,
+      };
+    },
+    getQuestionById(id) {
+      const uniqueProgressions = getUniqueProgressions();
+      const progression = uniqueProgressions.get(id);
+      if (!progression) {
+        throw new Error(`No progression found! (id: ${id})`);
+      }
+      return getQuestionFromProgression(randomFromList(progression), settings);
+    },
+  });
+
+  const normalModeLogic = {
+    getQuestion(
+      questionsToExclude?: string[],
+    ): Exercise.Question<RomanNumeralChordSymbol> {
+      const questionsToExcludeSet = new Set(questionsToExclude);
+
+      const availableQuestions = getIncludedSegments(settings).filter(
+        (progression) => !questionsToExcludeSet.has(getId(progression)),
+      );
+
+      // when using "learn" mode, the questionsToExclude will be passed here. In this mode we want to learn the songs in order
+      const progression = (questionsToExclude ? first : randomFromList)(
+        availableQuestions,
+      );
+
+      if (!progression) {
+        // todo: we might need to handle this eventually, because it's possible that there is indeed no more quesitons that are not in the "cards" (in learn mode)
+        throw new Error(`No more progressions!`);
+      }
+
+      return getQuestionFromProgression(progression, settings);
+    },
+    getQuestionById(
+      questionId: string,
+    ): Exercise.Question<RomanNumeralChordSymbol> | undefined {
+      const availableQuestions = getIncludedSegments(settings);
+      const progression = _.find(
+        availableQuestions,
+        (progression) => getId(progression) === questionId,
+      );
+
+      return progression
+        ? getQuestionFromProgression(progression, settings)
+        : undefined;
+    },
+  };
+
+  const logic = () => {
+    if (settings.learnProgressions) {
+      return fsrsLogic;
+    }
+
+    return normalModeLogic;
+  };
+
   return {
     ...composeExercise(
       withSettings(analyzeBySettings),
       withSettings(flexibleChordChoiceSettings),
       createExercise<RomanNumeralChordSymbol, ChordsInRealSongsSettings>,
     )({
-      id: 'chordsInRealSongs',
+      id: id,
       name: 'Chord Progressions In Real Songs',
       summary:
         'Identify chord progressions in real songs, streamed from YouTube',
-      // blackListPlatform: 'ios', // currently, this exercise is not working on ios
+      blackListPlatform: 'ios', // currently, this exercise is not working on ios
       settingsDescriptors: [
         {
           key: 'includedChords',
@@ -122,7 +213,7 @@ export function chordsInRealSongsExercise() {
       answerList(
         settings: ChordsInRealSongsSettings,
       ): Exercise.AnswerList<RomanNumeralChordSymbol> {
-        const progressionsList = getIncludedQuestions(settings);
+        const progressionsList = getIncludedSegments(settings);
         const includedAnswers = _.uniq(
           _.flatMap(
             progressionsList,
@@ -137,32 +228,28 @@ export function chordsInRealSongsExercise() {
           includedAnswers,
         );
       },
-      getQuestion(
-        settings: ChordsInRealSongsSettings,
-        questionsToExclude?: string[],
-      ): Exercise.Question<RomanNumeralChordSymbol> {
-        const progression = selectQuestion(settings, questionsToExclude);
-
-        if (!progression) {
-          // todo: we might need to handle this eventually, because it's possible that there is indeed no more quesitons that are not in the "cards" (in learn mode)
-          throw new Error(`No more progressions!`);
-        }
-
-        return getQuestionFromProgression(progression, settings);
+      getQuestion(settings, questionsToExclude?: string[]) {
+        return logic().getQuestion(
+          questionsToExclude,
+        ) as Exercise.Question<RomanNumeralChordSymbol>;
       },
-      getQuestionById(
-        settings: ChordsInRealSongsSettings,
-        questionId: string,
-      ): Exercise.Question<RomanNumeralChordSymbol> | undefined {
-        const availableQuestions = getIncludedQuestions(settings);
-        const progression = _.find(
-          availableQuestions,
-          (progression) => getId(progression) === questionId,
-        );
-
-        return progression
-          ? getQuestionFromProgression(progression, settings)
-          : undefined;
+      getQuestionById(settings, questionId: string) {
+        return normalModeLogic.getQuestionById(questionId);
+      },
+      onSettingsChange(
+        newSettings: ChordsInRealSongsSettings & LearnProgressionsSettings,
+      ) {
+        settings = newSettings;
+      },
+      handleFinishedAnswering(numberOfMistakes) {
+        if (settings.learnProgressions) {
+          fsrsLogic.handleFinishedAnswering(numberOfMistakes);
+        }
+      },
+      reset() {
+        if (settings.learnProgressions) {
+          fsrsLogic.reset();
+        }
       },
       // todo: consider encorporating this or something similar
       // getIsQuestionValid(

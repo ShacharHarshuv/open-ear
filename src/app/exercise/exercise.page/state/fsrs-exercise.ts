@@ -75,9 +75,11 @@ export class QuestionCardsCollection {
   }
 }
 
-export function fsrsExercise(exercise: Exercise) {
-  console.log('fsrsExercise');
-  const cardsCollections = new QuestionCardsCollection(exercise.id);
+export function fsrsExercise<GAnswer extends string>(
+  id: string,
+  logic: Pick<Exercise<GAnswer>, 'getQuestion' | 'getQuestionById'>,
+) {
+  const cardsCollections = new QuestionCardsCollection(id);
   let currentQuestionCard: QuestionCard | null = null;
   function getCurrentQuestion() {
     if (!currentQuestionCard) {
@@ -86,7 +88,7 @@ export function fsrsExercise(exercise: Exercise) {
 
     return (
       (currentQuestionCard.question.id &&
-        exercise.getQuestionById?.(currentQuestionCard.question.id)) ||
+        logic.getQuestionById?.(currentQuestionCard.question.id)) ||
       currentQuestionCard.question
     );
   }
@@ -109,7 +111,12 @@ export function fsrsExercise(exercise: Exercise) {
           f.get_retrievability(a.card, undefined, false),
       );
 
-    console.log(`There are ${dueQuestions.length} due questions`);
+    console.log(
+      `There are ${dueQuestions.length} due questions (${dueQuestions
+        .map((q) => q.question.id)
+        .filter(Boolean)
+        .join(', ')})`,
+    );
 
     if (dueQuestions.length > 0) {
       // todo: consider taking into account which question is due more closely
@@ -123,7 +130,7 @@ export function fsrsExercise(exercise: Exercise) {
     // fetching new question
     console.log('fetching new question');
     currentQuestionCard = {
-      question: exercise.getQuestion(
+      question: logic.getQuestion(
         cardsCollections.savedQuestions
           .map((q) => q.question.id)
           .filter((id): id is string => !!id),
@@ -169,6 +176,7 @@ export function fsrsExercise(exercise: Exercise) {
     })();
 
     console.log('rating', rating);
+
     const updatedCard = f.next(
       currentQuestionCard!.card,
       new Date(),
@@ -187,10 +195,10 @@ export function fsrsExercise(exercise: Exercise) {
     cardsCollections.reset();
   }
 
-  return Object.assign({}, exercise, {
+  return {
     getQuestion,
     reset,
     handleFinishedAnswering,
     questionStartedPlaying,
-  });
+  };
 }

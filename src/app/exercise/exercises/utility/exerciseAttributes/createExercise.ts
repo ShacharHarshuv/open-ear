@@ -28,7 +28,12 @@ export type CreateExerciseParams<
     id: string,
   ) => Exercise.Question<GAnswer> | undefined;
   readonly blackListPlatform?: Platforms;
-} & SettingsParams<GSettings>;
+  readonly onSettingsChange?: (settings: GSettings) => void;
+} & SettingsParams<GSettings> &
+  Pick<
+    Exercise.Exercise<GAnswer, GSettings>,
+    'handleFinishedAnswering' | 'reset'
+  >;
 
 export function createExercise<
   GAnswer extends string,
@@ -38,11 +43,7 @@ export function createExercise<
 ): Exercise.Exercise<GAnswer, GSettings> {
   const settings: GSettings = params.defaultSettings;
   return {
-    id: params.id,
-    summary: params.summary,
-    name: params.name,
-    explanation: params.explanation,
-    blackListPlatform: params.blackListPlatform,
+    ...params,
     getSettingsDescriptor: () =>
       params.settingsDescriptors
         ? toGetter(params.settingsDescriptors)(settings)
@@ -53,6 +54,7 @@ export function createExercise<
           ? _settings[key]
           : _settings[key];
       }
+      params.onSettingsChange?.(settings);
     },
     getCurrentSettings: (): GSettings => {
       return settings;
