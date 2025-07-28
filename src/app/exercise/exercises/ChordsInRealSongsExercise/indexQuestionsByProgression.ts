@@ -16,6 +16,8 @@ const chordsIntroductionOrder: RomanNumeralChordSymbol[] = [
   'III',
   'II',
   'VI',
+  'IV7',
+  'I7',
   'I/3',
   'IV/6',
   'V/7',
