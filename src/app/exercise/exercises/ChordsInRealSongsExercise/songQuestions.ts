@@ -9589,6 +9589,312 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 97.44,
     section: 'Verse 4',
   },
+  {
+    name: 'The Wizard and I',
+    artist: 'Wicked',
+    key: 'C',
+    mode: 1,
+    videoId: 'i0r_RWwa2tQ',
+    chords: [
+      {
+        seconds: 110.69,
+        chord: 'vi7',
+      },
+      {
+        seconds: 111.36,
+        chord: 'ii9',
+      },
+      {
+        seconds: 112.24,
+        chord: 'V/7',
+      },
+      {
+        seconds: 113.04,
+        chord: 'I/3',
+      },
+    ],
+    endSeconds: 114.04,
+    section: 'Chorus A hook 1',
+  },
+  {
+    name: 'The Wizard and I',
+    artist: 'Wicked',
+    key: 'C',
+    mode: 1,
+    videoId: 'i0r_RWwa2tQ',
+    chords: [
+      {
+        seconds: 114.03,
+        chord: 'vi7',
+      },
+      {
+        seconds: 114.68,
+        chord: 'ii9',
+      },
+      {
+        seconds: 115.67,
+        chord: 'Vsus',
+      },
+      {
+        seconds: 116.56,
+        chord: 'V',
+      },
+    ],
+    endSeconds: 117.52,
+    section: 'Chorus A hook 2',
+  },
+  {
+    name: 'The Wizard and I',
+    artist: 'Wicked',
+    key: 'C',
+    mode: 1,
+    videoId: 'i0r_RWwa2tQ',
+    chords: [
+      {
+        seconds: 117.56,
+        chord: 'I',
+      },
+      {
+        seconds: 117.93,
+        chord: 'ii',
+      },
+      {
+        seconds: 118.19,
+        chord: 'I/3',
+      },
+      {
+        seconds: 119.16,
+        chord: 'IV',
+      },
+    ],
+    endSeconds: 121.09,
+    section: 'Chorus A hook 3',
+  },
+  {
+    name: 'The Wizard and I',
+    artist: 'Wicked',
+    key: 'C',
+    mode: 1,
+    videoId: 'i0r_RWwa2tQ',
+    chords: [
+      {
+        seconds: 90.07,
+        chord: 'I',
+      },
+      {
+        seconds: 90.95,
+        chord: 'Imaj7/7',
+      },
+      {
+        seconds: 91.82,
+        chord: 'vi7',
+      },
+      {
+        seconds: 93.47,
+        chord: 'ii7',
+      },
+      {
+        chord: 'Vsus',
+        seconds: 95.31,
+      },
+      {
+        chord: 'V',
+        seconds: 96.02,
+      },
+    ],
+    endSeconds: 96.94,
+    section: 'Chorus A bi',
+  },
+  {
+    name: 'The Wizard and I',
+    artist: 'Wicked',
+    key: 'C',
+    mode: 1,
+    videoId: 'i0r_RWwa2tQ',
+    chords: [
+      {
+        seconds: 100.57,
+        chord: 'I',
+      },
+      {
+        seconds: 102.05,
+        chord: 'iii',
+      },
+      {
+        seconds: 103.79,
+        chord: 'bVII/4',
+      },
+      {
+        seconds: 105.41,
+        chord: 'I/5',
+      },
+      {
+        chord: 'bVII/4',
+        seconds: 107.21,
+      },
+      {
+        chord: 'Vsus',
+        seconds: 108.97,
+      },
+      {
+        chord: 'V',
+        seconds: 109.79,
+      },
+    ],
+    endSeconds: 110.65,
+    section: 'Chorus A bi dev',
+  },
+  {
+    name: 'The Wizard and I',
+    artist: 'Wicked',
+    key: 'C',
+    mode: 1,
+    videoId: 'i0r_RWwa2tQ',
+    chords: [
+      {
+        seconds: 124.33,
+        chord: 'I',
+      },
+      {
+        seconds: 125.03,
+        chord: 'ii7',
+      },
+      {
+        seconds: 125.86,
+        chord: 'Vsus',
+      },
+    ],
+    endSeconds: 126.98,
+    section: 'Post A1 interlude',
+  },
+  {
+    name: 'The Wizard and I',
+    artist: 'Wicked',
+    key: 'C',
+    mode: 1,
+    videoId: 'i0r_RWwa2tQ',
+    chords: [
+      {
+        seconds: 127.83,
+        chord: 'I',
+      },
+      {
+        seconds: 128.5,
+        chord: 'ii7',
+      },
+      {
+        seconds: 129.38,
+        chord: 'Vsus',
+      },
+      {
+        chord: 'V',
+        seconds: 130.77,
+      },
+    ],
+    endSeconds: 131.19,
+    section: 'A2 bi 2',
+  },
+  {
+    name: 'The Wizard and I',
+    artist: 'Wicked',
+    key: 'C',
+    mode: 1,
+    videoId: 'i0r_RWwa2tQ',
+    chords: [
+      {
+        seconds: 131.19,
+        chord: 'I',
+      },
+      {
+        seconds: 131.9,
+        chord: 'ii7',
+      },
+      {
+        seconds: 132.71,
+        chord: 'Vsus',
+      },
+      {
+        chord: 'V',
+        seconds: 134.23,
+      },
+    ],
+    endSeconds: 134.68,
+    section: 'A2 bi 2',
+  },
+  {
+    name: 'The Wizard and I',
+    artist: 'Wicked',
+    key: 'C',
+    mode: 1,
+    videoId: 'i0r_RWwa2tQ',
+    chords: [
+      {
+        seconds: 134.66,
+        chord: 'I',
+      },
+      {
+        seconds: 135.48,
+        chord: 'Imaj7/7',
+      },
+      {
+        seconds: 136.4,
+        chord: 'vi7',
+      },
+      {
+        seconds: 138.1,
+        chord: 'ii7',
+      },
+      {
+        chord: 'Vsus',
+        seconds: 139.75,
+      },
+      {
+        chord: 'V',
+        seconds: 141.06,
+      },
+    ],
+    endSeconds: 141.54,
+    section: 'Chorus A bi',
+  },
+  {
+    name: 'Watch What Happens',
+    artist: 'Newsies',
+    key: 'A',
+    mode: 1,
+    videoId: 'ub8hHA96FVY',
+    chords: [
+      {
+        seconds: 11.63,
+        chord: 'I',
+      },
+      {
+        seconds: 12.14,
+        chord: 'vi',
+      },
+      {
+        seconds: 12.69,
+        chord: 'IV',
+      },
+      {
+        seconds: 13.26,
+        chord: 'iii',
+      },
+      {
+        chord: 'vi7',
+        seconds: 13.58,
+      },
+      {
+        chord: 'II7',
+        seconds: 14.01,
+      },
+      {
+        chord: 'V7',
+        seconds: 14.35,
+      },
+    ],
+    endSeconds: 15.03,
+    section: 'Verse Cadence',
+  },
 ];
 
 console.log('Total Song Questions', allQuestions.length);
