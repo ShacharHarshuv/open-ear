@@ -9819,7 +9819,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
       },
     ],
     endSeconds: 134.68,
-    section: 'A2 bi 2',
+    section: 'A2 bi 3',
   },
   {
     name: 'The Wizard and I',
@@ -9855,6 +9855,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     ],
     endSeconds: 141.54,
     section: 'Chorus A bi',
+    subId: 2,
   },
   {
     name: 'Watch What Happens',
