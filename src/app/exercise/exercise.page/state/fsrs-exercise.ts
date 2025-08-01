@@ -4,6 +4,9 @@ import { Card, Grade, Rating, createEmptyCard, fsrs } from 'ts-fsrs';
 import { NoteEvent } from '../../../services/player.service';
 import { Exercise, Question } from '../../exercise-logic';
 
+// todo: look into how to optimize parameters. Note we probably need to do that per card.
+// we might also need to accumulate
+
 const f = fsrs();
 
 interface QuestionCard {
@@ -72,9 +75,11 @@ export class QuestionCardsCollection {
   }
 }
 
-export function fsrsExercise(exercise: Exercise) {
-  console.log('fsrsExercise');
-  const cardsCollections = new QuestionCardsCollection(exercise.id);
+export function fsrsExercise<GAnswer extends string>(
+  id: string,
+  logic: Pick<Exercise<GAnswer>, 'getQuestion' | 'getQuestionById'>,
+) {
+  const cardsCollections = new QuestionCardsCollection(id);
   let currentQuestionCard: QuestionCard | null = null;
   function getCurrentQuestion() {
     if (!currentQuestionCard) {
@@ -83,7 +88,7 @@ export function fsrsExercise(exercise: Exercise) {
 
     return (
       (currentQuestionCard.question.id &&
-        exercise.getQuestionById?.(currentQuestionCard.question.id)) ||
+        logic.getQuestionById?.(currentQuestionCard.question.id)) ||
       currentQuestionCard.question
     );
   }
@@ -100,9 +105,18 @@ export function fsrsExercise(exercise: Exercise) {
     console.log('savedQuestions', cardsCollections.savedQuestions);
     const dueQuestions = cardsCollections.savedQuestions
       .filter((q) => q.card.due.getTime() < new Date().getTime())
-      .sort((a, b) => a.card.due.getTime() - b.card.due.getTime());
+      .sort(
+        (a, b) =>
+          f.get_retrievability(b.card, undefined, false) -
+          f.get_retrievability(a.card, undefined, false),
+      );
 
-    console.log(`There are ${dueQuestions.length} due questions`);
+    console.log(
+      `There are ${dueQuestions.length} due questions (${dueQuestions
+        .map((q) => q.question.id)
+        .filter(Boolean)
+        .join(', ')})`,
+    );
 
     if (dueQuestions.length > 0) {
       // todo: consider taking into account which question is due more closely
@@ -116,7 +130,7 @@ export function fsrsExercise(exercise: Exercise) {
     // fetching new question
     console.log('fetching new question');
     currentQuestionCard = {
-      question: exercise.getQuestion(
+      question: logic.getQuestion(
         cardsCollections.savedQuestions
           .map((q) => q.question.id)
           .filter((id): id is string => !!id),
@@ -130,16 +144,11 @@ export function fsrsExercise(exercise: Exercise) {
 
   function handleFinishedAnswering(numberOfMistakes: number): void {
     const rating = ((): Grade => {
-      if (numberOfMistakes > 1) {
+      if (numberOfMistakes > 0) {
         console.log(
           `finished with ${numberOfMistakes} mistakes. Rating: Again`,
         );
         return Rating.Again;
-      }
-
-      if (numberOfMistakes === 1) {
-        console.log('Only 1 mistake, rating: Hard');
-        return Rating.Hard;
       }
 
       const answerTime = new Date();
@@ -167,6 +176,7 @@ export function fsrsExercise(exercise: Exercise) {
     })();
 
     console.log('rating', rating);
+
     const updatedCard = f.next(
       currentQuestionCard!.card,
       new Date(),
@@ -185,10 +195,10 @@ export function fsrsExercise(exercise: Exercise) {
     cardsCollections.reset();
   }
 
-  return Object.assign({}, exercise, {
+  return {
     getQuestion,
     reset,
     handleFinishedAnswering,
     questionStartedPlaying,
-  });
+  };
 }

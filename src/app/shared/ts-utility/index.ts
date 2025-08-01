@@ -7,6 +7,7 @@ export * from './Primitive';
 export * from './StaticOrGetter';
 export * from './base-classes';
 export * from './isValueTruthy';
+export * from './lazy';
 export * from './randomFromList';
 export * from './rxjs';
 export * from './timeoutAsPromise';

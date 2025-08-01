@@ -58,7 +58,16 @@ export class ExerciseStateService implements OnDestroy {
   private readonly _globalSettings = signal<GlobalExerciseSettings>(
     DEFAULT_EXERCISE_SETTINGS,
   );
-  private _adaptiveExercise = fsrsExercise(this._originalExercise);
+  private _adaptiveExercise = (() => {
+    const fsrsLogic = fsrsExercise(
+      this._originalExercise.id,
+      this._originalExercise,
+    );
+    return {
+      ...this._originalExercise,
+      ...fsrsLogic,
+    };
+  })();
   private _currentQuestion: Exercise.Question = {
     segments: [],
   };
@@ -244,11 +253,7 @@ export class ExerciseStateService implements OnDestroy {
         });
 
         // if not all answers are correct
-        if (this._globalSettings().adaptive) {
-          this._adaptiveExercise.handleFinishedAnswering(
-            this._mistakesCounter(),
-          );
-        }
+        this.exercise.handleFinishedAnswering?.(this._mistakesCounter());
         this._afterCorrectAnswer().then(async () => {
           if (this._globalSettings().moveToNextQuestionAutomatically) {
             await this.onQuestionPlayingFinished();
@@ -350,13 +355,9 @@ export class ExerciseStateService implements OnDestroy {
 
   nextQuestion(): Promise<void> {
     // if still unanswered questions
-    if (
-      this._globalSettings().adaptive &&
-      !!this._currentQuestion &&
-      !this._areAllSegmentsAnswered
-    ) {
+    if (!!this._currentQuestion && !this._areAllSegmentsAnswered) {
       try {
-        this._adaptiveExercise.handleFinishedAnswering(0); // skip means we don't want to see it again (probably)
+        this.exercise.handleFinishedAnswering?.(0); // skip means we don't want to see it again (probably)
       } catch (e) {}
     }
     try {
@@ -450,7 +451,7 @@ export class ExerciseStateService implements OnDestroy {
   resetStatistics(): void {
     this._totalCorrectAnswers.set(0);
     this._totalQuestions.set(0);
-    this._adaptiveExercise.reset();
+    this.exercise.reset?.();
     this.nextQuestion();
   }
 

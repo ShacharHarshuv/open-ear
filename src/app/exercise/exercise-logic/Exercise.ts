@@ -545,6 +545,10 @@ export type Exercise<
   getIsQuestionValid?(question?: Question<GAnswer>): boolean;
 
   onDestroy?(): void;
+
+  handleFinishedAnswering?: (numberOfMistakes: number) => unknown;
+
+  reset?: () => unknown;
 };
 
 export class ExerciseError extends Error {}

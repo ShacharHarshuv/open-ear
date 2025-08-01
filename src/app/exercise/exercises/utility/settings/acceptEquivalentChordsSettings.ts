@@ -1,3 +1,4 @@
+import { AcceptableChordAnalysisOptions } from 'src/app/exercise/utility/music/harmony/isAcceptableChordAnalysis';
 import { Settings } from '../../../exercise-logic';
 import { SettingsParams } from './SettingsParams';
 
@@ -23,3 +24,15 @@ export const flexibleChordChoiceSettings: SettingsParams<AcceptEquivalentChordSe
       acceptEquivalentChord: true,
     },
   };
+
+export function acceptableChordAnalysisOptions(
+  settings: AcceptEquivalentChordSettings,
+): AcceptableChordAnalysisOptions {
+  return {
+    ignoreExtensions: settings.acceptEquivalentChord
+      ? 'when-equivalent'
+      : false,
+    ignoreSharp5: !!settings.acceptEquivalentChord,
+    ignoreSuspensions: !!settings.acceptEquivalentChord,
+  };
+}

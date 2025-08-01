@@ -1,21 +1,16 @@
 import { TitleCasePipe } from '@angular/common';
 import * as _ from 'lodash';
-import { first, isEmpty } from 'lodash';
+import { first } from 'lodash';
 import { isAcceptableChordAnalysis } from 'src/app/exercise/utility/music/harmony/isAcceptableChordAnalysis';
 import { NoteEvent } from '../../../services/player.service';
-import {
-  DeepReadonly,
-  isValueTruthy,
-  randomFromList,
-} from '../../../shared/ts-utility';
+import { DeepReadonly, randomFromList } from '../../../shared/ts-utility';
 import Exercise from '../../exercise-logic';
+import { fsrsExercise } from '../../exercise.page/state/fsrs-exercise';
 import { Mode, RomanNumeralChordSymbol } from '../../utility';
 import {
   IV_V_I_CADENCE_IN_C,
   iv_V_i_CADENCE_IN_C,
 } from '../../utility/music/chords';
-import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
-import { toRelativeModeTonic } from '../../utility/music/harmony/toRelativeModeTonic';
 import { getDistanceOfKeys } from '../../utility/music/keys/getDistanceOfKeys';
 import { transpose } from '../../utility/music/transpose';
 import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
@@ -27,154 +22,27 @@ import {
 } from '../utility/settings/AnalyzeBySettings';
 import {
   AcceptEquivalentChordSettings,
+  acceptableChordAnalysisOptions,
   flexibleChordChoiceSettings,
 } from '../utility/settings/acceptEquivalentChordsSettings';
 import { withSettings } from '../utility/settings/withSettings';
-import {
-  ProgressionInSongFromYouTubeDescriptor,
-  chordsInRealSongsDescriptorList,
-} from './chordsInRealSongsDescriptorList';
+import { getIncludedSegments } from './getIncludedQuestions';
+import { indexQuestionsByProgression } from './indexQuestionsByProgression';
+import { YouTubeSongQuestion, getId } from './songQuestions';
 
-interface ChordsInRealSongsSettings
+export interface ChordsInRealSongsSettings
   extends AnalyzeBySettings,
     AcceptEquivalentChordSettings {
   includedChords: RomanNumeralChordSymbol[];
 }
 
-const soloedChordsInRealSongsDescriptorList =
-  chordsInRealSongsDescriptorList.filter(({ solo }) => solo);
-
-function getId(
-  progression: DeepReadonly<ProgressionInSongFromYouTubeDescriptor>,
-): string {
-  return `${progression.legacyVideoId ?? progression.videoId} ${progression.section ?? ''} ${progression.subId ?? ''}`;
+interface LearnProgressionsSettings {
+  learnProgressions: true;
 }
 
-const duplicates = _(chordsInRealSongsDescriptorList)
-  .groupBy(getId)
-  .pickBy((x) => x.length > 1)
-  .mapValues((x) => x.length)
-  .value();
-
-if (!isEmpty(duplicates)) {
-  console.log('duplicates', duplicates);
-  throw new Error('Duplicate ids found. Use "subId" to eliminate them'); // todo
-}
-export function chordsInRealSongsExercise(
-  progressionList: DeepReadonly<
-    ProgressionInSongFromYouTubeDescriptor[]
-  > = isEmpty(soloedChordsInRealSongsDescriptorList)
-    ? chordsInRealSongsDescriptorList
-    : soloedChordsInRealSongsDescriptorList,
-) {
-  function getAvailableProgressions(
-    settings: ChordsInRealSongsSettings,
-  ): DeepReadonly<ProgressionInSongFromYouTubeDescriptor[]> {
-    const isChordProgressionValid = (
-      chords: DeepReadonly<ProgressionInSongFromYouTubeDescriptor>['chords'],
-    ): boolean => {
-      return _.every(chords, (chord) => {
-        const isChordValid = settings.includedChords.includes(chord.chord);
-        if (!isChordValid) {
-          console.log('Invalid chord', chord.chord);
-        }
-        return isChordValid;
-      });
-    };
-
-    const validChordProgressionsDescriptorList: DeepReadonly<
-      ProgressionInSongFromYouTubeDescriptor[]
-    > = progressionList
-      .map((chordProgression) => {
-        if (
-          settings.tonicForAnalyzing === 'original' ||
-          chordProgression.mode === Mode.Major
-        ) {
-          return chordProgression;
-        }
-
-        if (
-          settings.tonicForAnalyzing === 'major' &&
-          [Mode.Mixolydian, Mode.Lydian].includes(chordProgression.mode)
-        ) {
-          return chordProgression;
-        }
-
-        return {
-          ...chordProgression,
-          chords: _.map(chordProgression.chords, (chord) => ({
-            ...chord,
-            chord: RomanNumeralChord.toRelativeMode(
-              chord.chord,
-              chordProgression.mode,
-              Mode.Major,
-            ),
-          })),
-          mode: Mode.Major,
-          key: toRelativeModeTonic(
-            chordProgression.key,
-            chordProgression.mode,
-            Mode.Major,
-          ),
-        };
-      })
-      .map(
-        (
-          chordProgression,
-        ): DeepReadonly<ProgressionInSongFromYouTubeDescriptor> | null => {
-          if (isChordProgressionValid(chordProgression.chords)) {
-            return chordProgression;
-          } else if (chordProgression.mode !== Mode.Major) {
-            // Trying to see if the relative Major progression can be included
-            const chordsInRelativeKey = _.map(
-              chordProgression.chords,
-              (chord) => ({
-                ...chord,
-                chord: RomanNumeralChord.toRelativeMode(
-                  chord.chord,
-                  chordProgression.mode,
-                  Mode.Major,
-                ),
-              }),
-            );
-
-            if (isChordProgressionValid(chordsInRelativeKey)) {
-              return {
-                ...chordProgression,
-                chords: chordsInRelativeKey,
-                mode: Mode.Major,
-                key: toRelativeModeTonic(
-                  chordProgression.key,
-                  chordProgression.mode,
-                  Mode.Major,
-                ),
-              };
-            } else {
-              // Both MAJOR and MINOR versions can't be included, returning null to signal it's not valid
-              return null;
-            }
-          } else {
-            return null;
-          }
-        },
-      )
-      .filter(isValueTruthy);
-
-    // todo: handle this better (Seems like it is not actually being caught)
-    if (_.isEmpty(validChordProgressionsDescriptorList)) {
-      // Note, when soloing songs that are not included in the difficult (I IV V vi) settings, this exception will fire and prevent testing of the progression
-      // In that case, just comment out the exception for testing purposes
-      throw new Error(
-        `No chord progression matching selected chords! Please select more chords. (I IV V vi will work)\n` +
-          `If you're using it for debugging with the "solo" option, this fails because settings are not loaded immediately. Trying soloing another song with simple chords to go around the error`,
-      );
-    }
-
-    return validChordProgressionsDescriptorList;
-  }
-
+export function chordsInRealSongsExercise() {
   function getQuestionFromProgression(
-    progression: DeepReadonly<ProgressionInSongFromYouTubeDescriptor>,
+    progression: DeepReadonly<YouTubeSongQuestion>,
     settings: AcceptEquivalentChordSettings,
   ): Exercise.Question<RomanNumeralChordSymbol> {
     const modeToCadenceInC: Record<Mode, NoteEvent[]> = {
@@ -194,14 +62,11 @@ export function chordsInRealSongsExercise(
       segments: progression.chords.map((chordDesc) => ({
         rightAnswer: chordDesc.chord,
         isAcceptable: (answer) =>
-          isAcceptableChordAnalysis(chordDesc.chord, answer, {
-            // TODO: consider making finer settings from the user perspective
-            ignoreExtensions: settings.acceptEquivalentChord
-              ? 'when-equivalent'
-              : false,
-            ignoreSharp5: !!settings.acceptEquivalentChord,
-            ignoreSuspensions: !!settings.acceptEquivalentChord,
-          }),
+          isAcceptableChordAnalysis(
+            chordDesc.chord,
+            answer,
+            acceptableChordAnalysisOptions(settings),
+          ),
         seconds: chordDesc.seconds,
       })),
       endSeconds: progression.endSeconds,
@@ -217,17 +82,105 @@ export function chordsInRealSongsExercise(
     };
   }
 
+  const id = 'chordsInRealSongs';
+
+  let settings: ChordsInRealSongsSettings & LearnProgressionsSettings;
+
+  const getUniqueProgressions = () => {
+    const availableSegments = getIncludedSegments(settings);
+    return indexQuestionsByProgression(availableSegments, settings);
+  };
+
+  const fsrsLogic = fsrsExercise(id + ':progression-mode', {
+    getQuestion: (
+      // settings: ChordsInRealSongsSettings,
+      questionsToExclude?: string[],
+    ) => {
+      const uniqueProgressions = getUniqueProgressions();
+      console.log('uniqueProgressions', uniqueProgressions);
+
+      const questionsToExcludeSet = new Set(questionsToExclude);
+      const progressionKey = Array.from(uniqueProgressions.keys()).find(
+        (progKey) => !questionsToExcludeSet.has(progKey),
+      );
+      if (!progressionKey) {
+        throw new Error('No more progressions!'); // todo: we should handle this somehow, perhaps even inside fsrs itself
+      }
+      const randomSegment = randomFromList(
+        uniqueProgressions.get(progressionKey)!,
+      );
+      const question = getQuestionFromProgression(randomSegment, settings);
+      return {
+        ...question,
+        id: progressionKey,
+      };
+    },
+    getQuestionById(id) {
+      const uniqueProgressions = getUniqueProgressions();
+      const progression = uniqueProgressions.get(id);
+      if (!progression) {
+        throw new Error(`No progression found! (id: ${id})`);
+      }
+      return getQuestionFromProgression(randomFromList(progression), settings);
+    },
+  });
+
+  const normalModeLogic = {
+    getQuestion(
+      questionsToExclude?: string[],
+    ): Exercise.Question<RomanNumeralChordSymbol> {
+      const questionsToExcludeSet = new Set(questionsToExclude);
+
+      const availableQuestions = getIncludedSegments(settings).filter(
+        (progression) => !questionsToExcludeSet.has(getId(progression)),
+      );
+
+      // when using "learn" mode, the questionsToExclude will be passed here. In this mode we want to learn the songs in order
+      const progression = (questionsToExclude ? first : randomFromList)(
+        availableQuestions,
+      );
+
+      if (!progression) {
+        // todo: we might need to handle this eventually, because it's possible that there is indeed no more quesitons that are not in the "cards" (in learn mode)
+        throw new Error(`No more progressions!`);
+      }
+
+      return getQuestionFromProgression(progression, settings);
+    },
+    getQuestionById(
+      questionId: string,
+    ): Exercise.Question<RomanNumeralChordSymbol> | undefined {
+      const availableQuestions = getIncludedSegments(settings);
+      const progression = _.find(
+        availableQuestions,
+        (progression) => getId(progression) === questionId,
+      );
+
+      return progression
+        ? getQuestionFromProgression(progression, settings)
+        : undefined;
+    },
+  };
+
+  const logic = () => {
+    if (settings.learnProgressions) {
+      return fsrsLogic;
+    }
+
+    return normalModeLogic;
+  };
+
   return {
     ...composeExercise(
       withSettings(analyzeBySettings),
       withSettings(flexibleChordChoiceSettings),
       createExercise<RomanNumeralChordSymbol, ChordsInRealSongsSettings>,
     )({
-      id: 'chordsInRealSongs',
+      id: id,
       name: 'Chord Progressions In Real Songs',
       summary:
         'Identify chord progressions in real songs, streamed from YouTube',
-      // blackListPlatform: 'ios', // currently, this exercise is not working on ios
+      blackListPlatform: 'ios', // currently, this exercise is not working on ios
       settingsDescriptors: [
         {
           key: 'includedChords',
@@ -241,24 +194,30 @@ export function chordsInRealSongsExercise(
             answerList: allRomanNumeralAnswerList,
           },
         },
+        // todo: in the future, it's better that learn mode will use this custom algorithm automatically
+        {
+          key: 'learnProgressions',
+          info: 'Experimental mode that optimizes learning of progressions in real songs with a space repetition algorithm. <b>Important!</b> If using this, turn "Learn Mode" off, as it will conflict with this',
+          descriptor: {
+            label: 'Learn Progressions',
+            controlType: 'checkbox',
+          },
+        },
       ],
       defaultSettings: {
         includedChords: ['I', 'IV', 'V', 'vi'],
         tonicForAnalyzing: 'major',
         acceptEquivalentChord: true,
+        learnProgressions: false,
       },
       answerList(
         settings: ChordsInRealSongsSettings,
       ): Exercise.AnswerList<RomanNumeralChordSymbol> {
-        const progressionsList: DeepReadonly<
-          ProgressionInSongFromYouTubeDescriptor[]
-        > = getAvailableProgressions(settings);
-        const includedAnswers: RomanNumeralChordSymbol[] = _.uniq(
+        const progressionsList = getIncludedSegments(settings);
+        const includedAnswers = _.uniq(
           _.flatMap(
             progressionsList,
-            (
-              progression: ProgressionInSongFromYouTubeDescriptor,
-            ): RomanNumeralChordSymbol[] =>
+            (progression: YouTubeSongQuestion): RomanNumeralChordSymbol[] =>
               progression.chords.map(
                 (chordDescriptor) => chordDescriptor.chord,
               ),
@@ -269,45 +228,28 @@ export function chordsInRealSongsExercise(
           includedAnswers,
         );
       },
-      getQuestion(
-        settings: ChordsInRealSongsSettings,
-        questionsToExclude?: string[],
-      ): Exercise.Question<RomanNumeralChordSymbol> {
-        const questionsToExcludeSet = new Set(questionsToExclude);
-
-        const availableProgressions = getAvailableProgressions(settings).filter(
-          (progression) => !questionsToExcludeSet.has(getId(progression)),
-        );
-
-        console.log('# of songs to choose from', availableProgressions.length);
-
-        // when using "learn" mode, the questionsToExclude will be passed here. In this mode we want to learn the songs in order
-        const progression:
-          | DeepReadonly<ProgressionInSongFromYouTubeDescriptor>
-          | undefined = (questionsToExclude ? first : randomFromList)(
-          availableProgressions,
-        );
-
-        if (!progression) {
-          // todo: we might need to handle this eventually, because it's possible that there is indeed no more quesitons that are not in the "cards" (in learn mode)
-          throw new Error(`No more progressions!`);
-        }
-
-        return getQuestionFromProgression(progression, settings);
+      getQuestion(settings, questionsToExclude?: string[]) {
+        return logic().getQuestion(
+          questionsToExclude,
+        ) as Exercise.Question<RomanNumeralChordSymbol>;
       },
-      getQuestionById(
-        settings: ChordsInRealSongsSettings,
-        questionId: string,
-      ): Exercise.Question<RomanNumeralChordSymbol> | undefined {
-        const availableProgressions = getAvailableProgressions(settings);
-        const progression = _.find(
-          availableProgressions,
-          (progression) => getId(progression) === questionId,
-        );
-
-        return progression
-          ? getQuestionFromProgression(progression, settings)
-          : undefined;
+      getQuestionById(settings, questionId: string) {
+        return normalModeLogic.getQuestionById(questionId);
+      },
+      onSettingsChange(
+        newSettings: ChordsInRealSongsSettings & LearnProgressionsSettings,
+      ) {
+        settings = newSettings;
+      },
+      handleFinishedAnswering(numberOfMistakes) {
+        if (settings.learnProgressions) {
+          fsrsLogic.handleFinishedAnswering(numberOfMistakes);
+        }
+      },
+      reset() {
+        if (settings.learnProgressions) {
+          fsrsLogic.reset();
+        }
       },
       // todo: consider encorporating this or something similar
       // getIsQuestionValid(
@@ -319,6 +261,5 @@ export function chordsInRealSongsExercise(
       //   );
       // },
     }),
-    getAvailableProgressions,
   };
 }
