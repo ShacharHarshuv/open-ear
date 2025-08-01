@@ -7,13 +7,15 @@ import {
 import { YouTubeSongQuestion } from './songQuestions';
 
 const chordsIntroductionOrder: RomanNumeralChordSymbol[] = [
+  'V',
   'I',
   'IV',
-  'V',
   'vi',
   'ii',
   'iii',
   'III',
+  'Vsus',
+  'Isus',
   'II',
   'VI',
   'IV7',

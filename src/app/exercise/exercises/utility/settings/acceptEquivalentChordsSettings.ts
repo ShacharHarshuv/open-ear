@@ -33,6 +33,6 @@ export function acceptableChordAnalysisOptions(
       ? 'when-equivalent'
       : false,
     ignoreSharp5: !!settings.acceptEquivalentChord,
-    ignoreSuspensions: !!settings.acceptEquivalentChord,
+    ignoreSuspensions: false,
   };
 }
