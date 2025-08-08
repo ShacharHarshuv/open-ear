@@ -277,14 +277,6 @@ export function notesInKeyExercise() {
         },
       },
       {
-        key: 'randomizeRhythm',
-        info: 'When on, each note will be given a random musical duration (16th, dotted 8th, 8th, quarter, dotted quarter).',
-        descriptor: {
-          controlType: 'checkbox',
-          label: 'Randomize Rhythm',
-        },
-      },
-      {
         key: 'notesRange',
         info: 'Choose how high or low the notes will be played',
         descriptor: ((): Exercise.SelectControlDescriptor<
@@ -325,6 +317,15 @@ export function notesInKeyExercise() {
           label: 'Melodic Intervals',
           controlType: 'included-answers',
           answerList: diatonicIntervalAnswerList,
+        },
+      },
+      {
+        show: (settings: NoteInKeySettings) => settings.numberOfSegments > 1,
+        key: 'randomizeRhythm',
+        info: 'When on, each note will be given a random musical duration (16th, dotted 8th, 8th, quarter, dotted quarter).',
+        descriptor: {
+          controlType: 'checkbox',
+          label: 'Randomize Rhythm',
         },
       },
       {

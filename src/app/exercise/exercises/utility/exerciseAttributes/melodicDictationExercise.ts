@@ -79,9 +79,10 @@ export function melodicExercise<
               partToPlay: [
                 {
                   notes: note,
-                  duration: settings.randomizeRhythm
-                    ? randomFromList(rhythmicValues)
-                    : noteDuration,
+                  duration:
+                    settings.randomizeRhythm && voice.length > 1
+                      ? randomFromList(rhythmicValues)
+                      : noteDuration,
                 },
               ],
               playAfter: index === 0 ? 0 : undefined,

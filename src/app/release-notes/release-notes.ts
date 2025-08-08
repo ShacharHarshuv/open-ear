@@ -211,10 +211,12 @@ export const releaseNotes: ReleaseNotes = [
   },
   {
     version: '1.11.0',
-    notes: 'Select melodic intervals for "Scale Degrees" exercise',
+    notes:
+      'Select melodic intervals for "Scale Degrees" exercise. Must have at least 2 notes to enable this setting.',
   },
   {
     version: '1.11.0',
-    notes: 'Randomize rhythm for "Scale Degrees" exercise',
+    notes:
+      'Randomize rhythm for "Scale Degrees" exercise. Must have at least 2 notes to enable this setting.',
   },
 ];
