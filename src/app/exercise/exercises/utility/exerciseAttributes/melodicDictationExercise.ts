@@ -27,7 +27,7 @@ type NoteInKeyDisplayMode = 'solfege' | 'numeral';
 
 export type MelodicDictationExerciseSettings = TonalExerciseSettings & {
   displayMode: NoteInKeyDisplayMode;
-  randomizeRhythm: boolean;
+  rhythmicValues: string[];
 };
 
 export interface IMelodicQuestion
@@ -41,7 +41,7 @@ export interface IMelodicQuestion
 export function melodicExercise<
   GSettings extends MelodicDictationExerciseSettings,
 >(config?: TonalExerciseConfig) {
-  const noteDuration: Time = '2n';
+  const defaultNoteDuration: Time = '2n';
 
   return function (params: {
     getMelodicQuestionInC: StaticOrGetter<
@@ -67,7 +67,7 @@ export function melodicExercise<
         const notesByVoice: Note[][] = isManyVoices(melodicQuestionInC.segments)
           ? melodicQuestionInC.segments
           : [melodicQuestionInC.segments];
-        const rhythmicValues: Time[] = ['16n', '8n.', '8n', '4n', '4n.'];
+        const rhythmicValues = settings.rhythmicValues;
         const segments: Exercise.NotesQuestion<SolfegeNote>['segments'] = [];
         notesByVoice.forEach((voice) => {
           voice.forEach((note, index) => {
@@ -80,9 +80,9 @@ export function melodicExercise<
                 {
                   notes: note,
                   duration:
-                    settings.randomizeRhythm && voice.length > 1
+                    voice.length > 1
                       ? randomFromList(rhythmicValues)
-                      : noteDuration,
+                      : defaultNoteDuration,
                 },
               ],
               playAfter: index === 0 ? 0 : undefined,

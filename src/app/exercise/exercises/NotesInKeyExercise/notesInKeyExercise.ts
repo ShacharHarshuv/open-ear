@@ -321,11 +321,23 @@ export function notesInKeyExercise() {
       },
       {
         show: (settings: NoteInKeySettings) => settings.numberOfSegments > 1,
-        key: 'randomizeRhythm',
-        info: 'When on, each note will be given a random musical duration (16th, dotted 8th, 8th, quarter, dotted quarter).',
+        key: 'rhythmicValues',
+        info: 'Select the note lengths to use in the generated melody. Lengths would be chosen in random',
         descriptor: {
-          controlType: 'checkbox',
-          label: 'Randomize Rhythm',
+          label: 'Note Lengths',
+          controlType: 'included-answers',
+          answerList: {
+            rows: [
+              [
+                { answer: '2n', displayLabel: '𝅗𝅥' },
+                { answer: '4n', displayLabel: '𝅘𝅥' },
+                { answer: '4n.', displayLabel: '𝅘𝅥.' },
+                { answer: '8n', displayLabel: '𝅘𝅥𝅮' },
+                { answer: '8n.', displayLabel: '𝅘𝅥𝅮.' },
+                { answer: '16n', displayLabel: '𝅘𝅥𝅯' },
+              ],
+            ],
+          },
         },
       },
       {
@@ -366,7 +378,7 @@ export function notesInKeyExercise() {
       playAfterCorrectAnswer: true,
       notesRange: 'middle',
       displayMode: 'numeral',
-      randomizeRhythm: false,
+      rhythmicValues: ['2n'],
       harmonicIntervals: ['3', '4', '5', '6', '8'],
       melodicIntervals: ['2', '3', '4', '4#', '5', '6', '7', '8'],
     },
