@@ -44,13 +44,56 @@ import {
 } from '../utility/settings/PlayAfterCorrectAnswerSetting';
 import { NotesInKeyExplanationComponent } from './notes-in-key-explanation/notes-in-key-explanation.component';
 
+type DiatonicIntervalCode =
+  | '1'
+  | '2'
+  | '3'
+  | '4'
+  | '4#'
+  | '5'
+  | '6'
+  | '7'
+  | '8';
+
+const diatonicIntervalCodeToIntervals: Record<
+  DiatonicIntervalCode,
+  Interval[]
+> = {
+  '1': [Interval.Unison],
+  '2': [Interval.MinorSecond, Interval.MajorSecond],
+  '3': [Interval.MinorThird, Interval.MajorThird],
+  '4': [Interval.PerfectFourth],
+  '4#': [Interval.AugmentedForth],
+  '5': [Interval.PerfectFifth],
+  '6': [Interval.MinorSixth, Interval.MajorSixth],
+  '7': [Interval.MinorSeventh, Interval.MajorSeventh],
+  '8': [Interval.Octave],
+};
+
+const diatonicIntervalAnswerList: Exercise.AnswerList<string> = {
+  rows: [
+    [
+      { answer: '1', displayLabel: '1<sup>st</sup>' },
+      { answer: '2', displayLabel: '2<sup>nd</sup>' },
+      { answer: '3', displayLabel: '3<sup>rd</sup>' },
+      { answer: '4', displayLabel: '4<sup>th</sup>' },
+      { answer: '4#', displayLabel: 'aug4<sup>th</sup>' },
+      { answer: '5', displayLabel: '5<sup>th</sup>' },
+      { answer: '6', displayLabel: '6<sup>th</sup>' },
+      { answer: '7', displayLabel: '7<sup>th</sup>' },
+      { answer: '8', displayLabel: '8<sup>th</sup>' },
+    ],
+  ],
+};
+
 export type NoteInKeySettings = IncludedAnswersSettings<SolfegeNote> &
   MelodicDictationExerciseSettings &
   NumberOfSegmentsSetting &
   PlayAfterCorrectAnswerSetting & {
     notesRange: 'high' | 'middle' | 'bass' | 'contrabass';
     numberOfVoices: 1 | 2 | 3;
-    harmonicIntervals: ('1' | '2' | '3' | '4' | '4#' | '5' | '6' | '7' | '8')[];
+    harmonicIntervals: DiatonicIntervalCode[];
+    melodicIntervals: DiatonicIntervalCode[];
   };
 
 export function notesInKeyExercise() {
@@ -99,46 +142,39 @@ export function notesInKeyExercise() {
           );
       }
 
-      const notesRange: NotesRange =
-        rangeOptionToNotesRange[settings.notesRange];
+      const notesRange = rangeOptionToNotesRange[settings.notesRange];
       // if we want to add more voices below, we need to limit how low the top voice can go
-      const topVoiceRange: NotesRange = new NotesRange(
+      const topVoiceRange = new NotesRange(
         transpose(
           notesRange.lowestNoteName,
           voiceRangeGap * (settings.numberOfVoices - 1),
         ),
         notesRange.highestNoteName,
       );
-      const noteOptions: Note[] = getNoteOptionsFromRange(topVoiceRange);
-      let randomNotesInC: Note[] = Array.from(
-        Array(settings.numberOfSegments),
-      ).map(() => randomFromList(noteOptions));
+      const noteOptions = getNoteOptionsFromRange(topVoiceRange);
+
+      const permittedMelodicIntervals = _.flatMap(
+        settings.melodicIntervals,
+        (code) => diatonicIntervalCodeToIntervals[code],
+      );
+
+      let randomNotesInC: Note[] = [];
+      let previousNote = randomFromList(noteOptions);
+      randomNotesInC.push(previousNote);
+      while (randomNotesInC.length < settings.numberOfSegments) {
+        const options = noteOptions.filter((candidate) => {
+          return permittedMelodicIntervals.includes(
+            Math.abs(toNoteNumber(candidate) - toNoteNumber(previousNote)),
+          );
+        });
+        previousNote = randomFromList(options);
+        randomNotesInC.push(previousNote);
+      }
       const randomQuestionInC: Note[][] = [randomNotesInC];
 
       const permittedHarmonicIntervals: Interval[] = _.flatMap(
         settings.harmonicIntervals,
-        (interval) => {
-          switch (interval) {
-            case '1':
-              return [Interval.Unison];
-            case '2':
-              return [Interval.MinorSecond, Interval.MajorSecond];
-            case '3':
-              return [Interval.MinorThird, Interval.MajorThird];
-            case '4':
-              return [Interval.PerfectFourth];
-            case '4#':
-              return [Interval.AugmentedForth];
-            case '5':
-              return [Interval.PerfectFifth];
-            case '6':
-              return [Interval.MinorSixth, Interval.MajorSixth];
-            case '7':
-              return [Interval.MinorSeventh, Interval.MajorSeventh];
-            case '8':
-              return [Interval.Octave];
-          }
-        },
+        (code) => diatonicIntervalCodeToIntervals[code],
       );
       let currentVoiceRange: NotesRange = notesRange;
       while (randomQuestionInC.length < settings.numberOfVoices) {
@@ -280,6 +316,18 @@ export function notesInKeyExercise() {
       },
       ...numberOfSegmentsControlDescriptorList('notes'),
       {
+        show: (settings: NoteInKeySettings) => settings.numberOfSegments > 1,
+        key: 'melodicIntervals',
+        info:
+          'Choose which intervals can be used melodically (between consecutive notes).\n' +
+          'Note that the intervals are tonal, so 3<sup>rd</sup> can be both a major 3<sup>rd</sup> and a minor 3<sup>rd</sup>.',
+        descriptor: {
+          label: 'Melodic Intervals',
+          controlType: 'included-answers',
+          answerList: diatonicIntervalAnswerList,
+        },
+      },
+      {
         key: 'numberOfVoices',
         info: 'Choose how many notes will be played simultaneously',
         descriptor: {
@@ -303,48 +351,7 @@ export function notesInKeyExercise() {
            * Note here it's not really "answers" but we are still using the same component,
            * this should be renamed to be more generic
            * */
-          answerList: {
-            rows: [
-              [
-                {
-                  answer: '1',
-                  displayLabel: '1<sup>st</sup>',
-                },
-                {
-                  answer: '2',
-                  displayLabel: '2<sup>nd</sup>',
-                },
-                {
-                  answer: '3',
-                  displayLabel: '3<sup>rd</sup>',
-                },
-                {
-                  answer: '4',
-                  displayLabel: '4<sup>th</sup>',
-                },
-                {
-                  answer: '4#',
-                  displayLabel: 'aug4<sup>th</sup>',
-                },
-                {
-                  answer: '5',
-                  displayLabel: '5<sup>th</sup>',
-                },
-                {
-                  answer: '6',
-                  displayLabel: '6<sup>th</sup>',
-                },
-                {
-                  answer: '7',
-                  displayLabel: '7<sup>th</sup>',
-                },
-                {
-                  answer: '8',
-                  displayLabel: '8<sup>th</sup>',
-                },
-              ],
-            ],
-          },
+          answerList: diatonicIntervalAnswerList,
         },
       },
       ...playAfterCorrectAnswerControlDescriptorList({
@@ -360,6 +367,7 @@ export function notesInKeyExercise() {
       displayMode: 'numeral',
       randomizeRhythm: false,
       harmonicIntervals: ['3', '4', '5', '6', '8'],
+      melodicIntervals: ['2', '3', '4', '4#', '5', '6', '7', '8'],
     },
   });
 }
