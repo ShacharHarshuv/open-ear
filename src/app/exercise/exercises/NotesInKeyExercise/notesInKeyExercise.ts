@@ -241,6 +241,14 @@ export function notesInKeyExercise() {
         },
       },
       {
+        key: 'randomizeRhythm',
+        info: 'When on, each note will be given a random musical duration (8th, quarter, dotted quarter, half).',
+        descriptor: {
+          controlType: 'checkbox',
+          label: 'Randomize Rhythm',
+        },
+      },
+      {
         key: 'notesRange',
         info: 'Choose how high or low the notes will be played',
         descriptor: ((): Exercise.SelectControlDescriptor<
@@ -350,6 +358,7 @@ export function notesInKeyExercise() {
       playAfterCorrectAnswer: true,
       notesRange: 'middle',
       displayMode: 'numeral',
+      randomizeRhythm: false,
       harmonicIntervals: ['3', '4', '5', '6', '8'],
     },
   });

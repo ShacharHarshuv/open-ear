@@ -8,6 +8,7 @@ import {
   SolfegeNote,
   StaticOrGetter,
   getNoteFromScaleDegree,
+  randomFromList,
   scaleDegreeToSolfegeNote,
   toGetter,
 } from '../../../utility';
@@ -26,6 +27,7 @@ type NoteInKeyDisplayMode = 'solfege' | 'numeral';
 
 export type MelodicDictationExerciseSettings = TonalExerciseSettings & {
   displayMode: NoteInKeyDisplayMode;
+  randomizeRhythm: boolean;
 };
 
 export interface IMelodicQuestion
@@ -65,6 +67,7 @@ export function melodicExercise<
         const notesByVoice: Note[][] = isManyVoices(melodicQuestionInC.segments)
           ? melodicQuestionInC.segments
           : [melodicQuestionInC.segments];
+        const rhythmicValues: Time[] = ['8n', '4n', '4n.', '2n'];
         const segments: Exercise.NotesQuestion<SolfegeNote>['segments'] = [];
         notesByVoice.forEach((voice) => {
           voice.forEach((note, index) => {
@@ -76,7 +79,9 @@ export function melodicExercise<
               partToPlay: [
                 {
                   notes: note,
-                  duration: noteDuration,
+                  duration: settings.randomizeRhythm
+                    ? randomFromList(rhythmicValues)
+                    : noteDuration,
                 },
               ],
               playAfter: index === 0 ? 0 : undefined,
