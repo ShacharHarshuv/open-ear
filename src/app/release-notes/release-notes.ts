@@ -209,4 +209,12 @@ export const releaseNotes: ReleaseNotes = [
     notes:
       'OpenEar now collects anonymous data for research about ear training. See more info in https://github.com/ShacharHarshuv/open-ear/blob/master/PRIVACY_POLICY.md',
   },
+  {
+    version: '1.11.0',
+    notes: 'Select melodic intervals for "Scale Degrees" exercise',
+  },
+  {
+    version: '1.11.0',
+    notes: 'Randomize rhythm for "Scale Degrees" exercise',
+  },
 ];

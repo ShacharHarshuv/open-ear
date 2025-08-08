@@ -67,7 +67,7 @@ export function melodicExercise<
         const notesByVoice: Note[][] = isManyVoices(melodicQuestionInC.segments)
           ? melodicQuestionInC.segments
           : [melodicQuestionInC.segments];
-        const rhythmicValues: Time[] = ['8n', '4n', '4n.', '2n'];
+        const rhythmicValues: Time[] = ['16n', '8n.', '8n', '4n', '4n.'];
         const segments: Exercise.NotesQuestion<SolfegeNote>['segments'] = [];
         notesByVoice.forEach((voice) => {
           voice.forEach((note, index) => {

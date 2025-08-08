@@ -278,7 +278,7 @@ export function notesInKeyExercise() {
       },
       {
         key: 'randomizeRhythm',
-        info: 'When on, each note will be given a random musical duration (8th, quarter, dotted quarter, half).',
+        info: 'When on, each note will be given a random musical duration (16th, dotted 8th, 8th, quarter, dotted quarter).',
         descriptor: {
           controlType: 'checkbox',
           label: 'Randomize Rhythm',
