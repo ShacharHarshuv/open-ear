@@ -44,3 +44,4 @@ package-lock.json
 
 ios/App/Podfile.lock
 ios/App/build/
+.history
