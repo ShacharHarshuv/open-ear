@@ -115,7 +115,7 @@ export class ExercisePage extends BaseComponent {
       exerciseName: this.state.name,
       currentGlobalSettings: this.state.globalSettings(),
       exerciseSettingsDescriptorInput: this.state.exerciseSettingsDescriptor, // must be before currentExerciseSettings
-      currentExerciseSettings: this.state.exerciseSettings,
+      currentExerciseSettings: this.state.exerciseSettings(),
       allAvailableAnswers: allAvailableAnswers,
     };
     const modal = await this._modalController.create({

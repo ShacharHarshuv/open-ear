@@ -2,15 +2,15 @@ import { max, sumBy } from 'lodash';
 import * as Tone from 'tone';
 import { Card, Grade, Rating, createEmptyCard, fsrs } from 'ts-fsrs';
 import { NoteEvent } from '../../../services/player.service';
-import { Exercise, Question } from '../../exercise-logic';
+import { ExerciseLogic, Question } from '../../exercise-logic';
 
 // todo: look into how to optimize parameters. Note we probably need to do that per card.
 // we might also need to accumulate
 
 const f = fsrs();
 
-interface QuestionCard {
-  question: Question;
+interface QuestionCard<GAnswer extends string> {
+  question: Question<GAnswer>;
   card: Card;
 }
 
@@ -37,8 +37,8 @@ function getQuestionPlayingTime(question: Question): number {
 }
 
 // todo: consider what kind of data structure we want to use here
-export class QuestionCardsCollection {
-  private _savedQuestions: QuestionCard[] = [];
+export class QuestionCardsCollection<GAnswer extends string> {
+  private _savedQuestions: QuestionCard<GAnswer>[] = [];
   private _dataItem = `cards_${this._id}`;
 
   constructor(private _id: string) {
@@ -57,14 +57,14 @@ export class QuestionCardsCollection {
     return this._savedQuestions;
   }
 
-  remove(savedQuestion: QuestionCard) {
+  remove(savedQuestion: QuestionCard<GAnswer>) {
     this._savedQuestions = this._savedQuestions.filter(
       (q) => q.question.id !== savedQuestion.question.id,
     );
     this._save();
   }
 
-  insert(savedQuestion: QuestionCard) {
+  insert(savedQuestion: QuestionCard<GAnswer>) {
     this._savedQuestions.push(savedQuestion);
     this._save();
   }
@@ -77,10 +77,10 @@ export class QuestionCardsCollection {
 
 export function fsrsExercise<GAnswer extends string>(
   id: string,
-  logic: Pick<Exercise<GAnswer>, 'getQuestion' | 'getQuestionById'>,
+  logic: Pick<ExerciseLogic<GAnswer>, 'getQuestion' | 'getQuestionById'>,
 ) {
-  const cardsCollections = new QuestionCardsCollection(id);
-  let currentQuestionCard: QuestionCard | null = null;
+  const cardsCollections = new QuestionCardsCollection<GAnswer>(id);
+  let currentQuestionCard: QuestionCard<GAnswer> | null = null;
   function getCurrentQuestion() {
     if (!currentQuestionCard) {
       return null;
@@ -100,7 +100,7 @@ export function fsrsExercise<GAnswer extends string>(
     isQuestionStartedPlaying = true;
   }
 
-  const getQuestion: Exercise['getQuestion'] = () => {
+  const getQuestion: ExerciseLogic<GAnswer>['getQuestion'] = () => {
     isQuestionStartedPlaying = false;
     console.log('savedQuestions', cardsCollections.savedQuestions);
     const dueQuestions = cardsCollections.savedQuestions

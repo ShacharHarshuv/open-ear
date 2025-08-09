@@ -1,82 +1,67 @@
-import { toGetter } from '../../../../shared/ts-utility';
-import Exercise, { isMultiAnswerCell } from '../../../exercise-logic';
-import { CreateExerciseParams } from '../exerciseAttributes/createExercise';
-import { SettingsParams } from './SettingsParams';
-import filterIncludedAnswers = Exercise.filterIncludedAnswers;
-import AnswerList = Exercise.AnswerList;
+import { Signal, computed } from '@angular/core';
+import {
+  AnswerList,
+  SettingsControlDescriptor,
+  filterIncludedAnswers,
+  flatAnswerList,
+  isMultiAnswerCell,
+} from '../../../exercise-logic';
 
+// todo: do we even need this type?
 export type IncludedAnswersSettings<GAnswer extends string> = {
   readonly includedAnswers: GAnswer[];
 };
 
-export function includedAnswersSettings<GAnswer extends string>(config?: {
-  defaultSelectedAnswers?: GAnswer[];
-  name?: string;
+export function useIncludedAnswers<GAnswer extends string>(config: {
+  fullAnswerList: AnswerList<GAnswer>;
+  default?: GAnswer[]; // default: all answers
+  name?: string; // default: 'Options'
 }) {
-  return function (
-    params: Pick<
-      CreateExerciseParams<GAnswer, Exercise.Settings>,
-      'answerList'
-    > &
-      Partial<Pick<SettingsParams<Exercise.Settings>, 'defaultSettings'>>,
-  ): SettingsParams<IncludedAnswersSettings<GAnswer>> &
-    Pick<
-      CreateExerciseParams<GAnswer, IncludedAnswersSettings<GAnswer>>,
-      'answerList'
-    > {
-    return {
-      defaultSettings: {
-        includedAnswers:
-          config?.defaultSelectedAnswers ??
-          Exercise.flatAnswerList(
-            toGetter(params.answerList)(params.defaultSettings ?? {}),
-          ),
-      },
-      settingsDescriptors: (settings) => {
-        const answerList = toGetter(params.answerList)(settings);
+  const settingDescriptor: SettingsControlDescriptor<
+    IncludedAnswersSettings<GAnswer>
+  > = {
+    key: 'includedAnswers',
+    descriptor: {
+      controlType: 'included-answers',
+      label: 'Included ' + (config?.name ?? 'Options'),
+      answerList: config.fullAnswerList,
+    },
+    default: config?.default ?? flatAnswerList(config.fullAnswerList),
+    info: (() => {
+      const hasNestedAnswers = (() => {
+        if (Array.isArray(config.fullAnswerList)) {
+          return false;
+        }
 
-        return [
-          {
-            key: 'includedAnswers',
-            descriptor: {
-              controlType: 'included-answers',
-              label: 'Included ' + (config?.name ?? 'Options'),
-              answerList,
-            },
-            info: (() => {
-              const hasNestedAnswers = (() => {
-                if (Array.isArray(answerList)) {
-                  return false;
-                }
+        for (const row of config.fullAnswerList.rows) {
+          if (Array.isArray(row)) {
+            for (const answerCell of row) {
+              if (isMultiAnswerCell(answerCell)) {
+                return true;
+              }
+            }
+          }
+        }
 
-                for (const row of answerList.rows) {
-                  if (Array.isArray(row)) {
-                    for (const answerCell of row) {
-                      if (isMultiAnswerCell(answerCell)) {
-                        return true;
-                      }
-                    }
-                  }
-                }
+        return false;
+      })();
 
-                return false;
-              })();
+      return hasNestedAnswers
+        ? 'Short click on an answer will toggle it. If an answer has a small rectangle at the bottom-right, you can long press it to select more options. When doing the exercise, a single click will select the answer displayed, and a long press and slide will enable you to select inner answers.'
+        : 'Click an answer to include/exclude it from the exercise.';
+    })(),
+  };
 
-              return hasNestedAnswers
-                ? 'Short click on an answer will toggle it. If an answer has a small rectangle at the bottom-right, you can long press it to select more options. When doing the exercise, a single click will select the answer displayed, and a long press and slide will enable you to select inner answers.'
-                : 'Click an answer to include/exclude it from the exercise.';
-            })(),
-          },
-        ];
-      },
-      answerList: (
-        settings: IncludedAnswersSettings<GAnswer>,
-      ): AnswerList<GAnswer> => {
-        return filterIncludedAnswers(
-          toGetter(params.answerList)(settings),
-          settings.includedAnswers,
-        );
-      },
-    };
+  const x = settingDescriptor;
+
+  return {
+    settingDescriptor,
+    answerList: (settings: Signal<IncludedAnswersSettings<GAnswer>>) =>
+      computed(() =>
+        filterIncludedAnswers(
+          config.fullAnswerList,
+          settings().includedAnswers,
+        ),
+      ),
   };
 }
