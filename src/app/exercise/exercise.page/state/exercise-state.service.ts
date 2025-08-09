@@ -68,14 +68,12 @@ export class ExerciseStateService<
   readonly exercise = this._exerciseService.getExercise<GAnswer, GSettings>(
     this._activatedRoute.snapshot.params['id']!,
   );
-  private readonly _defaultExerciseSettings =
-    this._getDefaultExerciseSettings();
 
   private readonly _globalSettings = signal<GlobalExerciseSettings>(
     DEFAULT_EXERCISE_SETTINGS,
   );
   private readonly _exerciseSettings = signal<GSettings>(
-    this._defaultExerciseSettings,
+    this.exercise.defaultSettings,
   );
   readonly exerciseSettings = this._exerciseSettings.asReadonly();
 
@@ -424,7 +422,7 @@ export class ExerciseStateService<
       defaults(savedSettings?.globalSettings, DEFAULT_EXERCISE_SETTINGS),
     );
     this._exerciseSettings.set(
-      defaults(savedSettings?.exerciseSettings, this._defaultExerciseSettings),
+      defaults(savedSettings?.exerciseSettings, this.exercise.defaultSettings),
     );
     await this.nextQuestion();
   }
@@ -586,21 +584,5 @@ export class ExerciseStateService<
       }
       return map;
     });
-  }
-
-  private _getDefaultExerciseSettings(): GSettings {
-    const defaultSettings = {} as GSettings;
-    const settingsDescriptor = this.exercise.settingsDescriptors;
-    if (!settingsDescriptor) {
-      return {} as GSettings;
-    }
-
-    for (const descriptor of settingsDescriptor) {
-      if (descriptor.key && 'default' in descriptor) {
-        defaultSettings[descriptor.key] = descriptor.default;
-      }
-    }
-
-    return defaultSettings;
   }
 }

@@ -21,7 +21,7 @@ import {
 } from '../utility/settings/IncludedAnswersSettings';
 import {
   PlayWrongAnswerSettings,
-  playWrongAnswerSettings as usePlayWrongAnswer,
+  usePlayWrongAnswer,
 } from '../utility/settings/PlayWrongAnswerSettings';
 import { IntervalExerciseExplanationComponent } from './interval-exercise-explanation/interval-exercise-explanation.component';
 
@@ -142,11 +142,16 @@ export const intervalExercise: Exercise<
   name: 'Intervals',
   summary: 'Identify intervals chromatically (no key)',
   explanation: IntervalExerciseExplanationComponent,
+  defaultSettings: {
+    ...includedAnswers.defaults,
+    ...playWrongAnswer.defaults,
+    intervalType: 'melodic',
+    intervalDirection: 'random',
+  },
   settingsDescriptors: [
     includedAnswers.settingDescriptor,
     {
       key: 'intervalType',
-      default: 'melodic',
       info: 'Whether two notes are played sequentially or simultaneously.',
       descriptor: {
         label: 'Interval Type',
@@ -165,7 +170,6 @@ export const intervalExercise: Exercise<
     },
     {
       key: 'intervalDirection',
-      default: 'random',
       info: 'Whether the interval is played ascending or descending. Default is for a random choice of either to be picked.',
       descriptor: {
         label: 'Interval Direction',

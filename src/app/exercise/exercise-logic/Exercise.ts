@@ -508,7 +508,6 @@ export type SettingsControlDescriptor<
         ) => Partial<GSettings>;
       }
   ) & {
-    default: GSettings[GKey]; // todo: rethink this approach. The problem is we can't guarantee that all values will have a default, which means we might have an unexpected undefined value
     descriptor: /*GSettings[GKey] extends number ? SliderControlDescriptor | SelectControlDescriptor<GSettings[GKey]>
    : GSettings[GKey] extends Array<any> ? ListSelectControlDescriptor
    : SelectControlDescriptor<GSettings[GKey]>*/ StaticOrGetter<
@@ -548,6 +547,7 @@ export interface Exercise<
   // Can't depend on "settings" because we will use it to build the settings
   // however, that makes things more difficult for us
   readonly settingsDescriptors?: SettingsControlDescriptor<GSettings>[];
+  readonly defaultSettings: GSettings;
 
   logic(settings: Signal<GSettings>): ExerciseLogic<GAnswer>;
 

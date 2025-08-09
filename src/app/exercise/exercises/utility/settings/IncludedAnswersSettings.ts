@@ -26,7 +26,6 @@ export function useIncludedAnswers<GAnswer extends string>(config: {
       label: 'Included ' + (config?.name ?? 'Options'),
       answerList: config.fullAnswerList,
     },
-    default: config?.default ?? flatAnswerList(config.fullAnswerList),
     info: (() => {
       const hasNestedAnswers = (() => {
         if (Array.isArray(config.fullAnswerList)) {
@@ -52,9 +51,12 @@ export function useIncludedAnswers<GAnswer extends string>(config: {
     })(),
   };
 
-  const x = settingDescriptor;
+  const defaults: IncludedAnswersSettings<GAnswer> = {
+    includedAnswers: config?.default ?? flatAnswerList(config.fullAnswerList),
+  };
 
   return {
+    defaults,
     settingDescriptor,
     answerList: (settings: Signal<IncludedAnswersSettings<GAnswer>>) =>
       computed(() =>

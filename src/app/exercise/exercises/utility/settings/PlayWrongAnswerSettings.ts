@@ -6,11 +6,10 @@ import {
 
 export type PlayWrongAnswerSettings = { playWrongAnswer: boolean };
 
-export function playWrongAnswerSettings() {
+export function usePlayWrongAnswer() {
   const settingDescriptor: SettingsControlDescriptor<PlayWrongAnswerSettings> =
     {
       key: 'playWrongAnswer',
-      default: true,
       info: 'When you click the wrong answer, it will be played immediately, as if you played the (wrong) note on your instrument.',
       descriptor: {
         controlType: 'checkbox',
@@ -18,7 +17,12 @@ export function playWrongAnswerSettings() {
       },
     };
 
+  const defaults: PlayWrongAnswerSettings = {
+    playWrongAnswer: true,
+  };
+
   return {
+    defaults,
     settingDescriptor,
     getQuestion: <GAnswer extends string>(
       settings: Signal<PlayWrongAnswerSettings>,
