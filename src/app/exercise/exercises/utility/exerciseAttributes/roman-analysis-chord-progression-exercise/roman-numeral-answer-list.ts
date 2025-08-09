@@ -60,7 +60,12 @@ export const allRomanNumeralAnswerList: AnswerList<RomanNumeralChordSymbol> =
     const majorChordTypesLayout: AnswersLayout<ChordType> = {
       rows: [
         [ChordType.Major, ChordType.Major6th, ChordType.Major7th], // not dominants
-        [ChordType.MajorAdd9, ChordType.Major69, ChordType.Major611],
+        [
+          ChordType.Major9th,
+          ChordType.MajorAdd9,
+          ChordType.Major69,
+          ChordType.Major611,
+        ],
         [ChordType.Dominant7th, ChordType.Dominant9th, ChordType.Dominant11th], // dominants
         [
           ChordType.Sharp5,

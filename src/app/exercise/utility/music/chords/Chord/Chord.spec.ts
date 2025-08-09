@@ -215,6 +215,16 @@ describe('Chord', () => {
       },
     },
     {
+      chordSymbolOrConfig: 'Cmaj9',
+      octave: 4,
+      expectedResult: {
+        root: 'C',
+        type: ChordType.Major9th,
+        noteTypes: ['C', 'E', 'G', 'B', 'D'],
+        voicing: [[0, ['C3', 'E3', 'G3', 'B3', 'D4']]],
+      },
+    },
+    {
       chordSymbolOrConfig: 'Am7',
       octave: 4,
       expectedResult: {

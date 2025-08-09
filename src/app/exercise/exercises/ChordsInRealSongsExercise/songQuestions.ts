@@ -9896,6 +9896,60 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 15.03,
     section: 'Verse Cadence',
   },
+  {
+    name: 'The Wizard and I',
+    artist: 'Wicked',
+    key: 'A',
+    mode: 1,
+    videoId: 'i0r_RWwa2tQ',
+    chords: [
+      {
+        seconds: 168.86,
+        chord: 'IVmaj9',
+      },
+      {
+        seconds: 170.4,
+        chord: 'iii7',
+      },
+      {
+        seconds: 172.2,
+        chord: 'IVmaj9',
+      },
+      {
+        seconds: 173.65,
+        chord: 'iii7',
+      },
+    ],
+    endSeconds: 175.19,
+    section: 'Chorus B-part 1',
+  },
+  {
+    name: 'The Wizard and I',
+    artist: 'Wicked',
+    key: 'C',
+    mode: 1,
+    videoId: 'i0r_RWwa2tQ',
+    chords: [
+      {
+        seconds: 175.32,
+        chord: 'IVmaj7',
+      },
+      {
+        seconds: 176.97,
+        chord: 'iii7',
+      },
+      {
+        seconds: 178.85,
+        chord: 'ii',
+      },
+      {
+        seconds: 180.38,
+        chord: 'iii7',
+      },
+    ],
+    endSeconds: 181.94,
+    section: 'Chorus B-part 2',
+  },
 ];
 
 console.log('Total Song Questions', allQuestions.length);

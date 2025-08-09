@@ -141,6 +141,18 @@ describe('RomanNumeralBuilder', () => {
       isDiatonic: true,
     },
     {
+      romanNumeralChordSymbol: 'Imaj9',
+      type: ChordType.Major9th,
+      scaleDegree: '1',
+      getChord: {
+        C: 'Cmaj9',
+      },
+      accidental: Accidental.Natural,
+      diatonicDegree: 1,
+      serialized: 'Ⅰ<sup>M9</sup>',
+      isDiatonic: true,
+    },
+    {
       romanNumeralChordSymbol: 'ii7',
       type: ChordType.Minor7th,
       scaleDegree: '2',

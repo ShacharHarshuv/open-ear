@@ -36,6 +36,7 @@ export type LowercaseRomanNumeralChordSymbol =
 export type MajorChordTypesPostfix =
   | ''
   | ChordType.Major7th
+  | ChordType.Major9th
   | ChordType.Dominant7th
   | ChordType.Dominant7thSharp5th
   | ChordType.Sus4
