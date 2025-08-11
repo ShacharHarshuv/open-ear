@@ -8,7 +8,7 @@ import { ContentPaddingDirective } from '../../shared/components/shared-componen
 import { PureFunctionPipe } from '../../shared/ng-utilities/pure-function-pipe/pure-function.pipe';
 import { BaseComponent } from '../../shared/ts-utility';
 import Exercise, {
-  SettingValueType,
+  ExerciseSettings,
   SettingsControlDescriptor,
 } from '../exercise-logic';
 import { GlobalExerciseSettings } from '../utility';
@@ -105,17 +105,19 @@ export class ExercisePage extends BaseComponent {
     const allAvailableAnswers: string[] =
       typeof answerList === 'object' ? _.flatMap(answerList) : answerList;
 
+    const currentExerciseSettings = this.state.exerciseSettings();
+
     const props: {
       exerciseName: string;
       currentGlobalSettings: GlobalExerciseSettings;
       exerciseSettingsDescriptorInput: SettingsControlDescriptor[];
-      currentExerciseSettings: { [key: string]: SettingValueType };
+      currentExerciseSettings: ExerciseSettings;
       allAvailableAnswers: string[];
     } = {
       exerciseName: this.state.name,
       currentGlobalSettings: this.state.globalSettings(),
       exerciseSettingsDescriptorInput: this.state.exerciseSettingsDescriptor, // must be before currentExerciseSettings
-      currentExerciseSettings: this.state.exerciseSettings(),
+      currentExerciseSettings,
       allAvailableAnswers: allAvailableAnswers,
     };
     const modal = await this._modalController.create({
@@ -125,9 +127,16 @@ export class ExercisePage extends BaseComponent {
     this._hideMessage.set(true);
     await modal.present();
     await this.state.stop();
-    const data = (await modal.onDidDismiss()).data;
+    const newSettings = (await modal.onDidDismiss()).data;
     this._hideMessage.set(false);
-    this.state.updateSettings(data);
+
+    this.state.updateSettings({
+      globalSettings: newSettings.globalSettings,
+      exerciseSettings: {
+        ...currentExerciseSettings,
+        ...newSettings.exerciseSettings,
+      },
+    });
   }
 
   private async _init(): Promise<void> {

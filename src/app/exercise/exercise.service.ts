@@ -3,6 +3,7 @@ import { Platform } from '@ionic/angular';
 import * as _ from 'lodash';
 import { Exercise, SettingValueType } from './exercise-logic';
 import { intervalExercise } from './exercises/IntervalExercise/intervalExercise';
+import { triadInversionExercise } from './exercises/TriadInversionExercise/triadInversionExercise';
 
 const exerciseList: Exercise[] = [
   // notesInKeyExercise(),
@@ -11,7 +12,7 @@ const exerciseList: Exercise[] = [
   // chordsInRealSongsExercise(),
   // chordTypeExercise(),
   // notesWithChordsExercise(),
-  // triadInversionExercise(),
+  triadInversionExercise,
   intervalExercise,
 ];
 
