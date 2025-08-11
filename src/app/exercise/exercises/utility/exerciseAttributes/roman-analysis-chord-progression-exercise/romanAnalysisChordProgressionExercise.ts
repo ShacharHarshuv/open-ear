@@ -15,8 +15,8 @@ import { PlayAfterCorrectAnswerSetting } from '../../settings/PlayAfterCorrectAn
 import { withSettings } from '../../settings/withSettings';
 import {
   ChordProgressionExerciseConfig,
-  ChordProgressionExerciseSettings,
   ChordProgressionQuestion,
+  VoicingSettings,
   chordProgressionExercise,
 } from '../chordProgressionExercise';
 import { composeExercise } from '../composeExercise';
@@ -25,7 +25,7 @@ import { allRomanNumeralAnswerList } from './roman-numeral-answer-list';
 
 export type RomanAnalysisChordProgressionExerciseSettings =
   TonalExerciseSettings &
-    ChordProgressionExerciseSettings<RomanNumeralChordSymbol> &
+    VoicingSettings<RomanNumeralChordSymbol> &
     PlayAfterCorrectAnswerSetting;
 
 const romanNumeralToResolution: {

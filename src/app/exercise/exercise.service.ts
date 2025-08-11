@@ -2,6 +2,7 @@ import { Injectable, Type, inject } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import * as _ from 'lodash';
 import { Exercise, SettingValueType } from './exercise-logic';
+import { chordTypeExercise } from './exercises/ChordTypeInKeyExercise/chordTypeInKeyExercise';
 import { intervalExercise } from './exercises/IntervalExercise/intervalExercise';
 import { triadInversionExercise } from './exercises/TriadInversionExercise/triadInversionExercise';
 
@@ -10,8 +11,8 @@ const exerciseList: Exercise[] = [
   // chordInKeyExercise(),
   // commonChordProgressionExercise(),
   // chordsInRealSongsExercise(),
-  // chordTypeExercise(),
-  // notesWithChordsExercise(),
+  chordTypeExercise,
+  // notesWithChordsExercise,
   triadInversionExercise,
   intervalExercise,
 ];
