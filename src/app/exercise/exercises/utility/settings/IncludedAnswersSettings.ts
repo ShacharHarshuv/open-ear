@@ -14,7 +14,6 @@ export type IncludedAnswersSettings<GAnswer extends string> = {
 
 export function useIncludedAnswers<GAnswer extends string>(config: {
   fullAnswerList: AnswerList<GAnswer>;
-  default?: GAnswer[]; // default: all answers
   name?: string; // default: 'Options'
 }) {
   const settingDescriptor: SettingsControlDescriptor<
@@ -52,7 +51,7 @@ export function useIncludedAnswers<GAnswer extends string>(config: {
   };
 
   const defaults: IncludedAnswersSettings<GAnswer> = {
-    includedAnswers: config?.default ?? flatAnswerList(config.fullAnswerList),
+    includedAnswers: flatAnswerList(config.fullAnswerList),
   };
 
   return {
