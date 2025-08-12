@@ -280,7 +280,7 @@ const allAnswersList = ((): AnswerList<NoteWithChord> => {
   };
 })();
 
-const includedAnswers = useIncludedAnswers<NoteWithChord>({
+const includedAnswers = useIncludedAnswers({
   name: 'Scale Degrees',
   fullAnswerList: allAnswersList,
 });

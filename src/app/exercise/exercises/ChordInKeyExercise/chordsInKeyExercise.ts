@@ -39,7 +39,7 @@ const numberOfSegments = useNumberOfSegments('chord');
 
 const chordProgression = useChordProgression();
 
-const includedAnswers = useIncludedAnswers<RomanNumeralChordSymbol>({
+const includedAnswers = useIncludedAnswers({
   name: 'Roman Numerals',
   fullAnswerList: allRomanNumeralAnswerList,
 });

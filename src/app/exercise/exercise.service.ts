@@ -5,11 +5,12 @@ import { Exercise, SettingValueType } from './exercise-logic';
 import { chordInKeyExercise } from './exercises/ChordInKeyExercise/chordsInKeyExercise';
 import { chordTypeExercise } from './exercises/ChordTypeInKeyExercise/chordTypeInKeyExercise';
 import { intervalExercise } from './exercises/IntervalExercise/intervalExercise';
+import { notesInKeyExercise } from './exercises/NotesInKeyExercise/notesInKeyExercise';
 import { notesWithChordsExercise } from './exercises/NotesWithChords/notesWithChordsExercise';
 import { triadInversionExercise } from './exercises/TriadInversionExercise/triadInversionExercise';
 
 const exerciseList: Exercise[] = [
-  // notesInKeyExercise,
+  notesInKeyExercise,
   chordInKeyExercise,
   // commonChordProgressionExercise(),
   // chordsInRealSongsExercise(),

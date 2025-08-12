@@ -1,4 +1,5 @@
 import { Signal, computed } from '@angular/core';
+import { toGetter } from 'src/app/shared/ts-utility';
 import {
   AnswerList,
   SettingsControlDescriptor,
@@ -7,31 +8,52 @@ import {
   isMultiAnswerCell,
 } from '../../../exercise-logic';
 
-// todo: do we even need this type?
 export type IncludedAnswersSettings<GAnswer extends string> = {
   readonly includedAnswers: GAnswer[];
 };
 
-export function useIncludedAnswers<GAnswer extends string>(config: {
-  fullAnswerList: AnswerList<GAnswer>;
-  name?: string; // default: 'Options'
-}) {
+type ExternalOf<F> = F extends (e: infer E) => any ? E : {};
+
+export function useIncludedAnswers<
+  F extends AnswerList<string> | ((e: any) => AnswerList<string>),
+>(
+  config: { fullAnswerList: F; name?: string } & (F extends (e: any) => any
+    ? { defaultExternalSettings: ExternalOf<F> }
+    : {}),
+) {
+  type ExternalSettings = ExternalOf<F>;
+  type Answer = F extends (e: any) => AnswerList<infer A>
+    ? A
+    : F extends AnswerList<infer A>
+      ? A
+      : never;
+
+  const getFullAnswerList = toGetter(config.fullAnswerList) as (
+    settings: ExternalSettings,
+  ) => AnswerList<Answer>;
+
+  const defaultExternalSettings =
+    'defaultExternalSettings' in config
+      ? config.defaultExternalSettings
+      : ({} as ExternalSettings);
+
   const settingDescriptor: SettingsControlDescriptor<
-    IncludedAnswersSettings<GAnswer>
+    IncludedAnswersSettings<Answer> & ExternalSettings
   > = {
     key: 'includedAnswers',
-    descriptor: {
+    descriptor: (settings: ExternalSettings) => ({
       controlType: 'included-answers',
       label: 'Included ' + (config?.name ?? 'Options'),
-      answerList: config.fullAnswerList,
-    },
+      answerList: getFullAnswerList(settings),
+    }),
     info: (() => {
       const hasNestedAnswers = (() => {
-        if (Array.isArray(config.fullAnswerList)) {
+        const fullAnswerList = getFullAnswerList(defaultExternalSettings);
+        if (Array.isArray(fullAnswerList)) {
           return false;
         }
 
-        for (const row of config.fullAnswerList.rows) {
+        for (const row of fullAnswerList.rows) {
           if (Array.isArray(row)) {
             for (const answerCell of row) {
               if (isMultiAnswerCell(answerCell)) {
@@ -50,17 +72,21 @@ export function useIncludedAnswers<GAnswer extends string>(config: {
     })(),
   };
 
-  const defaults: IncludedAnswersSettings<GAnswer> = {
-    includedAnswers: flatAnswerList(config.fullAnswerList),
+  const defaults: IncludedAnswersSettings<Answer> = {
+    includedAnswers: flatAnswerList<Answer>(
+      getFullAnswerList(defaultExternalSettings),
+    ),
   };
 
   return {
     defaults,
     settingDescriptor,
-    answerList: (settings: Signal<IncludedAnswersSettings<GAnswer>>) =>
+    answerList: (
+      settings: Signal<IncludedAnswersSettings<Answer> & ExternalSettings>,
+    ) =>
       computed(() =>
         filterIncludedAnswers(
-          config.fullAnswerList,
+          getFullAnswerList(settings()),
           settings().includedAnswers,
         ),
       ),
