@@ -1,11 +1,11 @@
-import Exercise from '../../../exercise-logic';
+import Exercise, { ExerciseSettings } from '../../../exercise-logic';
 
 export type PlayAfterCorrectAnswerSetting = {
   playAfterCorrectAnswer: boolean;
 };
 
 export const playAfterCorrectAnswerControlDescriptorList = <
-  GSettings extends PlayAfterCorrectAnswerSetting,
+  GSettings extends ExerciseSettings = {},
 >(param?: {
   show?: (settings: GSettings) => boolean;
 }): Exercise.SettingsControlDescriptor<PlayAfterCorrectAnswerSetting>[] => [

@@ -1,7 +1,9 @@
-// export type SettingsParams<GSettings extends Exercise.Settings> = {
-//   readonly settingsDescriptors?: StaticOrGetter<
-//     Exercise.SettingsControlDescriptor<GSettings>[],
-//     [GSettings]
-//   >;
-//   readonly defaultSettings: GSettings;
-// };
+import {
+  ExerciseSettings,
+  SettingsControlDescriptor,
+} from 'src/app/exercise/exercise-logic';
+
+export type SettingsParams<GSettings extends ExerciseSettings> = {
+  readonly descriptors: SettingsControlDescriptor<GSettings>[];
+  readonly defaults: GSettings;
+};

@@ -26,7 +26,6 @@ import { romanNumeralToChordInC } from '../../utility/music/harmony/romanNumeral
 import { scaleLayout } from '../utility/answer-layouts/scale-layout';
 import {
   ChordProgressionQuestion,
-  VoicingSettings,
   useChordProgression,
 } from '../utility/exerciseAttributes/chordProgressionExercise';
 import {
@@ -37,6 +36,7 @@ import {
   NumberOfSegmentsSetting,
   useNumberOfSegments,
 } from '../utility/settings/NumberOfSegmentsSetting';
+import { VoicingSettings } from '../utility/settings/voicing-settings';
 import { ChordTypeInKeyExplanationComponent } from './chord-type-in-key-explanation/chord-type-in-key-explanation.component';
 
 export const chordTypeAnswerList: AnswerList<ChordType> = mapAnswerList(

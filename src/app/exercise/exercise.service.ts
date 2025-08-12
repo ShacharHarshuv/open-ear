@@ -4,6 +4,7 @@ import * as _ from 'lodash';
 import { Exercise, SettingValueType } from './exercise-logic';
 import { chordInKeyExercise } from './exercises/ChordInKeyExercise/chordsInKeyExercise';
 import { chordTypeExercise } from './exercises/ChordTypeInKeyExercise/chordTypeInKeyExercise';
+import { commonChordProgressionExercise } from './exercises/CommonChordProgressionExercise/commonChordProgressionsExercise';
 import { intervalExercise } from './exercises/IntervalExercise/intervalExercise';
 import { notesInKeyExercise } from './exercises/NotesInKeyExercise/notesInKeyExercise';
 import { notesWithChordsExercise } from './exercises/NotesWithChords/notesWithChordsExercise';
@@ -12,7 +13,7 @@ import { triadInversionExercise } from './exercises/TriadInversionExercise/triad
 const exerciseList: Exercise[] = [
   notesInKeyExercise,
   chordInKeyExercise,
-  // commonChordProgressionExercise(),
+  commonChordProgressionExercise,
   // chordsInRealSongsExercise(),
   chordTypeExercise,
   notesWithChordsExercise,

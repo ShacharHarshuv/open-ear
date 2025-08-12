@@ -2,10 +2,7 @@ import { Exercise, ExerciseLogic } from '../../exercise-logic';
 import { RomanNumeralChordSymbol } from '../../utility';
 import { composeSequenceWithGrammar } from '../../utility/grammer';
 import { romanNumeralToChordInC } from '../../utility/music/harmony/romanNumeralToChordInC';
-import {
-  VoicingSettings,
-  useChordProgression,
-} from '../utility/exerciseAttributes/chordProgressionExercise';
+import { useChordProgression } from '../utility/exerciseAttributes/chordProgressionExercise';
 import { allRomanNumeralAnswerList } from '../utility/exerciseAttributes/roman-analysis-chord-progression-exercise/roman-numeral-answer-list';
 import {
   TonalExerciseSettings,
@@ -23,6 +20,7 @@ import {
   PlayAfterCorrectAnswerSetting,
   playAfterCorrectAnswerControlDescriptorList,
 } from '../utility/settings/PlayAfterCorrectAnswerSetting';
+import { VoicingSettings } from '../utility/settings/voicing-settings';
 import { ChordInKeyExplanationComponent } from './chord-in-key-explanation/chord-in-key-explanation.component';
 import { chordProgressionRules } from './grammar/chord-progression-rules';
 

@@ -8,7 +8,7 @@ export interface AcceptEquivalentChordSettings extends Settings {
 
 export const flexibleChordChoiceSettings: SettingsParams<AcceptEquivalentChordSettings> =
   {
-    settingsDescriptors: [
+    descriptors: [
       {
         key: 'acceptEquivalentChord',
         info:
@@ -20,7 +20,7 @@ export const flexibleChordChoiceSettings: SettingsParams<AcceptEquivalentChordSe
         },
       },
     ],
-    defaultSettings: {
+    defaults: {
       acceptEquivalentChord: true,
     },
   };
