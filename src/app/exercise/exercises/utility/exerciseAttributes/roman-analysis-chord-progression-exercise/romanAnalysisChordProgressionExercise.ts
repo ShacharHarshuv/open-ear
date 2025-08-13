@@ -707,15 +707,12 @@ export function useRomanAnalysisChordProgressionExercise() {
         }
       }
 
-      const questionInC = chordProgressionExercise.getQuestionInC({
+      const questionInC = chordProgressionExercise.getQuestionInC(
         settings,
-        getChordProgressionInC: () => chordsQuestion,
-      });
+        chordsQuestion,
+      );
 
-      return tonalExercise.getQuestion({
-        settings,
-        getQuestionInC: () => questionInC,
-      });
+      return tonalExercise.getQuestion(settings, questionInC);
     },
     fullAnswerList: allRomanNumeralAnswerList,
     settings,

@@ -80,56 +80,53 @@ export function useMelodicExercise(config?: TonalExerciseConfig) {
       settings: MelodicDictationExerciseSettings;
       getMelodicQuestionInC: (utils: TonalExerciseUtils) => MelodicQuestion;
     }) => {
-      return tonalExercise.getQuestion({
-        settings: params.settings,
-        getQuestionInC: (utils: TonalExerciseUtils) => {
-          const melodicQuestionInC = params.getMelodicQuestionInC(utils);
+      function getQuestionInC(utils: TonalExerciseUtils) {
+        const melodicQuestionInC = params.getMelodicQuestionInC(utils);
 
-          function isManyVoices(
-            segments: OneOrMany<Note[]>,
-          ): segments is Note[][] {
-            return Array.isArray(segments[0]);
-          }
+        function isManyVoices(
+          segments: OneOrMany<Note[]>,
+        ): segments is Note[][] {
+          return Array.isArray(segments[0]);
+        }
 
-          const notesByVoice: Note[][] = isManyVoices(
-            melodicQuestionInC.segments,
-          )
-            ? melodicQuestionInC.segments
-            : [melodicQuestionInC.segments];
-          const rhythmicValues = params.settings.rhythmicValues;
-          const segments: Exercise.NotesQuestion<SolfegeNote>['segments'] = [];
-          notesByVoice.forEach((voice) => {
-            voice.forEach((note, index) => {
-              segments.push({
-                rightAnswer:
-                  scaleDegreeToSolfegeNote[
-                    noteTypeToScaleDegree(getNoteType(note), 'C')
-                  ],
-                partToPlay: [
-                  {
-                    notes: note,
-                    duration:
-                      voice.length > 1
-                        ? randomFromList(rhythmicValues)
-                        : defaultNoteDuration,
-                  },
+        const notesByVoice: Note[][] = isManyVoices(melodicQuestionInC.segments)
+          ? melodicQuestionInC.segments
+          : [melodicQuestionInC.segments];
+        const rhythmicValues = params.settings.rhythmicValues;
+        const segments: Exercise.NotesQuestion<SolfegeNote>['segments'] = [];
+        notesByVoice.forEach((voice) => {
+          voice.forEach((note, index) => {
+            segments.push({
+              rightAnswer:
+                scaleDegreeToSolfegeNote[
+                  noteTypeToScaleDegree(getNoteType(note), 'C')
                 ],
-                playAfter: index === 0 ? 0 : undefined,
-              });
+              partToPlay: [
+                {
+                  notes: note,
+                  duration:
+                    voice.length > 1
+                      ? randomFromList(rhythmicValues)
+                      : defaultNoteDuration,
+                },
+              ],
+              playAfter: index === 0 ? 0 : undefined,
             });
           });
-          const question: Exercise.Question<SolfegeNote> = {
-            ..._.omit(melodicQuestionInC, 'segments'),
-            segments,
-          };
+        });
+        const question: Exercise.Question<SolfegeNote> = {
+          ..._.omit(melodicQuestionInC, 'segments'),
+          segments,
+        };
 
-          if (melodicQuestionInC.afterCorrectAnswer) {
-            question.afterCorrectAnswer = melodicQuestionInC.afterCorrectAnswer;
-          }
+        if (melodicQuestionInC.afterCorrectAnswer) {
+          question.afterCorrectAnswer = melodicQuestionInC.afterCorrectAnswer;
+        }
 
-          return question;
-        },
-      });
+        return question;
+      }
+
+      return tonalExercise.getQuestion(params.settings, getQuestionInC);
     },
     answerList: (
       settings: Pick<MelodicDictationExerciseSettings, 'displayMode'>,

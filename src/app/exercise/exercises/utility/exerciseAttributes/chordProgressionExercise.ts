@@ -46,25 +46,23 @@ export function useChordProgression() {
   return {
     voicingSettingsDescriptor: chordVoicings.descriptors,
     defaults: chordVoicings.defaults,
-    getQuestionInC<GAnswer extends string>(params: {
-      settings: VoicingSettings;
-      getChordProgressionInC: () => ChordProgressionQuestion<GAnswer>;
-    }): NotesQuestion<GAnswer> {
-      const chordProgression = params.getChordProgressionInC();
-
+    getQuestionInC<GAnswer extends string>(
+      settings: VoicingSettings,
+      chordProgressionQuestion: ChordProgressionQuestion<GAnswer>,
+    ): NotesQuestion<GAnswer> {
       const firstChordInversion: 0 | 1 | 2 = randomFromList(
-        params.settings.includedPositions,
+        settings.includedPositions,
       );
 
       const voiceChordProgression = (
         chordOrChordSymbolList: (ChordSymbol | Chord)[],
       ): Note[][] => {
-        if (params.settings.voiceLeading === 'CORRECT') {
+        if (settings.voiceLeading === 'CORRECT') {
           return voiceChordProgressionWithVoiceLeading(
             chordOrChordSymbolList,
             firstChordInversion,
             {
-              withBass: params.settings.includeBass,
+              withBass: settings.includeBass,
             },
           );
         }
@@ -106,24 +104,24 @@ export function useChordProgression() {
 
         const voicingList: Note[][] = [
           randomFromList(
-            getAllVoicingsInRange(chordProgression.segments[0].chord, {
+            getAllVoicingsInRange(chordProgressionQuestion.segments[0].chord, {
               position: firstChordInversion,
-              withBass: params.settings.includeBass,
+              withBass: settings.includeBass,
             }),
           ),
         ];
 
         for (
           let i = 1;
-          voicingList.length < chordProgression.segments.length;
+          voicingList.length < chordProgressionQuestion.segments.length;
           i++
         ) {
           const lastVoicing: Note[] = voicingList[i - 1];
           const possibleNextVoicingList: Note[][] = getAllVoicingsInRange(
-            chordProgression.segments[i].chord,
+            chordProgressionQuestion.segments[i].chord,
             {
-              position: randomFromList(params.settings.includedPositions),
-              withBass: params.settings.includeBass,
+              position: randomFromList(settings.includedPositions),
+              withBass: settings.includeBass,
             },
           );
 
@@ -152,14 +150,14 @@ export function useChordProgression() {
 
       const question: Exclude<Exercise.Question<GAnswer>, 'cadence'> = {
         segments: voiceChordProgression(
-          _.map(chordProgression.segments, 'chord'),
+          _.map(chordProgressionQuestion.segments, 'chord'),
         ).map(
           (
             voicing: Note[],
             index: number,
           ): Exercise.NotesQuestion<GAnswer>['segments'][0] => {
             return {
-              rightAnswer: chordProgression.segments[index].answer,
+              rightAnswer: chordProgressionQuestion.segments[index].answer,
               partToPlay: [
                 {
                   notes: voicing,
@@ -172,9 +170,9 @@ export function useChordProgression() {
         ),
       };
 
-      if (chordProgression.afterCorrectAnswer) {
+      if (chordProgressionQuestion.afterCorrectAnswer) {
         question.afterCorrectAnswer = toGetter(
-          chordProgression.afterCorrectAnswer,
+          chordProgressionQuestion.afterCorrectAnswer,
         )({
           firstChordInversion: firstChordInversion,
           questionSegments: question.segments,

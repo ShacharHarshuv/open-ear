@@ -87,42 +87,37 @@ export const chordTypeExercise: Exercise<ChordType, ChordTypeInKeySettings> = {
   logic: (settings): ExerciseLogic<ChordType> => {
     return {
       getQuestion() {
-        return tonalExercise.getQuestion({
-          settings: settings(),
-          getQuestionInC() {
-            return chordProgression.getQuestionInC({
-              settings: settings(),
-              getChordProgressionInC() {
-                const chordProgression: RomanNumeralChordSymbol[] = [];
-                while (chordProgression.length < settings().numberOfSegments) {
-                  const availableChords =
-                    settings().includedRomanNumerals.filter(
-                      (chord) =>
-                        chord !== chordProgression[chordProgression.length - 1],
-                    );
-                  const randomRomanNumeral = randomFromList(
-                    availableChords,
-                  ) as RomanNumeralChordSymbol;
-                  chordProgression.push(randomRomanNumeral);
-                }
+        const progression: RomanNumeralChordSymbol[] = [];
+        while (progression.length < settings().numberOfSegments) {
+          const availableChords = settings().includedRomanNumerals.filter(
+            (chord) => chord !== progression[progression.length - 1],
+          );
+          const randomRomanNumeral = randomFromList(
+            availableChords,
+          ) as RomanNumeralChordSymbol;
+          progression.push(randomRomanNumeral);
+        }
 
-                return {
-                  segments: chordProgression.map(
-                    (
-                      romanNumeralSymbol: RomanNumeralChordSymbol,
-                    ): ChordProgressionQuestion<ChordType>['segments'][0] => {
-                      const chord = romanNumeralToChordInC(romanNumeralSymbol);
-                      return {
-                        answer: chord.type,
-                        chord: chord,
-                      };
-                    },
-                  ),
-                };
-              },
-            });
-          },
-        });
+        const chordsQuestionInC = {
+          segments: progression.map(
+            (
+              romanNumeralSymbol: RomanNumeralChordSymbol,
+            ): ChordProgressionQuestion<ChordType>['segments'][0] => {
+              const chord = romanNumeralToChordInC(romanNumeralSymbol);
+              return {
+                answer: chord.type,
+                chord: chord,
+              };
+            },
+          ),
+        };
+
+        const questionInC = chordProgression.getQuestionInC(
+          settings(),
+          chordsQuestionInC,
+        );
+
+        return tonalExercise.getQuestion(settings(), questionInC);
       },
       answerList: computed(() => {
         const includedTypes = settings().includedRomanNumerals.map(

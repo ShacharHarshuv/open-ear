@@ -1,5 +1,5 @@
 import * as Tone from 'tone';
-import { Exercise, NotesQuestion, Question } from '../../exercise-logic';
+import { Exercise, Question } from '../../exercise-logic';
 import { randomFromList, toSteadyPart } from '../../utility';
 import { Chord, ChordSymbol, TriadPosition } from '../../utility/music/chords';
 import {
@@ -59,77 +59,67 @@ export const triadInversionExercise: Exercise<
   logic: (settings) => {
     return {
       getQuestion() {
-        return tonalExercise.getQuestion({
-          settings: settings(),
-          getQuestionInC(): Exclude<
-            NotesQuestion<TriadInversionAnswer>,
-            'cadence'
-          > {
-            const chordsInC: ChordSymbol[] = ['C', 'Dm', 'Em', 'F', 'G', 'Am'];
-            const randomChordInC: ChordSymbol = randomFromList(chordsInC);
-            const invertionOptions: TriadPosition[] = [0, 1, 2].filter(
-              (invertionOption) =>
-                settings().includedAnswers.includes(
-                  triadInversions[invertionOption],
-                ),
-            );
-            const randomTriadInversion: TriadPosition =
-              randomFromList(invertionOptions);
-            const answer = triadInversions[randomTriadInversion];
-            let voicing = new Chord(randomChordInC).getVoicing({
-              position: randomTriadInversion,
-              withBass: false,
-              octave: 3, // picking a lower octave as a high one is more difficult
-            });
-            const root = voicing[(3 - randomTriadInversion) % 3];
-            if (settings().arpeggiateSpeed !== 0) {
-              switch (settings().arpeggioDirection) {
-                case 'descending':
-                  voicing = voicing.reverse();
-                  break;
-                case 'ascendingAndDescending':
-                  voicing = voicing.concat([...voicing].reverse());
-                  break;
-                case 'descendingAndAscending':
-                  voicing = voicing.reverse().concat([...voicing].reverse());
-                  break;
-              }
-            }
-            const question: Question<TriadInversionAnswer> = {
-              segments: [
-                {
-                  partToPlay: voicing.map((note, index) => {
-                    const noteDelay =
-                      (index * settings().arpeggiateSpeed) / 100;
-                    return {
-                      notes: note,
-                      velocity: 0.3,
-                      duration:
-                        Tone.Time('1n').toSeconds() +
-                        ((voicing.length - 1) * settings().arpeggiateSpeed) /
-                          100 -
-                        Tone.Time(noteDelay).toSeconds(),
-                      time: noteDelay,
-                    };
-                  }),
-                  rightAnswer: answer,
-                },
-              ],
-              info: '',
-            };
-
-            if (settings().playRootAfterAnswer) {
-              question.afterCorrectAnswer = [
-                {
-                  partToPlay: toSteadyPart(root, '1n', 0.3),
-                  answerToHighlight: answer,
-                },
-              ];
-            }
-
-            return question;
-          },
+        const chordsInC: ChordSymbol[] = ['C', 'Dm', 'Em', 'F', 'G', 'Am'];
+        const randomChordInC: ChordSymbol = randomFromList(chordsInC);
+        const invertionOptions: TriadPosition[] = [0, 1, 2].filter(
+          (invertionOption) =>
+            settings().includedAnswers.includes(
+              triadInversions[invertionOption],
+            ),
+        );
+        const randomTriadInversion: TriadPosition =
+          randomFromList(invertionOptions);
+        const answer = triadInversions[randomTriadInversion];
+        let voicing = new Chord(randomChordInC).getVoicing({
+          position: randomTriadInversion,
+          withBass: false,
+          octave: 3, // picking a lower octave as a high one is more difficult
         });
+        const root = voicing[(3 - randomTriadInversion) % 3];
+        if (settings().arpeggiateSpeed !== 0) {
+          switch (settings().arpeggioDirection) {
+            case 'descending':
+              voicing = voicing.reverse();
+              break;
+            case 'ascendingAndDescending':
+              voicing = voicing.concat([...voicing].reverse());
+              break;
+            case 'descendingAndAscending':
+              voicing = voicing.reverse().concat([...voicing].reverse());
+              break;
+          }
+        }
+        const questionInC: Question<TriadInversionAnswer> = {
+          segments: [
+            {
+              partToPlay: voicing.map((note, index) => {
+                const noteDelay = (index * settings().arpeggiateSpeed) / 100;
+                return {
+                  notes: note,
+                  velocity: 0.3,
+                  duration:
+                    Tone.Time('1n').toSeconds() +
+                    ((voicing.length - 1) * settings().arpeggiateSpeed) / 100 -
+                    Tone.Time(noteDelay).toSeconds(),
+                  time: noteDelay,
+                };
+              }),
+              rightAnswer: answer,
+            },
+          ],
+          info: '',
+        };
+
+        if (settings().playRootAfterAnswer) {
+          questionInC.afterCorrectAnswer = [
+            {
+              partToPlay: toSteadyPart(root, '1n', 0.3),
+              answerToHighlight: answer,
+            },
+          ];
+        }
+
+        return tonalExercise.getQuestion(settings(), questionInC);
       },
       answerList: tonalExercise.answerList(
         includedAnswers.answerList(settings),

@@ -14,6 +14,7 @@ import {
   Key,
   NotesRange,
   OneOrMany,
+  StaticOrGetter,
   randomFromList,
   scaleDegreeToChromaticDegree,
   toGetter,
@@ -200,7 +201,7 @@ export function useTonalExercise(config?: TonalExerciseConfig) {
   const defaults: TonalExerciseSettings = {
     cadenceType: 'I IV V I',
     key: 'random',
-    newKeyEvery: 0,
+    newKeyEvery: 10,
     drone: false,
   };
 
@@ -214,23 +215,24 @@ export function useTonalExercise(config?: TonalExerciseConfig) {
     ];
 
   return {
-    getQuestion<GAnswer extends string>(args: {
-      settings: TonalExerciseSettings;
-      getQuestionInC: (
-        utils: TonalExerciseUtils,
-      ) => Omit<NotesQuestion<GAnswer>, 'cadence'>;
-    }): NotesQuestion<GAnswer> {
-      key = getKey(args.settings);
+    getQuestion<GAnswer extends string>(
+      settings: TonalExerciseSettings,
+      questionInC: StaticOrGetter<
+        Omit<NotesQuestion<GAnswer>, 'cadence'>,
+        [TonalExerciseUtils]
+      >,
+    ): NotesQuestion<GAnswer> {
+      key = getKey(settings);
 
       questionCount++;
-      const questionInC = args.getQuestionInC({
+      const _questionInC = toGetter(questionInC)({
         getRangeForKeyOfC,
       });
-      const selectedCadence = cadenceTypeToCadence[args.settings.cadenceType];
+      const selectedCadence = cadenceTypeToCadence[settings.cadenceType];
       return {
         info: keyInfo(),
-        ...questionInC,
-        segments: questionInC.segments.map((segment) => ({
+        ..._questionInC,
+        segments: _questionInC.segments.map((segment) => ({
           ...segment,
           rightAnswer: segment.rightAnswer,
           partToPlay: transposeToKey(segment.partToPlay),
@@ -239,13 +241,13 @@ export function useTonalExercise(config?: TonalExerciseConfig) {
           ? transposeToKey(selectedCadence)
           : undefined,
         key, // necessary to enforce cadence playback in case of key change
-        drone: args.settings.drone
+        drone: settings.drone
           ? transpose(
-              noteTypeToNote(key, args.settings.drone > 4 ? 1 : 2),
-              scaleDegreeToChromaticDegree[args.settings.drone.toString()] - 1,
+              noteTypeToNote(key, settings.drone > 4 ? 1 : 2),
+              scaleDegreeToChromaticDegree[settings.drone.toString()] - 1,
             )
           : null,
-        afterCorrectAnswer: questionInC.afterCorrectAnswer?.map(
+        afterCorrectAnswer: _questionInC.afterCorrectAnswer?.map(
           (afterCorrectAnswerSegment) => ({
             answerToHighlight: afterCorrectAnswerSegment.answerToHighlight,
             partToPlay: transposeToKey(afterCorrectAnswerSegment.partToPlay),
