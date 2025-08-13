@@ -1,10 +1,9 @@
 import { AcceptableChordAnalysisOptions } from 'src/app/exercise/utility/music/harmony/isAcceptableChordAnalysis';
-import { Settings } from '../../../exercise-logic';
 import { SettingsParams } from './SettingsParams';
 
-export interface AcceptEquivalentChordSettings extends Settings {
+export type AcceptEquivalentChordSettings = {
   acceptEquivalentChord: boolean;
-}
+};
 
 export const flexibleChordChoiceSettings: SettingsParams<AcceptEquivalentChordSettings> =
   {
