@@ -44,7 +44,7 @@ export function useChordProgression() {
   const range = new NotesRange('G3', 'E5');
 
   return {
-    voicingSettingsDescriptor: chordVoicings.descriptors,
+    voicingSettingsDescriptor: chordVoicings.controls,
     defaults: chordVoicings.defaults,
     getQuestionInC<GAnswer extends string>(
       settings: VoicingSettings,

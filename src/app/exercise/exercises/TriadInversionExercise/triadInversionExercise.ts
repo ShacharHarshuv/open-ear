@@ -126,62 +126,64 @@ export const triadInversionExercise: Exercise<
       ),
     };
   },
-  settingsDescriptors: [
-    includedAnswers.settingDescriptor,
-    {
-      key: 'arpeggiateSpeed',
-      info:
-        'When set to a value larger then zero, the chord will be arpeggiated, making it easier to pick up individual notes from it. <br>' +
-        'Starter with a large settings and gradually reducing can be a good way to train your ear to pick up individual notes being played harmonically',
-      descriptor: {
-        controlType: 'slider',
-        label: 'Arpeggiate Speed',
-        min: 0,
-        max: 100,
-        step: 1,
+  settingsConfig: {
+    controls: [
+      includedAnswers.settingDescriptor,
+      {
+        key: 'arpeggiateSpeed',
+        info:
+          'When set to a value larger then zero, the chord will be arpeggiated, making it easier to pick up individual notes from it. <br>' +
+          'Starter with a large settings and gradually reducing can be a good way to train your ear to pick up individual notes being played harmonically',
+        descriptor: {
+          controlType: 'slider',
+          label: 'Arpeggiate Speed',
+          min: 0,
+          max: 100,
+          step: 1,
+        },
       },
-    },
-    {
-      key: 'playRootAfterAnswer',
-      descriptor: {
-        controlType: 'checkbox',
-        label: 'Play Root After Correct Answer',
+      {
+        key: 'playRootAfterAnswer',
+        descriptor: {
+          controlType: 'checkbox',
+          label: 'Play Root After Correct Answer',
+        },
       },
-    },
-    {
-      key: 'arpeggioDirection',
-      info:
-        'Ascending - the chord will be arpeggiated from bottom to top. \n' +
-        'Descending - the chord will be arpeggiated from top to bottom',
-      descriptor: {
-        label: 'Arpeggio Direction',
-        controlType: 'select',
-        options: [
-          {
-            label: 'Ascending',
-            value: 'ascending',
-          },
-          {
-            label: 'Descending',
-            value: 'descending',
-          },
-          {
-            label: 'Ascending & Descending',
-            value: 'ascendingAndDescending',
-          },
-          {
-            label: 'Descending & Ascending',
-            value: 'descendingAndAscending',
-          },
-        ],
+      {
+        key: 'arpeggioDirection',
+        info:
+          'Ascending - the chord will be arpeggiated from bottom to top. \n' +
+          'Descending - the chord will be arpeggiated from top to bottom',
+        descriptor: {
+          label: 'Arpeggio Direction',
+          controlType: 'select',
+          options: [
+            {
+              label: 'Ascending',
+              value: 'ascending',
+            },
+            {
+              label: 'Descending',
+              value: 'descending',
+            },
+            {
+              label: 'Ascending & Descending',
+              value: 'ascendingAndDescending',
+            },
+            {
+              label: 'Descending & Ascending',
+              value: 'descendingAndAscending',
+            },
+          ],
+        },
       },
+    ],
+    defaults: {
+      ...tonalExercise.defaults,
+      ...includedAnswers.defaults,
+      arpeggiateSpeed: 0,
+      playRootAfterAnswer: true,
+      arpeggioDirection: 'ascending',
     },
-  ],
-  defaultSettings: {
-    ...tonalExercise.defaults,
-    ...includedAnswers.defaults,
-    arpeggiateSpeed: 0,
-    playRootAfterAnswer: true,
-    arpeggioDirection: 'ascending',
   },
 };

@@ -1,11 +1,11 @@
-import { SettingsParams } from './SettingsParams';
+import { SettingsConfig } from '../../../exercise-logic/settings-config';
 
 export type AnalyzeBySettings = {
   tonicForAnalyzing: 'major' | 'always-major' | 'original';
 };
 
-export const analyzeBy: SettingsParams<AnalyzeBySettings> = {
-  descriptors: [
+export const analyzeBy: SettingsConfig<AnalyzeBySettings> = {
+  controls: [
     {
       key: 'tonicForAnalyzing',
       info:

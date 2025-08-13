@@ -97,36 +97,38 @@ export const chordsInRealSongsExercise: Exercise<
   name: 'Chord Progressions In Real Songs',
   summary: 'Identify chord progressions in real songs, streamed from YouTube',
   blackListPlatform: 'ios', // currently, this exercise is not working on ios
-  settingsDescriptors: [
-    ...analyzeBy.descriptors,
-    ...flexibleChordChoiceSettings.descriptors,
-    {
-      key: 'includedChords',
-      info:
-        'Limit the types of chords that can appear in the examples.<br><br>' +
-        ' Make sure to select enough chords otherwise there might be no song to play that matches only those chords. <br><br>' +
-        "If a song analysis doesn't work with the selected chords the application will atempt to convert the analysis to the realtive Major scale. So if you selected I IV V vi, and a progression was analyzed as i bVI bVII, it will include it as vi V IV.",
-      descriptor: {
-        label: 'Included Chords',
-        controlType: 'included-answers',
-        answerList: allRomanNumeralAnswerList,
+  settingsConfig: {
+    controls: [
+      ...analyzeBy.controls,
+      ...flexibleChordChoiceSettings.controls,
+      {
+        key: 'includedChords',
+        info:
+          'Limit the types of chords that can appear in the examples.<br><br>' +
+          ' Make sure to select enough chords otherwise there might be no song to play that matches only those chords. <br><br>' +
+          "If a song analysis doesn't work with the selected chords the application will atempt to convert the analysis to the realtive Major scale. So if you selected I IV V vi, and a progression was analyzed as i bVI bVII, it will include it as vi V IV.",
+        descriptor: {
+          label: 'Included Chords',
+          controlType: 'included-answers',
+          answerList: allRomanNumeralAnswerList,
+        },
       },
-    },
-    // todo: in the future, it's better that learn mode will use this custom algorithm automatically
-    {
-      key: 'learnProgressions',
-      info: 'Experimental mode that optimizes learning of progressions in real songs with a space repetition algorithm. <b>Important!</b> If using this, turn "Learn Mode" off, as it will conflict with this',
-      descriptor: {
-        label: 'Learn Progressions',
-        controlType: 'checkbox',
+      // todo: in the future, it's better that learn mode will use this custom algorithm automatically
+      {
+        key: 'learnProgressions',
+        info: 'Experimental mode that optimizes learning of progressions in real songs with a space repetition algorithm. <b>Important!</b> If using this, turn "Learn Mode" off, as it will conflict with this',
+        descriptor: {
+          label: 'Learn Progressions',
+          controlType: 'checkbox',
+        },
       },
+    ],
+    defaults: {
+      includedChords: ['I', 'IV', 'V', 'vi'],
+      learnProgressions: false,
+      ...analyzeBy.defaults,
+      ...flexibleChordChoiceSettings.defaults,
     },
-  ],
-  defaultSettings: {
-    includedChords: ['I', 'IV', 'V', 'vi'],
-    learnProgressions: false,
-    ...analyzeBy.defaults,
-    ...flexibleChordChoiceSettings.defaults,
   },
   logic: (settings) => {
     const getUniqueProgressions = () => {

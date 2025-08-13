@@ -116,7 +116,7 @@ export class ExercisePage extends BaseComponent {
     } = {
       exerciseName: this.state.name,
       currentGlobalSettings: this.state.globalSettings(),
-      exerciseSettingsDescriptorInput: this.state.exerciseSettingsDescriptor, // must be before currentExerciseSettings
+      exerciseSettingsDescriptorInput: this.state.settingsControls, // must be before currentExerciseSettings
       currentExerciseSettings,
       allAvailableAnswers: allAvailableAnswers,
     };

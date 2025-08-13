@@ -142,56 +142,58 @@ export const intervalExercise: Exercise<
   name: 'Intervals',
   summary: 'Identify intervals chromatically (no key)',
   explanation: IntervalExerciseExplanationComponent,
-  defaultSettings: {
-    ...includedAnswers.defaults,
-    ...playWrongAnswer.defaults,
-    intervalType: 'melodic',
-    intervalDirection: 'random',
+  settingsConfig: {
+    defaults: {
+      ...includedAnswers.defaults,
+      ...playWrongAnswer.defaults,
+      intervalType: 'melodic',
+      intervalDirection: 'random',
+    },
+    controls: [
+      includedAnswers.settingDescriptor,
+      {
+        key: 'intervalType',
+        info: 'Whether two notes are played sequentially or simultaneously.',
+        descriptor: {
+          label: 'Interval Type',
+          controlType: 'select',
+          options: [
+            {
+              label: 'Melodic',
+              value: 'melodic',
+            },
+            {
+              label: 'Harmonic',
+              value: 'harmonic',
+            },
+          ],
+        },
+      },
+      {
+        key: 'intervalDirection',
+        info: 'Whether the interval is played ascending or descending. Default is for a random choice of either to be picked.',
+        descriptor: {
+          label: 'Interval Direction',
+          controlType: 'select',
+          options: [
+            {
+              label: 'Random',
+              value: 'random',
+            },
+            {
+              label: 'Ascending',
+              value: 'ascending',
+            },
+            {
+              label: 'Descending',
+              value: 'descending',
+            },
+          ],
+        },
+      },
+      playWrongAnswer.settingDescriptor,
+    ],
   },
-  settingsDescriptors: [
-    includedAnswers.settingDescriptor,
-    {
-      key: 'intervalType',
-      info: 'Whether two notes are played sequentially or simultaneously.',
-      descriptor: {
-        label: 'Interval Type',
-        controlType: 'select',
-        options: [
-          {
-            label: 'Melodic',
-            value: 'melodic',
-          },
-          {
-            label: 'Harmonic',
-            value: 'harmonic',
-          },
-        ],
-      },
-    },
-    {
-      key: 'intervalDirection',
-      info: 'Whether the interval is played ascending or descending. Default is for a random choice of either to be picked.',
-      descriptor: {
-        label: 'Interval Direction',
-        controlType: 'select',
-        options: [
-          {
-            label: 'Random',
-            value: 'random',
-          },
-          {
-            label: 'Ascending',
-            value: 'ascending',
-          },
-          {
-            label: 'Descending',
-            value: 'descending',
-          },
-        ],
-      },
-    },
-    playWrongAnswer.settingDescriptor,
-  ],
   logic: (settings): ExerciseLogic<IntervalName> => {
     function getQuestion(): Question<IntervalName> {
       const randomIntervalDescriptor: IntervalDescriptor = randomFromList(

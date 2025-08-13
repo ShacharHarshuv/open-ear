@@ -128,142 +128,145 @@ export const chordTypeExercise: Exercise<ChordType, ChordTypeInKeySettings> = {
       }),
     };
   },
-  settingsDescriptors: [
-    {
-      descriptor: {
-        label: 'Included Types',
-        answerList: chordTypeAnswerList,
-        controlType: 'included-answers',
-      },
-      getter: (currentSettings: ChordTypeInKeySettings) => {
-        return uniq(
-          currentSettings.includedRomanNumerals.map(
-            (romanNumeralSymbol) =>
-              new RomanNumeralChord(romanNumeralSymbol).type,
-          ),
-        );
-      },
-      onChange: (
-        newValue: ChordType[],
-        prevValue: ChordType[],
-        currentSettings: ChordTypeInKeySettings,
-      ): Partial<ChordTypeInKeySettings> => {
-        let selectedChords = clone(currentSettings.includedRomanNumerals);
-        const newTypes: ChordType[] = difference(prevValue, newValue);
-        for (let newType of newTypes) {
-          for (let i = 1; i <= 12; i++) {
-            selectedChords.push(
-              new RomanNumeralChord({
-                scaleDegree: chromaticDegreeToScaleDegree[i],
-                type: newType,
-              }).romanNumeralChordSymbol,
-            );
-          }
-        }
-        const removedTypes: ChordType[] = _.difference(newValue, prevValue);
-        selectedChords = _.filter(selectedChords, (romanNumeralSymbol) => {
-          return !removedTypes.includes(
-            new RomanNumeralChord(romanNumeralSymbol).type,
+  settingsConfig: {
+    controls: [
+      {
+        descriptor: {
+          label: 'Included Types',
+          answerList: chordTypeAnswerList,
+          controlType: 'included-answers',
+        },
+        getter: (currentSettings: ChordTypeInKeySettings) => {
+          return uniq(
+            currentSettings.includedRomanNumerals.map(
+              (romanNumeralSymbol) =>
+                new RomanNumeralChord(romanNumeralSymbol).type,
+            ),
           );
-        });
-        return {
-          includedRomanNumerals: _.uniq(selectedChords),
-        };
-      },
-    },
-    {
-      info: 'When turned on, only chords that includes only notes from the same scale will be played. Note - some chord types (like the diminished 7ths) cannot be included in one scale.',
-      descriptor: {
-        label: 'Diatonic',
-        controlType: 'checkbox',
-      },
-      getter: (settings: ChordTypeInKeySettings): boolean => {
-        return _.every(
-          settings.includedRomanNumerals,
-          (romanNumeralChordSymbol) =>
-            new RomanNumeralChord(romanNumeralChordSymbol).isDiatonic,
-        );
-      },
-      onChange: (
-        newValue: boolean,
-        prevValue: boolean,
-        currentSettings: ChordTypeInKeySettings,
-      ): Partial<ChordTypeInKeySettings> => {
-        if (newValue) {
+        },
+        onChange: (
+          newValue: ChordType[],
+          prevValue: ChordType[],
+          currentSettings: ChordTypeInKeySettings,
+        ): Partial<ChordTypeInKeySettings> => {
+          let selectedChords = clone(currentSettings.includedRomanNumerals);
+          const newTypes: ChordType[] = difference(prevValue, newValue);
+          for (let newType of newTypes) {
+            for (let i = 1; i <= 12; i++) {
+              selectedChords.push(
+                new RomanNumeralChord({
+                  scaleDegree: chromaticDegreeToScaleDegree[i],
+                  type: newType,
+                }).romanNumeralChordSymbol,
+              );
+            }
+          }
+          const removedTypes: ChordType[] = _.difference(newValue, prevValue);
+          selectedChords = _.filter(selectedChords, (romanNumeralSymbol) => {
+            return !removedTypes.includes(
+              new RomanNumeralChord(romanNumeralSymbol).type,
+            );
+          });
           return {
-            includedRomanNumerals: currentSettings.includedRomanNumerals.filter(
-              (romanNumeralChordSymbol) =>
-                new RomanNumeralChord(romanNumeralChordSymbol).isDiatonic,
-            ),
+            includedRomanNumerals: _.uniq(selectedChords),
           };
-        }
-        return {};
+        },
       },
-      isDisabled: (settings, newValue: boolean): boolean => {
-        return newValue;
+      {
+        info: 'When turned on, only chords that includes only notes from the same scale will be played. Note - some chord types (like the diminished 7ths) cannot be included in one scale.',
+        descriptor: {
+          label: 'Diatonic',
+          controlType: 'checkbox',
+        },
+        getter: (settings: ChordTypeInKeySettings): boolean => {
+          return _.every(
+            settings.includedRomanNumerals,
+            (romanNumeralChordSymbol) =>
+              new RomanNumeralChord(romanNumeralChordSymbol).isDiatonic,
+          );
+        },
+        onChange: (
+          newValue: boolean,
+          prevValue: boolean,
+          currentSettings: ChordTypeInKeySettings,
+        ): Partial<ChordTypeInKeySettings> => {
+          if (newValue) {
+            return {
+              includedRomanNumerals:
+                currentSettings.includedRomanNumerals.filter(
+                  (romanNumeralChordSymbol) =>
+                    new RomanNumeralChord(romanNumeralChordSymbol).isDiatonic,
+                ),
+            };
+          }
+          return {};
+        },
+        isDisabled: (settings, newValue: boolean): boolean => {
+          return newValue;
+        },
       },
-    },
-    {
-      key: 'includedRomanNumerals',
-      info: 'Use this option to specify over which scale degree each chord type can be played. Use this to narrow the options to a more musical selection of chords.',
-      descriptor: (settings: ChordTypeInKeySettings) => ({
-        label: 'Included Chords (Advanced)',
-        controlType: 'included-answers',
-        answerList: {
-          rows: flow(
-            filter((chordType) =>
-              _.some(
-                settings.includedRomanNumerals,
-                (romanNumeralChordSymbol) =>
-                  new RomanNumeralChord(romanNumeralChordSymbol).type ===
-                  chordType,
+      {
+        key: 'includedRomanNumerals',
+        info: 'Use this option to specify over which scale degree each chord type can be played. Use this to narrow the options to a more musical selection of chords.',
+        descriptor: (settings: ChordTypeInKeySettings) => ({
+          label: 'Included Chords (Advanced)',
+          controlType: 'included-answers',
+          answerList: {
+            rows: flow(
+              filter((chordType) =>
+                _.some(
+                  settings.includedRomanNumerals,
+                  (romanNumeralChordSymbol) =>
+                    new RomanNumeralChord(romanNumeralChordSymbol).type ===
+                    chordType,
+                ),
               ),
-            ),
-            flatMap(
-              (
-                chordType: ChordType,
-              ): AnswersLayout<RomanNumeralChordSymbol>['rows'] => {
-                const scaleRows = normalizedAnswerList(
-                  mapAnswerList(
-                    scaleLayout,
-                    (
-                      answerConfig: AnswerConfig<ScaleDegree>,
-                    ): AnswerConfig<RomanNumeralChordSymbol> => {
-                      if (!answerConfig.answer) {
+              flatMap(
+                (
+                  chordType: ChordType,
+                ): AnswersLayout<RomanNumeralChordSymbol>['rows'] => {
+                  const scaleRows = normalizedAnswerList(
+                    mapAnswerList(
+                      scaleLayout,
+                      (
+                        answerConfig: AnswerConfig<ScaleDegree>,
+                      ): AnswerConfig<RomanNumeralChordSymbol> => {
+                        if (!answerConfig.answer) {
+                          return {
+                            ...(answerConfig as AnswerConfig<string>),
+                            answer: null,
+                          };
+                        }
+                        const romanNumeralChord = new RomanNumeralChord({
+                          type: chordType,
+                          scaleDegree: answerConfig.answer,
+                        });
                         return {
                           ...(answerConfig as AnswerConfig<string>),
-                          answer: null,
+                          answer: romanNumeralChord.romanNumeralChordSymbol,
+                          displayLabel: romanNumeralChord.toViewString(),
                         };
-                      }
-                      const romanNumeralChord = new RomanNumeralChord({
-                        type: chordType,
-                        scaleDegree: answerConfig.answer,
-                      });
-                      return {
-                        ...(answerConfig as AnswerConfig<string>),
-                        answer: romanNumeralChord.romanNumeralChordSymbol,
-                        displayLabel: romanNumeralChord.toViewString(),
-                      };
-                    },
-                  ),
-                ).rows;
-                return [
-                  chordTypeConfigMap[chordType].displayName,
-                  ...scaleRows,
-                ];
-              },
-            ),
-          )(flatAnswerList(chordTypeAnswerList)),
-        },
-      }),
+                      },
+                    ),
+                  ).rows;
+                  return [
+                    chordTypeConfigMap[chordType].displayName,
+                    ...scaleRows,
+                  ];
+                },
+              ),
+            )(flatAnswerList(chordTypeAnswerList)),
+          },
+        }),
+      },
+      ...chordProgression.voicingSettingsDescriptor,
+      numberOfSegments.settingsDescriptor,
+    ],
+    defaults: {
+      ...tonalExercise.defaults,
+      ...numberOfSegments.defaults,
+      ...chordProgression.defaults,
+      includedRomanNumerals: ['I', 'ii', 'iii', 'IV', 'V', 'vi'],
     },
-    ...chordProgression.voicingSettingsDescriptor,
-    numberOfSegments.settingsDescriptor,
-  ],
-  defaultSettings: {
-    ...tonalExercise.defaults,
-    ...numberOfSegments.defaults,
-    ...chordProgression.defaults,
-    includedRomanNumerals: ['I', 'ii', 'iii', 'IV', 'V', 'vi'],
   },
 };

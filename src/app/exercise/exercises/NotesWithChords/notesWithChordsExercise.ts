@@ -392,55 +392,57 @@ export const notesWithChordsExercise: Exercise<
       ),
     };
   },
-  settingsDescriptors: [
-    ...tonalExercise.settingsDescriptors,
-    includedAnswers.settingDescriptor,
-    {
-      key: 'voiceMode',
-      info:
-        'With soprano mode, the note in question will be played on top. \n' +
-        'With bass mode, the note in question will be played at the bottom (affectively changing the chord inversion)',
-      descriptor: {
-        label: 'Voice Mode',
-        controlType: 'select',
-        options: [
-          {
-            label: 'Soprano',
-            value: 'soprano',
-          },
-          {
-            label: 'Bass',
-            value: 'bass',
-          },
-        ],
+  settingsConfig: {
+    controls: [
+      ...tonalExercise.settingsDescriptors,
+      includedAnswers.settingDescriptor,
+      {
+        key: 'voiceMode',
+        info:
+          'With soprano mode, the note in question will be played on top. \n' +
+          'With bass mode, the note in question will be played at the bottom (affectively changing the chord inversion)',
+        descriptor: {
+          label: 'Voice Mode',
+          controlType: 'select',
+          options: [
+            {
+              label: 'Soprano',
+              value: 'soprano',
+            },
+            {
+              label: 'Bass',
+              value: 'bass',
+            },
+          ],
+        },
       },
-    },
-    {
-      key: 'harmonyMode',
-      info:
-        'With triad mode, the chords will be triads. \n' +
-        'With seventh mode, the chords will be seventh chords',
-      descriptor: {
-        label: 'Harmony Mode',
-        controlType: 'select',
-        options: [
-          {
-            label: 'Triad',
-            value: 'triad',
-          },
-          {
-            label: 'Seventh',
-            value: 'seventh',
-          },
-        ],
+      {
+        key: 'harmonyMode',
+        info:
+          'With triad mode, the chords will be triads. \n' +
+          'With seventh mode, the chords will be seventh chords',
+        descriptor: {
+          label: 'Harmony Mode',
+          controlType: 'select',
+          options: [
+            {
+              label: 'Triad',
+              value: 'triad',
+            },
+            {
+              label: 'Seventh',
+              value: 'seventh',
+            },
+          ],
+        },
       },
+    ],
+    defaults: {
+      ...tonalExercise.defaults,
+      ...includedAnswers.defaults,
+      includedAnswers: ['Do1', 'Do3', 'Do5'],
+      voiceMode: 'soprano',
+      harmonyMode: 'triad',
     },
-  ],
-  defaultSettings: {
-    ...tonalExercise.defaults,
-    ...includedAnswers.defaults,
-    includedAnswers: ['Do1', 'Do3', 'Do5'],
-    voiceMode: 'soprano',
-    harmonyMode: 'triad',
   },
 };

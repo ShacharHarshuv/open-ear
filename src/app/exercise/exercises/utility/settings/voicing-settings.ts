@@ -1,4 +1,4 @@
-import { SettingsParams } from './SettingsParams';
+import { SettingsConfig } from '../../../exercise-logic/settings-config';
 
 export type VoicingSettings = {
   voiceLeading: 'RANDOM' | 'CORRECT';
@@ -6,8 +6,8 @@ export type VoicingSettings = {
   includeBass: boolean;
 };
 
-export const chordVoicings: SettingsParams<VoicingSettings> = {
-  descriptors: [
+export const chordVoicings: SettingsConfig<VoicingSettings> = {
+  controls: [
     {
       key: 'voiceLeading',
       info:

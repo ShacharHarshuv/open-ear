@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
+import { SettingsConfig } from '../../../../exercise-logic/settings-config';
 import {
   Interval,
   RomanNumeralChordSymbol,
@@ -15,7 +16,6 @@ import {
   PlayAfterCorrectAnswerSetting,
   playAfterCorrectAnswerControlDescriptorList,
 } from '../../settings/PlayAfterCorrectAnswerSetting';
-import { SettingsParams } from '../../settings/SettingsParams';
 import {
   VoicingSettings,
   chordVoicings,
@@ -600,11 +600,11 @@ export function useRomanAnalysisChordProgressionExercise() {
     cadenceTypeSelection: false,
   });
 
-  const settings: SettingsParams<RomanAnalysisChordProgressionExerciseSettings> =
+  const settings: SettingsConfig<RomanAnalysisChordProgressionExerciseSettings> =
     {
-      descriptors: [
+      controls: [
         ...tonalExercise.settingsDescriptors,
-        ...chordVoicings.descriptors,
+        ...chordVoicings.controls,
         ...playAfterCorrectAnswerControlDescriptorList({
           show: (settings: NumberOfSegmentsSetting) =>
             settings.numberOfSegments === 1,

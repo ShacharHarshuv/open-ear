@@ -115,26 +115,28 @@ export const commonChordProgressionExercise: Exercise<
       );
     }),
   }),
-  settingsDescriptors: [
-    ...romanAnalysis.settings.descriptors,
-    ...analyzeBy.descriptors,
-    {
-      key: 'includedProgressions',
-      descriptor: {
-        controlType: 'list-select',
-        label: 'Included Progressions',
-        allOptions: commonProgressionDescriptorList.map((progression) => ({
-          value: getProgressionId(progression),
-          label:
-            toMusicalTextDisplay(getProgressionId(progression)) +
-            (progression.name ? ` (${progression.name})` : ''),
-        })),
+  settingsConfig: {
+    controls: [
+      ...romanAnalysis.settings.controls,
+      ...analyzeBy.controls,
+      {
+        key: 'includedProgressions',
+        descriptor: {
+          controlType: 'list-select',
+          label: 'Included Progressions',
+          allOptions: commonProgressionDescriptorList.map((progression) => ({
+            value: getProgressionId(progression),
+            label:
+              toMusicalTextDisplay(getProgressionId(progression)) +
+              (progression.name ? ` (${progression.name})` : ''),
+          })),
+        },
       },
+    ],
+    defaults: {
+      ...analyzeBy.defaults,
+      ...romanAnalysis.settings.defaults,
+      includedProgressions: defaultProgressions,
     },
-  ],
-  defaultSettings: {
-    ...analyzeBy.defaults,
-    ...romanAnalysis.settings.defaults,
-    includedProgressions: defaultProgressions,
   },
 };

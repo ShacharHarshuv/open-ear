@@ -58,20 +58,22 @@ export const chordInKeyExercise: Exercise<
       answerList: includedAnswers.answerList(settings),
     };
   },
-  settingsDescriptors: [
-    ...romanAnalysis.settings.descriptors,
-    includedAnswers.settingDescriptor,
-    numberOfSegments.settingsDescriptor,
-    ...playAfterCorrectAnswerControlDescriptorList({
-      show: (settings: ChordInKeySettings) => settings.numberOfSegments === 1,
-    }),
-  ],
-  defaultSettings: {
-    ...romanAnalysis.settings.defaults,
-    ...numberOfSegments.defaults,
-    ...includedAnswers.defaults,
-    includedAnswers: ['I', 'IV', 'V'],
-    numberOfSegments: 1,
-    playAfterCorrectAnswer: true,
+  settingsConfig: {
+    controls: [
+      ...romanAnalysis.settings.controls,
+      includedAnswers.settingDescriptor,
+      numberOfSegments.settingsDescriptor,
+      ...playAfterCorrectAnswerControlDescriptorList({
+        show: (settings: ChordInKeySettings) => settings.numberOfSegments === 1,
+      }),
+    ],
+    defaults: {
+      ...romanAnalysis.settings.defaults,
+      ...numberOfSegments.defaults,
+      ...includedAnswers.defaults,
+      includedAnswers: ['I', 'IV', 'V'],
+      numberOfSegments: 1,
+      playAfterCorrectAnswer: true,
+    },
   },
 };

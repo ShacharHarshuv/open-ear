@@ -9,6 +9,7 @@ import {
   isValueTruthy,
 } from '../../shared/ts-utility';
 import { Key } from '../utility';
+import { SettingsConfig } from './settings-config';
 
 type PartToPlay = NoteEvent[] | OneOrMany<Note>;
 
@@ -544,10 +545,7 @@ export interface Exercise<
   readonly summary: string;
   readonly explanation?: ExerciseExplanationContent;
   readonly blackListPlatform?: Platforms;
-  // Can't depend on "settings" because we will use it to build the settings
-  // however, that makes things more difficult for us
-  readonly settingsDescriptors?: SettingsControlDescriptor<GSettings>[];
-  readonly defaultSettings: GSettings;
+  readonly settingsConfig: SettingsConfig<GSettings>;
 
   logic(settings: Signal<GSettings>): ExerciseLogic<GAnswer>;
 

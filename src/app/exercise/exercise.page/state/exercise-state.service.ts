@@ -73,7 +73,7 @@ export class ExerciseStateService<
     DEFAULT_EXERCISE_SETTINGS,
   );
   private readonly _exerciseSettings = signal<GSettings>(
-    this.exercise.defaultSettings,
+    this.exercise.settingsConfig.defaults,
   );
   readonly exerciseSettings = this._exerciseSettings.asReadonly();
 
@@ -158,7 +158,7 @@ export class ExerciseStateService<
     return !!this._currentQuestion.cadence;
   }
 
-  readonly exerciseSettingsDescriptor = this.exercise.settingsDescriptors || [];
+  readonly settingsControls = this.exercise.settingsConfig.controls;
 
   get info(): string | null {
     if (!this._currentQuestion.info) {
@@ -422,7 +422,10 @@ export class ExerciseStateService<
       defaults(savedSettings?.globalSettings, DEFAULT_EXERCISE_SETTINGS),
     );
     this._exerciseSettings.set(
-      defaults(savedSettings?.exerciseSettings, this.exercise.defaultSettings),
+      defaults(
+        savedSettings?.exerciseSettings,
+        this.exercise.settingsConfig.defaults,
+      ),
     );
     await this.nextQuestion();
   }

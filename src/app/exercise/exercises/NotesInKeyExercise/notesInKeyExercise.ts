@@ -124,113 +124,115 @@ export const notesInKeyExercise: Exercise<SolfegeNote, NoteInKeySettings> = {
   name: `Scale Degrees`,
   summary: `Identify monophonic notes based on their tonal context in a particular key`,
   explanation: NotesInKeyExplanationComponent,
-  defaultSettings: {
-    ...melodicExercise.defaults,
-    includedAnswers: ['Do', 'Re', 'Mi'],
-    numberOfSegments: 1,
-    numberOfVoices: 1,
-    playAfterCorrectAnswer: true,
-    notesRange: 'middle',
-    displayMode: 'numeral',
-    rhythmicValues: ['2n'],
-    harmonicIntervals: ['3', '4', '5', '6', '8'],
-    melodicIntervals: ['2', '3', '4', '4#', '5', '6', '7', '8'],
-  },
-  settingsDescriptors: [
-    ...melodicExercise.settingsDescriptors,
-    includedAnswers.settingDescriptor,
-    {
-      key: 'notesRange',
-      info: 'Choose how high or low the notes will be played',
-      descriptor: {
-        controlType: 'select',
-        label: 'Range',
-        options: [
-          {
-            label: 'High',
-            value: 'high',
-          },
-          {
-            label: 'Middle',
-            value: 'middle',
-          },
-          {
-            label: 'Bass',
-            value: 'bass',
-          },
-          {
-            label: 'Contra Bass',
-            value: 'contrabass',
-          },
-        ],
-      },
+  settingsConfig: {
+    defaults: {
+      ...melodicExercise.defaults,
+      includedAnswers: ['Do', 'Re', 'Mi'],
+      numberOfSegments: 1,
+      numberOfVoices: 1,
+      playAfterCorrectAnswer: true,
+      notesRange: 'middle',
+      displayMode: 'numeral',
+      rhythmicValues: ['2n'],
+      harmonicIntervals: ['3', '4', '5', '6', '8'],
+      melodicIntervals: ['2', '3', '4', '4#', '5', '6', '7', '8'],
     },
-    numberOfSegments.settingsDescriptor,
-    {
-      show: (settings: NoteInKeySettings) => settings.numberOfSegments > 1,
-      key: 'melodicIntervals',
-      info:
-        'Choose which intervals can be used melodically (between consecutive notes).\n' +
-        'Note that the intervals are tonal, so 3<sup>rd</sup> can be both a major 3<sup>rd</sup> and a minor 3<sup>rd</sup>.',
-      descriptor: {
-        label: 'Melodic Intervals',
-        controlType: 'included-answers',
-        answerList: diatonicIntervalAnswerList,
-      },
-    },
-    {
-      show: (settings: NoteInKeySettings) => settings.numberOfSegments > 1,
-      key: 'rhythmicValues',
-      info: 'Select the note lengths to use in the generated melody. Lengths would be chosen in random',
-      descriptor: {
-        label: 'Note Lengths',
-        controlType: 'included-answers',
-        answerList: {
-          rows: [
-            [
-              { answer: '2n', displayLabel: '𝅗𝅥' },
-              { answer: '4n', displayLabel: '𝅘𝅥' },
-              { answer: '4n.', displayLabel: '𝅘𝅥.' },
-              { answer: '8n', displayLabel: '𝅘𝅥𝅮' },
-              { answer: '8n.', displayLabel: '𝅘𝅥𝅮.' },
-              { answer: '16n', displayLabel: '𝅘𝅥𝅯' },
-            ],
+    controls: [
+      ...melodicExercise.settingsDescriptors,
+      includedAnswers.settingDescriptor,
+      {
+        key: 'notesRange',
+        info: 'Choose how high or low the notes will be played',
+        descriptor: {
+          controlType: 'select',
+          label: 'Range',
+          options: [
+            {
+              label: 'High',
+              value: 'high',
+            },
+            {
+              label: 'Middle',
+              value: 'middle',
+            },
+            {
+              label: 'Bass',
+              value: 'bass',
+            },
+            {
+              label: 'Contra Bass',
+              value: 'contrabass',
+            },
           ],
         },
       },
-    },
-    {
-      key: 'numberOfVoices',
-      info: 'Choose how many notes will be played simultaneously',
-      descriptor: {
-        label: 'Number of voices',
-        controlType: 'slider',
-        min: 1,
-        max: 3,
-        step: 1,
+      numberOfSegments.settingsDescriptor,
+      {
+        show: (settings: NoteInKeySettings) => settings.numberOfSegments > 1,
+        key: 'melodicIntervals',
+        info:
+          'Choose which intervals can be used melodically (between consecutive notes).\n' +
+          'Note that the intervals are tonal, so 3<sup>rd</sup> can be both a major 3<sup>rd</sup> and a minor 3<sup>rd</sup>.',
+        descriptor: {
+          label: 'Melodic Intervals',
+          controlType: 'included-answers',
+          answerList: diatonicIntervalAnswerList,
+        },
       },
-    },
-    {
-      show: (settings: NoteInKeySettings) => settings.numberOfVoices > 1,
-      key: 'harmonicIntervals',
-      info:
-        'Choose which intervals can be played harmonically (between voices)\n' +
-        'Note that the intervals are tonal, so 3<sup>rd</sup> can be both a major 3<sup>rd</sup> and a minor 3<sup>rd</sup>.',
-      descriptor: {
-        label: 'Harmonic Intervals',
-        controlType: 'included-answers',
-        /**
-         * Note here it's not really "answers" but we are still using the same component,
-         * this should be renamed to be more generic
-         * */
-        answerList: diatonicIntervalAnswerList,
+      {
+        show: (settings: NoteInKeySettings) => settings.numberOfSegments > 1,
+        key: 'rhythmicValues',
+        info: 'Select the note lengths to use in the generated melody. Lengths would be chosen in random',
+        descriptor: {
+          label: 'Note Lengths',
+          controlType: 'included-answers',
+          answerList: {
+            rows: [
+              [
+                { answer: '2n', displayLabel: '𝅗𝅥' },
+                { answer: '4n', displayLabel: '𝅘𝅥' },
+                { answer: '4n.', displayLabel: '𝅘𝅥.' },
+                { answer: '8n', displayLabel: '𝅘𝅥𝅮' },
+                { answer: '8n.', displayLabel: '𝅘𝅥𝅮.' },
+                { answer: '16n', displayLabel: '𝅘𝅥𝅯' },
+              ],
+            ],
+          },
+        },
       },
-    },
-    ...playAfterCorrectAnswerControlDescriptorList({
-      show: (settings: NoteInKeySettings) =>
-        settings.numberOfSegments === 1 && settings.numberOfVoices === 1,
-    }),
-  ],
+      {
+        key: 'numberOfVoices',
+        info: 'Choose how many notes will be played simultaneously',
+        descriptor: {
+          label: 'Number of voices',
+          controlType: 'slider',
+          min: 1,
+          max: 3,
+          step: 1,
+        },
+      },
+      {
+        show: (settings: NoteInKeySettings) => settings.numberOfVoices > 1,
+        key: 'harmonicIntervals',
+        info:
+          'Choose which intervals can be played harmonically (between voices)\n' +
+          'Note that the intervals are tonal, so 3<sup>rd</sup> can be both a major 3<sup>rd</sup> and a minor 3<sup>rd</sup>.',
+        descriptor: {
+          label: 'Harmonic Intervals',
+          controlType: 'included-answers',
+          /**
+           * Note here it's not really "answers" but we are still using the same component,
+           * this should be renamed to be more generic
+           * */
+          answerList: diatonicIntervalAnswerList,
+        },
+      },
+      ...playAfterCorrectAnswerControlDescriptorList({
+        show: (settings: NoteInKeySettings) =>
+          settings.numberOfSegments === 1 && settings.numberOfVoices === 1,
+      }),
+    ],
+  },
   logic: (settings) => ({
     getQuestion() {
       return melodicExercise.getQuestion({
