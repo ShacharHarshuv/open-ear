@@ -12,7 +12,6 @@ import {
   AnalyzeBySettings,
   analyzeBy,
 } from '../utility/settings/AnalyzeBySettings';
-import { chordVoicings } from '../utility/settings/voicing-settings';
 import { CommonChordProgressionsExplanationComponent } from './common-chord-progressions-explanation/common-chord-progressions-explanation.component';
 import {
   ProgressionDescriptor,
@@ -99,7 +98,7 @@ export const commonChordProgressionExercise: Exercise<
       }[selectedChordProgression.mode ?? Mode.Major];
 
       return romanAnalysis.getQuestion(
-        settings,
+        settings(),
         selectedChordProgression.romanNumerals,
       );
     },
@@ -117,6 +116,7 @@ export const commonChordProgressionExercise: Exercise<
     }),
   }),
   settingsDescriptors: [
+    ...romanAnalysis.settings.descriptors,
     ...analyzeBy.descriptors,
     {
       key: 'includedProgressions',
@@ -131,12 +131,10 @@ export const commonChordProgressionExercise: Exercise<
         })),
       },
     },
-    ...chordVoicings.descriptors,
   ],
   defaultSettings: {
     ...analyzeBy.defaults,
     ...romanAnalysis.settings.defaults,
     includedProgressions: defaultProgressions,
-    ...chordVoicings.defaults,
   },
 };

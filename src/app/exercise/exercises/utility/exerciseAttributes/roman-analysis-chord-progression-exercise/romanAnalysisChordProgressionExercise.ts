@@ -1,4 +1,3 @@
-import { Signal } from '@angular/core';
 import * as _ from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import {
@@ -604,12 +603,12 @@ export function useRomanAnalysisChordProgressionExercise() {
   const settings: SettingsParams<RomanAnalysisChordProgressionExerciseSettings> =
     {
       descriptors: [
+        ...tonalExercise.settingsDescriptors,
+        ...chordVoicings.descriptors,
         ...playAfterCorrectAnswerControlDescriptorList({
           show: (settings: NumberOfSegmentsSetting) =>
             settings.numberOfSegments === 1,
         }),
-        ...chordVoicings.descriptors,
-        ...tonalExercise.settingsDescriptors,
       ],
       defaults: {
         playAfterCorrectAnswer: false,
@@ -621,7 +620,7 @@ export function useRomanAnalysisChordProgressionExercise() {
 
   return {
     getQuestion(
-      settings: Signal<RomanAnalysisChordProgressionExerciseSettings>,
+      settings: RomanAnalysisChordProgressionExerciseSettings,
       romanNumerals: RomanNumeralChordSymbol[],
     ) {
       const chordsQuestion: ChordProgressionQuestion<RomanNumeralChordSymbol> =
@@ -637,7 +636,7 @@ export function useRomanAnalysisChordProgressionExercise() {
       // todo: consider this logic actually should be in the chord in key exercise
       if (
         chordsQuestion.segments.length === 1 &&
-        settings().playAfterCorrectAnswer
+        settings.playAfterCorrectAnswer
       ) {
         // calculate resolution
         const firstChordRomanNumeral: RomanNumeralChordSymbol =
@@ -645,7 +644,7 @@ export function useRomanAnalysisChordProgressionExercise() {
         const scaleForResolution = {
           'I IV V I': 'major',
           'i iv V i': 'minor',
-        }[settings().cadenceType];
+        }[settings.cadenceType];
         const resolutionConfig =
           romanNumeralToResolution[scaleForResolution]?.[
             firstChordRomanNumeral
@@ -665,7 +664,7 @@ export function useRomanAnalysisChordProgressionExercise() {
                 romanNumeral: firstChordRomanNumeral,
                 chordVoicing: chordsQuestion.segments[0].chord.getVoicing({
                   position: firstChordInversion,
-                  withBass: settings().includeBass,
+                  withBass: settings.includeBass,
                 }),
               },
               ...resolutionConfig[firstChordInversion].map((chord) => ({
@@ -674,7 +673,7 @@ export function useRomanAnalysisChordProgressionExercise() {
                   chord.romanNumeral,
                 )!.getVoicing({
                   ...chord.voicingConfig,
-                  withBass: settings().includeBass,
+                  withBass: settings.includeBass,
                 }),
               })),
             ];
@@ -709,12 +708,12 @@ export function useRomanAnalysisChordProgressionExercise() {
       }
 
       const questionInC = chordProgressionExercise.getQuestionInC({
-        settings: settings(),
+        settings,
         getChordProgressionInC: () => chordsQuestion,
       });
 
       return tonalExercise.getQuestion({
-        settings: settings(),
+        settings,
         getQuestionInC: () => questionInC,
       });
     },

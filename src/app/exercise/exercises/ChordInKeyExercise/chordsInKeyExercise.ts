@@ -1,13 +1,11 @@
 import { Exercise, ExerciseLogic } from '../../exercise-logic';
 import { RomanNumeralChordSymbol } from '../../utility';
 import { composeSequenceWithGrammar } from '../../utility/grammer';
-import { romanNumeralToChordInC } from '../../utility/music/harmony/romanNumeralToChordInC';
-import { useChordProgression } from '../utility/exerciseAttributes/chordProgressionExercise';
 import { allRomanNumeralAnswerList } from '../utility/exerciseAttributes/roman-analysis-chord-progression-exercise/roman-numeral-answer-list';
 import {
-  TonalExerciseSettings,
-  useTonalExercise,
-} from '../utility/exerciseAttributes/tonalExercise';
+  RomanAnalysisChordProgressionExerciseSettings,
+  useRomanAnalysisChordProgressionExercise,
+} from '../utility/exerciseAttributes/roman-analysis-chord-progression-exercise/romanAnalysisChordProgressionExercise';
 import {
   IncludedAnswersSettings,
   useIncludedAnswers,
@@ -20,22 +18,18 @@ import {
   PlayAfterCorrectAnswerSetting,
   playAfterCorrectAnswerControlDescriptorList,
 } from '../utility/settings/PlayAfterCorrectAnswerSetting';
-import { VoicingSettings } from '../utility/settings/voicing-settings';
 import { ChordInKeyExplanationComponent } from './chord-in-key-explanation/chord-in-key-explanation.component';
 import { chordProgressionRules } from './grammar/chord-progression-rules';
 
 export type ChordInKeySettings =
   IncludedAnswersSettings<RomanNumeralChordSymbol> &
-    TonalExerciseSettings &
-    VoicingSettings &
+    RomanAnalysisChordProgressionExerciseSettings &
     NumberOfSegmentsSetting &
     PlayAfterCorrectAnswerSetting;
 
-const tonalExercise = useTonalExercise();
-
 const numberOfSegments = useNumberOfSegments('chord');
 
-const chordProgression = useChordProgression();
+const romanAnalysis = useRomanAnalysisChordProgressionExercise();
 
 const includedAnswers = useIncludedAnswers({
   name: 'Roman Numerals',
@@ -53,51 +47,28 @@ export const chordInKeyExercise: Exercise<
   logic: (settings): ExerciseLogic<RomanNumeralChordSymbol> => {
     return {
       getQuestion() {
-        return tonalExercise.getQuestion({
-          settings: settings(),
-          getQuestionInC() {
-            return chordProgression.getQuestionInC({
-              settings: settings(),
-              getChordProgressionInC() {
-                const chordProgressionInRomanAnalysis =
-                  composeSequenceWithGrammar(
-                    settings().includedAnswers,
-                    settings().numberOfSegments,
-                    chordProgressionRules,
-                  );
+        const chords = composeSequenceWithGrammar(
+          settings().includedAnswers,
+          settings().numberOfSegments,
+          chordProgressionRules,
+        );
 
-                return {
-                  segments: chordProgressionInRomanAnalysis.map(
-                    (romanNumeralSymbol: RomanNumeralChordSymbol) => {
-                      const chord = romanNumeralToChordInC(romanNumeralSymbol);
-                      return {
-                        answer: romanNumeralSymbol,
-                        chord: chord,
-                      };
-                    },
-                  ),
-                };
-              },
-            });
-          },
-        });
+        return romanAnalysis.getQuestion(settings(), chords);
       },
       answerList: includedAnswers.answerList(settings),
     };
   },
   settingsDescriptors: [
-    ...tonalExercise.settingsDescriptors,
+    ...romanAnalysis.settings.descriptors,
     includedAnswers.settingDescriptor,
     numberOfSegments.settingsDescriptor,
-    ...chordProgression.voicingSettingsDescriptor,
     ...playAfterCorrectAnswerControlDescriptorList({
       show: (settings: ChordInKeySettings) => settings.numberOfSegments === 1,
     }),
   ],
   defaultSettings: {
-    ...tonalExercise.defaults,
+    ...romanAnalysis.settings.defaults,
     ...numberOfSegments.defaults,
-    ...chordProgression.defaults,
     ...includedAnswers.defaults,
     includedAnswers: ['I', 'IV', 'V'],
     numberOfSegments: 1,
