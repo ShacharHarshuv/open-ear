@@ -60,7 +60,7 @@ export const chordInKeyExercise: Exercise<
   },
   settingsConfig: {
     controls: [
-      ...romanAnalysis.settings.controls,
+      ...romanAnalysis.settingsConfig.controls,
       includedAnswers.settingDescriptor,
       numberOfSegments.settingsDescriptor,
       ...playAfterCorrectAnswerControlDescriptorList({
@@ -68,7 +68,7 @@ export const chordInKeyExercise: Exercise<
       }),
     ],
     defaults: {
-      ...romanAnalysis.settings.defaults,
+      ...romanAnalysis.settingsConfig.defaults,
       ...numberOfSegments.defaults,
       ...includedAnswers.defaults,
       includedAnswers: ['I', 'IV', 'V'],

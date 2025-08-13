@@ -117,7 +117,7 @@ export const commonChordProgressionExercise: Exercise<
   }),
   settingsConfig: {
     controls: [
-      ...romanAnalysis.settings.controls,
+      ...romanAnalysis.settingsConfig.controls,
       ...analyzeBy.controls,
       {
         key: 'includedProgressions',
@@ -135,7 +135,7 @@ export const commonChordProgressionExercise: Exercise<
     ],
     defaults: {
       ...analyzeBy.defaults,
-      ...romanAnalysis.settings.defaults,
+      ...romanAnalysis.settingsConfig.defaults,
       includedProgressions: defaultProgressions,
     },
   },

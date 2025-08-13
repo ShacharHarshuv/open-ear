@@ -600,7 +600,7 @@ export function useRomanAnalysisChordProgressionExercise() {
     cadenceTypeSelection: false,
   });
 
-  const settings: SettingsConfig<RomanAnalysisChordProgressionExerciseSettings> =
+  const settingsConfig: SettingsConfig<RomanAnalysisChordProgressionExerciseSettings> =
     {
       controls: [
         ...tonalExercise.settingsDescriptors,
@@ -715,6 +715,6 @@ export function useRomanAnalysisChordProgressionExercise() {
       return tonalExercise.getQuestion(settings, questionInC);
     },
     fullAnswerList: allRomanNumeralAnswerList,
-    settings,
+    settingsConfig,
   };
 }
