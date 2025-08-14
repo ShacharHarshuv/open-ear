@@ -526,6 +526,7 @@ export interface ExerciseLogic<GAnswer extends string = string> {
   isQuestionValid?(question?: Question<GAnswer>): boolean;
   handleFinishedAnswering?: (numberOfMistakes: number) => unknown;
   questionStartedPlaying?: () => void;
+  reset?: () => unknown;
 }
 
 export interface Exercise<
@@ -543,8 +544,6 @@ export interface Exercise<
   readonly settingsConfig: SettingsConfig<GSettings>;
 
   logic(settings: Signal<GSettings>): ExerciseLogic<GAnswer>;
-
-  reset?: () => unknown;
 }
 
 export class ExerciseError extends Error {}

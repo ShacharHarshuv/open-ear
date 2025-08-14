@@ -32,6 +32,7 @@ import {
   toGetter,
   toSteadyPart,
 } from '../../utility';
+import { fsrsExercise } from './fsrs-exercise';
 import AnswerList = Exercise.AnswerList;
 import Answer = Exercise.Answer;
 import getAnswerListIterator = Exercise.getAnswerListIterator;
@@ -186,16 +187,23 @@ export class ExerciseStateService<
     const originalExerciseLogic = computed(() =>
       this.exercise.logic(this._exerciseSettings),
     );
-    const adaptiveExerciseLogic = ((): ExerciseLogic<GAnswer> => {
-      // return fsrsExercise(
-      //   this._originalExercise.id,
-      //   this._originalExercise,
-      // );
-      return null!;
-    })();
+    /**
+     * todo: perhaps FSRS (at least out of the box) is not great for this:
+     * - No point repeating questions that were correct the first time
+     * - At some point, a correction for a mistake was "internalized" so no point giving it the next day
+     * Some alternative ideas:
+     * - Don't space repeat a question that was correct the first time
+     * - Simpler SM-2 inspired algorithm for mistakes with EF, but potentially based on time instead of days? Consider short starting interval
+     * - At some point (large interval) mature questions and don't repeat them. We are not aiming for "long term memory", but skill mastery
+     * Also: we need to track user data so we can improve the parameters
+     */
+    const adaptiveExerciseLogic = computed(() => ({
+      ...originalExerciseLogic(),
+      ...fsrsExercise(this.exercise.id, originalExerciseLogic()),
+    }));
     return computed((): ExerciseLogic<GAnswer> => {
       return this._globalSettings().adaptive
-        ? adaptiveExerciseLogic
+        ? adaptiveExerciseLogic()
         : originalExerciseLogic();
     });
   })();
@@ -465,7 +473,7 @@ export class ExerciseStateService<
   resetStatistics(): void {
     this._totalCorrectAnswers.set(0);
     this._totalQuestions.set(0);
-    this.exercise.reset?.();
+    this.exerciseLogic().reset?.();
     this.nextQuestion();
   }
 

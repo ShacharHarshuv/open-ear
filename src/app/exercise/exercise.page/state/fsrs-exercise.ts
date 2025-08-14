@@ -77,7 +77,7 @@ export class QuestionCardsCollection<GAnswer extends string> {
 
 export function fsrsExercise<GAnswer extends string>(
   id: string,
-  logic: Pick<ExerciseLogic<GAnswer>, 'getQuestion' | 'getQuestionById'>,
+  logic: Omit<ExerciseLogic<GAnswer>, 'answerList'>,
 ) {
   const cardsCollections = new QuestionCardsCollection<GAnswer>(id);
   let currentQuestionCard: QuestionCard<GAnswer> | null = null;
@@ -96,6 +96,8 @@ export function fsrsExercise<GAnswer extends string>(
   let isQuestionStartedPlaying = false;
 
   function questionStartedPlaying() {
+    logic.questionStartedPlaying?.();
+
     !isQuestionStartedPlaying && (questionReceivedTime = new Date());
     isQuestionStartedPlaying = true;
   }
@@ -143,6 +145,8 @@ export function fsrsExercise<GAnswer extends string>(
   };
 
   function handleFinishedAnswering(numberOfMistakes: number): void {
+    logic.handleFinishedAnswering?.(numberOfMistakes);
+
     const rating = ((): Grade => {
       if (numberOfMistakes > 0) {
         console.log(
@@ -193,6 +197,7 @@ export function fsrsExercise<GAnswer extends string>(
 
   function reset() {
     cardsCollections.reset();
+    logic.reset?.();
   }
 
   return {
@@ -200,5 +205,5 @@ export function fsrsExercise<GAnswer extends string>(
     reset,
     handleFinishedAnswering,
     questionStartedPlaying,
-  };
+  } satisfies Omit<ExerciseLogic<GAnswer>, 'answerList'>;
 }
