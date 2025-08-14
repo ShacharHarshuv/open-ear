@@ -1,4 +1,3 @@
-import { computed } from '@angular/core';
 import * as _ from 'lodash';
 import { clone, difference, uniq } from 'lodash';
 import { filter, flatMap, flow } from 'lodash/fp';
@@ -119,13 +118,13 @@ export const chordTypeExercise: Exercise<ChordType, ChordTypeInKeySettings> = {
 
         return tonalExercise.getQuestion(settings(), questionInC);
       },
-      answerList: computed(() => {
+      answerList: () => {
         const includedTypes = settings().includedRomanNumerals.map(
           (romanNumeralSymbol) =>
             romanNumeralToChordInC(romanNumeralSymbol).type,
         );
         return filterIncludedAnswers(chordTypeAnswerList, includedTypes);
-      }),
+      },
     };
   },
   settingsConfig: {

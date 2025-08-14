@@ -1,4 +1,3 @@
-import { Signal, computed } from '@angular/core';
 import * as _ from 'lodash';
 import Exercise, {
   NotesQuestion,
@@ -257,20 +256,18 @@ export function useTonalExercise(config?: TonalExerciseConfig) {
     },
     // This is optional, if you have a playOnClick in C that you need to transpose
     answerList: <GAnswer extends string>(
-      answerListInC: Signal<Exercise.AnswerList<GAnswer>>,
+      answerListInC: Exercise.AnswerList<GAnswer>,
     ) =>
-      computed(() => {
-        return Exercise.mapAnswerList(answerListInC(), (answerConfig) => ({
-          ...answerConfig,
-          playOnClick: answerConfig.playOnClick
-            ? (question: Exercise.Question<GAnswer>) => {
-                const partToPlayInC: NoteEvent[] | OneOrMany<Note> | null =
-                  toGetter(answerConfig.playOnClick!)(question);
-                return partToPlayInC && transposeToKey(partToPlayInC);
-              }
-            : null,
-        }));
-      }),
+      Exercise.mapAnswerList(answerListInC, (answerConfig) => ({
+        ...answerConfig,
+        playOnClick: answerConfig.playOnClick
+          ? (question: Exercise.Question<GAnswer>) => {
+              const partToPlayInC: NoteEvent[] | OneOrMany<Note> | null =
+                toGetter(answerConfig.playOnClick!)(question);
+              return partToPlayInC && transposeToKey(partToPlayInC);
+            }
+          : null,
+      })),
     settingsDescriptors,
     defaults,
   };

@@ -1,4 +1,3 @@
-import { computed } from '@angular/core';
 import * as _ from 'lodash';
 import { Exercise, filterIncludedAnswers } from '../../exercise-logic';
 import { Mode, RomanNumeralChordSymbol, randomFromList } from '../../utility';
@@ -102,7 +101,7 @@ export const commonChordProgressionExercise: Exercise<
         selectedChordProgression.romanNumerals,
       );
     },
-    answerList: computed(() => {
+    answerList: () => {
       const includedAnswers: RomanNumeralChordSymbol[] = _.uniq(
         _.flatMap(
           getIncludedProgressionsDescriptors(settings()),
@@ -113,7 +112,7 @@ export const commonChordProgressionExercise: Exercise<
         romanAnalysis.fullAnswerList,
         includedAnswers,
       );
-    }),
+    },
   }),
   settingsConfig: {
     controls: [

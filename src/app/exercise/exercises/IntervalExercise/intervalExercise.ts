@@ -253,7 +253,7 @@ export const intervalExercise: Exercise<
 
     return {
       getQuestion: () => playWrongAnswer.getQuestion(settings, getQuestion),
-      answerList: includedAnswers.answerList(settings),
+      answerList: () => includedAnswers.answerList(settings()),
     };
   },
 };

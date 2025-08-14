@@ -1,4 +1,3 @@
-import { Signal, computed } from '@angular/core';
 import { toGetter } from 'src/app/shared/ts-utility';
 import {
   AnswerList,
@@ -82,13 +81,11 @@ export function useIncludedAnswers<
     defaults,
     settingDescriptor,
     answerList: (
-      settings: Signal<IncludedAnswersSettings<Answer> & ExternalSettings>,
+      settings: IncludedAnswersSettings<Answer> & ExternalSettings,
     ) =>
-      computed(() =>
-        filterIncludedAnswers(
-          getFullAnswerList(settings()),
-          settings().includedAnswers,
-        ),
+      filterIncludedAnswers(
+        getFullAnswerList(settings),
+        settings.includedAnswers,
       ),
   };
 }

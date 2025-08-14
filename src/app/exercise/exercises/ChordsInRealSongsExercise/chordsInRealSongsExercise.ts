@@ -1,5 +1,4 @@
 import { TitleCasePipe } from '@angular/common';
-import { computed } from '@angular/core';
 import * as _ from 'lodash';
 import { first } from 'lodash';
 import { NoteEvent } from 'src/app/services/player.service';
@@ -219,7 +218,7 @@ export const chordsInRealSongsExercise: Exercise<
     };
 
     return {
-      answerList: computed(() => {
+      answerList: () => {
         const progressionsList = getIncludedSegments(settings());
         const includedAnswers = _.uniq(
           _.flatMap(
@@ -234,7 +233,7 @@ export const chordsInRealSongsExercise: Exercise<
           allRomanNumeralAnswerList,
           includedAnswers,
         );
-      }),
+      },
       ...logic(),
       handleFinishedAnswering(numberOfMistakes) {
         if (settings().learnProgressions) {
