@@ -48,14 +48,14 @@ export const chordInKeyExercise: Exercise<
     return {
       getQuestion() {
         const chords = composeSequenceWithGrammar(
-          settings().includedAnswers,
-          settings().numberOfSegments,
+          settings.includedAnswers,
+          settings.numberOfSegments,
           chordProgressionRules,
         );
 
-        return romanAnalysis.getQuestion(settings(), chords);
+        return romanAnalysis.getQuestion(settings, chords);
       },
-      answerList: includedAnswers.answerList(settings()),
+      answerList: includedAnswers.answerList(settings),
     };
   },
   settingsConfig: {

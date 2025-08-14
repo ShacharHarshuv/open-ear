@@ -1,4 +1,3 @@
-import { Signal } from '@angular/core';
 import {
   ExerciseLogic,
   SettingsControlDescriptor,
@@ -25,7 +24,7 @@ export function usePlayWrongAnswer() {
     defaults,
     settingDescriptor,
     getQuestion: <GAnswer extends string>(
-      settings: Signal<PlayWrongAnswerSettings>,
+      settings: PlayWrongAnswerSettings,
       getQuestion: ExerciseLogic<GAnswer>['getQuestion'],
     ) => {
       const originalQuestion = getQuestion();
@@ -35,7 +34,7 @@ export function usePlayWrongAnswer() {
         segments: originalQuestion.segments.map((segment) => {
           return {
             ...segment,
-            playOnWrong: settings().playWrongAnswer
+            playOnWrong: settings.playWrongAnswer
               ? segment.playOnWrong
               : undefined,
           };

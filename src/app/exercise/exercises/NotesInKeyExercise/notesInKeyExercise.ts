@@ -236,7 +236,7 @@ export const notesInKeyExercise: Exercise<SolfegeNote, NoteInKeySettings> = {
   logic: (settings) => ({
     getQuestion() {
       return melodicExercise.getQuestion({
-        settings: settings(),
+        settings: settings,
         getMelodicQuestionInC: (utils) => {
           function getNoteOptionsFromRange(notesRange: NotesRange): Note[] {
             const rangeForKeyOfC: NotesRange =
@@ -244,32 +244,32 @@ export const notesInKeyExercise: Exercise<SolfegeNote, NoteInKeySettings> = {
             return rangeForKeyOfC
               .getAllNotes()
               .filter((questionOption) =>
-                settings().includedAnswers.includes(
+                settings.includedAnswers.includes(
                   getSolfegeNoteOfNoteInC(questionOption),
                 ),
               );
           }
 
-          const notesRange = rangeOptionToNotesRange[settings().notesRange];
+          const notesRange = rangeOptionToNotesRange[settings.notesRange];
           // if we want to add more voices below, we need to limit how low the top voice can go
           const topVoiceRange = new NotesRange(
             transpose(
               notesRange.lowestNoteName,
-              voiceRangeGap * (settings().numberOfVoices - 1),
+              voiceRangeGap * (settings.numberOfVoices - 1),
             ),
             notesRange.highestNoteName,
           );
           const noteOptions = getNoteOptionsFromRange(topVoiceRange);
 
           const permittedMelodicIntervals = _.flatMap(
-            settings().melodicIntervals,
+            settings.melodicIntervals,
             (code) => diatonicIntervalCodeToIntervals[code],
           );
 
           let randomNotesInC: Note[] = [];
           let previousNote = randomFromList(noteOptions);
           randomNotesInC.push(previousNote);
-          while (randomNotesInC.length < settings().numberOfSegments) {
+          while (randomNotesInC.length < settings.numberOfSegments) {
             const options = noteOptions.filter((candidate) => {
               return permittedMelodicIntervals.includes(
                 Math.abs(toNoteNumber(candidate) - toNoteNumber(previousNote)),
@@ -281,11 +281,11 @@ export const notesInKeyExercise: Exercise<SolfegeNote, NoteInKeySettings> = {
           const randomQuestionInC: Note[][] = [randomNotesInC];
 
           const permittedHarmonicIntervals: Interval[] = _.flatMap(
-            settings().harmonicIntervals,
+            settings.harmonicIntervals,
             (code) => diatonicIntervalCodeToIntervals[code],
           );
           let currentVoiceRange: NotesRange = notesRange;
-          while (randomQuestionInC.length < settings().numberOfVoices) {
+          while (randomQuestionInC.length < settings.numberOfVoices) {
             const lastVoice = _.last(randomQuestionInC)!;
             currentVoiceRange = transpose(currentVoiceRange, -voiceRangeGap);
             const noteOptionsForLowerVoice: Note[] =
@@ -313,9 +313,9 @@ export const notesInKeyExercise: Exercise<SolfegeNote, NoteInKeySettings> = {
           // calculation resolution
           let resolution: Note[] = [];
           if (
-            settings().numberOfSegments === 1 &&
-            settings().numberOfVoices === 1 &&
-            settings().playAfterCorrectAnswer
+            settings.numberOfSegments === 1 &&
+            settings.numberOfVoices === 1 &&
+            settings.playAfterCorrectAnswer
           ) {
             const note: Note = randomNotesInC[0];
 
@@ -323,10 +323,10 @@ export const notesInKeyExercise: Exercise<SolfegeNote, NoteInKeySettings> = {
             const resolutionInScaleDegrees: DeepReadonly<ScaleDegree[]> =
               getResolutionFromScaleDegree(
                 scaleDegree,
-                settings().includedAnswers.map(
+                settings.includedAnswers.map(
                   (solfege) => solfegeNoteToScaleDegree[solfege],
                 ),
-                settings().cadenceType,
+                settings.cadenceType,
               );
             const resolutionInNoteTypes: NoteType[] =
               resolutionInScaleDegrees.map((scaleDegree) =>
@@ -371,6 +371,6 @@ export const notesInKeyExercise: Exercise<SolfegeNote, NoteInKeySettings> = {
         },
       });
     },
-    answerList: includedAnswers.answerList(settings()),
+    answerList: includedAnswers.answerList(settings),
   }),
 };

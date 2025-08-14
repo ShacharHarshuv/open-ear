@@ -87,8 +87,8 @@ export const chordTypeExercise: Exercise<ChordType, ChordTypeInKeySettings> = {
     return {
       getQuestion() {
         const progression: RomanNumeralChordSymbol[] = [];
-        while (progression.length < settings().numberOfSegments) {
-          const availableChords = settings().includedRomanNumerals.filter(
+        while (progression.length < settings.numberOfSegments) {
+          const availableChords = settings.includedRomanNumerals.filter(
             (chord) => chord !== progression[progression.length - 1],
           );
           const randomRomanNumeral = randomFromList(
@@ -112,15 +112,15 @@ export const chordTypeExercise: Exercise<ChordType, ChordTypeInKeySettings> = {
         };
 
         const questionInC = chordProgression.getQuestionInC(
-          settings(),
+          settings,
           chordsQuestionInC,
         );
 
-        return tonalExercise.getQuestion(settings(), questionInC);
+        return tonalExercise.getQuestion(settings, questionInC);
       },
       answerList: filterIncludedAnswers(
         chordTypeAnswerList,
-        settings().includedRomanNumerals.map(
+        settings.includedRomanNumerals.map(
           (romanNumeralSymbol) =>
             romanNumeralToChordInC(romanNumeralSymbol).type,
         ),

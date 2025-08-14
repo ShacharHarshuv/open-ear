@@ -187,7 +187,7 @@ export class ExerciseStateService<
 
   readonly exerciseLogic = (() => {
     const originalExerciseLogic = computed(() =>
-      this.exercise.logic(this._exerciseSettings),
+      this.exercise.logic(this._exerciseSettings()),
     );
     /**
      * todo: perhaps FSRS (at least out of the box) is not great for this:

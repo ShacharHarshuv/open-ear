@@ -198,7 +198,7 @@ export const intervalExercise: Exercise<
     function getQuestion(): Question<IntervalName> {
       const randomIntervalDescriptor: IntervalDescriptor = randomFromList(
         intervalDescriptorList.filter((intervalDescriptor) =>
-          settings().includedAnswers.includes(intervalDescriptor.name),
+          settings.includedAnswers.includes(intervalDescriptor.name),
         ),
       );
       const randomStartingNoteNumber: NoteNumber = _.random(
@@ -211,14 +211,14 @@ export const intervalExercise: Exercise<
       );
 
       let [startNoteName, endNoteName] = _.shuffle([lowNoteName, highNoteName]);
-      if (settings().intervalDirection === 'ascending') {
+      if (settings.intervalDirection === 'ascending') {
         [startNoteName, endNoteName] = [lowNoteName, highNoteName];
-      } else if (settings().intervalDirection === 'descending') {
+      } else if (settings.intervalDirection === 'descending') {
         [startNoteName, endNoteName] = [highNoteName, lowNoteName];
       }
 
       function getPartFromNotes(start: Note, end: Note) {
-        return settings().intervalType === 'melodic'
+        return settings.intervalType === 'melodic'
           ? [{ notes: start }, { notes: end }]
           : [{ notes: [start, end] }];
       }
@@ -253,7 +253,7 @@ export const intervalExercise: Exercise<
 
     return {
       getQuestion: () => playWrongAnswer.getQuestion(settings, getQuestion),
-      answerList: includedAnswers.answerList(settings()),
+      answerList: includedAnswers.answerList(settings),
     };
   },
 };

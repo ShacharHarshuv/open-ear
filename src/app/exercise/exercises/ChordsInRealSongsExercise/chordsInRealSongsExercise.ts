@@ -130,10 +130,10 @@ export const chordsInRealSongsExercise: Exercise<
     },
   },
   logic: (settings) => {
-    const availableSegments = getIncludedSegments(settings());
+    const availableSegments = getIncludedSegments(settings);
     const uniqueProgressions = indexQuestionsByProgression(
       availableSegments,
-      settings(),
+      settings,
     );
     console.log('uniqueProgressions', uniqueProgressions);
 
@@ -152,7 +152,7 @@ export const chordsInRealSongsExercise: Exercise<
         const randomSegment = randomFromList(
           uniqueProgressions.get(progressionKey)!,
         );
-        const question = getQuestionFromProgression(randomSegment, settings());
+        const question = getQuestionFromProgression(randomSegment, settings);
         return {
           ...question,
           id: progressionKey,
@@ -165,7 +165,7 @@ export const chordsInRealSongsExercise: Exercise<
         }
         return getQuestionFromProgression(
           randomFromList(progression),
-          settings(),
+          settings,
         );
       },
     });
@@ -176,7 +176,7 @@ export const chordsInRealSongsExercise: Exercise<
       ): Question<RomanNumeralChordSymbol> {
         const questionsToExcludeSet = new Set(questionsToExclude);
 
-        const availableQuestions = getIncludedSegments(settings()).filter(
+        const availableQuestions = getIncludedSegments(settings).filter(
           (progression) => !questionsToExcludeSet.has(getId(progression)),
         );
 
@@ -190,25 +190,25 @@ export const chordsInRealSongsExercise: Exercise<
           throw new Error(`No more progressions!`);
         }
 
-        return getQuestionFromProgression(progression, settings());
+        return getQuestionFromProgression(progression, settings);
       },
       getQuestionById(
         questionId: string,
       ): Question<RomanNumeralChordSymbol> | undefined {
-        const availableQuestions = getIncludedSegments(settings());
+        const availableQuestions = getIncludedSegments(settings);
         const progression = _.find(
           availableQuestions,
           (progression) => getId(progression) === questionId,
         );
 
         return progression
-          ? getQuestionFromProgression(progression, settings())
+          ? getQuestionFromProgression(progression, settings)
           : undefined;
       },
     };
 
     const logic = () => {
-      if (settings().learnProgressions) {
+      if (settings.learnProgressions) {
         return fsrsLogic;
       }
 
@@ -230,12 +230,12 @@ export const chordsInRealSongsExercise: Exercise<
       ),
       ...logic(),
       handleFinishedAnswering(numberOfMistakes) {
-        if (settings().learnProgressions) {
+        if (settings.learnProgressions) {
           fsrsLogic.handleFinishedAnswering(numberOfMistakes);
         }
       },
       reset() {
-        if (settings().learnProgressions) {
+        if (settings.learnProgressions) {
           fsrsLogic.reset();
         }
       },

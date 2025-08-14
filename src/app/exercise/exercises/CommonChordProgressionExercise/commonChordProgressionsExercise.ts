@@ -87,9 +87,9 @@ export const commonChordProgressionExercise: Exercise<
   logic: (settings) => ({
     getQuestion() {
       const includedProgressions: ProgressionDescriptor[] =
-        getIncludedProgressionsDescriptors(settings());
+        getIncludedProgressionsDescriptors(settings);
       const selectedChordProgression = randomFromList(includedProgressions);
-      settings().cadenceType = {
+      settings.cadenceType = {
         [Mode.Dorian]: 'i iv V i',
         [Mode.Minor]: 'i iv V i',
         [Mode.Major]: 'I IV V I',
@@ -97,7 +97,7 @@ export const commonChordProgressionExercise: Exercise<
       }[selectedChordProgression.mode ?? Mode.Major];
 
       return romanAnalysis.getQuestion(
-        settings(),
+        settings,
         selectedChordProgression.romanNumerals,
       );
     },
@@ -105,7 +105,7 @@ export const commonChordProgressionExercise: Exercise<
       romanAnalysis.fullAnswerList,
       _.uniq(
         _.flatMap(
-          getIncludedProgressionsDescriptors(settings()),
+          getIncludedProgressionsDescriptors(settings),
           'romanNumerals',
         ),
       ),

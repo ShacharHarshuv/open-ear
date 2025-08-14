@@ -63,9 +63,7 @@ export const triadInversionExercise: Exercise<
         const randomChordInC: ChordSymbol = randomFromList(chordsInC);
         const invertionOptions: TriadPosition[] = [0, 1, 2].filter(
           (invertionOption) =>
-            settings().includedAnswers.includes(
-              triadInversions[invertionOption],
-            ),
+            settings.includedAnswers.includes(triadInversions[invertionOption]),
         );
         const randomTriadInversion: TriadPosition =
           randomFromList(invertionOptions);
@@ -76,8 +74,8 @@ export const triadInversionExercise: Exercise<
           octave: 3, // picking a lower octave as a high one is more difficult
         });
         const root = voicing[(3 - randomTriadInversion) % 3];
-        if (settings().arpeggiateSpeed !== 0) {
-          switch (settings().arpeggioDirection) {
+        if (settings.arpeggiateSpeed !== 0) {
+          switch (settings.arpeggioDirection) {
             case 'descending':
               voicing = voicing.reverse();
               break;
@@ -93,13 +91,13 @@ export const triadInversionExercise: Exercise<
           segments: [
             {
               partToPlay: voicing.map((note, index) => {
-                const noteDelay = (index * settings().arpeggiateSpeed) / 100;
+                const noteDelay = (index * settings.arpeggiateSpeed) / 100;
                 return {
                   notes: note,
                   velocity: 0.3,
                   duration:
                     Tone.Time('1n').toSeconds() +
-                    ((voicing.length - 1) * settings().arpeggiateSpeed) / 100 -
+                    ((voicing.length - 1) * settings.arpeggiateSpeed) / 100 -
                     Tone.Time(noteDelay).toSeconds(),
                   time: noteDelay,
                 };
@@ -110,7 +108,7 @@ export const triadInversionExercise: Exercise<
           info: '',
         };
 
-        if (settings().playRootAfterAnswer) {
+        if (settings.playRootAfterAnswer) {
           questionInC.afterCorrectAnswer = [
             {
               partToPlay: toSteadyPart(root, '1n', 0.3),
@@ -119,10 +117,10 @@ export const triadInversionExercise: Exercise<
           ];
         }
 
-        return tonalExercise.getQuestion(settings(), questionInC);
+        return tonalExercise.getQuestion(settings, questionInC);
       },
       answerList: tonalExercise.answerList(
-        includedAnswers.answerList(settings()),
+        includedAnswers.answerList(settings),
       ),
     };
   },

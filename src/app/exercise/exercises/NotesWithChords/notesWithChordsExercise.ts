@@ -314,7 +314,7 @@ export const notesWithChordsExercise: Exercise<
       getQuestion() {
         function getQuestionInC(tonalExerciseUtils: TonalExerciseUtils) {
           const randomAnswer: NoteWithChord = randomFromList(
-            settings().includedAnswers,
+            settings.includedAnswers,
           );
           const descriptor = noteWithChordDescriptorMap[randomAnswer];
 
@@ -323,7 +323,7 @@ export const notesWithChordsExercise: Exercise<
           }
 
           const chord = romanNumeralToChordInC(
-            descriptor.chord[settings().harmonyMode],
+            descriptor.chord[settings.harmonyMode],
           )!;
           const noteType = scaleDegreeToNoteType(
             solfegeNoteToScaleDegree[descriptor.solfegeNote]!,
@@ -337,11 +337,11 @@ export const notesWithChordsExercise: Exercise<
           });
 
           const possibleNotesToSelect: Note[] = tonalExerciseUtils
-            .getRangeForKeyOfC(voiceModeToRange[settings().voiceMode])
+            .getRangeForKeyOfC(voiceModeToRange[settings.voiceMode])
             .getAllNotes([noteType]);
           let note: Note = randomFromList(possibleNotesToSelect);
 
-          if (settings().voiceMode === 'soprano') {
+          if (settings.voiceMode === 'soprano') {
             while (toNoteNumber(note) < toNoteNumber(_.last(chordVoicing)!)) {
               chordVoicing = Chord.invertVoicing(chordVoicing, Direction.Down);
             }
@@ -351,7 +351,7 @@ export const notesWithChordsExercise: Exercise<
             }
           }
 
-          if (settings().voiceMode === 'soprano') {
+          if (settings.voiceMode === 'soprano') {
             let bass = chord.getBass();
             if (
               toNoteNumber(_.last(bass)!) > toNoteNumber(_.first(chordVoicing)!)
@@ -385,10 +385,10 @@ export const notesWithChordsExercise: Exercise<
           };
         }
 
-        return tonalExercise.getQuestion(settings(), getQuestionInC);
+        return tonalExercise.getQuestion(settings, getQuestionInC);
       },
       answerList: tonalExercise.answerList(
-        includedAnswers.answerList(settings()),
+        includedAnswers.answerList(settings),
       ),
     };
   },

@@ -1,4 +1,4 @@
-import { Signal, Type } from '@angular/core';
+import { Type } from '@angular/core';
 import { Platforms } from '@ionic/core/dist/types/utils/platform';
 import * as _ from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
@@ -543,7 +543,7 @@ export interface Exercise<
   readonly blackListPlatform?: Platforms;
   readonly settingsConfig: SettingsConfig<GSettings>;
 
-  logic(settings: Signal<GSettings>): ExerciseLogic<GAnswer>;
+  logic(settings: GSettings): ExerciseLogic<GAnswer>;
 }
 
 export class ExerciseError extends Error {}
