@@ -130,19 +130,18 @@ export const chordsInRealSongsExercise: Exercise<
     },
   },
   logic: (settings) => {
-    const getUniqueProgressions = () => {
-      const availableSegments = getIncludedSegments(settings());
-      return indexQuestionsByProgression(availableSegments, settings());
-    };
+    const availableSegments = getIncludedSegments(settings());
+    const uniqueProgressions = indexQuestionsByProgression(
+      availableSegments,
+      settings(),
+    );
+    console.log('uniqueProgressions', uniqueProgressions);
 
     const fsrsLogic = fsrsExercise(id + ':progression-mode', {
       getQuestion: (
         // settings: ChordsInRealSongsSettings,
         questionsToExclude?: string[],
       ) => {
-        const uniqueProgressions = getUniqueProgressions();
-        console.log('uniqueProgressions', uniqueProgressions);
-
         const questionsToExcludeSet = new Set(questionsToExclude);
         const progressionKey = Array.from(uniqueProgressions.keys()).find(
           (progKey) => !questionsToExcludeSet.has(progKey),
@@ -160,7 +159,6 @@ export const chordsInRealSongsExercise: Exercise<
         };
       },
       getQuestionById(id) {
-        const uniqueProgressions = getUniqueProgressions();
         const progression = uniqueProgressions.get(id);
         if (!progression) {
           throw new Error(`No progression found! (id: ${id})`);
