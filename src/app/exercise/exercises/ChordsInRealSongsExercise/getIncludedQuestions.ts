@@ -8,15 +8,20 @@ import { YouTubeSongQuestion, songChordQuestions } from './songQuestions';
 export function getIncludedSegments(
   settings: Pick<
     ChordsInRealSongsSettings,
-    'tonicForAnalyzing' | 'includedChords'
+    'tonicForAnalyzing' | 'includedChords' | 'learnProgressions'
   >,
 ) {
   const isAllChordsIncluded = (
     chords: DeepReadonly<YouTubeSongQuestion>['chords'],
   ) => {
-    return _.every(chords, (chord) => {
-      return settings.includedChords.includes(chord.chord);
-    });
+    // for learnProgressions mode, we "include all segments" by default.
+    // Level management is done based on order and performance instead
+    return (
+      settings.learnProgressions ||
+      _.every(chords, (chord) => {
+        return settings.includedChords.includes(chord.chord);
+      })
+    );
   };
 
   const validChordProgressionsDescriptorList = songChordQuestions
@@ -93,7 +98,7 @@ export function getIncludedSegments(
     // Note, when soloing songs that are not included in the difficult (I IV V vi) settings, this exception will fire and prevent testing of the progression
     // In that case, just comment out the exception for testing purposes
     throw new Error(
-      `No chord progression matching selected chords! Please select more chords. (I IV V vi will work)\n` +
+      `No chord progression matching selected chords! (${settings.includedChords.join(', ')}). Please select more chords. (I IV V vi will work)\n` +
         `If you're using it for debugging with the "solo" option, this fails because settings are not loaded immediately. Trying soloing another song with simple chords to go around the error`,
     );
   }

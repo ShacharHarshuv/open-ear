@@ -1,4 +1,5 @@
 import { TitleCasePipe } from '@angular/common';
+import { computed, signal, untracked } from '@angular/core';
 import * as _ from 'lodash';
 import { first } from 'lodash';
 import { NoteEvent } from 'src/app/services/player.service';
@@ -88,6 +89,8 @@ function getQuestionFromProgression(
 
 const id = 'chordsInRealSongs';
 
+const learnModeLastProgressionIndex = signal(1);
+
 export const chordsInRealSongsExercise: Exercise<
   RomanNumeralChordSymbol,
   ChordsInRealSongsSettings
@@ -100,6 +103,15 @@ export const chordsInRealSongsExercise: Exercise<
     controls: [
       ...analyzeBy.controls,
       ...flexibleChordChoiceSettings.controls,
+      // todo: in the future, it's better that learn mode will use this custom algorithm automatically
+      {
+        key: 'learnProgressions',
+        info: 'Experimental mode that introduces songs in progressions of difficulties and adjusts to user level based on performance. <b>Important!</b> If using this, turn "Learn Mode" off, as it will conflict with this',
+        descriptor: {
+          label: 'Learn Progressions',
+          controlType: 'checkbox',
+        },
+      },
       {
         key: 'includedChords',
         info:
@@ -111,15 +123,8 @@ export const chordsInRealSongsExercise: Exercise<
           controlType: 'included-answers',
           answerList: allRomanNumeralAnswerList,
         },
-      },
-      // todo: in the future, it's better that learn mode will use this custom algorithm automatically
-      {
-        key: 'learnProgressions',
-        info: 'Experimental mode that optimizes learning of progressions in real songs with a space repetition algorithm. <b>Important!</b> If using this, turn "Learn Mode" off, as it will conflict with this',
-        descriptor: {
-          label: 'Learn Progressions',
-          controlType: 'checkbox',
-        },
+        show: (settings: ChordsInRealSongsSettings) =>
+          !settings.learnProgressions,
       },
     ],
     defaults: {
@@ -135,6 +140,7 @@ export const chordsInRealSongsExercise: Exercise<
       availableSegments,
       settings,
     );
+    const progressionKeys = Array.from(uniqueProgressions.keys());
     console.log('uniqueProgressions', uniqueProgressions);
 
     const fsrsLogic = fsrsExercise(id + ':progression-mode', {
@@ -143,12 +149,18 @@ export const chordsInRealSongsExercise: Exercise<
         questionsToExclude?: string[],
       ) => {
         const questionsToExcludeSet = new Set(questionsToExclude);
-        const progressionKey = Array.from(uniqueProgressions.keys()).find(
+        const progressionKeyIndex = progressionKeys.findIndex(
           (progKey) => !questionsToExcludeSet.has(progKey),
         );
-        if (!progressionKey) {
+        if (progressionKeyIndex === -1) {
           throw new Error('No more progressions!'); // todo: we should handle this somehow, perhaps even inside fsrs itself
         }
+
+        if (progressionKeyIndex > learnModeLastProgressionIndex()) {
+          learnModeLastProgressionIndex.set(progressionKeyIndex);
+        }
+        const progressionKey = progressionKeys[progressionKeyIndex];
+
         const randomSegment = randomFromList(
           uniqueProgressions.get(progressionKey)!,
         );
@@ -161,6 +173,8 @@ export const chordsInRealSongsExercise: Exercise<
       getQuestionById(id) {
         const progression = uniqueProgressions.get(id);
         if (!progression) {
+          // todo: this seem to happen with progression whose analyzed 1 is moved based on the settings, even if we didn't change it
+          // Theory: the bug happens during write
           throw new Error(`No progression found! (id: ${id})`);
         }
         return getQuestionFromProgression(
@@ -168,6 +182,15 @@ export const chordsInRealSongsExercise: Exercise<
           settings,
         );
       },
+    });
+
+    untracked(() => {
+      fsrsLogic.cardsCollections.savedQuestions.forEach(({ question }) => {
+        const idx = progressionKeys.findIndex((key) => key === question.id);
+        if (idx > learnModeLastProgressionIndex()) {
+          learnModeLastProgressionIndex.set(idx);
+        }
+      });
     });
 
     const normalModeLogic = {
@@ -216,18 +239,32 @@ export const chordsInRealSongsExercise: Exercise<
     };
 
     return {
-      answerList: filterIncludedAnswers(
-        allRomanNumeralAnswerList,
-        _.uniq(
+      answerList: computed(() => {
+        const lastProgressionIndex = settings.learnProgressions
+          ? learnModeLastProgressionIndex()
+          : progressionKeys.length;
+
+        const relevantProgressionKeys = progressionKeys.slice(
+          0,
+          lastProgressionIndex + 1,
+        );
+        const relevantSegments = _.flatMap(
+          relevantProgressionKeys,
+          (progressionKey) => uniqueProgressions.get(progressionKey)!,
+        );
+
+        const includedChords = _.uniq(
           _.flatMap(
-            availableSegments,
-            (progression: YouTubeSongQuestion): RomanNumeralChordSymbol[] =>
+            relevantSegments,
+            (progression): RomanNumeralChordSymbol[] =>
               progression.chords.map(
                 (chordDescriptor) => chordDescriptor.chord,
               ),
           ),
-        ),
-      ),
+        );
+
+        return filterIncludedAnswers(allRomanNumeralAnswerList, includedChords);
+      }),
       ...logic(),
       handleFinishedAnswering(numberOfMistakes) {
         if (settings.learnProgressions) {
@@ -238,6 +275,7 @@ export const chordsInRealSongsExercise: Exercise<
         if (settings.learnProgressions) {
           fsrsLogic.reset();
         }
+        learnModeLastProgressionIndex.set(0);
       },
     };
   },

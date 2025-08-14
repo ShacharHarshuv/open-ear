@@ -200,10 +200,19 @@ export function fsrsExercise<GAnswer extends string>(
     logic.reset?.();
   }
 
-  return {
+  return atLeast({
     getQuestion,
     reset,
     handleFinishedAnswering,
     questionStartedPlaying,
-  } satisfies Omit<ExerciseLogic<GAnswer>, 'answerList'>;
+    get cardsCollections() {
+      return cardsCollections;
+    },
+  });
+
+  function atLeast<U extends Omit<ExerciseLogic<GAnswer>, 'answerList'>>(
+    value: U,
+  ) {
+    return value;
+  }
 }
