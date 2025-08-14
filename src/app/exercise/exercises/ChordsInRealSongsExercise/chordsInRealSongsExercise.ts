@@ -216,22 +216,18 @@ export const chordsInRealSongsExercise: Exercise<
     };
 
     return {
-      answerList: () => {
-        const progressionsList = getIncludedSegments(settings());
-        const includedAnswers = _.uniq(
+      answerList: filterIncludedAnswers(
+        allRomanNumeralAnswerList,
+        _.uniq(
           _.flatMap(
-            progressionsList,
+            availableSegments,
             (progression: YouTubeSongQuestion): RomanNumeralChordSymbol[] =>
               progression.chords.map(
                 (chordDescriptor) => chordDescriptor.chord,
               ),
           ),
-        );
-        return filterIncludedAnswers(
-          allRomanNumeralAnswerList,
-          includedAnswers,
-        );
-      },
+        ),
+      ),
       ...logic(),
       handleFinishedAnswering(numberOfMistakes) {
         if (settings().learnProgressions) {

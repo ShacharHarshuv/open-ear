@@ -118,13 +118,13 @@ export const chordTypeExercise: Exercise<ChordType, ChordTypeInKeySettings> = {
 
         return tonalExercise.getQuestion(settings(), questionInC);
       },
-      answerList: () => {
-        const includedTypes = settings().includedRomanNumerals.map(
+      answerList: filterIncludedAnswers(
+        chordTypeAnswerList,
+        settings().includedRomanNumerals.map(
           (romanNumeralSymbol) =>
             romanNumeralToChordInC(romanNumeralSymbol).type,
-        );
-        return filterIncludedAnswers(chordTypeAnswerList, includedTypes);
-      },
+        ),
+      ),
     };
   },
   settingsConfig: {

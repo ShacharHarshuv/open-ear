@@ -121,8 +121,9 @@ export const triadInversionExercise: Exercise<
 
         return tonalExercise.getQuestion(settings(), questionInC);
       },
-      answerList: () =>
-        tonalExercise.answerList(includedAnswers.answerList(settings())),
+      answerList: tonalExercise.answerList(
+        includedAnswers.answerList(settings()),
+      ),
     };
   },
   settingsConfig: {

@@ -55,7 +55,7 @@ export const chordInKeyExercise: Exercise<
 
         return romanAnalysis.getQuestion(settings(), chords);
       },
-      answerList: () => includedAnswers.answerList(settings()),
+      answerList: includedAnswers.answerList(settings()),
     };
   },
   settingsConfig: {

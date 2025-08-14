@@ -387,8 +387,9 @@ export const notesWithChordsExercise: Exercise<
 
         return tonalExercise.getQuestion(settings(), getQuestionInC);
       },
-      answerList: () =>
-        tonalExercise.answerList(includedAnswers.answerList(settings())),
+      answerList: tonalExercise.answerList(
+        includedAnswers.answerList(settings()),
+      ),
     };
   },
   settingsConfig: {

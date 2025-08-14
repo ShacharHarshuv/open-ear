@@ -371,6 +371,6 @@ export const notesInKeyExercise: Exercise<SolfegeNote, NoteInKeySettings> = {
         },
       });
     },
-    answerList: () => includedAnswers.answerList(settings()),
+    answerList: includedAnswers.answerList(settings()),
   }),
 };

@@ -101,18 +101,15 @@ export const commonChordProgressionExercise: Exercise<
         selectedChordProgression.romanNumerals,
       );
     },
-    answerList: () => {
-      const includedAnswers: RomanNumeralChordSymbol[] = _.uniq(
+    answerList: filterIncludedAnswers(
+      romanAnalysis.fullAnswerList,
+      _.uniq(
         _.flatMap(
           getIncludedProgressionsDescriptors(settings()),
           'romanNumerals',
         ),
-      );
-      return filterIncludedAnswers(
-        romanAnalysis.fullAnswerList,
-        includedAnswers,
-      );
-    },
+      ),
+    ),
   }),
   settingsConfig: {
     controls: [

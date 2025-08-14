@@ -519,7 +519,7 @@ export type SettingsControlDescriptor<
 export type ExerciseExplanationContent = string | Type<any>;
 
 export interface ExerciseLogic<GAnswer extends string = string> {
-  answerList: () => AnswerList<GAnswer>;
+  answerList: AnswerList<GAnswer>;
   // todo: consider moving learn logic to be per exercise, so questionToExclude argument shouldn't need to be here
   getQuestion(questionsToExclude?: string[]): Question<GAnswer>;
   getQuestionById?(id: string): Question<GAnswer> | undefined;

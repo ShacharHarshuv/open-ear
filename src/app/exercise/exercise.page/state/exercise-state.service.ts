@@ -91,7 +91,9 @@ export class ExerciseStateService<
   readonly message = this._message.asReadonly();
   readonly error = this._error.asReadonly();
   readonly name: string = this.exercise.name;
-  readonly answerList = computed(() => this.exerciseLogic().answerList());
+  readonly answerList = computed(() =>
+    toGetter(this.exerciseLogic().answerList)(),
+  );
   readonly answerToLabelStringMap = this._getAnswerToLabelStringMap();
 
   constructor() {
