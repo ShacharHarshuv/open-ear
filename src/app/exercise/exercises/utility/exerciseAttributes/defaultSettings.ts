@@ -1,10 +1,10 @@
 import Exercise from '../../../exercise-logic';
-import { SettingsParams } from '../settings/SettingsParams';
+import { SettingsConfig } from '../../../exercise-logic/settings-config';
 
 export function defaultSettings<Settings extends Exercise.Settings>(
   defaultSettings: Settings,
-): Pick<SettingsParams<Settings>, 'defaultSettings'> {
+): Pick<SettingsConfig<Settings>, 'defaultSettings'> {
   return {
-    defaultSettings,
+    defaults: defaultSettings,
   };
 }

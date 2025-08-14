@@ -1,6 +1,11 @@
 import * as _ from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
-import Exercise from '../../exercise-logic';
+import {
+  AnswerList,
+  Exercise,
+  ExerciseLogic,
+  Question,
+} from '../../exercise-logic';
 import {
   DeepReadonly,
   NotesRange,
@@ -10,15 +15,15 @@ import {
 } from '../../utility';
 import { NoteNumber } from '../../utility/music/notes/NoteNumberOrName';
 import { transpose } from '../../utility/music/transpose';
-import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
-import { createExercise } from '../utility/exerciseAttributes/createExercise';
 import {
   IncludedAnswersSettings,
-  includedAnswersSettings,
+  useIncludedAnswers,
 } from '../utility/settings/IncludedAnswersSettings';
-import { playWrongAnswerSettings } from '../utility/settings/PlayWrongAnswerSettings';
+import {
+  PlayWrongAnswerSettings,
+  usePlayWrongAnswer,
+} from '../utility/settings/PlayWrongAnswerSettings';
 import { IntervalExerciseExplanationComponent } from './interval-exercise-explanation/interval-exercise-explanation.component';
-import AnswerList = Exercise.AnswerList;
 
 export type IntervalName =
   | 'Minor 2nd'
@@ -39,10 +44,11 @@ export type IntervalDescriptor = {
   semitones: number;
 };
 
-export type IntervalExerciseSettings = IncludedAnswersSettings<IntervalName> & {
-  intervalType: 'melodic' | 'harmonic';
-  intervalDirection: 'random' | 'ascending' | 'descending';
-};
+export type IntervalExerciseSettings = PlayWrongAnswerSettings &
+  IncludedAnswersSettings<IntervalName> & {
+    intervalType: 'melodic' | 'harmonic';
+    intervalDirection: 'random' | 'ascending' | 'descending';
+  };
 
 export const intervalDescriptorList: DeepReadonly<IntervalDescriptor[]> = [
   {
@@ -103,86 +109,96 @@ const intervalNameToIntervalDescriptor: Record<
   IntervalDescriptor
 >;
 
-export const intervalExercise = () => {
-  const allAnswersList: AnswerList<IntervalName> = {
-    rows: [
-      ['Minor 2nd', 'Major 2nd'],
-      ['Minor 3rd', 'Major 3rd'],
-      ['Perfect 4th', 'Aug 4th', 'Perfect 5th'],
-      ['Minor 6th', 'Major 6th'],
-      ['Minor 7th', 'Major 7th'],
-      ['Octave'],
-    ].map((row: IntervalName[]) =>
-      row.map((interval: IntervalName) => {
-        return {
-          answer: interval,
-        };
-      }),
-    ),
-  };
-  const range = new NotesRange('C3', 'E5');
+const allAnswersList: AnswerList<IntervalName> = {
+  rows: [
+    ['Minor 2nd', 'Major 2nd'],
+    ['Minor 3rd', 'Major 3rd'],
+    ['Perfect 4th', 'Aug 4th', 'Perfect 5th'],
+    ['Minor 6th', 'Major 6th'],
+    ['Minor 7th', 'Major 7th'],
+    ['Octave'],
+  ].map((row: IntervalName[]) =>
+    row.map((interval: IntervalName) => {
+      return {
+        answer: interval,
+      };
+    }),
+  ),
+};
+const range = new NotesRange('C3', 'E5');
 
-  return composeExercise(
-    includedAnswersSettings({
-      name: 'Intervals',
-    }),
-    () => ({
-      settingsDescriptors: [
-        {
-          key: 'intervalType',
-          info: 'Whether two notes are played sequentially or simultaneously.',
-          descriptor: {
-            label: 'Interval Type',
-            controlType: 'select',
-            options: [
-              {
-                label: 'Melodic',
-                value: 'melodic',
-              },
-              {
-                label: 'Harmonic',
-                value: 'harmonic',
-              },
-            ],
-          },
+const includedAnswers = useIncludedAnswers({
+  name: 'Intervals',
+  fullAnswerList: allAnswersList,
+});
+
+const playWrongAnswer = usePlayWrongAnswer();
+
+export const intervalExercise: Exercise<
+  IntervalName,
+  IntervalExerciseSettings
+> = {
+  id: 'interval',
+  name: 'Intervals',
+  summary: 'Identify intervals chromatically (no key)',
+  explanation: IntervalExerciseExplanationComponent,
+  settingsConfig: {
+    defaults: {
+      ...includedAnswers.defaults,
+      ...playWrongAnswer.defaults,
+      intervalType: 'melodic',
+      intervalDirection: 'random',
+    },
+    controls: [
+      includedAnswers.settingDescriptor,
+      {
+        key: 'intervalType',
+        info: 'Whether two notes are played sequentially or simultaneously.',
+        descriptor: {
+          label: 'Interval Type',
+          controlType: 'select',
+          options: [
+            {
+              label: 'Melodic',
+              value: 'melodic',
+            },
+            {
+              label: 'Harmonic',
+              value: 'harmonic',
+            },
+          ],
         },
-        {
-          key: 'intervalDirection',
-          info: 'Whether the interval is played ascending or descending. Default is for a random choice of either to be picked.',
-          descriptor: {
-            label: 'Interval Direction',
-            controlType: 'select',
-            options: [
-              {
-                label: 'Random',
-                value: 'random',
-              },
-              {
-                label: 'Ascending',
-                value: 'ascending',
-              },
-              {
-                label: 'Descending',
-                value: 'descending',
-              },
-            ],
-          },
+      },
+      {
+        key: 'intervalDirection',
+        info: 'Whether the interval is played ascending or descending. Default is for a random choice of either to be picked.',
+        descriptor: {
+          label: 'Interval Direction',
+          controlType: 'select',
+          options: [
+            {
+              label: 'Random',
+              value: 'random',
+            },
+            {
+              label: 'Ascending',
+              value: 'ascending',
+            },
+            {
+              label: 'Descending',
+              value: 'descending',
+            },
+          ],
         },
-      ],
-    }),
-    playWrongAnswerSettings(),
-    createExercise,
-  )({
-    id: 'interval',
-    name: 'Intervals',
-    summary: 'Identify intervals chromatically (no key)',
-    explanation: IntervalExerciseExplanationComponent,
-    getQuestion(
-      settings: IntervalExerciseSettings,
-    ): Exercise.Question<IntervalName> {
+      },
+      playWrongAnswer.settingDescriptor,
+    ],
+  },
+  logic: (settings): ExerciseLogic<IntervalName> => {
+    function getQuestion(): Question<IntervalName> {
       const randomIntervalDescriptor: IntervalDescriptor = randomFromList(
         intervalDescriptorList.filter((intervalDescriptor) =>
-          settings.includedAnswers.includes(intervalDescriptor.name),
+          settings().includedAnswers.includes(intervalDescriptor.name),
         ),
       );
       const randomStartingNoteNumber: NoteNumber = _.random(
@@ -195,15 +211,14 @@ export const intervalExercise = () => {
       );
 
       let [startNoteName, endNoteName] = _.shuffle([lowNoteName, highNoteName]);
-      if (settings.intervalDirection === 'ascending') {
-          [startNoteName, endNoteName] = [lowNoteName, highNoteName];
-      } else if (settings.intervalDirection === 'descending') {
-          [startNoteName, endNoteName] = [highNoteName, lowNoteName];
+      if (settings().intervalDirection === 'ascending') {
+        [startNoteName, endNoteName] = [lowNoteName, highNoteName];
+      } else if (settings().intervalDirection === 'descending') {
+        [startNoteName, endNoteName] = [highNoteName, lowNoteName];
       }
 
-
       function getPartFromNotes(start: Note, end: Note) {
-        return settings.intervalType === 'melodic'
+        return settings().intervalType === 'melodic'
           ? [{ notes: start }, { notes: end }]
           : [{ notes: [start, end] }];
       }
@@ -234,10 +249,11 @@ export const intervalExercise = () => {
           afterCorrectAnswer: `Notes played: ${startNoteName} - ${endNoteName}`,
         },
       };
-    },
-    answerList: allAnswersList,
-    defaultSettings: {
-      intervalType: 'melodic',
-    },
-  });
+    }
+
+    return {
+      getQuestion: () => playWrongAnswer.getQuestion(settings, getQuestion),
+      answerList: () => includedAnswers.answerList(settings()),
+    };
+  },
 };

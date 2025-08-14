@@ -1,14 +1,13 @@
 import { AcceptableChordAnalysisOptions } from 'src/app/exercise/utility/music/harmony/isAcceptableChordAnalysis';
-import { Settings } from '../../../exercise-logic';
-import { SettingsParams } from './SettingsParams';
+import { SettingsConfig } from '../../../exercise-logic/settings-config';
 
-export interface AcceptEquivalentChordSettings extends Settings {
+export type AcceptEquivalentChordSettings = {
   acceptEquivalentChord: boolean;
-}
+};
 
-export const flexibleChordChoiceSettings: SettingsParams<AcceptEquivalentChordSettings> =
+export const flexibleChordChoiceSettings: SettingsConfig<AcceptEquivalentChordSettings> =
   {
-    settingsDescriptors: [
+    controls: [
       {
         key: 'acceptEquivalentChord',
         info:
@@ -20,7 +19,7 @@ export const flexibleChordChoiceSettings: SettingsParams<AcceptEquivalentChordSe
         },
       },
     ],
-    defaultSettings: {
+    defaults: {
       acceptEquivalentChord: true,
     },
   };

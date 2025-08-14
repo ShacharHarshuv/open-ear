@@ -1,4 +1,5 @@
 import { Injectable, inject } from '@angular/core';
+import { ExerciseSettings } from '../exercise/exercise-logic';
 import { ExerciseSettingsData } from '../exercise/utility';
 import { StorageService } from '../storage/storage.service';
 
@@ -9,12 +10,12 @@ export class ExerciseSettingsDataService {
   private _storageService = inject(StorageService);
   private readonly _exerciseSettingsKey: string = 'exerciseSettings';
 
-  async saveExerciseSettings(
+  async saveExerciseSettings<GSettings extends ExerciseSettings>(
     exerciseId: string,
-    settings: Partial<ExerciseSettingsData>,
+    settings: Partial<ExerciseSettingsData<GSettings>>,
   ): Promise<void> {
     const currentExercisesSettings: {
-      [exerciseKey: string]: ExerciseSettingsData;
+      [exerciseKey: string]: ExerciseSettingsData<GSettings>;
     } = (await this._storageService.get(this._exerciseSettingsKey)) || {};
     currentExercisesSettings[exerciseId] = {
       ...currentExercisesSettings[exerciseId],
@@ -26,9 +27,9 @@ export class ExerciseSettingsDataService {
     );
   }
 
-  async getExerciseSettings(
+  async getExerciseSettings<GSettings extends ExerciseSettings>(
     exerciseId: string,
-  ): Promise<Partial<ExerciseSettingsData> | undefined> {
+  ): Promise<Partial<ExerciseSettingsData<GSettings>> | undefined> {
     return (await this._storageService.get(this._exerciseSettingsKey))?.[
       exerciseId
     ];

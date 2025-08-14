@@ -1,27 +1,18 @@
+import { Exercise, ExerciseLogic } from '../../exercise-logic';
 import { RomanNumeralChordSymbol } from '../../utility';
-import {
-  composeSequenceWithGrammar,
-  noRepeatsRule,
-  acceptOnly,
-  acceptAll,
-} from '../../utility/grammer';
-import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
-import { chordVoicingSettings } from '../utility/exerciseAttributes/chordProgressionExercise';
-import { composeExercise } from '../utility/exerciseAttributes/composeExercise';
-import { createExercise } from '../utility/exerciseAttributes/createExercise';
+import { composeSequenceWithGrammar } from '../../utility/grammer';
+import { allRomanNumeralAnswerList } from '../utility/exerciseAttributes/roman-analysis-chord-progression-exercise/roman-numeral-answer-list';
 import {
   RomanAnalysisChordProgressionExerciseSettings,
-  RomanNumeralsChordProgressionQuestion,
-  romanAnalysisChordProgressionExercise,
+  useRomanAnalysisChordProgressionExercise,
 } from '../utility/exerciseAttributes/roman-analysis-chord-progression-exercise/romanAnalysisChordProgressionExercise';
-import { cadenceTypeSettings } from '../utility/settings/CadenceTypeSetting';
 import {
   IncludedAnswersSettings,
-  includedAnswersSettings,
+  useIncludedAnswers,
 } from '../utility/settings/IncludedAnswersSettings';
 import {
   NumberOfSegmentsSetting,
-  numberOfSegmentsControlDescriptorList,
+  useNumberOfSegments,
 } from '../utility/settings/NumberOfSegmentsSetting';
 import {
   PlayAfterCorrectAnswerSetting,
@@ -30,54 +21,59 @@ import {
 import { ChordInKeyExplanationComponent } from './chord-in-key-explanation/chord-in-key-explanation.component';
 import { chordProgressionRules } from './grammar/chord-progression-rules';
 
-type ChordInKeySettings = IncludedAnswersSettings<RomanNumeralChordSymbol> &
-  RomanAnalysisChordProgressionExerciseSettings &
-  NumberOfSegmentsSetting &
-  PlayAfterCorrectAnswerSetting;
+export type ChordInKeySettings =
+  IncludedAnswersSettings<RomanNumeralChordSymbol> &
+    RomanAnalysisChordProgressionExerciseSettings &
+    NumberOfSegmentsSetting &
+    PlayAfterCorrectAnswerSetting;
 
-export function chordInKeyExercise() {
-  return composeExercise(
-    cadenceTypeSettings(),
-    romanAnalysisChordProgressionExercise({
-      voicingSettings: false,
-    }),
-    includedAnswersSettings({
-      defaultSelectedAnswers: ['I', 'IV', 'V'],
-      name: 'Roman Numerals',
-    }),
-    chordVoicingSettings(),
-    createExercise,
-  )({
-    id: 'chordInKey',
-    name: 'Chord Functions',
-    summary: 'Identify chords based on their tonal context in a key',
-    explanation: ChordInKeyExplanationComponent,
-    getChordProgressionInRomanNumerals(
-      settings: ChordInKeySettings,
-    ): RomanNumeralsChordProgressionQuestion {
-      const numberOfSegments = settings.numberOfSegments;
-      const availableChords =
-        settings.includedAnswers;
+const numberOfSegments = useNumberOfSegments('chord');
 
-      const sequence = composeSequenceWithGrammar(
-        availableChords,
-        numberOfSegments,
-        chordProgressionRules,
-      );
-      return {
-        chordProgressionInRomanAnalysis: sequence,
-      };
-    },
-    settingsDescriptors: [
-      ...numberOfSegmentsControlDescriptorList('chords'),
+const romanAnalysis = useRomanAnalysisChordProgressionExercise();
+
+const includedAnswers = useIncludedAnswers({
+  name: 'Roman Numerals',
+  fullAnswerList: allRomanNumeralAnswerList,
+});
+
+export const chordInKeyExercise: Exercise<
+  RomanNumeralChordSymbol,
+  ChordInKeySettings
+> = {
+  id: 'chordInKey',
+  name: 'Chord Functions',
+  summary: 'Identify chords based on their tonal context in a key',
+  explanation: ChordInKeyExplanationComponent,
+  logic: (settings): ExerciseLogic<RomanNumeralChordSymbol> => {
+    return {
+      getQuestion() {
+        const chords = composeSequenceWithGrammar(
+          settings().includedAnswers,
+          settings().numberOfSegments,
+          chordProgressionRules,
+        );
+
+        return romanAnalysis.getQuestion(settings(), chords);
+      },
+      answerList: () => includedAnswers.answerList(settings()),
+    };
+  },
+  settingsConfig: {
+    controls: [
+      ...romanAnalysis.settingsConfig.controls,
+      includedAnswers.settingDescriptor,
+      numberOfSegments.settingsDescriptor,
       ...playAfterCorrectAnswerControlDescriptorList({
         show: (settings: ChordInKeySettings) => settings.numberOfSegments === 1,
       }),
     ],
-    defaultSettings: {
+    defaults: {
+      ...romanAnalysis.settingsConfig.defaults,
+      ...numberOfSegments.defaults,
+      ...includedAnswers.defaults,
+      includedAnswers: ['I', 'IV', 'V'],
       numberOfSegments: 1,
       playAfterCorrectAnswer: true,
-      includedAnswers: ['I', 'IV', 'V'],
     },
-  });
-}
+  },
+};

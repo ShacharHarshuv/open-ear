@@ -22,7 +22,9 @@ import {
 } from './types';
 
 export class FormGroup<
-    GControlsOrValue extends { [p: string]: any } = { [p: string]: any },
+    GControlsOrValue extends { [p: string | symbol]: any } = {
+      [p: string | symbol]: any;
+    },
     GErrors extends ValidationErrors = ValidationErrors,
     GParent extends TAbstractControlParent = any,
   >

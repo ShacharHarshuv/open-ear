@@ -19,6 +19,7 @@ import {
 import { keys } from '../../../../shared/ts-utility/keys';
 import Exercise, {
   ControlDescriptor,
+  ExerciseSettings,
   IncludedAnswersControlDescriptor,
   ListSelectControlDescriptor,
   SelectControlDescriptor,
@@ -153,7 +154,8 @@ export class ExerciseSettingsPage {
     settingsDescriptor: Exercise.SettingsControlDescriptor[],
   ) {
     this.exerciseSettingsDescriptor = settingsDescriptor;
-    const controls: TAbstractControlsOf<{ [key: string]: any }, {}> = {};
+    const controls: TAbstractControlsOf<{ [key: string | symbol]: any }, {}> =
+      {};
     for (let settingsControlDescriptor of settingsDescriptor) {
       if (settingsControlDescriptor.key) {
         controls[settingsControlDescriptor.key] = new FormControl();
@@ -162,9 +164,9 @@ export class ExerciseSettingsPage {
     this.exerciseFormGroup = new FormGroup(controls);
   }
 
-  async onClose(): Promise<ExerciseSettingsData> {
-    const newGlobalSettings: GlobalExerciseSettings = this._getNewSettings();
-    const exerciseSettingsData: ExerciseSettingsData = {
+  async handleClose(): Promise<ExerciseSettingsData<ExerciseSettings>> {
+    const newGlobalSettings = this._getNewSettings();
+    const exerciseSettingsData: ExerciseSettingsData<ExerciseSettings> = {
       globalSettings: newGlobalSettings,
       exerciseSettings: this.exerciseFormGroup.getRawValue(),
     };

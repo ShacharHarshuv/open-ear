@@ -1,8 +1,8 @@
-import Exercise from '../../exercise-logic';
+import { ExerciseSettings } from '../../exercise-logic';
 import { GlobalExerciseSettings } from './GlobalExerciseSettings';
 
-export interface ExerciseSettingsData {
+export interface ExerciseSettingsData<GSettings extends ExerciseSettings> {
   globalSettings: GlobalExerciseSettings;
-  exerciseSettings: { [key: string]: Exercise.SettingValueType };
+  exerciseSettings: GSettings;
   wasExplanationDisplayed?: boolean;
 }

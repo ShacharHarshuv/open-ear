@@ -141,24 +141,25 @@ type TAbstractControlOfWithPotentialUnion<
 export type TAbstractControlOf<
   T,
   GParent extends TAbstractControlParent = any,
-> = IAbstractControl<
-  any,
-  any,
-  GParent
-> extends TAbstractControlOfWithPotentialUnion<T>
-  ? IAbstractControl<
-      TAbstractControlOfWithPotentialUnion<T>['value'],
-      any,
-      GParent
-    >
-  : TAbstractControlOfWithPotentialUnion<T, GParent>;
+> =
+  IAbstractControl<
+    any,
+    any,
+    GParent
+  > extends TAbstractControlOfWithPotentialUnion<T>
+    ? IAbstractControl<
+        TAbstractControlOfWithPotentialUnion<T>['value'],
+        any,
+        GParent
+      >
+    : TAbstractControlOfWithPotentialUnion<T, GParent>;
 
 /**
  * Convert an object of a FormGroup's "value" or "controls" to "controls".
  * Converting non-control types to AbstractControl of the type
  * */
 export type TAbstractControlsOf<
-  GValueOrControls extends { [key: string]: any },
+  GValueOrControls extends { [key: string | symbol]: any },
   GParentErrors extends ValidationErrors,
 > = {
   [K in keyof GValueOrControls]: GValueOrControls[K] extends IAbstractControl

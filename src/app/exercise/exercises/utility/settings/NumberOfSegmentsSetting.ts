@@ -1,29 +1,27 @@
 import Exercise from '../../../exercise-logic';
-import { withSettings } from './withSettings';
 
 export type NumberOfSegmentsSetting = {
   numberOfSegments: number;
 };
 
-export const numberOfSegmentsControlDescriptorList = (
-  name: string,
-): Exercise.SettingsControlDescriptor<NumberOfSegmentsSetting>[] => [
-  {
-    key: 'numberOfSegments',
-    descriptor: {
-      controlType: 'slider',
-      label: `Number of ${name}`,
-      min: 1,
-      max: 8,
-      step: 1,
-    },
-  },
-];
+export const useNumberOfSegments = (name: string) => {
+  const defaultSettings: NumberOfSegmentsSetting = {
+    numberOfSegments: 1,
+  };
+  const settingsDescriptor: Exercise.SettingsControlDescriptor<NumberOfSegmentsSetting> =
+    {
+      key: 'numberOfSegments',
+      descriptor: {
+        controlType: 'slider',
+        label: `Number of ${name}`,
+        min: 1,
+        max: 8,
+        step: 1,
+      },
+    };
 
-export const numberOfSegmentsSettings = (name: string) =>
-  withSettings({
-    settingsDescriptors: numberOfSegmentsControlDescriptorList(name),
-    defaultSettings: {
-      numberOfSegments: 1,
-    },
-  });
+  return {
+    settingsDescriptor,
+    defaults: defaultSettings,
+  };
+};

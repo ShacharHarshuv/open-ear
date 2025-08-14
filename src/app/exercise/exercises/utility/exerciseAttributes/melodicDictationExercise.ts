@@ -1,16 +1,18 @@
 import * as _ from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { Time } from 'tone/Tone/core/type/Units';
-import Exercise from '../../../exercise-logic';
+import Exercise, {
+  AnswerConfig,
+  AnswerList,
+  SettingsControlDescriptor,
+} from '../../../exercise-logic';
 import {
   OneOrMany,
   ScaleDegree,
   SolfegeNote,
-  StaticOrGetter,
   getNoteFromScaleDegree,
   randomFromList,
   scaleDegreeToSolfegeNote,
-  toGetter,
 } from '../../../utility';
 import { toMusicalTextDisplay } from '../../../utility/music/getMusicTextDisplay';
 import { getNoteType } from '../../../utility/music/notes/getNoteType';
@@ -20,17 +22,18 @@ import {
   TonalExerciseConfig,
   TonalExerciseSettings,
   TonalExerciseUtils,
-  tonalExercise,
+  useTonalExercise,
 } from './tonalExercise';
 
 type NoteInKeyDisplayMode = 'solfege' | 'numeral';
 
 export type MelodicDictationExerciseSettings = TonalExerciseSettings & {
   displayMode: NoteInKeyDisplayMode;
+  // todo: this settings should be part of notesInKeyExercise instead
   rhythmicValues: string[];
 };
 
-export interface IMelodicQuestion
+export interface MelodicQuestion
   extends Omit<Exercise.NotesQuestion<SolfegeNote>, 'segments'> {
   /**
    * Use array of arrays for multiple voices
@@ -38,25 +41,47 @@ export interface IMelodicQuestion
   segments: OneOrMany<Note[]>;
 }
 
-export function melodicExercise<
-  GSettings extends MelodicDictationExerciseSettings,
->(config?: TonalExerciseConfig) {
+export function useMelodicExercise(config?: TonalExerciseConfig) {
   const defaultNoteDuration: Time = '2n';
 
-  return function (params: {
-    getMelodicQuestionInC: StaticOrGetter<
-      IMelodicQuestion,
-      [GSettings, TonalExerciseUtils]
-    >;
-  }) {
-    return tonalExercise(config)({
-      getQuestion(
-        settings: GSettings,
-        tonalExerciseUtils: TonalExerciseUtils,
-      ): Exclude<Exercise.NotesQuestion<SolfegeNote>, 'cadence'> {
-        const melodicQuestionInC: IMelodicQuestion = toGetter(
-          params.getMelodicQuestionInC,
-        )(settings, tonalExerciseUtils);
+  const tonalExercise = useTonalExercise(config);
+
+  const defaults: MelodicDictationExerciseSettings = {
+    ...tonalExercise.defaults,
+    displayMode: 'numeral',
+    rhythmicValues: ['2n'],
+  };
+
+  const settingsDescriptors: SettingsControlDescriptor<MelodicDictationExerciseSettings>[] =
+    [
+      ...tonalExercise.settingsDescriptors,
+      {
+        key: 'displayMode',
+        info: 'Choose how the scale degrees are noted. <br>(This setting will apply only after you close the settings page.)',
+        descriptor: {
+          label: 'Display',
+          controlType: 'select',
+          options: [
+            {
+              label: 'Numbers',
+              value: 'numeral',
+            },
+            {
+              label: 'Movable-Do',
+              value: 'solfege',
+            },
+          ],
+        },
+      },
+    ];
+
+  return {
+    getQuestion: (params: {
+      settings: MelodicDictationExerciseSettings;
+      getMelodicQuestionInC: (utils: TonalExerciseUtils) => MelodicQuestion;
+    }) => {
+      function getQuestionInC(utils: TonalExerciseUtils) {
+        const melodicQuestionInC = params.getMelodicQuestionInC(utils);
 
         function isManyVoices(
           segments: OneOrMany<Note[]>,
@@ -67,7 +92,7 @@ export function melodicExercise<
         const notesByVoice: Note[][] = isManyVoices(melodicQuestionInC.segments)
           ? melodicQuestionInC.segments
           : [melodicQuestionInC.segments];
-        const rhythmicValues = settings.rhythmicValues;
+        const rhythmicValues = params.settings.rhythmicValues;
         const segments: Exercise.NotesQuestion<SolfegeNote>['segments'] = [];
         notesByVoice.forEach((voice) => {
           voice.forEach((note, index) => {
@@ -99,30 +124,34 @@ export function melodicExercise<
         }
 
         return question;
-      },
-      answerList: (settings: GSettings) =>
-        Exercise.mapAnswerList(
-          scaleLayout,
-          (
-            _answerConfig: Exercise.AnswerConfig<ScaleDegree>,
-          ): Exercise.AnswerConfig<SolfegeNote> => {
-            const scaleDegree: ScaleDegree | null = _answerConfig.answer;
-            const answerConfig: Exercise.AnswerConfig<SolfegeNote> = {
-              ...(_answerConfig as Exercise.AnswerConfig<string>),
-              answer: scaleDegree
-                ? scaleDegreeToSolfegeNote[scaleDegree]
-                : null,
-              playOnClick:
-                scaleDegree && getNoteFromScaleDegree('C', scaleDegree),
-            };
+      }
 
-            if (scaleDegree && settings.displayMode === 'numeral') {
-              answerConfig.displayLabel = toMusicalTextDisplay(scaleDegree);
-            }
+      return tonalExercise.getQuestion(params.settings, getQuestionInC);
+    },
+    answerList: (
+      settings: Pick<MelodicDictationExerciseSettings, 'displayMode'>,
+    ): AnswerList<SolfegeNote> =>
+      Exercise.mapAnswerList(
+        scaleLayout,
+        (
+          _answerConfig: AnswerConfig<ScaleDegree>,
+        ): AnswerConfig<SolfegeNote> => {
+          const scaleDegree: ScaleDegree | null = _answerConfig.answer;
+          const answerConfig: AnswerConfig<SolfegeNote> = {
+            ...(_answerConfig as AnswerConfig<string>),
+            answer: scaleDegree ? scaleDegreeToSolfegeNote[scaleDegree] : null,
+            playOnClick:
+              scaleDegree && getNoteFromScaleDegree('C', scaleDegree),
+          };
 
-            return answerConfig;
-          },
-        ),
-    });
+          if (scaleDegree && settings.displayMode === 'numeral') {
+            answerConfig.displayLabel = toMusicalTextDisplay(scaleDegree);
+          }
+
+          return answerConfig;
+        },
+      ),
+    defaults,
+    settingsDescriptors,
   };
 }

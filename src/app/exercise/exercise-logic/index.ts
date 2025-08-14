@@ -1,4 +1,5 @@
 export * from './Exercise';
+export * from './settings-config';
 
 import * as Exercise from './index';
 

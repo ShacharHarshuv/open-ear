@@ -1,14 +1,15 @@
-import { Type } from '@angular/core';
+import { Signal, Type } from '@angular/core';
 import { Platforms } from '@ionic/core/dist/types/utils/platform';
 import * as _ from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { NoteEvent } from '../../services/player.service';
 import {
-  isValueTruthy,
   OneOrMany,
   StaticOrGetter,
+  isValueTruthy,
 } from '../../shared/ts-utility';
 import { Key } from '../utility';
+import { SettingsConfig } from './settings-config';
 
 type PartToPlay = NoteEvent[] | OneOrMany<Note>;
 
@@ -471,7 +472,7 @@ export interface IncludedAnswersControlDescriptor<
 
 export type SettingValueType = number | string | boolean | (string | number)[];
 
-export type Settings = { [key: string]: SettingValueType };
+export type ExerciseSettings = { [K in string]: SettingValueType };
 
 export type ControlDescriptor =
   | SliderControlDescriptor
@@ -484,19 +485,19 @@ export type ControlDescriptor =
  * Usage of GKey is necessary here to avoid this issue: https://github.com/microsoft/TypeScript/issues/41595
  * */
 export type SettingsControlDescriptor<
-  GSettings extends Settings = Settings,
-  GKey extends keyof GSettings = keyof GSettings,
+  GSettings extends ExerciseSettings = any,
+  GKey extends keyof GSettings & string = keyof GSettings & string,
 > =
   /*GKey extends string ?*/
   (
     | {
         key: GKey;
-        getter?: undefined;
-        onChange?: undefined;
+        getter?: never;
+        onChange?: never;
       }
     | {
-        key?: undefined;
-        getter: (currentSettings: GSettings) => any;
+        key?: never;
+        getter: (currentSettings: ExerciseSettings) => any;
         onChange: (
           newValue: any,
           prevValue: any,
@@ -510,17 +511,28 @@ export type SettingsControlDescriptor<
       ControlDescriptor,
       [GSettings]
     >;
-    show?: (settings: GSettings) => boolean;
+    show?: (settings: ExerciseSettings) => boolean;
     info?: string; // can contain html
-    isDisabled?: (settings: GSettings, currentValue: any) => boolean;
+    isDisabled?: (settings: ExerciseSettings, currentValue: any) => boolean;
   } /* : never*/;
 
 export type ExerciseExplanationContent = string | Type<any>;
 
-export type Exercise<
+export interface ExerciseLogic<GAnswer extends string = string> {
+  answerList: () => AnswerList<GAnswer>;
+  // todo: consider moving learn logic to be per exercise, so questionToExclude argument shouldn't need to be here
+  getQuestion(questionsToExclude?: string[]): Question<GAnswer>;
+  getQuestionById?(id: string): Question<GAnswer> | undefined;
+  isQuestionValid?(question?: Question<GAnswer>): boolean;
+  handleFinishedAnswering?: (numberOfMistakes: number) => unknown;
+  questionStartedPlaying?: () => void;
+  reset?: () => unknown;
+}
+
+export interface Exercise<
   GAnswer extends string = string,
-  GSettings extends Settings = Settings,
-> = {
+  GSettings extends ExerciseSettings = ExerciseSettings,
+> {
   /**
    * Do not change the keys for the same exercise between versions, as it will break the persistent storage
    * */
@@ -529,26 +541,9 @@ export type Exercise<
   readonly summary: string;
   readonly explanation?: ExerciseExplanationContent;
   readonly blackListPlatform?: Platforms;
+  readonly settingsConfig: SettingsConfig<GSettings>;
 
-  getAnswerList(): AnswerList<GAnswer>;
-
-  getQuestion(questionsToExclude?: string[]): Question<GAnswer>;
-
-  getQuestionById?(id: string): Question<GAnswer> | undefined;
-
-  getSettingsDescriptor?(): SettingsControlDescriptor<GSettings>[];
-
-  updateSettings?(settings: GSettings): void;
-
-  getCurrentSettings?(): GSettings;
-
-  getIsQuestionValid?(question?: Question<GAnswer>): boolean;
-
-  onDestroy?(): void;
-
-  handleFinishedAnswering?: (numberOfMistakes: number) => unknown;
-
-  reset?: () => unknown;
-};
+  logic(settings: Signal<GSettings>): ExerciseLogic<GAnswer>;
+}
 
 export class ExerciseError extends Error {}

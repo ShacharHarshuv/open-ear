@@ -1,9 +1,14 @@
 import * as _ from 'lodash';
+import Exercise, {
+  NotesQuestion,
+  SettingsControlDescriptor,
+} from 'src/app/exercise/exercise-logic';
+import { NoteType } from 'src/app/exercise/utility/music/notes/NoteType';
+import { noteTypeToNote } from 'src/app/exercise/utility/music/notes/noteTypeToNote';
+import { mod } from 'src/app/shared/ts-utility/mod';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { Frequency } from 'tone/Tone/core/type/Units';
 import { NoteEvent } from '../../../../services/player.service';
-import { mod } from '../../../../shared/ts-utility/mod';
-import Exercise from '../../../exercise-logic';
 import {
   Key,
   NotesRange,
@@ -18,20 +23,15 @@ import {
   iv_V_i_CADENCE_IN_C,
 } from '../../../utility/music/chords';
 import { getDistanceOfKeys } from '../../../utility/music/keys/getDistanceOfKeys';
-import { NoteType } from '../../../utility/music/notes/NoteType';
-import { noteTypeToNote } from '../../../utility/music/notes/noteTypeToNote';
 import { transpose } from '../../../utility/music/transpose';
 import {
   CadenceTypeSetting,
-  cadenceTypeSettingsDescriptors,
+  cadenceTypeSettingsDescriptor,
 } from '../settings/CadenceTypeSetting';
-import { SettingsParams } from '../settings/SettingsParams';
 import {
   KeySelectionSettings,
   keySelectionSettingsDescriptors,
 } from '../settings/keySelectionSettingsDescriptors';
-import { CreateExerciseParams } from './createExercise';
-import AnswerList = Exercise.AnswerList;
 
 export type CadenceType = 'I IV V I' | 'i iv V i' | 'vi ii III vi';
 
@@ -39,52 +39,49 @@ export type DroneSettings = {
   drone: false | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 };
 
-export function droneSettingsDescriptors(): Exercise.SettingsControlDescriptor<DroneSettings>[] {
-  return [
-    {
-      key: 'drone',
-      info: 'Play a drone of the tonic note of the key. Recommend for beginners to feel the tension of the scale better.',
-      descriptor: {
-        controlType: 'select',
-        label: 'Drone',
-        options: [
-          {
-            value: false,
-            label: 'Off',
-          },
-          {
-            value: 1,
-            label: 'Major Tonic (1st)',
-          },
-          {
-            value: 6,
-            label: 'Minor Tonic (6th)',
-          },
-          {
-            value: 5,
-            label: 'Mixolydian Tonic (5th)',
-          },
-          {
-            value: 2,
-            label: 'Dorian Tonic (2nd)',
-          },
-          {
-            value: 4,
-            label: 'Lydian Tonic (4th)',
-          },
-          {
-            value: 3,
-            label: 'Phrygian Tonic (3rd)',
-          },
-          {
-            value: 7,
-            label: 'Locrian Tonic (7th)',
-          },
-        ],
-      },
+export const droneSettingsDescriptor: SettingsControlDescriptor<DroneSettings> =
+  {
+    key: 'drone',
+    info: 'Play a drone of the tonic note of the key. Recommend for beginners to feel the tension of the scale better.',
+    descriptor: {
+      controlType: 'select',
+      label: 'Drone',
+      options: [
+        {
+          value: false,
+          label: 'Off',
+        },
+        {
+          value: 1,
+          label: 'Major Tonic (1st)',
+        },
+        {
+          value: 6,
+          label: 'Minor Tonic (6th)',
+        },
+        {
+          value: 5,
+          label: 'Mixolydian Tonic (5th)',
+        },
+        {
+          value: 2,
+          label: 'Dorian Tonic (2nd)',
+        },
+        {
+          value: 4,
+          label: 'Lydian Tonic (4th)',
+        },
+        {
+          value: 3,
+          label: 'Phrygian Tonic (3rd)',
+        },
+        {
+          value: 7,
+          label: 'Locrian Tonic (7th)',
+        },
+      ],
     },
-  ];
-}
+  };
 
 export type TonalExerciseSettings = CadenceTypeSetting &
   KeySelectionSettings &
@@ -102,22 +99,22 @@ export type TonalExerciseUtils = {
   getRangeForKeyOfC(rangeForPlaying: NotesRange): NotesRange;
 };
 
-export type TonalExerciseParams<
-  GAnswer extends string,
-  GSettings extends Exercise.Settings,
-> = {
-  /*
-   * question in C
-   * */
-  readonly getQuestion: StaticOrGetter<
-    Omit<Exercise.NotesQuestion<GAnswer>, 'cadence'>,
-    [GSettings, TonalExerciseUtils]
-  >;
-  /**
-   * answerList in C
-   * */
-  readonly answerList: StaticOrGetter<AnswerList<GAnswer>, [GSettings]>;
-};
+// export type TonalExerciseParams<
+//   GAnswer extends string,
+//   GSettings extends Exercise.Settings,
+// > = {
+//   /*
+//    * question in C
+//    * */
+//   readonly getQuestion: StaticOrGetter<
+//     Omit<Exercise.NotesQuestion<GAnswer>, 'cadence'>,
+//     [GSettings, TonalExerciseUtils]
+//   >;
+//   /**
+//    * answerList in C
+//    * */
+//   readonly answerList: StaticOrGetter<AnswerList<GAnswer>, [GSettings]>;
+// };
 
 export type TonalExerciseConfig = (
   | {
@@ -129,14 +126,13 @@ export type TonalExerciseConfig = (
       cadenceTypeSelection?: false;
     }
 ) & {
+  // todo: consider, instead of adding those in the config, return the settings for those separately, so that the consumer can choose if they want to add them and in what order
+  // the downside is that order is not guaranteed to be consistent between exercises, but maybe the flexibility & simplicity is worth it
   keySelection?: boolean;
   droneSelection?: boolean;
 };
 
-export function tonalExercise<
-  GAnswer extends string,
-  GSettings extends Exercise.Settings,
->(config?: TonalExerciseConfig) {
+export function useTonalExercise(config?: TonalExerciseConfig) {
   const fullConfig: Required<TonalExerciseConfig> = _.defaults(config, {
     playCadence: true,
     cadenceTypeSelection: config?.playCadence ?? true,
@@ -201,83 +197,78 @@ export function tonalExercise<
     return transpose(rangeForPlaying, getDistanceOfKeys('C', key));
   }
 
-  return function (params: TonalExerciseParams<GAnswer, GSettings>): Pick<
-    CreateExerciseParams<GAnswer, GSettings & TonalExerciseSettings>,
-    'answerList'
-  > & {
-    readonly getQuestion: (
-      settings: GSettings & TonalExerciseSettings,
-    ) => Exercise.NotesQuestion<GAnswer>;
-  } & SettingsParams<TonalExerciseSettings> & {
-      defaultSettings: TonalExerciseSettings;
-    } {
-    return {
-      getQuestion(
-        settings: GSettings & TonalExerciseSettings,
-      ): Exercise.NotesQuestion<GAnswer> {
-        key = getKey(settings);
-        questionCount++;
-        const questionInC: Exclude<
-          Exercise.NotesQuestion<GAnswer>,
-          'cadence'
-        > = toGetter(params.getQuestion)(settings, {
-          getRangeForKeyOfC,
-        });
-        const selectedCadence = cadenceTypeToCadence[settings.cadenceType];
-        return {
-          info: keyInfo(),
-          ...questionInC,
-          segments: questionInC.segments.map((segment) => ({
-            ...segment,
-            rightAnswer: segment.rightAnswer,
-            partToPlay: transposeToKey(segment.partToPlay),
-          })),
-          cadence: fullConfig.playCadence
-            ? transposeToKey(selectedCadence)
-            : undefined,
-          key, // necessary to enforce cadence playback in case of key change
-          drone: settings.drone
-            ? transpose(
-                noteTypeToNote(key, settings.drone > 4 ? 1 : 2),
-                scaleDegreeToChromaticDegree[settings.drone.toString()] - 1,
-              )
-            : null,
-          afterCorrectAnswer: questionInC.afterCorrectAnswer?.map(
-            (afterCorrectAnswerSegment) => ({
-              answerToHighlight: afterCorrectAnswerSegment.answerToHighlight,
-              partToPlay: transposeToKey(afterCorrectAnswerSegment.partToPlay),
-            }),
-          ),
-        };
-      },
-      answerList: (settings: GSettings) => {
-        const answerListInC: Exercise.AnswerList<GAnswer> = toGetter(
-          params.answerList,
-        )(settings);
-        return Exercise.mapAnswerList(answerListInC, (answerConfig) => ({
-          ...answerConfig,
-          playOnClick: answerConfig.playOnClick
-            ? (question: Exercise.Question<GAnswer>) => {
-                const partToPlayInC: NoteEvent[] | OneOrMany<Note> | null =
-                  toGetter(answerConfig.playOnClick!)(question);
-                return partToPlayInC && transposeToKey(partToPlayInC);
-              }
-            : null,
-        }));
-      },
-      defaultSettings: {
-        cadenceType: 'I IV V I',
-        key: 'random',
-        newKeyEvery: 0,
-        drone: false,
-      },
-      settingsDescriptors: [
-        ...(fullConfig.cadenceTypeSelection
-          ? cadenceTypeSettingsDescriptors()
-          : []),
-        ...(fullConfig.keySelection ? keySelectionSettingsDescriptors() : []),
-        ...(fullConfig.droneSelection ? droneSettingsDescriptors() : []),
-      ],
-    };
+  const defaults: TonalExerciseSettings = {
+    cadenceType: 'I IV V I',
+    key: 'random',
+    newKeyEvery: 10,
+    drone: false,
+  };
+
+  const settingsDescriptors: SettingsControlDescriptor<TonalExerciseSettings>[] =
+    [
+      ...(fullConfig.cadenceTypeSelection
+        ? [cadenceTypeSettingsDescriptor]
+        : []),
+      ...(fullConfig.keySelection ? keySelectionSettingsDescriptors : []),
+      ...(fullConfig.droneSelection ? [droneSettingsDescriptor] : []),
+    ];
+
+  return {
+    getQuestion<GAnswer extends string>(
+      settings: TonalExerciseSettings,
+      questionInC: StaticOrGetter<
+        Omit<NotesQuestion<GAnswer>, 'cadence'>,
+        [TonalExerciseUtils]
+      >,
+    ): NotesQuestion<GAnswer> {
+      key = getKey(settings);
+
+      questionCount++;
+      const _questionInC = toGetter(questionInC)({
+        getRangeForKeyOfC,
+      });
+      const selectedCadence = cadenceTypeToCadence[settings.cadenceType];
+      return {
+        info: keyInfo(),
+        ..._questionInC,
+        segments: _questionInC.segments.map((segment) => ({
+          ...segment,
+          rightAnswer: segment.rightAnswer,
+          partToPlay: transposeToKey(segment.partToPlay),
+        })),
+        cadence: fullConfig.playCadence
+          ? transposeToKey(selectedCadence)
+          : undefined,
+        key, // necessary to enforce cadence playback in case of key change
+        drone: settings.drone
+          ? transpose(
+              noteTypeToNote(key, settings.drone > 4 ? 1 : 2),
+              scaleDegreeToChromaticDegree[settings.drone.toString()] - 1,
+            )
+          : null,
+        afterCorrectAnswer: _questionInC.afterCorrectAnswer?.map(
+          (afterCorrectAnswerSegment) => ({
+            answerToHighlight: afterCorrectAnswerSegment.answerToHighlight,
+            partToPlay: transposeToKey(afterCorrectAnswerSegment.partToPlay),
+          }),
+        ),
+      };
+    },
+    // This is optional, if you have a playOnClick in C that you need to transpose
+    answerList: <GAnswer extends string>(
+      answerListInC: Exercise.AnswerList<GAnswer>,
+    ) =>
+      Exercise.mapAnswerList(answerListInC, (answerConfig) => ({
+        ...answerConfig,
+        playOnClick: answerConfig.playOnClick
+          ? (question: Exercise.Question<GAnswer>) => {
+              const partToPlayInC: NoteEvent[] | OneOrMany<Note> | null =
+                toGetter(answerConfig.playOnClick!)(question);
+              return partToPlayInC && transposeToKey(partToPlayInC);
+            }
+          : null,
+      })),
+    settingsDescriptors,
+    defaults,
   };
 }

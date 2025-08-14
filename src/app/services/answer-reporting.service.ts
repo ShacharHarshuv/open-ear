@@ -4,7 +4,7 @@ import { Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import Exercise from '../exercise/exercise-logic';
+import { ExerciseSettings } from '../exercise/exercise-logic';
 import { CurrentAnswer } from '../exercise/exercise.page/state/exercise-state.service';
 import { GlobalExerciseSettings } from '../exercise/utility';
 import { StorageService } from '../storage/storage.service';
@@ -79,7 +79,7 @@ export class AnswerReportingService implements OnDestroy {
   async reportQuestion(params: {
     exerciseId: string;
     globalSettings: GlobalExerciseSettings;
-    exerciseSettings: { [key: string]: Exercise.SettingValueType };
+    exerciseSettings: ExerciseSettings;
     currentAnswers: CurrentAnswer[];
   }) {
     const { currentAnswers, ...rest } = params;

@@ -1,12 +1,12 @@
-import Exercise from '../../../exercise-logic';
+import { SettingsControlDescriptor } from 'src/app/exercise/exercise-logic';
 
 export type KeySelectionSettings = {
   key: 'C' | 'random';
   newKeyEvery: number; // 0 means never (i.e. key is randomized once per session)
 };
 
-export function keySelectionSettingsDescriptors(): Exercise.SettingsControlDescriptor<KeySelectionSettings>[] {
-  return [
+export const keySelectionSettingsDescriptors: SettingsControlDescriptor<KeySelectionSettings>[] =
+  [
     {
       key: 'key',
       info: 'C - all questions will be played in the key of C. <br> Random - a new key will be chosen randomly based on "Change key" settings',
@@ -27,7 +27,7 @@ export function keySelectionSettingsDescriptors(): Exercise.SettingsControlDescr
     },
     {
       key: 'newKeyEvery',
-      show: (settings) => settings.key === 'random',
+      show: (settings: KeySelectionSettings) => settings.key === 'random',
       info: 'When to change key. <br> Never - a key is selected only once per session',
       descriptor: {
         controlType: 'select',
@@ -57,4 +57,3 @@ export function keySelectionSettingsDescriptors(): Exercise.SettingsControlDescr
       },
     },
   ];
-}
