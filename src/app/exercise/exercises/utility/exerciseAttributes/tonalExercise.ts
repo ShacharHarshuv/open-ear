@@ -190,7 +190,7 @@ export function useTonalExercise(config?: TonalExerciseConfig) {
   function transposeToKey(
     partOrNotes: NoteEvent[] | Note[] | Note | NoteType,
   ): NoteEvent[] | Frequency[] | Frequency | NoteType {
-    return transpose(partOrNotes, getDistanceOfKeys(key, 'C')); // todo: key here is undefined after editing settings
+    return transpose(partOrNotes, getDistanceOfKeys(key, 'C'));
   }
 
   function getRangeForKeyOfC(rangeForPlaying: NotesRange): NotesRange {
