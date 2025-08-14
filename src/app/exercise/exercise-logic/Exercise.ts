@@ -481,17 +481,13 @@ export type ControlDescriptor =
   | IncludedAnswersControlDescriptor
   | CheckboxControlDescriptor;
 
-type Prettify<T> = {
-  [K in keyof T]: T[K];
-} & {};
-
 /***
  * Usage of GKey is necessary here to avoid this issue: https://github.com/microsoft/TypeScript/issues/41595
  * */
 export type SettingsControlDescriptor<
   GSettings extends ExerciseSettings = any,
   GKey extends keyof GSettings & string = keyof GSettings & string,
-> = Prettify<
+> =
   /*GKey extends string ?*/
   (
     | {
@@ -518,14 +514,13 @@ export type SettingsControlDescriptor<
     show?: (settings: ExerciseSettings) => boolean;
     info?: string; // can contain html
     isDisabled?: (settings: ExerciseSettings, currentValue: any) => boolean;
-  } /* : never*/
->;
+  } /* : never*/;
 
 export type ExerciseExplanationContent = string | Type<any>;
 
 export interface ExerciseLogic<GAnswer extends string = string> {
   answerList: Signal<AnswerList<GAnswer>>;
-  // todo: consider moving learn logic to be per exercise, so we potentially don't need this
+  // todo: consider moving learn logic to be per exercise, so questionToExclude argument shouldn't need to be here
   getQuestion(questionsToExclude?: string[]): Question<GAnswer>;
   getQuestionById?(id: string): Question<GAnswer> | undefined;
   isQuestionValid?(question?: Question<GAnswer>): boolean;
@@ -535,7 +530,7 @@ export interface ExerciseLogic<GAnswer extends string = string> {
 
 export interface Exercise<
   GAnswer extends string = string,
-  GSettings extends ExerciseSettings = any,
+  GSettings extends ExerciseSettings = ExerciseSettings,
 > {
   /**
    * Do not change the keys for the same exercise between versions, as it will break the persistent storage

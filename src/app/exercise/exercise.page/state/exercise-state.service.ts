@@ -20,6 +20,7 @@ import { listenToChanges } from '../../../shared/ts-utility/rxjs/listen-to-chang
 import Exercise, {
   AnswerConfig,
   ExerciseLogic,
+  ExerciseSettings,
   Question,
 } from '../../exercise-logic';
 import { ExerciseService } from '../../exercise.service';
@@ -54,7 +55,7 @@ export interface CurrentAnswer {
 @Injectable()
 export class ExerciseStateService<
   GAnswer extends string,
-  GSettings extends { [K in keyof GSettings]: Exercise.SettingValueType },
+  GSettings extends ExerciseSettings = ExerciseSettings,
 > implements OnDestroy
 {
   private readonly _activatedRoute = inject(ActivatedRoute);
