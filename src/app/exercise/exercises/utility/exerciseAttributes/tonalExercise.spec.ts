@@ -5,11 +5,7 @@ import { Key } from '../../../utility';
 import { noteOfType } from '../../../utility/music/notes/NoteType.spec';
 import { toNoteTypeNumber } from '../../../utility/music/notes/toNoteTypeNumber';
 import { expectedKeySelectionSettingsDescriptors } from '../settings/keySelectionSettingsDescriptors.spec';
-import {
-  TonalExerciseParams,
-  TonalExerciseSettings,
-  tonalExercise,
-} from './tonalExercise';
+import { TonalExerciseSettings } from './tonalExercise';
 import NotesQuestion = Exercise.NotesQuestion;
 import AsymmetricMatcher = jasmine.AsymmetricMatcher;
 
@@ -26,7 +22,7 @@ export const expectedTonalExerciseSettingsDescriptors: string[] = [
   'Drone',
 ];
 
-describe(tonalExercise.name, function () {
+describe('tonalExercise', function () {
   const mockSettings: TonalExerciseSettings = {
     ...defaultTonalExerciseSettings,
   };

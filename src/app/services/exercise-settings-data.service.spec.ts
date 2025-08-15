@@ -17,7 +17,7 @@ describe('StorageService', function () {
   });
 
   it('Should save exercise settings', async () => {
-    const exerciseSettingsData: ExerciseSettingsData = {
+    const exerciseSettingsData: ExerciseSettingsData<{ a: number }> = {
       globalSettings: {
         playCadence: false,
         adaptive: false,

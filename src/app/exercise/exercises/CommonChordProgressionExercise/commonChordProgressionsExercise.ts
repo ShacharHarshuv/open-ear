@@ -8,9 +8,9 @@ import {
   useRomanAnalysisChordProgressionExercise,
 } from '../utility/exerciseAttributes/roman-analysis-chord-progression-exercise/romanAnalysisChordProgressionExercise';
 import {
-  AnalyzeBySettings,
-  analyzeBy,
-} from '../utility/settings/AnalyzeBySettings';
+  ModalAnalysisSettings,
+  modalAnalysis,
+} from '../utility/settings/modal-analysis';
 import { CommonChordProgressionsExplanationComponent } from './common-chord-progressions-explanation/common-chord-progressions-explanation.component';
 import {
   ProgressionDescriptor,
@@ -19,7 +19,7 @@ import {
 
 type CommonChordProgressionExerciseSettings =
   RomanAnalysisChordProgressionExerciseSettings &
-    AnalyzeBySettings & {
+    ModalAnalysisSettings & {
       includedProgressions: string[];
     };
 
@@ -53,7 +53,7 @@ function getIncludedProgressionsDescriptors(
     })
     .map((progression) => {
       if (
-        settings.tonicForAnalyzing !== 'original' &&
+        settings.modalAnalysis !== 'tonic-1' &&
         progression.mode &&
         progression.mode !== Mode.Major
       ) {
@@ -114,7 +114,7 @@ export const commonChordProgressionExercise: Exercise<
   settingsConfig: {
     controls: [
       ...romanAnalysis.settingsConfig.controls,
-      ...analyzeBy.controls,
+      ...modalAnalysis.controls,
       {
         key: 'includedProgressions',
         descriptor: {
@@ -130,7 +130,7 @@ export const commonChordProgressionExercise: Exercise<
       },
     ],
     defaults: {
-      ...analyzeBy.defaults,
+      ...modalAnalysis.defaults,
       ...romanAnalysis.settingsConfig.defaults,
       includedProgressions: defaultProgressions,
     },
