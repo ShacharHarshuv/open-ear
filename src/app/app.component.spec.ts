@@ -3,6 +3,7 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 
 import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule } from '@ionic/angular';
+import { IonicStorageModule } from '@ionic/storage-angular';
 import { AppComponent } from './app.component';
 import { ReleaseNotesTestingModule } from './release-notes/release-notes.testing.module';
 import { StorageMigrationService } from './storage/storage-migration.service';
@@ -17,6 +18,7 @@ describe('AppComponent', () => {
         StorageTestingModule,
         RouterTestingModule.withRoutes([]),
         AppComponent,
+        IonicStorageModule.forRoot(),
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
