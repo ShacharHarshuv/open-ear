@@ -8,18 +8,18 @@ export class ExerciseSettingsDataMockService
   implements PublicMembers<ExerciseSettingsDataService>
 {
   readonly exerciseIdToSettings: {
-    [id in string]: Partial<ExerciseSettingsData>;
+    [id in string]: Partial<ExerciseSettingsData<any>>;
   } = {};
 
   async getExerciseSettings(
     exerciseId: string,
-  ): Promise<Partial<ExerciseSettingsData> | undefined> {
+  ): Promise<Partial<ExerciseSettingsData<any>> | undefined> {
     return this.exerciseIdToSettings[exerciseId];
   }
 
   async saveExerciseSettings(
     exerciseId: string,
-    settings: Partial<ExerciseSettingsData>,
+    settings: Partial<ExerciseSettingsData<any>>,
   ): Promise<void> {
     this.exerciseIdToSettings[exerciseId] = settings;
   }
