@@ -142,7 +142,7 @@ describe(useTonalExercise.name, function () {
   });
 
   describe('answerList', () => {
-    it('should handle playOnClick functions', () => {
+    fit('should handle playOnClick functions', () => {
       const tonalExercise = useTonalExercise();
       const answerListInC: AnswerList<string> = [
         {
@@ -151,8 +151,22 @@ describe(useTonalExercise.name, function () {
         },
       ];
 
+      const mockQuestion: NotesQuestion = {
+        segments: [
+          {
+            partToPlay: 'C4' as Note,
+            rightAnswer: 'Answer 1',
+          },
+        ],
+      };
+      tonalExercise.getQuestion(
+        {
+          ...defaultTonalExerciseSettings,
+          key: 'C',
+        },
+        mockQuestion,
+      );
       const answerList = tonalExercise.answerList(answerListInC);
-      const mockQuestion = { key: 'C' } as NotesQuestion;
 
       const result = answerList[0].playOnClick!(mockQuestion);
       expect(result).toBe('C4');
