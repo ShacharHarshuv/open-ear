@@ -142,7 +142,7 @@ describe(useTonalExercise.name, function () {
   });
 
   describe('answerList', () => {
-    fit('should handle playOnClick functions', () => {
+    it('should handle playOnClick functions', () => {
       const tonalExercise = useTonalExercise();
       const answerListInC: AnswerList<string> = [
         {
