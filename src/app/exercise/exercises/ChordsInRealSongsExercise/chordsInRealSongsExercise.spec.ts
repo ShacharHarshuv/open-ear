@@ -1,29 +1,24 @@
 import * as _ from 'lodash';
-import { testExercise } from '../testing-utility/test-exercise.spec';
+import { exerciseSmokeTest } from '../testing-utility/test-exercise.spec';
 import { chordsInRealSongsExercise } from './chordsInRealSongsExercise';
 import { songChordQuestions } from './songQuestions';
 
 describe(chordsInRealSongsExercise.name, () => {
-  const context = testExercise({
-    getExercise: chordsInRealSongsExercise,
-    settingDescriptorList: [
-      'Analyze By',
-      'Simplify Extensions',
-      'Included Chords',
-    ],
-  });
+  exerciseSmokeTest(chordsInRealSongsExercise);
 
   describe('Songs', () => {
     songChordQuestions.forEach((chordProgressionDescriptor) => {
       it(chordProgressionDescriptor.name ?? 'Anonymous Song', () => {
-        const exercise = chordsInRealSongsExercise();
-        exercise.updateSettings?.({
-          tonicForAnalyzing: 'original',
-          includedChords: _.map(chordProgressionDescriptor.chords, 'chord'),
-          acceptEquivalentChord: false,
-          learnProgressions: false,
-        });
-        expect(exercise.getQuestion()).toBeTruthy();
+        expect(
+          chordsInRealSongsExercise
+            .logic({
+              tonicForAnalyzing: 'original',
+              includedChords: _.map(chordProgressionDescriptor.chords, 'chord'),
+              acceptEquivalentChord: false,
+              learnProgressions: false,
+            })
+            .getQuestion(),
+        ).toBeTruthy();
       });
     });
   });

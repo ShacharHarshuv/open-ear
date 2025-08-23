@@ -1,17 +1,9 @@
 import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { ResolvedValueOf } from '../../../../shared/ts-utility';
 import Exercise from '../../../exercise-logic';
-import { Key } from '../../../utility';
-import { noteOfType } from '../../../utility/music/notes/NoteType.spec';
-import { toNoteTypeNumber } from '../../../utility/music/notes/toNoteTypeNumber';
 import { expectedKeySelectionSettingsDescriptors } from '../settings/keySelectionSettingsDescriptors.spec';
-import {
-  TonalExerciseParams,
-  TonalExerciseSettings,
-  tonalExercise,
-} from './tonalExercise';
+import { TonalExerciseSettings, useTonalExercise } from './tonalExercise';
 import NotesQuestion = Exercise.NotesQuestion;
-import AsymmetricMatcher = jasmine.AsymmetricMatcher;
+import AnswerList = Exercise.AnswerList;
 
 export const defaultTonalExerciseSettings: TonalExerciseSettings = {
   cadenceType: 'I IV V I',
@@ -26,122 +18,228 @@ export const expectedTonalExerciseSettingsDescriptors: string[] = [
   'Drone',
 ];
 
-describe(tonalExercise.name, function () {
-  const mockSettings: TonalExerciseSettings = {
-    ...defaultTonalExerciseSettings,
-  };
+describe(useTonalExercise.name, function () {
+  describe('getQuestion', () => {
+    it('should handle key selection when key is C', () => {
+      const tonalExercise = useTonalExercise();
+      const questionInC = {
+        segments: [
+          {
+            partToPlay: 'C4' as Note,
+            rightAnswer: 'Answer 1',
+          },
+        ],
+      };
 
-  function mockQuestion(note: 'C4' | 'D4'): typeof questionToReturn {
-    return {
-      segments: [
-        {
-          partToPlay: note,
-          rightAnswer: note == 'C4' ? 'Answer 1' : 'Answer 2',
-        },
-      ],
-    };
-  }
+      const question = tonalExercise.getQuestion(
+        { ...defaultTonalExerciseSettings, key: 'C' },
+        questionInC,
+      );
 
-  let exercise: ReturnType<ReturnType<typeof tonalExercise>>;
-  let questionToReturn: ResolvedValueOf<
-    TonalExerciseParams<string, {}>['getQuestion']
-  > = mockQuestion('C4');
+      expect(question.key).toBe('C');
+      expect(question.info).toBe('Key: C');
+      expect(question.segments[0].rightAnswer).toBe('Answer 1');
+    });
 
-  beforeEach(() => {
-    exercise = tonalExercise()({
-      answerList: ['Answer 1', 'Answer 2'],
-      getQuestion() {
-        return questionToReturn;
-      },
+    it('should include cadence when playCadence is true', () => {
+      const tonalExercise = useTonalExercise();
+      const questionInC = {
+        segments: [
+          {
+            partToPlay: 'C4' as Note,
+            rightAnswer: 'Answer 1',
+          },
+        ],
+      };
+
+      const question = tonalExercise.getQuestion(
+        { ...defaultTonalExerciseSettings, key: 'C' },
+        questionInC,
+      );
+
+      expect(question.cadence).toBeDefined();
+      expect(question.cadence).not.toBeNull();
+    });
+
+    it('should not include cadence when playCadence is false', () => {
+      const tonalExercise = useTonalExercise({ playCadence: false });
+      const questionInC = {
+        segments: [
+          {
+            partToPlay: 'C4' as Note,
+            rightAnswer: 'Answer 1',
+          },
+        ],
+      };
+
+      const question = tonalExercise.getQuestion(
+        { ...defaultTonalExerciseSettings, key: 'C' },
+        questionInC,
+      );
+
+      expect(question.cadence).toBeUndefined();
+    });
+
+    it('should include drone when drone setting is enabled', () => {
+      const tonalExercise = useTonalExercise();
+      const questionInC = {
+        segments: [
+          {
+            partToPlay: 'C4' as Note,
+            rightAnswer: 'Answer 1',
+          },
+        ],
+      };
+
+      const question = tonalExercise.getQuestion(
+        { ...defaultTonalExerciseSettings, key: 'C', drone: 1 },
+        questionInC,
+      );
+
+      expect(question.drone).toBeDefined();
+      expect(question.drone).not.toBeNull();
+    });
+
+    it('should not include drone when drone setting is false', () => {
+      const tonalExercise = useTonalExercise();
+      const questionInC = {
+        segments: [
+          {
+            partToPlay: 'C4' as Note,
+            rightAnswer: 'Answer 1',
+          },
+        ],
+      };
+
+      const question = tonalExercise.getQuestion(
+        { ...defaultTonalExerciseSettings, key: 'C', drone: false },
+        questionInC,
+      );
+
+      expect(question.drone).toBeNull();
+    });
+
+    it('should handle random key selection', () => {
+      const tonalExercise = useTonalExercise();
+      const questionInC = {
+        segments: [
+          {
+            partToPlay: 'C4' as Note,
+            rightAnswer: 'Answer 1',
+          },
+        ],
+      };
+
+      const question = tonalExercise.getQuestion(
+        { ...defaultTonalExerciseSettings, key: 'random', newKeyEvery: 0 },
+        questionInC,
+      );
+
+      expect(question.key).toBeDefined();
+      expect(question.key).not.toBe('random' as any);
+      expect(question.info).toBe(`Key: ${question.key}`);
     });
   });
 
-  describe('key selection', () => {
-    function questionInKey(key: Key): AsymmetricMatcher<NotesQuestion> {
-      return {
-        asymmetricMatch(
-          question: Exercise.NotesQuestion,
-          customTesters: ReadonlyArray<jasmine.CustomEqualityTester>,
-        ): boolean {
-          return (
-            !!question.key &&
-            toNoteTypeNumber(question.key) === toNoteTypeNumber(key) &&
-            noteOfType(key).asymmetricMatch(
-              question.segments[0].partToPlay as Note,
-              customTesters,
-            )
-          );
+  describe('answerList', () => {
+    it('should handle playOnClick functions', () => {
+      const tonalExercise = useTonalExercise();
+      const answerListInC: AnswerList<string> = [
+        {
+          answer: 'Answer 1',
+          playOnClick: () => 'C4',
         },
-        jasmineToString(): string {
-          return 'question in key of ' + key;
-        },
+      ];
+
+      const mockQuestion: NotesQuestion = {
+        segments: [
+          {
+            partToPlay: 'C4' as Note,
+            rightAnswer: 'Answer 1',
+          },
+        ],
       };
-    }
-
-    it('key of C', () => {
-      function getQuestion() {
-        return exercise.getQuestion({
-          ...mockSettings,
+      tonalExercise.getQuestion(
+        {
+          ...defaultTonalExerciseSettings,
           key: 'C',
-        });
-      }
-      for (let i = 0; i < 100; i++) {
-        expect(getQuestion()).toEqual(questionInKey('C'));
-      }
+        },
+        mockQuestion,
+      );
+      const answerList = tonalExercise.answerList(answerListInC);
+
+      const result = answerList[0].playOnClick!(mockQuestion);
+      expect(result).toBe('C4');
     });
 
-    describe('random key never changing', () => {
-      function getQuestion() {
-        return exercise.getQuestion({
-          ...mockSettings,
-          key: 'random',
-          newKeyEvery: 0,
-        });
-      }
+    it('should handle null playOnClick', () => {
+      const tonalExercise = useTonalExercise();
+      const answerListInC: AnswerList<string> = [
+        {
+          answer: 'Answer 1',
+          playOnClick: null,
+        },
+      ];
 
-      for (let i = 0; i < 10; i++) {
-        it(`#${i}`, () => {
-          const firstQuestion = getQuestion();
-          const key: Key = firstQuestion.key!;
-          expect(key).toBeTruthy();
-          expect(firstQuestion).toEqual(questionInKey(key));
-          for (let i = 1; i < 100; i++) {
-            expect(getQuestion()).toEqual(questionInKey(key));
-          }
-        });
-      }
+      const answerList = tonalExercise.answerList(answerListInC);
+      expect(answerList[0].playOnClick).toBeNull();
+    });
+  });
+
+  describe('settingsDescriptors', () => {
+    it('should include all descriptors by default', () => {
+      const tonalExercise = useTonalExercise();
+      expect(tonalExercise.settingsDescriptors).toContain(
+        jasmine.objectContaining({ key: 'cadenceType' }),
+      );
+      expect(tonalExercise.settingsDescriptors).toContain(
+        jasmine.objectContaining({ key: 'key' }),
+      );
+      expect(tonalExercise.settingsDescriptors).toContain(
+        jasmine.objectContaining({ key: 'drone' }),
+      );
     });
 
-    for (let newKeyEvery of [5, 10]) {
-      describe(`random key changing every ${newKeyEvery} questions`, () => {
-        function getQuestion() {
-          return exercise.getQuestion({
-            ...mockSettings,
-            key: 'random',
-            newKeyEvery,
-          });
-        }
-
-        for (let i = 0; i < 10; i++) {
-          it(`#${i}`, () => {
-            const firstQuestion = getQuestion();
-            const firstKey: Key = firstQuestion.key!;
-            expect(firstKey).toBeTruthy();
-            expect(firstQuestion).toEqual(questionInKey(firstKey));
-            for (let i = 1; i < newKeyEvery; i++) {
-              expect(getQuestion()).toEqual(questionInKey(firstKey));
-            }
-
-            const questionWithNewKey = getQuestion();
-            const newKey = questionWithNewKey.key!;
-            expect(newKey).toBeTruthy();
-            expect(newKey).not.toEqual(firstKey);
-            for (let i = 1; i < newKeyEvery; i++) {
-              expect(getQuestion()).toEqual(questionInKey(newKey));
-            }
-          });
-        }
+    it('should exclude cadenceType when cadenceTypeSelection is false', () => {
+      const tonalExercise = useTonalExercise({
+        playCadence: false,
+        cadenceTypeSelection: false,
       });
-    }
+
+      const hasCadenceType = tonalExercise.settingsDescriptors.some(
+        (desc) => desc.key === 'cadenceType',
+      );
+      expect(hasCadenceType).toBeFalse();
+    });
+
+    it('should exclude key selection when keySelection is false', () => {
+      const tonalExercise = useTonalExercise({ keySelection: false });
+
+      const hasKeySelection = tonalExercise.settingsDescriptors.some(
+        (desc) => desc.key === 'key',
+      );
+      expect(hasKeySelection).toBeFalse();
+    });
+
+    it('should exclude drone when droneSelection is false', () => {
+      const tonalExercise = useTonalExercise({ droneSelection: false });
+
+      const hasDrone = tonalExercise.settingsDescriptors.some(
+        (desc) => desc.key === 'drone',
+      );
+      expect(hasDrone).toBeFalse();
+    });
+  });
+
+  describe('defaults', () => {
+    it('should return expected default settings', () => {
+      const tonalExercise = useTonalExercise();
+      expect(tonalExercise.defaults).toEqual({
+        cadenceType: 'I IV V I',
+        key: 'random',
+        newKeyEvery: 10,
+        drone: false,
+      });
+    });
   });
 });

@@ -1,31 +1,23 @@
 import Exercise from '../../exercise-logic';
-import { testExercise } from '../testing-utility/test-exercise.spec';
-import { expectedVoicingSettingsDescriptors } from '../utility/exerciseAttributes/chordProgressionExercise.spec';
-import { expectedKeySelectionSettingsDescriptors } from '../utility/settings/keySelectionSettingsDescriptors.spec';
+import { toGetter } from '../../utility';
+import { exerciseSmokeTest } from '../testing-utility/test-exercise.spec';
 import { commonChordProgressionExercise } from './commonChordProgressionsExercise';
 
 describe(commonChordProgressionExercise.name, () => {
-  const context = testExercise({
-    getExercise: commonChordProgressionExercise,
-    settingDescriptorList: [
-      'Analyze By',
-      'Included Progressions',
-      ...expectedKeySelectionSettingsDescriptors,
-      'Drone',
-      ...expectedVoicingSettingsDescriptors,
-    ],
-    defaultAnswers: ['I', 'IV', 'V', 'vi'],
-  });
+  exerciseSmokeTest(commonChordProgressionExercise);
 
   describe('getAllAnswers', function () {
     it('should contain only chords from the selected progressions', () => {
-      context.exercise.updateSettings?.({
-        ...context.exercise.getCurrentSettings?.(),
-        includedProgressions: ['I IV V I'],
-      });
-      expect(Exercise.flatAnswerList(context.exercise.getAnswerList())).toEqual(
-        jasmine.arrayWithExactContents(['I', 'IV', 'V']),
-      );
+      expect(
+        Exercise.flatAnswerList(
+          toGetter(
+            commonChordProgressionExercise.logic({
+              ...commonChordProgressionExercise.settingsConfig.defaults,
+              includedProgressions: ['I IV V I'],
+            }).answerList,
+          )(),
+        ),
+      ).toEqual(jasmine.arrayWithExactContents(['I', 'IV', 'V']));
     });
   });
 });

@@ -17,7 +17,7 @@ describe('Chord', () => {
       type: ChordType;
       bass?: NoteType; // assumes bass = root if not provided
       noteTypes: NoteType[];
-      voicing: [
+      voicing?: [
         number /*position*/,
         Note[] /*upper voices*/,
         Note[]? /*bass (optional)*/,
@@ -482,6 +482,32 @@ describe('Chord', () => {
         voicing: [[0, ['A3', 'C#4', 'F4', 'G4'], ['A2', 'A3']]],
       },
     },
+    {
+      chordSymbolOrConfig: 'Dm11',
+      expectedResult: {
+        root: 'D',
+        type: ChordType.Minor11th,
+        noteTypes: ['D', 'F', 'A', 'C', 'E', 'G'],
+      },
+    },
+    {
+      chordSymbolOrConfig: 'C6/9',
+      expectedResult: {
+        root: 'C',
+        type: ChordType.Major69,
+        bass: 'C',
+        noteTypes: ['C', 'E', 'G', 'A', 'D'],
+      },
+    },
+    {
+      chordSymbolOrConfig: 'C6/11',
+      expectedResult: {
+        root: 'C',
+        type: ChordType.Major611,
+        bass: 'C',
+        noteTypes: ['C', 'E', 'G', 'A', 'D', 'F'],
+      },
+    },
   ];
 
   testCases.forEach(
@@ -512,26 +538,37 @@ describe('Chord', () => {
           );
         });
 
-        describe('voicing', function () {
-          expectedResult.voicing.forEach(
-            ([position, expectedVoicing, bassVoicing]) => {
-              it(`should have the voicing of ${expectedVoicing.join(
-                ', ',
-              )} in ${position}th position`, () => {
-                const voicing = chord.getVoicing({
-                  position,
-                  withBass: !!bassVoicing,
-                  octave,
+        if (expectedResult.voicing) {
+          describe('voicing', function () {
+            expectedResult.voicing!.forEach(
+              ([position, expectedVoicing, bassVoicing]) => {
+                it(`should have the voicing of ${expectedVoicing.join(
+                  ', ',
+                )} in ${position}th position`, () => {
+                  const voicing = chord.getVoicing({
+                    position,
+                    withBass: !!bassVoicing,
+                    octave,
+                  });
+                  if (
+                    !_.isEqual(
+                      voicing.map(toNoteNumber),
+                      [...(bassVoicing ?? []), ...expectedVoicing].map(
+                        toNoteNumber,
+                      ),
+                    )
+                  ) {
+                    fail(
+                      `Expected \n${JSON.stringify(
+                        expectedVoicing,
+                      )}\n but got \n${JSON.stringify(voicing)}`,
+                    );
+                  }
                 });
-                expect(voicing.map(toNoteNumber)).toEqual(
-                  [...(bassVoicing ?? []), ...expectedVoicing].map(
-                    toNoteNumber,
-                  ),
-                );
-              });
-            },
-          );
-        });
+              },
+            );
+          });
+        }
       });
     },
   );

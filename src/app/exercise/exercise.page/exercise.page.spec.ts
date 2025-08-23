@@ -1,16 +1,20 @@
-import { fakeAsync, flush, TestBed } from '@angular/core/testing';
+import { TestBed, fakeAsync, flush } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule } from '@ionic/angular';
+import { provideAnswerReportingServiceMock } from 'src/app/services/answer-reporting.service.mock';
 import { ExerciseSettingsDataMockService } from '../../services/exercise-settings-data.mock.service';
 import { NoteEvent, PlayerService } from '../../services/player.service';
 import { ModalFrameComponent } from '../../shared/modal/modal-frame/modal-frame.component';
 import { TestingUtility } from '../../shared/testing-utility';
-import { timeoutAsPromise } from '../../shared/ts-utility';
 import { ExerciseTestingModule } from '../exercise-testing.module';
-import { ExerciseService } from '../exercise.service';
-import { MockExercise } from '../MockExercise';
+import {
+  cadenceToPlayExpectation,
+  mockExercise,
+  questionToPlayExpectation,
+} from '../mock-exercise';
+import { timeoutAsPromise } from '../utility';
 import { ExercisePage } from './exercise.page';
 import { ExercisePageDebugger } from './exerice.page.debugger.spec';
 
@@ -21,7 +25,22 @@ describe(ExercisePage.name, () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        ExerciseTestingModule,
+        ExerciseTestingModule.withMockExercise({
+          ...mockExercise,
+          logic: (settings: any) => {
+            return {
+              ...mockExercise.logic(settings),
+              answerList: [
+                {
+                  answer: 'Answer 1',
+                  playOnClick: 'F4',
+                },
+                'Answer 2',
+                'Answer 3',
+              ],
+            };
+          },
+        }),
         ModalFrameComponent,
         // IonicModule.forRoot({
         //   animated: false,
@@ -35,29 +54,16 @@ describe(ExercisePage.name, () => {
           provide: ActivatedRoute,
           useValue: {
             snapshot: {
-              params: { id: MockExercise.instance.id },
+              params: { id: mockExercise.id },
             },
           },
         },
+        provideAnswerReportingServiceMock(),
       ],
     }).compileComponents();
 
-    spies.push(
-      spyOn(TestBed.inject(ExerciseService), 'getExercise').and.returnValue(
-        MockExercise.instance,
-      ),
-      spyOn(MockExercise.instance, 'getAnswerList').and.returnValue([
-        {
-          answer: 'Answer 1',
-          playOnClick: 'F4',
-        },
-        'Answer 2',
-        'Answer 3',
-      ]),
-    );
-
     TestBed.inject(ExerciseSettingsDataMockService).exerciseIdToSettings[
-      MockExercise.instance.id
+      mockExercise.id
     ] = {
       exerciseSettings: {},
       globalSettings: {
@@ -124,14 +130,12 @@ describe(ExercisePage.name, () => {
 
   it('exercise name should be visible in the header', async () => {
     createComponent();
-    expect(exercisePageDebugger.getExerciseTitle()).toEqual(
-      MockExercise.instance.name,
-    );
+    expect(exercisePageDebugger.getExerciseTitle()).toEqual(mockExercise.name);
   });
 
   // todo(#75): there is an issue with importing the ionic module, without which it can't work
   xit('should display explanation', async () => {
-    const expectedExplanation = MockExercise.instance.explanation;
+    const expectedExplanation = mockExercise.explanation;
     if (typeof expectedExplanation !== 'string') {
       throw Error(
         `Expected MockExercise name to be of type string. Received ${expectedExplanation}`,
@@ -161,8 +165,8 @@ describe(ExercisePage.name, () => {
       flush();
       expect(playMultiplePartsSpy).toHaveBeenCalledOnceWith(
         jasmine.arrayWithExactContents([
-          ...MockExercise.cadenceToPlayExpectation,
-          ...MockExercise.questionToPlayExpectation,
+          ...cadenceToPlayExpectation,
+          ...questionToPlayExpectation,
         ]),
       );
       playMultiplePartsSpy.and.callThrough();
@@ -177,8 +181,8 @@ describe(ExercisePage.name, () => {
       flush();
       expect(playMultiplePartsSpy).toHaveBeenCalledOnceWith(
         jasmine.arrayWithExactContents([
-          ...MockExercise.cadenceToPlayExpectation,
-          ...MockExercise.questionToPlayExpectation,
+          ...cadenceToPlayExpectation,
+          ...questionToPlayExpectation,
         ]),
       );
     }));
@@ -193,9 +197,7 @@ describe(ExercisePage.name, () => {
       exercisePageDebugger.clickOnMusicalNote();
       flush();
       expect(playMultiplePartsSpy).toHaveBeenCalledOnceWith(
-        jasmine.arrayWithExactContents([
-          ...MockExercise.questionToPlayExpectation,
-        ]),
+        jasmine.arrayWithExactContents([...questionToPlayExpectation]),
       );
     }));
 
@@ -338,8 +340,8 @@ describe(ExercisePage.name, () => {
         exercisePageDebugger.clickOnNext();
         expect(playMultiplePartsSpy).toHaveBeenCalledOnceWith(
           jasmine.arrayWithExactContents([
-            ...MockExercise.cadenceToPlayExpectation,
-            ...MockExercise.questionToPlayExpectation,
+            ...cadenceToPlayExpectation,
+            ...questionToPlayExpectation,
           ]),
         );
 
@@ -439,6 +441,4 @@ describe(ExercisePage.name, () => {
       }));
     });
   });
-
-  // TODO(#76) test adaptive mode. No need to get into logic, as it's already tests in AdaptiveExercise. Just mock AdaptiveExercise and make sure it's invoked
 });
