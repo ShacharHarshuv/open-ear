@@ -1,35 +1,29 @@
-// describe(notesInKeyExercise.name, () => {
-//   const context = testExercise<NoteInKeySettings>({
-//     getExercise: notesInKeyExercise,
-//     settingDescriptorList: [
-//       ...expectedTonalExerciseSettingsDescriptors,
-//       'Included Scale Degrees',
-//       'Display',
-//       'Range',
-//       'Number of notes',
-//       'Number of voices',
-//       'Harmonic Intervals',
-//       'Play Resolution',
-//     ],
-//   });
+import { exerciseSmokeTest } from '../testing-utility/test-exercise.spec';
+import { NoteInKeySettings, notesInKeyExercise } from './notesInKeyExercise';
 
-//   it(`getQuestion with multiple voices`, () => {
-//     const defaultSettings = context.exercise.getCurrentSettings?.();
-//     const settings: NoteInKeySettings = {
-//       ...defaultSettings!,
-//       key: 'random',
-//       newKeyEvery: 1,
-//     };
+describe(notesInKeyExercise.name, () => {
+  exerciseSmokeTest(notesInKeyExercise);
 
-//     for (let range of ['high', 'middle', 'bass', 'contrabass'] as const) {
-//       for (let numberOfVoices of [2, 3] as const) {
-//         context.exercise.updateSettings?.({
-//           ...settings,
-//           notesRange: range,
-//           numberOfVoices,
-//         });
-//         expect(() => context.exercise.getQuestion()).not.toThrow();
-//       }
-//     }
-//   });
-// });
+  it(`getQuestion with multiple voices`, () => {
+    const defaultSettings = notesInKeyExercise.settingsConfig.defaults;
+    const settings: NoteInKeySettings = {
+      ...defaultSettings!,
+      key: 'random',
+      newKeyEvery: 1,
+    };
+
+    for (let range of ['high', 'middle', 'bass', 'contrabass'] as const) {
+      for (let numberOfVoices of [2, 3] as const) {
+        expect(() =>
+          notesInKeyExercise
+            .logic({
+              ...settings,
+              notesRange: range,
+              numberOfVoices,
+            })
+            .getQuestion(),
+        ).not.toThrow();
+      }
+    }
+  });
+});
