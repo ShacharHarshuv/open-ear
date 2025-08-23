@@ -1,6 +1,6 @@
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { BdcWalkModule } from 'bdc-walkthrough';
@@ -13,8 +13,8 @@ import { YouTubePlayerService } from '../services/you-tube-player.service';
 import { ModalFrameComponent } from '../shared/modal/modal-frame/modal-frame.component';
 import { ConsoleLogComponent } from '../shared/ng-utilities/console-log-component/console-log.component';
 import { createMockProviders } from '../shared/testing-utility';
-import { ExerciseMockService } from './exercise.mock.service';
-import { ExerciseService } from './exercise.service';
+import { Exercise } from './exercise-logic';
+import { provideMockExerciseService } from './exercise.mock.service';
 
 @NgModule({
   imports: [
@@ -31,9 +31,18 @@ import { ExerciseService } from './exercise.service';
       ExerciseSettingsDataMockService,
       ExerciseSettingsDataService,
     ),
-    ...createMockProviders(ExerciseMockService, ExerciseService),
+    provideMockExerciseService(),
     ...createMockProviders(PlayerMockService, PlayerService),
     ...createMockProviders(YouTubePlayerMockService, YouTubePlayerService),
   ],
 })
-export class ExerciseTestingModule {}
+export class ExerciseTestingModule {
+  static withMockExercise(
+    exercise: Exercise,
+  ): ModuleWithProviders<ExerciseTestingModule> {
+    return {
+      ngModule: ExerciseTestingModule,
+      providers: [provideMockExerciseService(exercise)],
+    };
+  }
+}

@@ -1,18 +1,25 @@
-// import { Injectable } from '@angular/core';
-// import { PublicMembers } from '../shared/ts-utility/PublicMembers';
-// import { MockExercise } from './MockExercise';
-// import Exercise from './exercise-logic';
-// import { ExerciseService } from './exercise.service';
+import { Provider } from '@angular/core';
+import { createMockProviders } from '../shared/testing-utility';
+import { PublicMembers } from '../shared/ts-utility/PublicMembers';
+import Exercise, { SettingValueType } from './exercise-logic';
+import { ExerciseService } from './exercise.service';
+import { mockExercise } from './mock-exercise';
 
-// @Injectable()
-// export class ExerciseMockService implements PublicMembers<ExerciseService> {
-//   static mockExercise: Exercise.Exercise = MockExercise.create();
+export function provideMockExerciseService(
+  exercise = mockExercise,
+): Provider[] {
+  class ExerciseMockService implements PublicMembers<ExerciseService> {
+    getExercise<
+      GAnswer extends string,
+      GSettings extends { [K in keyof GSettings]: SettingValueType },
+    >(id: string) {
+      return exercise as Exercise.Exercise<GAnswer, GSettings>;
+    }
 
-//   getExercise(id: string): Exercise.Exercise {
-//     return ExerciseMockService.mockExercise;
-//   }
+    getExerciseList(): Exercise.Exercise[] {
+      return [exercise];
+    }
+  }
 
-//   getExerciseList(): Exercise.Exercise[] {
-//     return [ExerciseMockService.mockExercise];
-//   }
-// }
+  return createMockProviders(ExerciseMockService, ExerciseService);
+}
