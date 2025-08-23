@@ -1,111 +1,111 @@
-// import { flush } from '@angular/core/testing';
-// import {
-//   BaseComponentDebugger,
-//   TestingUtility,
-// } from '../../shared/testing-utility';
-// import Exercise from '../exercise-logic';
-// import { ExercisePage } from './exercise.page';
+import { flush } from '@angular/core/testing';
+import {
+  BaseComponentDebugger,
+  TestingUtility,
+} from '../../shared/testing-utility';
+import Exercise from '../exercise-logic';
+import { ExercisePage } from './exercise.page';
 
-// export class ExercisePageDebugger extends BaseComponentDebugger<ExercisePage> {
-//   //#region Getters
-//   getPossibleAnswersList(): {
-//     answerText: string;
-//     wasWrong: boolean;
-//   }[] {
-//     return this.spectator
-//       .queryAll('app-answer-button ion-button')
-//       .map((element: HTMLElement) => ({
-//         answerText: element.innerText,
-//         wasWrong: element.classList.contains('--wrong'),
-//       }));
-//   }
+export class ExercisePageDebugger extends BaseComponentDebugger<ExercisePage> {
+  //#region Getters
+  getPossibleAnswersList(): {
+    answerText: string;
+    wasWrong: boolean;
+  }[] {
+    return this.spectator
+      .queryAll('app-answer-button ion-button')
+      .map((element: HTMLElement) => ({
+        answerText: element.innerText,
+        wasWrong: element.classList.contains('--wrong'),
+      }));
+  }
 
-//   getExerciseTitle(): string | null {
-//     const toolbarElement: HTMLElement | null =
-//       this.spectator.query<HTMLElement>('ion-toolbar');
-//     return toolbarElement?.textContent?.trim() ?? null;
-//   }
+  getExerciseTitle(): string | null {
+    const toolbarElement: HTMLElement | null =
+      this.spectator.query<HTMLElement>('ion-toolbar');
+    return toolbarElement?.textContent?.trim() ?? null;
+  }
 
-//   getCurrentAnswersList(): {
-//     answer: Exercise.Answer | null;
-//     wasWrong: boolean;
-//   }[] {
-//     return Array.from(document.querySelectorAll('app-answer-indication')).map(
-//       (answerIndication: HTMLElement) => {
-//         return {
-//           answer:
-//             answerIndication.innerText.trim() === '?'
-//               ? null
-//               : answerIndication.innerText,
-//           wasWrong: answerIndication.classList.contains('--wrong'),
-//         };
-//       },
-//     );
-//   }
+  getCurrentAnswersList(): {
+    answer: Exercise.Answer | null;
+    wasWrong: boolean;
+  }[] {
+    return Array.from(document.querySelectorAll('app-answer-indication')).map(
+      (answerIndication: HTMLElement) => {
+        return {
+          answer:
+            answerIndication.innerText.trim() === '?'
+              ? null
+              : answerIndication.innerText,
+          wasWrong: answerIndication.classList.contains('--wrong'),
+        };
+      },
+    );
+  }
 
-//   getNextButton(): HTMLElement {
-//     return TestingUtility.getButtonByText('Next');
-//   }
+  getNextButton(): HTMLElement {
+    return TestingUtility.getButtonByText('Next');
+  }
 
-//   getStats(): {
-//     correctAnswers: number;
-//     totalAnswers: number;
-//     percentage: number;
-//   } {
-//     const text: string | null =
-//       this.spectator.query<HTMLElement>('.exercise__stats-container')
-//         ?.innerText ?? null;
-//     if (!text) {
-//       throw new Error(`Could not find stats element`);
-//     }
-//     const match: RegExpMatchArray | null = text.match(
-//       /Correct answers: ([0-9]+)\/([0-9]+) \(([0-9\.]+)\%\)/,
-//     );
-//     if (!match) {
-//       throw new Error(
-//         `String "${text}" is not in the expected format for stats`,
-//       );
-//     }
+  getStats(): {
+    correctAnswers: number;
+    totalAnswers: number;
+    percentage: number;
+  } {
+    const text: string | null =
+      this.spectator.query<HTMLElement>('.exercise__stats-container')
+        ?.innerText ?? null;
+    if (!text) {
+      throw new Error(`Could not find stats element`);
+    }
+    const match: RegExpMatchArray | null = text.match(
+      /Correct answers: ([0-9]+)\/([0-9]+) \(([0-9\.]+)\%\)/,
+    );
+    if (!match) {
+      throw new Error(
+        `String "${text}" is not in the expected format for stats`,
+      );
+    }
 
-//     return {
-//       correctAnswers: +match[1],
-//       totalAnswers: +match[2],
-//       percentage: +match[3],
-//     };
-//   }
-//   //#endregion
+    return {
+      correctAnswers: +match[1],
+      totalAnswers: +match[2],
+      percentage: +match[3],
+    };
+  }
+  //#endregion
 
-//   //#region Actions
-//   displayExplanation(): void {
-//     TestingUtility.getButtonByIcon('help-outline').click();
-//     this.fixture.detectChanges();
-//   }
+  //#region Actions
+  displayExplanation(): void {
+    TestingUtility.getButtonByIcon('help-outline').click();
+    this.fixture.detectChanges();
+  }
 
-//   closeExplanation(): void {
-//     TestingUtility.getButtonByIcon('close-outline').click();
-//     this.fixture.detectChanges();
-//   }
+  closeExplanation(): void {
+    TestingUtility.getButtonByIcon('close-outline').click();
+    this.fixture.detectChanges();
+  }
 
-//   clickOnRepeat(): void {
-//     TestingUtility.getButtonByText('repeat').click();
-//     this.fixture.detectChanges();
-//   }
+  clickOnRepeat(): void {
+    TestingUtility.getButtonByText('repeat').click();
+    this.fixture.detectChanges();
+  }
 
-//   clickOnMusicalNote(): void {
-//     TestingUtility.getButtonByIcon('musical-note').click();
-//     this.fixture.detectChanges();
-//   }
+  clickOnMusicalNote(): void {
+    TestingUtility.getButtonByIcon('musical-note').click();
+    this.fixture.detectChanges();
+  }
 
-//   clickOnAnswer(answerText: string): void {
-//     TestingUtility.getButtonByText(answerText).click();
-//     flush();
-//     this.detectChanges();
-//   }
+  clickOnAnswer(answerText: string): void {
+    TestingUtility.getButtonByText(answerText).click();
+    flush();
+    this.detectChanges();
+  }
 
-//   clickOnNext(): void {
-//     this.getNextButton().click();
-//     flush();
-//     this.detectChanges();
-//   }
-//   //#endregion
-// }
+  clickOnNext(): void {
+    this.getNextButton().click();
+    flush();
+    this.detectChanges();
+  }
+  //#endregion
+}
