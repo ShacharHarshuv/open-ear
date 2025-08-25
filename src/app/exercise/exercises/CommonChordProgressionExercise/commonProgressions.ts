@@ -1,9 +1,11 @@
 import { Mode, RomanNumeralChordSymbol } from '../../utility';
+import { ModalAnalysis } from '../utility/settings/modal-analysis';
 
 export interface ProgressionDescriptor {
   romanNumerals: RomanNumeralChordSymbol[];
   name?: string;
-  mode?: Mode;
+  mode?: Mode; // default: major
+  analysis?: ModalAnalysis; // default: tonic-1
 }
 
 export const commonProgressionDescriptorList: ProgressionDescriptor[] = [
@@ -166,6 +168,7 @@ export const commonProgressionDescriptorList: ProgressionDescriptor[] = [
   {
     romanNumerals: ['I', 'v', 'v', 'ii'],
     name: 'Clocks',
+    mode: Mode.Mixolydian,
   },
   // Non-diatonic progressions
   // Modal interchange

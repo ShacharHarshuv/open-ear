@@ -44,11 +44,13 @@ export function getIncludedSegments(
         ...chordProgression,
         chords: _.map(chordProgression.chords, (chord) => ({
           ...chord,
-          chord: RomanNumeralChord.toRelativeMode(
-            chord.chord,
-            chordProgression.mode,
-            Mode.Major,
-          ),
+          // todo: is this code repetition?
+          chord: RomanNumeralChord.convertAnalysis({
+            chordSymbol: chord.chord,
+            mode: chordProgression.mode,
+            currentModalAnalysis: chordProgression.analysis ?? 'tonic-1',
+            desiredModalAnalysis: settings.modalAnalysis,
+          }),
         })),
         mode: Mode.Major,
         key: toRelativeModeTonic(
@@ -65,11 +67,12 @@ export function getIncludedSegments(
         // Trying to see if the relative Major progression can be included
         const chordsInRelativeKey = _.map(chordProgression.chords, (chord) => ({
           ...chord,
-          chord: RomanNumeralChord.toRelativeMode(
-            chord.chord,
-            chordProgression.mode,
-            Mode.Major,
-          ),
+          chord: RomanNumeralChord.convertAnalysis({
+            chordSymbol: chord.chord,
+            mode: chordProgression.mode,
+            currentModalAnalysis: chordProgression.analysis ?? 'tonic-1',
+            desiredModalAnalysis: settings.modalAnalysis,
+          }),
         }));
 
         if (isAllChordsIncluded(chordsInRelativeKey)) {
