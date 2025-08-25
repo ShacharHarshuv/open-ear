@@ -8,9 +8,9 @@ import {
   useRomanAnalysisChordProgressionExercise,
 } from '../utility/exerciseAttributes/roman-analysis-chord-progression-exercise/romanAnalysisChordProgressionExercise';
 import {
-  AnalyzeBySettings,
-  analyzeBy,
-} from '../utility/settings/AnalyzeBySettings';
+  ModalAnalysisSettings,
+  modalAnalysis,
+} from '../utility/settings/modal-analysis';
 import { CommonChordProgressionsExplanationComponent } from './common-chord-progressions-explanation/common-chord-progressions-explanation.component';
 import {
   ProgressionDescriptor,
@@ -19,7 +19,7 @@ import {
 
 type CommonChordProgressionExerciseSettings =
   RomanAnalysisChordProgressionExerciseSettings &
-    AnalyzeBySettings & {
+    ModalAnalysisSettings & {
       includedProgressions: string[];
     };
 
@@ -52,20 +52,17 @@ function getIncludedProgressionsDescriptors(
       );
     })
     .map((progression) => {
-      if (
-        settings.tonicForAnalyzing !== 'original' &&
-        progression.mode &&
-        progression.mode !== Mode.Major
-      ) {
+      if (settings.modalAnalysis !== progression.analysis ?? 'tonic-1') {
         return {
           ...progression,
-          mode: Mode.Major,
+          analysis: settings.modalAnalysis, // todo: we also need to change the cadence to reflect this probably
           romanNumerals: progression.romanNumerals.map((romanNumeral) =>
-            RomanNumeralChord.toRelativeMode(
-              romanNumeral,
-              progression.mode!,
-              Mode.Major,
-            ),
+            RomanNumeralChord.convertAnalysis({
+              chordSymbol: romanNumeral,
+              mode: progression.mode ?? Mode.Major,
+              currentModalAnalysis: progression.analysis ?? 'tonic-1',
+              desiredModalAnalysis: settings.modalAnalysis,
+            }),
           ),
         };
       }
@@ -114,23 +111,36 @@ export const commonChordProgressionExercise: Exercise<
   settingsConfig: {
     controls: [
       ...romanAnalysis.settingsConfig.controls,
-      ...analyzeBy.controls,
+      ...modalAnalysis.controls,
       {
         key: 'includedProgressions',
-        descriptor: {
+        descriptor: (settings) => ({
           controlType: 'list-select',
           label: 'Included Progressions',
-          allOptions: commonProgressionDescriptorList.map((progression) => ({
-            value: getProgressionId(progression),
-            label:
-              toMusicalTextDisplay(getProgressionId(progression)) +
-              (progression.name ? ` (${progression.name})` : ''),
-          })),
-        },
+          allOptions: commonProgressionDescriptorList.map((progression) => {
+            // todo: this is probably code duplication
+            const chordsInCorrectAnalysis = progression.romanNumerals.map(
+              (romanNumeral) =>
+                RomanNumeralChord.convertAnalysis({
+                  chordSymbol: romanNumeral,
+                  mode: progression.mode ?? Mode.Major,
+                  currentModalAnalysis: progression.analysis ?? 'tonic-1',
+                  desiredModalAnalysis: settings.modalAnalysis,
+                }),
+            );
+
+            return {
+              value: getProgressionId(progression),
+              label:
+                toMusicalTextDisplay(chordsInCorrectAnalysis.join(' ')) +
+                (progression.name ? ` (${progression.name})` : ''),
+            };
+          }),
+        }),
       },
     ],
     defaults: {
-      ...analyzeBy.defaults,
+      ...modalAnalysis.defaults,
       ...romanAnalysis.settingsConfig.defaults,
       includedProgressions: defaultProgressions,
     },

@@ -484,7 +484,7 @@ describe('RomanNumeralBuilder', () => {
   });
 
   describe('toRelativeMode', () => {
-    testPureFunction(RomanNumeralChord.toRelativeMode, [
+    testPureFunction(RomanNumeralChord.convertAnalysis, [
       {
         args: ['I', Mode.Major, Mode.Minor],
         returnValue: 'bIII',

@@ -1,6 +1,10 @@
 import { computed } from '@angular/core';
 import * as _ from 'lodash';
 import { sortBy } from 'lodash';
+import {
+  ModalAnalysis,
+  convertModalAnalysis,
+} from 'src/app/exercise/exercises/utility/settings/modal-analysis';
 import { keys } from '../../../../shared/ts-utility/keys';
 import { MusicSymbol } from '../MusicSymbol';
 import { Chord, ChordType } from '../chords';
@@ -14,6 +18,7 @@ import { NoteType } from '../notes/NoteType';
 import {
   Accidental,
   DiatonicScaleDegree,
+  EnharmonicScaleDegree,
   ScaleDegree,
   getDiatonicScaleDegreeWithAccidental,
   scaleDegreeToChromaticDegree,
@@ -23,7 +28,6 @@ import {
 import { transpose } from '../transpose';
 import { Mode } from './Mode';
 import { RomanNumeralChordSymbol } from './RomanNumeralChordSymbol';
-import { toRelativeMode } from './toRelativeMode';
 
 const allRomanNumeralPostfix: string[] = _.map(
   chordTypeConfigMap,
@@ -41,7 +45,7 @@ export class RomanNumeralChord {
   readonly diatonicDegree: DiatonicScaleDegree;
   readonly accidental: Accidental;
   readonly type: ChordType;
-  readonly bass: ScaleDegree;
+  readonly bass: EnharmonicScaleDegree;
 
   get isInversion(): boolean {
     return (
@@ -135,9 +139,9 @@ export class RomanNumeralChord {
     romanNumeralInput:
       | RomanNumeralChordSymbol
       | {
-          scaleDegree: ScaleDegree;
+          scaleDegree: EnharmonicScaleDegree;
           type: ChordType;
-          bass?: ScaleDegree;
+          bass?: EnharmonicScaleDegree;
         },
   ) {
     if (typeof romanNumeralInput === 'object') {
@@ -225,14 +229,30 @@ export class RomanNumeralChord {
     return symbol;
   }
 
-  static toRelativeMode(
-    chordSymbol: RomanNumeralChordSymbol,
-    source: Mode,
-    target: Mode,
-  ): RomanNumeralChordSymbol {
+  static convertAnalysis({
+    chordSymbol,
+    mode,
+    currentModalAnalysis,
+    desiredModalAnalysis,
+  }: {
+    chordSymbol: RomanNumeralChordSymbol;
+    mode: Mode;
+    currentModalAnalysis: ModalAnalysis;
+    desiredModalAnalysis: ModalAnalysis;
+  }): RomanNumeralChordSymbol {
     const chord = new RomanNumeralChord(chordSymbol);
-    const scaleDegree = toRelativeMode(chord.scaleDegree, source, target);
-    const bass = toRelativeMode(chord.bass, source, target);
+    const scaleDegree = convertModalAnalysis({
+      scaleDegree: chord.scaleDegree,
+      mode,
+      currentModalAnalysis,
+      desiredModalAnalysis,
+    });
+    const bass = convertModalAnalysis({
+      scaleDegree: chord.bass,
+      mode,
+      currentModalAnalysis,
+      desiredModalAnalysis,
+    });
     return new RomanNumeralChord({
       scaleDegree,
       type: chord.type,
