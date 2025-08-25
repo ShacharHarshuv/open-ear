@@ -8,7 +8,7 @@ import { YouTubeSongQuestion, songChordQuestions } from './songQuestions';
 export function getIncludedSegments(
   settings: Pick<
     ChordsInRealSongsSettings,
-    'tonicForAnalyzing' | 'includedChords' | 'learnProgressions'
+    'modalAnalysis' | 'includedChords' | 'learnProgressions'
   >,
 ) {
   const isAllChordsIncluded = (
@@ -27,14 +27,14 @@ export function getIncludedSegments(
   const validChordProgressionsDescriptorList = songChordQuestions
     .map((chordProgression) => {
       if (
-        settings.tonicForAnalyzing === 'original' ||
+        settings.modalAnalysis === 'tonic-1' ||
         chordProgression.mode === Mode.Major
       ) {
         return chordProgression;
       }
 
       if (
-        settings.tonicForAnalyzing === 'major' &&
+        settings.modalAnalysis === '1-major-6-minor' &&
         [Mode.Mixolydian, Mode.Lydian].includes(chordProgression.mode)
       ) {
         return chordProgression;
