@@ -1,6 +1,9 @@
 import * as _ from 'lodash';
 import { ExerciseTest } from '../../ExerciseTest';
-import Exercise from '../../exercise-logic';
+import Exercise, {
+  IncludedAnswersControlDescriptor,
+  flatAnswerList,
+} from '../../exercise-logic';
 import { toGetter } from '../../utility';
 import { exerciseSmokeTest } from '../testing-utility/test-exercise.spec';
 import {
@@ -42,16 +45,21 @@ describe(intervalExercise.name, () => {
 
   describe('settings', () => {
     it('should have the "included answers" settings', () => {
-      expect(intervalExercise.settingsConfig.controls).toEqual(
-        jasmine.arrayContaining([
-          jasmine.objectContaining<Exercise.SettingsControlDescriptor>({
-            key: 'includedAnswers',
-            descriptor: jasmine.objectContaining({
-              controlType: 'included-answers',
-              answerList: ExerciseTest.answerListContaining(allIntervals),
-            }),
-          }),
-        ]),
+      const includedAnswersControl =
+        intervalExercise.settingsConfig.controls.find(
+          (control) => control.key === 'includedAnswers',
+        );
+
+      expect(includedAnswersControl).toBeTruthy();
+
+      const fullAnswerList = (
+        toGetter(includedAnswersControl?.descriptor)(
+          intervalExercise.settingsConfig.defaults,
+        ) as IncludedAnswersControlDescriptor
+      ).answerList;
+
+      expect(flatAnswerList(fullAnswerList)).toEqual(
+        jasmine.arrayWithExactContents(allIntervals),
       );
     });
   });
