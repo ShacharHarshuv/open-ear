@@ -474,12 +474,12 @@ export type SettingValueType = number | string | boolean | (string | number)[];
 
 export type ExerciseSettings = { [K in string]: SettingValueType };
 
-export type ControlDescriptor =
-  | SliderControlDescriptor
-  | SelectControlDescriptor
-  | ListSelectControlDescriptor
-  | IncludedAnswersControlDescriptor
-  | CheckboxControlDescriptor;
+export type ControlDescriptor<T extends SettingValueType = SettingValueType> =
+  | (T extends number ? SliderControlDescriptor : never)
+  | SelectControlDescriptor<T>
+  | (T extends (infer U)[] ? ListSelectControlDescriptor<U> : never)
+  | (T extends string ? IncludedAnswersControlDescriptor<T> : never)
+  | (T extends boolean ? CheckboxControlDescriptor : never);
 
 /***
  * Usage of GKey is necessary here to avoid this issue: https://github.com/microsoft/TypeScript/issues/41595
@@ -508,7 +508,7 @@ export type SettingsControlDescriptor<
     descriptor: /*GSettings[GKey] extends number ? SliderControlDescriptor | SelectControlDescriptor<GSettings[GKey]>
    : GSettings[GKey] extends Array<any> ? ListSelectControlDescriptor
    : SelectControlDescriptor<GSettings[GKey]>*/ StaticOrGetter<
-      ControlDescriptor,
+      ControlDescriptor /* <GSettings[GKey]> */ /* We have a problem with this type. Too strict */,
       [GSettings]
     >;
     show?: (settings: ExerciseSettings) => boolean;

@@ -4,10 +4,12 @@ import { DeepReadonly } from '../../../shared/ts-utility';
 import { Mode, RomanNumeralChordSymbol } from '../../utility';
 import { NoteType } from '../../utility/music/notes/NoteType';
 import { CadenceType } from '../utility/exerciseAttributes/tonalExercise';
+import { ModalAnalysis } from '../utility/settings/modal-analysis';
 
 export interface YouTubeSongQuestion {
   key: NoteType;
   mode: Mode; // will determinate the cadence to play
+  analysis?: ModalAnalysis;
   cadence?: CadenceType; // if not provided, will be determined by the mode
   legacyVideoId?: string; // when we need to change the video id, but we don't want to break past references, we set this to the previous video id
   videoId: string;

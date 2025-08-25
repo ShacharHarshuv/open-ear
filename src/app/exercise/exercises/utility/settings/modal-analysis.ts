@@ -36,7 +36,7 @@ export const modalAnalysis: SettingsConfig<ModalAnalysisSettings> = {
           },
           {
             label: '1 Ionian always',
-            value: '1-ionian',
+            value: '1-ionian-always',
           },
         ],
       },

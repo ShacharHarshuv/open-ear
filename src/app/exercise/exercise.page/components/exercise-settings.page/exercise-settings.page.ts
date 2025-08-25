@@ -227,7 +227,7 @@ export class ExerciseSettingsPage {
         )} is not a ListSelectControlDescriptor`,
       );
     }
-    return descriptor;
+    return descriptor as ListSelectControlDescriptor;
   }
 
   asSliderControlDescriptor(
