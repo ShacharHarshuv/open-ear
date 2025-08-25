@@ -12,6 +12,7 @@ export enum Accidental {
   Natural = '',
   Sharp = '#',
   Flat = 'b',
+  // todo: consider adding double flat and double sharp
 }
 
 export type DiatonicScaleDegree = 1 | 2 | 3 | 4 | 5 | 6 | 7;
@@ -125,7 +126,7 @@ export function getScaleDegreeFromNote(key: Key, note: Note): ScaleDegree {
 }
 
 export function getDiatonicScaleDegreeWithAccidental(
-  scaleDegree: ScaleDegree,
+  scaleDegree: EnharmonicScaleDegree,
 ): {
   diatonicScaleDegree: DiatonicScaleDegree;
   accidental: Accidental;
@@ -156,3 +157,9 @@ export function transposeScaleDegree(
 export function isDiatonic(scaleDegree: ScaleDegree) {
   return !(scaleDegree.includes('b') || scaleDegree.includes('#'));
 }
+
+export const accidentalToDelta: Record<Accidental, number> = {
+  [Accidental.Natural]: 0,
+  [Accidental.Sharp]: 1,
+  [Accidental.Flat]: -1,
+};

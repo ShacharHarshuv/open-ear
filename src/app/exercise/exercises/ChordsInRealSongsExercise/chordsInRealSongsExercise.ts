@@ -24,14 +24,14 @@ import { getDistanceOfKeys } from '../../utility/music/keys/getDistanceOfKeys';
 import { transpose } from '../../utility/music/transpose';
 import { allRomanNumeralAnswerList } from '../utility/exerciseAttributes/roman-analysis-chord-progression-exercise/roman-numeral-answer-list';
 import {
-  AnalyzeBySettings,
-  analyzeBy,
-} from '../utility/settings/AnalyzeBySettings';
-import {
   AcceptEquivalentChordSettings,
   acceptableChordAnalysisOptions,
   flexibleChordChoiceSettings,
 } from '../utility/settings/acceptEquivalentChordsSettings';
+import {
+  ModalAnalysisSettings,
+  modalAnalysis,
+} from '../utility/settings/modal-analysis';
 import { getIncludedSegments } from './getIncludedQuestions';
 import { indexQuestionsByProgression } from './indexQuestionsByProgression';
 import { YouTubeSongQuestion, getId } from './songQuestions';
@@ -40,7 +40,7 @@ type LearnProgressionsSettings = {
   learnProgressions: boolean;
 };
 
-export type ChordsInRealSongsSettings = AnalyzeBySettings &
+export type ChordsInRealSongsSettings = ModalAnalysisSettings &
   AcceptEquivalentChordSettings &
   LearnProgressionsSettings & {
     includedChords: RomanNumeralChordSymbol[];
@@ -101,7 +101,7 @@ export const chordsInRealSongsExercise: Exercise<
   blackListPlatform: 'ios', // currently, this exercise is not working on ios
   settingsConfig: {
     controls: [
-      ...analyzeBy.controls,
+      ...modalAnalysis.controls,
       ...flexibleChordChoiceSettings.controls,
       // todo: in the future, it's better that learn mode will use this custom algorithm automatically
       {
@@ -130,16 +130,22 @@ export const chordsInRealSongsExercise: Exercise<
     defaults: {
       includedChords: ['I', 'IV', 'V', 'vi'],
       learnProgressions: false,
-      ...analyzeBy.defaults,
+      ...modalAnalysis.defaults,
       ...flexibleChordChoiceSettings.defaults,
     },
   },
   logic: (settings) => {
+    console.log('settings', settings);
+
     const availableSegments = getIncludedSegments(settings);
+    console.log('availableSegments', availableSegments);
+
     const uniqueProgressions = indexQuestionsByProgression(
       availableSegments,
       settings,
     );
+    console.log('availableSegments', availableSegments);
+
     const progressionKeys = Array.from(uniqueProgressions.keys());
     console.log('uniqueProgressions', uniqueProgressions);
 
