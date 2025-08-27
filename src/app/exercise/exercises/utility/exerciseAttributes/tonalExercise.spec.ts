@@ -6,7 +6,6 @@ import NotesQuestion = Exercise.NotesQuestion;
 import AnswerList = Exercise.AnswerList;
 
 export const defaultTonalExerciseSettings: TonalExerciseSettings = {
-  cadenceType: 'I IV V I',
   key: 'random',
   newKeyEvery: 0,
   drone: false,
@@ -37,7 +36,7 @@ describe(useTonalExercise.name, function () {
       );
 
       expect(question.key).toBe('C');
-      expect(question.info).toBe('Key: C');
+      expect(question.info).toBe('1 = C');
       expect(question.segments[0].rightAnswer).toBe('Answer 1');
     });
 
@@ -59,25 +58,6 @@ describe(useTonalExercise.name, function () {
 
       expect(question.cadence).toBeDefined();
       expect(question.cadence).not.toBeNull();
-    });
-
-    it('should not include cadence when playCadence is false', () => {
-      const tonalExercise = useTonalExercise({ playCadence: false });
-      const questionInC = {
-        segments: [
-          {
-            partToPlay: 'C4' as Note,
-            rightAnswer: 'Answer 1',
-          },
-        ],
-      };
-
-      const question = tonalExercise.getQuestion(
-        { ...defaultTonalExerciseSettings, key: 'C' },
-        questionInC,
-      );
-
-      expect(question.cadence).toBeUndefined();
     });
 
     it('should include drone when drone setting is enabled', () => {
@@ -200,18 +180,6 @@ describe(useTonalExercise.name, function () {
       );
     });
 
-    it('should exclude cadenceType when cadenceTypeSelection is false', () => {
-      const tonalExercise = useTonalExercise({
-        playCadence: false,
-        cadenceTypeSelection: false,
-      });
-
-      const hasCadenceType = tonalExercise.settingsDescriptors.some(
-        (desc) => desc.key === 'cadenceType',
-      );
-      expect(hasCadenceType).toBeFalse();
-    });
-
     it('should exclude key selection when keySelection is false', () => {
       const tonalExercise = useTonalExercise({ keySelection: false });
 
@@ -235,7 +203,6 @@ describe(useTonalExercise.name, function () {
     it('should return expected default settings', () => {
       const tonalExercise = useTonalExercise();
       expect(tonalExercise.defaults).toEqual({
-        cadenceType: 'I IV V I',
         key: 'random',
         newKeyEvery: 10,
         drone: false,

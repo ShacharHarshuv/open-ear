@@ -12,7 +12,7 @@ describe(chordsInRealSongsExercise.name, () => {
         expect(
           chordsInRealSongsExercise
             .logic({
-              modalAnalysis: '1-ionian-always',
+              modalAnalysis: 'tonic-1',
               includedChords: _.map(chordProgressionDescriptor.chords, 'chord'),
               acceptEquivalentChord: false,
               learnProgressions: false,

@@ -1,9 +1,7 @@
-import { testPureFunction } from '../../../../shared/testing-utility/testPureFunction';
 import { MusicSymbol } from '../MusicSymbol';
 import { ChordSymbol, ChordType } from '../chords';
 import { Key } from '../keys/Key';
 import { Accidental, DiatonicScaleDegree, ScaleDegree } from '../scale-degrees';
-import { Mode } from './Mode';
 import { RomanNumeralChord } from './RomanNumeralChord';
 import { RomanNumeralChordSymbol } from './RomanNumeralChordSymbol';
 
@@ -481,42 +479,5 @@ describe('RomanNumeralBuilder', () => {
         },
       );
     });
-  });
-
-  describe('toRelativeMode', () => {
-    testPureFunction(RomanNumeralChord.convertAnalysis, [
-      {
-        args: ['I', Mode.Ionian, Mode.Aeolian],
-        returnValue: 'bIII',
-      },
-      {
-        args: ['i', Mode.Aeolian, Mode.Ionian],
-        returnValue: 'vi',
-      },
-      {
-        args: ['bVII', Mode.Aeolian, Mode.Ionian],
-        returnValue: 'V',
-      },
-      {
-        args: ['V', Mode.Aeolian, Mode.Ionian],
-        returnValue: 'III',
-      },
-      {
-        args: ['iii', Mode.Ionian, Mode.Aeolian],
-        returnValue: 'v',
-      },
-      {
-        args: ['i', Mode.Dorian, Mode.Ionian],
-        returnValue: 'ii',
-      },
-      {
-        args: ['I', Mode.Mixolydian, Mode.Ionian],
-        returnValue: 'V',
-      },
-      {
-        args: ['bIII/5', Mode.Aeolian, Mode.Ionian],
-        returnValue: 'I/3',
-      },
-    ]);
   });
 });
