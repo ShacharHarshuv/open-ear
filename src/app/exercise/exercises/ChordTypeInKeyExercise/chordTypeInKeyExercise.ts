@@ -67,9 +67,7 @@ export type ChordTypeInKeySettings = TonalExerciseSettings &
   };
 
 const tonalExercise = useTonalExercise({
-  cadenceTypeSelection: false,
   keySelection: false,
-  playCadence: false,
   droneSelection: false,
 });
 

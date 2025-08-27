@@ -7,6 +7,11 @@ import {
   useRomanAnalysisChordProgressionExercise,
 } from '../utility/exerciseAttributes/roman-analysis-chord-progression-exercise/romanAnalysisChordProgressionExercise';
 import {
+  CadenceTypeSetting,
+  cadenceType,
+  getCadence,
+} from '../utility/settings/CadenceTypeSetting';
+import {
   IncludedAnswersSettings,
   useIncludedAnswers,
 } from '../utility/settings/IncludedAnswersSettings';
@@ -25,7 +30,8 @@ export type ChordInKeySettings =
   IncludedAnswersSettings<RomanNumeralChordSymbol> &
     RomanAnalysisChordProgressionExerciseSettings &
     NumberOfSegmentsSetting &
-    PlayAfterCorrectAnswerSetting;
+    PlayAfterCorrectAnswerSetting &
+    CadenceTypeSetting;
 
 const numberOfSegments = useNumberOfSegments('chord');
 
@@ -52,14 +58,16 @@ export const chordInKeyExercise: Exercise<
           settings.numberOfSegments,
           chordProgressionRules,
         );
+        const cadenceInC = getCadence(settings.cadenceType);
 
-        return romanAnalysis.getQuestion(settings, chords);
+        return romanAnalysis.getQuestion(settings, chords, cadenceInC);
       },
       answerList: includedAnswers.answerList(settings),
     };
   },
   settingsConfig: {
     controls: [
+      ...cadenceType.controls,
       ...romanAnalysis.settingsConfig.controls,
       includedAnswers.settingDescriptor,
       numberOfSegments.settingsDescriptor,
@@ -68,6 +76,7 @@ export const chordInKeyExercise: Exercise<
       }),
     ],
     defaults: {
+      ...cadenceType.defaults,
       ...romanAnalysis.settingsConfig.defaults,
       ...numberOfSegments.defaults,
       ...includedAnswers.defaults,

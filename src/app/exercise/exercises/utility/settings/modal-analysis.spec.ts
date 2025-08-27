@@ -18,7 +18,7 @@ const testCases: Partial<
   >
 > = {
   'tonic-1': {
-    [Mode.Major]: [
+    [Mode.Ionian]: [
       {
         currentModalAnalysis: 'tonic-1',
         input: '1',
@@ -40,7 +40,7 @@ const testCases: Partial<
         output: '#4',
       },
     ],
-    [Mode.Minor]: [
+    [Mode.Aeolian]: [
       {
         currentModalAnalysis: 'tonic-1',
         input: '5',
@@ -118,7 +118,7 @@ const testCases: Partial<
     ],
   },
   '1-major-6-minor': {
-    [Mode.Major]: [
+    [Mode.Ionian]: [
       {
         currentModalAnalysis: 'tonic-1',
         input: '1',
@@ -140,7 +140,7 @@ const testCases: Partial<
         output: '#4',
       },
     ],
-    [Mode.Minor]: [
+    [Mode.Aeolian]: [
       {
         currentModalAnalysis: 'tonic-1',
         input: '5',
@@ -218,7 +218,7 @@ const testCases: Partial<
     ],
   },
   '1-ionian-always': {
-    [Mode.Major]: [
+    [Mode.Ionian]: [
       {
         currentModalAnalysis: 'tonic-1',
         input: '1',
@@ -240,7 +240,7 @@ const testCases: Partial<
         output: '#4',
       },
     ],
-    [Mode.Minor]: [
+    [Mode.Aeolian]: [
       {
         currentModalAnalysis: 'tonic-1',
         input: '5',

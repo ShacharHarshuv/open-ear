@@ -9,6 +9,7 @@ import {
 } from '../utility/exerciseAttributes/roman-analysis-chord-progression-exercise/romanAnalysisChordProgressionExercise';
 import {
   ModalAnalysisSettings,
+  getCadenceInCFromModalAnalysis,
   modalAnalysis,
 } from '../utility/settings/modal-analysis';
 import { CommonChordProgressionsExplanationComponent } from './common-chord-progressions-explanation/common-chord-progressions-explanation.component';
@@ -59,7 +60,7 @@ function getIncludedProgressionsDescriptors(
           romanNumerals: progression.romanNumerals.map((romanNumeral) =>
             RomanNumeralChord.convertAnalysis({
               chordSymbol: romanNumeral,
-              mode: progression.mode ?? Mode.Major,
+              mode: progression.mode ?? Mode.Ionian,
               currentModalAnalysis: progression.analysis ?? 'tonic-1',
               desiredModalAnalysis: settings.modalAnalysis,
             }),
@@ -83,19 +84,18 @@ export const commonChordProgressionExercise: Exercise<
   explanation: CommonChordProgressionsExplanationComponent,
   logic: (settings) => ({
     getQuestion() {
-      const includedProgressions: ProgressionDescriptor[] =
-        getIncludedProgressionsDescriptors(settings);
+      const includedProgressions = getIncludedProgressionsDescriptors(settings);
       const selectedChordProgression = randomFromList(includedProgressions);
-      settings.cadenceType = {
-        [Mode.Dorian]: 'i iv V i',
-        [Mode.Minor]: 'i iv V i',
-        [Mode.Major]: 'I IV V I',
-        [Mode.Mixolydian]: 'I IV V I',
-      }[selectedChordProgression.mode ?? Mode.Major];
+
+      const cadenceInC = getCadenceInCFromModalAnalysis(
+        selectedChordProgression.mode ?? Mode.Ionian,
+        settings.modalAnalysis,
+      );
 
       return romanAnalysis.getQuestion(
         settings,
         selectedChordProgression.romanNumerals,
+        cadenceInC,
       );
     },
     answerList: filterIncludedAnswers(
@@ -123,7 +123,7 @@ export const commonChordProgressionExercise: Exercise<
               (romanNumeral) =>
                 RomanNumeralChord.convertAnalysis({
                   chordSymbol: romanNumeral,
-                  mode: progression.mode ?? Mode.Major,
+                  mode: progression.mode ?? Mode.Ionian,
                   currentModalAnalysis: progression.analysis ?? 'tonic-1',
                   desiredModalAnalysis: settings.modalAnalysis,
                 }),

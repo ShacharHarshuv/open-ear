@@ -3,7 +3,11 @@ import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { AnswerList, Exercise } from '../../exercise-logic';
 import { randomFromList } from '../../utility';
 import { NotesRange } from '../../utility/music/NotesRange';
-import { Chord, Direction } from '../../utility/music/chords';
+import {
+  Chord,
+  Direction,
+  IV_V_I_CADENCE_IN_C,
+} from '../../utility/music/chords';
 import { RomanNumeralChordSymbol } from '../../utility/music/harmony/RomanNumeralChordSymbol';
 import { romanNumeralToChordInC } from '../../utility/music/harmony/romanNumeralToChordInC';
 import { Interval } from '../../utility/music/intervals/Interval';
@@ -287,7 +291,6 @@ const includedAnswers = useIncludedAnswers({
 });
 
 const tonalExercise = useTonalExercise({
-  cadenceTypeSelection: false,
   keySelection: true,
   droneSelection: true,
 });
@@ -385,7 +388,11 @@ export const notesWithChordsExercise: Exercise<
           };
         }
 
-        return tonalExercise.getQuestion(settings, getQuestionInC);
+        return tonalExercise.getQuestion(
+          settings,
+          getQuestionInC,
+          IV_V_I_CADENCE_IN_C,
+        );
       },
       answerList: tonalExercise.answerList(
         includedAnswers.answerList(settings),

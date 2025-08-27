@@ -4,7 +4,14 @@ import {
   Mode,
   accidentalToDelta,
   getDiatonicScaleDegreeWithAccidental,
+  isMajor,
+  scaleDegreeToChromaticDegree,
 } from 'src/app/exercise/utility';
+import {
+  IV_V_I_CADENCE_IN_C,
+  iv_V_i_CADENCE_IN_C,
+} from 'src/app/exercise/utility/music/chords';
+import { transpose } from 'src/app/exercise/utility/music/transpose';
 import { SettingsConfig } from '../../../exercise-logic/settings-config';
 
 export type ModalAnalysis = 'tonic-1' | '1-major-6-minor' | '1-ionian-always';
@@ -163,4 +170,24 @@ export function shiftAccidental(
   }
 
   return accidentalsOrder[newAccidentalIndex];
+}
+
+export function getCadenceInCFromModalAnalysis(
+  mode: Mode,
+  modalAnalysis: ModalAnalysis,
+) {
+  const major = isMajor(mode);
+  switch (modalAnalysis) {
+    case 'tonic-1':
+      return major ? IV_V_I_CADENCE_IN_C : iv_V_i_CADENCE_IN_C;
+    case '1-major-6-minor':
+      return major ? IV_V_I_CADENCE_IN_C : transpose(iv_V_i_CADENCE_IN_C, -3);
+    case '1-ionian-always':
+      return transpose(
+        major ? IV_V_I_CADENCE_IN_C : iv_V_i_CADENCE_IN_C,
+        scaleDegreeToChromaticDegree[mode.toString()] - 1,
+      );
+    default:
+      throw new Error(`Invalid modal analysis ${modalAnalysis}`);
+  }
 }

@@ -1,18 +1,19 @@
-import { TitleCasePipe } from '@angular/common';
 import { computed, signal, untracked } from '@angular/core';
 import * as _ from 'lodash';
 import { first } from 'lodash';
-import { NoteEvent } from 'src/app/services/player.service';
 import {
   Exercise,
   Question,
   filterIncludedAnswers,
+  mapAnswerList,
 } from '../../exercise-logic';
 import { fsrsExercise } from '../../exercise.page/state/fsrs-exercise';
 import {
   DeepReadonly,
   Mode,
   RomanNumeralChordSymbol,
+  isMajor,
+  modeName,
   randomFromList,
 } from '../../utility';
 import {
@@ -48,18 +49,8 @@ export type ChordsInRealSongsSettings = ModalAnalysisSettings &
 
 function getQuestionFromProgression(
   progression: DeepReadonly<YouTubeSongQuestion>,
-  settings: AcceptEquivalentChordSettings,
+  settings: AcceptEquivalentChordSettings & ModalAnalysisSettings,
 ): Question<RomanNumeralChordSymbol> {
-  const modeToCadenceInC: Record<Mode, NoteEvent[]> = {
-    [Mode.Lydian]: IV_V_I_CADENCE_IN_C,
-    [Mode.Major]: IV_V_I_CADENCE_IN_C,
-    [Mode.Mixolydian]: IV_V_I_CADENCE_IN_C,
-    [Mode.Dorian]: iv_V_i_CADENCE_IN_C,
-    [Mode.Minor]: iv_V_i_CADENCE_IN_C,
-    [Mode.Phrygian]: iv_V_i_CADENCE_IN_C,
-    [Mode.Locrian]: iv_V_i_CADENCE_IN_C,
-  };
-
   return {
     type: 'youtube',
     id: getId(progression),
@@ -75,15 +66,15 @@ function getQuestionFromProgression(
       seconds: chordDesc.seconds,
     })),
     endSeconds: progression.endSeconds,
-    cadence: transpose(
-      modeToCadenceInC[progression.mode],
-      getDistanceOfKeys(progression.key, 'C'),
-    ),
+    cadence: (() => {
+      const cadenceInC = isMajor(progression.mode ?? Mode.Ionian)
+        ? IV_V_I_CADENCE_IN_C
+        : iv_V_i_CADENCE_IN_C;
+      return transpose(cadenceInC, getDistanceOfKeys(progression.tonic, 'C'));
+    })(),
     info: `${progression.name ?? ''}${
       progression.artist ? ` by ${progression.artist} ` : ''
-    }(${progression.key} ${TitleCasePipe.prototype.transform(
-      Mode[progression.mode],
-    )})`,
+    }(${progression.tonic} ${modeName[progression.mode]})`, // todo: add "1 = ?"
   };
 }
 
@@ -269,7 +260,16 @@ export const chordsInRealSongsExercise: Exercise<
           ),
         );
 
-        return filterIncludedAnswers(allRomanNumeralAnswerList, includedChords);
+        const includedAnswers = filterIncludedAnswers(
+          allRomanNumeralAnswerList,
+          includedChords,
+        );
+        return mapAnswerList(includedAnswers, (answerConfig) => {
+          return {
+            playOnClick: null, // todo(#316): restore support by transposing based on the song
+            ...answerConfig,
+          };
+        });
       }),
       ...logic(),
       handleFinishedAnswering(numberOfMistakes) {

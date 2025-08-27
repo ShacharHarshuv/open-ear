@@ -18,22 +18,12 @@ import {
   scaleDegreeToChromaticDegree,
   toGetter,
 } from '../../../utility';
-import {
-  IV_V_I_CADENCE_IN_C,
-  iv_V_i_CADENCE_IN_C,
-} from '../../../utility/music/chords';
 import { getDistanceOfKeys } from '../../../utility/music/keys/getDistanceOfKeys';
 import { transpose } from '../../../utility/music/transpose';
-import {
-  CadenceTypeSetting,
-  cadenceTypeSettingsDescriptor,
-} from '../settings/CadenceTypeSetting';
 import {
   KeySelectionSettings,
   keySelectionSettingsDescriptors,
 } from '../settings/keySelectionSettingsDescriptors';
-
-export type CadenceType = 'I IV V I' | 'i iv V i' | 'vi ii III vi';
 
 export type DroneSettings = {
   drone: false | 1 | 2 | 3 | 4 | 5 | 6 | 7;
@@ -83,17 +73,7 @@ export const droneSettingsDescriptor: SettingsControlDescriptor<DroneSettings> =
     },
   };
 
-export type TonalExerciseSettings = CadenceTypeSetting &
-  KeySelectionSettings &
-  DroneSettings;
-
-const cadenceTypeToCadence: {
-  [k in CadenceType]: NoteEvent[];
-} = {
-  'I IV V I': IV_V_I_CADENCE_IN_C,
-  'i iv V i': iv_V_i_CADENCE_IN_C,
-  'vi ii III vi': transpose(iv_V_i_CADENCE_IN_C, getDistanceOfKeys('A', 'C')),
-};
+export type TonalExerciseSettings = KeySelectionSettings & DroneSettings;
 
 export type TonalExerciseUtils = {
   getRangeForKeyOfC(rangeForPlaying: NotesRange): NotesRange;
@@ -116,16 +96,7 @@ export type TonalExerciseUtils = {
 //   readonly answerList: StaticOrGetter<AnswerList<GAnswer>, [GSettings]>;
 // };
 
-export type TonalExerciseConfig = (
-  | {
-      playCadence?: true;
-      cadenceTypeSelection?: boolean;
-    }
-  | {
-      playCadence: false;
-      cadenceTypeSelection?: false;
-    }
-) & {
+export type TonalExerciseConfig = {
   // todo: consider, instead of adding those in the config, return the settings for those separately, so that the consumer can choose if they want to add them and in what order
   // the downside is that order is not guaranteed to be consistent between exercises, but maybe the flexibility & simplicity is worth it
   keySelection?: boolean;
@@ -134,8 +105,6 @@ export type TonalExerciseConfig = (
 
 export function useTonalExercise(config?: TonalExerciseConfig) {
   const fullConfig: Required<TonalExerciseConfig> = _.defaults(config, {
-    playCadence: true,
-    cadenceTypeSelection: config?.playCadence ?? true,
     keySelection: true,
     droneSelection: true,
   });
@@ -176,7 +145,7 @@ export function useTonalExercise(config?: TonalExerciseConfig) {
   }
 
   function keyInfo(): string {
-    return `Key: ${key}`;
+    return `1 = ${key}`;
   }
 
   function transposeToKey(partOrNotes: Note): Note;
@@ -198,7 +167,6 @@ export function useTonalExercise(config?: TonalExerciseConfig) {
   }
 
   const defaults: TonalExerciseSettings = {
-    cadenceType: 'I IV V I',
     key: 'random',
     newKeyEvery: 10,
     drone: false,
@@ -206,9 +174,6 @@ export function useTonalExercise(config?: TonalExerciseConfig) {
 
   const settingsDescriptors: SettingsControlDescriptor<TonalExerciseSettings>[] =
     [
-      ...(fullConfig.cadenceTypeSelection
-        ? [cadenceTypeSettingsDescriptor]
-        : []),
       ...(fullConfig.keySelection ? keySelectionSettingsDescriptors : []),
       ...(fullConfig.droneSelection ? [droneSettingsDescriptor] : []),
     ];
@@ -220,6 +185,7 @@ export function useTonalExercise(config?: TonalExerciseConfig) {
         Omit<NotesQuestion<GAnswer>, 'cadence'>,
         [TonalExerciseUtils]
       >,
+      cadenceInC?: NoteEvent[],
     ): NotesQuestion<GAnswer> {
       key = getKey(settings);
 
@@ -227,7 +193,6 @@ export function useTonalExercise(config?: TonalExerciseConfig) {
       const _questionInC = toGetter(questionInC)({
         getRangeForKeyOfC,
       });
-      const selectedCadence = cadenceTypeToCadence[settings.cadenceType];
       return {
         info: keyInfo(),
         ..._questionInC,
@@ -236,9 +201,7 @@ export function useTonalExercise(config?: TonalExerciseConfig) {
           rightAnswer: segment.rightAnswer,
           partToPlay: transposeToKey(segment.partToPlay),
         })),
-        cadence: fullConfig.playCadence
-          ? transposeToKey(selectedCadence)
-          : undefined,
+        cadence: cadenceInC && transposeToKey(cadenceInC),
         key, // necessary to enforce cadence playback in case of key change
         drone: settings.drone
           ? transpose(

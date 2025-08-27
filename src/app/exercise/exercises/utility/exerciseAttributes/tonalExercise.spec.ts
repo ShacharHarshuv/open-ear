@@ -137,7 +137,7 @@ describe(useTonalExercise.name, function () {
 
       expect(question.key).toBeDefined();
       expect(question.key).not.toBe('random' as any);
-      expect(question.info).toBe(`Key: ${question.key}`);
+      expect(question.info).toBe(`1 = ${question.key}`);
     });
   });
 

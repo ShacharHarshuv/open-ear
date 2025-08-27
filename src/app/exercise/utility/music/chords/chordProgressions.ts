@@ -3,19 +3,13 @@ import { Chord, TriadPosition } from './Chord/Chord';
 
 export const IV_V_I_CADENCE_IN_C: NoteEvent[] = [
   {
-    notes: new Chord('C').getVoicing({
-      position: TriadPosition.Fifth,
-    }),
-    velocity: 0.3,
-  },
-  {
     notes: new Chord('F').getVoicing({
       position: TriadPosition.Third,
     }),
     velocity: 0.3,
   },
   {
-    notes: new Chord('G').getVoicing({
+    notes: new Chord('G7').getVoicing({
       position: TriadPosition.Third,
     }),
     velocity: 0.3,
@@ -32,19 +26,13 @@ export const IV_V_I_CADENCE_IN_C: NoteEvent[] = [
 
 export const iv_V_i_CADENCE_IN_C: NoteEvent[] = [
   {
-    notes: new Chord('Cm').getVoicing({
-      position: TriadPosition.Fifth,
-    }),
-    velocity: 0.3,
-  },
-  {
     notes: new Chord('Fm').getVoicing({
       position: TriadPosition.Third,
     }),
     velocity: 0.3,
   },
   {
-    notes: new Chord('G').getVoicing({
+    notes: new Chord('G7').getVoicing({
       position: TriadPosition.Third,
     }),
     velocity: 0.3,

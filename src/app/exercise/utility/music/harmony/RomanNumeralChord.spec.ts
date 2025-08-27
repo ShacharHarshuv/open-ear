@@ -486,35 +486,35 @@ describe('RomanNumeralBuilder', () => {
   describe('toRelativeMode', () => {
     testPureFunction(RomanNumeralChord.convertAnalysis, [
       {
-        args: ['I', Mode.Major, Mode.Minor],
+        args: ['I', Mode.Ionian, Mode.Aeolian],
         returnValue: 'bIII',
       },
       {
-        args: ['i', Mode.Minor, Mode.Major],
+        args: ['i', Mode.Aeolian, Mode.Ionian],
         returnValue: 'vi',
       },
       {
-        args: ['bVII', Mode.Minor, Mode.Major],
+        args: ['bVII', Mode.Aeolian, Mode.Ionian],
         returnValue: 'V',
       },
       {
-        args: ['V', Mode.Minor, Mode.Major],
+        args: ['V', Mode.Aeolian, Mode.Ionian],
         returnValue: 'III',
       },
       {
-        args: ['iii', Mode.Major, Mode.Minor],
+        args: ['iii', Mode.Ionian, Mode.Aeolian],
         returnValue: 'v',
       },
       {
-        args: ['i', Mode.Dorian, Mode.Major],
+        args: ['i', Mode.Dorian, Mode.Ionian],
         returnValue: 'ii',
       },
       {
-        args: ['I', Mode.Mixolydian, Mode.Major],
+        args: ['I', Mode.Mixolydian, Mode.Ionian],
         returnValue: 'V',
       },
       {
-        args: ['bIII/5', Mode.Minor, Mode.Major],
+        args: ['bIII/5', Mode.Aeolian, Mode.Ionian],
         returnValue: 'I/3',
       },
     ]);

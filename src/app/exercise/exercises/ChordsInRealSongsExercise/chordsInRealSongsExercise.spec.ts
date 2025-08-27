@@ -36,7 +36,7 @@ describe(chordsInRealSongsExercise.name, () => {
   //         seconds: index,
   //       })),
   //       endSeconds: progression.length,
-  //       mode: Mode.Major,
+  //       mode: Mode.Ionian,
   //       key: 'C',
   //     };
   //   }

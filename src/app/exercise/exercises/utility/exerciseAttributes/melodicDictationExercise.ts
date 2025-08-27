@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import { NoteEvent } from 'src/app/services/player.service';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { Time } from 'tone/Tone/core/type/Units';
 import Exercise, {
@@ -79,6 +80,7 @@ export function useMelodicExercise(config?: TonalExerciseConfig) {
     getQuestion: (params: {
       settings: MelodicDictationExerciseSettings;
       getMelodicQuestionInC: (utils: TonalExerciseUtils) => MelodicQuestion;
+      cadenceInC?: NoteEvent[];
     }) => {
       function getQuestionInC(utils: TonalExerciseUtils) {
         const melodicQuestionInC = params.getMelodicQuestionInC(utils);
@@ -126,7 +128,11 @@ export function useMelodicExercise(config?: TonalExerciseConfig) {
         return question;
       }
 
-      return tonalExercise.getQuestion(params.settings, getQuestionInC);
+      return tonalExercise.getQuestion(
+        params.settings,
+        getQuestionInC,
+        params.cadenceInC,
+      );
     },
     answerList: (
       settings: Pick<MelodicDictationExerciseSettings, 'displayMode'>,
