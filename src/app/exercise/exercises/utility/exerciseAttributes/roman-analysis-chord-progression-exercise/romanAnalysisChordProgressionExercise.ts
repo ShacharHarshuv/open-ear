@@ -624,7 +624,7 @@ export function useRomanAnalysisChordProgressionExercise() {
           }),
         };
 
-      // todo: move this logic to the chord in key exercise
+      // TODO: move this logic to the chord in key exercise
       // if (
       //   chordsQuestion.segments.length === 1 &&
       //   settings.playAfterCorrectAnswer

@@ -1,19 +1,17 @@
-import { EnharmonicScaleDegree, Mode } from 'src/app/exercise/utility';
+import { Mode } from '../../../utility/music/harmony/Mode';
+import { EnharmonicScaleDegree } from '../../../utility/music/scale-degrees/ScaleDegrees';
 import { ModalAnalysis, convertModalAnalysis } from './modal-analysis';
 
-// todo: consider removing outer partial
-const testCases: Partial<
-  Record<
-    ModalAnalysis,
-    Partial<
-      Record<
-        Mode,
-        {
-          currentModalAnalysis: ModalAnalysis;
-          input: EnharmonicScaleDegree;
-          output: EnharmonicScaleDegree;
-        }[]
-      >
+const testCases: Record<
+  ModalAnalysis,
+  Partial<
+    Record<
+      Mode,
+      {
+        currentModalAnalysis: ModalAnalysis;
+        input: EnharmonicScaleDegree;
+        output: EnharmonicScaleDegree;
+      }[]
     >
   >
 > = {

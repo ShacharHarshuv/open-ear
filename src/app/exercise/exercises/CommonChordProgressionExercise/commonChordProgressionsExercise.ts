@@ -118,7 +118,6 @@ export const commonChordProgressionExercise: Exercise<
           controlType: 'list-select',
           label: 'Included Progressions',
           allOptions: commonProgressionDescriptorList.map((progression) => {
-            // todo: this is probably code duplication
             const chordsInCorrectAnalysis = progression.romanNumerals.map(
               (romanNumeral) =>
                 RomanNumeralChord.convertAnalysis({

@@ -128,7 +128,7 @@ export class YouTubePlayerService {
 
   private _getYouTubePlayer(): YouTubePlayer {
     const elm = document.createElement('div');
-    // // Expose the following code for debugging purposes
+    // Expose the following code for debugging purposes
     // elm.style['position'] = 'absolute';
     // elm.style['top'] = '0';
     // elm.style['width'] = '100px';

@@ -74,7 +74,7 @@ function getQuestionFromProgression(
     })(),
     info: `${progression.name ?? ''}${
       progression.artist ? ` by ${progression.artist} ` : ''
-    }(${progression.tonic} ${modeName[progression.mode]})`, // todo: add "1 = ?"
+    }(${progression.tonic} ${modeName[progression.mode]})`,
   };
 }
 
@@ -126,25 +126,14 @@ export const chordsInRealSongsExercise: Exercise<
     },
   },
   logic: (settings) => {
-    console.log('settings', settings);
-
     const availableSegments = getIncludedSegments(settings);
-    console.log('availableSegments', availableSegments);
-
     const uniqueProgressions = indexQuestionsByProgression(
       availableSegments,
       settings,
     );
-    console.log('availableSegments', availableSegments);
-
     const progressionKeys = Array.from(uniqueProgressions.keys());
-    console.log('uniqueProgressions', uniqueProgressions);
-
     const fsrsLogic = fsrsExercise(id + ':progression-mode', {
-      getQuestion: (
-        // settings: ChordsInRealSongsSettings,
-        questionsToExclude?: string[],
-      ) => {
+      getQuestion: (questionsToExclude?: string[]) => {
         const questionsToExcludeSet = new Set(questionsToExclude);
         const progressionKeyIndex = progressionKeys.findIndex(
           (progKey) => !questionsToExcludeSet.has(progKey),

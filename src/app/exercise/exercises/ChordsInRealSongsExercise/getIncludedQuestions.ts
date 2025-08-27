@@ -29,7 +29,6 @@ export function getIncludedSegments(
         ...chordProgression,
         chords: _.map(chordProgression.chords, (chord) => ({
           ...chord,
-          // todo: is this code repetition?
           chord: RomanNumeralChord.convertAnalysis({
             chordSymbol: chord.chord,
             mode: chordProgression.mode,
