@@ -9379,6 +9379,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     artist: 'Phineas and Ferb',
     tonic: 'C',
     mode: 6,
+    analysis: '1-major-6-minor',
     videoId: '6rPPXfoGvyc',
     chords: [
       {

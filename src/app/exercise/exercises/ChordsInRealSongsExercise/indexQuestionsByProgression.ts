@@ -1,9 +1,9 @@
 import { DeepReadonly, Mode, RomanNumeralChordSymbol } from '../../utility';
-import { getSimplestAcceptableChordAnalysis } from '../../utility/music/harmony/isAcceptableChordAnalysis';
 import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
+import { getSimplestAcceptableChordAnalysis } from '../../utility/music/harmony/isAcceptableChordAnalysis';
 import {
-  acceptableChordAnalysisOptions,
   AcceptEquivalentChordSettings,
+  acceptableChordAnalysisOptions,
 } from '../utility/settings/acceptEquivalentChordsSettings';
 import {
   ModalAnalysis,
@@ -71,16 +71,8 @@ export function indexQuestionsByProgression(
   const entries = Array.from(groups.entries());
   entries.sort(([progressionA], [progressionB]) => {
     // Extract chords from progression ID (remove mode prefix)
-    const chordsA = progressionA
-      .split('-')
-      .slice(1)
-      .join('-')
-      .split(' ') as RomanNumeralChordSymbol[];
-    const chordsB = progressionB
-      .split('-')
-      .slice(1)
-      .join('-')
-      .split(' ') as RomanNumeralChordSymbol[];
+    const chordsA = parseProgressionId(progressionA);
+    const chordsB = parseProgressionId(progressionB);
 
     const getHighestIndex = (chords: RomanNumeralChordSymbol[]) => {
       return Math.max(...chords.map(getChordIndex));
@@ -143,9 +135,14 @@ function getProgressionId(
       chordSymbol: chord,
       mode,
       currentModalAnalysis: modalAnalysis,
-      desiredModalAnalysis: 'tonic-1',
+      desiredModalAnalysis: '1-major-6-minor',
     }),
   );
 
-  return `${mode}: ${normalizedChords.join(' ')}`;
+  return `${mode}:${normalizedChords.join(' ')}`;
+}
+
+function parseProgressionId(progressionId: string) {
+  const [, chordParts] = progressionId.split(':');
+  return chordParts.split(' ') as RomanNumeralChordSymbol[];
 }
