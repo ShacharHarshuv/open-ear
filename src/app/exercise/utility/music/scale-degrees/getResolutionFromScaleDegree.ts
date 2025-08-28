@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
+import { CadenceType } from 'src/app/exercise/exercises/utility/settings/CadenceTypeSetting';
 import { DeepReadonly } from '../../../../shared/ts-utility';
-import { CadenceType } from '../../../exercises/utility/exerciseAttributes/tonalExercise';
 import {
   DiatonicScaleDegree,
   ScaleDegree,

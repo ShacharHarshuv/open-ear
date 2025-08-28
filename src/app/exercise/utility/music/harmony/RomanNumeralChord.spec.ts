@@ -1,9 +1,7 @@
-import { testPureFunction } from '../../../../shared/testing-utility/testPureFunction';
 import { MusicSymbol } from '../MusicSymbol';
 import { ChordSymbol, ChordType } from '../chords';
 import { Key } from '../keys/Key';
 import { Accidental, DiatonicScaleDegree, ScaleDegree } from '../scale-degrees';
-import { Mode } from './Mode';
 import { RomanNumeralChord } from './RomanNumeralChord';
 import { RomanNumeralChordSymbol } from './RomanNumeralChordSymbol';
 
@@ -481,42 +479,5 @@ describe('RomanNumeralBuilder', () => {
         },
       );
     });
-  });
-
-  describe('toRelativeMode', () => {
-    testPureFunction(RomanNumeralChord.toRelativeMode, [
-      {
-        args: ['I', Mode.Major, Mode.Minor],
-        returnValue: 'bIII',
-      },
-      {
-        args: ['i', Mode.Minor, Mode.Major],
-        returnValue: 'vi',
-      },
-      {
-        args: ['bVII', Mode.Minor, Mode.Major],
-        returnValue: 'V',
-      },
-      {
-        args: ['V', Mode.Minor, Mode.Major],
-        returnValue: 'III',
-      },
-      {
-        args: ['iii', Mode.Major, Mode.Minor],
-        returnValue: 'v',
-      },
-      {
-        args: ['i', Mode.Dorian, Mode.Major],
-        returnValue: 'ii',
-      },
-      {
-        args: ['I', Mode.Mixolydian, Mode.Major],
-        returnValue: 'V',
-      },
-      {
-        args: ['bIII/5', Mode.Minor, Mode.Major],
-        returnValue: 'I/3',
-      },
-    ]);
   });
 });

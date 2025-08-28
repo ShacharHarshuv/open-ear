@@ -43,7 +43,6 @@ const includedAnswers = useIncludedAnswers({
 });
 
 const tonalExercise = useTonalExercise({
-  playCadence: false,
   keySelection: false,
   droneSelection: false,
 });

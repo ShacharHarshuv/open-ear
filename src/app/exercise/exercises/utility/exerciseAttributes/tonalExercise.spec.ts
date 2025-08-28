@@ -6,7 +6,6 @@ import NotesQuestion = Exercise.NotesQuestion;
 import AnswerList = Exercise.AnswerList;
 
 export const defaultTonalExerciseSettings: TonalExerciseSettings = {
-  cadenceType: 'I IV V I',
   key: 'random',
   newKeyEvery: 0,
   drone: false,
@@ -37,47 +36,8 @@ describe(useTonalExercise.name, function () {
       );
 
       expect(question.key).toBe('C');
-      expect(question.info).toBe('Key: C');
+      expect(question.info).toBe('1 = C');
       expect(question.segments[0].rightAnswer).toBe('Answer 1');
-    });
-
-    it('should include cadence when playCadence is true', () => {
-      const tonalExercise = useTonalExercise();
-      const questionInC = {
-        segments: [
-          {
-            partToPlay: 'C4' as Note,
-            rightAnswer: 'Answer 1',
-          },
-        ],
-      };
-
-      const question = tonalExercise.getQuestion(
-        { ...defaultTonalExerciseSettings, key: 'C' },
-        questionInC,
-      );
-
-      expect(question.cadence).toBeDefined();
-      expect(question.cadence).not.toBeNull();
-    });
-
-    it('should not include cadence when playCadence is false', () => {
-      const tonalExercise = useTonalExercise({ playCadence: false });
-      const questionInC = {
-        segments: [
-          {
-            partToPlay: 'C4' as Note,
-            rightAnswer: 'Answer 1',
-          },
-        ],
-      };
-
-      const question = tonalExercise.getQuestion(
-        { ...defaultTonalExerciseSettings, key: 'C' },
-        questionInC,
-      );
-
-      expect(question.cadence).toBeUndefined();
     });
 
     it('should include drone when drone setting is enabled', () => {
@@ -137,7 +97,7 @@ describe(useTonalExercise.name, function () {
 
       expect(question.key).toBeDefined();
       expect(question.key).not.toBe('random' as any);
-      expect(question.info).toBe(`Key: ${question.key}`);
+      expect(question.info).toBe(`1 = ${question.key}`);
     });
   });
 
@@ -183,63 +143,6 @@ describe(useTonalExercise.name, function () {
 
       const answerList = tonalExercise.answerList(answerListInC);
       expect(answerList[0].playOnClick).toBeNull();
-    });
-  });
-
-  describe('settingsDescriptors', () => {
-    it('should include all descriptors by default', () => {
-      const tonalExercise = useTonalExercise();
-      expect(tonalExercise.settingsDescriptors).toContain(
-        jasmine.objectContaining({ key: 'cadenceType' }),
-      );
-      expect(tonalExercise.settingsDescriptors).toContain(
-        jasmine.objectContaining({ key: 'key' }),
-      );
-      expect(tonalExercise.settingsDescriptors).toContain(
-        jasmine.objectContaining({ key: 'drone' }),
-      );
-    });
-
-    it('should exclude cadenceType when cadenceTypeSelection is false', () => {
-      const tonalExercise = useTonalExercise({
-        playCadence: false,
-        cadenceTypeSelection: false,
-      });
-
-      const hasCadenceType = tonalExercise.settingsDescriptors.some(
-        (desc) => desc.key === 'cadenceType',
-      );
-      expect(hasCadenceType).toBeFalse();
-    });
-
-    it('should exclude key selection when keySelection is false', () => {
-      const tonalExercise = useTonalExercise({ keySelection: false });
-
-      const hasKeySelection = tonalExercise.settingsDescriptors.some(
-        (desc) => desc.key === 'key',
-      );
-      expect(hasKeySelection).toBeFalse();
-    });
-
-    it('should exclude drone when droneSelection is false', () => {
-      const tonalExercise = useTonalExercise({ droneSelection: false });
-
-      const hasDrone = tonalExercise.settingsDescriptors.some(
-        (desc) => desc.key === 'drone',
-      );
-      expect(hasDrone).toBeFalse();
-    });
-  });
-
-  describe('defaults', () => {
-    it('should return expected default settings', () => {
-      const tonalExercise = useTonalExercise();
-      expect(tonalExercise.defaults).toEqual({
-        cadenceType: 'I IV V I',
-        key: 'random',
-        newKeyEvery: 10,
-        drone: false,
-      });
     });
   });
 });

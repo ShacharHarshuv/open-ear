@@ -4,7 +4,7 @@ import { RomanNumeralChord } from 'src/app/exercise/utility/music/harmony/RomanN
 import { RomanNumeralChordSymbol } from 'src/app/exercise/utility/music/harmony/RomanNumeralChordSymbol';
 import { Interval } from '../intervals/Interval';
 import {
-  ScaleDegree,
+  EnharmonicScaleDegree,
   isDiatonic,
   scaleDegreeToChromaticDegree,
   transposeScaleDegree,
@@ -180,7 +180,10 @@ export function isAcceptableChordAnalysis(
   );
 }
 
-function getIntervalBetweenScaleDegrees(bass: ScaleDegree, voice: ScaleDegree) {
+function getIntervalBetweenScaleDegrees(
+  bass: EnharmonicScaleDegree,
+  voice: EnharmonicScaleDegree,
+) {
   let bassChromaticDegree = scaleDegreeToChromaticDegree[bass];
   const voiceChromaticDegree = scaleDegreeToChromaticDegree[voice];
   if (bassChromaticDegree > voiceChromaticDegree) {

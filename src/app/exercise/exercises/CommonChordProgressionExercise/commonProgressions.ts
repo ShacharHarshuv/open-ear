@@ -1,9 +1,11 @@
 import { Mode, RomanNumeralChordSymbol } from '../../utility';
+import { ModalAnalysis } from '../utility/settings/modal-analysis';
 
 export interface ProgressionDescriptor {
   romanNumerals: RomanNumeralChordSymbol[];
   name?: string;
-  mode?: Mode;
+  mode?: Mode; // default: major
+  analysis?: ModalAnalysis; // default: tonic-1
 }
 
 export const commonProgressionDescriptorList: ProgressionDescriptor[] = [
@@ -59,12 +61,12 @@ export const commonProgressionDescriptorList: ProgressionDescriptor[] = [
   {
     romanNumerals: ['ii', 'V', 'I'],
     name: 'Major 2-5-1',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
   },
   {
     romanNumerals: ['I', 'ii', 'V', 'I'],
     name: 'Major 2-5-1',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
   },
   {
     romanNumerals: ['I', 'V', 'ii', 'IV'],
@@ -80,70 +82,70 @@ export const commonProgressionDescriptorList: ProgressionDescriptor[] = [
   // Diatonic Minor (Harmonic / Natural) progressions
   {
     romanNumerals: ['i', 'V', 'i'],
-    mode: Mode.Minor,
+    mode: Mode.Aeolian,
   },
   {
     romanNumerals: ['i', 'iv', 'i'],
-    mode: Mode.Minor,
+    mode: Mode.Aeolian,
   },
   {
     romanNumerals: ['i', 'iv', 'V', 'i'],
     name: 'Minor Classical Cadence',
-    mode: Mode.Minor,
+    mode: Mode.Aeolian,
   },
   {
     romanNumerals: ['i', 'V', 'iv', 'i'],
     name: 'Minor Blues Cadence',
-    mode: Mode.Minor,
+    mode: Mode.Aeolian,
   },
   {
     romanNumerals: ['i', 'V', 'iv', 'V', 'i'],
     name: 'Minor Blues Cadence',
-    mode: Mode.Minor,
+    mode: Mode.Aeolian,
   },
   {
     romanNumerals: ['i', 'bVII', 'bVI', 'i'],
-    mode: Mode.Minor,
+    mode: Mode.Aeolian,
   },
   {
     romanNumerals: ['i', 'bVII', 'bVI', 'bVII'],
-    mode: Mode.Minor,
+    mode: Mode.Aeolian,
   },
   {
     romanNumerals: ['i', 'bVI', 'bIII', 'bVII'],
-    mode: Mode.Minor,
+    mode: Mode.Aeolian,
     name: 'Axis (Pessimistic)',
   },
   {
     romanNumerals: ['i', 'bVII', 'bVI', 'V'],
     name: 'Andalusian Cadence',
-    mode: Mode.Minor,
+    mode: Mode.Aeolian,
   },
   {
     romanNumerals: ['i', 'bIII', 'iv', 'bVII'],
-    mode: Mode.Minor,
+    mode: Mode.Aeolian,
   },
   {
     romanNumerals: ['i', 'bIII', 'bVI', 'V'],
-    mode: Mode.Minor,
+    mode: Mode.Aeolian,
   },
   {
     romanNumerals: ['iidim', 'V', 'i'],
     name: 'Minor 2-5-1',
-    mode: Mode.Minor,
+    mode: Mode.Aeolian,
   },
   {
     romanNumerals: ['i', 'iidim', 'V', 'i'],
     name: 'Minor 2-5-1',
-    mode: Mode.Minor,
+    mode: Mode.Aeolian,
   },
   {
     romanNumerals: ['i', 'iv', 'bVI', 'V', 'i'],
-    mode: Mode.Minor,
+    mode: Mode.Aeolian,
   },
   {
     romanNumerals: ['i', 'bVII', 'v', 'bVI'],
-    mode: Mode.Minor,
+    mode: Mode.Aeolian,
     name: '"Can\'t Stop"',
   },
   // Diatonic Dorian progressions
@@ -166,6 +168,7 @@ export const commonProgressionDescriptorList: ProgressionDescriptor[] = [
   {
     romanNumerals: ['I', 'v', 'v', 'ii'],
     name: 'Clocks',
+    mode: Mode.Mixolydian,
   },
   // Non-diatonic progressions
   // Modal interchange

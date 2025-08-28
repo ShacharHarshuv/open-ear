@@ -1,18 +1,19 @@
-import { TitleCasePipe } from '@angular/common';
 import { computed, signal, untracked } from '@angular/core';
 import * as _ from 'lodash';
 import { first } from 'lodash';
-import { NoteEvent } from 'src/app/services/player.service';
 import {
   Exercise,
   Question,
   filterIncludedAnswers,
+  mapAnswerList,
 } from '../../exercise-logic';
 import { fsrsExercise } from '../../exercise.page/state/fsrs-exercise';
 import {
   DeepReadonly,
   Mode,
   RomanNumeralChordSymbol,
+  isMajor,
+  modeName,
   randomFromList,
 } from '../../utility';
 import {
@@ -24,14 +25,14 @@ import { getDistanceOfKeys } from '../../utility/music/keys/getDistanceOfKeys';
 import { transpose } from '../../utility/music/transpose';
 import { allRomanNumeralAnswerList } from '../utility/exerciseAttributes/roman-analysis-chord-progression-exercise/roman-numeral-answer-list';
 import {
-  AnalyzeBySettings,
-  analyzeBy,
-} from '../utility/settings/AnalyzeBySettings';
-import {
   AcceptEquivalentChordSettings,
   acceptableChordAnalysisOptions,
   flexibleChordChoiceSettings,
 } from '../utility/settings/acceptEquivalentChordsSettings';
+import {
+  ModalAnalysisSettings,
+  modalAnalysis,
+} from '../utility/settings/modal-analysis';
 import { getIncludedSegments } from './getIncludedQuestions';
 import { indexQuestionsByProgression } from './indexQuestionsByProgression';
 import { YouTubeSongQuestion, getId } from './songQuestions';
@@ -40,7 +41,7 @@ type LearnProgressionsSettings = {
   learnProgressions: boolean;
 };
 
-export type ChordsInRealSongsSettings = AnalyzeBySettings &
+export type ChordsInRealSongsSettings = ModalAnalysisSettings &
   AcceptEquivalentChordSettings &
   LearnProgressionsSettings & {
     includedChords: RomanNumeralChordSymbol[];
@@ -48,18 +49,8 @@ export type ChordsInRealSongsSettings = AnalyzeBySettings &
 
 function getQuestionFromProgression(
   progression: DeepReadonly<YouTubeSongQuestion>,
-  settings: AcceptEquivalentChordSettings,
+  settings: AcceptEquivalentChordSettings & ModalAnalysisSettings,
 ): Question<RomanNumeralChordSymbol> {
-  const modeToCadenceInC: Record<Mode, NoteEvent[]> = {
-    [Mode.Lydian]: IV_V_I_CADENCE_IN_C,
-    [Mode.Major]: IV_V_I_CADENCE_IN_C,
-    [Mode.Mixolydian]: IV_V_I_CADENCE_IN_C,
-    [Mode.Dorian]: iv_V_i_CADENCE_IN_C,
-    [Mode.Minor]: iv_V_i_CADENCE_IN_C,
-    [Mode.Phrygian]: iv_V_i_CADENCE_IN_C,
-    [Mode.Locrian]: iv_V_i_CADENCE_IN_C,
-  };
-
   return {
     type: 'youtube',
     id: getId(progression),
@@ -75,15 +66,15 @@ function getQuestionFromProgression(
       seconds: chordDesc.seconds,
     })),
     endSeconds: progression.endSeconds,
-    cadence: transpose(
-      modeToCadenceInC[progression.mode],
-      getDistanceOfKeys(progression.key, 'C'),
-    ),
+    cadence: (() => {
+      const cadenceInC = isMajor(progression.mode ?? Mode.Ionian)
+        ? IV_V_I_CADENCE_IN_C
+        : iv_V_i_CADENCE_IN_C;
+      return transpose(cadenceInC, getDistanceOfKeys(progression.tonic, 'C'));
+    })(),
     info: `${progression.name ?? ''}${
       progression.artist ? ` by ${progression.artist} ` : ''
-    }(${progression.key} ${TitleCasePipe.prototype.transform(
-      Mode[progression.mode],
-    )})`,
+    }(${progression.tonic} ${modeName[progression.mode]})`,
   };
 }
 
@@ -101,7 +92,7 @@ export const chordsInRealSongsExercise: Exercise<
   blackListPlatform: 'ios', // currently, this exercise is not working on ios
   settingsConfig: {
     controls: [
-      ...analyzeBy.controls,
+      ...modalAnalysis.controls,
       ...flexibleChordChoiceSettings.controls,
       // todo: in the future, it's better that learn mode will use this custom algorithm automatically
       {
@@ -130,7 +121,7 @@ export const chordsInRealSongsExercise: Exercise<
     defaults: {
       includedChords: ['I', 'IV', 'V', 'vi'],
       learnProgressions: false,
-      ...analyzeBy.defaults,
+      ...modalAnalysis.defaults,
       ...flexibleChordChoiceSettings.defaults,
     },
   },
@@ -141,13 +132,8 @@ export const chordsInRealSongsExercise: Exercise<
       settings,
     );
     const progressionKeys = Array.from(uniqueProgressions.keys());
-    console.log('uniqueProgressions', uniqueProgressions);
-
     const fsrsLogic = fsrsExercise(id + ':progression-mode', {
-      getQuestion: (
-        // settings: ChordsInRealSongsSettings,
-        questionsToExclude?: string[],
-      ) => {
+      getQuestion: (questionsToExclude?: string[]) => {
         const questionsToExcludeSet = new Set(questionsToExclude);
         const progressionKeyIndex = progressionKeys.findIndex(
           (progKey) => !questionsToExcludeSet.has(progKey),
@@ -263,7 +249,16 @@ export const chordsInRealSongsExercise: Exercise<
           ),
         );
 
-        return filterIncludedAnswers(allRomanNumeralAnswerList, includedChords);
+        const includedAnswers = filterIncludedAnswers(
+          allRomanNumeralAnswerList,
+          includedChords,
+        );
+        return mapAnswerList(includedAnswers, (answerConfig) => {
+          return {
+            playOnClick: null, // todo(#316): restore support by transposing based on the song
+            ...answerConfig,
+          };
+        });
       }),
       ...logic(),
       handleFinishedAnswering(numberOfMistakes) {

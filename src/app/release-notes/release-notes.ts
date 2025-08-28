@@ -219,4 +219,9 @@ export const releaseNotes: ReleaseNotes = [
     notes:
       'Randomize rhythm for "Scale Degrees" exercise. Must have at least 2 notes to enable this setting.',
   },
+  {
+    version: '1.12.0',
+    notes:
+      'Support "Modal Analysis" options for Common Chords Progressions and Chords in Real Songs (latter is Android only). This replaces previous "Analyze By" settings',
+  },
 ];

@@ -1,14 +1,16 @@
 import * as _ from 'lodash';
 import { isEmpty } from 'lodash';
+import { NoteEvent } from 'src/app/services/player.service';
 import { DeepReadonly } from '../../../shared/ts-utility';
 import { Mode, RomanNumeralChordSymbol } from '../../utility';
 import { NoteType } from '../../utility/music/notes/NoteType';
-import { CadenceType } from '../utility/exerciseAttributes/tonalExercise';
+import { ModalAnalysis } from '../utility/settings/modal-analysis';
 
 export interface YouTubeSongQuestion {
-  key: NoteType;
   mode: Mode; // will determinate the cadence to play
-  cadence?: CadenceType; // if not provided, will be determined by the mode
+  tonic: NoteType;
+  analysis?: ModalAnalysis;
+  cadence?: NoteEvent[]; // if not provided, will be determined by the mode
   legacyVideoId?: string; // when we need to change the video id, but we don't want to break past references, we set this to the previous video id
   videoId: string;
   subId?: number;
@@ -35,7 +37,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Girlfriend',
     artist: 'Avril Lavigne',
-    key: 'D',
+    tonic: 'D',
     mode: 1,
     videoId: 'Bg59q4puhmg',
     chords: [
@@ -60,8 +62,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   },
   {
     name: `It's your love`,
-    key: 'G',
-    mode: Mode.Major,
+    tonic: 'G',
+    mode: Mode.Ionian,
     videoId: '2AJ4i4S_fP8',
     artist: 'Tim McGraw',
     chords: [
@@ -85,8 +87,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 28,
   },
   {
-    key: 'B',
-    mode: Mode.Major,
+    tonic: 'B',
+    mode: Mode.Ionian,
     videoId: '1cCBqY2B7lI',
     subId: 1,
     name: 'Confusion and Frustration in Modern Times',
@@ -132,8 +134,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 18.62,
   },
   {
-    key: 'B',
-    mode: Mode.Major,
+    tonic: 'B',
+    mode: Mode.Ionian,
     videoId: '1cCBqY2B7lI',
     subId: 2,
     name: 'Confusion and Frustration in Modern Times',
@@ -171,8 +173,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 29.81,
   },
   {
-    key: 'B',
-    mode: Mode.Major,
+    tonic: 'B',
+    mode: Mode.Ionian,
     videoId: '1cCBqY2B7lI',
     subId: 3,
     name: 'Confusion and Frustration in Modern Times',
@@ -206,8 +208,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 39.28,
   },
   {
-    key: 'B',
-    mode: Mode.Major,
+    tonic: 'B',
+    mode: Mode.Ionian,
     videoId: '1cCBqY2B7lI',
     subId: 4,
     name: 'Confusion and Frustration in Modern Times',
@@ -233,8 +235,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 42.24,
   },
   {
-    key: 'B',
-    mode: Mode.Major,
+    tonic: 'B',
+    mode: Mode.Ionian,
     videoId: '1cCBqY2B7lI',
     subId: 5,
 
@@ -261,8 +263,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 56.56,
   },
   {
-    key: 'B',
-    mode: Mode.Major,
+    tonic: 'B',
+    mode: Mode.Ionian,
     videoId: 'dZX6Q-Bj_xg',
     subId: 1,
     name: 'Passion Pit Take A Walk',
@@ -288,8 +290,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 47.5,
   },
   {
-    key: 'B',
-    mode: Mode.Major,
+    tonic: 'B',
+    mode: Mode.Ionian,
     videoId: 'dZX6Q-Bj_xg',
     subId: 2,
     name: 'Passion Pit Take A Walk',
@@ -315,8 +317,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 55.3,
   },
   {
-    key: 'B',
-    mode: Mode.Major,
+    tonic: 'B',
+    mode: Mode.Ionian,
     videoId: 'dZX6Q-Bj_xg',
     subId: 3,
     name: 'Passion Pit Take A Walk',
@@ -342,8 +344,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 104,
   },
   {
-    key: 'Db',
-    mode: Mode.Major,
+    tonic: 'Db',
+    mode: Mode.Ionian,
     videoId: 'CvBfHwUxHIk',
     name: 'Umbrella',
     artist: 'Rihanna',
@@ -368,8 +370,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 67.5,
   },
   {
-    key: 'F',
-    mode: Mode.Minor,
+    tonic: 'F',
+    mode: Mode.Aeolian,
     videoId: 'hTWKbfoikeg',
     subId: 1,
     name: 'Smells Like Teen Spirit',
@@ -411,8 +413,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 34.28,
   },
   {
-    key: 'F',
-    mode: Mode.Minor,
+    tonic: 'F',
+    mode: Mode.Aeolian,
     videoId: 'hTWKbfoikeg',
     subId: 2,
     name: 'Smells Like Teen Spirit',
@@ -454,8 +456,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 67.28,
   },
   {
-    key: 'F#',
-    mode: Mode.Minor,
+    tonic: 'F#',
+    mode: Mode.Aeolian,
     videoId: 'Zi_XLOBDo_Y',
     name: 'Billie Jean',
     artist: 'Michael Jackson',
@@ -496,7 +498,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 87.59,
   },
   {
-    key: 'Db',
+    tonic: 'Db',
     mode: Mode.Mixolydian,
     videoId: '1w7OgIMMRc4',
     subId: 1,
@@ -523,7 +525,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 46.2,
   },
   {
-    key: 'Db',
+    tonic: 'Db',
     mode: Mode.Mixolydian,
     videoId: '1w7OgIMMRc4',
     subId: 2,
@@ -546,8 +548,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 69,
   },
   {
-    key: 'C',
-    mode: Mode.Major,
+    tonic: 'C',
+    mode: Mode.Ionian,
     videoId: 'QDYfEBY9NM4',
     name: 'Let It Be',
     artist: 'The Beatles',
@@ -572,7 +574,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 71.35,
   },
   {
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: '9OQBDdNHmXo',
     name: 'All Too Well',
@@ -598,8 +600,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 61.87,
   },
   {
-    key: 'C',
-    mode: Mode.Major,
+    tonic: 'C',
+    mode: Mode.Ionian,
     videoId: 'hnK6CoUZZFc',
     name: 'All Too Well',
     artist: 'Taylor Swift',
@@ -624,8 +626,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 108.31,
   },
   {
-    key: 'A',
-    mode: Mode.Major,
+    tonic: 'A',
+    mode: Mode.Ionian,
     videoId: 'hLQl3WQQoQ0',
     name: 'Someone Like You',
     artist: 'Adele',
@@ -650,8 +652,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 80.97,
   },
   {
-    key: 'E',
-    mode: Mode.Major,
+    tonic: 'E',
+    mode: Mode.Ionian,
     videoId: '1k8craCGpgs',
     name: "Don't Stop Believing",
     artist: 'Journey',
@@ -676,8 +678,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 25.43,
   },
   {
-    key: 'F',
-    mode: Mode.Major,
+    tonic: 'F',
+    mode: Mode.Ionian,
     videoId: 'aF4CWCXirZ8',
     name: 'Can You Feel The Love Tonight',
     artist: 'Elton John',
@@ -702,7 +704,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 72.43,
   },
   {
-    key: 'F#',
+    tonic: 'F#',
     mode: 1,
     videoId: 'i8dh9gDzmz8',
     name: 'When I Come Around',
@@ -728,8 +730,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 20.54,
   },
   {
-    key: 'Ab',
-    mode: Mode.Major,
+    tonic: 'Ab',
+    mode: Mode.Ionian,
     videoId: 'moSFlvxnbgk',
     name: 'Let It Go',
     artist: 'Robert and Kristen Anderson-Lopez',
@@ -754,8 +756,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 67.58,
   },
   {
-    key: 'A',
-    mode: Mode.Major,
+    tonic: 'A',
+    mode: Mode.Ionian,
     videoId: 'kXYiU_JCYtU',
     name: 'Numb',
     artist: 'Linkin Park',
@@ -780,8 +782,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 30.42,
   },
   {
-    key: 'A',
-    mode: Mode.Major,
+    tonic: 'A',
+    mode: Mode.Ionian,
     videoId: 'fe4EK4HSPkI',
     name: 'Kids',
     artist: 'MGMT',
@@ -806,8 +808,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 94.15,
   },
   {
-    key: 'A',
-    mode: Mode.Major,
+    tonic: 'A',
+    mode: Mode.Ionian,
     videoId: 'FTQbiNvZqaY',
     name: 'Africa',
     artist: 'Toto',
@@ -832,8 +834,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 74.43,
   },
   {
-    key: 'A',
-    mode: Mode.Major,
+    tonic: 'A',
+    mode: Mode.Ionian,
     videoId: 'NPBCbTZWnq0',
     name: 'River flows in you',
     artist: 'Yiruma',
@@ -858,8 +860,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 60.04,
   },
   {
-    key: 'F',
-    mode: Mode.Major,
+    tonic: 'F',
+    mode: Mode.Ionian,
     videoId: '5NPBIwQyPWE',
     name: 'Complicated',
     artist: 'Avril Lavigne',
@@ -884,8 +886,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 75.99,
   },
   {
-    key: 'F',
-    mode: Mode.Major,
+    tonic: 'F',
+    mode: Mode.Ionian,
     videoId: 'SR6iYWJxHqs',
     name: 'Grenade',
     artist: 'Bruno Mars',
@@ -910,8 +912,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 43.61,
   },
   {
-    key: 'Ab',
-    mode: Mode.Major,
+    tonic: 'Ab',
+    mode: Mode.Ionian,
     videoId: '7I0vkKy504U',
     name: 'San Francisco',
     artist: 'Scott McKenzie',
@@ -936,8 +938,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 14.46,
   },
   {
-    key: 'C',
-    mode: Mode.Major,
+    tonic: 'C',
+    mode: Mode.Ionian,
     videoId: 'dTa2Bzlbjv0',
     name: 'Save Tonight',
     artist: 'Eagle Eye Cherry',
@@ -962,7 +964,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 52.17,
   },
   {
-    key: 'G#',
+    tonic: 'G#',
     mode: 6,
     videoId: 'uSiHqxgE2d0',
     name: 'Hit The Road Jack',
@@ -988,8 +990,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 5.66,
   },
   {
-    key: 'D#',
-    mode: Mode.Minor,
+    tonic: 'D#',
+    mode: Mode.Aeolian,
     videoId: 'gO071XuztZA',
     name: 'Good Vibrations',
     artist: 'Beach Boys',
@@ -1014,7 +1016,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 13.27,
   },
   {
-    key: 'A',
+    tonic: 'A',
     mode: 6,
     videoId: 'Vyc8lezaa9g',
     subId: 1,
@@ -1041,7 +1043,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 478.24,
   },
   {
-    key: 'A',
+    tonic: 'A',
     mode: 6,
     videoId: 'Vyc8lezaa9g',
     subId: 2,
@@ -1068,8 +1070,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 484.17,
   },
   {
-    key: 'F#',
-    mode: Mode.Minor,
+    tonic: 'F#',
+    mode: Mode.Aeolian,
     videoId: 'OTvhWVTwRnM',
     name: 'Happy together',
     artist: 'The Turtles',
@@ -1094,8 +1096,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 32.86,
   },
   {
-    key: 'F',
-    mode: Mode.Minor,
+    tonic: 'F',
+    mode: Mode.Aeolian,
     videoId: '0S13mP_pfEc',
     name: 'Runaway',
     artist: 'Del Shannon',
@@ -1120,8 +1122,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 19.35,
   },
   {
-    key: 'C',
-    mode: Mode.Minor,
+    tonic: 'C',
+    mode: Mode.Aeolian,
     videoId: 'rYEDA3JcQqw',
     name: 'Rolling In The Deep',
     artist: 'Adele',
@@ -1146,8 +1148,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 68.74,
   },
   {
-    key: 'C',
-    mode: Mode.Minor,
+    tonic: 'C',
+    mode: Mode.Aeolian,
     videoId: 'TLV4_xaYynY',
     name: 'All Along The Watchtower',
     artist: 'Jimi Handrix',
@@ -1172,8 +1174,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 23.04,
   },
   {
-    key: 'A',
-    mode: Mode.Minor,
+    tonic: 'A',
+    mode: Mode.Aeolian,
     videoId: 'iXQUu5Dti4g',
     name: 'Stairway to Heaven',
     artist: 'Led Zeppelin',
@@ -1202,8 +1204,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 410,
   },
   {
-    key: 'C',
-    mode: Mode.Minor,
+    tonic: 'C',
+    mode: Mode.Aeolian,
     videoId: 'WNIPqafd4As',
     name: 'My Heart Will Go On',
     artist: 'Celin Deon',
@@ -1228,8 +1230,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 224.38,
   },
   {
-    key: 'D',
-    mode: Mode.Minor,
+    tonic: 'D',
+    mode: Mode.Aeolian,
     videoId: '8UVNT4wvIGY',
     name: 'Somebody That I Used To Know',
     artist: 'Gotye',
@@ -1254,8 +1256,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 96.84,
   },
   {
-    key: 'E',
-    mode: Mode.Major,
+    tonic: 'E',
+    mode: Mode.Ionian,
     videoId: 'tbU3zdAgiX8',
     name: 'All I Have To Do Is Dream',
     artist: 'Everly Brothers',
@@ -1280,8 +1282,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 8.4,
   },
   {
-    key: 'A',
-    mode: Mode.Major,
+    tonic: 'A',
+    mode: Mode.Ionian,
     videoId: '3JWTaaS7LdU',
     name: 'I Will Always Love You',
     artist: 'Whitney Houston',
@@ -1306,8 +1308,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 114.55,
   },
   {
-    key: 'G',
-    mode: Mode.Major,
+    tonic: 'G',
+    mode: Mode.Ionian,
     videoId: 'xw0EozkBWuI',
     name: 'Crocodile Rock',
     artist: 'Elton John',
@@ -1333,8 +1335,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 144.37,
   },
   {
-    key: 'G#',
-    mode: Mode.Major,
+    tonic: 'G#',
+    mode: Mode.Ionian,
     videoId: 'VJcGi4-n_Yw',
     name: 'Earth Angle',
     artist: 'The Penguins',
@@ -1359,8 +1361,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 19.32,
   },
   {
-    key: 'C',
-    mode: Mode.Major,
+    tonic: 'C',
+    mode: Mode.Ionian,
     videoId: 'vdvnOH060Qg',
     name: 'Happiness is a Warm Gun',
     artist: 'The Beatles',
@@ -1385,8 +1387,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 100.94,
   },
   {
-    key: 'Db',
-    mode: Mode.Major,
+    tonic: 'Db',
+    mode: Mode.Ionian,
     videoId: 'JMcNzjzw63I',
     name: 'Jesus of Suburbia',
     artist: 'Green Day',
@@ -1411,8 +1413,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 13.42,
   },
   {
-    key: 'Eb',
-    mode: Mode.Major,
+    tonic: 'Eb',
+    mode: Mode.Ionian,
     videoId: 'kffacxfA7G4',
     name: 'Baby',
     artist: 'Justin Bieber',
@@ -1437,7 +1439,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 30.14,
   },
   {
-    key: 'G',
+    tonic: 'G',
     mode: 1,
     videoId: '-CCfIJgVM6M',
     name: 'There she goes',
@@ -1459,8 +1461,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 37.51,
   },
   {
-    key: 'F#',
-    mode: Mode.Major,
+    tonic: 'F#',
+    mode: Mode.Ionian,
     videoId: 'VZt7J0iaUD0',
     name: 'New Project',
     artist: 'Suzanne Vega',
@@ -1485,8 +1487,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 33.15,
   },
   {
-    key: 'F',
-    mode: Mode.Major,
+    tonic: 'F',
+    mode: Mode.Ionian,
     videoId: 'N5EnGwXV_Pg',
     name: 'your body is a wonderland',
     artist: '',
@@ -1513,7 +1515,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   // todo: need to figure out the timing here, it's a bit tricky
   // {
   //   "key": "G",
-  //   "mode": Mode.Major,
+  //   "mode": Mode.Ionian,
   //   "videoId": "79JcPZNLCTY",
   //   "name": "Tangerine",
   //   "artist": "Led Zeppelin",
@@ -1538,8 +1540,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   //   "endSeconds": 180
   // },
   {
-    key: 'A',
-    mode: Mode.Major,
+    tonic: 'A',
+    mode: Mode.Ionian,
     videoId: 'NHozn0YXAeE',
     subId: 1,
     name: 'MMMBop',
@@ -1565,8 +1567,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 22.61,
   },
   {
-    key: 'C',
-    mode: Mode.Major,
+    tonic: 'C',
+    mode: Mode.Ionian,
     videoId: '9Ht5RZpzPqw',
     name: 'All The Small Things',
     artist: 'Blink 182',
@@ -1591,8 +1593,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 23.28,
   },
   {
-    key: 'E',
-    mode: Mode.Major,
+    tonic: 'E',
+    mode: Mode.Ionian,
     videoId: 'j2F4INQFjEI',
     name: 'Heaven is a Place on Earth',
     artist: 'Belinda Carlisle',
@@ -1617,8 +1619,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 45.6,
   },
   {
-    key: 'Ab',
-    mode: Mode.Major,
+    tonic: 'Ab',
+    mode: Mode.Ionian,
     videoId: 'YQHsXMglC9A',
     name: 'Hello',
     artist: 'Adele',
@@ -1643,7 +1645,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 239.24,
   },
   {
-    key: 'F',
+    tonic: 'F',
     mode: Mode.Mixolydian,
     videoId: 'A_MjCqQoLLA',
     name: 'Hey Jude',
@@ -1670,7 +1672,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 272.02,
   },
   {
-    key: 'E',
+    tonic: 'E',
     mode: Mode.Mixolydian,
     videoId: 'GgnClrx8N2k',
     name: 'Sympathy for the Devil',
@@ -1696,7 +1698,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 29,
   },
   {
-    key: 'D',
+    tonic: 'D',
     mode: Mode.Mixolydian,
     videoId: 'nlcIKh6sBtc',
     name: 'Royals',
@@ -1718,7 +1720,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 67.71,
   },
   {
-    key: 'C',
+    tonic: 'C',
     mode: Mode.Mixolydian,
     videoId: 'j8h-Ltha_9w',
     name: 'Freedom',
@@ -1744,7 +1746,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 146.9,
   },
   {
-    key: 'D',
+    tonic: 'D',
     mode: Mode.Mixolydian,
     videoId: 'ye5BuYf8q4o',
     name: 'Sweet Home Alabama',
@@ -1768,7 +1770,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Wonderfall',
     artist: 'Oasis',
-    key: 'F#',
+    tonic: 'F#',
     mode: Mode.Dorian,
     videoId: '6hzrDeceEKc',
     chords: [
@@ -1794,7 +1796,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Boulevard of Broken Dreams',
     artist: 'Green Day',
-    key: 'F',
+    tonic: 'F',
     mode: Mode.Dorian,
     videoId: 'Soa3gO7tL-c',
     chords: [
@@ -1824,7 +1826,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Mad World',
     artist: 'Gray Jules',
-    key: 'F#',
+    tonic: 'F#',
     mode: 2,
     videoId: 'u1ZvPSpLxCg',
     chords: [
@@ -1850,7 +1852,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: "D'You Know What I Mean?",
     artist: 'Oasis',
-    key: 'B',
+    tonic: 'B',
     mode: Mode.Dorian,
     videoId: 'jyJU2136ym4',
     chords: [
@@ -1880,7 +1882,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Pumped Up Kicks',
     artist: 'Foster The People',
-    key: 'F',
+    tonic: 'F',
     mode: Mode.Dorian,
     videoId: 'SDTZ7iX4vTQ',
     chords: [
@@ -1906,7 +1908,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Radioactive',
     artist: 'Imagine dragons',
-    key: 'E',
+    tonic: 'E',
     mode: Mode.Dorian,
     videoId: 'ktvTqknDobU',
     chords: [
@@ -1932,7 +1934,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'What Goes Around... Comes Around ',
     artist: 'Justin Timberlake',
-    key: 'A',
+    tonic: 'A',
     mode: Mode.Dorian,
     videoId: 'm2Kcv-Pmwkg',
     chords: [
@@ -1962,8 +1964,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: "Can't Stop",
     artist: 'Red Hot Chili Peppers',
-    key: 'E',
-    mode: Mode.Minor,
+    tonic: 'E',
+    mode: Mode.Aeolian,
     videoId: '8DyziWtkfBw',
     chords: [
       {
@@ -1988,9 +1990,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Attention',
     artist: 'Charlie Puth',
-    mode: Mode.Minor,
+    mode: Mode.Aeolian,
     videoId: 'nfs8NYg7yQM',
-    key: 'Eb',
+    tonic: 'Eb',
     chords: [
       {
         chord: 'i',
@@ -2018,9 +2020,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Sweet Dreams',
     artist: 'Beyoncé',
-    mode: Mode.Minor,
+    mode: Mode.Aeolian,
     videoId: 'JlxByc0-V40',
-    key: 'Eb',
+    tonic: 'Eb',
     chords: [
       {
         chord: 'i',
@@ -2046,7 +2048,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     artist: 'Macklemore & Ryan Lewis ',
     mode: 6,
     videoId: '2zNSgSzhBfM',
-    key: 'E',
+    tonic: 'E',
     chords: [
       {
         chord: 'i',
@@ -2070,10 +2072,10 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Hello',
     artist: 'Adele',
-    mode: Mode.Minor,
+    mode: Mode.Aeolian,
     videoId: 'YQHsXMglC9A',
     section: 'Pre-Chorus',
-    key: 'E',
+    tonic: 'E',
     chords: [
       {
         chord: 'i',
@@ -2109,9 +2111,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Someone New',
     artist: 'Hozier',
-    mode: Mode.Minor,
+    mode: Mode.Aeolian,
     videoId: 'bPJSsAr2iu0',
-    key: 'E',
+    tonic: 'E',
     chords: [
       {
         chord: 'i',
@@ -2135,9 +2137,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'The Zephyr Song',
     artist: 'Red Hot Chilli Peppers',
-    mode: Mode.Minor,
+    mode: Mode.Aeolian,
     videoId: '0fcRa5Z6LmU',
-    key: 'A',
+    tonic: 'A',
     chords: [
       {
         chord: 'i',
@@ -2163,7 +2165,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     artist: 'Eurythmics',
     mode: 6,
     videoId: '-5iDKWV6Chg',
-    key: 'C',
+    tonic: 'C',
     chords: [
       {
         chord: 'i',
@@ -2191,9 +2193,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'SOS',
     artist: 'ABBA',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'cvChjHcABPA',
-    key: 'F',
+    tonic: 'F',
     chords: [
       {
         chord: 'I',
@@ -2217,9 +2219,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Believe',
     artist: 'Cher',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'nZXRV4MezEw',
-    key: 'F#',
+    tonic: 'F#',
     chords: [
       {
         chord: 'I',
@@ -2243,9 +2245,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'All Star',
     artist: 'Smash Mouth',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'L_jWHffIx5E',
-    key: 'F#',
+    tonic: 'F#',
     chords: [
       {
         chord: 'I',
@@ -2269,9 +2271,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Singing In My Sleep',
     artist: 'Semisonic',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'zhS3YP04Fjk',
-    key: 'E',
+    tonic: 'E',
     chords: [
       {
         chord: 'I',
@@ -2295,9 +2297,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Closing Time',
     artist: 'Semisonic',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'xGytDsqkQY8',
-    key: 'G',
+    tonic: 'G',
     chords: [
       {
         chord: 'I',
@@ -2321,9 +2323,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Hot N Cold',
     artist: 'Katy Perry',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'kTHNpusq654',
-    key: 'G',
+    tonic: 'G',
     chords: [
       {
         chord: 'I',
@@ -2347,9 +2349,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Archi, Marry Me',
     artist: 'Alvvays',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'ZAn3JdtSrnY',
-    key: 'G',
+    tonic: 'G',
     chords: [
       {
         chord: 'I',
@@ -2373,9 +2375,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Irreplaceable',
     artist: 'Beyoncé',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: '2EwViQxSJJQ',
-    key: 'F',
+    tonic: 'F',
     chords: [
       {
         chord: 'I',
@@ -2399,9 +2401,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Just Like Heaven',
     artist: 'The Cure',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'n3nPiBai66M',
-    key: 'A',
+    tonic: 'A',
     chords: [
       {
         chord: 'I',
@@ -2425,9 +2427,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: "I'm Like A Bird",
     artist: 'Nelly Furtado',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'roPQ_M3yJTA',
-    key: 'Bb',
+    tonic: 'Bb',
     chords: [
       {
         chord: 'I',
@@ -2451,9 +2453,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Scott Street',
     artist: 'Pheobe Bridgers',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'BBBxzmyeNdw',
-    key: 'Bb',
+    tonic: 'Bb',
     chords: [
       {
         chord: 'I',
@@ -2478,9 +2480,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: "What's my age again?",
     artist: 'blink-182',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'K7l5ZeVVoCA',
-    key: 'F#',
+    tonic: 'F#',
     chords: [
       {
         chord: 'I',
@@ -2504,9 +2506,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Higher Love',
     artist: 'Steve Winwood',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'k9olaIio3l8',
-    key: 'F',
+    tonic: 'F',
     chords: [
       {
         chord: 'IV',
@@ -2530,9 +2532,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Dragonstea Din Tei',
     artist: 'O-Zone',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'YnopHCL1Jk8',
-    key: 'C',
+    tonic: 'C',
     chords: [
       {
         chord: 'IV',
@@ -2556,10 +2558,10 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Boulevard Of Broken Dreams',
     artist: 'Green Day ',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     section: 'Chorus',
     videoId: 'Soa3gO7tL-c',
-    key: 'Ab',
+    tonic: 'Ab',
     chords: [
       {
         chord: 'IV',
@@ -2583,10 +2585,10 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Radar Love',
     artist: 'Goldern Earing',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     section: 'Chorus',
     videoId: 'ckM51xoTC2U',
-    key: 'A',
+    tonic: 'A',
     chords: [
       {
         chord: 'IV',
@@ -2610,10 +2612,10 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Elastic Heart',
     artist: 'Sia',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     section: 'Chorus',
     videoId: 'KWZGAExj-es',
-    key: 'A',
+    tonic: 'A',
     chords: [
       {
         chord: 'IV',
@@ -2637,10 +2639,10 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: "Big Girls Don't Cry",
     artist: 'Fergie',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     section: 'Chorus',
     videoId: 'agrXgrAgQ0U',
-    key: 'G',
+    tonic: 'G',
     chords: [
       {
         chord: 'IV',
@@ -2664,10 +2666,10 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Let Her Go',
     artist: 'Passenger',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     section: 'Chorus',
     videoId: 'RBumgq5yVrA',
-    key: 'G',
+    tonic: 'G',
     chords: [
       {
         chord: 'IV',
@@ -2691,10 +2693,10 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Bad Blood',
     artist: 'Taylor Swift',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     section: 'Chorus',
     videoId: 'QcIy9NiNbmo',
-    key: 'G',
+    tonic: 'G',
     chords: [
       {
         chord: 'IV',
@@ -2718,10 +2720,10 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Mine',
     artist: 'Taylor Swift',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     section: 'Chorus',
     videoId: 'XPBwXKgDTdE',
-    key: 'G',
+    tonic: 'G',
     chords: [
       {
         chord: 'IV',
@@ -2745,10 +2747,10 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'We Are Never Ever Getting Back Together',
     artist: 'Taylor Swift',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     section: 'Chorus',
     videoId: 'WA4iX5D9Z64',
-    key: 'G',
+    tonic: 'G',
     chords: [
       {
         chord: 'IV',
@@ -2776,10 +2778,10 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Misery Business',
     artist: 'Paramore',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     section: 'Chorus',
     videoId: 'aCyGvGEtOwc',
-    key: 'Ab',
+    tonic: 'Ab',
     chords: [
       {
         chord: 'IV',
@@ -2807,10 +2809,10 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Good 4 u',
     artist: 'Olivia Rodrigo',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     section: 'Chorus',
     videoId: 'gNi_6U5Pm_o',
-    key: 'Ab',
+    tonic: 'Ab',
     chords: [
       {
         chord: 'IV',
@@ -2842,10 +2844,10 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Drive By',
     artist: 'Train',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'oxqnFJ3lp5k',
     subId: 1,
-    key: 'E',
+    tonic: 'E',
     chords: [
       {
         chord: 'IV',
@@ -2877,10 +2879,10 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Drive By',
     artist: 'Train',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'oxqnFJ3lp5k',
     subId: 2,
-    key: 'E',
+    tonic: 'E',
     chords: [
       {
         chord: 'IV',
@@ -2904,10 +2906,10 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Drive By',
     artist: 'Train',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'oxqnFJ3lp5k',
     subId: 3,
-    key: 'E',
+    tonic: 'E',
     chords: [
       {
         chord: 'vi',
@@ -2931,9 +2933,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Half Of My Heart',
     artist: 'John Mayer',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'aojTGWAqUIQ',
-    key: 'F',
+    tonic: 'F',
     chords: [
       {
         chord: 'IV',
@@ -2957,9 +2959,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Castle Of Glass',
     artist: 'Linkin Park',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'ScNNfyq3d_w',
-    key: 'E',
+    tonic: 'E',
     chords: [
       {
         chord: 'IV',
@@ -2983,9 +2985,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Alejandro',
     artist: 'Lady Gaga',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'niqrrmev4mA',
-    key: 'D',
+    tonic: 'D',
     chords: [
       {
         chord: 'IV',
@@ -3011,7 +3013,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     artist: 'Fountains of Wayne',
     mode: 1,
     videoId: 'dZLfasMPOU4',
-    key: 'E',
+    tonic: 'E',
     chords: [
       {
         chord: 'IV',
@@ -3035,9 +3037,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'More than a feeling',
     artist: 'Boston',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'zOILAZHf2pE',
-    key: 'G',
+    tonic: 'G',
     chords: [
       {
         chord: 'I',
@@ -3061,9 +3063,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: '1985',
     artist: 'Bowling For Soup',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'K38xNqZvBJI',
-    key: 'G',
+    tonic: 'G',
     chords: [
       {
         chord: 'I',
@@ -3087,9 +3089,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Mr. Brightside',
     artist: 'The Killers',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'gGdGFtwCNBE',
-    key: 'Db',
+    tonic: 'Db',
     chords: [
       {
         chord: 'I',
@@ -3113,9 +3115,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Shut Up and Dance',
     artist: 'Walk the Moon',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: '6JCLY0Rlx6Q',
-    key: 'Db',
+    tonic: 'Db',
     chords: [
       {
         chord: 'I',
@@ -3139,9 +3141,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'She Drives Me Crazy',
     artist: 'Fine Young Cannibals',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'UtvmTu4zAMg',
-    key: 'D',
+    tonic: 'D',
     chords: [
       {
         chord: 'I',
@@ -3165,9 +3167,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'What Makes You Beautiful',
     artist: 'One Direction',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'QJO3ROT-A4E',
-    key: 'E',
+    tonic: 'E',
     chords: [
       {
         chord: 'I',
@@ -3191,9 +3193,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Fidelity',
     artist: 'Regina Spektor',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'wigqKfLWjvM',
-    key: 'F',
+    tonic: 'F',
     chords: [
       {
         chord: 'I',
@@ -3217,9 +3219,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Leave The Door Open',
     artist: 'Bruno Mars',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'adLGHcj_fmA',
-    key: 'C',
+    tonic: 'C',
     chords: [
       {
         chord: 'IV',
@@ -3243,9 +3245,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: "It's Gonna Be Me",
     artist: '*NSYNC',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'GQMlWwIXg3M',
-    key: 'Eb',
+    tonic: 'Eb',
     chords: [
       {
         chord: 'IV',
@@ -3269,9 +3271,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Titanium',
     artist: 'David Guetta',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'JRfuAukYTKg',
-    key: 'Eb',
+    tonic: 'Eb',
     chords: [
       {
         chord: 'IV',
@@ -3296,9 +3298,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     name: 'The Show Must Go On',
     artist: 'Queen',
     section: 'Bridge',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 't99KH0TR-J4',
-    key: 'C',
+    tonic: 'C',
     chords: [
       {
         chord: 'IV',
@@ -3322,9 +3324,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Never Gonna Give You Up',
     artist: 'Rick Astley',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'dQw4w9WgXcQ',
-    key: 'Ab',
+    tonic: 'Ab',
     chords: [
       {
         chord: 'IV',
@@ -3348,9 +3350,9 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Together Forever',
     artist: 'Rick Astley',
-    mode: Mode.Major,
+    mode: Mode.Ionian,
     videoId: 'yPYZpwSpKmA',
-    key: 'G',
+    tonic: 'G',
     chords: [
       {
         chord: 'IV',
@@ -3374,7 +3376,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Santa Monica',
     artist: 'Theory of a Deadman',
-    key: 'E',
+    tonic: 'E',
     mode: 6,
     videoId: 'jcryyvQAqc8',
     chords: [
@@ -3401,7 +3403,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Broken',
     artist: 'Seether ft. Amy Lee',
-    key: 'Eb',
+    tonic: 'Eb',
     mode: 6,
     videoId: 'hPC2Fp7IT7o',
     chords: [
@@ -3440,7 +3442,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Broken',
     artist: 'Seether ft. Amy Lee',
-    key: 'Eb',
+    tonic: 'Eb',
     mode: 6,
     videoId: 'hPC2Fp7IT7o',
     chords: [
@@ -3467,7 +3469,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'When The Sun Goes Down',
     artist: 'Arctic Monkeys',
-    key: 'B',
+    tonic: 'B',
     mode: 1,
     videoId: 'yUatH8zI6Qc',
     chords: [
@@ -3506,7 +3508,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'When The Sun Goes Down',
     artist: 'Arctic Monkeys',
-    key: 'B',
+    tonic: 'B',
     mode: 6,
     videoId: 'yUatH8zI6Qc',
     chords: [
@@ -3549,7 +3551,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Here It Goes Again',
     artist: 'OK Go',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: 'XJulhGUh8vU',
     chords: [
@@ -3575,7 +3577,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Build Me Up Buttercup',
     artist: 'The Foundations',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: 'hSofzQURQDk',
     chords: [
@@ -3601,7 +3603,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'We Used to Be Friends',
     artist: 'The Dandy Warhols',
-    key: 'A',
+    tonic: 'A',
     mode: 1,
     videoId: 'Bm1g5Yg0hUw',
     chords: [
@@ -3627,7 +3629,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Wateerfalls',
     artist: 'TLC',
-    key: 'Eb',
+    tonic: 'Eb',
     mode: 1,
     videoId: '8WEtxJ4-sh4',
     chords: [
@@ -3653,7 +3655,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Rio',
     artist: 'Duran Duran',
-    key: 'E',
+    tonic: 'E',
     mode: 1,
     videoId: 'nTizYn3-QN0',
     chords: [
@@ -3679,7 +3681,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Show Me Love',
     artist: 'Robyn',
-    key: 'E',
+    tonic: 'E',
     mode: 1,
     videoId: 'bhWEI6-_w9E',
     chords: [
@@ -3705,7 +3707,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Linger',
     artist: 'The Cranberries',
-    key: 'D',
+    tonic: 'D',
     mode: 1,
     videoId: 'G6Kspj3OO0s',
     chords: [
@@ -3731,7 +3733,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Satellite of Love',
     artist: 'Lou Reed',
-    key: 'F',
+    tonic: 'F',
     mode: 1,
     videoId: 'kJoHspUta-E',
     chords: [
@@ -3757,7 +3759,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Trurning Japanese',
     artist: 'The Vapors',
-    key: 'G',
+    tonic: 'G',
     mode: 1,
     videoId: 'nGy9uomagO4',
     chords: [
@@ -3783,7 +3785,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Up&Up',
     artist: 'Coldplay',
-    key: 'G',
+    tonic: 'G',
     mode: 1,
     videoId: 'BPNTC7uZYrI',
     chords: [
@@ -3809,7 +3811,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Ashes To Ashes',
     artist: 'David Bowie',
-    key: 'Bb',
+    tonic: 'Bb',
     mode: 1,
     videoId: 'HyMm4rJemtI',
     chords: [
@@ -3835,7 +3837,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'My Girl',
     artist: 'The Temptations',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: 'eepLY8J4E6c',
     chords: [
@@ -3861,7 +3863,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'My Girl',
     artist: 'blink-182',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: 'vVy9Lgpg1m8',
     chords: [
@@ -3887,7 +3889,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Catch My Disease',
     artist: 'blink-182',
-    key: 'B',
+    tonic: 'B',
     mode: 1,
     videoId: 'enhQYHxoNMY',
     chords: [
@@ -3913,7 +3915,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Beneath Your Beautiful',
     artist: 'Labrinth',
-    key: 'D',
+    tonic: 'D',
     mode: 1,
     videoId: 'bqIxCtEveG8',
     chords: [
@@ -3940,7 +3942,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Beneath Your Beautiful',
     artist: 'Labrinth',
-    key: 'D',
+    tonic: 'D',
     mode: 1,
     videoId: 'bqIxCtEveG8',
     chords: [
@@ -3967,7 +3969,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Accidently In Love',
     artist: 'Counting Crows',
-    key: 'G',
+    tonic: 'G',
     mode: 1,
     videoId: 'Yn8CZyqfex8',
     chords: [
@@ -3994,7 +3996,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Sell Out',
     artist: 'Reel Big Fish',
-    key: 'G',
+    tonic: 'G',
     mode: 1,
     videoId: 'AEKbFMvkLIc',
     chords: [
@@ -4021,7 +4023,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Sell Out',
     artist: 'Reel Big Fish',
-    key: 'G',
+    tonic: 'G',
     mode: 1,
     videoId: 'AEKbFMvkLIc',
     chords: [
@@ -4048,7 +4050,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: '99 Luftballons',
     artist: 'NENA',
-    key: 'E',
+    tonic: 'E',
     mode: 1,
     videoId: 'Fpu5a0Bl8eY',
     chords: [
@@ -4074,7 +4076,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Your Song',
     artist: 'Elton John',
-    key: 'Eb',
+    tonic: 'Eb',
     mode: 1,
     videoId: 'GlPlfCy1urI',
     chords: [
@@ -4101,7 +4103,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Brown Eyed Girl',
     artist: 'Van Morrison',
-    key: 'G',
+    tonic: 'G',
     mode: 1,
     videoId: 'UfmkgQRmmeE',
     chords: [
@@ -4128,7 +4130,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: "C'est la vie",
     artist: 'B*Witched',
-    key: 'G',
+    tonic: 'G',
     mode: 1,
     videoId: 'UvjLgjtJKsc',
     chords: [
@@ -4155,7 +4157,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Accidently In Love',
     artist: 'Counting Crows',
-    key: 'G',
+    tonic: 'G',
     mode: 1,
     videoId: 'Yn8CZyqfex8',
     chords: [
@@ -4182,7 +4184,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'American Pie',
     artist: 'Don McLean',
-    key: 'G',
+    tonic: 'G',
     mode: 1,
     videoId: 'y5ecvBaqHBk',
     chords: [
@@ -4209,7 +4211,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Sing The Changes',
     artist: 'Paul McCartney',
-    key: 'F',
+    tonic: 'F',
     mode: 1,
     videoId: 'S6EbORrYL0k',
     chords: [
@@ -4236,7 +4238,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'The Lion Sleeps Tonight',
     artist: 'The Tokens',
-    key: 'F',
+    tonic: 'F',
     mode: 1,
     videoId: 'OQlByoPdG6c',
     chords: [
@@ -4263,7 +4265,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Another Saturday Night',
     artist: 'Sam Cooke',
-    key: 'A',
+    tonic: 'A',
     mode: 1,
     videoId: '82Zee5X70EQ',
     chords: [
@@ -4290,7 +4292,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'MMMBop',
     artist: 'Hanson',
-    key: 'A',
+    tonic: 'A',
     mode: 1,
     videoId: 'NHozn0YXAeE',
     subId: 2,
@@ -4318,7 +4320,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'MMMBop',
     artist: 'Hanson',
-    key: 'A',
+    tonic: 'A',
     mode: 1,
     videoId: 'NHozn0YXAeE',
     subId: 3,
@@ -4346,7 +4348,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Goodbye Earl',
     artist: 'The Chicks',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: 'Gw7gNf_9njs',
     chords: [
@@ -4373,7 +4375,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Try Everything',
     artist: 'Shakira',
-    key: 'Db',
+    tonic: 'Db',
     mode: 1,
     videoId: 'c6rP-YP4c5I',
     chords: [
@@ -4400,7 +4402,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Killing in the Name',
     artist: 'Rage Against the Machine',
-    key: 'D',
+    tonic: 'D',
     mode: 3,
     videoId: 'JYJ6QJqy92s',
     chords: [
@@ -4427,7 +4429,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Points of Authority',
     artist: 'Linkin Park',
-    key: 'Eb',
+    tonic: 'Eb',
     mode: 3,
     videoId: 'yoCD5wZEgo4',
     chords: [
@@ -4454,7 +4456,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'How You Like That',
     artist: 'Blackpink',
-    key: 'Eb',
+    tonic: 'Eb',
     mode: 3,
     videoId: 'ioNng23DkIM',
     chords: [
@@ -4482,7 +4484,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   // {
   //   name: 'Remember Tomorrow',
   //   artist: 'Iron Maiden',
-  //   key: 'E',
+  //   tonic: 'E',
   //   mode: 3,
   //   videoId: 'C5OkO-Tg2uk',
   //   chords: [
@@ -4507,7 +4509,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   //   section: '',
   // },
   {
-    key: 'G',
+    tonic: 'G',
     mode: 3,
     videoId: 'qlv3ZzFd_xg',
     name: 'Hunter',
@@ -4533,7 +4535,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 40.09,
   },
   {
-    key: 'A',
+    tonic: 'A',
     mode: 3,
     videoId: 'bcCQw4iv7uM',
     name: 'Like a Pen',
@@ -4559,7 +4561,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 65.32,
   },
   {
-    key: 'Eb',
+    tonic: 'Eb',
     mode: 3,
     videoId: 'rRZdai5UPjE',
     name: 'Mysterons',
@@ -4585,7 +4587,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 81.39,
   },
   {
-    key: 'F',
+    tonic: 'F',
     mode: 3,
     videoId: 'oPQ3o14ksaM',
     name: 'Get Busy',
@@ -4611,7 +4613,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 7.81,
   },
   {
-    key: 'G',
+    tonic: 'G',
     mode: 3,
     videoId: 'A8RDBD7D7QE',
     name: 'Dead Right Now',
@@ -4637,7 +4639,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 68.11,
   },
   {
-    key: 'G',
+    tonic: 'G',
     mode: 3,
     videoId: 'jHYFgP4Btrc',
     name: 'Good Stuff',
@@ -4663,7 +4665,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 71.83,
   },
   {
-    key: 'E',
+    tonic: 'E',
     mode: 1,
     videoId: 'R_rUYuFtNO4',
     name: 'Red',
@@ -4685,7 +4687,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 46.15,
   },
   {
-    key: 'D',
+    tonic: 'D',
     mode: 1,
     videoId: 'V_A20lBsBMM',
     name: 'Stoned at the Nail Salon',
@@ -4707,7 +4709,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 56.06,
   },
   {
-    key: 'Eb',
+    tonic: 'Eb',
     mode: 1,
     videoId: 'k0QWX2M7W7M',
     name: 'Boys Will Be Boys',
@@ -4729,7 +4731,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 70.91,
   },
   {
-    key: 'Eb',
+    tonic: 'Eb',
     mode: 1,
     videoId: 'XoFJbeBXuCc',
     name: "I'm Outta Here!",
@@ -4751,7 +4753,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 99.04,
   },
   {
-    key: 'G',
+    tonic: 'G',
     mode: 1,
     videoId: 'agrXgrAgQ0U',
     name: "Big Girls Don't Cry",
@@ -4773,7 +4775,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
     endSeconds: 82.72,
   },
   {
-    key: 'F',
+    tonic: 'F',
     mode: 1,
     videoId: '79fzeNUqQbQ',
     name: 'Like A Prayer',
@@ -4797,7 +4799,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'On My Way',
     artist: 'Phil Collins',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: 'vsE0KtttoBs',
     chords: [
@@ -4824,7 +4826,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Perry The Platypus',
     artist: 'Phineas And Ferb',
-    key: 'G',
+    tonic: 'G',
     mode: 6,
     videoId: 'AsYREFwxYFI',
     subId: 1,
@@ -4851,7 +4853,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Perry The Platypus',
     artist: 'Phineas And Ferb',
-    key: 'G',
+    tonic: 'G',
     mode: 6,
     videoId: 'AsYREFwxYFI',
     subId: 2,
@@ -4874,7 +4876,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Perry The Platypus',
     artist: 'Phineas And Ferb',
-    key: 'G',
+    tonic: 'G',
     mode: 6,
     videoId: 'AsYREFwxYFI',
     subId: 3,
@@ -4901,7 +4903,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: "Driver's License",
     artist: 'Olivia Rodrigo ',
-    key: 'Bb',
+    tonic: 'Bb',
     mode: 1,
     videoId: 'ZmDBbnmKpqQ',
     subId: 1,
@@ -4928,7 +4930,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: "Driver's License",
     artist: 'Olivia Rodrigo ',
-    key: 'Bb',
+    tonic: 'Bb',
     mode: 1,
     videoId: 'ZmDBbnmKpqQ',
     subId: 2,
@@ -4959,7 +4961,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: "Driver's License",
     artist: 'Olivia Rodrigo ',
-    key: 'Bb',
+    tonic: 'Bb',
     mode: 1,
     videoId: 'ZmDBbnmKpqQ',
     subId: 3,
@@ -4982,7 +4984,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Welcome To The Black Parade',
     artist: 'Chemical Romance',
-    key: 'G',
+    tonic: 'G',
     mode: 1,
     videoId: 'RRKJiM9Njr8',
     chords: [
@@ -5024,7 +5026,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'A whiter shade of pale',
     artist: 'Procol Harum',
-    key: 'G',
+    tonic: 'G',
     mode: 1,
     videoId: '_BADDeIQWVQ',
     chords: [
@@ -5066,7 +5068,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Changes',
     artist: 'David Bowie',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: '4BgF7Y3q-as',
     chords: [
@@ -5108,7 +5110,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Piano Man',
     artist: 'Billy Joel',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: 'gxEPV4kolz0',
     chords: [
@@ -5150,7 +5152,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Better Together',
     artist: 'Jack Johnson',
-    key: 'F',
+    tonic: 'F',
     mode: 1,
     videoId: 'RSsTx2TBrww',
     chords: [
@@ -5192,7 +5194,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Say Yes',
     artist: 'Elliot Smith',
-    key: 'F',
+    tonic: 'F',
     mode: 1,
     videoId: 'IdroEbyrB3s',
     chords: [
@@ -5230,7 +5232,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'I Want You Back',
     artist: 'The Jackson 5',
-    key: 'Ab',
+    tonic: 'Ab',
     mode: 1,
     videoId: 'ZDhCVN31kCs',
     chords: [
@@ -5272,7 +5274,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Paradise',
     artist: 'Coldplay',
-    key: 'F',
+    tonic: 'F',
     mode: 1,
     videoId: '1G4isv_Fylg',
     subId: 1,
@@ -5295,7 +5297,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Paradise',
     artist: 'Coldplay',
-    key: 'F',
+    tonic: 'F',
     mode: 1,
     videoId: '1G4isv_Fylg',
     subId: 2,
@@ -5322,7 +5324,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Paradise',
     artist: 'Coldplay',
-    key: 'F',
+    tonic: 'F',
     mode: 1,
     videoId: '1G4isv_Fylg',
     subId: 3,
@@ -5349,7 +5351,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Paradise',
     artist: 'Coldplay',
-    key: 'F',
+    tonic: 'F',
     mode: 1,
     videoId: '1G4isv_Fylg',
     chords: [
@@ -5375,7 +5377,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Migraine',
     artist: 'Twenty One Pilots',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: 'Bs92ejAGLdw',
     subId: 1,
@@ -5398,7 +5400,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Migraine',
     artist: 'Twenty One Pilots',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: 'Bs92ejAGLdw',
     subId: 2,
@@ -5421,7 +5423,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Some Ngiths',
     artist: 'Fun',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: 'qQkBeOisNM0',
     chords: [
@@ -5455,7 +5457,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Familiar',
     artist: 'Rebeca Sugar',
-    key: 'Gb',
+    tonic: 'Gb',
     mode: 1,
     videoId: 'butnuhBwQ0A',
     subId: 1,
@@ -5482,7 +5484,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Familiar',
     artist: 'Rebeca Sugar',
-    key: 'Gb',
+    tonic: 'Gb',
     mode: 1,
     videoId: 'butnuhBwQ0A',
     subId: 2,
@@ -5509,7 +5511,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Familiar',
     artist: 'Rebeca Sugar',
-    key: 'Gb',
+    tonic: 'Gb',
     mode: 1,
     videoId: 'butnuhBwQ0A',
     subId: 3,
@@ -5536,7 +5538,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Familiar',
     artist: 'Rebeca Sugar',
-    key: 'B',
+    tonic: 'B',
     mode: 1,
     videoId: 'butnuhBwQ0A',
     subId: 4,
@@ -5571,7 +5573,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Familiar',
     artist: 'Rebeca Sugar',
-    key: 'Gb',
+    tonic: 'Gb',
     mode: 1,
     videoId: 'butnuhBwQ0A',
     subId: 5,
@@ -5602,7 +5604,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Familiar',
     artist: 'Rebeca Sugar',
-    key: 'B',
+    tonic: 'B',
     mode: 1,
     videoId: 'butnuhBwQ0A',
     subId: 6,
@@ -5637,7 +5639,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Familiar',
     artist: 'Rebeca Sugar',
-    key: 'G',
+    tonic: 'G',
     mode: 1,
     videoId: 'butnuhBwQ0A',
     subId: 7,
@@ -5672,7 +5674,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Sweet Sacrifice ',
     artist: 'Evanescence',
-    key: 'F#',
+    tonic: 'F#',
     mode: 6,
     videoId: 'XBYhQnjyrWo',
     chords: [
@@ -5694,7 +5696,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'We are Number One',
     artist: 'Lazy Town',
-    key: 'F',
+    tonic: 'F',
     mode: 6,
     videoId: 'PfYnvDL0Qcw',
     chords: [
@@ -5716,7 +5718,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Seven Nation Army',
     artist: 'The White Stripes',
-    key: 'E',
+    tonic: 'E',
     mode: 6,
     videoId: '0J2QdDbelmY',
     chords: [
@@ -5738,7 +5740,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Havana',
     artist: 'Camila Cabella',
-    key: 'G',
+    tonic: 'G',
     mode: 6,
     videoId: 'HCjNJDNzw8Y',
     chords: [
@@ -5760,7 +5762,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Toxicity',
     artist: 'System of a Down',
-    key: 'G',
+    tonic: 'G',
     mode: 6,
     videoId: 'iywaBOMvYLI',
     chords: [
@@ -5782,7 +5784,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Sweet Dream',
     artist: 'Eurythmics',
-    key: 'C',
+    tonic: 'C',
     mode: 6,
     videoId: 'qeMFqkcPYcg',
     chords: [
@@ -5804,7 +5806,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Hate',
     artist: 'Cat Power',
-    key: 'A',
+    tonic: 'A',
     mode: 6,
     videoId: 'I0DmLhpbLZY',
     chords: [
@@ -5826,7 +5828,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: "Why'd You Lie to Me",
     artist: 'Anastacia',
-    key: 'A',
+    tonic: 'A',
     mode: 6,
     videoId: 'gJPcABsojlU',
     chords: [
@@ -5848,7 +5850,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'History Song',
     artist: 'The Good The Bad, & The Queen',
-    key: 'A',
+    tonic: 'A',
     mode: 6,
     videoId: 'kDh1BZouKps',
     chords: [
@@ -5870,7 +5872,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Everybody',
     artist: 'Backstreet Boys',
-    key: 'Bb',
+    tonic: 'Bb',
     mode: 6,
     videoId: '6M6samPEMpM',
     chords: [
@@ -5892,7 +5894,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Smooth',
     artist: 'Santana',
-    key: 'A',
+    tonic: 'A',
     mode: 6,
     videoId: '6Whgn_iE5uc',
     chords: [
@@ -5914,7 +5916,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Viva La Vida',
     artist: 'Coldplay',
-    key: 'Ab',
+    tonic: 'Ab',
     mode: 1,
     videoId: 'dvgZkm1xWPE',
     chords: [
@@ -5940,7 +5942,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Somewhere Else',
     artist: 'Razorlight',
-    key: 'A',
+    tonic: 'A',
     mode: 1,
     videoId: 'Iun3RtbCE6A',
     chords: [
@@ -5966,7 +5968,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'I Want to Hold Your Hand',
     artist: 'The Beatles',
-    key: 'Gb',
+    tonic: 'Gb',
     mode: 1,
     videoId: 'jenWdylTtzs',
     chords: [
@@ -5992,7 +5994,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Feliz Navidad',
     artist: 'Jose Felicano',
-    key: 'D',
+    tonic: 'D',
     mode: 1,
     videoId: 'N8NcQzMQN_U',
     chords: [
@@ -6018,7 +6020,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Rude',
     artist: 'MAGIC!',
-    key: 'Db',
+    tonic: 'Db',
     mode: 1,
     videoId: 'PIh2xe4jnpk',
     chords: [
@@ -6044,7 +6046,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: "Danny's Song",
     artist: 'Kenny Loggins',
-    key: 'D',
+    tonic: 'D',
     mode: 1,
     videoId: '322_GED6Ccs',
     chords: [
@@ -6070,7 +6072,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Collar Full',
     artist: 'Panic! At The Disco',
-    key: 'D',
+    tonic: 'D',
     mode: 1,
     videoId: 'yZAIEAG6Vgk',
     chords: [
@@ -6096,7 +6098,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Trade Mistakes',
     artist: 'Panic! At The Disco',
-    key: 'Eb',
+    tonic: 'Eb',
     mode: 1,
     videoId: 'sWutvUNc-f8',
     chords: [
@@ -6122,7 +6124,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: "Don't Dream It's Over",
     artist: 'Crowded House',
-    key: 'Eb',
+    tonic: 'Eb',
     mode: 1,
     videoId: 'J9gKyRmic20',
     chords: [
@@ -6148,7 +6150,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'The Man',
     artist: 'Taylor Swift',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: 'AqAJLh9wuZ0',
     chords: [
@@ -6174,7 +6176,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: "I'm Not Gonna Teach Your Boyfriend How to Dance With You",
     artist: 'Black Kids',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     legacyVideoId: 'rOV6I4fYnvQ',
     videoId: 'IRo_I_WeYfI',
@@ -6201,7 +6203,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Walking in Memphis',
     artist: 'Marc Cohn',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: 'PgRafRp-P-o',
     chords: [
@@ -6227,7 +6229,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Cheerleader',
     artist: 'OMI ',
-    key: 'E',
+    tonic: 'E',
     mode: 1,
     videoId: 'I_NVUZNsh2E',
     chords: [
@@ -6253,7 +6255,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'L.I.F.E.G.O.E.S.O.N.',
     artist: 'Noah And The Whale',
-    key: 'E',
+    tonic: 'E',
     mode: 1,
     videoId: 'mCHzicKq3W4',
     chords: [
@@ -6279,7 +6281,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Summer Nights',
     artist: 'Grease',
-    key: 'D',
+    tonic: 'D',
     mode: 1,
     videoId: '6WIW20iaLcE',
     chords: [
@@ -6305,7 +6307,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Hang On Sloopy',
     artist: 'The McCoys',
-    key: 'G',
+    tonic: 'G',
     mode: 1,
     videoId: 'Nuw8GJbqx94',
     chords: [
@@ -6331,7 +6333,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Ana Ng',
     artist: 'They Might Be Giants',
-    key: 'G',
+    tonic: 'G',
     mode: 1,
     videoId: 'MEjutUbgpH8',
     chords: [
@@ -6357,7 +6359,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Hey Julie',
     artist: 'Fountain of Wayne',
-    key: 'G',
+    tonic: 'G',
     mode: 1,
     videoId: 'NpxYtIrJ-6I',
     chords: [
@@ -6383,7 +6385,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Wild Thing',
     artist: 'The Troggs',
-    key: 'A',
+    tonic: 'A',
     mode: 1,
     videoId: 'gSWInYFVksg',
     chords: [
@@ -6409,7 +6411,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Walking On Sunshine',
     artist: 'Katrina & The Waves',
-    key: 'Eb',
+    tonic: 'Eb',
     mode: 1,
     videoId: 'iPUmE-tne5U',
     chords: [
@@ -6435,7 +6437,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Lucky',
     artist: 'Radio Head',
-    key: 'E',
+    tonic: 'E',
     mode: 2,
     videoId: 'FsyqsnY7dRA',
     chords: [
@@ -6453,7 +6455,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Apache',
     artist: 'The Shadows',
-    key: 'E',
+    tonic: 'E',
     mode: 2,
     videoId: '-ss22jmrs_E',
     chords: [
@@ -6475,7 +6477,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'No Quarter',
     artist: 'Led Zepelin',
-    key: 'C#',
+    tonic: 'C#',
     mode: 2,
     videoId: '_BZLM2j8p5E',
     chords: [
@@ -6497,7 +6499,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'The Strokes',
     artist: 'Reptilia',
-    key: 'B',
+    tonic: 'B',
     mode: 2,
     videoId: 'b8-tXG8KrWs',
     chords: [
@@ -6523,7 +6525,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Evil Ways',
     artist: 'Santana',
-    key: 'G',
+    tonic: 'G',
     mode: 2,
     videoId: 'gVPUAntzOl4',
     chords: [
@@ -6549,7 +6551,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Laser Gun',
     artist: 'M83',
-    key: 'A',
+    tonic: 'A',
     mode: 2,
     videoId: 'eISdgDJMFnA',
     chords: [
@@ -6575,7 +6577,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'I Wish',
     artist: 'Stevie Wonder',
-    key: 'Eb',
+    tonic: 'Eb',
     mode: 2,
     videoId: 'B6cqrjlqjuM',
     chords: [
@@ -6601,7 +6603,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Flash Light',
     artist: 'Parliament',
-    key: 'C',
+    tonic: 'C',
     mode: 2,
     videoId: '0wBqWb43y6I',
     chords: [
@@ -6627,7 +6629,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Good Times',
     artist: 'Chic',
-    key: 'E',
+    tonic: 'E',
     mode: 2,
     videoId: '51r5f5OdIY0',
     chords: [
@@ -6649,7 +6651,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Canon in D',
     artist: 'Pachelbel',
-    key: 'D',
+    tonic: 'D',
     mode: 1,
     videoId: 'NlprozGcs80',
     chords: [
@@ -6691,7 +6693,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'All Together Now',
     artist: 'The Farm',
-    key: 'D',
+    tonic: 'D',
     mode: 1,
     videoId: 'iRgtzZ-mOQo',
     chords: [
@@ -6733,7 +6735,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Ladies and Gentlemen We Are Floating in Space',
     artist: 'Spiritualized',
-    key: 'D',
+    tonic: 'D',
     mode: 1,
     videoId: 'iB7E1D_3Na4',
     chords: [
@@ -6775,7 +6777,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Eyes of the World',
     artist: 'Fleetwood Mac',
-    key: 'Bb',
+    tonic: 'Bb',
     mode: 1,
     videoId: '-W9pfefHa9I',
     chords: [
@@ -6817,7 +6819,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Memories',
     artist: 'Maroon 5',
-    key: 'B',
+    tonic: 'B',
     mode: 1,
     videoId: 'SlPhMPnQ58k',
     chords: [
@@ -6859,7 +6861,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Step',
     artist: 'Vampire Weekend',
-    key: 'Bb',
+    tonic: 'Bb',
     mode: 1,
     videoId: '_mDxcDjg9P4',
     chords: [
@@ -6901,7 +6903,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Hook',
     artist: 'Blues Traveler',
-    key: 'A',
+    tonic: 'A',
     mode: 1,
     videoId: 'pdz5kCaCRFM',
     chords: [
@@ -6943,7 +6945,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: "Don't Look Back in Anger",
     artist: 'Oasis',
-    key: 'Db',
+    tonic: 'Db',
     mode: 1,
     videoId: 'cmpRLQZkTb8',
     chords: [
@@ -6989,7 +6991,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Rain and Tears',
     artist: "Aphrodite's Child",
-    key: 'Bb',
+    tonic: 'Bb',
     mode: 1,
     videoId: '2I7QG12ojg0',
     subId: 1,
@@ -7032,7 +7034,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Rain and Tears',
     artist: "Aphrodite's Child",
-    key: 'Bb',
+    tonic: 'Bb',
     mode: 1,
     videoId: '2I7QG12ojg0',
     subId: 2,
@@ -7079,7 +7081,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Go West',
     artist: 'Pet Shop Boys',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: 'LNBjMRvOB5M',
     chords: [
@@ -7121,7 +7123,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Basket Case',
     artist: 'Green Day',
-    key: 'Eb',
+    tonic: 'Eb',
     mode: 1,
     videoId: 'NUTGr5t3MoY',
     chords: [
@@ -7159,7 +7161,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'The Luckiest',
     artist: 'Ben Folds',
-    key: 'D',
+    tonic: 'D',
     mode: 1,
     videoId: 'zcBqmN62wtw',
     chords: [
@@ -7205,7 +7207,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Spicks and Specks',
     artist: 'Bee Gees',
-    key: 'G',
+    tonic: 'G',
     mode: 1,
     videoId: 'WpK7ZmRaeys',
     chords: [
@@ -7247,7 +7249,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'With One Look',
     artist: 'Andrew Lloyd Webber',
-    key: 'A',
+    tonic: 'A',
     mode: 1,
     videoId: 'O4UAt67wyc4',
     subId: 1,
@@ -7278,7 +7280,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'With One Look',
     artist: 'Andrew Lloyd Webber',
-    key: 'A',
+    tonic: 'A',
     mode: 1,
     videoId: 'O4UAt67wyc4',
     subId: 2,
@@ -7317,7 +7319,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'With One Look',
     artist: 'Andrew Lloyd Webber',
-    key: 'A',
+    tonic: 'A',
     mode: 1,
     videoId: 'O4UAt67wyc4',
     subId: 3,
@@ -7356,8 +7358,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'You And Me (But Mostly Me)',
     artist: 'Book of Mormon',
-    key: 'C',
-    mode: Mode.Major,
+    tonic: 'C',
+    mode: Mode.Ionian,
     videoId: 'T-c82omcEn8',
     subId: 1,
     chords: [
@@ -7387,8 +7389,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'You And Me (But Mostly Me)',
     artist: 'Book of Mormon',
-    key: 'C',
-    mode: Mode.Major,
+    tonic: 'C',
+    mode: Mode.Ionian,
     videoId: 'T-c82omcEn8',
     subId: 2,
     chords: [
@@ -7414,8 +7416,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'You And Me (But Mostly Me)',
     artist: 'Book of Mormon',
-    key: 'C',
-    mode: Mode.Major,
+    tonic: 'C',
+    mode: Mode.Ionian,
     videoId: 'T-c82omcEn8',
     subId: 3,
     chords: [
@@ -7437,8 +7439,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'You And Me (But Mostly Me)',
     artist: 'Book of Mormon',
-    key: 'C',
-    mode: Mode.Major,
+    tonic: 'C',
+    mode: Mode.Ionian,
     videoId: 'T-c82omcEn8',
     subId: 4,
     chords: [
@@ -7460,8 +7462,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'You And Me (But Mostly Me)',
     artist: 'Book of Mormon',
-    key: 'C',
-    mode: Mode.Major,
+    tonic: 'C',
+    mode: Mode.Ionian,
     videoId: 'T-c82omcEn8',
     subId: 5,
     chords: [
@@ -7495,8 +7497,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'You And Me (But Mostly Me)',
     artist: 'Book of Mormon',
-    key: 'C',
-    mode: Mode.Major,
+    tonic: 'C',
+    mode: Mode.Ionian,
     videoId: 'T-c82omcEn8',
     subId: 6,
     chords: [
@@ -7530,8 +7532,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'You And Me (But Mostly Me)',
     artist: 'Book of Mormon',
-    key: 'C',
-    mode: Mode.Major,
+    tonic: 'C',
+    mode: Mode.Ionian,
     videoId: 'T-c82omcEn8',
     subId: 7,
     chords: [
@@ -7569,8 +7571,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'You And Me (But Mostly Me)',
     artist: 'Book of Mormon',
-    key: 'C',
-    mode: Mode.Major,
+    tonic: 'C',
+    mode: Mode.Ionian,
     videoId: 'T-c82omcEn8',
     subId: 8,
     chords: [
@@ -7608,8 +7610,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'You And Me (But Mostly Me)',
     artist: 'Book of Mormon',
-    key: 'C',
-    mode: Mode.Major,
+    tonic: 'C',
+    mode: Mode.Ionian,
     videoId: 'T-c82omcEn8',
     subId: 9,
     chords: [
@@ -7635,8 +7637,8 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'You And Me (But Mostly Me)',
     artist: 'Book of Mormon',
-    key: 'C',
-    mode: Mode.Major,
+    tonic: 'C',
+    mode: Mode.Ionian,
     videoId: 'T-c82omcEn8',
     subId: 10,
     chords: [
@@ -7666,7 +7668,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'You And Me (But Mostly Me)',
     artist: 'Book of Mormon',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: 'T-c82omcEn8',
     subId: 11,
@@ -7689,7 +7691,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'You And Me (But Mostly Me)',
     artist: 'Book of Mormon',
-    key: 'E',
+    tonic: 'E',
     mode: 1,
     videoId: 'T-c82omcEn8',
     subId: 12,
@@ -7716,7 +7718,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Someone Gets Hurt',
     artist: 'Mean Girls',
-    key: 'B',
+    tonic: 'B',
     mode: 6,
     videoId: '7hBy11aK-qw',
     chords: [
@@ -7743,7 +7745,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Someone Gets Hurt',
     artist: 'Mean Girls',
-    key: 'D',
+    tonic: 'D',
     mode: 1,
     videoId: '7hBy11aK-qw',
     chords: [
@@ -7778,7 +7780,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Someone Gets Hurt',
     artist: 'Mean Girls',
-    key: 'D',
+    tonic: 'D',
     mode: 1,
     videoId: '7hBy11aK-qw',
     chords: [
@@ -7813,7 +7815,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Someone Gets Hurt',
     artist: 'Mean Girls',
-    key: 'D',
+    tonic: 'D',
     mode: 1,
     videoId: '7hBy11aK-qw',
     chords: [
@@ -7844,7 +7846,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Someone Gets Hurt',
     artist: 'Mean Girls',
-    key: 'D',
+    tonic: 'D',
     mode: 1,
     videoId: '7hBy11aK-qw',
     chords: [
@@ -7875,7 +7877,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Someone Gets Hurt',
     artist: 'Mean Girls',
-    key: 'D',
+    tonic: 'D',
     mode: 1,
     videoId: '7hBy11aK-qw',
     chords: [
@@ -7902,7 +7904,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Someone Gets Hurt',
     artist: 'Mean Girls',
-    key: 'D',
+    tonic: 'D',
     mode: 1,
     videoId: '7hBy11aK-qw',
     chords: [
@@ -7929,7 +7931,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Someone Gets Hurt',
     artist: 'Mean Girls',
-    key: 'D',
+    tonic: 'D',
     mode: 1,
     videoId: '7hBy11aK-qw',
     chords: [
@@ -7964,7 +7966,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Someone Gets Hurt',
     artist: 'Mean Girls',
-    key: 'D',
+    tonic: 'D',
     mode: 1,
     videoId: '7hBy11aK-qw',
     chords: [
@@ -7999,7 +8001,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Someone Gets Hurt',
     artist: 'Mean Girls',
-    key: 'D',
+    tonic: 'D',
     mode: 1,
     videoId: '7hBy11aK-qw',
     chords: [
@@ -8038,7 +8040,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Someone Gets Hurt',
     artist: 'Mean Girls',
-    key: 'D',
+    tonic: 'D',
     mode: 1,
     videoId: '7hBy11aK-qw',
     chords: [
@@ -8085,7 +8087,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Someone Gets Hurt',
     artist: 'Mean Girls',
-    key: 'Eb',
+    tonic: 'Eb',
     mode: 1,
     videoId: '7hBy11aK-qw',
     chords: [
@@ -8116,7 +8118,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Someone Gets Hurt',
     artist: 'Mean Girls',
-    key: 'Eb',
+    tonic: 'Eb',
     mode: 1,
     videoId: '7hBy11aK-qw',
     chords: [
@@ -8139,7 +8141,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Someone Gets Hurt',
     artist: 'Mean Girls',
-    key: 'Eb',
+    tonic: 'Eb',
     mode: 1,
     videoId: '7hBy11aK-qw',
     chords: [
@@ -8166,7 +8168,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Someone Gets Hurt',
     artist: 'Mean Girls',
-    key: 'Eb',
+    tonic: 'Eb',
     mode: 1,
     videoId: '7hBy11aK-qw',
     chords: [
@@ -8193,7 +8195,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Someone Gets Hurt',
     artist: 'Mean Girls',
-    key: 'Eb',
+    tonic: 'Eb',
     mode: 1,
     videoId: '7hBy11aK-qw',
     chords: [
@@ -8240,7 +8242,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Where is Love?',
     artist: 'Oliver!',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: 'yvX5zv3P4Gg',
     chords: [
@@ -8279,7 +8281,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Where is Love?',
     artist: 'Oliver!',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: 'yvX5zv3P4Gg',
     chords: [
@@ -8314,7 +8316,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Where is Love?',
     artist: 'Oliver!',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: 'yvX5zv3P4Gg',
     chords: [
@@ -8337,7 +8339,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Where is Love?',
     artist: 'Oliver!',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: 'yvX5zv3P4Gg',
     chords: [
@@ -8360,7 +8362,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Light My Candle',
     artist: 'RENT',
-    key: 'Eb',
+    tonic: 'Eb',
     mode: 1,
     videoId: 'c7H1zqvKObM',
     chords: [
@@ -8387,7 +8389,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Light My Candle',
     artist: 'RENT',
-    key: 'Eb',
+    tonic: 'Eb',
     mode: 1,
     videoId: 'c7H1zqvKObM',
     chords: [
@@ -8414,7 +8416,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Light My Candle',
     artist: 'RENT',
-    key: 'Eb',
+    tonic: 'Eb',
     mode: 1,
     videoId: 'c7H1zqvKObM',
     chords: [
@@ -8441,7 +8443,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'This is Hallowing',
     artist: 'Danny Elfman',
-    key: 'C',
+    tonic: 'C',
     mode: 6,
     videoId: 'ZVuToMilP0A',
     chords: [
@@ -8472,7 +8474,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'This is Hallowing',
     artist: 'Danny Elfman',
-    key: 'C',
+    tonic: 'C',
     mode: 6,
     videoId: 'ZVuToMilP0A',
     chords: [
@@ -8511,7 +8513,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: "You'll Be In My Heart",
     artist: 'Phil Collins',
-    key: 'Gb',
+    tonic: 'Gb',
     mode: 1,
     section: 'Verse 1',
     videoId: 'EfHLHdSxQA0',
@@ -8538,7 +8540,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: "You'll Be In My Heart",
     artist: 'Phil Collins',
-    key: 'Gb',
+    tonic: 'Gb',
     mode: 1,
     videoId: 'EfHLHdSxQA0',
     chords: [
@@ -8585,7 +8587,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: "You'll Be In My Heart",
     artist: 'Phil Collins',
-    key: 'Eb',
+    tonic: 'Eb',
     mode: 1,
     videoId: 'EfHLHdSxQA0',
     chords: [
@@ -8632,7 +8634,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: "You'll Be In My Heart",
     artist: 'Phil Collins',
-    key: 'Ab',
+    tonic: 'Ab',
     mode: 1,
     videoId: 'EfHLHdSxQA0',
     chords: [
@@ -8659,7 +8661,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: "You'll Be In My Heart",
     artist: 'Phil Collins',
-    key: 'Ab',
+    tonic: 'Ab',
     mode: 1,
     videoId: 'EfHLHdSxQA0',
     chords: [
@@ -8686,7 +8688,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: "You'll Be In My Heart",
     artist: 'Phil Collins',
-    key: 'F',
+    tonic: 'F',
     mode: 1,
     videoId: 'EfHLHdSxQA0',
     chords: [
@@ -8713,7 +8715,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Some People',
     artist: 'Gypsy',
-    key: 'F',
+    tonic: 'F',
     mode: 1,
     videoId: 'oxUD409wAxA',
     chords: [
@@ -8752,7 +8754,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Grow For Me',
     artist: 'Little Shop of Horrors',
-    key: 'Eb',
+    tonic: 'Eb',
     mode: 1,
     videoId: 'JgVnpMkXOas',
     chords: [
@@ -8799,7 +8801,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: "Make 'Em Laugh",
     artist: 'Singing in the Rain',
-    key: 'Eb',
+    tonic: 'Eb',
     mode: 1,
     videoId: 'K3Do-keFZbE',
     chords: [
@@ -8842,7 +8844,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'At the End of the day',
     artist: 'Les Miserables',
-    key: 'Ab',
+    tonic: 'Ab',
     mode: 1,
     videoId: 'RxgJr_8LraY',
     section: 'A(1)',
@@ -8869,7 +8871,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'At the End of the day',
     artist: 'Les Miserables',
-    key: 'Ab',
+    tonic: 'Ab',
     mode: 1,
     videoId: 'RxgJr_8LraY',
     section: 'A(2)',
@@ -8912,7 +8914,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'At the End of the day',
     artist: 'Les Miserables',
-    key: 'F',
+    tonic: 'F',
     mode: 1,
     videoId: 'RxgJr_8LraY',
     chords: [
@@ -8939,7 +8941,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'The Winner Takes it All',
     artist: 'ABBA',
-    key: 'Gb',
+    tonic: 'Gb',
     mode: 1,
     videoId: '92cwKCU8Z5c',
     chords: [
@@ -8973,7 +8975,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'You Ruined Everything',
     artist: 'Crazy Ex Girlfriend',
-    key: 'Eb',
+    tonic: 'Eb',
     mode: 1,
     videoId: 'zgUKQCVieWM',
     chords: [
@@ -9016,7 +9018,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'You Ruined Everything',
     artist: 'Crazy Ex Girlfriend',
-    key: 'Eb',
+    tonic: 'Eb',
     mode: 1,
     videoId: 'zgUKQCVieWM',
     chords: [
@@ -9059,7 +9061,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Waiting in the Wings',
     artist: 'Alan Menken',
-    key: 'Gb',
+    tonic: 'Gb',
     mode: 1,
     videoId: 'Hq3BYt6CDkY',
     chords: [
@@ -9090,7 +9092,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Waiting in the Wings',
     artist: 'Alan Menken',
-    key: 'Gb',
+    tonic: 'Gb',
     mode: 1,
     videoId: 'Hq3BYt6CDkY',
     chords: [
@@ -9133,7 +9135,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Hurricane',
     artist: 'Lin-Manuel Miranda',
-    key: 'D',
+    tonic: 'D',
     mode: 2,
     videoId: 'ZDrIMv-irD8',
     chords: [
@@ -9156,7 +9158,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Hurricane',
     artist: 'Lin-Manuel Miranda',
-    key: 'F',
+    tonic: 'F',
     mode: 1,
     videoId: 'ZDrIMv-irD8',
     subId: 1,
@@ -9180,7 +9182,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Hurricane',
     artist: 'Lin-Manuel Miranda',
-    key: 'F',
+    tonic: 'F',
     mode: 1,
     videoId: 'ZDrIMv-irD8',
     chords: [
@@ -9212,7 +9214,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Hurricane',
     artist: 'Lin-Manuel Miranda',
-    key: 'F',
+    tonic: 'F',
     mode: 1,
     videoId: 'ZDrIMv-irD8',
     chords: [
@@ -9243,7 +9245,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Out There',
     artist: 'Alan Menken',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     section: 'Chorus (Antecedent)',
     videoId: 'Xb5OGU8I04U',
@@ -9278,7 +9280,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Out There',
     artist: 'Alan Menken',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     section: 'Chorus (Consequent)',
     videoId: 'Xb5OGU8I04U',
@@ -9313,7 +9315,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Busted',
     artist: 'Phineas and Ferb',
-    key: 'C',
+    tonic: 'C',
     mode: 6,
     videoId: '6rPPXfoGvyc',
     chords: [
@@ -9344,7 +9346,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Busted',
     artist: 'Phineas and Ferb',
-    key: 'C',
+    tonic: 'C',
     mode: 6,
     videoId: '6rPPXfoGvyc',
     chords: [
@@ -9375,7 +9377,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Busted',
     artist: 'Phineas and Ferb',
-    key: 'C',
+    tonic: 'C',
     mode: 6,
     videoId: '6rPPXfoGvyc',
     chords: [
@@ -9406,7 +9408,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Busted',
     artist: 'Phineas and Ferb',
-    key: 'C',
+    tonic: 'C',
     mode: 6,
     videoId: '6rPPXfoGvyc',
     chords: [
@@ -9437,7 +9439,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: "When You're In Love",
     artist: 'Maybe Happy Ending',
-    key: 'E',
+    tonic: 'E',
     mode: 1,
     videoId: '3IefEc1h66M',
     section: 'Chorus',
@@ -9476,7 +9478,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: "When You're In Love",
     artist: 'Maybe Happy Ending',
-    key: 'E',
+    tonic: 'E',
     mode: 1,
     videoId: '3IefEc1h66M',
     chords: [
@@ -9503,7 +9505,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: "When You're In Love",
     artist: 'Maybe Happy Ending',
-    key: 'E',
+    tonic: 'E',
     mode: 1,
     videoId: '3IefEc1h66M',
     chords: [
@@ -9534,7 +9536,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: "When You're In Love",
     artist: 'Maybe Happy Ending',
-    key: 'E',
+    tonic: 'E',
     mode: 1,
     videoId: '3IefEc1h66M',
     chords: [
@@ -9561,7 +9563,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: "When You're In Love",
     artist: 'Maybe Happy Ending',
-    key: 'E',
+    tonic: 'E',
     mode: 1,
     videoId: '3IefEc1h66M',
     chords: [
@@ -9592,7 +9594,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'The Wizard and I',
     artist: 'Wicked',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: 'i0r_RWwa2tQ',
     chords: [
@@ -9619,7 +9621,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'The Wizard and I',
     artist: 'Wicked',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: 'i0r_RWwa2tQ',
     chords: [
@@ -9646,7 +9648,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'The Wizard and I',
     artist: 'Wicked',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: 'i0r_RWwa2tQ',
     chords: [
@@ -9673,7 +9675,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'The Wizard and I',
     artist: 'Wicked',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: 'i0r_RWwa2tQ',
     chords: [
@@ -9708,7 +9710,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'The Wizard and I',
     artist: 'Wicked',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: 'i0r_RWwa2tQ',
     chords: [
@@ -9747,7 +9749,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'The Wizard and I',
     artist: 'Wicked',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: 'i0r_RWwa2tQ',
     chords: [
@@ -9770,7 +9772,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'The Wizard and I',
     artist: 'Wicked',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: 'i0r_RWwa2tQ',
     chords: [
@@ -9797,7 +9799,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'The Wizard and I',
     artist: 'Wicked',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: 'i0r_RWwa2tQ',
     chords: [
@@ -9824,7 +9826,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'The Wizard and I',
     artist: 'Wicked',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: 'i0r_RWwa2tQ',
     chords: [
@@ -9860,7 +9862,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'Watch What Happens',
     artist: 'Newsies',
-    key: 'A',
+    tonic: 'A',
     mode: 1,
     videoId: 'ub8hHA96FVY',
     chords: [
@@ -9899,7 +9901,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'The Wizard and I',
     artist: 'Wicked',
-    key: 'A',
+    tonic: 'A',
     mode: 1,
     videoId: 'i0r_RWwa2tQ',
     chords: [
@@ -9926,7 +9928,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   {
     name: 'The Wizard and I',
     artist: 'Wicked',
-    key: 'C',
+    tonic: 'C',
     mode: 1,
     videoId: 'i0r_RWwa2tQ',
     chords: [

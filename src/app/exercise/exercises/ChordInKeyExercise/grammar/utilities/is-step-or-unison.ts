@@ -1,8 +1,11 @@
-import { ScaleDegree, scaleDegreeToChromaticDegree } from '../../../../utility';
+import {
+  EnharmonicScaleDegree,
+  scaleDegreeToChromaticDegree,
+} from '../../../../utility';
 
 export function isStepOrUnison(
-  scaleDegree1: ScaleDegree,
-  scaleDegree2: ScaleDegree,
+  scaleDegree1: EnharmonicScaleDegree,
+  scaleDegree2: EnharmonicScaleDegree,
 ) {
   return (
     Math.abs(

@@ -27,6 +27,11 @@ import {
   useMelodicExercise,
 } from '../utility/exerciseAttributes/melodicDictationExercise';
 import {
+  CadenceTypeSetting,
+  cadenceType,
+  getCadence,
+} from '../utility/settings/CadenceTypeSetting';
+import {
   IncludedAnswersSettings,
   useIncludedAnswers,
 } from '../utility/settings/IncludedAnswersSettings';
@@ -85,7 +90,8 @@ const diatonicIntervalAnswerList: AnswerList<string> = {
 export type NoteInKeySettings = IncludedAnswersSettings<SolfegeNote> &
   MelodicDictationExerciseSettings &
   NumberOfSegmentsSetting &
-  PlayAfterCorrectAnswerSetting & {
+  PlayAfterCorrectAnswerSetting &
+  CadenceTypeSetting & {
     notesRange: 'high' | 'middle' | 'bass' | 'contrabass';
     numberOfVoices: 1 | 2 | 3;
     harmonicIntervals: DiatonicIntervalCode[];
@@ -127,6 +133,7 @@ export const notesInKeyExercise: Exercise<SolfegeNote, NoteInKeySettings> = {
   settingsConfig: {
     defaults: {
       ...melodicExercise.defaults,
+      ...cadenceType.defaults,
       includedAnswers: ['Do', 'Re', 'Mi'],
       numberOfSegments: 1,
       numberOfVoices: 1,
@@ -138,6 +145,7 @@ export const notesInKeyExercise: Exercise<SolfegeNote, NoteInKeySettings> = {
       melodicIntervals: ['2', '3', '4', '4#', '5', '6', '7', '8'],
     },
     controls: [
+      ...cadenceType.controls,
       ...melodicExercise.settingsDescriptors,
       includedAnswers.settingDescriptor,
       {
@@ -237,6 +245,7 @@ export const notesInKeyExercise: Exercise<SolfegeNote, NoteInKeySettings> = {
     getQuestion() {
       return melodicExercise.getQuestion({
         settings: settings,
+        cadenceInC: getCadence(settings.cadenceType),
         getMelodicQuestionInC: (utils) => {
           function getNoteOptionsFromRange(notesRange: NotesRange): Note[] {
             const rangeForKeyOfC: NotesRange =

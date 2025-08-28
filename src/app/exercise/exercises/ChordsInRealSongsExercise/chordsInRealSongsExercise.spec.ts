@@ -12,7 +12,7 @@ describe(chordsInRealSongsExercise.name, () => {
         expect(
           chordsInRealSongsExercise
             .logic({
-              tonicForAnalyzing: 'original',
+              modalAnalysis: 'tonic-1',
               includedChords: _.map(chordProgressionDescriptor.chords, 'chord'),
               acceptEquivalentChord: false,
               learnProgressions: false,
@@ -36,7 +36,7 @@ describe(chordsInRealSongsExercise.name, () => {
   //         seconds: index,
   //       })),
   //       endSeconds: progression.length,
-  //       mode: Mode.Major,
+  //       mode: Mode.Ionian,
   //       key: 'C',
   //     };
   //   }
