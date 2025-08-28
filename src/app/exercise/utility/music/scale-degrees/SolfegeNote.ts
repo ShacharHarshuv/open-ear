@@ -1,13 +1,18 @@
 export type SolfegeNote =
   | 'Do'
+  | 'Di'
   | 'Ra'
   | 'Re'
+  | 'Ri'
   | 'Me'
   | 'Mi'
   | 'Fa'
   | 'Fi'
+  | 'Se'
   | 'Sol'
+  | 'Si'
   | 'Le'
   | 'La'
+  | 'Li'
   | 'Te'
   | 'Ti';
