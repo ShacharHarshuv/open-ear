@@ -1,9 +1,14 @@
-import { DeepReadonly, RomanNumeralChordSymbol } from '../../utility';
+import { DeepReadonly, Mode, RomanNumeralChordSymbol } from '../../utility';
+import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord';
 import { getSimplestAcceptableChordAnalysis } from '../../utility/music/harmony/isAcceptableChordAnalysis';
 import {
   AcceptEquivalentChordSettings,
   acceptableChordAnalysisOptions,
 } from '../utility/settings/acceptEquivalentChordsSettings';
+import {
+  ModalAnalysis,
+  ModalAnalysisSettings,
+} from '../utility/settings/modal-analysis';
 import { YouTubeSongQuestion } from './songQuestions';
 
 const chordsIntroductionOrder: RomanNumeralChordSymbol[] = [
@@ -31,7 +36,7 @@ const chordsIntroductionOrder: RomanNumeralChordSymbol[] = [
 
 export function indexQuestionsByProgression(
   questions: DeepReadonly<YouTubeSongQuestion[]>,
-  settings: AcceptEquivalentChordSettings,
+  settings: AcceptEquivalentChordSettings & ModalAnalysisSettings,
 ) {
   const groups = new Map<string, DeepReadonly<YouTubeSongQuestion>[]>();
 
@@ -46,7 +51,12 @@ export function indexQuestionsByProgression(
         ),
       ),
     );
-    const progressionsId = chords.join(' ');
+    const progressionsId = getProgressionId(
+      chords,
+      settings.modalAnalysis,
+      question.mode,
+    );
+
     if (!groups.has(progressionsId)) {
       groups.set(progressionsId, []);
     }
@@ -60,8 +70,9 @@ export function indexQuestionsByProgression(
 
   const entries = Array.from(groups.entries());
   entries.sort(([progressionA], [progressionB]) => {
-    const chordsA = progressionA.split(' ') as RomanNumeralChordSymbol[];
-    const chordsB = progressionB.split(' ') as RomanNumeralChordSymbol[];
+    // Extract chords from progression ID (remove mode prefix)
+    const chordsA = parseProgressionId(progressionA);
+    const chordsB = parseProgressionId(progressionB);
 
     const getHighestIndex = (chords: RomanNumeralChordSymbol[]) => {
       return Math.max(...chords.map(getChordIndex));
@@ -83,7 +94,7 @@ export function indexQuestionsByProgression(
   return new Map(entries);
 }
 
-function removeLoop(arr: string[]): string[] {
+function removeLoop<T extends string>(arr: T[]): T[] {
   if (arr.length <= 1) return arr;
 
   for (
@@ -106,10 +117,32 @@ function removeLoop(arr: string[]): string[] {
   return arr;
 }
 
-function removeLoopClose(arr: string[]): string[] {
+function removeLoopClose<T extends string>(arr: T[]): T[] {
   if (arr.length >= 4 && arr[0] === arr[arr.length - 1]) {
     return arr.slice(0, -1);
   }
 
   return arr;
+}
+
+function getProgressionId(
+  chords: RomanNumeralChordSymbol[],
+  modalAnalysis: ModalAnalysis,
+  mode: Mode,
+) {
+  const normalizedChords = chords.map((chord) =>
+    RomanNumeralChord.convertAnalysis({
+      chordSymbol: chord,
+      mode,
+      currentModalAnalysis: modalAnalysis,
+      desiredModalAnalysis: '1-major-6-minor',
+    }),
+  );
+
+  return `${mode}:${normalizedChords.join(' ')}`;
+}
+
+function parseProgressionId(progressionId: string) {
+  const [, chordParts] = progressionId.split(':');
+  return chordParts.split(' ') as RomanNumeralChordSymbol[];
 }

@@ -131,6 +131,8 @@ export const chordsInRealSongsExercise: Exercise<
       availableSegments,
       settings,
     );
+    console.log('uniqueProgressions', uniqueProgressions);
+
     const progressionKeys = Array.from(uniqueProgressions.keys());
     const fsrsLogic = fsrsExercise(id + ':progression-mode', {
       getQuestion: (questionsToExclude?: string[]) => {
@@ -158,10 +160,10 @@ export const chordsInRealSongsExercise: Exercise<
       },
       getQuestionById(id) {
         const progression = uniqueProgressions.get(id);
+
         if (!progression) {
-          // todo: this seem to happen with progression whose analyzed 1 is moved based on the settings, even if we didn't change it
-          // Theory: the bug happens during write
-          throw new Error(`No progression found! (id: ${id})`);
+          console.warn(`No progression found! (id: ${id})`);
+          return undefined;
         }
         return getQuestionFromProgression(
           randomFromList(progression),

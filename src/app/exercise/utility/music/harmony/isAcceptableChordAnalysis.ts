@@ -114,6 +114,7 @@ function _isAcceptableChordAnalysis(
         return acceptAsIf(ChordType.Minor);
 
       case ChordType.Major7th:
+      case ChordType.Major9th:
       case ChordType.Major6th:
       case ChordType.MajorAdd9:
       case ChordType.MajorAddSharp4:
