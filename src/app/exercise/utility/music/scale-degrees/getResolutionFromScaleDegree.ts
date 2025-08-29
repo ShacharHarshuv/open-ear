@@ -115,7 +115,7 @@ export function getResolutionFromScaleDegree(
 
   const scale = getScale();
   if (!scale) {
-    return []; // todo: does this work?
+    return [];
   }
   const diatonicScaleDegree =
     getDiatonicScaleDegreeWithAccidental(scaleDegree).diatonicScaleDegree;
