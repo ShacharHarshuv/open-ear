@@ -23,11 +23,11 @@ export const scaleDegreeToSolfegeNote: Record<
   '#6': 'Li',
   b7: 'Te',
   '7': 'Ti',
-  8: 'Do',
-  9: 'Re',
-  '#9': 'Ri',
-  11: 'Fa',
-  bb7: 'La',
+  // 8: 'Do',
+  // 9: 'Re',
+  // '#9': 'Ri',
+  // 11: 'Fa',
+  // bb7: 'La',
 };
 export const solfegeNoteToScaleDegree: Record<SolfegeNote, ScaleDegree> =
   _.invert(scaleDegreeToSolfegeNote) as Record<SolfegeNote, ScaleDegree>;

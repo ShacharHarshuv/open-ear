@@ -37,7 +37,10 @@ export type EnharmonicScaleDegree =
   | '#2'
   | 'b5'
   | '#5'
-  | '#6'
+  | '#6';
+
+export type ExpandedScaleDegree =
+  | EnharmonicScaleDegree
   | 'bb7'
   | '8'
   | '9'
@@ -85,7 +88,7 @@ export const scaleDegreeToChromaticDegree: Record<
 };
 
 export const expandedScaleDegreeToChromaticDegree: Record<
-  EnharmonicScaleDegree,
+  ExpandedScaleDegree,
   ChromaticScaleDegree
 > = {
   ...scaleDegreeToChromaticDegree,

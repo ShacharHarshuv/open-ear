@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import { MusicSymbol } from '../../MusicSymbol';
 import { MajorChordTypesPostfix, MinorChordTypesPostfix } from '../../harmony';
-import { EnharmonicScaleDegree } from '../../scale-degrees';
+import { ExpandedScaleDegree } from '../../scale-degrees';
 
 export enum ChordType {
   Major = 'M',
@@ -37,7 +37,7 @@ export enum ChordType {
 
 interface IChordTypeConfig {
   displayName: string;
-  scaleDegreeList: EnharmonicScaleDegree[];
+  scaleDegreeList: ExpandedScaleDegree[];
   romanNumeral: (
     | {
         isLowercase: true;
