@@ -33,7 +33,7 @@ type NoteWithChord = `${SolfegeNote}${ChordDegree}`;
 
 type HarmonyMode = 'triad' | 'seventh';
 
-const noteWithChordDescriptorMap = ((): Partial<
+export const noteWithChordDescriptorMap = ((): Partial<
   Record<
     NoteWithChord,
     {
@@ -236,6 +236,10 @@ const noteWithChordDescriptorMap = ((): Partial<
       chord: I,
       solfegeNote: 'La',
     },
+    La7: {
+      chord: viidim,
+      solfegeNote: 'La',
+    },
     Ti1: {
       chord: viidim,
       solfegeNote: 'Ti',
@@ -273,7 +277,7 @@ type NoteWithChordsSettings = TonalExerciseSettings &
     harmonyMode: HarmonyMode;
   };
 
-const allAnswersList = ((): AnswerList<NoteWithChord> => {
+export const allNotesWithChordsAnswersList = ((): AnswerList<NoteWithChord> => {
   const solfegeSyllables = ['Do', 'Re', 'Mi', 'Fa', 'Sol', 'La', 'Ti'] as const;
   const chordDegrees = [1, 2, 3, 4, 5, 6, 7] as const;
   return {
@@ -287,7 +291,7 @@ const allAnswersList = ((): AnswerList<NoteWithChord> => {
 
 const includedAnswers = useIncludedAnswers({
   name: 'Scale Degrees',
-  fullAnswerList: allAnswersList,
+  fullAnswerList: allNotesWithChordsAnswersList,
 });
 
 const tonalExercise = useTonalExercise({
