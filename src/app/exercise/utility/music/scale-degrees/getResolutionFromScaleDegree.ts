@@ -72,7 +72,7 @@ export function getResolutionFromScaleDegree(
     );
   }
 
-  function getScale(): DeepReadonly<ScaleDegree[]> {
+  function getScale(): DeepReadonly<ScaleDegree[]> | null {
     const diatonicDegreeToIncludedNotes = _.groupBy(
       includedNotes,
       (includedNote) =>
@@ -98,11 +98,7 @@ export function getResolutionFromScaleDegree(
     });
 
     if (optionsThatWorksWithIncludedNotes.length === 0) {
-      throw new Error(
-        `Unexpected empty options for resolution. (includedNotes=${includedNotes.join(
-          ',',
-        )})`,
-      );
+      return null;
     }
 
     const optionsThatWorkWithCadenceType: DeepReadonly<ScaleOption>[] =
@@ -117,14 +113,17 @@ export function getResolutionFromScaleDegree(
     return _.minBy(optionsThatWorkWithCadenceType, 'rating')!.scale; // we asserted it's not empty before
   }
 
-  const scale: DeepReadonly<ScaleDegree>[] = [...getScale()];
+  const scale = getScale();
+  if (!scale) {
+    return [];
+  }
   const diatonicScaleDegree =
     getDiatonicScaleDegreeWithAccidental(scaleDegree).diatonicScaleDegree;
   const indexToStartFrom: number =
     diatonicScaleDegree <= 4
       ? 4 - diatonicScaleDegree
       : diatonicScaleDegree - 5;
-  const clippedScale: ScaleDegree[] = scale.splice(indexToStartFrom);
+  const clippedScale = [...scale].splice(indexToStartFrom);
   if (!clippedScale.includes(scaleDegree)) {
     // i.e. scaleDegree is outside detected scale
     clippedScale.unshift(scaleDegree);
