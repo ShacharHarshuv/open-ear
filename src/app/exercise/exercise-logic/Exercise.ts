@@ -523,7 +523,7 @@ export interface ExerciseLogic<GAnswer extends string = string> {
   // todo: consider moving learn logic to be per exercise, so questionToExclude argument shouldn't need to be here
   getQuestion(questionsToExclude?: string[]): Question<GAnswer>;
   getQuestionById?(id: string): Question<GAnswer> | undefined;
-  isQuestionValid?(question?: Question<GAnswer>): boolean;
+  isQuestionValid?(question: Question<GAnswer>): boolean;
   handleFinishedAnswering?: (numberOfMistakes: number) => unknown;
   questionStartedPlaying?: () => void;
   reset?: () => unknown;

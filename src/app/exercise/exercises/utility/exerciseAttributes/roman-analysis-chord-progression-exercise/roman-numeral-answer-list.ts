@@ -1,4 +1,4 @@
-import { flatMap, uniq } from 'lodash';
+import { flatMap } from 'lodash';
 import { NoteEvent } from '../../../../../services/player.service';
 import {
   AnswerConfig,
@@ -6,7 +6,6 @@ import {
   AnswersLayout,
   AnswersLayoutCell,
   addViewLabelToAnswerList,
-  flatAnswerList,
   getAnswerListIterator,
   mapAnswerList,
 } from '../../../../exercise-logic';
@@ -304,7 +303,7 @@ export const allRomanNumeralAnswerList: AnswerList<RomanNumeralChordSymbol> =
     );
   })();
 
-console.log(uniq(flatAnswerList(allRomanNumeralAnswerList)));
+// console.log(uniq(flatAnswerList(allRomanNumeralAnswerList)));
 
 function groupBy<T>(items: T[], fn: (item: T) => unknown): T[][] {
   const map = new Map<unknown, T[]>();

@@ -1,4 +1,4 @@
-import { max, sumBy } from 'lodash';
+import { isEqual, max, sumBy } from 'lodash';
 import * as Tone from 'tone';
 import { Card, Grade, Rating, createEmptyCard, fsrs } from 'ts-fsrs';
 import { NoteEvent } from '../../../services/player.service';
@@ -58,8 +58,10 @@ export class QuestionCardsCollection<GAnswer extends string> {
   }
 
   remove(savedQuestion: QuestionCard<GAnswer>) {
-    this._savedQuestions = this._savedQuestions.filter(
-      (q) => q.question.id !== savedQuestion.question.id,
+    this._savedQuestions = this._savedQuestions.filter((q) =>
+      q.question.id
+        ? q.question.id !== savedQuestion.question.id
+        : !isEqual(q.question, savedQuestion.question),
     );
     this._save();
   }
@@ -104,27 +106,31 @@ export function fsrsExercise<GAnswer extends string>(
 
   const getQuestion: ExerciseLogic<GAnswer>['getQuestion'] = () => {
     isQuestionStartedPlaying = false;
-    console.log('savedQuestions', cardsCollections.savedQuestions);
+    // console.log('savedQuestions', cardsCollections.savedQuestions); // todo
+
     const dueQuestions = cardsCollections.savedQuestions
       .filter((q) => q.card.due.getTime() < new Date().getTime())
+      .filter(
+        (q) => !logic.isQuestionValid || logic.isQuestionValid?.(q.question),
+      )
       .sort(
         (a, b) =>
           f.get_retrievability(b.card, undefined, false) -
           f.get_retrievability(a.card, undefined, false),
       );
 
-    console.log(
-      `There are ${dueQuestions.length} due questions (${dueQuestions
-        .map((q) => q.question.id)
-        .filter(Boolean)
-        .join(', ')})`,
-    );
+    // console.log(
+    //   `There are ${dueQuestions.length} due questions (${dueQuestions
+    //     .map((q) => q.question.id)
+    //     .filter(Boolean)
+    //     .join(', ')})`,
+    // );
 
     if (dueQuestions.length > 0) {
       // todo: consider taking into account which question is due more closely
       const randomDueQuestion =
         dueQuestions[Math.floor(Math.random() * dueQuestions.length)];
-      console.log('selected question', randomDueQuestion.question.info);
+      // console.log('selected question', randomDueQuestion.question.info);
       currentQuestionCard = randomDueQuestion;
       return getCurrentQuestion()!;
     }

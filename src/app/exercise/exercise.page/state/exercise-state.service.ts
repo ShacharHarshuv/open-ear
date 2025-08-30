@@ -203,11 +203,23 @@ export class ExerciseStateService<
       ...originalExerciseLogic(),
       ...fsrsExercise(this.exercise.id, originalExerciseLogic()),
     }));
-    return computed((): ExerciseLogic<GAnswer> => {
-      return this._globalSettings().adaptive
-        ? adaptiveExerciseLogic()
-        : originalExerciseLogic();
-    });
+    return computed(
+      (): ExerciseLogic<GAnswer> & {
+        resetLearningProgress: () => void;
+      } => {
+        return Object.assign(
+          {},
+          this._globalSettings().adaptive
+            ? adaptiveExerciseLogic()
+            : originalExerciseLogic(),
+          {
+            resetLearningProgress: () => {
+              adaptiveExerciseLogic().reset?.();
+            },
+          },
+        );
+      },
+    );
   })();
 
   answer(answer: GAnswer, answerIndex: number = this._currentSegmentToAnswer) {
@@ -417,10 +429,14 @@ export class ExerciseStateService<
     this._globalSettings.set(settings.globalSettings);
     this._exerciseSettings.set(settings.exerciseSettings);
     this._message.set(null);
-    if (
-      !('isQuestionValid' in this.exerciseLogic()) ||
-      this.exerciseLogic().isQuestionValid?.(this._currentQuestion)
-    ) {
+    // if an exercise does not implement isQuestionValid,
+    // the learn mode can't know which answers are valid,
+    // so we have to clear all of them
+    if (!this.exerciseLogic().isQuestionValid) {
+      this.exerciseLogic().resetLearningProgress?.();
+    }
+
+    if (!this.exerciseLogic().isQuestionValid?.(this._currentQuestion)) {
       this.nextQuestion();
     }
   }
