@@ -9955,7 +9955,7 @@ const allQuestions: DeepReadonly<YouTubeSongQuestion[]> = [
   },
 ];
 
-console.log('Total Song Questions', allQuestions.length);
+// console.log('Total Song Questions', allQuestions.length);
 
 const duplicates = _(allQuestions)
   .groupBy(getId)
