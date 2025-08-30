@@ -1,4 +1,4 @@
-import { max, sumBy } from 'lodash';
+import { isEqual, max, sumBy } from 'lodash';
 import * as Tone from 'tone';
 import { Card, Grade, Rating, createEmptyCard, fsrs } from 'ts-fsrs';
 import { NoteEvent } from '../../../services/player.service';
@@ -58,8 +58,10 @@ export class QuestionCardsCollection<GAnswer extends string> {
   }
 
   remove(savedQuestion: QuestionCard<GAnswer>) {
-    this._savedQuestions = this._savedQuestions.filter(
-      (q) => q.question.id !== savedQuestion.question.id,
+    this._savedQuestions = this._savedQuestions.filter((q) =>
+      q.question.id
+        ? q.question.id !== savedQuestion.question.id
+        : !isEqual(q.question, savedQuestion.question),
     );
     this._save();
   }
@@ -104,9 +106,9 @@ export function fsrsExercise<GAnswer extends string>(
 
   const getQuestion: ExerciseLogic<GAnswer>['getQuestion'] = () => {
     isQuestionStartedPlaying = false;
-    console.log('savedQuestions', cardsCollections.savedQuestions);
     const dueQuestions = cardsCollections.savedQuestions
       .filter((q) => q.card.due.getTime() < new Date().getTime())
+      .filter((q) => logic.isQuestionValid?.(q.question))
       .sort(
         (a, b) =>
           f.get_retrievability(b.card, undefined, false) -
