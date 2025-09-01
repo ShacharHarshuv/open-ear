@@ -70,6 +70,16 @@ export class ExercisePage extends BaseComponent {
   constructor() {
     super();
     this._init();
+
+    if (this.state.exercise.alert) {
+      this._modalController
+        .create({
+          component: this.state.exercise.alert,
+          backdropDismiss: true,
+          cssClass: 'alert-like',
+        })
+        .then((alert) => alert.present());
+    }
   }
 
   onAnswerSelected(answerConfig: AnswerConfig<string>): void {

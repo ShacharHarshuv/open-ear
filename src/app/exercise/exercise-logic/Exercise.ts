@@ -540,6 +540,7 @@ export interface Exercise<
   readonly name: string;
   readonly summary: string;
   readonly explanation?: ExerciseExplanationContent;
+  readonly alert?: Type<any>; // will be shown when the user opens the exercise
   readonly blackListPlatform?: Platforms;
   readonly settingsConfig: SettingsConfig<GSettings>;
 

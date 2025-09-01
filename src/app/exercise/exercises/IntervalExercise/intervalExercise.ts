@@ -1,3 +1,5 @@
+import { Component, inject } from '@angular/core';
+import { IonicModule, ModalController } from '@ionic/angular';
 import * as _ from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import {
@@ -24,6 +26,34 @@ import {
   usePlayWrongAnswer,
 } from '../utility/settings/PlayWrongAnswerSettings';
 import { IntervalExerciseExplanationComponent } from './interval-exercise-explanation/interval-exercise-explanation.component';
+
+@Component({
+  selector: 'app-interval-exercise-alert',
+  template: `
+    Many studies have shown that <b>interval training is ineffective</b> in
+    developing aural skills in music. <br /><br />
+    If you're just starting out, it is recommended to start with the
+    <b>Scale Degrees exercise</b>. <br /><br />
+    Intervals are more suitable for advanced students, for navigating complex
+    tonal passages or atonal music.
+    <ion-button [fill]="'clear'" (click)="modal.dismiss()" expand="block"
+      >I Understand</ion-button
+    >
+  `,
+  standalone: true,
+  imports: [IonicModule],
+  styles: [
+    `
+      :host {
+        display: block;
+        padding: 16px;
+      }
+    `,
+  ],
+})
+export class IntervalExerciseAlertComponent {
+  readonly modal = inject(ModalController);
+}
 
 export type IntervalName =
   | 'Minor 2nd'
@@ -142,6 +172,7 @@ export const intervalExercise: Exercise<
   name: 'Intervals',
   summary: 'Identify intervals chromatically (no key)',
   explanation: IntervalExerciseExplanationComponent,
+  alert: IntervalExerciseAlertComponent,
   settingsConfig: {
     defaults: {
       ...includedAnswers.defaults,
