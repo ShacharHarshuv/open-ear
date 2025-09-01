@@ -224,4 +224,9 @@ export const releaseNotes: ReleaseNotes = [
     notes:
       'Support "Modal Analysis" options for Common Chords Progressions and Chords in Real Songs (latter is Android only). This replaces previous "Analyze By" settings',
   },
+  {
+    version: '1.12.1',
+    notes:
+      'Fix bug where chords played on click after answered were in the wrong key',
+  },
 ];
