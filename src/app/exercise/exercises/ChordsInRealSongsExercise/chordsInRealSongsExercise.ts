@@ -257,8 +257,8 @@ export const chordsInRealSongsExercise: Exercise<
         );
         return mapAnswerList(includedAnswers, (answerConfig) => {
           return {
-            playOnClick: null, // todo(#316): restore support by transposing based on the song
             ...answerConfig,
+            playOnClick: null, // todo(#316): restore support by transposing based on the song
           };
         });
       }),

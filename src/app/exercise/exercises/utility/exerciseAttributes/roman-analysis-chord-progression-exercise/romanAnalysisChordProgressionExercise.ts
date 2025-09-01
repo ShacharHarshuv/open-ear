@@ -80,7 +80,7 @@ export function useRomanAnalysisChordProgressionExercise() {
 
       return tonalExercise.getQuestion(settings, questionInC, cadenceInC);
     },
-    fullAnswerList: allRomanNumeralAnswerList,
+    fullAnswerList: tonalExercise.answerList(allRomanNumeralAnswerList),
     settingsConfig,
   };
 }

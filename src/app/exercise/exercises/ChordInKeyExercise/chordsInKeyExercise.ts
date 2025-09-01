@@ -12,7 +12,6 @@ import { composeSequenceWithGrammar } from '../../utility/grammer';
 import { Chord, TriadPosition } from '../../utility/music/chords';
 import { romanNumeralToChordInC } from '../../utility/music/harmony/romanNumeralToChordInC';
 import { transpose } from '../../utility/music/transpose';
-import { allRomanNumeralAnswerList } from '../utility/exerciseAttributes/roman-analysis-chord-progression-exercise/roman-numeral-answer-list';
 import {
   RomanAnalysisChordProgressionExerciseSettings,
   useRomanAnalysisChordProgressionExercise,
@@ -50,7 +49,7 @@ const romanAnalysis = useRomanAnalysisChordProgressionExercise();
 
 const includedAnswers = useIncludedAnswers({
   name: 'Roman Numerals',
-  fullAnswerList: allRomanNumeralAnswerList,
+  fullAnswerList: romanAnalysis.fullAnswerList,
 });
 
 export const chordInKeyExercise: Exercise<
