@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
-import { AnswerList, Exercise } from '../../exercise-logic';
+import { AnswerList, Exercise, NotesQuestion, SettingsControlDescriptor } from '../../exercise-logic';
 import { randomFromList } from '../../utility';
 import { NotesRange } from '../../utility/music/NotesRange';
 import {
@@ -77,43 +77,43 @@ export const noteWithChordDescriptorMap = ((): Partial<
       solfegeNote: 'Do',
     },
     Do2: {
-      chord: viidim,
+      chord: ii,
       solfegeNote: 'Do',
     },
     Do3: {
-      chord: vi,
-      solfegeNote: 'Do',
-    },
-    Do4: {
-      chord: V,
-      solfegeNote: 'Do',
-    },
-    Do5: {
-      chord: IV,
-      solfegeNote: 'Do',
-    },
-    Do6: {
       chord: iii,
       solfegeNote: 'Do',
     },
+    Do4: {
+      chord: IV,
+      solfegeNote: 'Do',
+    },
+    Do5: {
+      chord: V,
+      solfegeNote: 'Do',
+    },
+    Do6: {
+      chord: vi,
+      solfegeNote: 'Do',
+    },
     Do7: {
-      chord: ii,
+      chord: viidim,
       solfegeNote: 'Do',
     },
     Re1: {
-      chord: ii,
-      solfegeNote: 'Re',
-    },
-    Re2: {
       chord: I,
       solfegeNote: 'Re',
     },
+    Re2: {
+      chord: ii,
+      solfegeNote: 'Re',
+    },
     Re3: {
-      chord: viidim,
+      chord: iii,
       solfegeNote: 'Re',
     },
     Re4: {
-      chord: vi,
+      chord: IV,
       solfegeNote: 'Re',
     },
     Re5: {
@@ -121,15 +121,15 @@ export const noteWithChordDescriptorMap = ((): Partial<
       solfegeNote: 'Re',
     },
     Re6: {
-      chord: IV,
+      chord: vi,
       solfegeNote: 'Re',
     },
     Re7: {
-      chord: iii,
+      chord: viidim,
       solfegeNote: 'Re',
     },
     Mi1: {
-      chord: iii,
+      chord: I,
       solfegeNote: 'Mi',
     },
     Mi2: {
@@ -137,43 +137,43 @@ export const noteWithChordDescriptorMap = ((): Partial<
       solfegeNote: 'Mi',
     },
     Mi3: {
-      chord: I,
+      chord: iii,
       solfegeNote: 'Mi',
-    },
+    }, 
     Mi4: {
-      chord: viidim,
+      chord: IV,
       solfegeNote: 'Mi',
     },
     Mi5: {
-      chord: vi,
-      solfegeNote: 'Mi',
-    },
-    Mi6: {
       chord: V,
       solfegeNote: 'Mi',
     },
+    Mi6: {
+      chord: vi,
+      solfegeNote: 'Mi',
+    },
     Mi7: {
-      chord: IV,
+      chord: viidim,
       solfegeNote: 'Mi',
     },
     Fa1: {
-      chord: IV,
-      solfegeNote: 'Fa',
-    },
-    Fa2: {
-      chord: iii,
-      solfegeNote: 'Fa',
-    },
-    Fa3: {
-      chord: ii,
-      solfegeNote: 'Fa',
-    },
-    Fa4: {
       chord: I,
       solfegeNote: 'Fa',
     },
+    Fa2: {
+      chord: ii,
+      solfegeNote: 'Fa',
+    },
+    Fa3: {
+      chord: iii,
+      solfegeNote: 'Fa',
+    },
+    Fa4: {
+      chord: IV,
+      solfegeNote: 'Fa',
+    },
     Fa5: {
-      chord: viidim,
+      chord: V,
       solfegeNote: 'Fa',
     },
     Fa6: {
@@ -181,15 +181,15 @@ export const noteWithChordDescriptorMap = ((): Partial<
       solfegeNote: 'Fa',
     },
     Fa7: {
-      chord: V,
+      chord: viidim,
       solfegeNote: 'Fa',
     },
     Sol1: {
-      chord: V,
+      chord: I,
       solfegeNote: 'Sol',
     },
     Sol2: {
-      chord: IV,
+      chord: ii,
       solfegeNote: 'Sol',
     },
     Sol3: {
@@ -197,59 +197,59 @@ export const noteWithChordDescriptorMap = ((): Partial<
       solfegeNote: 'Sol',
     },
     Sol4: {
-      chord: ii,
+      chord: IV,
       solfegeNote: 'Sol',
     },
     Sol5: {
-      chord: I,
+      chord: V,
       solfegeNote: 'Sol',
     },
     Sol6: {
-      chord: viidim,
+      chord: vi,
       solfegeNote: 'Sol',
     },
     Sol7: {
-      chord: vi,
+      chord: viidim,
       solfegeNote: 'Sol',
     },
     La1: {
-      chord: vi,
-      solfegeNote: 'La',
-    },
-    La2: {
-      chord: V,
-      solfegeNote: 'La',
-    },
-    La3: {
-      chord: IV,
-      solfegeNote: 'La',
-    },
-    La4: {
-      chord: iii,
-      solfegeNote: 'La',
-    },
-    La5: {
-      chord: ii,
-      solfegeNote: 'La',
-    },
-    La6: {
       chord: I,
       solfegeNote: 'La',
     },
-    La7: {
+    La2: {
+      chord: ii,
+      solfegeNote: 'La',
+    },
+    La3: {
+      chord: iii,
+      solfegeNote: 'La',
+    },
+    La4: {
+      chord: IV,
+      solfegeNote: 'La',
+    },
+    La5: {
+      chord: V,
+      solfegeNote: 'La',
+    },
+    La6: {
+      chord: vi,
+      solfegeNote: 'La',
+    },
+    La7:{
       chord: viidim,
       solfegeNote: 'La',
     },
     Ti1: {
-      chord: viidim,
+      chord: I,
       solfegeNote: 'Ti',
     },
     Ti2: {
-      chord: vi,
+      chord: ii,
       solfegeNote: 'Ti',
     },
     Ti3: {
-      chord: V,
+      chord: iii,
       solfegeNote: 'Ti',
     },
     Ti4: {
@@ -257,22 +257,95 @@ export const noteWithChordDescriptorMap = ((): Partial<
       solfegeNote: 'Ti',
     },
     Ti5: {
-      chord: iii,
+      chord: V,
       solfegeNote: 'Ti',
     },
     Ti6: {
-      chord: ii,
+      chord: vi,
       solfegeNote: 'Ti',
     },
     Ti7: {
-      chord: I,
+      chord: viidim,
       solfegeNote: 'Ti',
     },
   };
 })();
 
+// Custom settings for chord changes and notes per chord
+type ChordAndNotesSettings = {
+  numberOfChordChanges: number;
+  numberOfNotesPerChord: number;
+  chordVolume: number;
+  melodyVolume: number;
+};
+
+const useChordAndNotesSettings = () => {
+  const defaultSettings: ChordAndNotesSettings = {
+    numberOfChordChanges: 1,
+    numberOfNotesPerChord: 1,
+    chordVolume: 0.3,
+    melodyVolume: 1.0,
+  };
+
+  const chordChangesDescriptor: SettingsControlDescriptor<ChordAndNotesSettings> = {
+    key: 'numberOfChordChanges',
+    info: 'How many different chords to practice in one session (max 4 for 4/4 feel)',
+    descriptor: {
+      controlType: 'slider',
+      label: 'Number of Chord Changes',
+      min: 1,
+      max: 4,
+      step: 1,
+    },
+  };
+
+  const notesPerChordDescriptor: SettingsControlDescriptor<ChordAndNotesSettings> = {
+    key: 'numberOfNotesPerChord',
+    info: 'How many notes to practice over each chord (max 4 for 4/4 feel)',
+    descriptor: {
+      controlType: 'slider',
+      label: 'Notes per Chord',
+      min: 1,
+      max: 4,
+      step: 1,
+    },
+  };
+
+  const chordVolumeDescriptor: SettingsControlDescriptor<ChordAndNotesSettings> = {
+    key: 'chordVolume',
+    info: 'Volume of the chord accompaniment (0.1 = very quiet, 1.0 = full volume)',
+    descriptor: {
+      controlType: 'slider',
+      label: 'Chord Volume',
+      min: 0.1,
+      max: 1.0,
+      step: 0.1,
+    },
+  };
+
+  const melodyVolumeDescriptor: SettingsControlDescriptor<ChordAndNotesSettings> = {
+    key: 'melodyVolume',
+    info: 'Volume of the melody note to identify (0.1 = very quiet, 1.0 = full volume)',
+    descriptor: {
+      controlType: 'slider',
+      label: 'Melody Volume',
+      min: 0.1,
+      max: 1.0,
+      step: 0.1,
+    },
+  };
+
+  return {
+    settingsDescriptors: [chordChangesDescriptor, notesPerChordDescriptor, chordVolumeDescriptor, melodyVolumeDescriptor],
+    defaults: defaultSettings,
+  };
+};
+
+const chordAndNotesSettings = useChordAndNotesSettings();
+
 type NoteWithChordsSettings = TonalExerciseSettings &
-  IncludedAnswersSettings<NoteWithChord> & {
+  IncludedAnswersSettings<NoteWithChord> &
+  ChordAndNotesSettings & {
     voiceMode: 'soprano' | 'bass';
     harmonyMode: HarmonyMode;
   };
@@ -320,75 +393,207 @@ export const notesWithChordsExercise: Exercise<
     return {
       getQuestion() {
         function getQuestionInC(tonalExerciseUtils: TonalExerciseUtils) {
-          const randomAnswer: NoteWithChord = randomFromList(
-            settings.includedAnswers,
-          );
-          const descriptor = noteWithChordDescriptorMap[randomAnswer];
-
-          if (!descriptor) {
-            throw new Error(`Missing descriptor for ${randomAnswer}`);
-          }
-
-          const chord = romanNumeralToChordInC(
-            descriptor.chord[settings.harmonyMode],
-          )!;
-          const noteType = scaleDegreeToNoteType(
-            solfegeNoteToScaleDegree[descriptor.solfegeNote]!,
-            'C',
-          );
-
-          let chordVoicing = chord.getVoicing({
-            position: randomFromList([0, 1, 2]),
-            octave: 4,
-            withBass: false,
+          // Generate chord progression with multiple notes per chord
+          const segments: NotesQuestion<NoteWithChord>['segments'] = [];
+          
+          // First, extract available chord numbers from includedAnswers
+          const availableChordNumbers = new Set<number>();
+          settings.includedAnswers.forEach(answer => {
+            const match = answer.match(/(\d+)$/);
+            if (match) {
+              availableChordNumbers.add(parseInt(match[1]));
+            }
           });
-
-          const possibleNotesToSelect: Note[] = tonalExerciseUtils
-            .getRangeForKeyOfC(voiceModeToRange[settings.voiceMode])
-            .getAllNotes([noteType]);
-          let note: Note = randomFromList(possibleNotesToSelect);
-
-          if (settings.voiceMode === 'soprano') {
-            while (toNoteNumber(note) < toNoteNumber(_.last(chordVoicing)!)) {
-              chordVoicing = Chord.invertVoicing(chordVoicing, Direction.Down);
-            }
-          } else {
-            while (toNoteNumber(note) > toNoteNumber(_.first(chordVoicing)!)) {
-              chordVoicing = Chord.invertVoicing(chordVoicing, Direction.Up);
-            }
+          
+          console.log('🎵 Available chord numbers:', Array.from(availableChordNumbers));
+          console.log('🎵 Current Exercise Settings:');
+          console.log(`   🎼 Key: ${settings.key || 'Not set'}`);
+          console.log(`   🎼 Voice Mode: ${settings.voiceMode}`);
+          console.log(`   🎼 Harmony Mode: ${settings.harmonyMode}`);
+          console.log('   ──────────────────────────────');
+          
+          // Generate chord progression by selecting from available chord numbers
+          const selectedChordNumbers: number[] = [];
+          for (let chordIndex = 0; chordIndex < settings.numberOfChordChanges; chordIndex++) {
+            const randomChordNumber = randomFromList(Array.from(availableChordNumbers));
+            selectedChordNumbers.push(randomChordNumber);
+            console.log(`🎼 Chord ${chordIndex + 1}: Selected chord number ${randomChordNumber}`);
           }
-
-          if (settings.voiceMode === 'soprano') {
-            let bass = chord.getBass();
-            if (
-              toNoteNumber(_.last(bass)!) > toNoteNumber(_.first(chordVoicing)!)
-            ) {
-              bass = transpose(bass, -Interval.Octave);
+          
+          console.log('🎸 Final chord progression:', selectedChordNumbers);
+          
+          // Then, for each chord, generate multiple notes
+          for (let chordIndex = 0; chordIndex < settings.numberOfChordChanges; chordIndex++) {
+            const selectedChordNumber = selectedChordNumbers[chordIndex];
+            console.log(`🎵 Processing chord number ${selectedChordNumber}`);
+            
+            // Find all available answers for this chord number
+            const availableAnswersForThisChord = settings.includedAnswers.filter(answer => {
+              const match = answer.match(/(\d+)$/);
+              return match && parseInt(match[1]) === selectedChordNumber;
+            });
+            
+            console.log(`📋 Available answers for chord ${selectedChordNumber}:`, availableAnswersForThisChord);
+            
+            // Get the descriptor for this chord number (we'll use the first available answer)
+            const firstAnswerForChord = availableAnswersForThisChord[0];
+            if (!firstAnswerForChord) {
+              throw new Error(`No answers found for chord number ${selectedChordNumber}`);
             }
-
-            chordVoicing.unshift(...bass);
-          }
-
-          return {
-            segments: [
-              {
-                rightAnswer: randomAnswer,
+            
+            const descriptor = noteWithChordDescriptorMap[firstAnswerForChord];
+            if (!descriptor) {
+              throw new Error(`Missing descriptor for ${firstAnswerForChord}`);
+            }
+            
+            // Test logging: Show the transformation process
+            console.log(`🔍 Chord Translation Debug for "${firstAnswerForChord}":`);
+            console.log(`   📋 Descriptor:`, descriptor);
+            console.log(`   🎼 Roman Numeral: ${descriptor.chord[settings.harmonyMode]}`);
+            console.log(`   🎼 Harmony Mode: ${settings.harmonyMode}`);
+            
+            // Debug: Let's see what romanNumeralToChordInC actually returns
+            console.log(`   🔍 Calling romanNumeralToChordInC("${descriptor.chord[settings.harmonyMode]}")`);
+            
+            const chord = romanNumeralToChordInC(
+              descriptor.chord[settings.harmonyMode],
+            )!;
+            
+            console.log(`   🎼 Generated Chord:`, chord);
+            console.log(`   🎼 Chord Root: ${chord.root}`);
+            console.log(`   🎼 Chord Type: ${chord.type}`);
+            console.log(`   🎼 Chord Symbol: ${chord.symbol}`);
+            
+            // Debug: Let's also check what a basic chord voicing looks like before any manipulation
+            const basicVoicing = chord.getVoicing({
+              position: 0,
+              octave: 4,
+              withBass: false,
+            });
+            console.log(`   🎼 Basic Chord Voicing (position 0, octave 4):`, basicVoicing.map(n => n.toString()));
+            
+            console.log('   ──────────────────────────────');
+            
+            for (let noteIndex = 0; noteIndex < settings.numberOfNotesPerChord; noteIndex++) {
+              // For variety, use different scale degrees over the same chord
+              // But only use scale degrees that the user has selected to practice for THIS chord
+              const availableScaleDegrees = availableAnswersForThisChord.map(answer => {
+                // Extract the scale degree (first part before the number)
+                const match = answer.match(/^([A-Za-z]+)/);
+                return match ? match[1] : 'Do';
+              }).filter(scaleDegree => 
+                ['Do', 'Re', 'Mi', 'Fa', 'Sol', 'La', 'Ti'].includes(scaleDegree)
+              ) as SolfegeNote[];
+              
+              if (availableScaleDegrees.length === 0) {
+                // Fallback if no valid scale degrees found
+                availableScaleDegrees.push('Do');
+              }
+              
+              console.log(`🎵 Available scale degrees for chord ${selectedChordNumber}:`, availableScaleDegrees);
+              const randomScaleDegree = randomFromList(availableScaleDegrees);
+              console.log(`🎼 Note ${noteIndex + 1} over chord ${selectedChordNumber}: Selected scale degree "${randomScaleDegree}"`);
+              
+              // Test logging: Show scale degree transformation
+              console.log(`🔍 Scale Degree Translation for "${randomScaleDegree}":`);
+              console.log(`   🎵 Solfege: ${randomScaleDegree}`);
+              console.log(`   🎵 Scale Degree: ${solfegeNoteToScaleDegree[randomScaleDegree]}`);
+              console.log(`   🎵 Note Type (in C): ${scaleDegreeToNoteType(
+                solfegeNoteToScaleDegree[randomScaleDegree]!,
+                'C',
+              )}`);
+              console.log(`   🎵 Note Type (in B): ${scaleDegreeToNoteType(
+                solfegeNoteToScaleDegree[randomScaleDegree]!,
+                'B',
+              )}`);
+              console.log('   ──────────────────────────────');
+              
+              const noteType = scaleDegreeToNoteType(
+                solfegeNoteToScaleDegree[randomScaleDegree]!,
+                'C',
+              );
+              
+              let chordVoicing = chord.getVoicing({
+                position: randomFromList([0, 1, 2]),
+                octave: 4,
+                withBass: false,
+              });
+              
+              const possibleNotesToSelect: Note[] = tonalExerciseUtils
+                .getRangeForKeyOfC(voiceModeToRange[settings.voiceMode])
+                .getAllNotes([noteType]);
+              let note: Note = randomFromList(possibleNotesToSelect);
+              
+              if (settings.voiceMode === 'soprano') {
+                while (toNoteNumber(note) < toNoteNumber(_.last(chordVoicing)!)) {
+                  chordVoicing = Chord.invertVoicing(chordVoicing, Direction.Down);
+                }
+              } else {
+                while (toNoteNumber(note) > toNoteNumber(_.first(chordVoicing)!)) {
+                  chordVoicing = Chord.invertVoicing(chordVoicing, Direction.Up);
+                }
+              }
+              
+              if (settings.voiceMode === 'soprano') {
+                let bass = chord.getBass();
+                if (
+                  toNoteNumber(_.last(bass)!) > toNoteNumber(_.first(chordVoicing)!)
+                ) {
+                  bass = transpose(bass, -Interval.Octave);
+                }
+                chordVoicing.unshift(...bass);
+              }
+              
+              // Create the answer based on the actual scale degree being played over the chord
+              const actualAnswer: NoteWithChord = `${randomScaleDegree}${selectedChordNumber}` as NoteWithChord;
+              console.log(`✅ Generated answer: "${actualAnswer}" (${randomScaleDegree} over chord ${selectedChordNumber})`);
+              
+              // Log the audio details for debugging
+              console.log(`🎵 Audio Generation for "${actualAnswer}":`);
+              console.log(`   🎼 Final Chord Notes:`, chordVoicing.map(n => n.toString()));
+              console.log(`   🎼 Chord Volume: ${settings.chordVolume}`);
+              console.log(`   🎵 Final Melody Note: ${note.toString()}`);
+              console.log(`   🎵 Melody Volume: ${settings.melodyVolume}`);
+              console.log(`   ⏱️ Duration: 2n (half note)`);
+              console.log(`   🎯 Answer: ${actualAnswer}`);
+              console.log(`   🎼 Roman Numeral: ${descriptor.chord[settings.harmonyMode]}`);
+              console.log(`   🎼 Chord Type: ${chord.type}`);
+              console.log(`   🎼 Chord Root: ${chord.root}`);
+              console.log('   ──────────────────────────────');
+              
+              segments.push({
+                rightAnswer: actualAnswer,
                 partToPlay: [
                   {
                     notes: chordVoicing,
-                    velocity: 0.3,
+                    velocity: settings.chordVolume,
                     time: 0,
                     duration: '2n',
                   },
                   {
                     notes: [note],
-                    velocity: 1,
+                    velocity: settings.melodyVolume,
                     time: 0,
                     duration: '2n',
                   },
                 ],
-              },
-            ],
+              });
+            }
+          }
+
+          // Log final summary of all segments
+          console.log('🎵 Final Exercise Summary:');
+          console.log(`   📊 Total Segments: ${segments.length}`);
+          console.log(`   🎼 Chord Changes: ${settings.numberOfChordChanges}`);
+          console.log(`   🎵 Notes per Chord: ${settings.numberOfNotesPerChord}`);
+          console.log(`   🔊 Chord Volume: ${settings.chordVolume}`);
+          console.log(`   🔊 Melody Volume: ${settings.melodyVolume}`);
+          console.log(`   🎼 Exercise Key: ${settings.key || 'Not set'}`);
+          console.log(`   🎼 Function Name: getQuestionInC (but may use actual key)`);
+          console.log('   ──────────────────────────────');
+          
+          return {
+            segments: segments,
           };
         }
 
@@ -407,6 +612,7 @@ export const notesWithChordsExercise: Exercise<
     controls: [
       ...tonalExercise.settingsDescriptors,
       includedAnswers.settingDescriptor,
+      ...chordAndNotesSettings.settingsDescriptors,
       {
         key: 'voiceMode',
         info:
@@ -451,9 +657,14 @@ export const notesWithChordsExercise: Exercise<
     defaults: {
       ...tonalExercise.defaults,
       ...includedAnswers.defaults,
+      ...chordAndNotesSettings.defaults,
       includedAnswers: ['Do1', 'Do3', 'Do5'],
       voiceMode: 'soprano',
       harmonyMode: 'triad',
+      numberOfChordChanges: 1,
+      numberOfNotesPerChord: 1,
+      chordVolume: 0.3,
+      melodyVolume: 1.0,
     },
   },
 };
