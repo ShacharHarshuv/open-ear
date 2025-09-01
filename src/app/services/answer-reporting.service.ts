@@ -8,6 +8,7 @@ import { ExerciseSettings } from '../exercise/exercise-logic';
 import { CurrentAnswer } from '../exercise/exercise.page/state/exercise-state.service';
 import { GlobalExerciseSettings } from '../exercise/utility';
 import { StorageService } from '../storage/storage.service';
+import { VersionService } from '../version.service';
 import { NetworkConnectivityService } from './network-connectivity.service';
 
 export interface Answer {
@@ -31,6 +32,10 @@ export class AnswerReportingService implements OnDestroy {
   private readonly _cachedAnswersKey = 'cachedAnswers';
   private _userId: string | null = null;
   private _networkSubscription: Subscription | null = null;
+  private readonly _version = inject(VersionService).version$;
+  private readonly _ipInfo = fetch('https://ipapi.co/json/')
+    .then((r) => r.json())
+    .catch(() => null);
 
   constructor() {
     this._setupNetworkConnectivityListener();
@@ -87,7 +92,6 @@ export class AnswerReportingService implements OnDestroy {
       (answer) => !answer.wasWrong,
     ).length;
     const numberOfSegments = currentAnswers.length;
-
     const timestamp = new Date();
 
     const data = {
@@ -102,6 +106,9 @@ export class AnswerReportingService implements OnDestroy {
       attempts: this._attempts.slice(),
       timestamp,
       userOS: this._getUserOS(),
+      version: await this._version,
+      languages: navigator.languages,
+      ipInfo: await this._ipInfo,
     };
 
     if (this._networkConnectivity.isOnline) {
