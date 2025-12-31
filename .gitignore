@@ -46,3 +46,6 @@ ios/App/Podfile.lock
 ios/App/build/
 .history
 android/.idea
+
+# Claude Code
+.claude/
