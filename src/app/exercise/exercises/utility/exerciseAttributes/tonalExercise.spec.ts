@@ -9,6 +9,7 @@ export const defaultTonalExerciseSettings: TonalExerciseSettings = {
   key: 'random',
   newKeyEvery: 0,
   drone: false,
+  droneOct: 2
 };
 
 export const expectedTonalExerciseSettingsDescriptors: string[] = [
@@ -57,6 +58,26 @@ describe(useTonalExercise.name, function () {
       );
 
       expect(question.drone).toBeDefined();
+      expect(question.drone).not.toBeNull();
+    });
+
+    it('should change the drone octave when drone octave setting is modified', () => {
+      const tonalExercise = useTonalExercise();
+      const questionInC = {
+        segments: [
+          {
+            partToPlay: 'C4' as Note,
+            rightAnswer: 'Answer 1',
+          },
+        ],
+      };
+
+      const question = tonalExercise.getQuestion(
+        { ...defaultTonalExerciseSettings, key: 'C', drone: 1, droneOct: 3 },
+        questionInC,
+      );
+
+      expect(question.drone).toBe("C3");
       expect(question.drone).not.toBeNull();
     });
 
