@@ -73,7 +73,53 @@ export const droneSettingsDescriptor: SettingsControlDescriptor<DroneSettings> =
     },
   };
 
-export type TonalExerciseSettings = KeySelectionSettings & DroneSettings;
+
+export type DroneOctSettings = {
+  droneOct: 1 | 2 | 3 | 4 | 5 | 6 | 7;
+};
+
+export const droneOctNumSettingDescriptor: SettingsControlDescriptor<DroneOctSettings> =
+  {
+    key: 'droneOct',
+    info: 'Set the Octave number for Drone. (Eg: Drone for Key D, D1, D2, D3 ...)',
+    descriptor: {
+      controlType: 'select',
+      label: 'Drone Octave Number',
+      options: [
+
+        {
+          value: 1,
+          label: '1st Oct (Eg. C1)',
+        },
+        {
+          value: 2,
+          label: '2nd Oct (Eg. C2)',
+        },
+        {
+          value: 3,
+          label: '3rd Oct (Eg. C3)',
+        },
+        {
+          value: 4,
+          label: '4th Oct (Eg. C3)',
+        },
+        {
+          value: 5,
+          label: '5th Oct (Eg. C3)',
+        },
+        {
+          value: 6,
+          label: '6th Oct (Eg. C3)',
+        },
+        {
+          value: 7,
+          label: '7th Oct (Eg. C3)',
+        },
+      ],
+    },
+  };
+
+export type TonalExerciseSettings = KeySelectionSettings & DroneSettings & DroneOctSettings;
 
 export type TonalExerciseUtils = {
   getRangeForKeyOfC(rangeForPlaying: NotesRange): NotesRange;
@@ -101,12 +147,14 @@ export type TonalExerciseConfig = {
   // the downside is that order is not guaranteed to be consistent between exercises, but maybe the flexibility & simplicity is worth it
   keySelection?: boolean;
   droneSelection?: boolean;
+  DroneOctSettings?: number;
 };
 
 export function useTonalExercise(config?: TonalExerciseConfig) {
   const fullConfig: Required<TonalExerciseConfig> = _.defaults(config, {
     keySelection: true,
     droneSelection: true,
+    DroneOctSettings: 2
   });
   let questionCount = 0;
   let key: Key;
@@ -170,12 +218,14 @@ export function useTonalExercise(config?: TonalExerciseConfig) {
     key: 'random',
     newKeyEvery: 10,
     drone: false,
+    droneOct: 2
   };
 
   const settingsDescriptors: SettingsControlDescriptor<TonalExerciseSettings>[] =
     [
       ...(fullConfig.keySelection ? keySelectionSettingsDescriptors : []),
       ...(fullConfig.droneSelection ? [droneSettingsDescriptor] : []),
+      ...(fullConfig.DroneOctSettings ? [droneOctNumSettingDescriptor] : []),
     ];
 
   return {
@@ -205,7 +255,7 @@ export function useTonalExercise(config?: TonalExerciseConfig) {
         key, // necessary to enforce cadence playback in case of key change
         drone: settings.drone
           ? transpose(
-              noteTypeToNote(key, settings.drone > 4 ? 1 : 2),
+              noteTypeToNote(key, settings.drone > 4 ? settings.droneOct - 1 : settings.droneOct),
               scaleDegreeToChromaticDegree[settings.drone.toString()] - 1,
             )
           : null,
