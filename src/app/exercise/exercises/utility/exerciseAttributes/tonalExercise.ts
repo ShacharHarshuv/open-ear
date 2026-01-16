@@ -147,14 +147,14 @@ export type TonalExerciseConfig = {
   // the downside is that order is not guaranteed to be consistent between exercises, but maybe the flexibility & simplicity is worth it
   keySelection?: boolean;
   droneSelection?: boolean;
-  droneOctaveSettings?: number;
+  droneOctaveSelection?: boolean;
 };
 
 export function useTonalExercise(config?: TonalExerciseConfig) {
   const fullConfig: Required<TonalExerciseConfig> = _.defaults(config, {
     keySelection: true,
     droneSelection: true,
-    droneOctaveSettings: 2
+    droneOctaveSelection: true
   });
   let questionCount = 0;
   let key: Key;
@@ -225,7 +225,7 @@ export function useTonalExercise(config?: TonalExerciseConfig) {
     [
       ...(fullConfig.keySelection ? keySelectionSettingsDescriptors : []),
       ...(fullConfig.droneSelection ? [droneSettingsDescriptor] : []),
-      ...(fullConfig.droneOctaveSettings ? [droneOctaveNumSettingDescriptor] : []),
+      ...(fullConfig.droneOctaveSelection ? [droneOctaveNumSettingDescriptor] : []),
     ];
 
   return {
