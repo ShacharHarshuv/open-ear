@@ -81,39 +81,39 @@ export type DroneOctSettings = {
 export const droneOctNumSettingDescriptor: SettingsControlDescriptor<DroneOctSettings> =
   {
     key: 'droneOct',
-    info: 'Set the Octave number for Drone. (Eg: Drone for Key D, D1, D2, D3 ...)',
+    info: 'Set Drone\'s octave. Recommand for people who want hear the tonic at higher register. Eg: Drone for Key D, D1, D2, D3 ...',
     descriptor: {
       controlType: 'select',
-      label: 'Drone Octave Number',
+      label: 'Drone Octave',
       options: [
 
         {
           value: 1,
-          label: '1st Oct (Eg. C1)',
+          label: '1st (Eg. C1)',
         },
         {
           value: 2,
-          label: '2nd Oct (Eg. C2)',
+          label: '2nd (Eg. C2)',
         },
         {
           value: 3,
-          label: '3rd Oct (Eg. C3)',
+          label: '3rd (Eg. C3)',
         },
         {
           value: 4,
-          label: '4th Oct (Eg. C3)',
+          label: '4th (Eg. C4)',
         },
         {
           value: 5,
-          label: '5th Oct (Eg. C3)',
+          label: '5th (Eg. C5)',
         },
         {
           value: 6,
-          label: '6th Oct (Eg. C3)',
+          label: '6th (Eg. C6)',
         },
         {
           value: 7,
-          label: '7th Oct (Eg. C3)',
+          label: '7th (Eg. C7)',
         },
       ],
     },
