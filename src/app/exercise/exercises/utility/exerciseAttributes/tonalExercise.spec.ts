@@ -9,7 +9,7 @@ export const defaultTonalExerciseSettings: TonalExerciseSettings = {
   key: 'random',
   newKeyEvery: 0,
   drone: false,
-  droneOct: 2
+  droneOctave: 2
 };
 
 export const expectedTonalExerciseSettingsDescriptors: string[] = [
@@ -73,7 +73,7 @@ describe(useTonalExercise.name, function () {
       };
 
       const question = tonalExercise.getQuestion(
-        { ...defaultTonalExerciseSettings, key: 'C', drone: 1, droneOct: 3 },
+        { ...defaultTonalExerciseSettings, key: 'C', drone: 1, droneOctave: 3 },
         questionInC,
       );
 
