@@ -78,7 +78,7 @@ export type DroneOctaveSettings = {
   droneOctave: 1 | 2 | 3 | 4 | 5 | 6 | 7;
 };
 
-export const droneOctaveNumSettingDescriptor: SettingsControlDescriptor<DroneOctaveSettings> =
+export const droneOctaveSettingDescriptor: SettingsControlDescriptor<DroneOctaveSettings> =
   {
     key: 'droneOctave',
     info: 'Set Drone\'s octave. Useful if you want to hear the tonic drone at a higher register',
@@ -225,7 +225,7 @@ export function useTonalExercise(config?: TonalExerciseConfig) {
     [
       ...(fullConfig.keySelection ? keySelectionSettingsDescriptors : []),
       ...(fullConfig.droneSelection ? [droneSettingsDescriptor] : []),
-      ...(fullConfig.droneOctaveSelection ? [droneOctaveNumSettingDescriptor] : []),
+      ...(fullConfig.droneOctaveSelection ? [droneOctaveSettingDescriptor] : []),
     ];
 
   return {
