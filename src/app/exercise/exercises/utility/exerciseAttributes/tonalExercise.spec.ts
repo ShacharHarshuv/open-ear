@@ -63,10 +63,10 @@ describe(useTonalExercise.name, function () {
 
     it('should change the drone octave when drone octave setting is modified', () => {
       const tonalExercise = useTonalExercise();
-      const questionInC = {
+      const questionInC: NotesQuestion = {
         segments: [
           {
-            partToPlay: 'C4' as Note,
+            partToPlay: "C4",
             rightAnswer: 'Answer 1',
           },
         ],
@@ -78,7 +78,6 @@ describe(useTonalExercise.name, function () {
       );
 
       expect(question.drone).toBe("C3");
-      expect(question.drone).not.toBeNull();
     });
 
     it('should not include drone when drone setting is false', () => {

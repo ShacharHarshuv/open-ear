@@ -81,7 +81,7 @@ export type DroneOctaveSettings = {
 export const droneOctaveNumSettingDescriptor: SettingsControlDescriptor<DroneOctaveSettings> =
   {
     key: 'droneOctave',
-    info: 'Set Drone\'s octave. Recommand for people who want to hear the tonic at higher register. Eg: Drones for Key D are D1, D2, D3 ...',
+    info: 'Set Drone\'s octave. Useful if you want to hear the tonic drone at a higher register',
     descriptor: {
       controlType: 'select',
       label: 'Drone Octave',
@@ -89,31 +89,31 @@ export const droneOctaveNumSettingDescriptor: SettingsControlDescriptor<DroneOct
 
         {
           value: 1,
-          label: '1st (Eg. C1)',
+          label: '1st',
         },
         {
           value: 2,
-          label: '2nd (Eg. C2)',
+          label: '2nd',
         },
         {
           value: 3,
-          label: '3rd (Eg. C3)',
+          label: '3rd',
         },
         {
           value: 4,
-          label: '4th (Eg. C4)',
+          label: '4th',
         },
         {
           value: 5,
-          label: '5th (Eg. C5)',
+          label: '5th',
         },
         {
           value: 6,
-          label: '6th (Eg. C6)',
+          label: '6th',
         },
         {
           value: 7,
-          label: '7th (Eg. C7)',
+          label: '7th',
         },
       ],
     },
@@ -147,14 +147,14 @@ export type TonalExerciseConfig = {
   // the downside is that order is not guaranteed to be consistent between exercises, but maybe the flexibility & simplicity is worth it
   keySelection?: boolean;
   droneSelection?: boolean;
-  DroneOctaveSettings?: number;
+  droneOctaveSettings?: number;
 };
 
 export function useTonalExercise(config?: TonalExerciseConfig) {
   const fullConfig: Required<TonalExerciseConfig> = _.defaults(config, {
     keySelection: true,
     droneSelection: true,
-    DroneOctaveSettings: 2
+    droneOctaveSettings: 2
   });
   let questionCount = 0;
   let key: Key;
@@ -225,7 +225,7 @@ export function useTonalExercise(config?: TonalExerciseConfig) {
     [
       ...(fullConfig.keySelection ? keySelectionSettingsDescriptors : []),
       ...(fullConfig.droneSelection ? [droneSettingsDescriptor] : []),
-      ...(fullConfig.DroneOctaveSettings ? [droneOctaveNumSettingDescriptor] : []),
+      ...(fullConfig.droneOctaveSettings ? [droneOctaveNumSettingDescriptor] : []),
     ];
 
   return {
