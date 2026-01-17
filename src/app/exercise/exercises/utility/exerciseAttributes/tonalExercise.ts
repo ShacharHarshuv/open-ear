@@ -81,6 +81,7 @@ export type DroneOctaveSettings = {
 export const droneOctaveSettingDescriptor: SettingsControlDescriptor<DroneOctaveSettings> =
   {
     key: 'droneOctave',
+    show: (settings: DroneSettings) => !!settings.drone,
     info: 'Set Drone\'s octave. Useful if you want to hear the tonic drone at a higher register',
     descriptor: {
       controlType: 'select',
