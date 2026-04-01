@@ -95,6 +95,9 @@ importers:
       heap-js:
         specifier: ^2.1.6
         version: 2.5.0
+      ionicons:
+        specifier: ^7.4.0
+        version: 7.4.0
       js-priority-queue:
         specifier: ^0.1.5
         version: 0.1.5

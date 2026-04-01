@@ -53,6 +53,7 @@
     "expect-type": "^0.12.0",
     "firebase": "^11.10.0",
     "heap-js": "^2.1.6",
+    "ionicons": "^7.4.0",
     "js-priority-queue": "^0.1.5",
     "lodash": "^4.17.21",
     "lodash-decorators": "^6.0.1",
