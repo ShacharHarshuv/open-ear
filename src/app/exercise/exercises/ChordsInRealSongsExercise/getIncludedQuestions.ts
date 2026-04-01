@@ -4,6 +4,15 @@ import { RomanNumeralChord } from '../../utility/music/harmony/RomanNumeralChord
 import { ChordsInRealSongsSettings } from './chordsInRealSongsExercise';
 import { YouTubeSongQuestion, songChordQuestions } from './songQuestions';
 
+export function noMatchingChordProgressionsError(
+  includedChords: readonly string[],
+) {
+  return new Error(
+    `No chord progression matching selected chords! (${includedChords.join(', ')}). Please select more chords. (I IV V vi will work)\n` +
+      `If you're using it for debugging with the "solo" option, this fails because settings are not loaded immediately. Trying soloing another song with simple chords to go around the error`,
+  );
+}
+
 export function getIncludedSegments(
   settings: Pick<
     ChordsInRealSongsSettings,
@@ -41,12 +50,10 @@ export function getIncludedSegments(
     .filter(({ chords }) => isAllChordsIncluded(chords));
 
   if (_.isEmpty(validChordProgressionsDescriptorList)) {
-    // Note, when soloing songs that are not included in the difficult (I IV V vi) settings, this exception will fire and prevent testing of the progression
-    // In that case, just comment out the exception for testing purposes
-    throw new Error(
-      `No chord progression matching selected chords! (${settings.includedChords.join(', ')}). Please select more chords. (I IV V vi will work)\n` +
-        `If you're using it for debugging with the "solo" option, this fails because settings are not loaded immediately. Trying soloing another song with simple chords to go around the error`,
-    );
+    // Empty list: do not throw here — exercise.logic() must complete so signal computeds
+    // (e.g. answerList) do not re-throw on every change detection. The same error is thrown
+    // from getQuestion when the user actually needs a progression (see chordsInRealSongsExercise).
+    return [];
   }
 
   return validChordProgressionsDescriptorList;

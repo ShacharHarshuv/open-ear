@@ -33,7 +33,10 @@ import {
   ModalAnalysisSettings,
   modalAnalysis,
 } from '../utility/settings/modal-analysis';
-import { getIncludedSegments } from './getIncludedQuestions';
+import {
+  getIncludedSegments,
+  noMatchingChordProgressionsError,
+} from './getIncludedQuestions';
 import { indexQuestionsByProgression } from './indexQuestionsByProgression';
 import { YouTubeSongQuestion, getId } from './songQuestions';
 
@@ -136,6 +139,9 @@ export const chordsInRealSongsExercise: Exercise<
     const progressionKeys = Array.from(uniqueProgressions.keys());
     const fsrsLogic = fsrsExercise(id + ':progression-mode', {
       getQuestion: (questionsToExclude?: string[]) => {
+        if (progressionKeys.length === 0) {
+          throw noMatchingChordProgressionsError(settings.includedChords);
+        }
         const questionsToExcludeSet = new Set(questionsToExclude);
         const progressionKeyIndex = progressionKeys.findIndex(
           (progKey) => !questionsToExcludeSet.has(progKey),
@@ -185,6 +191,9 @@ export const chordsInRealSongsExercise: Exercise<
       getQuestion(
         questionsToExclude?: string[],
       ): Question<RomanNumeralChordSymbol> {
+        if (availableSegments.length === 0) {
+          throw noMatchingChordProgressionsError(settings.includedChords);
+        }
         const questionsToExcludeSet = new Set(questionsToExclude);
 
         const availableQuestions = getIncludedSegments(settings).filter(

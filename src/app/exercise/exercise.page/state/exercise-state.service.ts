@@ -387,41 +387,45 @@ export class ExerciseStateService<
     }
   }
 
-  nextQuestion(): Promise<void> {
-    // if still unanswered questions
+  async nextQuestion() {
     if (!!this._currentQuestion && !this._areAllSegmentsAnswered) {
       try {
         this.exerciseLogic().handleFinishedAnswering?.(0); // skip means we don't want to see it again (probably)
       } catch (e) {}
     }
+
+    // Cleaning states that is independent of question before getQuestion, as getQuestion can fail
+    this._error.set(null);
+    this._mistakesCounter.set(0);
+    this._currentAnswers.set([]);
+    this._currentSegmentToAnswer = 0;
     try {
       const newQuestion = this.exerciseLogic().getQuestion();
+      // Everything after getQuesiton should not happen if getQuestion fails, so we keep it inside the try
       this._wasKeyChanged = newQuestion.key !== this._currentQuestion.key;
       this._currentQuestion = newQuestion;
+      this._currentAnswers.set(
+        this._currentQuestion.segments.map(
+          (segment): CurrentAnswer => ({
+            wasWrong: false,
+            answer: null,
+            playAfter: segment.playAfter,
+          }),
+        ),
+      );
+
+      if (
+        !this._wasKeyChanged &&
+        this.globalSettings().playCadence === 'ONLY_ON_REPEAT' &&
+        !!this._cadenceWasPlayed
+      ) {
+        await this.playCurrentQuestion();
+      } else {
+        await this.playCurrentCadenceAndQuestion();
+      }
     } catch (e) {
       this._error.set(e);
       console.error(e);
-    }
-    this._mistakesCounter.set(0);
-    this._currentAnswers.set(
-      this._currentQuestion.segments.map(
-        (segment): CurrentAnswer => ({
-          wasWrong: false,
-          answer: null,
-          playAfter: segment.playAfter,
-        }),
-      ),
-    );
-    this._currentSegmentToAnswer = 0;
-
-    if (
-      !this._wasKeyChanged &&
-      this.globalSettings().playCadence === 'ONLY_ON_REPEAT' &&
-      !!this._cadenceWasPlayed
-    ) {
-      return this.playCurrentQuestion();
-    } else {
-      return this.playCurrentCadenceAndQuestion();
     }
   }
 
