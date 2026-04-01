@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { Platforms } from '@ionic/core/dist/types/utils/platform';
+import type { Platforms } from '@ionic/core/components';
 import * as _ from 'lodash';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { NoteEvent } from '../../services/player.service';
