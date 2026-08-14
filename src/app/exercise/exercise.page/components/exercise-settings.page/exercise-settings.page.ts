@@ -2,12 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { samples } from 'generated/samples';
 import * as _ from 'lodash';
 import { capitalize } from 'lodash';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
-import { InstrumentName } from '../../../../services/player.service';
+import { instrumentNames } from '../../../../services/player.service';
 import { collapseVertical } from '../../../../shared/animations';
 import { ModalFrameComponent } from '../../../../shared/modal/modal-frame/modal-frame.component';
 import { PureFunctionPipe } from '../../../../shared/ng-utilities/pure-function-pipe/pure-function.pipe';
@@ -16,7 +15,6 @@ import {
   FormGroup,
   TAbstractControlsOf,
 } from '../../../../shared/reactive-forms';
-import { keys } from '../../../../shared/ts-utility/keys';
 import Exercise, {
   ControlDescriptor,
   ExerciseSettings,
@@ -28,6 +26,7 @@ import Exercise, {
 import {
   ExerciseSettingsData,
   GlobalExerciseSettings,
+  InstrumentSetting,
   toGetter,
 } from '../../../utility';
 import { FieldInfoComponent } from './components/field-info/field-info.component';
@@ -51,7 +50,7 @@ interface ExerciseSettingsControls {
   answerQuestionAutomatically: boolean;
   adaptive: boolean;
   revealAnswerAfterFirstMistake: boolean;
-  instrument: InstrumentName;
+  instrument: InstrumentSetting;
 }
 
 @Component({
@@ -81,7 +80,7 @@ export class ExerciseSettingsPage {
     bpm: new FormControl<number>(120),
     moveToNextQuestionAutomatically: new FormControl<boolean>(false),
     answerQuestionAutomatically: new FormControl<boolean>(false),
-    instrument: new FormControl<InstrumentName>(),
+    instrument: new FormControl<InstrumentSetting>(),
   });
 
   exerciseSettingsDescriptor: Exercise.SettingsControlDescriptor[] = [];
@@ -206,15 +205,20 @@ export class ExerciseSettingsPage {
       : controlDescriptor.show(this.exerciseFormGroup.value);
   }
 
-  private _getInstrumentOptions() {
-    const allInstruments = keys(samples);
-    return allInstruments.map(
-      (instrumentName) =>
-        ({
-          value: instrumentName,
-          label: capitalize(instrumentName.split('-').join(' ')),
-        }) as const,
-    );
+  private _getInstrumentOptions(): {
+    value: InstrumentSetting;
+    label: string;
+  }[] {
+    return [
+      {
+        value: 'random',
+        label: 'Random',
+      },
+      ...instrumentNames.map((instrumentName) => ({
+        value: instrumentName,
+        label: capitalize(instrumentName.split('-').join(' ')),
+      })),
+    ];
   }
 
   asListSelectControlDescriptor(
