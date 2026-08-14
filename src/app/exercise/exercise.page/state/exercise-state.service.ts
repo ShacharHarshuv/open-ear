@@ -14,7 +14,12 @@ import { filter, map } from 'rxjs/operators';
 import { AnswerReportingService } from '../../../services/answer-reporting.service';
 import { DronePlayerService } from '../../../services/drone-player.service';
 import { ExerciseSettingsDataService } from '../../../services/exercise-settings-data.service';
-import { PartToPlay, PlayerService } from '../../../services/player.service';
+import {
+  InstrumentName,
+  PartToPlay,
+  PlayerService,
+  instrumentNames,
+} from '../../../services/player.service';
 import { YouTubePlayerService } from '../../../services/you-tube-player.service';
 import { listenToChanges } from '../../../shared/ts-utility/rxjs/listen-to-changes';
 import Exercise, {
@@ -28,6 +33,7 @@ import {
   ExerciseSettingsData,
   GlobalExerciseSettings,
   isValueTruthy,
+  randomFromList,
   timeoutAsPromise,
   toGetter,
   toSteadyPart,
@@ -37,6 +43,8 @@ import AnswerList = Exercise.AnswerList;
 import Answer = Exercise.Answer;
 import getAnswerListIterator = Exercise.getAnswerListIterator;
 
+const DEFAULT_INSTRUMENT: InstrumentName = 'piano';
+
 const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   playCadence: true,
   adaptive: false,
@@ -44,7 +52,7 @@ const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   bpm: 120,
   moveToNextQuestionAutomatically: false,
   answerQuestionAutomatically: false,
-  instrument: 'piano',
+  instrument: DEFAULT_INSTRUMENT,
 };
 
 export interface CurrentAnswer {
@@ -78,6 +86,9 @@ export class ExerciseStateService<
     this.exercise.settingsConfig.defaults,
   );
   readonly exerciseSettings = this._exerciseSettings.asReadonly();
+
+  private readonly _currentInstrument =
+    signal<InstrumentName>(DEFAULT_INSTRUMENT);
 
   private _currentQuestion: Question<GAnswer> = {
     segments: [],
@@ -252,10 +263,7 @@ export class ExerciseStateService<
         const partToPlay = toSteadyPart(
           toGetter(currentSegment.playOnWrong)(answer),
         );
-        this._notesPlayer.playPart(
-          partToPlay,
-          this._globalSettings().instrument,
-        );
+        this._notesPlayer.playPart(partToPlay, this._currentInstrument());
       }
     }
     if (isRight || this._globalSettings().revealAnswerAfterFirstMistake) {
@@ -399,6 +407,7 @@ export class ExerciseStateService<
     this._mistakesCounter.set(0);
     this._currentAnswers.set([]);
     this._currentSegmentToAnswer = 0;
+    this._pickCurrentInstrument();
     try {
       const newQuestion = this.exerciseLogic().getQuestion();
       // Everything after getQuesiton should not happen if getQuestion fails, so we keep it inside the try
@@ -429,9 +438,22 @@ export class ExerciseStateService<
     }
   }
 
+  private _pickCurrentInstrument(): void {
+    const instrumentSetting = this._globalSettings().instrument;
+    this._currentInstrument.set(
+      instrumentSetting === 'random'
+        ? randomFromList(instrumentNames)
+        : instrumentSetting,
+    );
+  }
+
   updateSettings(settings: ExerciseSettingsData<GSettings>): void {
+    const previousInstrumentSetting = this._globalSettings().instrument;
     this._exerciseSettingsData.saveExerciseSettings(this.exercise.id, settings);
     this._globalSettings.set(settings.globalSettings);
+    if (settings.globalSettings.instrument !== previousInstrumentSetting) {
+      this._pickCurrentInstrument();
+    }
     this._exerciseSettings.set(settings.exerciseSettings);
     this._message.set(null);
     // if an exercise does not implement isQuestionValid,
@@ -482,7 +504,7 @@ export class ExerciseStateService<
     }
     this._notesPlayer.playPart(
       toSteadyPart(partToPlay),
-      this._globalSettings().instrument,
+      this._currentInstrument(),
     );
   }
 
@@ -563,7 +585,7 @@ export class ExerciseStateService<
   private _getCurrentQuestionPartsToPlay(): PartToPlay[] {
     return this._currentQuestion.segments.map(
       (segment, i: number): PartToPlay => ({
-        instrumentName: this._globalSettings().instrument,
+        instrumentName: this._currentInstrument(),
         partOrTime: toSteadyPart(segment.partToPlay),
         beforePlaying: () => {
           this._currentlyPlayingSegments.add(i);
@@ -590,7 +612,7 @@ export class ExerciseStateService<
           this._highlightedAnswer.set(answerToHighlight || null);
         },
         partOrTime: partToPlay,
-        instrumentName: this._globalSettings().instrument,
+        instrumentName: this._currentInstrument(),
       }),
     );
   }

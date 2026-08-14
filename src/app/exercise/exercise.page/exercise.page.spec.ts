@@ -3,9 +3,16 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule } from '@ionic/angular';
+import * as _ from 'lodash';
 import { provideAnswerReportingServiceMock } from 'src/app/services/answer-reporting.service.mock';
 import { ExerciseSettingsDataMockService } from '../../services/exercise-settings-data.mock.service';
-import { NoteEvent, PlayerService } from '../../services/player.service';
+import {
+  InstrumentName,
+  NoteEvent,
+  PartToPlay,
+  PlayerService,
+  instrumentNames,
+} from '../../services/player.service';
 import { ModalFrameComponent } from '../../shared/modal/modal-frame/modal-frame.component';
 import { TestingUtility } from '../../shared/testing-utility';
 import { ExerciseTestingModule } from '../exercise-testing.module';
@@ -14,7 +21,11 @@ import {
   mockExercise,
   questionToPlayExpectation,
 } from '../mock-exercise';
-import { timeoutAsPromise } from '../utility';
+import {
+  GlobalExerciseSettings,
+  isValueTruthy,
+  timeoutAsPromise,
+} from '../utility';
 import { ExercisePage } from './exercise.page';
 import { ExercisePageDebugger } from './exerice.page.debugger.spec';
 
@@ -204,6 +215,65 @@ describe(ExercisePage.name, () => {
     // TODO(#76) Test with different "play cadence" modes
 
     // TODO(#76) Test BPM change. (Cadence bpm should remain regardless of settings)
+  });
+
+  describe('Sound setting', function () {
+    function setInstrumentSetting(
+      instrument: GlobalExerciseSettings['instrument'],
+    ): void {
+      const settings = TestBed.inject(ExerciseSettingsDataMockService)
+        .exerciseIdToSettings[mockExercise.id]!;
+      settings.globalSettings = { ...settings.globalSettings!, instrument };
+    }
+
+    function getPlayedInstruments(
+      playMultiplePartsSpy: jasmine.Spy<PlayerService['playMultipleParts']>,
+    ): InstrumentName[] {
+      const playedParts = ([] as PartToPlay[]).concat(
+        ...playMultiplePartsSpy.calls.allArgs().map(([parts]) => parts),
+      );
+      const playedInstruments = playedParts
+        .map((part) => part.instrumentName)
+        .filter(isValueTruthy);
+      return Array.from(new Set(playedInstruments));
+    }
+
+    it('the selected instrument should be used to play the question', fakeAsync(() => {
+      setInstrumentSetting('flute');
+      const playMultiplePartsSpy = createPlayMultiplePartsSpy();
+      createComponent();
+      flush();
+      expect(getPlayedInstruments(playMultiplePartsSpy)).toEqual(['flute']);
+    }));
+
+    it('a single instrument should be used for the entire question when the sound is random', fakeAsync(() => {
+      setInstrumentSetting('random');
+      const playMultiplePartsSpy = createPlayMultiplePartsSpy();
+      createComponent();
+      flush();
+      const playedInstruments = getPlayedInstruments(playMultiplePartsSpy);
+      expect(playedInstruments.length).toBe(1);
+      expect(instrumentNames).toContain(playedInstruments[0]);
+    }));
+
+    it('a new instrument should be picked for every question when the sound is random', fakeAsync(() => {
+      setInstrumentSetting('random');
+      const randomSpy = spyOn(_, 'random').and.returnValue(0);
+      createComponent();
+      flush();
+      exercisePageDebugger.detectChanges();
+      answerAllSegmentsOfMockQuestion();
+
+      const lastInstrumentIndex = instrumentNames.length - 1;
+      randomSpy.and.returnValue(lastInstrumentIndex);
+      const playMultiplePartsSpy = createPlayMultiplePartsSpy();
+      exercisePageDebugger.clickOnNext();
+      flush();
+
+      expect(getPlayedInstruments(playMultiplePartsSpy)).toEqual([
+        instrumentNames[lastInstrumentIndex],
+      ]);
+    }));
   });
 
   describe('Answer initialization', function () {
