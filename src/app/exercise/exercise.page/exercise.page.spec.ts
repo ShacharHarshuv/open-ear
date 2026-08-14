@@ -246,6 +246,20 @@ describe(ExercisePage.name, () => {
       expect(getPlayedInstruments(playMultiplePartsSpy)).toEqual(['flute']);
     }));
 
+    it('the cadence should be played with the selected instrument as well', fakeAsync(() => {
+      setInstrumentSetting('flute');
+      const playMultiplePartsSpy = createPlayMultiplePartsSpy();
+      createComponent();
+      flush();
+      const [cadencePart] = playMultiplePartsSpy.calls.mostRecent().args[0];
+      expect(cadencePart).toEqual(
+        jasmine.objectContaining<PartToPlay>({
+          instrumentName: 'flute',
+          partOrTime: [jasmine.objectContaining<NoteEvent>({ notes: ['E4'] })],
+        }),
+      );
+    }));
+
     it('a single instrument should be used for the entire question when the sound is random', fakeAsync(() => {
       setInstrumentSetting('random');
       const playMultiplePartsSpy = createPlayMultiplePartsSpy();

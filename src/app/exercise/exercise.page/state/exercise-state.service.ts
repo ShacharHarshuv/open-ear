@@ -321,6 +321,7 @@ export class ExerciseStateService<
     const cadence: PartToPlay[] | undefined = this._currentQuestion.cadence && [
       {
         partOrTime: toSteadyPart(this._currentQuestion.cadence),
+        instrumentName: this._currentInstrument(),
         bpm: 120,
         beforePlaying: () => {
           this._isAnsweringEnabled.set(false);
