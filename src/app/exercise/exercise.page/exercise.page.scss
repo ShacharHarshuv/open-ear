@@ -20,7 +20,9 @@
 
   &__actions-container {
     display: flex;
-    padding-bottom: 3 * $unit;
+    // stacking the fixed spacing on top of the device's safe area
+    // (e.g. Android's gesture bar / 3-button nav) so it isn't covered
+    padding-bottom: calc(3 * #{$unit} + env(safe-area-inset-bottom));
 
     ion-button {
       flex-grow: 1;
