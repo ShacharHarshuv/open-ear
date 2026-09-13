@@ -39,6 +39,18 @@ jobs:
       - name: Sync Capacitor android project
         run: npx cap sync android
 
+      - name: Create local debug keystore
+        working-directory: android/app
+        run: |
+          keytool -genkeypair -v -keystore openear-ci.jks \
+            -storepass 4231867590 -alias openear -keypass 4231867590 \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -dname "CN=CI, OU=CI, O=CI, L=CI, S=CI, C=US"
+
+      - name: Point signing config at the CI keystore
+        run: |
+          sed -i "s|storeFile file(.*)|storeFile file('openear-ci.jks')|" android/app/build.gradle
+
       - name: Build debug APK
         working-directory: android
         run: chmod +x gradlew && ./gradlew assembleDebug --no-daemon --stacktrace
