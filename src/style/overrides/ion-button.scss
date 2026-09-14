@@ -1,5 +1,8 @@
 ion-button {
   --box-shadow: none;
+  // M3-style rounded corners (M3 favors noticeably rounded, pill-leaning
+  // shapes over sharp corners)
+  --border-radius: 16px;
   text-transform: none;
   flex-shrink: 0;
 

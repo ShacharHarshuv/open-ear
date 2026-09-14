@@ -1,13 +1,29 @@
 apply plugin: 'com.android.application'
 
+// Debug signing credentials, if you want a stable debug keystore, live in a
+// local file (keystore.properties, gitignored, never committed) instead of
+// being hardcoded in this file. See keystore.properties.example for the
+// expected format. If that file doesn't exist, we simply don't define a
+// custom debug signingConfig at all, and Gradle falls back to its own
+// auto-generated default debug keystore, which works out of the box for
+// everyone (CI, new contributors, etc.) with zero setup.
+def keystorePropertiesFile = rootProject.file('app/keystore.properties')
+def keystoreProperties = new Properties()
+def hasKeystoreProperties = keystorePropertiesFile.exists()
+if (hasKeystoreProperties) {
+  keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
     namespace "com.openear.www"
-    signingConfigs {
-      debug {
-        storeFile file('G:\\My Drive\\Computers, Engineering, Games\\OpenEar\\openear.jks')
-        storePassword '4231867590'
-        keyAlias 'openear'
-        keyPassword '4231867590'
+    if (hasKeystoreProperties) {
+      signingConfigs {
+        debug {
+          storeFile file(keystoreProperties['storeFile'])
+          storePassword keystoreProperties['storePassword']
+          keyAlias keystoreProperties['keyAlias']
+          keyPassword keystoreProperties['keyPassword']
+        }
       }
     }
 
@@ -25,7 +41,9 @@ android {
              // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
-      signingConfig signingConfigs.debug
+      if (hasKeystoreProperties) {
+        signingConfig signingConfigs.debug
+      }
     }
     buildTypes {
 

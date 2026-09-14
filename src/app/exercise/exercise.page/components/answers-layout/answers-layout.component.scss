@@ -1,5 +1,4 @@
 @use "main" as *;
-@use "sass:math";
 
 :host {
   display: contents;
@@ -11,7 +10,7 @@
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    gap: math.div($unit, 2);
+    gap: $unit;
 
     &.--reverse {
       flex-direction: column-reverse;
@@ -22,7 +21,7 @@
     display: flex;
     flex-wrap: wrap;
     align-content: flex-start;
-    gap: math.div($unit, 2);
+    gap: $unit;
 
     ion-button {
       flex: 1;

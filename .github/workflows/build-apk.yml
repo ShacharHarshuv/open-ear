@@ -20,11 +20,16 @@ jobs:
           distribution: temurin
           java-version: '21'
 
+      # Installs/updates the Android SDK and non-interactively accepts all
+      # licenses, avoiding a hang if the project needs an SDK platform/tools
+      # version that isn't already present on the runner.
       - uses: android-actions/setup-android@v3
 
       - name: Install required Android SDK platform
         run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
 
+      # Caches Gradle dependencies between runs so this doesn't re-download
+      # everything from scratch every time.
       - uses: gradle/actions/setup-gradle@v4
 
       - name: Install dependencies
@@ -38,18 +43,6 @@ jobs:
 
       - name: Sync Capacitor android project
         run: npx cap sync android
-
-      - name: Create local debug keystore
-        working-directory: android/app
-        run: |
-          keytool -genkeypair -v -keystore openear-ci.jks \
-            -storepass 4231867590 -alias openear -keypass 4231867590 \
-            -keyalg RSA -keysize 2048 -validity 10000 \
-            -dname "CN=CI, OU=CI, O=CI, L=CI, S=CI, C=US"
-
-      - name: Point signing config at the CI keystore
-        run: |
-          sed -i "s|storeFile file(.*)|storeFile file('openear-ci.jks')|" android/app/build.gradle
 
       - name: Build debug APK
         working-directory: android

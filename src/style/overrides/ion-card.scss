@@ -1,6 +1,11 @@
 @use "main" as *;
 
 ion-card {
+  // M3-style rounded corners, and a soft tonal shadow instead of Ionic's
+  // default flat elevation
+  --border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(153, 85, 255, 0.15);
+
   &.ios {
     margin: 8px 8px;
   }

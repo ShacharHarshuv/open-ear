@@ -21,6 +21,22 @@
   --ion-color-primary-shade: #8533ff;
   --ion-color-primary-tint: #a86eff;
 
+  /** secondary - a muted, desaturated variant of the primary hue **/
+  --ion-color-secondary: #7c6a94;
+  --ion-color-secondary-rgb: 124, 106, 148;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #6d5d81;
+  --ion-color-secondary-tint: #8a7aa1;
+
+  /** tertiary - a warm accent for contrast against the violet primary **/
+  --ion-color-tertiary: #ff6f91;
+  --ion-color-tertiary-rgb: 255, 111, 145;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #e0627f;
+  --ion-color-tertiary-tint: #ff7e9d;
+
   /** success **/
   --ion-color-success: #2dd36f;
   --ion-color-success-rgb: 45, 211, 111;
@@ -74,6 +90,13 @@
   --ion-font-family: "Montserrat";
 
   --ion-forms-font-size: 14px;
+
+  /** M3-inspired: surfaces get a faint tint of the primary hue instead of
+    * plain white/grey, a signature Material 3 look. Subtle on purpose - not
+    * meant to be visually loud. **/
+  --ion-background-color: #fdfbff;
+  --ion-card-background: #f3edfb;
+  --ion-item-background: #fdfbff;
 }
 
 // Dark mode: automatically follows the device/browser's system-level
