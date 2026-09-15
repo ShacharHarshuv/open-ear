@@ -142,7 +142,7 @@ export const chordInKeyExercise: Exercise<
           }
         }
 
-        const cadenceInC = getCadence(settings.cadenceType);
+        const cadenceInC = getCadence(settings.cadenceType, settings.muteCadence);
 
         return romanAnalysis.getQuestion(settings, chordsQuestion, cadenceInC);
       },

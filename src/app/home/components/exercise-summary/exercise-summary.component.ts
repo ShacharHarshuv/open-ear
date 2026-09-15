@@ -4,6 +4,23 @@ import { AlertController, IonicModule } from '@ionic/angular';
 import { Exercise } from '../../../exercise/exercise-logic';
 import { PlayerService } from '../../../services/player.service';
 
+// Best-effort mapping to distinct Ionicons (already bundled, no new
+// dependency) per exercise, since a single generic icon for every tile
+// isn't very distinguishing. Ionicons doesn't have music-theory-specific
+// icons, so these are approximations, not literal representations.
+// Anything not in this map (e.g. the dynamically-generated "songs" family
+// of exercises) falls back to the default.
+const exerciseIconById: Record<string, string> = {
+  noteInKey: 'musical-note-outline',
+  interval: 'swap-vertical-outline',
+  chordTypeInKey: 'layers-outline',
+  chordInKey: 'apps-outline',
+  commonChordProgression: 'repeat-outline',
+  notesWithChords: 'albums-outline',
+  triadInversions: 'sync-outline',
+};
+const defaultExerciseIcon = 'disc-outline';
+
 @Component({
   selector: 'app-exercise-summary',
   templateUrl: './exercise-summary.component.html',
@@ -17,6 +34,10 @@ export class ExerciseSummaryComponent {
 
   readonly exercise =
     input.required<Pick<Exercise, 'id' | 'name' | 'summary'>>();
+
+  get icon(): string {
+    return exerciseIconById[this.exercise().id] ?? defaultExerciseIcon;
+  }
 
   // This has to be called by a user click event to work
   initAudioPlayer(): void {

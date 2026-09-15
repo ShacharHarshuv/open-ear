@@ -92,14 +92,14 @@ export type NoteInKeySettings = IncludedAnswersSettings<SolfegeNote> &
   NumberOfSegmentsSetting &
   PlayAfterCorrectAnswerSetting &
   CadenceTypeSetting & {
-    notesRange: 'high' | 'middle' | 'bass' | 'contrabass';
+    notesRange: 'high' | 'middle' | 'bass' | 'contrabass' | 'random';
     numberOfVoices: 1 | 2 | 3;
     harmonicIntervals: DiatonicIntervalCode[];
     melodicIntervals: DiatonicIntervalCode[];
   };
 
 const rangeOptionToNotesRange: {
-  [range in NoteInKeySettings['notesRange']]: NotesRange;
+  [range in Exclude<NoteInKeySettings['notesRange'], 'random'>]: NotesRange;
 } = {
   high: new NotesRange('C4', 'G6'),
   middle: new NotesRange('G2', 'E4'),
@@ -170,6 +170,10 @@ export const notesInKeyExercise: Exercise<SolfegeNote, NoteInKeySettings> = {
             {
               label: 'Contra Bass',
               value: 'contrabass',
+            },
+            {
+              label: 'Random',
+              value: 'random',
             },
           ],
         },
@@ -245,7 +249,7 @@ export const notesInKeyExercise: Exercise<SolfegeNote, NoteInKeySettings> = {
     getQuestion() {
       return melodicExercise.getQuestion({
         settings: settings,
-        cadenceInC: getCadence(settings.cadenceType),
+        cadenceInC: getCadence(settings.cadenceType, settings.muteCadence),
         getMelodicQuestionInC: (utils) => {
           function getNoteOptionsFromRange(notesRange: NotesRange): Note[] {
             const rangeForKeyOfC: NotesRange =
@@ -259,7 +263,10 @@ export const notesInKeyExercise: Exercise<SolfegeNote, NoteInKeySettings> = {
               );
           }
 
-          const notesRange = rangeOptionToNotesRange[settings.notesRange];
+          const notesRange =
+            settings.notesRange === 'random'
+              ? randomFromList(Object.values(rangeOptionToNotesRange))
+              : rangeOptionToNotesRange[settings.notesRange];
           // if we want to add more voices below, we need to limit how low the top voice can go
           const topVoiceRange = new NotesRange(
             transpose(

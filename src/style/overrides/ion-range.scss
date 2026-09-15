@@ -1,0 +1,13 @@
+ion-range {
+  // Material 3-style slider: thicker pill-shaped track, filled portion in
+  // the primary color, a bigger rounded knob - closer to the M3 slider
+  // spec than Ionic's thin default track.
+  --bar-height: 6px;
+  --bar-border-radius: 999px;
+  --bar-background: var(--ion-color-step-200, #e0e0e0);
+  --bar-background-active: var(--ion-color-primary);
+  --knob-background: var(--ion-color-primary);
+  --knob-size: 24px;
+  --knob-border-radius: 999px;
+  --knob-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
