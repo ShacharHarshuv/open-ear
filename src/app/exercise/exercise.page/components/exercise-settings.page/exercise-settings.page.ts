@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, RangeCustomEvent } from '@ionic/angular';
 import { samples } from 'generated/samples';
 import * as _ from 'lodash';
 import { capitalize } from 'lodash';
@@ -75,6 +75,11 @@ interface ExerciseSettingsControls {
   ],
 })
 export class ExerciseSettingsPage {
+  // common tempo markings - the BPM slider gently snaps to these when you
+  // release near one, but still allows fine-grained values elsewhere
+  readonly bpmCheckpoints = [60, 80, 120, 180];
+  private readonly _bpmSnapTolerance = 4;
+
   readonly generalFormGroup = new FormGroup<ExerciseSettingsControls>({
     playCadenceOptions: new FormControl('ALWAYS'),
     // playCadenceEvery: new FormControl(5),
@@ -85,6 +90,16 @@ export class ExerciseSettingsPage {
     answerQuestionAutomatically: new FormControl<boolean>(false),
     instrument: new FormControl<InstrumentName>(),
   });
+
+  onBpmChange(event: RangeCustomEvent): void {
+    const value = event.detail.value as number;
+    const nearestCheckpoint = this.bpmCheckpoints.find(
+      (checkpoint) => Math.abs(checkpoint - value) <= this._bpmSnapTolerance,
+    );
+    if (nearestCheckpoint !== undefined && nearestCheckpoint !== value) {
+      this.generalFormGroup.controls.bpm.setValue(nearestCheckpoint);
+    }
+  }
 
   exerciseSettingsDescriptor: Exercise.SettingsControlDescriptor[] = [];
   // @ts-ignore

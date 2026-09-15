@@ -74,15 +74,27 @@
           message="Tempo in Beats Per Minute. Change this to control the speed of the question's playback."
         ></app-field-info
       ></ion-label>
-      <ion-range
-        [formControl]="generalFormGroup.controls.bpm"
-        [max]="200"
-        [min]="40"
-        [snaps]="true"
-        [step]="1"
-        pin
-      >
-      </ion-range>
+      <div class="bpm-slider">
+        <ion-range
+          [formControl]="generalFormGroup.controls.bpm"
+          [max]="200"
+          [min]="40"
+          [snaps]="true"
+          [step]="1"
+          (ionChange)="onBpmChange($event)"
+          pin
+        >
+        </ion-range>
+        <div class="bpm-slider__ticks">
+          @for (checkpoint of bpmCheckpoints; track checkpoint) {
+            <span
+              class="bpm-slider__tick"
+              [style.left.%]="((checkpoint - 40) / (200 - 40)) * 100"
+              >{{ checkpoint }}</span
+            >
+          }
+        </div>
+      </div>
     </ion-item>
     <ion-item>
       <ion-label>

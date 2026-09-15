@@ -1,3 +1,29 @@
 ion-range {
   flex: 1;
 }
+
+.bpm-slider {
+  flex: 1;
+  position: relative;
+
+  ion-range {
+    --padding-start: 12px;
+    --padding-end: 12px;
+  }
+
+  &__ticks {
+    position: relative;
+    // roughly aligns under the range track, accounting for its inline
+    // padding/knob size
+    margin: 0 12px;
+    height: 14px;
+    pointer-events: none;
+  }
+
+  &__tick {
+    position: absolute;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: var(--ion-color-medium);
+  }
+}
