@@ -88,6 +88,10 @@ export class ExerciseStateService<
   private _message = signal<string | null>(null);
   private _error = signal<unknown>(null);
   private _cadenceWasPlayed: boolean = false;
+  // used for the numeric "every N trials" playCadence option - counts
+  // consecutive same-key trials since the cadence last played, resetting
+  // on key changes or whenever the cadence plays again
+  private _trialsSinceCadence: number = 0;
   readonly message = this._message.asReadonly();
   readonly error = this._error.asReadonly();
   readonly name: string = this.exercise.name;
@@ -307,6 +311,21 @@ export class ExerciseStateService<
     return isRight;
   }
 
+  // only called when the key did NOT change this trial (that case is
+  // handled separately, and always plays the cadence)
+  private _isPeriodicCadenceDue(): boolean {
+    const playCadence = this.globalSettings().playCadence;
+    if (typeof playCadence !== 'number') {
+      return false;
+    }
+    this._trialsSinceCadence++;
+    if (this._trialsSinceCadence >= playCadence) {
+      this._trialsSinceCadence = 0;
+      return true;
+    }
+    return false;
+  }
+
   async playCurrentCadenceAndQuestion(): Promise<void> {
     await this.stop();
     this._cadenceWasPlayed = true;
@@ -403,6 +422,9 @@ export class ExerciseStateService<
       const newQuestion = this.exerciseLogic().getQuestion();
       // Everything after getQuesiton should not happen if getQuestion fails, so we keep it inside the try
       this._wasKeyChanged = newQuestion.key !== this._currentQuestion.key;
+      if (this._wasKeyChanged) {
+        this._trialsSinceCadence = 0;
+      }
       this._currentQuestion = newQuestion;
       this._currentAnswers.set(
         this._currentQuestion.segments.map(
@@ -418,6 +440,12 @@ export class ExerciseStateService<
         !this._wasKeyChanged &&
         this.globalSettings().playCadence === 'ONLY_ON_REPEAT' &&
         !!this._cadenceWasPlayed
+      ) {
+        await this.playCurrentQuestion();
+      } else if (
+        !this._wasKeyChanged &&
+        typeof this.globalSettings().playCadence === 'number' &&
+        !this._isPeriodicCadenceDue()
       ) {
         await this.playCurrentQuestion();
       } else {

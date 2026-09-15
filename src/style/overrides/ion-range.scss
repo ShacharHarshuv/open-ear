@@ -10,4 +10,15 @@ ion-range {
   --knob-size: 24px;
   --knob-border-radius: 999px;
   --knob-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+
+  // The --bar-border-radius custom property alone doesn't reliably round
+  // off the visible ends of the track in every case (e.g. the BPM slider,
+  // and sliders with discrete numeric steps) - the underlying bar/active
+  // fill shadow parts need overflow clipped and their own explicit
+  // border-radius too, or a flat rectangular edge shows through.
+  &::part(bar),
+  &::part(bar-active) {
+    border-radius: 999px;
+    overflow: hidden;
+  }
 }

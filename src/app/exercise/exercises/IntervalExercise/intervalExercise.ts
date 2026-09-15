@@ -76,7 +76,7 @@ export type IntervalDescriptor = {
 
 export type IntervalExerciseSettings = PlayWrongAnswerSettings &
   IncludedAnswersSettings<IntervalName> & {
-    intervalType: 'melodic' | 'harmonic';
+    intervalType: 'melodic' | 'harmonic' | 'random';
     intervalDirection: 'random' | 'ascending' | 'descending';
   };
 
@@ -177,7 +177,7 @@ export const intervalExercise: Exercise<
     defaults: {
       ...includedAnswers.defaults,
       ...playWrongAnswer.defaults,
-      intervalType: 'melodic',
+      intervalType: 'random',
       intervalDirection: 'random',
     },
     controls: [
@@ -189,6 +189,10 @@ export const intervalExercise: Exercise<
           label: 'Interval Type',
           controlType: 'select',
           options: [
+            {
+              label: 'Random',
+              value: 'random',
+            },
             {
               label: 'Melodic',
               value: 'melodic',
@@ -248,8 +252,15 @@ export const intervalExercise: Exercise<
         [startNoteName, endNoteName] = [highNoteName, lowNoteName];
       }
 
+      // resolved once per question, so a "random" choice doesn't switch
+      // between melodic/harmonic mid-question on repeated wrong answers
+      const resolvedIntervalType: 'melodic' | 'harmonic' =
+        settings.intervalType === 'random'
+          ? randomFromList(['melodic', 'harmonic'])
+          : settings.intervalType;
+
       function getPartFromNotes(start: Note, end: Note) {
-        return settings.intervalType === 'melodic'
+        return resolvedIntervalType === 'melodic'
           ? [{ notes: start }, { notes: end }]
           : [{ notes: [start, end] }];
       }

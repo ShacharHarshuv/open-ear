@@ -44,8 +44,10 @@ interface ExerciseSettingsControls {
   playCadenceOptions:
     | 'ALWAYS'
     | 'ONLY_ON_REPEAT'
-    | /*'EVERY_NEW_KEY' TODO(OE-12) |*/ 'NEVER' /*| 'EVERY TODO(OE-13)'*/;
-  // playCadenceEvery: number; // todo(OE-13)
+    | 'NEVER'
+    | 'EVERY_2'
+    | 'EVERY_3'
+    | 'EVERY_5';
   bpm: number;
   moveToNextQuestionAutomatically: boolean;
   answerQuestionAutomatically: boolean;
@@ -105,9 +107,12 @@ export class ExerciseSettingsPage {
               return 'NEVER';
             case 'ONLY_ON_REPEAT':
               return 'ONLY_ON_REPEAT';
-            // TODO(OE-12)
-            // case 'EVERY_NEW_KEY':
-            //   return 'EVERY_NEW_KEY';
+            case 2:
+              return 'EVERY_2';
+            case 3:
+              return 'EVERY_3';
+            case 5:
+              return 'EVERY_5';
             default:
               return 'ALWAYS';
           }
@@ -180,10 +185,12 @@ export class ExerciseSettingsPage {
         const valueMapping: {
           [key in ExerciseSettingsControls['playCadenceOptions']]: GlobalExerciseSettings['playCadence'];
         } = {
-          // EVERY_NEW_KEY: 'EVERY_NEW_KEY', // TODO(OE-12)
           ALWAYS: true,
           NEVER: false,
           ONLY_ON_REPEAT: 'ONLY_ON_REPEAT',
+          EVERY_2: 2,
+          EVERY_3: 3,
+          EVERY_5: 5,
         };
         return valueMapping[formGroupValue.playCadenceOptions];
       })(),

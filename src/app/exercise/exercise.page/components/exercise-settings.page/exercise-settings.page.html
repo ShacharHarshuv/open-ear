@@ -34,8 +34,9 @@
         [interface]="'popover'"
       >
         <ion-select-option [value]="'ALWAYS'">Always</ion-select-option>
-        <!--TODO(OE-13)-->
-        <!--<ion-select-option value="'EVERY'">Every...</ion-select-option>-->
+        <ion-select-option [value]="'EVERY_2'">Every 2 trials</ion-select-option>
+        <ion-select-option [value]="'EVERY_3'">Every 3 trials</ion-select-option>
+        <ion-select-option [value]="'EVERY_5'">Every 5 trials</ion-select-option>
         <ion-select-option [value]="'NEVER'">Every New Key</ion-select-option>
         <ion-select-option [value]="'ONLY_ON_REPEAT'"
           >Only on repeat</ion-select-option

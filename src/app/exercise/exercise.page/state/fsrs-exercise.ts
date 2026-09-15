@@ -1,42 +1,55 @@
-import { isEqual, max, sumBy } from 'lodash';
-import * as Tone from 'tone';
-import { Card, Grade, Rating, createEmptyCard, fsrs } from 'ts-fsrs';
-import { NoteEvent } from '../../../services/player.service';
+import { isEqual } from 'lodash';
 import { ExerciseLogic, Question } from '../../exercise-logic';
 
-// todo: look into how to optimize parameters. Note we probably need to do that per card.
-// we might also need to accumulate
+/**
+ * Spaced-repetition tracking based on "interference" (how many other
+ * questions have been asked in between) rather than real-world elapsed
+ * time. This intentionally replaces the previous FSRS/time-based approach,
+ * per concerns raised by the app's own maintainer:
+ *
+ *  1. Questions answered correctly on the first try are never tracked at
+ *     all - there's no reason to schedule a repeat of something that
+ *     wasn't actually a mistake.
+ *  2. Only mistakes get scheduled for review, and the "elapsed time" unit
+ *     is the number of other questions seen in between, not the clock.
+ *  3. Once a mistake has been answered correctly enough times in a row
+ *     (CORRECTED_THRESHOLD), it's considered corrected and stops being
+ *     tracked/repeated entirely.
+ *  4. The math is intentionally simple (SM-2-flavored: interval doubles on
+ *     each successful repeat, resets on a fresh mistake) rather than a
+ *     full FSRS-style model with per-card optimized parameters.
+ */
 
-const f = fsrs();
+// How many other questions must be seen before a freshly-missed question
+// is eligible to come back up.
+const INITIAL_INTERVAL_IN_QUESTIONS = 3;
+
+// How much the interval grows each time the question is answered
+// correctly again during a repeat (SM-2-style geometric growth).
+const INTERVAL_GROWTH_FACTOR = 2;
+
+// Consecutive correct repeats (since the last mistake) needed before a
+// question is considered "corrected" and stops being tracked.
+const CORRECTED_THRESHOLD = 2;
+
+export interface InterferenceCard {
+  // how many *other* questions must be seen before this one is due again
+  intervalInQuestions: number;
+  // how many other questions have been seen since this one was last shown
+  questionsSinceLastSeen: number;
+  // consecutive correct answers in a row since the last mistake on this
+  // question - once this hits CORRECTED_THRESHOLD, the question is
+  // considered learned and stops being tracked
+  consecutiveCorrectRepeats: number;
+}
 
 interface QuestionCard<GAnswer extends string> {
   question: Question<GAnswer>;
-  card: Card;
+  // null means this question has never been missed and isn't being
+  // tracked for repetition at all
+  card: InterferenceCard | null;
 }
 
-function getQuestionPlayingTime(question: Question): number {
-  if (question.type === 'youtube') {
-    return (question.endSeconds - question.segments[0].seconds) * 1000;
-  } else {
-    return sumBy(question.segments, (segment): number => {
-      const { partToPlay } = segment;
-
-      if (!Array.isArray(partToPlay) || typeof partToPlay[0] === 'string') {
-        return Tone.Time('4n').toMilliseconds();
-      }
-
-      return (
-        max(
-          (partToPlay as NoteEvent[]).map((note: NoteEvent) =>
-            Tone.Time(note.duration).toMilliseconds(),
-          ),
-        ) ?? 0
-      );
-    });
-  }
-}
-
-// todo: consider what kind of data structure we want to use here
 export class QuestionCardsCollection<GAnswer extends string> {
   private _savedQuestions: QuestionCard<GAnswer>[] = [];
   private _dataItem = `cards_${this._id}`;
@@ -44,12 +57,9 @@ export class QuestionCardsCollection<GAnswer extends string> {
   constructor(private _id: string) {
     const savedData = localStorage.getItem(this._dataItem);
     this._savedQuestions = savedData ? JSON.parse(savedData) : [];
-    this._savedQuestions.forEach((q) => {
-      q.card.due = new Date(q.card.due);
-    });
   }
 
-  private _save() {
+  save() {
     localStorage.setItem(this._dataItem, JSON.stringify(this._savedQuestions));
   }
 
@@ -63,17 +73,17 @@ export class QuestionCardsCollection<GAnswer extends string> {
         ? q.question.id !== savedQuestion.question.id
         : !isEqual(q.question, savedQuestion.question),
     );
-    this._save();
+    this.save();
   }
 
   insert(savedQuestion: QuestionCard<GAnswer>) {
     this._savedQuestions.push(savedQuestion);
-    this._save();
+    this.save();
   }
 
   reset() {
     this._savedQuestions = [];
-    this._save();
+    this.save();
   }
 }
 
@@ -83,6 +93,7 @@ export function fsrsExercise<GAnswer extends string>(
 ) {
   const cardsCollections = new QuestionCardsCollection<GAnswer>(id);
   let currentQuestionCard: QuestionCard<GAnswer> | null = null;
+
   function getCurrentQuestion() {
     if (!currentQuestionCard) {
       return null;
@@ -94,110 +105,107 @@ export function fsrsExercise<GAnswer extends string>(
       currentQuestionCard.question
     );
   }
-  let questionReceivedTime = new Date();
-  let isQuestionStartedPlaying = false;
 
   function questionStartedPlaying() {
     logic.questionStartedPlaying?.();
-
-    !isQuestionStartedPlaying && (questionReceivedTime = new Date());
-    isQuestionStartedPlaying = true;
   }
 
   const getQuestion: ExerciseLogic<GAnswer>['getQuestion'] = () => {
-    isQuestionStartedPlaying = false;
-    // console.log('savedQuestions', cardsCollections.savedQuestions); // todo
+    // every question the user is shown counts as "interference" against
+    // every other tracked (previously-missed) question
+    cardsCollections.savedQuestions.forEach((q) => {
+      q.card!.questionsSinceLastSeen++;
+    });
+    cardsCollections.save();
 
     const dueQuestions = cardsCollections.savedQuestions
-      .filter((q) => q.card.due.getTime() < new Date().getTime())
+      .filter((q) => q.card!.questionsSinceLastSeen >= q.card!.intervalInQuestions)
       .filter(
         (q) => !logic.isQuestionValid || logic.isQuestionValid?.(q.question),
-      )
-      .sort(
-        (a, b) =>
-          f.get_retrievability(b.card, undefined, false) -
-          f.get_retrievability(a.card, undefined, false),
       );
 
-    // console.log(
-    //   `There are ${dueQuestions.length} due questions (${dueQuestions
-    //     .map((q) => q.question.id)
-    //     .filter(Boolean)
-    //     .join(', ')})`,
-    // );
-
     if (dueQuestions.length > 0) {
-      // todo: consider taking into account which question is due more closely
       const randomDueQuestion =
         dueQuestions[Math.floor(Math.random() * dueQuestions.length)];
-      // console.log('selected question', randomDueQuestion.question.info);
+      console.log(
+        `[spaced-repetition] showing a due repeat (was missed before, ${dueQuestions.length} due right now)`,
+      );
       currentQuestionCard = randomDueQuestion;
       return getCurrentQuestion()!;
     }
 
-    // fetching new question
-    console.log('fetching new question');
+    // fetching a brand new question - not tracked unless/until it's missed
     currentQuestionCard = {
       question: logic.getQuestion(
         cardsCollections.savedQuestions
           .map((q) => q.question.id)
-          .filter((id): id is string => !!id),
+          .filter((qid): qid is string => !!qid),
       ),
-      card: createEmptyCard(),
+      card: null,
     };
 
-    questionReceivedTime = new Date();
     return getCurrentQuestion()!;
   };
 
   function handleFinishedAnswering(numberOfMistakes: number): void {
     logic.handleFinishedAnswering?.(numberOfMistakes);
 
-    const rating = ((): Grade => {
-      if (numberOfMistakes > 0) {
-        console.log(
-          `finished with ${numberOfMistakes} mistakes. Rating: Again`,
-        );
-        return Rating.Again;
-      }
+    const current = currentQuestionCard!;
+    const existingCard = current.card;
 
-      const answerTime = new Date();
-      const totalTimeToAnswer =
-        answerTime.getTime() - questionReceivedTime.getTime();
-      const totalQuestionPlayingTime = getQuestionPlayingTime(
-        currentQuestionCard!.question,
+    if (numberOfMistakes > 0) {
+      // a mistake: (re)schedule with a short interval and reset the
+      // correct-streak, regardless of whether it was already being tracked
+      if (existingCard) {
+        cardsCollections.remove(current);
+      }
+      console.log(
+        `[spaced-repetition] missed - will come back up in ${INITIAL_INTERVAL_IN_QUESTIONS} other questions`,
       );
-      const numberOfSegments = currentQuestionCard!.question.segments.length;
-      const perfectTime = totalQuestionPlayingTime + numberOfSegments * 1000;
+      cardsCollections.insert({
+        question: current.question,
+        card: {
+          intervalInQuestions: INITIAL_INTERVAL_IN_QUESTIONS,
+          questionsSinceLastSeen: 0,
+          consecutiveCorrectRepeats: 0,
+        },
+      });
+      return;
+    }
 
-      if (totalTimeToAnswer < perfectTime) {
-        console.log('No mistakes with perfect time, rating: Easy');
-        return Rating.Easy;
-      }
+    // answered correctly with no mistakes
+    if (!existingCard) {
+      // first-try correct on a question that was never tracked - nothing
+      // to do, there's no point scheduling a repeat of something the user
+      // clearly already knows
+      return;
+    }
 
-      if (totalTimeToAnswer > perfectTime * 2) {
-        console.log('No mistakes, but took too very long, rating: Hard');
-        return Rating.Hard;
-      }
+    const consecutiveCorrectRepeats = existingCard.consecutiveCorrectRepeats + 1;
 
-      console.log('No mistakes but a little slow, rating: Good');
+    if (consecutiveCorrectRepeats >= CORRECTED_THRESHOLD) {
+      // corrected - stop tracking this question entirely
+      console.log(
+        `[spaced-repetition] corrected after ${consecutiveCorrectRepeats} correct repeats in a row - won't repeat again`,
+      );
+      cardsCollections.remove(current);
+      return;
+    }
 
-      return Rating.Good;
-    })();
-
-    console.log('rating', rating);
-
-    const updatedCard = f.next(
-      currentQuestionCard!.card,
-      new Date(),
-      rating,
-    ).card;
-    console.log('card will come up next on', updatedCard.due);
-    console.log('updated card', updatedCard);
-    cardsCollections.remove(currentQuestionCard!);
+    // correct again, but not "corrected" yet - push the interval out
+    // further and keep tracking it
+    const newInterval = existingCard.intervalInQuestions * INTERVAL_GROWTH_FACTOR;
+    console.log(
+      `[spaced-repetition] correct repeat (${consecutiveCorrectRepeats}/${CORRECTED_THRESHOLD} needed to be "corrected") - next repeat in ${newInterval} other questions`,
+    );
+    cardsCollections.remove(current);
     cardsCollections.insert({
-      question: currentQuestionCard!.question,
-      card: updatedCard,
+      question: current.question,
+      card: {
+        intervalInQuestions: newInterval,
+        questionsSinceLastSeen: 0,
+        consecutiveCorrectRepeats,
+      },
     });
   }
 
