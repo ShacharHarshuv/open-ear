@@ -20,16 +20,12 @@ jobs:
           distribution: temurin
           java-version: '21'
 
-      # Installs/updates the Android SDK and non-interactively accepts all
-      # licenses, avoiding a hang if the project needs an SDK platform/tools
-      # version that isn't already present on the runner.
-      - uses: android-actions/setup-android@v3
+      - name: Accept Android SDK licenses
+        run: yes | sdkmanager --licenses || true
 
       - name: Install required Android SDK platform
         run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
 
-      # Caches Gradle dependencies between runs so this doesn't re-download
-      # everything from scratch every time.
       - uses: gradle/actions/setup-gradle@v4
 
       - name: Install dependencies
