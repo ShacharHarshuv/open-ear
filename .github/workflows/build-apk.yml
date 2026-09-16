@@ -20,6 +20,16 @@ jobs:
           distribution: temurin
           java-version: '21'
 
+      - name: Locate Android cmdline-tools and add to PATH
+        run: |
+          SDKMANAGER_PATH=$(find "$ANDROID_HOME" -name "sdkmanager" -type f 2>/dev/null | head -n 1)
+          if [ -z "$SDKMANAGER_PATH" ]; then
+            echo "Could not find sdkmanager under ANDROID_HOME ($ANDROID_HOME)"
+            exit 1
+          fi
+          echo "Found sdkmanager at: $SDKMANAGER_PATH"
+          echo "$(dirname "$SDKMANAGER_PATH")" >> "$GITHUB_PATH"
+
       - name: Accept Android SDK licenses
         run: yes | sdkmanager --licenses || true
 
