@@ -79,21 +79,22 @@
           [formControl]="generalFormGroup.controls.bpm"
           [max]="200"
           [min]="40"
+          [ticks]="false"
           [snaps]="true"
           [step]="1"
-          (ionChange)="onBpmChange($event)"
+          (ionInput)="onBpmRangeInput($event)"
           pin
         >
         </ion-range>
-        <div class="bpm-slider__ticks">
-          @for (checkpoint of bpmCheckpoints; track checkpoint) {
-            <span
-              class="bpm-slider__tick"
-              [style.left.%]="((checkpoint - 40) / (200 - 40)) * 100"
-              >{{ checkpoint }}</span
-            >
-          }
-        </div>
+        <ion-input
+          class="bpm-slider__input"
+          type="number"
+          [min]="40"
+          [max]="200"
+          [value]="generalFormGroup.controls.bpm.value"
+          (ionInput)="onBpmInputChange($event)"
+          fill="outline"
+        ></ion-input>
       </div>
     </ion-item>
     <ion-item>
@@ -158,6 +159,7 @@
         [appExerciseControl]="exerciseControlSettings"
         [max]="asSliderControlDescriptor(descriptor).max"
         [min]="asSliderControlDescriptor(descriptor).min"
+        [ticks]="false"
         [snaps]="true"
         [step]="asSliderControlDescriptor(descriptor).step"
         pin

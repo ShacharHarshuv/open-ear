@@ -39,7 +39,7 @@ import getAnswerListIterator = Exercise.getAnswerListIterator;
 
 const DEFAULT_EXERCISE_SETTINGS: GlobalExerciseSettings = {
   playCadence: true,
-  adaptive: false,
+  adaptive: true,
   revealAnswerAfterFirstMistake: false,
   bpm: 120,
   moveToNextQuestionAutomatically: false,

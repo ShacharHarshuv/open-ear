@@ -78,7 +78,7 @@ const diatonicIntervalAnswerList: AnswerList<string> = {
       { answer: '2', displayLabel: '2<sup>nd</sup>' },
       { answer: '3', displayLabel: '3<sup>rd</sup>' },
       { answer: '4', displayLabel: '4<sup>th</sup>' },
-      { answer: '4#', displayLabel: 'aug4<sup>th</sup>' },
+      { answer: '4#', displayLabel: '♯4<sup>th</sup>' },
       { answer: '5', displayLabel: '5<sup>th</sup>' },
       { answer: '6', displayLabel: '6<sup>th</sup>' },
       { answer: '7', displayLabel: '7<sup>th</sup>' },

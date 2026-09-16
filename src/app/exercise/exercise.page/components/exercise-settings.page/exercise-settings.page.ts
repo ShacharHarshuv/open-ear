@@ -75,15 +75,10 @@ interface ExerciseSettingsControls {
   ],
 })
 export class ExerciseSettingsPage {
-  // common tempo markings - the BPM slider gently snaps to these when you
-  // release near one, but still allows fine-grained values elsewhere
-  readonly bpmCheckpoints = [60, 80, 120, 180];
-  private readonly _bpmSnapTolerance = 4;
-
   readonly generalFormGroup = new FormGroup<ExerciseSettingsControls>({
     playCadenceOptions: new FormControl('ALWAYS'),
     // playCadenceEvery: new FormControl(5),
-    adaptive: new FormControl<boolean>(false),
+    adaptive: new FormControl<boolean>(true),
     revealAnswerAfterFirstMistake: new FormControl<boolean>(false),
     bpm: new FormControl<number>(120),
     moveToNextQuestionAutomatically: new FormControl<boolean>(false),
@@ -91,13 +86,27 @@ export class ExerciseSettingsPage {
     instrument: new FormControl<InstrumentName>(),
   });
 
-  onBpmChange(event: RangeCustomEvent): void {
-    const value = event.detail.value as number;
-    const nearestCheckpoint = this.bpmCheckpoints.find(
-      (checkpoint) => Math.abs(checkpoint - value) <= this._bpmSnapTolerance,
+  // The range's [formControl] binding alone only pushes its value on
+  // release (ionChange), not while dragging - this handler pushes every
+  // intermediate value during the drag too, so the number input updates
+  // live instead of only after you let go.
+  onBpmRangeInput(event: RangeCustomEvent): void {
+    this.generalFormGroup.controls.bpm.setValue(
+      event.detail.value as number,
     );
-    if (nearestCheckpoint !== undefined && nearestCheckpoint !== value) {
-      this.generalFormGroup.controls.bpm.setValue(nearestCheckpoint);
+  }
+
+  // Typing in the number input updates the FormControl directly, which in
+  // turn moves the range's knob immediately (Angular calls writeValue() on
+  // every control bound to the same FormControl as soon as it changes).
+  onBpmInputChange(event: Event): void {
+    const raw = (event.target as HTMLInputElement).value;
+    if (raw === '') {
+      return;
+    }
+    const value = Number(raw);
+    if (!isNaN(value)) {
+      this.generalFormGroup.controls.bpm.setValue(value);
     }
   }
 
