@@ -229,4 +229,9 @@ export const releaseNotes: ReleaseNotes = [
     notes:
       'Fix bug where chords played on click after answered were in the wrong key',
   },
+  {
+    version: '1.12.2',
+    notes:
+      'New "Random" option for the "Sound" setting, playing every question with a different instrument',
+  },
 ];
