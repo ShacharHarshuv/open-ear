@@ -20,7 +20,7 @@
 
   &__actions-container {
     display: flex;
-    padding-bottom: 3 * $unit;
+    padding-bottom: calc(3 * #{$unit} + env(safe-area-inset-bottom));
 
     ion-button {
       flex-grow: 1;
