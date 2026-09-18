@@ -111,9 +111,6 @@ export class PlayerService {
     const samplesPaths = samples[instrumentName];
     const noteNames = Object.keys(samplesPaths);
 
-    // Load and decode every sample in parallel instead of one at a time -
-    // sequential loading of ~30 files could take up to a minute of silence
-    // before an exercise could start playing anything.
     const audioBuffers = await Promise.all(
       noteNames.map((noteName) =>
         getFileArrayBuffer(
