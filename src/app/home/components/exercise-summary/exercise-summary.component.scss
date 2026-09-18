@@ -1,0 +1,37 @@
+@use "main" as *;
+
+.exercise-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: $unit;
+  height: 18 * $unit;
+  margin: 0;
+  padding: 2 * $unit $unit;
+  cursor: pointer;
+
+  &__info-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    --padding-start: #{$unit};
+    --padding-end: #{$unit};
+  }
+
+  &__icon {
+    font-size: 5 * $unit;
+    color: var(--ion-color-primary);
+  }
+
+  ion-card-header {
+    padding: 0;
+  }
+
+  ion-card-title {
+    font-size: 16px;
+  }
+}

@@ -1,12 +1,23 @@
 <ion-card
+  class="exercise-tile"
   [routerLink]="'/exercise/' + exercise().id"
   (click)="initAudioPlayer()"
 >
+  <ion-button
+    class="exercise-tile__info-button"
+    fill="clear"
+    size="small"
+    (click)="showInfo($event)"
+  >
+    <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
+  </ion-button>
+
+  <ion-icon
+    class="exercise-tile__icon"
+    [name]="icon"
+  ></ion-icon>
+
   <ion-card-header>
     <ion-card-title>{{ exercise().name }}</ion-card-title>
   </ion-card-header>
-
-  <ion-card-content>
-    {{ exercise().summary }}
-  </ion-card-content>
 </ion-card>
