@@ -304,6 +304,7 @@ export const notesWithChordsExercise: Exercise<
   NoteWithChordsSettings
 > = {
   id: 'notesWithChords',
+  icon: 'grid-outline',
   name: 'Scale Degrees With Chords',
   summary:
     '(previously "Notes With Chords")\n Identify scale degrees in the context of different diatonic chords',

@@ -52,6 +52,7 @@ export const triadInversionExercise: Exercise<
   TriadInversionExerciseSettings
 > = {
   id: 'triadInversions',
+  icon: 'sync-outline',
   name: 'Triad Inversions',
   summary: 'Find the inversion of a triad in close position',
   explanation: TriadInversionExplanationComponent,

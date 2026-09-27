@@ -91,6 +91,7 @@ export const chordsInRealSongsExercise: Exercise<
 > = {
   id,
   name: 'Chord Progressions In Real Songs',
+  icon: 'volume-high-outline',
   summary: 'Identify chord progressions in real songs, streamed from YouTube',
   blackListPlatform: 'ios', // currently, this exercise is not working on ios
   settingsConfig: {

@@ -19,9 +19,9 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-list>
+  <div class="exercise-grid">
     @for (exercise of exerciseList; track exercise) {
     <app-exercise-summary [exercise]="exercise"></app-exercise-summary>
     }
-  </ion-list>
+  </div>
 </ion-content>

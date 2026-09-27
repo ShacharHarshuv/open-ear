@@ -57,6 +57,7 @@ export const chordInKeyExercise: Exercise<
   ChordInKeySettings
 > = {
   id: 'chordInKey',
+  icon: 'shapes-outline',
   name: 'Chord Functions',
   summary: 'Identify chords based on their tonal context in a key',
   explanation: ChordInKeyExplanationComponent,

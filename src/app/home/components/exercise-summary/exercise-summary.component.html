@@ -1,12 +1,35 @@
 <ion-card
+  class="exercise-tile"
   [routerLink]="'/exercise/' + exercise().id"
   (click)="initAudioPlayer()"
 >
+  <ion-button
+    id="info-trigger-{{ exercise().id }}"
+    class="exercise-tile__info-button"
+    fill="clear"
+    size="small"
+    (click)="stopPropagation($event)"
+  >
+    <ion-icon
+      class="exercise-tile__info-icon"
+      slot="icon-only"
+      name="information-circle-outline"
+    ></ion-icon>
+  </ion-button>
+
+  <ion-popover
+    [trigger]="'info-trigger-' + exercise().id"
+    side="bottom"
+    alignment="center"
+  >
+    <ng-template>
+      <ion-content class="ion-padding">{{ exercise().summary }}</ion-content>
+    </ng-template>
+  </ion-popover>
+
+  <ion-icon class="exercise-tile__icon" [name]="icon"></ion-icon>
+
   <ion-card-header>
     <ion-card-title>{{ exercise().name }}</ion-card-title>
   </ion-card-header>
-
-  <ion-card-content>
-    {{ exercise().summary }}
-  </ion-card-content>
 </ion-card>

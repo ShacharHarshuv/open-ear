@@ -127,6 +127,7 @@ const numberOfSegments = useNumberOfSegments('note');
 
 export const notesInKeyExercise: Exercise<SolfegeNote, NoteInKeySettings> = {
   id: 'noteInKey',
+  icon: 'stats-chart-outline',
   name: `Scale Degrees`,
   summary: `Identify monophonic notes based on their tonal context in a particular key`,
   explanation: NotesInKeyExplanationComponent,

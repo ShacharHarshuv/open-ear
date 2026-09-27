@@ -78,6 +78,7 @@ export const commonChordProgressionExercise: Exercise<
   CommonChordProgressionExerciseSettings
 > = {
   id: 'commonChordProgression',
+  icon: 'repeat-outline',
   name: 'Common Progressions',
   summary:
     'Practice on recognizing the most common chord progression in popular music.',

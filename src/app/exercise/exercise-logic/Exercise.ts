@@ -540,6 +540,11 @@ export interface Exercise<
   readonly name: string;
   readonly summary: string;
   readonly explanation?: ExerciseExplanationContent;
+  /**
+   * Ionicons name (e.g. 'musical-note-outline') shown for this exercise
+   * in the exercise list. Falls back to a generic icon if not set.
+   * */
+  readonly icon?: string;
   readonly alert?: Type<any>; // will be shown when the user opens the exercise
   readonly blackListPlatform?: Platforms;
   readonly settingsConfig: SettingsConfig<GSettings>;

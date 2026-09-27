@@ -77,6 +77,7 @@ const chordProgression = useChordProgression();
 
 export const chordTypeExercise: Exercise<ChordType, ChordTypeInKeySettings> = {
   id: 'chordTypeInKey',
+  icon: 'layers-outline',
   name: 'Chord Types',
   summary:
     'Identify chord type (major / minor) when all chords are diatonic to the same key',

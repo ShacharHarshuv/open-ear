@@ -169,6 +169,7 @@ export const intervalExercise: Exercise<
   IntervalExerciseSettings
 > = {
   id: 'interval',
+  icon: 'swap-vertical-outline',
   name: 'Intervals',
   summary: 'Identify intervals chromatically (no key)',
   explanation: IntervalExerciseExplanationComponent,
