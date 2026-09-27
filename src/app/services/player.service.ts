@@ -46,17 +46,14 @@ export type PartToPlay = {
 };
 
 function getFileArrayBuffer(url: string): Promise<ArrayBuffer> {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const request = new XMLHttpRequest();
     request.open('GET', url, true);
-    request.responseType = 'blob';
+    request.responseType = 'arraybuffer';
     request.onload = function () {
-      const reader = new FileReader();
-      reader.readAsArrayBuffer(request.response);
-      reader.onload = function (e) {
-        resolve(e.target?.result as ArrayBuffer);
-      };
+      resolve(request.response as ArrayBuffer);
     };
+    request.onerror = reject;
     request.send();
   });
 }
@@ -111,17 +108,26 @@ export class PlayerService {
   private static async _getSampleMap(instrumentName: InstrumentName): Promise<{
     [note: string]: AudioBuffer;
   }> {
-    const sampleMap: { [note: string]: AudioBuffer } = {};
     const samplesPaths = samples[instrumentName];
-    for (const nodeName in samplesPaths) {
-      sampleMap[nodeName] = await new Promise((resolve, reject) => {
-        getFileArrayBuffer(`${location.origin}/${samplesPaths[nodeName]}`).then(
-          (arrayBuffer) => {
-            audioCtx.decodeAudioData(arrayBuffer, resolve, reject);
-          },
-        );
-      });
-    }
+    const noteNames = Object.keys(samplesPaths);
+
+    const audioBuffers = await Promise.all(
+      noteNames.map((noteName) =>
+        getFileArrayBuffer(
+          `${location.origin}/${samplesPaths[noteName]}`,
+        ).then(
+          (arrayBuffer) =>
+            new Promise<AudioBuffer>((resolve, reject) =>
+              audioCtx.decodeAudioData(arrayBuffer, resolve, reject),
+            ),
+        ),
+      ),
+    );
+
+    const sampleMap: { [note: string]: AudioBuffer } = {};
+    noteNames.forEach((noteName, i) => {
+      sampleMap[noteName] = audioBuffers[i];
+    });
     return sampleMap;
   }
 
