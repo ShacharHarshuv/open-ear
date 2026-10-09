@@ -1,5 +1,7 @@
 import { InstrumentName } from '../../../services/player.service';
 
+export type InstrumentSetting = InstrumentName | 'random';
+
 export interface GlobalExerciseSettings {
   /**
    * If received number it will play the cadence every n exercises
@@ -10,5 +12,5 @@ export interface GlobalExerciseSettings {
   bpm: number;
   moveToNextQuestionAutomatically: boolean;
   answerQuestionAutomatically: boolean;
-  instrument: InstrumentName;
+  instrument: InstrumentSetting;
 }

@@ -8,6 +8,7 @@ import { Part, Sampler, Transport } from 'tone';
 import { Note } from 'tone/Tone/core/type/NoteUnits';
 import { NormalRange, Seconds, Time } from 'tone/Tone/core/type/Units';
 import { timeoutAsPromise } from '../shared/ts-utility';
+import { keys } from '../shared/ts-utility/keys';
 
 const DEFAULT_VELOCITY: number = 0.7;
 const DEFAULT_INSTRUMENT_NAME: InstrumentName = 'piano';
@@ -67,6 +68,8 @@ type PlayPartResponse = {
 };
 
 export type InstrumentName = keyof typeof samples;
+
+export const instrumentNames: InstrumentName[] = keys(samples);
 
 @Injectable({
   providedIn: 'root',

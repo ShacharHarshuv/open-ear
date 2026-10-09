@@ -135,9 +135,7 @@ describe('StorageMigrationService', function () {
           useValue: mockScripts,
         });
         storageMigrationService = TestBed.inject(StorageMigrationService);
-        TestBed.inject(VersionServiceMock).version$.next(
-          testCase.currentVersion,
-        );
+        TestBed.inject(VersionServiceMock).version = testCase.currentVersion;
         spyOn(TestBed.inject(StorageService), 'get').and.callFake((key) => {
           if (key === 'lastVersion') {
             return Promise.resolve(testCase.lastVersionValue);
